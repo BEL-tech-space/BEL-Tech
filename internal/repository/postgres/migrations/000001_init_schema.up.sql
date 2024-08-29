@@ -1,20 +1,24 @@
-CREATE TABLE IF NOT EXISTS "bin" {
-    "binID" TEXT PRIMARY KEY,
+CREATE TABLE IF NOT EXISTS wasteBins (
+    bin_ID TEXT,
     "address" TEXT NOT NULL,
-    "creadAt" TIMESTAMP NOT NULL DEFAULT NOW()
-}
+    created_At TIMESTAMP NOT NULL DEFAULT NOW(),
+    PRIMARY KEY (bin_ID)
+);
 
-CREATE TABLE IF NOT EXISTS "user" {
-    "userID" PRIMARY KEY,
-    "splWallet" TEXT UNIQUE NOT NULL,
-    "tokenEarned" DOUBLE PRECISION,
-    "creadAt" TIMESTAMP NOT NULL DEFAULT NOW()
-}
+CREATE TABLE IF NOT EXISTS users (
+    user_ID TEXT PRIMARY KEY,
+    spl_Wallet TEXT UNIQUE NOT NULL,
+    token_Earned DOUBLE PRECISION,
+    created_At TIMESTAMP NOT NULL DEFAULT NOW()
+);
 
-CREATE TABLE IF NOT EXISTS "logs" {
-    "timeStamp" TIMESTAMP NOT NULL DEFAULT NOW(),
-    "wasteReport" TEXT[] NOT NULL, 
-    "binID" TEXT NOT NULL REFERNCES bin(binID) ,
-    "userID" TEXT NOT NULL REFERNCES user(userID)
-}
+CREATE TABLE IF NOT EXISTS wasteLogs (
+    "time_Stamp" TIMESTAMP NOT NULL DEFAULT NOW(),
+    glass_Weighed DOUBLE PRECISION,
+    metal_Weighed DOUBLE PRECISION,
+    plastics_Weighed DOUBLE PRECISION, 
+    paper_Weighed DOUBLE PRECISION,
+    bin_ID TEXT NOT NULL REFERENCES wasteBins (bin_ID),
+    user_ID TEXT NOT NULL REFERENCES users (user_ID)
+);
 
