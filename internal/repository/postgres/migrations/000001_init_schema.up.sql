@@ -1,0 +1,20 @@
+CREATE TABLE IF NOT EXISTS "bin" {
+    "binID" TEXT PRIMARY KEY,
+    "address" TEXT NOT NULL,
+    "creadAt" TIMESTAMP NOT NULL DEFAULT NOW()
+}
+
+CREATE TABLE IF NOT EXISTS "user" {
+    "userID" PRIMARY KEY,
+    "splWallet" TEXT UNIQUE NOT NULL,
+    "tokenEarned" DOUBLE PRECISION,
+    "creadAt" TIMESTAMP NOT NULL DEFAULT NOW()
+}
+
+CREATE TABLE IF NOT EXISTS "logs" {
+    "timeStamp" TIMESTAMP NOT NULL DEFAULT NOW(),
+    "wasteReport" TEXT[] NOT NULL, 
+    "binID" TEXT NOT NULL REFERNCES bin(binID) ,
+    "userID" TEXT NOT NULL REFERNCES user(userID)
+}
+

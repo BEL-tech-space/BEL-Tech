@@ -9,11 +9,7 @@ import (
  type WeightedWaste struct {
 	TimeStamp time.Time	
 	BinID uuid.UUID
-	WasteReports []WasteReport
-
-	// User ID of the user who reported the waste
-	
-	
+	WasteReports []WasteReport	 
  }
 
  type WasteReport struct {
