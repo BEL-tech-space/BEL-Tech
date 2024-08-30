@@ -9,13 +9,22 @@ import (
 	"github.com/twpayne/go-geom"
 )
 
+type ExchangeHistory struct {
+	TranID    pgtype.UUID      `json:"tran_id"`
+	UserID    string           `json:"user_id"`
+	Amount    float64          `json:"amount"`
+	Operation []byte           `json:"operation"`
+	CreatedAt pgtype.Timestamp `json:"created_at"`
+}
+
 type User struct {
 	UserID       string           `json:"user_id"`
 	SplWallet    string           `json:"spl_wallet"`
 	CurrBalance  pgtype.Float8    `json:"curr_balance"`
 	TotalEarned  pgtype.Float8    `json:"total_earned"`
+	Password     pgtype.Text      `json:"password"`
 	ProfileImage []byte           `json:"profile_image"`
-	CreatedAt    pgtype.Timestamp `json:"created_at"`
+	Joined       pgtype.Timestamp `json:"joined"`
 }
 
 type WasteBin struct {
@@ -27,7 +36,7 @@ type WasteBin struct {
 }
 
 type WasteLog struct {
-	TimeStamp       pgtype.Timestamp `json:"time_Stamp"`
+	CreatedAt       pgtype.Timestamp `json:"created_at"`
 	GlassWeighed    pgtype.Float8    `json:"glass_weighed"`
 	MetalWeighed    pgtype.Float8    `json:"metal_weighed"`
 	PlasticsWeighed pgtype.Float8    `json:"plastics_weighed"`

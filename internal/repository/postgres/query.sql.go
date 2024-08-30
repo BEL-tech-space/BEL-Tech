@@ -11,9 +11,31 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
+const addNewExchangeHistory = `-- name: AddNewExchangeHistory :exec
+INSERT INTO exchange_History (user_ID, amount, operation, created_At) 
+VALUES ($1, $2, $3::json, $4)
+`
+
+type AddNewExchangeHistoryParams struct {
+	UserID    string           `json:"user_id"`
+	Amount    float64          `json:"amount"`
+	Column3   []byte           `json:"column_3"`
+	CreatedAt pgtype.Timestamp `json:"created_at"`
+}
+
+func (q *Queries) AddNewExchangeHistory(ctx context.Context, arg AddNewExchangeHistoryParams) error {
+	_, err := q.db.Exec(ctx, addNewExchangeHistory,
+		arg.UserID,
+		arg.Amount,
+		arg.Column3,
+		arg.CreatedAt,
+	)
+	return err
+}
+
 const addNewUser = `-- name: AddNewUser :exec
-INSERT INTO users (user_ID, spl_Wallet, curr_Balance, total_Earned, profile_Image, created_At) 
-VALUES ($1, $2, $3, $4, $5, $6)
+INSERT INTO users (user_ID, spl_Wallet, curr_Balance, total_Earned, "password", profile_Image, joined) 
+VALUES ($1, $2, $3, $4, $5, $6, $7)
 `
 
 type AddNewUserParams struct {
@@ -21,8 +43,9 @@ type AddNewUserParams struct {
 	SplWallet    string           `json:"spl_wallet"`
 	CurrBalance  pgtype.Float8    `json:"curr_balance"`
 	TotalEarned  pgtype.Float8    `json:"total_earned"`
+	Password     pgtype.Text      `json:"password"`
 	ProfileImage []byte           `json:"profile_image"`
-	CreatedAt    pgtype.Timestamp `json:"created_at"`
+	Joined       pgtype.Timestamp `json:"joined"`
 }
 
 func (q *Queries) AddNewUser(ctx context.Context, arg AddNewUserParams) error {
@@ -31,8 +54,9 @@ func (q *Queries) AddNewUser(ctx context.Context, arg AddNewUserParams) error {
 		arg.SplWallet,
 		arg.CurrBalance,
 		arg.TotalEarned,
+		arg.Password,
 		arg.ProfileImage,
-		arg.CreatedAt,
+		arg.Joined,
 	)
 	return err
 }
@@ -64,12 +88,12 @@ func (q *Queries) AddNewWasteBin(ctx context.Context, arg AddNewWasteBinParams) 
 }
 
 const addNewWasteLog = `-- name: AddNewWasteLog :exec
-INSERT INTO waste_Logs ("time_Stamp", glass_Weighed, metal_Weighed, plastics_Weighed, paper_Weighed, "location", bin_ID, user_ID) 
+INSERT INTO waste_Logs (created_At, glass_Weighed, metal_Weighed, plastics_Weighed, paper_Weighed, "location", bin_ID, user_ID) 
 VALUES ($1, $2, $3, $4, $5, ST_SetSRID(ST_MakePoint($6, $7), 4326), $8, $9)
 `
 
 type AddNewWasteLogParams struct {
-	TimeStamp       pgtype.Timestamp `json:"time_Stamp"`
+	CreatedAt       pgtype.Timestamp `json:"created_at"`
 	GlassWeighed    pgtype.Float8    `json:"glass_weighed"`
 	MetalWeighed    pgtype.Float8    `json:"metal_weighed"`
 	PlasticsWeighed pgtype.Float8    `json:"plastics_weighed"`
@@ -82,7 +106,7 @@ type AddNewWasteLogParams struct {
 
 func (q *Queries) AddNewWasteLog(ctx context.Context, arg AddNewWasteLogParams) error {
 	_, err := q.db.Exec(ctx, addNewWasteLog,
-		arg.TimeStamp,
+		arg.CreatedAt,
 		arg.GlassWeighed,
 		arg.MetalWeighed,
 		arg.PlasticsWeighed,
