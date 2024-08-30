@@ -9,18 +9,10 @@ import (
  type WeightedWaste struct {
 	TimeStamp time.Time	
 	BinID uuid.UUID
-	WasteReports []WasteReport	 
+	UserID string
+	GlassWeighed float64
+	MetalWeighed float64
+	PlasticsWeighed float64
+	PaperWeighed float64
  }
 
- type WasteReport struct {
-    WasteType WasteType
-    Weight    float64 // Weight in kilograms
-}
- type WasteType string
-
- const (
-	Glass WasteType = "glass"
-	Metal WasteType = "metal" 	
-	Plastics WasteType = "plastics"
-	Paper WasteType = "paper"
- )

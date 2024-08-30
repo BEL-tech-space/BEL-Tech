@@ -6,27 +6,42 @@ package postgres
 
 import (
 	"github.com/jackc/pgx/v5/pgtype"
+	"github.com/twpayne/go-geom"
 )
 
-type User struct {
-	UserID      string           `json:"user_id"`
-	SplWallet   string           `json:"spl_wallet"`
-	TokenEarned pgtype.Float8    `json:"token_earned"`
-	CreatedAt   pgtype.Timestamp `json:"created_at"`
-}
-
-type Wastebin struct {
-	BinID     string           `json:"bin_id"`
-	Address   string           `json:"address"`
+type ExchangeHistory struct {
+	TranID    pgtype.UUID      `json:"tran_id"`
+	UserID    string           `json:"user_id"`
+	Amount    float64          `json:"amount"`
+	Operation []byte           `json:"operation"`
 	CreatedAt pgtype.Timestamp `json:"created_at"`
 }
 
-type Wastelog struct {
-	TimeStamp       pgtype.Timestamp `json:"time_Stamp"`
+type User struct {
+	UserID       string           `json:"user_id"`
+	SplWallet    string           `json:"spl_wallet"`
+	CurrBalance  pgtype.Float8    `json:"curr_balance"`
+	TotalEarned  pgtype.Float8    `json:"total_earned"`
+	Password     pgtype.Text      `json:"password"`
+	ProfileImage []byte           `json:"profile_image"`
+	Joined       pgtype.Timestamp `json:"joined"`
+}
+
+type WasteBin struct {
+	BinID              pgtype.UUID      `json:"bin_id"`
+	City               string           `json:"city"`
+	State              string           `json:"state"`
+	Location           geom.Point       `json:"location"`
+	LocationLastUpdate pgtype.Timestamp `json:"location_last_update"`
+}
+
+type WasteLog struct {
+	CreatedAt       pgtype.Timestamp `json:"created_at"`
 	GlassWeighed    pgtype.Float8    `json:"glass_weighed"`
 	MetalWeighed    pgtype.Float8    `json:"metal_weighed"`
 	PlasticsWeighed pgtype.Float8    `json:"plastics_weighed"`
 	PaperWeighed    pgtype.Float8    `json:"paper_weighed"`
-	BinID           string           `json:"bin_id"`
+	Location        geom.Point       `json:"location"`
+	BinID           pgtype.UUID      `json:"bin_id"`
 	UserID          string           `json:"user_id"`
 }
