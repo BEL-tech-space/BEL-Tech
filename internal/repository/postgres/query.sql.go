@@ -12,43 +12,60 @@ import (
 )
 
 const addNewUser = `-- name: AddNewUser :exec
-INSERT INTO users (user_ID, spl_Wallet, token_Earned, created_At) VALUES ($1, $2, $3, $4)
+INSERT INTO users (user_ID, spl_Wallet, curr_Balance, total_Earned, profile_Image, created_At) 
+VALUES ($1, $2, $3, $4, $5, $6)
 `
 
 type AddNewUserParams struct {
-	UserID      string           `json:"user_id"`
-	SplWallet   string           `json:"spl_wallet"`
-	TokenEarned pgtype.Float8    `json:"token_earned"`
-	CreatedAt   pgtype.Timestamp `json:"created_at"`
+	UserID       string           `json:"user_id"`
+	SplWallet    string           `json:"spl_wallet"`
+	CurrBalance  pgtype.Float8    `json:"curr_balance"`
+	TotalEarned  pgtype.Float8    `json:"total_earned"`
+	ProfileImage []byte           `json:"profile_image"`
+	CreatedAt    pgtype.Timestamp `json:"created_at"`
 }
 
 func (q *Queries) AddNewUser(ctx context.Context, arg AddNewUserParams) error {
 	_, err := q.db.Exec(ctx, addNewUser,
 		arg.UserID,
 		arg.SplWallet,
-		arg.TokenEarned,
+		arg.CurrBalance,
+		arg.TotalEarned,
+		arg.ProfileImage,
 		arg.CreatedAt,
 	)
 	return err
 }
 
 const addNewWasteBin = `-- name: AddNewWasteBin :exec
-INSERT INTO wasteBins (bin_ID, "address", created_At) VALUES ($1, $2, $3)
+INSERT INTO waste_Bins (bin_ID, city, "state", "location", location_last_Update) 
+VALUES ($1, $2, $3, ST_SetSRID(ST_MakePoint($4, $5), 4326), $6)
 `
 
 type AddNewWasteBinParams struct {
-	BinID     string           `json:"bin_id"`
-	Address   string           `json:"address"`
-	CreatedAt pgtype.Timestamp `json:"created_at"`
+	BinID              pgtype.UUID      `json:"bin_id"`
+	City               string           `json:"city"`
+	State              string           `json:"state"`
+	StMakepoint        interface{}      `json:"st_makepoint"`
+	StMakepoint_2      interface{}      `json:"st_makepoint_2"`
+	LocationLastUpdate pgtype.Timestamp `json:"location_last_update"`
 }
 
 func (q *Queries) AddNewWasteBin(ctx context.Context, arg AddNewWasteBinParams) error {
-	_, err := q.db.Exec(ctx, addNewWasteBin, arg.BinID, arg.Address, arg.CreatedAt)
+	_, err := q.db.Exec(ctx, addNewWasteBin,
+		arg.BinID,
+		arg.City,
+		arg.State,
+		arg.StMakepoint,
+		arg.StMakepoint_2,
+		arg.LocationLastUpdate,
+	)
 	return err
 }
 
 const addNewWasteLog = `-- name: AddNewWasteLog :exec
-INSERT INTO wasteLogs ("time_Stamp", glass_Weighed, metal_Weighed, plastics_Weighed, paper_Weighed, bin_ID, user_ID) VALUES ($1, $2, $3, $4, $5, $6, $7)
+INSERT INTO waste_Logs ("time_Stamp", glass_Weighed, metal_Weighed, plastics_Weighed, paper_Weighed, "location", bin_ID, user_ID) 
+VALUES ($1, $2, $3, $4, $5, ST_SetSRID(ST_MakePoint($6, $7), 4326), $8, $9)
 `
 
 type AddNewWasteLogParams struct {
@@ -57,7 +74,9 @@ type AddNewWasteLogParams struct {
 	MetalWeighed    pgtype.Float8    `json:"metal_weighed"`
 	PlasticsWeighed pgtype.Float8    `json:"plastics_weighed"`
 	PaperWeighed    pgtype.Float8    `json:"paper_weighed"`
-	BinID           string           `json:"bin_id"`
+	StMakepoint     interface{}      `json:"st_makepoint"`
+	StMakepoint_2   interface{}      `json:"st_makepoint_2"`
+	BinID           pgtype.UUID      `json:"bin_id"`
 	UserID          string           `json:"user_id"`
 }
 
@@ -68,6 +87,8 @@ func (q *Queries) AddNewWasteLog(ctx context.Context, arg AddNewWasteLogParams) 
 		arg.MetalWeighed,
 		arg.PlasticsWeighed,
 		arg.PaperWeighed,
+		arg.StMakepoint,
+		arg.StMakepoint_2,
 		arg.BinID,
 		arg.UserID,
 	)
