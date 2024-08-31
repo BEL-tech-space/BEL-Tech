@@ -18,13 +18,17 @@ type ExchangeHistory struct {
 }
 
 type User struct {
-	UserID       string           `json:"user_id"`
-	SplWallet    string           `json:"spl_wallet"`
-	CurrBalance  pgtype.Float8    `json:"curr_balance"`
-	TotalEarned  pgtype.Float8    `json:"total_earned"`
-	Password     pgtype.Text      `json:"password"`
-	ProfileImage []byte           `json:"profile_image"`
-	Joined       pgtype.Timestamp `json:"joined"`
+	UserID             string           `json:"user_id"`
+	SplWallet          string           `json:"spl_wallet"`
+	CurrBalance        pgtype.Float8    `json:"curr_balance"`
+	TotalEarned        pgtype.Float8    `json:"total_earned"`
+	TotalGlassWaste    pgtype.Float8    `json:"total_glass_waste"`
+	TotalMetalWaste    pgtype.Float8    `json:"total_metal_waste"`
+	TotalPlasticsWaste pgtype.Float8    `json:"total_plastics_waste"`
+	TotalPaperWaste    pgtype.Float8    `json:"total_paper_waste"`
+	Password           pgtype.Text      `json:"password"`
+	ProfileImage       []byte           `json:"profile_image"`
+	Joined             pgtype.Timestamp `json:"joined"`
 }
 
 type WasteBin struct {

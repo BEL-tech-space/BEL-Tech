@@ -34,18 +34,22 @@ func (q *Queries) AddNewExchangeHistory(ctx context.Context, arg AddNewExchangeH
 }
 
 const addNewUser = `-- name: AddNewUser :exec
-INSERT INTO users (user_ID, spl_Wallet, curr_Balance, total_Earned, "password", profile_Image, joined) 
-VALUES ($1, $2, $3, $4, $5, $6, $7)
+INSERT INTO users (user_ID, spl_Wallet, curr_Balance, total_Earned, total_glass_waste, total_metal_waste, total_plastics_waste, total_paper_waste, "password", profile_Image, joined) 
+VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
 `
 
 type AddNewUserParams struct {
-	UserID       string           `json:"user_id"`
-	SplWallet    string           `json:"spl_wallet"`
-	CurrBalance  pgtype.Float8    `json:"curr_balance"`
-	TotalEarned  pgtype.Float8    `json:"total_earned"`
-	Password     pgtype.Text      `json:"password"`
-	ProfileImage []byte           `json:"profile_image"`
-	Joined       pgtype.Timestamp `json:"joined"`
+	UserID             string           `json:"user_id"`
+	SplWallet          string           `json:"spl_wallet"`
+	CurrBalance        pgtype.Float8    `json:"curr_balance"`
+	TotalEarned        pgtype.Float8    `json:"total_earned"`
+	TotalGlassWaste    pgtype.Float8    `json:"total_glass_waste"`
+	TotalMetalWaste    pgtype.Float8    `json:"total_metal_waste"`
+	TotalPlasticsWaste pgtype.Float8    `json:"total_plastics_waste"`
+	TotalPaperWaste    pgtype.Float8    `json:"total_paper_waste"`
+	Password           pgtype.Text      `json:"password"`
+	ProfileImage       []byte           `json:"profile_image"`
+	Joined             pgtype.Timestamp `json:"joined"`
 }
 
 func (q *Queries) AddNewUser(ctx context.Context, arg AddNewUserParams) error {
@@ -54,6 +58,10 @@ func (q *Queries) AddNewUser(ctx context.Context, arg AddNewUserParams) error {
 		arg.SplWallet,
 		arg.CurrBalance,
 		arg.TotalEarned,
+		arg.TotalGlassWaste,
+		arg.TotalMetalWaste,
+		arg.TotalPlasticsWaste,
+		arg.TotalPaperWaste,
 		arg.Password,
 		arg.ProfileImage,
 		arg.Joined,

@@ -12,6 +12,10 @@ CREATE TABLE IF NOT EXISTS users (
     spl_Wallet TEXT UNIQUE NOT NULL,
     curr_Balance DOUBLE PRECISION DEFAULT 0.0,
     total_Earned DOUBLE PRECISION DEFAULT 0.0,
+    total_glass_waste DOUBLE PRECISION DEFAULT 0.0,
+    total_metal_waste DOUBLE PRECISION DEFAULT 0.0,
+    total_plastics_waste DOUBLE PRECISION DEFAULT 0.0,
+    total_paper_waste DOUBLE PRECISION DEFAULT 0.0,
     "password" VARCHAR(64),
     profile_Image BYTEA,
     joined TIMESTAMP DEFAULT NOW()
