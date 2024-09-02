@@ -1,4 +1,5 @@
 build:
+	@tailwindcss -i assets/styles/input.css  -o assets/styles/output.css --minify
 	@rm -rf *_templ.go && templ generate
 
 fmt:
