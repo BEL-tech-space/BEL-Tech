@@ -15,9 +15,10 @@ func (a *App) Routes() *echo.Echo {
 	e.StaticFS("/assets", fs)
 
 	e.POST("/addWasteBin", a.addWasteBin)
-	e.GET("/exchange", a.exchangePageHandler)
 	e.GET("/scan", a.scanQRPageHandler)
+	e.GET("/location", a.locationPageHandler)
 	e.GET("/wallet", a.walletPageHandler)
+	e.GET("/exchange", a.exchangePageHandler)
 
 	return e
 }
