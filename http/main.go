@@ -1,7 +1,8 @@
 package http
 
-import "log/slog"
-
 type App struct {
-	logger *slog.Logger
+}
+
+func NewApp() *App {
+	return &App{}
 }
