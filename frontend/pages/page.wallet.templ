@@ -10,8 +10,8 @@ templ WalletPage() {
     <title>Wallet</title>
 </head>
 <body>
-    <div class="px-6">
-        <div class="flex w-full justify-start py-6 leading-4 items-center">
+    <div class="px-6 pt-8">
+        <div class="flex w-full justify-start leading-4 items-center">
             <img src="/assets/images/name.jpg" class="rounded-2xl w-8 h-8" p-4/>
             <p class="text-lg font-semibold pl-4">Welcome, Tobias</p>
             <button class="bg-green-200 h-12 w-12 ml-auto rounded-md flex justify-center items-center"><img src="/assets/svg/notification.svg" class="align-middle"/></button>
@@ -76,7 +76,7 @@ templ WalletPage() {
         </ul>
     </div>
     </div>
-    @menuComp()
+    @menuComp("wallet")
     </body>
 </html>
 }

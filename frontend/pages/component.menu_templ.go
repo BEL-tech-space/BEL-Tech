@@ -8,7 +8,7 @@ package frontend
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-func menuComp() templ.Component {
+func menuComp(active string) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
@@ -26,7 +26,66 @@ func menuComp() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"bg-white flex w-full justify-around pt-2 fixed bottom-0 z-50 max-h-20\"><button><img src=\"/assets/svg/home linear.svg\" class=\"w-10 h-20\"></button> <button><img src=\"/assets/svg/scan linear.svg\" class=\"w-10 h-20\"></button> <button><img src=\"/assets/svg/location linear.svg\" class=\"w-10 h-20\"></button> <button><img src=\"/assets/svg/wallet linear.svg\" class=\"w-10 h-20\"></button> <button><img src=\"/assets/svg/exchange linear.svg\" class=\"w-10 h-20\"></button></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"bg-white flex w-full justify-around pt-2 fixed bottom-0 z-50 max-h-20\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		if active == "home" {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button class=\"bg-green-100 rounded-3xl p-2\"><a href=\"/home\"><img src=\"/assets/svg/home bold.svg\" class=\"w-10 h-20\"></a></button> ")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		} else {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button><a href=\"/home\"><img src=\"/assets/svg/home linear.svg\" class=\"w-10 h-20\"></a></button> ")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		}
+		if active == "scan" {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button class=\"bg-green-100 rounded-3xl p-2\"><a href=\"/scan\"><img src=\"/assets/svg/scan bold.svg\" class=\"w-10 h-20\"></a></button> ")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		} else {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button><a href=\"/scan\"><img src=\"/assets/svg/scan linear.svg\" class=\"w-10 h-20\"></a></button> ")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		}
+		if active == "location" {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button class=\"bg-green-100 rounded-3xl p-2\"><a href=\"/location\"><img src=\"/assets/svg/location bold.svg\" class=\"w-10 h-20\"></a></button> ")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		} else {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button><a href=\"/location\"><img src=\"/assets/svg/location linear.svg\" class=\"w-10 h-20\"></a></button> ")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		}
+		if active == "wallet" {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button class=\"bg-green-100 rounded-3xl p-2\"><a href=\"/wallet\"><img src=\"/assets/svg/wallet bold.svg\" class=\"w-10 h-20\"></a></button> ")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		} else {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button><a href=\"/wallet\"><img src=\"/assets/svg/wallet linear.svg\" class=\"w-10 h-20\"></a></button> ")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		}
+		if active == "exchange" {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button class=\"bg-green-100 rounded-3xl p-2\"><a href=\"/exchange\"><img src=\"/assets/svg/exchange linear.svg\" class=\"w-10 h-20\"></a></button>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		} else {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button><a href=\"/exchange\"><img src=\"/assets/svg/exchange linear.svg\" class=\"w-10 h-20\"></a></button>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
