@@ -31,7 +31,7 @@ func menuComp(active string) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		if active == "home" {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button class=\"bg-green-100 rounded-3xl p-2\"><a href=\"/home\"><img src=\"/assets/svg/home bold.svg\" class=\"w-10 h-20\"></a></button> ")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button class=\"\"><a href=\"/home\"><img src=\"/assets/svg/home bold.svg\" class=\"w-10 h-20\"></a></button> ")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -42,7 +42,7 @@ func menuComp(active string) templ.Component {
 			}
 		}
 		if active == "scan" {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button class=\"bg-green-100 rounded-3xl p-2\"><a href=\"/scan\"><img src=\"/assets/svg/scan bold.svg\" class=\"w-10 h-20\"></a></button> ")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button class=\"\"><a href=\"/scan\"><img src=\"/assets/svg/scan bold.svg\" class=\"w-10 h-20\"></a></button> ")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -53,7 +53,7 @@ func menuComp(active string) templ.Component {
 			}
 		}
 		if active == "location" {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button class=\"bg-green-100 rounded-3xl p-2\"><a href=\"/location\"><img src=\"/assets/svg/location bold.svg\" class=\"w-10 h-20\"></a></button> ")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button class=\"\"><a href=\"/location\"><img src=\"/assets/svg/location bold.svg\" class=\"w-10 h-20\"></a></button> ")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -64,7 +64,7 @@ func menuComp(active string) templ.Component {
 			}
 		}
 		if active == "wallet" {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button class=\"bg-green-100 rounded-3xl p-2\"><a href=\"/wallet\"><img src=\"/assets/svg/wallet bold.svg\" class=\"w-10 h-20\"></a></button> ")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button class=\"\"><a href=\"/wallet\"><img src=\"/assets/svg/wallet bold.svg\" class=\"w-10 h-20\"></a></button> ")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -75,7 +75,7 @@ func menuComp(active string) templ.Component {
 			}
 		}
 		if active == "exchange" {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button class=\"bg-green-100 rounded-3xl p-2\"><a href=\"/exchange\"><img src=\"/assets/svg/exchange linear.svg\" class=\"w-10 h-20\"></a></button>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button class=\"\"><a href=\"/exchange\"><img src=\"/assets/svg/exchange linear.svg\" class=\"w-10 h-20\"></a></button>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
