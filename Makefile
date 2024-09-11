@@ -1,5 +1,4 @@
 run:
-	@cd frontend && $(MAKE) -f Makefile build
-	@go run .
+	@go generate && go run .
 
 PHONY: run
