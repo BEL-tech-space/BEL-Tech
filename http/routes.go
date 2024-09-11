@@ -12,7 +12,7 @@ func (a *App) Routes() *echo.Echo {
 	fs := echo.MustSubFS(frontend.AssetsDir, "assets")
 	e.StaticFS("/assets", fs)
 
-	e.POST("/addWasteBin", a.addWasteBin)
+	e.GET("/home", a.homePageHandler)
 	e.GET("/scan", a.scanQRPageHandler)
 	e.GET("/location", a.locationPageHandler)
 	e.GET("/wallet", a.walletPageHandler)
