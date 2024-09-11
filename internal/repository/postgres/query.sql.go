@@ -126,3 +126,17 @@ func (q *Queries) AddNewWasteLog(ctx context.Context, arg AddNewWasteLogParams) 
 	)
 	return err
 }
+
+const updateUserPassword = `-- name: UpdateUserPassword :exec
+UPDATE users SET password = $1 WHERE user_ID = $2
+`
+
+type UpdateUserPasswordParams struct {
+	Password pgtype.Text `json:"password"`
+	UserID   string      `json:"user_id"`
+}
+
+func (q *Queries) UpdateUserPassword(ctx context.Context, arg UpdateUserPasswordParams) error {
+	_, err := q.db.Exec(ctx, updateUserPassword, arg.Password, arg.UserID)
+	return err
+}

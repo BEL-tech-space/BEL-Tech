@@ -12,3 +12,6 @@ VALUES ($1, $2, $3, $4, $5, ST_SetSRID(ST_MakePoint($6, $7), 4326), $8, $9);
 -- name: AddNewExchangeHistory :exec
 INSERT INTO exchange_History (user_ID, amount, operation, created_At) 
 VALUES ($1, $2, $3::json, $4);
+
+-- name: UpdateUserPassword :exec
+UPDATE users SET password = $1 WHERE user_ID = $2;
