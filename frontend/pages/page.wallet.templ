@@ -7,6 +7,7 @@ templ WalletPage() {
 			<meta charset="UTF-8"/>
 			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 			<link rel="stylesheet" href="/assets/styles/output.css"/>
+			<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 			<title>Wallet</title>
 		</head>
 		<body>
@@ -51,26 +52,91 @@ templ WalletPage() {
 					<p class="text-lg font-bold">Watchlist</p>
 					<button><p class="text-green-800 text-sm">See all</p></button>
 				</div>
-				<div>
-					<ul>
-						<li class="flex justify-between">
-							<img src="/assets/images/solana.png" alt="" class="rounded-full w-10 h-10 pr-2"/>
-							<div class="mr-0">
-								<p class="text-lg font-bold">Solana</p>
-								<p class="text-sm">SOL</p>
-							</div>
-							<img src="/assets/images/upTrend.png" alt="" class="w-20 h-7"/>
-							<div>
-								<p class="font-extrabold text-xl text-center">$89,000.00</p>
-								<p class="text-green-600 text-center">+2.5%</p>
-							</div>
-						</li>
-						<li></li>
-						<li></li>
-						<li></li>
+			
+				<div id="coins-container">
+					<ul id="coins-list">
+					
 					</ul>
 				</div>
 			</div>
+
+			<script>
+				async function fetchCoinData() {
+					const coins = ['bitcoin', 'ethereum', 'solana'];
+					const url = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${coins.join(',')}`;
+					
+					try {
+						const response = await fetch(url);
+						const data = await response.json();
+
+						const coinsList = document.getElementById('coins-list');
+
+						data.forEach((coin, index) => {
+							const listItem = document.createElement('li');
+							listItem.classList.add('flex', 'justify-between', 'items-center');
+							
+							listItem.innerHTML = `
+								<img src="${coin.image}" alt="${coin.name}" class="rounded-full w-10 h-10 pr-2"/>
+								<div class="mr-0">
+									<p class="text-lg font-bold">${coin.name}</p>
+									<p class="text-sm">${coin.symbol.toUpperCase()}</p>
+								</div>
+								<div id="chart-${index}" class="w-20 h-7"></div> <!-- ApexChart will render here -->
+								<div>
+									<p class="font-extrabold text-xl text-center">$${coin.current_price.toLocaleString()}</p>
+									<p class="${coin.price_change_percentage_24h >= 0 ? 'text-green-600' : 'text-red-600'} text-center">
+										${coin.price_change_percentage_24h.toFixed(2)}%
+									</p>
+								</div>
+							`;
+
+							coinsList.appendChild(listItem);
+
+							// Create Sparkline Chart
+							createSparkline(`chart-${index}`, coin);
+						});
+					} catch (error) {
+						console.error('Error fetching coin data:', error);
+					}
+				}
+
+				// Function to create the sparkline graph using ApexCharts
+				function createSparkline(elementId, coin) {
+					const options = {
+						chart: {
+							type: 'line',
+							sparkline: {
+								enabled: true
+							}
+						},
+						series: [{
+							name: coin.name,
+							data: generateRandomData() 
+						}],
+						stroke: {
+							curve: 'smooth',
+							width: 2
+						},
+						colors: coin.price_change_percentage_24h >= 0 ? ['#16a34a'] : ['#dc2626'], // Green for uptrend, Red for downtrend
+					};
+
+					const chart = new ApexCharts(document.querySelector(`#${elementId}`), options);
+					chart.render();
+				}
+
+				// Dummy data generator for sparkline, replace this with actual price data over time
+				function generateRandomData() {
+					const data = [];
+					for (let i = 0; i < 10; i++) {
+						data.push(Math.floor(Math.random() * 100));
+					}
+					return data;
+				}
+
+				fetchCoinData();
+			</script>
+
+		
 			@menuComp("wallet")
 		</body>
 	</html>
