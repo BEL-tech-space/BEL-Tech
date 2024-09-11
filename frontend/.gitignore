@@ -1,0 +1,6 @@
+node_modules/
+dist/
+styles/output.css
+scripts/output.js
+*templ.go
+*templ.txt
