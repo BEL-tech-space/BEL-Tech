@@ -2,6 +2,7 @@ package http
 
 import (
 	"beltech/service"
+	"beltech/utils"
 
 	"github.com/gorilla/sessions"
 	"github.com/markbates/goth"
@@ -10,27 +11,26 @@ import (
 )
 
 type App struct {
-	service *service.Service
+	service      *service.Service
+	sessionStore sessions.Store
 }
 
-func NewApp() *App {
+func NewApp(cfg utils.EnvConfig) *App {
 
-	key := "" //your client secret
-	maxAge := 86400 * 30 // 30 days
-	isProd := true       // Set to true when serving over https
-
-	store := sessions.NewCookieStore([]byte(key))
-	store.MaxAge(maxAge)
+	store := sessions.NewCookieStore([]byte(cfg.CookieSecret))
+	store.MaxAge(86400 * 30) // 30 days
 	store.Options.Path = "/"
-	store.Options.HttpOnly = true // HttpOnly should always be enabled
-	store.Options.Secure = isProd
-
+	store.Options.HttpOnly = true
+	store.Options.Secure = true
 	gothic.Store = store
 
 	goth.UseProviders(
-    	google.New("",
-		 key, 
-		 "http://localhost:8090/auth/google/callback"),
-)
-	return &App{}
+		google.New(cfg.LoginProvider.Google.ClientKey, cfg.LoginProvider.Google.Secret, "http://localhost:8090/auth/google/callback"),
+		// facebook.New(cfg.LoginProvider.Facebook.ClientKey, cfg.LoginProvider.Facebook.Secret, "http://localhost:8090/auth/facebook/callback"),
+	)
+
+	app := App{}
+	app.service = service.NewService()
+
+	return &app
 }

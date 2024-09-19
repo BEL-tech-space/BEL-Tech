@@ -17,7 +17,7 @@ VALUES ($1, $2, $3::json, $4)
 `
 
 type AddNewExchangeHistoryParams struct {
-	UserID    int64            `json:"user_id"`
+	UserID    string           `json:"user_id"`
 	Amount    float64          `json:"amount"`
 	Column3   []byte           `json:"column_3"`
 	CreatedAt pgtype.Timestamp `json:"created_at"`
@@ -35,14 +35,14 @@ func (q *Queries) AddNewExchangeHistory(ctx context.Context, arg AddNewExchangeH
 
 const addNewUser = `-- name: AddNewUser :exec
 INSERT INTO users (
-    user_ID, email, hashed_password, first_Name, last_Name, nick_Name, avatar_URL, spl_Wallet, curr_Balance, total_Earned, total_glass_waste, total_metal_waste, total_plastics_waste, total_paper_waste, Acess_Token, access_Token_Expires, id_Token, joined, last_Update_Email
+    user_ID, email, hashed_password, first_Name, last_Name, nick_Name, avatar_URL, spl_Wallet, curr_Balance, total_Earned, total_glass_waste, total_metal_waste, total_plastics_waste, total_paper_waste, access_Token, access_Token_Expires, id_Token, joined, last_Update_Email
 ) VALUES (
     $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19
 )
 `
 
 type AddNewUserParams struct {
-	UserID             int64            `json:"user_id"`
+	UserID             string           `json:"user_id"`
 	Email              string           `json:"email"`
 	HashedPassword     pgtype.Text      `json:"hashed_password"`
 	FirstName          pgtype.Text      `json:"first_name"`
@@ -56,7 +56,7 @@ type AddNewUserParams struct {
 	TotalMetalWaste    pgtype.Float8    `json:"total_metal_waste"`
 	TotalPlasticsWaste pgtype.Float8    `json:"total_plastics_waste"`
 	TotalPaperWaste    pgtype.Float8    `json:"total_paper_waste"`
-	AcessToken         pgtype.Text      `json:"acess_token"`
+	AccessToken        pgtype.Text      `json:"access_token"`
 	AccessTokenExpires pgtype.Timestamp `json:"access_token_expires"`
 	IDToken            pgtype.Text      `json:"id_token"`
 	Joined             pgtype.Timestamp `json:"joined"`
@@ -79,7 +79,7 @@ func (q *Queries) AddNewUser(ctx context.Context, arg AddNewUserParams) error {
 		arg.TotalMetalWaste,
 		arg.TotalPlasticsWaste,
 		arg.TotalPaperWaste,
-		arg.AcessToken,
+		arg.AccessToken,
 		arg.AccessTokenExpires,
 		arg.IDToken,
 		arg.Joined,
@@ -128,7 +128,7 @@ type AddNewWasteLogParams struct {
 	StMakepoint     interface{}      `json:"st_makepoint"`
 	StMakepoint_2   interface{}      `json:"st_makepoint_2"`
 	BinID           pgtype.UUID      `json:"bin_id"`
-	UserID          int64            `json:"user_id"`
+	UserID          string           `json:"user_id"`
 }
 
 func (q *Queries) AddNewWasteLog(ctx context.Context, arg AddNewWasteLogParams) error {
@@ -148,9 +148,9 @@ func (q *Queries) AddNewWasteLog(ctx context.Context, arg AddNewWasteLogParams) 
 
 const upsertUser = `-- name: UpsertUser :exec
 INSERT INTO users (
-    user_ID, email, first_Name, last_Name, nick_Name, avatar_URL, spl_Wallet, curr_Balance, total_Earned, total_glass_waste, total_metal_waste, total_plastics_waste, total_paper_waste, hashed_password, Acess_Token, access_Token_Expires, id_Token, joined, last_Update_Email
+    user_ID, email, first_Name, last_Name, nick_Name, avatar_URL, spl_Wallet, curr_Balance, total_Earned, total_glass_waste, total_metal_waste, total_plastics_waste, total_paper_waste, hashed_password, access_Token, access_Token_Expires, id_Token, last_Update_Email
 ) VALUES (
-    $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19
+    $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18
 ) ON CONFLICT (email) DO UPDATE SET
     user_ID = COALESCE(EXCLUDED.user_ID, users.user_ID),
     first_Name = COALESCE(EXCLUDED.first_Name, users.first_Name),
@@ -165,15 +165,14 @@ INSERT INTO users (
     total_plastics_waste = COALESCE(EXCLUDED.total_plastics_waste, users.total_plastics_waste),
     total_paper_waste = COALESCE(EXCLUDED.total_paper_waste, users.total_paper_waste),
     hashed_password = COALESCE(EXCLUDED.hashed_password, users.hashed_password),
-    Acess_Token = COALESCE(EXCLUDED.Acess_Token, users.Acess_Token),
+    access_Token = COALESCE(EXCLUDED.access_Token, users.access_Token),
     access_Token_Expires = COALESCE(EXCLUDED.access_Token_Expires, users.access_Token_Expires),
     id_Token = COALESCE(EXCLUDED.id_Token, users.id_Token),
-    joined = COALESCE(EXCLUDED.joined, users.joined),
     last_Update_Email = COALESCE(EXCLUDED.last_Update_Email, users.last_Update_Email)
 `
 
 type UpsertUserParams struct {
-	UserID             int64            `json:"user_id"`
+	UserID             string           `json:"user_id"`
 	Email              string           `json:"email"`
 	FirstName          pgtype.Text      `json:"first_name"`
 	LastName           pgtype.Text      `json:"last_name"`
@@ -187,10 +186,9 @@ type UpsertUserParams struct {
 	TotalPlasticsWaste pgtype.Float8    `json:"total_plastics_waste"`
 	TotalPaperWaste    pgtype.Float8    `json:"total_paper_waste"`
 	HashedPassword     pgtype.Text      `json:"hashed_password"`
-	AcessToken         pgtype.Text      `json:"acess_token"`
+	AccessToken        pgtype.Text      `json:"access_token"`
 	AccessTokenExpires pgtype.Timestamp `json:"access_token_expires"`
 	IDToken            pgtype.Text      `json:"id_token"`
-	Joined             pgtype.Timestamp `json:"joined"`
 	LastUpdateEmail    pgtype.Timestamp `json:"last_update_email"`
 }
 
@@ -210,10 +208,9 @@ func (q *Queries) UpsertUser(ctx context.Context, arg UpsertUserParams) error {
 		arg.TotalPlasticsWaste,
 		arg.TotalPaperWaste,
 		arg.HashedPassword,
-		arg.AcessToken,
+		arg.AccessToken,
 		arg.AccessTokenExpires,
 		arg.IDToken,
-		arg.Joined,
 		arg.LastUpdateEmail,
 	)
 	return err

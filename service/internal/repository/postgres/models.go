@@ -11,14 +11,14 @@ import (
 
 type ExchangeHistory struct {
 	TranID    pgtype.UUID      `json:"tran_id"`
-	UserID    int64            `json:"user_id"`
+	UserID    string           `json:"user_id"`
 	Amount    float64          `json:"amount"`
 	Operation []byte           `json:"operation"`
 	CreatedAt pgtype.Timestamp `json:"created_at"`
 }
 
 type User struct {
-	UserID             int64            `json:"user_id"`
+	UserID             string           `json:"user_id"`
 	Email              string           `json:"email"`
 	FirstName          pgtype.Text      `json:"first_name"`
 	LastName           pgtype.Text      `json:"last_name"`
@@ -32,7 +32,7 @@ type User struct {
 	TotalPlasticsWaste pgtype.Float8    `json:"total_plastics_waste"`
 	TotalPaperWaste    pgtype.Float8    `json:"total_paper_waste"`
 	HashedPassword     pgtype.Text      `json:"hashed_password"`
-	AcessToken         pgtype.Text      `json:"acess_token"`
+	AccessToken        pgtype.Text      `json:"access_token"`
 	AccessTokenExpires pgtype.Timestamp `json:"access_token_expires"`
 	IDToken            pgtype.Text      `json:"id_token"`
 	LastUpdateEmail    pgtype.Timestamp `json:"last_update_email"`
@@ -55,5 +55,5 @@ type WasteLog struct {
 	PaperWeighed    pgtype.Float8    `json:"paper_weighed"`
 	Location        geom.Point       `json:"location"`
 	BinID           pgtype.UUID      `json:"bin_id"`
-	UserID          int64            `json:"user_id"`
+	UserID          string           `json:"user_id"`
 }

@@ -1,17 +1,15 @@
 package http
 
 import (
-	"fmt"
 	"net/http"
-	"reflect"
 
 	"github.com/labstack/echo/v4"
 	"github.com/markbates/goth"
 	"github.com/markbates/goth/gothic"
 )
 
-func(a *App) signInWithProvider(c echo.Context) error {
-	
+func (a *App) signInWithProvider(c echo.Context) error {
+
 	var provider string
 	if provider = c.Param("provider"); provider == "" {
 		return c.String(http.StatusBadRequest, "Provider not specified")
@@ -26,7 +24,7 @@ func(a *App) signInWithProvider(c echo.Context) error {
 	c.Request().URL.RawQuery = q.Encode()
 
 	req, res := c.Request(), c.Response().Writer
-	
+
 	if gothUser, err := gothic.CompleteUserAuth(res, req); err == nil {
 		return c.JSON(http.StatusOK, gothUser)
 	}
@@ -47,24 +45,21 @@ func (a *App) callbackHandler(c echo.Context) error {
 		return c.String(http.StatusBadRequest, err.Error())
 	}
 
-	val := reflect.ValueOf(user)
-	typ := reflect.TypeOf(user)
-	
-	for i := 0; i < val.NumField(); i++ {
-		field := typ.Field(i)
-		fieldName := field.Name
-		fieldType := typ.Field(i).Type
-		fieldValue := val.Field(i).Interface()
+	// val := reflect.ValueOf(user)
+	// typ := reflect.TypeOf(user)
+	// for i := 0; i < val.NumField(); i++ {
+	// 	field := typ.Field(i)
+	// 	fieldName := field.Name
+	// 	fieldType := typ.Field(i).Type
+	// 	fieldValue := val.Field(i).Interface()
+	// 	fmt.Printf("%v:%v:%v\n\n", fieldName, fieldType, fieldValue)
+	// }
 
-		fmt.Printf("%v:%v:%v\n\n", fieldName, fieldType, fieldValue)
-
-		c.Set("user", user)
-	}
-	return c.Redirect(http.StatusTemporaryRedirect, "/beltech/dashboard")
+	c.Set("user", user)
+	return a.logInUser(a.homePageHandler)(c)
 }
 
-
-func(a *App) logout(c echo.Context) error {
+func (a *App) logout(c echo.Context) error {
 
 	req, res := c.Request(), c.Response().Writer
 	gothic.Logout(res, req)
@@ -73,15 +68,3 @@ func(a *App) logout(c echo.Context) error {
 
 	return nil
 }
-
-
-// func (a *App) loginUser(c echo.Context) error {
-	
-// 	var err error
-// 	user := c.Get("user").(goth.User) 
-	
-	
-// 	return nil
-// }s
-
- 

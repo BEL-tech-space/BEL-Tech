@@ -7,7 +7,6 @@ import (
 
 //go:generate sqlc generate
 
-
 type Service struct {
 	dbQuery *postgres.Queries
 }
@@ -18,16 +17,16 @@ func NewService() *Service {
 
 type User struct {
 	postgres.User
+	IsAuthenticated bool
 }
 
 func (s *Service) CreateOrUpdateUser(ctx context.Context, user User) error {
-	
+
 	var err error
-    if err = s.dbQuery.UpsertUser(ctx, convertToUpsertUserParams(user)); err == nil {
+	if err = s.dbQuery.UpsertUser(ctx, convertToUpsertUserParams(user)); err == nil {
 		return nil
 	}
 
 	// handle error
 	return err
 }
-
