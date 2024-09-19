@@ -52,14 +52,10 @@ templ WalletPage() {
 					<p class="text-lg font-bold">Watchlist</p>
 					<button><p class="text-green-800 text-sm">See all</p></button>
 				</div>
-			
 				<div id="coins-container">
-					<ul id="coins-list">
-					
-					</ul>
+					<ul id="coins-list"></ul>
 				</div>
 			</div>
-
 			<script>
 				async function fetchCoinData() {
 					const coins = ['bitcoin', 'ethereum', 'solana'];
@@ -135,8 +131,6 @@ templ WalletPage() {
 
 				fetchCoinData();
 			</script>
-
-		
 			@menuComp("wallet")
 		</body>
 	</html>

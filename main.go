@@ -14,7 +14,7 @@ import (
 
 func main() {
 
-	app, endpoint := backend.NewApp(), 8433
+	app, endpoint := backend.NewApp(), 8090
 
 	server := http.Server{
 		Addr:    fmt.Sprintf(":%d", endpoint),
@@ -22,7 +22,7 @@ func main() {
 	}
 
 	go func() {
-		log.Printf("Server is running on http://localhost:%d/index \n", endpoint)
+		log.Printf("Server is running on http://localhost:%d/signin \n", endpoint)
 		if err := server.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
 			log.Panic("Server error: " + err.Error())
 		}

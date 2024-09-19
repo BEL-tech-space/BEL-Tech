@@ -4,7 +4,7 @@ templ:
 dev: live
 
 live:
-	@go generate && templ fmt . && templ generate --watch --proxy="http://localhost:8080" --open-browser=false -v
+	@go generate && templ generate --watch --proxy="http://localhost:8080" --open-browser=false -v
 
 tailwind:
 	@tailwindcss -i assets/styles/input.css  -o assets/styles/output.css --watch
