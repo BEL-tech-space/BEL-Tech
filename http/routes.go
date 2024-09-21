@@ -25,10 +25,10 @@ func (a *App) Routes(cfg utils.EnvConfig) *chi.Mux {
 	r.Route("/beltech", func(r chi.Router) {
 		r.Use(a.authorize)
 		r.Get("/dashboard", a.homePageHandler)
-		r.Get("/scan", a.homePageHandler)
-		r.Get("/bins", a.homePageHandler)
-		r.Get("/wallet", a.homePageHandler)
-		r.Get("/exchange", a.homePageHandler)
+		r.Get("/scan", a.scanQRPageHandler)
+		r.Get("/bins", a.locationPageHandler)
+		r.Get("/wallet", a.walletPageHandler)
+		r.Get("/exchange", a.exchangePageHandler)
 	})
 
 	r.Get("/signup", a.signupPageHandler)
@@ -44,4 +44,25 @@ func (a *App) Routes(cfg utils.EnvConfig) *chi.Mux {
 	r.Handle("/assets/*", http.StripPrefix("/assets/", http.FileServer(http.FS(staticFs))))
 
 	return r
+}
+
+func (a *App) authorize(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+
+		// Get the session
+		session, err := a.sessionStore.Get(r, "beltech-session")
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		// Check if the session is new or if it lacks user information
+		if session.IsNew || session.Values["userID"] == nil {
+			http.Redirect(w, r, "/signup", http.StatusUnauthorized)
+			return
+		}
+
+		// Session is valid, proceed with the request
+		next.ServeHTTP(w, r)
+	})
 }
