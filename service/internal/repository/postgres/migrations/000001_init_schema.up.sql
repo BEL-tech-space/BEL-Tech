@@ -26,6 +26,7 @@ CREATE TABLE IF NOT EXISTS users (
     access_Token_Expires TIMESTAMP,
     id_Token TEXT,
     last_Update_Email TIMESTAMP,
+    "role" VARCHAR(10) DEFAULT 'user',
     joined TIMESTAMP DEFAULT NOW()
 );
 

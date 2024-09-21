@@ -35,7 +35,7 @@ func (q *Queries) AddNewExchangeHistory(ctx context.Context, arg AddNewExchangeH
 
 const addNewUser = `-- name: AddNewUser :exec
 INSERT INTO users (
-    user_ID, email, hashed_password, first_Name, last_Name, nick_Name, avatar_URL, spl_Wallet, curr_Balance, total_Earned, total_glass_waste, total_metal_waste, total_plastics_waste, total_paper_waste, access_Token, access_Token_Expires, id_Token, joined, last_Update_Email
+    user_ID, email, hashed_password, first_Name, last_Name, nick_Name, avatar_URL, spl_Wallet, curr_Balance, total_Earned, total_glass_waste, total_metal_waste, total_plastics_waste, total_paper_waste, access_Token, access_Token_Expires, id_Token, last_Update_Email, joined
 ) VALUES (
     $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19
 )
@@ -59,8 +59,8 @@ type AddNewUserParams struct {
 	AccessToken        pgtype.Text      `json:"access_token"`
 	AccessTokenExpires pgtype.Timestamp `json:"access_token_expires"`
 	IDToken            pgtype.Text      `json:"id_token"`
-	Joined             pgtype.Timestamp `json:"joined"`
 	LastUpdateEmail    pgtype.Timestamp `json:"last_update_email"`
+	Joined             pgtype.Timestamp `json:"joined"`
 }
 
 func (q *Queries) AddNewUser(ctx context.Context, arg AddNewUserParams) error {
@@ -82,8 +82,8 @@ func (q *Queries) AddNewUser(ctx context.Context, arg AddNewUserParams) error {
 		arg.AccessToken,
 		arg.AccessTokenExpires,
 		arg.IDToken,
-		arg.Joined,
 		arg.LastUpdateEmail,
+		arg.Joined,
 	)
 	return err
 }

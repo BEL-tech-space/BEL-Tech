@@ -2,7 +2,6 @@ package utils
 
 import (
 	"fmt"
-	"log"
 
 	"github.com/caarlos0/env/v11"
 	"github.com/joho/godotenv"
@@ -20,6 +19,7 @@ type EnvConfig struct {
 		}
 	}
 	Database struct {
+		Url string `env:"DATABASE_URL"`
 	}
 
 	CookieSecret  string `env:"COOKIE_SECRET"`
@@ -30,12 +30,11 @@ type EnvConfig struct {
 func LoadEnv(cfg *EnvConfig) error {
 
 	if err := godotenv.Load("prod.env"); err != nil {
-		log.Fatal("Error loading .env file")
+		return fmt.Errorf("error loading prod.env file: %w", err)
 	}
 
 	if err := env.Parse(cfg); err != nil {
 		return err
 	}
-	fmt.Printf("\n%+v\n\n", cfg)
 	return nil
 }

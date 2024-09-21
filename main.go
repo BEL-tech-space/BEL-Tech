@@ -11,16 +11,26 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
+
+	"github.com/jackc/pgx/v5/pgxpool"
 )
 
 func main() {
-	// Load environmental variables
+	// load environmental variables
 	var environmentalVariables utils.EnvConfig
 	if err := utils.LoadEnv(&environmentalVariables); err != nil {
 		log.Fatalln("Error loading environmental variables: " + err.Error()) // exit
 	}
 
-	app, endpoint := backend.NewApp(environmentalVariables), 8090
+	// connect to database
+	conn, err := pgxpool.New(context.Background(), environmentalVariables.Database.Url)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Unable to create connection pool: %v\n", err)
+		os.Exit(1)
+	}
+	defer conn.Close()
+
+	app, endpoint := backend.NewApp(environmentalVariables, conn), 8090
 
 	server := http.Server{
 		Addr:    fmt.Sprintf(":%d", endpoint),

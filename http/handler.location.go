@@ -4,15 +4,12 @@ import (
 	frontend "beltech/frontend/pages"
 	"context"
 	"net/http"
-
-	"github.com/labstack/echo/v4"
 )
 
-func (a *App) locationPageHandler(c echo.Context) error {
+func (a *App) locationPageHandler(w http.ResponseWriter, r *http.Request) {
 
-	if err := frontend.LocationPage().Render(context.TODO(), c.Response().Writer); err != nil {
-		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+	if err := frontend.LocationPage().Render(context.TODO(), w); err != nil {
+		a.serverError(w, err)
+		return
 	}
-
-	return nil
 }

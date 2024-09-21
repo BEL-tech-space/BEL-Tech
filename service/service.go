@@ -11,8 +11,9 @@ type Service struct {
 	dbQuery *postgres.Queries
 }
 
-func NewService() *Service {
-	return &Service{}
+func NewService(db postgres.DBTX) *Service {
+	dbQuery := postgres.New(db)
+	return &Service{dbQuery: dbQuery}
 }
 
 type User struct {

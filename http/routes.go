@@ -1,45 +1,47 @@
 package http
 
 import (
-	frontend "beltech/frontend"
+	"beltech/frontend"
 	"beltech/utils"
+	"io/fs"
+	"net/http"
 
-	"github.com/labstack/echo/v4"
-	"github.com/labstack/echo/v4/middleware"
+	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
 )
 
-func (a *App) Routes(cfg utils.EnvConfig) *echo.Echo {
+func (a *App) Routes(cfg utils.EnvConfig) *chi.Mux {
+	r := chi.NewRouter()
 
-	e := echo.New()
-	fs := echo.MustSubFS(frontend.AssetsDir, "assets")
-	e.StaticFS("/assets", fs)
+	// r.Use(middleware.Logger)
+	r.Use(middleware.Recoverer)
 
-	// e.Use(middleware.Logger())
-	e.Use(middleware.Recover())
-	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-		AllowOrigins: []string{"*"},
-		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
-	}))
+	r.Route("/auth", func(r chi.Router) {
+		r.Get("/{provider}", a.signInWithProvider)
+		r.Get("/{provider}/callback", a.callbackHandler)
+		r.Get("/logout/{provider}", a.logout)
+	})
 
-	e.GET("/auth/:provider", a.signInWithProvider)
-	e.GET("/auth/:provider/callback", a.callbackHandler)
-	e.GET("/logout/:provider", a.logout)
+	r.Route("/beltech", func(r chi.Router) {
+		r.Use(a.authorize)
+		r.Get("/dashboard", a.homePageHandler)
+		r.Get("/scan", a.homePageHandler)
+		r.Get("/bins", a.homePageHandler)
+		r.Get("/wallet", a.homePageHandler)
+		r.Get("/exchange", a.homePageHandler)
+	})
 
-	userProfile := e.Group("/beltech")
-	// userProfile.Use(session.Middleware(sessions.NewCookieStore([]byte(cfg.SessionSecret))))
-	userProfile.GET("/dashboard", a.homePageHandler)
-	userProfile.GET("/scan", a.scanQRPageHandler)
-	userProfile.GET("/bins", a.locationPageHandler)
-	userProfile.GET("/wallet", a.walletPageHandler)
-	userProfile.GET("/exchange", a.exchangePageHandler)
+	r.Get("/signup", a.signupPageHandler)
+	r.Get("/signin", a.signinPageHandler)
+	r.Get("/verify", a.verifyPageHandler)
+	r.Get("/reset", a.resetPageHandler)
+	r.Get("/verify_success", a.verify_successPageHandler)
+	r.Get("/password_reset", a.password_resetPageHandler)
+	r.Get("/home", a.splash_screenPageHandler)
 
-	e.GET("/signup", a.signupPageHandler)
-	e.GET("/signin", a.signinPageHandler)
-	e.GET("/verify", a.verifyPageHandler)
-	e.GET("/reset", a.resetPageHandler)
-	e.GET("/verify_success", a.verify_successPageHandler)
-	e.GET("/password_reset", a.password_resetPageHandler)
-	e.GET("/index", a.splash_screenPageHandler)
+	var staticFiles = fs.FS(frontend.AssetsDir)
+	staticFs, _ := fs.Sub(staticFiles, "assets")
+	r.Handle("/assets/*", http.StripPrefix("/assets/", http.FileServer(http.FS(staticFs))))
 
-	return e
+	return r
 }

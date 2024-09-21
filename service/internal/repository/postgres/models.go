@@ -36,6 +36,7 @@ type User struct {
 	AccessTokenExpires pgtype.Timestamp `json:"access_token_expires"`
 	IDToken            pgtype.Text      `json:"id_token"`
 	LastUpdateEmail    pgtype.Timestamp `json:"last_update_email"`
+	Role               pgtype.Text      `json:"role"`
 	Joined             pgtype.Timestamp `json:"joined"`
 }
 
