@@ -15,6 +15,7 @@ func (a *App) Routes(cfg utils.EnvConfig) *chi.Mux {
 
 	// r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
+	r.Use(middleware.Compress(5))
 
 	r.Route("/auth", func(r chi.Router) {
 		r.Get("/{provider}", a.signInWithProvider)

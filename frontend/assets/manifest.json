@@ -1,0 +1,28 @@
+{
+    "name": "Beltech",
+    "lang": "en-us",
+    "short_name": "Beltech",
+    "description": "Creating a greener environment, one waste at a time.",
+    "start_url": "/",
+    "scope": "/",
+    "display": "standalone",
+    "background_color": "white",
+    "orientation": "any",
+    "icons": [
+        {
+            "src": "/assets/images/beltech_logo.png",
+            "sizes": "349x350",
+            "type": "image/png"
+        },
+        {
+            "src": "/assets/images/beltech_logo_2.jpg",
+            "sizes": "138x142",
+            "type": "image/jpg"
+        },
+        {
+            "src": "/assets/images/beltech_wide.png",
+            "sizes": "1920x1080",
+            "type": "image/png"
+        }
+    ]
+}

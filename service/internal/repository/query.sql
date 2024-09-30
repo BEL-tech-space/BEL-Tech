@@ -1,6 +1,6 @@
--- name: AddNewWasteBin :exec
-INSERT INTO waste_Bins (bin_ID, city, "state", "location", location_last_Update) 
-VALUES ($1, $2, $3, ST_SetSRID(ST_MakePoint($4, $5), 4326), $6);
+-- name: AddNewAgent :exec
+INSERT INTO agents (agent_ID, "is", email, city, "state", "location", bin_location_last_Update) 
+VALUES ($1, $2, $3, $4, $5, ST_SetSRID(ST_MakePoint($6, $7), 4326), $8);
 
 -- name: AddNewUser :exec
 INSERT INTO users (
@@ -10,8 +10,8 @@ INSERT INTO users (
 );
 
 -- name: AddNewWasteLog :exec
-INSERT INTO waste_Logs (created_At, glass_Weighed, metal_Weighed, plastics_Weighed, paper_Weighed, "location", bin_ID, user_ID) 
-VALUES ($1, $2, $3, $4, $5, ST_SetSRID(ST_MakePoint($6, $7), 4326), $8, $9);
+INSERT INTO waste_Logs (waste_Id, created_At, glass_Weighed, metal_Weighed, plastics_Weighed, paper_Weighed, "location", agent_ID, user_ID) 
+VALUES ($1, $2, $3, $4, $5, $6, ST_SetSRID(ST_MakePoint($7, $8), 4326), $9, $10);
 
 -- name: AddNewExchangeHistory :exec
 INSERT INTO exchange_History (user_ID, amount, operation, created_At) 

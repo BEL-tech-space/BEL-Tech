@@ -11,6 +11,36 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
+const addNewAgent = `-- name: AddNewAgent :exec
+INSERT INTO agents (agent_ID, "is", email, city, "state", "location", bin_location_last_Update) 
+VALUES ($1, $2, $3, $4, $5, ST_SetSRID(ST_MakePoint($6, $7), 4326), $8)
+`
+
+type AddNewAgentParams struct {
+	AgentID               pgtype.UUID      `json:"agent_id"`
+	Is                    Identifyas       `json:"is"`
+	Email                 pgtype.Text      `json:"email"`
+	City                  pgtype.Text      `json:"city"`
+	State                 pgtype.Text      `json:"state"`
+	StMakepoint           interface{}      `json:"st_makepoint"`
+	StMakepoint_2         interface{}      `json:"st_makepoint_2"`
+	BinLocationLastUpdate pgtype.Timestamp `json:"bin_location_last_update"`
+}
+
+func (q *Queries) AddNewAgent(ctx context.Context, arg AddNewAgentParams) error {
+	_, err := q.db.Exec(ctx, addNewAgent,
+		arg.AgentID,
+		arg.Is,
+		arg.Email,
+		arg.City,
+		arg.State,
+		arg.StMakepoint,
+		arg.StMakepoint_2,
+		arg.BinLocationLastUpdate,
+	)
+	return err
+}
+
 const addNewExchangeHistory = `-- name: AddNewExchangeHistory :exec
 INSERT INTO exchange_History (user_ID, amount, operation, created_At) 
 VALUES ($1, $2, $3::json, $4)
@@ -50,12 +80,12 @@ type AddNewUserParams struct {
 	NickName           pgtype.Text      `json:"nick_name"`
 	AvatarUrl          pgtype.Text      `json:"avatar_url"`
 	SplWallet          pgtype.Text      `json:"spl_wallet"`
-	CurrBalance        pgtype.Float8    `json:"curr_balance"`
-	TotalEarned        pgtype.Float8    `json:"total_earned"`
-	TotalGlassWaste    pgtype.Float8    `json:"total_glass_waste"`
-	TotalMetalWaste    pgtype.Float8    `json:"total_metal_waste"`
-	TotalPlasticsWaste pgtype.Float8    `json:"total_plastics_waste"`
-	TotalPaperWaste    pgtype.Float8    `json:"total_paper_waste"`
+	CurrBalance        float64          `json:"curr_balance"`
+	TotalEarned        float64          `json:"total_earned"`
+	TotalGlassWaste    float32          `json:"total_glass_waste"`
+	TotalMetalWaste    float32          `json:"total_metal_waste"`
+	TotalPlasticsWaste float32          `json:"total_plastics_waste"`
+	TotalPaperWaste    float32          `json:"total_paper_waste"`
 	AccessToken        pgtype.Text      `json:"access_token"`
 	AccessTokenExpires pgtype.Timestamp `json:"access_token_expires"`
 	IDToken            pgtype.Text      `json:"id_token"`
@@ -88,51 +118,27 @@ func (q *Queries) AddNewUser(ctx context.Context, arg AddNewUserParams) error {
 	return err
 }
 
-const addNewWasteBin = `-- name: AddNewWasteBin :exec
-INSERT INTO waste_Bins (bin_ID, city, "state", "location", location_last_Update) 
-VALUES ($1, $2, $3, ST_SetSRID(ST_MakePoint($4, $5), 4326), $6)
-`
-
-type AddNewWasteBinParams struct {
-	BinID              pgtype.UUID      `json:"bin_id"`
-	City               string           `json:"city"`
-	State              string           `json:"state"`
-	StMakepoint        interface{}      `json:"st_makepoint"`
-	StMakepoint_2      interface{}      `json:"st_makepoint_2"`
-	LocationLastUpdate pgtype.Timestamp `json:"location_last_update"`
-}
-
-func (q *Queries) AddNewWasteBin(ctx context.Context, arg AddNewWasteBinParams) error {
-	_, err := q.db.Exec(ctx, addNewWasteBin,
-		arg.BinID,
-		arg.City,
-		arg.State,
-		arg.StMakepoint,
-		arg.StMakepoint_2,
-		arg.LocationLastUpdate,
-	)
-	return err
-}
-
 const addNewWasteLog = `-- name: AddNewWasteLog :exec
-INSERT INTO waste_Logs (created_At, glass_Weighed, metal_Weighed, plastics_Weighed, paper_Weighed, "location", bin_ID, user_ID) 
-VALUES ($1, $2, $3, $4, $5, ST_SetSRID(ST_MakePoint($6, $7), 4326), $8, $9)
+INSERT INTO waste_Logs (waste_Id, created_At, glass_Weighed, metal_Weighed, plastics_Weighed, paper_Weighed, "location", agent_ID, user_ID) 
+VALUES ($1, $2, $3, $4, $5, $6, ST_SetSRID(ST_MakePoint($7, $8), 4326), $9, $10)
 `
 
 type AddNewWasteLogParams struct {
+	WasteID         pgtype.UUID      `json:"waste_id"`
 	CreatedAt       pgtype.Timestamp `json:"created_at"`
-	GlassWeighed    pgtype.Float8    `json:"glass_weighed"`
-	MetalWeighed    pgtype.Float8    `json:"metal_weighed"`
-	PlasticsWeighed pgtype.Float8    `json:"plastics_weighed"`
-	PaperWeighed    pgtype.Float8    `json:"paper_weighed"`
+	GlassWeighed    float32          `json:"glass_weighed"`
+	MetalWeighed    float32          `json:"metal_weighed"`
+	PlasticsWeighed float32          `json:"plastics_weighed"`
+	PaperWeighed    float32          `json:"paper_weighed"`
 	StMakepoint     interface{}      `json:"st_makepoint"`
 	StMakepoint_2   interface{}      `json:"st_makepoint_2"`
-	BinID           pgtype.UUID      `json:"bin_id"`
-	UserID          string           `json:"user_id"`
+	AgentID         pgtype.UUID      `json:"agent_id"`
+	UserID          pgtype.UUID      `json:"user_id"`
 }
 
 func (q *Queries) AddNewWasteLog(ctx context.Context, arg AddNewWasteLogParams) error {
 	_, err := q.db.Exec(ctx, addNewWasteLog,
+		arg.WasteID,
 		arg.CreatedAt,
 		arg.GlassWeighed,
 		arg.MetalWeighed,
@@ -140,7 +146,7 @@ func (q *Queries) AddNewWasteLog(ctx context.Context, arg AddNewWasteLogParams) 
 		arg.PaperWeighed,
 		arg.StMakepoint,
 		arg.StMakepoint_2,
-		arg.BinID,
+		arg.AgentID,
 		arg.UserID,
 	)
 	return err
@@ -179,12 +185,12 @@ type UpsertUserParams struct {
 	NickName           pgtype.Text      `json:"nick_name"`
 	AvatarUrl          pgtype.Text      `json:"avatar_url"`
 	SplWallet          pgtype.Text      `json:"spl_wallet"`
-	CurrBalance        pgtype.Float8    `json:"curr_balance"`
-	TotalEarned        pgtype.Float8    `json:"total_earned"`
-	TotalGlassWaste    pgtype.Float8    `json:"total_glass_waste"`
-	TotalMetalWaste    pgtype.Float8    `json:"total_metal_waste"`
-	TotalPlasticsWaste pgtype.Float8    `json:"total_plastics_waste"`
-	TotalPaperWaste    pgtype.Float8    `json:"total_paper_waste"`
+	CurrBalance        float64          `json:"curr_balance"`
+	TotalEarned        float64          `json:"total_earned"`
+	TotalGlassWaste    float32          `json:"total_glass_waste"`
+	TotalMetalWaste    float32          `json:"total_metal_waste"`
+	TotalPlasticsWaste float32          `json:"total_plastics_waste"`
+	TotalPaperWaste    float32          `json:"total_paper_waste"`
 	HashedPassword     pgtype.Text      `json:"hashed_password"`
 	AccessToken        pgtype.Text      `json:"access_token"`
 	AccessTokenExpires pgtype.Timestamp `json:"access_token_expires"`

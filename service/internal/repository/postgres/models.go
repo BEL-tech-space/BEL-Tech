@@ -5,9 +5,64 @@
 package postgres
 
 import (
+	"database/sql/driver"
+	"fmt"
+
 	"github.com/jackc/pgx/v5/pgtype"
-	"github.com/twpayne/go-geom"
 )
+
+type Identifyas string
+
+const (
+	IdentifyasCollector Identifyas = "collector"
+	IdentifyasBin       Identifyas = "bin"
+)
+
+func (e *Identifyas) Scan(src interface{}) error {
+	switch s := src.(type) {
+	case []byte:
+		*e = Identifyas(s)
+	case string:
+		*e = Identifyas(s)
+	default:
+		return fmt.Errorf("unsupported scan type for Identifyas: %T", src)
+	}
+	return nil
+}
+
+type NullIdentifyas struct {
+	Identifyas Identifyas `json:"identifyas"`
+	Valid      bool       `json:"valid"` // Valid is true if Identifyas is not NULL
+}
+
+// Scan implements the Scanner interface.
+func (ns *NullIdentifyas) Scan(value interface{}) error {
+	if value == nil {
+		ns.Identifyas, ns.Valid = "", false
+		return nil
+	}
+	ns.Valid = true
+	return ns.Identifyas.Scan(value)
+}
+
+// Value implements the driver Valuer interface.
+func (ns NullIdentifyas) Value() (driver.Value, error) {
+	if !ns.Valid {
+		return nil, nil
+	}
+	return string(ns.Identifyas), nil
+}
+
+type Agent struct {
+	AgentID               pgtype.UUID      `json:"agent_id"`
+	Is                    Identifyas       `json:"is"`
+	Email                 pgtype.Text      `json:"email"`
+	City                  pgtype.Text      `json:"city"`
+	State                 pgtype.Text      `json:"state"`
+	Location              interface{}      `json:"location"`
+	BinLocationLastUpdate pgtype.Timestamp `json:"bin_location_last_update"`
+	CreatedAt             pgtype.Timestamp `json:"created_at"`
+}
 
 type ExchangeHistory struct {
 	TranID    pgtype.UUID      `json:"tran_id"`
@@ -25,36 +80,30 @@ type User struct {
 	NickName           pgtype.Text      `json:"nick_name"`
 	AvatarUrl          pgtype.Text      `json:"avatar_url"`
 	SplWallet          pgtype.Text      `json:"spl_wallet"`
-	CurrBalance        pgtype.Float8    `json:"curr_balance"`
-	TotalEarned        pgtype.Float8    `json:"total_earned"`
-	TotalGlassWaste    pgtype.Float8    `json:"total_glass_waste"`
-	TotalMetalWaste    pgtype.Float8    `json:"total_metal_waste"`
-	TotalPlasticsWaste pgtype.Float8    `json:"total_plastics_waste"`
-	TotalPaperWaste    pgtype.Float8    `json:"total_paper_waste"`
+	CurrBalance        float64          `json:"curr_balance"`
+	TotalEarned        float64          `json:"total_earned"`
+	TotalGlassWaste    float32          `json:"total_glass_waste"`
+	TotalMetalWaste    float32          `json:"total_metal_waste"`
+	TotalPlasticsWaste float32          `json:"total_plastics_waste"`
+	TotalPaperWaste    float32          `json:"total_paper_waste"`
 	HashedPassword     pgtype.Text      `json:"hashed_password"`
 	AccessToken        pgtype.Text      `json:"access_token"`
 	AccessTokenExpires pgtype.Timestamp `json:"access_token_expires"`
 	IDToken            pgtype.Text      `json:"id_token"`
 	LastUpdateEmail    pgtype.Timestamp `json:"last_update_email"`
-	Role               pgtype.Text      `json:"role"`
+	Role               string           `json:"role"`
 	Joined             pgtype.Timestamp `json:"joined"`
-}
-
-type WasteBin struct {
-	BinID              pgtype.UUID      `json:"bin_id"`
-	City               string           `json:"city"`
-	State              string           `json:"state"`
-	Location           geom.Point       `json:"location"`
-	LocationLastUpdate pgtype.Timestamp `json:"location_last_update"`
+	IsDeleted          bool             `json:"is_deleted"`
 }
 
 type WasteLog struct {
+	WasteID         pgtype.UUID      `json:"waste_id"`
 	CreatedAt       pgtype.Timestamp `json:"created_at"`
-	GlassWeighed    pgtype.Float8    `json:"glass_weighed"`
-	MetalWeighed    pgtype.Float8    `json:"metal_weighed"`
-	PlasticsWeighed pgtype.Float8    `json:"plastics_weighed"`
-	PaperWeighed    pgtype.Float8    `json:"paper_weighed"`
-	Location        geom.Point       `json:"location"`
-	BinID           pgtype.UUID      `json:"bin_id"`
-	UserID          string           `json:"user_id"`
+	GlassWeighed    float32          `json:"glass_weighed"`
+	MetalWeighed    float32          `json:"metal_weighed"`
+	PlasticsWeighed float32          `json:"plastics_weighed"`
+	PaperWeighed    float32          `json:"paper_weighed"`
+	Location        interface{}      `json:"location"`
+	AgentID         pgtype.UUID      `json:"agent_id"`
+	UserID          pgtype.UUID      `json:"user_id"`
 }

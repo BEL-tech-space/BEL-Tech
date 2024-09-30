@@ -1,10 +1,14 @@
-CREATE TABLE IF NOT EXISTS waste_Bins (
-    bin_ID UUID,
-    city VARCHAR(50) NOT NULL,
-    "state" VARCHAR(50) NOT NULL,
-    "location" geometry(POINT, 4326) NOT NULL,
-    location_last_Update TIMESTAMP,
-    PRIMARY KEY (bin_ID)
+CREATE TYPE identifyAs AS ENUM ('collector', 'bin');
+
+CREATE TABLE IF NOT EXISTS agents (
+    agent_ID UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    "is" identifyAs NOT NULL,
+    email TEXT UNIQUE,
+    city TEXT,
+    "state" TEXT,
+    "location" geometry(POINT, 4326),
+    bin_location_last_Update TIMESTAMP,
+    created_At TIMESTAMP DEFAULT NOW()
 );
 
 CREATE TABLE IF NOT EXISTS users (
@@ -15,30 +19,32 @@ CREATE TABLE IF NOT EXISTS users (
     nick_Name VARCHAR(64),
     avatar_URL TEXT,
     spl_Wallet TEXT UNIQUE,
-    curr_Balance DOUBLE PRECISION DEFAULT 0.0,
-    total_Earned DOUBLE PRECISION DEFAULT 0.0,
-    total_glass_waste DOUBLE PRECISION DEFAULT 0.0,
-    total_metal_waste DOUBLE PRECISION DEFAULT 0.0,
-    total_plastics_waste DOUBLE PRECISION DEFAULT 0.0,
-    total_paper_waste DOUBLE PRECISION DEFAULT 0.0,
+    curr_Balance DOUBLE PRECISION NOT NULL DEFAULT 0.0,
+    total_Earned DOUBLE PRECISION NOT NULL DEFAULT 0.0,
+    total_glass_waste REAL NOT NULL DEFAULT 0.0,
+    total_metal_waste REAL NOT NULL DEFAULT 0.0,
+    total_plastics_waste REAL NOT NULL DEFAULT 0.0,
+    total_paper_waste REAL NOT NULL DEFAULT 0.0,
     hashed_password TEXT,
     access_Token TEXT,
     access_Token_Expires TIMESTAMP,
     id_Token TEXT,
     last_Update_Email TIMESTAMP,
-    "role" VARCHAR(10) DEFAULT 'user',
-    joined TIMESTAMP DEFAULT NOW()
+    "role" VARCHAR(10) NOT NULL DEFAULT 'user',
+    joined TIMESTAMP NOT NULL DEFAULT NOW(),
+    is_Deleted BOOLEAN NOT NULL DEFAULT FALSE
 );
 
 CREATE TABLE IF NOT EXISTS waste_Logs (
+    waste_Id UUID PRIMARY KEY,
     created_At TIMESTAMP DEFAULT NOW(),
-    glass_Weighed DOUBLE PRECISION DEFAULT 0.0,
-    metal_Weighed DOUBLE PRECISION DEFAULT 0.0,
-    plastics_Weighed DOUBLE PRECISION DEFAULT 0.0, 
-    paper_Weighed DOUBLE PRECISION DEFAULT 0.0,
-    "location" geometry(POINT, 4326) NOT NULL,
-    bin_ID UUID NOT NULL REFERENCES waste_Bins (bin_ID),
-    user_ID TEXT NOT NULL REFERENCES users (user_ID)
+    glass_Weighed REAL NOT NULL DEFAULT 0.0,
+    metal_Weighed REAL NOT NULL DEFAULT 0.0,
+    plastics_Weighed REAL NOT NULL DEFAULT 0.0, 
+    paper_Weighed REAL NOT NULL DEFAULT 0.0,
+    "location" geometry(POINT, 4326),
+    agent_ID UUID REFERENCES agents(agent_ID) ON DELETE RESTRICT,
+    user_ID TEXT REFERENCES users(user_ID) ON DELETE RESTRICT
 );
 
 CREATE TABLE IF NOT EXISTS exchange_History (
