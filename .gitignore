@@ -4,3 +4,4 @@
 beltech
 prod.env
 *.env
+node_modules/
