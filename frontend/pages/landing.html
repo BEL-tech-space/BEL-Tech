@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landing Page</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&family=Poppins:wght@100..900&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+   
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              montserrat: ['Montserrat', 'sans-serif'],
+              poppins: ['Poppins', 'sans-serif'],
+            },
+          },
+        }
+      }
+    </script>
+</head>
+<body class="font-montserrat max-w-full overflow-x-hidden">
+
+    <div class="min-h-screen bg-cover bg-center" style="background-image: linear-gradient(rgba(244, 244, 244, 0.833), rgba(244, 244, 244, 0.833)), url('assets/svg/background.jpg'); border-bottom-left-radius: 90vh;">
+   
+        <div class="flex justify-between items-center px-10 py-5">
+            <img src="/assets/images/beltech_logo_.png" alt="">
+            <ul class="flex gap-8 list-none">
+                <li class="nav-item">Home</li>
+                <li class="nav-item">About</li>
+                <li class="nav-item">Contact Us</li>
+            </ul>
+            <a href="#" class="bg-green-900 text-white px-6 py-2 rounded">Login</a>
+        </div>
+    
+        <div class="flex justify-between items-center w-full h-full p-8 box-border">
+            <div class="w-2/5 pl-36">
+                <p class="text-6xl font-bold leading-tight">Dispose, Recycle and <span class="text-yellow-600">Earn BEL</span> tokens</p>
+                <p class="font-poppins text-2xl leading-9 mt-5 mb-20 w-3/4">We make it easy to live a zero waste life and earn BEL tokens</p>
+                <a href="#" class="bg-green-900 text-white py-2 px-20 rounded">Start now</a>
+            </div>
+            <div class="w-1/2">
+                <img src="/assets/svg/recycling_people.svg" alt="">
+            </div>
+        </div>
+    </div>
+
+    <section class="py-10">
+        <div class="text-center">
+            <img src="/assets/svg/user_signin.svg" alt="" class="mx-auto">
+            <p class="mt-5 font-poppins text-xl">Start by signing up on our platform</p>
+        </div>
+    </section>
+</body>
+</html>
