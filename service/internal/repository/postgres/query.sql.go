@@ -41,6 +41,57 @@ func (q *Queries) AddNewAgent(ctx context.Context, arg AddNewAgentParams) error 
 	return err
 }
 
+const addNewAgentAndCollector = `-- name: AddNewAgentAndCollector :one
+WITH new_agent AS (
+    INSERT INTO agents ("is", email, city, "state", "location", bin_location_last_Update) 
+    VALUES ($1, $2, $3, $4, ST_SetSRID(ST_MakePoint($5, $6), 4326), $7)
+    RETURNING agent_ID
+)
+, insert_collector AS (
+    INSERT INTO collectors (email, "role", first_Name, last_Name, nick_Name, avatar_URL, agent_ID)
+    VALUES ($8, $9, $10, $11, $12, $13, (SELECT agent_ID FROM new_agent))
+    RETURNING agent_ID
+)
+SELECT agent_ID FROM new_agent
+`
+
+type AddNewAgentAndCollectorParams struct {
+	Is                    Identifyas       `json:"is"`
+	Email                 pgtype.Text      `json:"email"`
+	City                  pgtype.Text      `json:"city"`
+	State                 pgtype.Text      `json:"state"`
+	StMakepoint           interface{}      `json:"st_makepoint"`
+	StMakepoint_2         interface{}      `json:"st_makepoint_2"`
+	BinLocationLastUpdate pgtype.Timestamp `json:"bin_location_last_update"`
+	Email_2               string           `json:"email_2"`
+	Role                  Collectorrole    `json:"role"`
+	FirstName             pgtype.Text      `json:"first_name"`
+	LastName              pgtype.Text      `json:"last_name"`
+	NickName              pgtype.Text      `json:"nick_name"`
+	AvatarUrl             pgtype.Text      `json:"avatar_url"`
+}
+
+func (q *Queries) AddNewAgentAndCollector(ctx context.Context, arg AddNewAgentAndCollectorParams) (pgtype.UUID, error) {
+	row := q.db.QueryRow(ctx, addNewAgentAndCollector,
+		arg.Is,
+		arg.Email,
+		arg.City,
+		arg.State,
+		arg.StMakepoint,
+		arg.StMakepoint_2,
+		arg.BinLocationLastUpdate,
+		arg.Email_2,
+		arg.Role,
+		arg.FirstName,
+		arg.LastName,
+		arg.NickName,
+		arg.AvatarUrl,
+	)
+	var agent_id pgtype.UUID
+	err := row.Scan(&agent_id)
+	return agent_id, err
+}
+
 const addNewExchangeHistory = `-- name: AddNewExchangeHistory :exec
 INSERT INTO exchange_History (user_ID, amount, operation, created_At) 
 VALUES ($1, $2, $3::json, $4)
@@ -61,6 +112,40 @@ func (q *Queries) AddNewExchangeHistory(ctx context.Context, arg AddNewExchangeH
 		arg.CreatedAt,
 	)
 	return err
+}
+
+const addNewTempWasteFromCollector = `-- name: AddNewTempWasteFromCollector :one
+INSERT INTO waste_Logs (
+    glass_Weighed, metal_Weighed, plastics_Weighed, paper_Weighed, "location", agent_ID
+) VALUES (
+    $1, $2, $3, $4, ST_SetSRID(ST_MakePoint($5, $6), 4326), $7
+)
+RETURNING waste_Id
+`
+
+type AddNewTempWasteFromCollectorParams struct {
+	GlassWeighed    float32     `json:"glass_weighed"`
+	MetalWeighed    float32     `json:"metal_weighed"`
+	PlasticsWeighed float32     `json:"plastics_weighed"`
+	PaperWeighed    float32     `json:"paper_weighed"`
+	StMakepoint     interface{} `json:"st_makepoint"`
+	StMakepoint_2   interface{} `json:"st_makepoint_2"`
+	AgentID         pgtype.UUID `json:"agent_id"`
+}
+
+func (q *Queries) AddNewTempWasteFromCollector(ctx context.Context, arg AddNewTempWasteFromCollectorParams) (pgtype.UUID, error) {
+	row := q.db.QueryRow(ctx, addNewTempWasteFromCollector,
+		arg.GlassWeighed,
+		arg.MetalWeighed,
+		arg.PlasticsWeighed,
+		arg.PaperWeighed,
+		arg.StMakepoint,
+		arg.StMakepoint_2,
+		arg.AgentID,
+	)
+	var waste_id pgtype.UUID
+	err := row.Scan(&waste_id)
+	return waste_id, err
 }
 
 const addNewUser = `-- name: AddNewUser :exec
@@ -133,7 +218,7 @@ type AddNewWasteLogParams struct {
 	StMakepoint     interface{}      `json:"st_makepoint"`
 	StMakepoint_2   interface{}      `json:"st_makepoint_2"`
 	AgentID         pgtype.UUID      `json:"agent_id"`
-	UserID          pgtype.UUID      `json:"user_id"`
+	UserID          pgtype.Text      `json:"user_id"`
 }
 
 func (q *Queries) AddNewWasteLog(ctx context.Context, arg AddNewWasteLogParams) error {
@@ -149,6 +234,111 @@ func (q *Queries) AddNewWasteLog(ctx context.Context, arg AddNewWasteLogParams) 
 		arg.AgentID,
 		arg.UserID,
 	)
+	return err
+}
+
+const getAllCollectorsEmailAndAgentID = `-- name: GetAllCollectorsEmailAndAgentID :many
+SELECT 
+    email, agent_ID, "role"
+FROM 
+    collectors
+`
+
+type GetAllCollectorsEmailAndAgentIDRow struct {
+	Email   string        `json:"email"`
+	AgentID pgtype.UUID   `json:"agent_id"`
+	Role    Collectorrole `json:"role"`
+}
+
+func (q *Queries) GetAllCollectorsEmailAndAgentID(ctx context.Context) ([]GetAllCollectorsEmailAndAgentIDRow, error) {
+	rows, err := q.db.Query(ctx, getAllCollectorsEmailAndAgentID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []GetAllCollectorsEmailAndAgentIDRow
+	for rows.Next() {
+		var i GetAllCollectorsEmailAndAgentIDRow
+		if err := rows.Scan(&i.Email, &i.AgentID, &i.Role); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getWasteFromCollectorByAgentIDAndDate = `-- name: GetWasteFromCollectorByAgentIDAndDate :many
+WITH temp_waste_count AS (
+    SELECT COUNT(*) AS count
+    FROM temp_Waste_Logs
+    WHERE agent_ID = $1 AND created_At::date = $2::date
+)
+SELECT 
+    wl.waste_Id, wl.created_At AS "date", wl.glass_Weighed, wl.metal_Weighed, wl.plastics_Weighed, wl.paper_Weighed, wl."location", wl.agent_ID, 
+    (SELECT count FROM temp_waste_count) AS temp_waste_count
+FROM 
+    waste_Logs wl
+WHERE 
+    wl.agent_ID = $1 AND wl.created_At::date = $2::date
+`
+
+type GetWasteFromCollectorByAgentIDAndDateParams struct {
+	AgentID pgtype.UUID `json:"agent_id"`
+	Column2 pgtype.Date `json:"column_2"`
+}
+
+type GetWasteFromCollectorByAgentIDAndDateRow struct {
+	WasteID         pgtype.UUID      `json:"waste_id"`
+	Date            pgtype.Timestamp `json:"date"`
+	GlassWeighed    float32          `json:"glass_weighed"`
+	MetalWeighed    float32          `json:"metal_weighed"`
+	PlasticsWeighed float32          `json:"plastics_weighed"`
+	PaperWeighed    float32          `json:"paper_weighed"`
+	Location        interface{}      `json:"location"`
+	AgentID         pgtype.UUID      `json:"agent_id"`
+	TempWasteCount  int64            `json:"temp_waste_count"`
+}
+
+func (q *Queries) GetWasteFromCollectorByAgentIDAndDate(ctx context.Context, arg GetWasteFromCollectorByAgentIDAndDateParams) ([]GetWasteFromCollectorByAgentIDAndDateRow, error) {
+	rows, err := q.db.Query(ctx, getWasteFromCollectorByAgentIDAndDate, arg.AgentID, arg.Column2)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []GetWasteFromCollectorByAgentIDAndDateRow
+	for rows.Next() {
+		var i GetWasteFromCollectorByAgentIDAndDateRow
+		if err := rows.Scan(
+			&i.WasteID,
+			&i.Date,
+			&i.GlassWeighed,
+			&i.MetalWeighed,
+			&i.PlasticsWeighed,
+			&i.PaperWeighed,
+			&i.Location,
+			&i.AgentID,
+			&i.TempWasteCount,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const removeCollector = `-- name: RemoveCollector :exec
+DELETE FROM collectors
+WHERE email = $1 AND "role" != 'super_collector'
+`
+
+func (q *Queries) RemoveCollector(ctx context.Context, email string) error {
+	_, err := q.db.Exec(ctx, removeCollector, email)
 	return err
 }
 

@@ -1,11 +1,45 @@
-package utils
+package http
 
 import (
+	"beltech/frontend"
+	"bytes"
 	"fmt"
+	"image/png"
+	"log"
 
 	"github.com/caarlos0/env/v11"
 	"github.com/joho/godotenv"
 )
+
+var beltechWatermarkLogo []byte
+
+func init() {
+	var err error
+	beltechWatermarkLogo, err = readPNGAsBytes("images/beltech_logo.png")
+	if err != nil {
+		log.Fatalln("error reading watermark logo image:", err)
+	}
+}
+
+func readPNGAsBytes(filePath string) ([]byte, error) {
+	imageData, err := frontend.AssetsDir.ReadFile(filePath)
+	if err != nil {
+		return nil, fmt.Errorf("failed to read embedded file: %v", err)
+	}
+
+	img, err := png.Decode(bytes.NewReader(imageData))
+	if err != nil {
+		return nil, fmt.Errorf("failed to decode PNG: %v", err)
+	}
+
+	var buf bytes.Buffer
+	err = png.Encode(&buf, img)
+	if err != nil {
+		return nil, fmt.Errorf("failed to encode PNG: %v", err)
+	}
+
+	return buf.Bytes(), nil
+}
 
 type EnvConfig struct {
 	LoginProvider struct {

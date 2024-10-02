@@ -40,3 +40,48 @@ INSERT INTO users (
     access_Token_Expires = COALESCE(EXCLUDED.access_Token_Expires, users.access_Token_Expires),
     id_Token = COALESCE(EXCLUDED.id_Token, users.id_Token),
     last_Update_Email = COALESCE(EXCLUDED.last_Update_Email, users.last_Update_Email);
+
+-- name: AddNewAgentAndCollector :one
+WITH new_agent AS (
+    INSERT INTO agents ("is", email, city, "state", "location", bin_location_last_Update) 
+    VALUES ($1, $2, $3, $4, ST_SetSRID(ST_MakePoint($5, $6), 4326), $7)
+    RETURNING agent_ID
+)
+, insert_collector AS (
+    INSERT INTO collectors (email, "role", first_Name, last_Name, nick_Name, avatar_URL, agent_ID)
+    VALUES ($8, $9, $10, $11, $12, $13, (SELECT agent_ID FROM new_agent))
+    RETURNING agent_ID
+)
+SELECT agent_ID FROM new_agent;
+
+-- name: RemoveCollector :exec
+DELETE FROM collectors
+WHERE email = $1 AND "role" != 'super_collector';
+
+-- name: AddNewTempWasteFromCollector :one
+INSERT INTO waste_Logs (
+    glass_Weighed, metal_Weighed, plastics_Weighed, paper_Weighed, "location", agent_ID
+) VALUES (
+    $1, $2, $3, $4, ST_SetSRID(ST_MakePoint($5, $6), 4326), $7
+)
+RETURNING waste_Id;
+
+-- name: GetWasteFromCollectorByAgentIDAndDate :many
+WITH temp_waste_count AS (
+    SELECT COUNT(*) AS count
+    FROM temp_Waste_Logs
+    WHERE agent_ID = $1 AND created_At::date = $2::date
+)
+SELECT 
+    wl.waste_Id, wl.created_At AS "date", wl.glass_Weighed, wl.metal_Weighed, wl.plastics_Weighed, wl.paper_Weighed, wl."location", wl.agent_ID, 
+    (SELECT count FROM temp_waste_count) AS temp_waste_count
+FROM 
+    waste_Logs wl
+WHERE 
+    wl.agent_ID = $1 AND wl.created_At::date = $2::date;
+
+-- name: GetAllCollectorsEmailAndAgentID :many
+SELECT 
+    email, agent_ID, "role"
+FROM 
+    collectors;

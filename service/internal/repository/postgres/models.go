@@ -11,6 +11,48 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
+type Collectorrole string
+
+const (
+	CollectorroleCollector      Collectorrole = "collector"
+	CollectorroleSuperCollector Collectorrole = "super_collector"
+)
+
+func (e *Collectorrole) Scan(src interface{}) error {
+	switch s := src.(type) {
+	case []byte:
+		*e = Collectorrole(s)
+	case string:
+		*e = Collectorrole(s)
+	default:
+		return fmt.Errorf("unsupported scan type for Collectorrole: %T", src)
+	}
+	return nil
+}
+
+type NullCollectorrole struct {
+	Collectorrole Collectorrole `json:"collectorrole"`
+	Valid         bool          `json:"valid"` // Valid is true if Collectorrole is not NULL
+}
+
+// Scan implements the Scanner interface.
+func (ns *NullCollectorrole) Scan(value interface{}) error {
+	if value == nil {
+		ns.Collectorrole, ns.Valid = "", false
+		return nil
+	}
+	ns.Valid = true
+	return ns.Collectorrole.Scan(value)
+}
+
+// Value implements the driver Valuer interface.
+func (ns NullCollectorrole) Value() (driver.Value, error) {
+	if !ns.Valid {
+		return nil, nil
+	}
+	return string(ns.Collectorrole), nil
+}
+
 type Identifyas string
 
 const (
@@ -64,12 +106,33 @@ type Agent struct {
 	CreatedAt             pgtype.Timestamp `json:"created_at"`
 }
 
+type Collector struct {
+	Email     string        `json:"email"`
+	Role      Collectorrole `json:"role"`
+	FirstName pgtype.Text   `json:"first_name"`
+	LastName  pgtype.Text   `json:"last_name"`
+	NickName  pgtype.Text   `json:"nick_name"`
+	AvatarUrl pgtype.Text   `json:"avatar_url"`
+	AgentID   pgtype.UUID   `json:"agent_id"`
+}
+
 type ExchangeHistory struct {
 	TranID    pgtype.UUID      `json:"tran_id"`
 	UserID    string           `json:"user_id"`
 	Amount    float64          `json:"amount"`
 	Operation []byte           `json:"operation"`
 	CreatedAt pgtype.Timestamp `json:"created_at"`
+}
+
+type TempWasteLog struct {
+	WasteID         pgtype.UUID      `json:"waste_id"`
+	CreatedAt       pgtype.Timestamp `json:"created_at"`
+	GlassWeighed    float32          `json:"glass_weighed"`
+	MetalWeighed    float32          `json:"metal_weighed"`
+	PlasticsWeighed float32          `json:"plastics_weighed"`
+	PaperWeighed    float32          `json:"paper_weighed"`
+	Location        interface{}      `json:"location"`
+	AgentID         pgtype.UUID      `json:"agent_id"`
 }
 
 type User struct {
@@ -105,5 +168,5 @@ type WasteLog struct {
 	PaperWeighed    float32          `json:"paper_weighed"`
 	Location        interface{}      `json:"location"`
 	AgentID         pgtype.UUID      `json:"agent_id"`
-	UserID          pgtype.UUID      `json:"user_id"`
+	UserID          pgtype.Text      `json:"user_id"`
 }

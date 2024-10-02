@@ -2,11 +2,11 @@ package http
 
 import (
 	"beltech/service"
-	"beltech/utils"
 	"crypto/rand"
 	"encoding/hex"
 	"fmt"
 
+	"github.com/google/uuid"
 	"github.com/gorilla/sessions"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/markbates/goth"
@@ -15,11 +15,19 @@ import (
 )
 
 type App struct {
-	service      *service.Service
-	sessionStore sessions.Store
+	service             *service.Service
+	accountSessionStore sessions.Store
+	agentSessionStore   sessions.Store
+	collectors          []collector
 }
 
-func NewApp(cfg utils.EnvConfig, db *pgxpool.Pool) *App {
+type collector struct {
+	AgentID uuid.UUID
+	Email   string
+	Role    string
+}
+
+func NewApp(cfg EnvConfig, db *pgxpool.Pool) *App {
 
 	store := sessions.NewCookieStore([]byte(cfg.CookieSecret))
 	store.MaxAge(86400 * 30) // 30 days
@@ -35,7 +43,8 @@ func NewApp(cfg utils.EnvConfig, db *pgxpool.Pool) *App {
 	)
 
 	app := App{}
-	app.sessionStore = sessions.NewCookieStore([]byte(GenerateRandomKey(cfg.SessionSecret)))
+	app.accountSessionStore = sessions.NewCookieStore([]byte(GenerateRandomKey(cfg.SessionSecret)))
+	app.agentSessionStore = sessions.NewCookieStore([]byte(GenerateRandomKey(cfg.SessionSecret)))
 	app.service = service.NewService(db)
 
 	return &app

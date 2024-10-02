@@ -5,14 +5,16 @@ go 1.23
 toolchain go1.23.0
 
 require (
-	github.com/a-h/templ v0.2.771
+	github.com/a-h/templ v0.2.778
 	github.com/caarlos0/env/v11 v11.2.2
 	github.com/go-chi/chi/v5 v5.1.0
+	github.com/google/uuid v1.6.0
 	github.com/gorilla/sessions v1.4.0
 	github.com/jackc/pgx/v5 v5.7.1
 	github.com/joho/godotenv v1.5.1
 	github.com/markbates/goth v1.80.0
-	github.com/twpayne/go-geom v1.5.7
+	github.com/nfnt/resize v0.0.0-20180221191011-83c6a9932646
+	github.com/skip2/go-qrcode v0.0.0-20200617195104-da1b6568686e
 )
 
 require (

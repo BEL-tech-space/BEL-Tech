@@ -11,6 +11,29 @@ CREATE TABLE IF NOT EXISTS agents (
     created_At TIMESTAMP DEFAULT NOW()
 );
 
+CREATE TYPE collectorRole AS ENUM ('collector', 'super_collector');
+
+CREATE TABLE IF NOT EXISTS collectors (
+    email TEXT PRIMARY KEY,
+    "role" collectorRole NOT NULL,
+    first_Name VARCHAR(20),
+    last_Name VARCHAR(20),
+    nick_Name VARCHAR(20),
+    avatar_URL TEXT,
+    agent_ID UUID REFERENCES agents (agent_ID)
+);
+
+CREATE TABLE IF NOT EXISTS temp_Waste_Logs (
+    waste_Id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    created_At TIMESTAMP DEFAULT NOW(),
+     glass_Weighed REAL NOT NULL DEFAULT 0.0,
+    metal_Weighed REAL NOT NULL DEFAULT 0.0,
+    plastics_Weighed REAL NOT NULL DEFAULT 0.0, 
+    paper_Weighed REAL NOT NULL DEFAULT 0.0,
+    "location" geometry(POINT, 4326),
+    agent_ID UUID REFERENCES agents (agent_ID)
+);
+
 CREATE TABLE IF NOT EXISTS users (
     user_ID TEXT PRIMARY KEY,
     email VARCHAR(64) UNIQUE NOT NULL,

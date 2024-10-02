@@ -2,7 +2,6 @@ package main
 
 import (
 	backend "beltech/http"
-	"beltech/utils"
 	"context"
 	"errors"
 	"fmt"
@@ -17,8 +16,8 @@ import (
 
 func main() {
 	// load environmental variables
-	var environmentalVariables utils.EnvConfig
-	if err := utils.LoadEnv(&environmentalVariables); err != nil {
+	var environmentalVariables backend.EnvConfig
+	if err := backend.LoadEnv(&environmentalVariables); err != nil {
 		log.Fatalln("Error loading environmental variables: " + err.Error()) // exit
 	}
 

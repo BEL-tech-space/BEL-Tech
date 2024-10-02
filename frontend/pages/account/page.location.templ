@@ -10,25 +10,27 @@ templ LocationPage() {
 			<title>Location</title>
 		</head>
 		<body>
-			 <div class="px-6 pt-4 absolute z-20">
-            <p class="font-bold text-xl pb-4 text-start">Find the closest smart bin to you! 😄</p>
-            <input type="text"
-                   placeholder="Search location"
-                   class="bg-green-200 rounded-xl w-[90%] text-center absolute" />
-            <img src="/assets/svg/search.svg"
-                 class="w-6 h-6 relative left-72" />
-        </div>
-
-        <div class="absolute top-0 right-0 left-0 bottom-0 py-24">
-            <div id="map"
-                 class="w-full h-full">
-            </div>
-        </div>
-
-        <script defer
-                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAqjo9EnrHgTK2-TeBIrUCq1GywYk7wlvw&callback=initMap">
+			<div class="px-6 pt-4 absolute z-20">
+				<p class="font-bold text-xl pb-4 text-start">Find the closest smart bin to you! 😄</p>
+				<input
+					type="text"
+					placeholder="Search location"
+					class="bg-green-200 rounded-xl w-[90%] text-center absolute"
+				/>
+				<img
+					src="/assets/svg/search.svg"
+					class="w-6 h-6 relative left-72"
+				/>
+			</div>
+			<div class="absolute top-0 right-0 left-0 bottom-0 py-24">
+				<div
+					id="map"
+					class="w-full h-full"
+				></div>
+			</div>
+			<script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAqjo9EnrHgTK2-TeBIrUCq1GywYk7wlvw&callback=initMap">
                 </script>
-        <script type="text/javascript">
+			<script type="text/javascript">
             function initMap () {
                 var zoomVal = 4.2;
                 if ( window.matchMedia( '(max-width: 767px)' ).matches )
@@ -52,9 +54,7 @@ templ LocationPage() {
                 } );
             }
         </script>
-
 			@menuComp("location")
 		</body>
 	</html>
 }
- 

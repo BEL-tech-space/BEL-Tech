@@ -40,7 +40,7 @@ func (a *App) signInWithProvider(w http.ResponseWriter, r *http.Request) {
 		}
 
 		fmt.Println("came to redirect")
-		http.Redirect(w, r, "/beltech/dashboard", http.StatusTemporaryRedirect)
+		http.Redirect(w, r, "/beltech/account/dashboard", http.StatusTemporaryRedirect)
 		return
 	}
 
@@ -64,7 +64,7 @@ func (a *App) callbackHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	http.Redirect(w, r, "/beltech/dashboard", http.StatusTemporaryRedirect)
+	http.Redirect(w, r, "/beltech/account/dashboard", http.StatusTemporaryRedirect)
 }
 
 func (a *App) logout(w http.ResponseWriter, r *http.Request) {
@@ -84,7 +84,7 @@ func (a *App) logInUser(w http.ResponseWriter, r *http.Request, u goth.User) err
 
 func (a *App) createNewUserSession(w http.ResponseWriter, r *http.Request, user service.User) error {
 
-	session, err := a.sessionStore.Get(r, "beltech-session")
+	session, err := a.accountSessionStore.Get(r, "beltech-session")
 	if err != nil && !strings.Contains(err.Error(), "securecookie: the value is not valid") {
 		fmt.Println("error in get session:", err)
 		return err
@@ -93,7 +93,7 @@ func (a *App) createNewUserSession(w http.ResponseWriter, r *http.Request, user 
 	session.Values["userID"] = user.UserID
 	session.Options = &sessions.Options{
 		Path:     "/",
-		MaxAge:   1800,                    // Session expires in 30 minutes
+		MaxAge:   3600,                    // Session expires in 1 Hour
 		HttpOnly: true,                    // Prevent JavaScript access
 		Secure:   true,                    // Only send over HTTPS
 		SameSite: http.SameSiteStrictMode, // Only allow cookie for requests from the same site

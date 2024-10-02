@@ -2,15 +2,16 @@ package http
 
 import (
 	"beltech/frontend"
-	"beltech/utils"
+	"context"
 	"io/fs"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	"github.com/google/uuid"
 )
 
-func (a *App) Routes(cfg utils.EnvConfig) *chi.Mux {
+func (a *App) Routes(cfg EnvConfig) *chi.Mux {
 	r := chi.NewRouter()
 
 	// r.Use(middleware.Logger)
@@ -23,8 +24,8 @@ func (a *App) Routes(cfg utils.EnvConfig) *chi.Mux {
 		r.Get("/logout/{provider}", a.logout)
 	})
 
-	r.Route("/beltech", func(r chi.Router) {
-		r.Use(a.authorize)
+	r.Route("/beltech/account", func(r chi.Router) {
+		r.Use(a.accountAuthorization)
 		r.Get("/dashboard", a.homePageHandler)
 		r.Get("/scan", a.scanQRPageHandler)
 		r.Get("/bins", a.locationPageHandler)
@@ -40,6 +41,16 @@ func (a *App) Routes(cfg utils.EnvConfig) *chi.Mux {
 	r.Get("/password_reset", a.password_resetPageHandler)
 	r.Get("/home", a.splash_screenPageHandler)
 
+	r.Route("/beltech/agent", func(r chi.Router) {
+		r.Use(a.agentAuthorization)
+		r.Get("/qrcode/{agentID}", a.generateQRCode)
+		r.Post("/addAgent", a.addNewCollectorPost)
+	})
+
+	r.Get("/login", a.logInCollector)
+	r.Get("/logout", a.logOutCollector)
+	r.Get("/unauthorized", a.unauthorized)
+
 	var staticFiles = fs.FS(frontend.AssetsDir)
 	staticFs, _ := fs.Sub(staticFiles, "assets")
 	r.Handle("/assets/*", http.StripPrefix("/assets/", http.FileServer(http.FS(staticFs))))
@@ -47,21 +58,82 @@ func (a *App) Routes(cfg utils.EnvConfig) *chi.Mux {
 	return r
 }
 
-func (a *App) authorize(next http.Handler) http.Handler {
+func (a *App) accountAuthorization(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
 		// Get the session
-		session, err := a.sessionStore.Get(r, "beltech-session")
+		session, err := a.accountSessionStore.Get(r, "beltech-account")
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 
-		// Check if the session is new or if it lacks user information
-		if session.IsNew || session.Values["userID"] == nil {
+		// Check if the session lacks user information
+		if _, exist := session.Values["userID"]; !exist {
 			http.Redirect(w, r, "/signup", http.StatusUnauthorized)
 			return
 		}
+
+		// Session is valid, proceed with the request
+		next.ServeHTTP(w, r)
+	})
+}
+
+type contextKey string
+
+const (
+	contextKeyEmail   contextKey = "email"
+	contextKeyAgentID contextKey = "agentID"
+	contextKeyRole    contextKey = "role"
+)
+
+func (a *App) agentAuthorization(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+
+		// Get the session
+		session, err := a.accountSessionStore.Get(r, "beltech-agent")
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		// Check if the session lacks user information
+		email, exist := session.Values["email"]
+		if !exist {
+			http.Redirect(w, r, "/login", http.StatusUnauthorized)
+			return
+		}
+
+		userEmail := email.(string)
+
+		var (
+			agentId        uuid.UUID
+			role           string
+			foundCollector bool
+		)
+
+		for _, collector := range a.collectors {
+			if collector.Email != userEmail {
+				continue
+			}
+
+			agentId = collector.AgentID
+			role = collector.Role
+			foundCollector = true
+			break
+		}
+
+		if !foundCollector {
+			http.Redirect(w, r, "/unauthorized", http.StatusUnauthorized)
+			return
+		}
+
+		// Add userID and agentID to the request context
+		ctx := context.WithValue(r.Context(), contextKeyEmail, userEmail)
+		ctx = context.WithValue(ctx, contextKeyAgentID, agentId)
+		ctx = context.WithValue(ctx, contextKeyRole, role)
+
+		r = r.WithContext(ctx)
 
 		// Session is valid, proceed with the request
 		next.ServeHTTP(w, r)
