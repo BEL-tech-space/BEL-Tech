@@ -29,10 +29,10 @@ func main() {
 	}
 	defer conn.Close()
 
-	app, endpoint := backend.NewApp(environmentalVariables, conn), 8090
+	app := backend.NewApp(environmentalVariables, conn)
 
 	server := http.Server{
-		Addr:    fmt.Sprintf(":%d", endpoint),
+		Addr:    fmt.Sprintf(":%v", environmentalVariables.Port),
 		Handler: app.Routes(environmentalVariables),
 		// ErrorLog:    slog.NewLogLogger(jsonLogger, slog.LevelError),
 		// IdleTimeout: time.Minute,
@@ -41,7 +41,7 @@ func main() {
 	}
 
 	go func() {
-		log.Printf("Server is running on http://localhost:%d \n", endpoint)
+		log.Printf("Server is running on http://localhost:%v\n", environmentalVariables.Port)
 		if err := server.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
 			log.Panic("Server error: " + err.Error())
 		}

@@ -55,6 +55,8 @@ type EnvConfig struct {
 		Url string `env:"DATABASE_URL"`
 	}
 
+	Port string `env:"PORT"`
+
 	CookieSecret  string `env:"COOKIE_SECRET"`
 	SessionSecret string `env:"SESSION_SECRET"`
 	Build         string `env:"BUILD"`
