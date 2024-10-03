@@ -1,0 +1,36 @@
+package frontend
+
+templ VerifySuccessPage() {
+	<!DOCTYPE html>
+	<html lang="en">
+		<head>
+			<meta charset="UTF-8"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+			<title>Verify Page</title>
+			<link rel="stylesheet" href="/assets/styles/output.css"/>
+		</head>
+		<body class="bg-white flex items-center justify-center h-screen">
+			<div class="bg-white rounded-lg p-10 w-full max-w-md">
+				<div class="flex justify-center mb-10">
+					<!-- Logo Image -->
+					<img src="/assets/images/beltech_logo_2.jpg" alt="Beltech Logo" class="object-contain w-25"/>
+				</div>
+				<!-- Verification Label -->
+				<div class="text-center mb-10">
+					<h2 class="text-2xl font-bold text-gray-700">Verification Successful</h2>
+					<label class="block text-gray-700 text-sm  mb-6" for="email">
+						Congratulations! Your account has been verified Successfully
+					</label>
+				</div>
+				<!-- Verification Form -->
+				<form>
+					<div class="flex items-center justify-center  m-10">
+						<button class="bg-green-700 hover:bg-green-800 text-white font-bold py-3 px-6 rounded focus:outline-none focus:shadow-outline w-full" type="button" onclick="window.location.href='/wallet';">
+							Proceed to Dashboard
+						</button>
+					</div>
+				</form>
+			</div>
+		</body>
+	</html>
+}
