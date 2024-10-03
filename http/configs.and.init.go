@@ -63,7 +63,7 @@ type EnvConfig struct {
 func LoadEnv(cfg *EnvConfig) error {
 
 	if err := godotenv.Load("prod.env"); err != nil {
-		 fmt.Printf("error loading prod.env file: %v", err)
+		fmt.Printf("error loading prod.env file: %v", err)
 	}
 
 	if err := env.Parse(cfg); err != nil {

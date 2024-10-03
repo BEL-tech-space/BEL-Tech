@@ -34,10 +34,14 @@ func main() {
 	server := http.Server{
 		Addr:    fmt.Sprintf(":%d", endpoint),
 		Handler: app.Routes(environmentalVariables),
+		// ErrorLog:    slog.NewLogLogger(jsonLogger, slog.LevelError),
+		// IdleTimeout: time.Minute,
+		// ReadTimeout:  5 * time.Second,
+		// WriteTimeout: 10 * time.Second,
 	}
 
 	go func() {
-		log.Printf("Server is running on http://localhost:%d/signin \n", endpoint)
+		log.Printf("Server is running on http://localhost:%d \n", endpoint)
 		if err := server.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
 			log.Panic("Server error: " + err.Error())
 		}

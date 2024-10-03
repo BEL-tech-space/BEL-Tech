@@ -18,6 +18,8 @@ func (a *App) Routes(cfg EnvConfig) *chi.Mux {
 	r.Use(middleware.Recoverer)
 	r.Use(middleware.Compress(5))
 
+	r.Get("/", a.homePageHandler)
+
 	r.Route("/auth", func(r chi.Router) {
 		r.Get("/{provider}", a.signInWithProvider)
 		r.Get("/{provider}/callback", a.callbackHandler)
@@ -26,7 +28,7 @@ func (a *App) Routes(cfg EnvConfig) *chi.Mux {
 
 	r.Route("/beltech/account", func(r chi.Router) {
 		r.Use(a.accountAuthorization)
-		r.Get("/dashboard", a.homePageHandler)
+		r.Get("/dashboard", a.accountDashboard)
 		r.Get("/scan", a.scanQRPageHandler)
 		r.Get("/bins", a.locationPageHandler)
 		r.Get("/wallet", a.walletPageHandler)
@@ -39,7 +41,6 @@ func (a *App) Routes(cfg EnvConfig) *chi.Mux {
 	r.Get("/reset", a.resetPageHandler)
 	r.Get("/verify_success", a.verify_successPageHandler)
 	r.Get("/password_reset", a.password_resetPageHandler)
-	r.Get("/home", a.splash_screenPageHandler)
 
 	// r.Mount("/beltech/account", a.accountRouter(cfg))
 
@@ -69,7 +70,6 @@ func (a *App) accountRouter(cfg EnvConfig) http.Handler {
 		r.Get("/logout/{provider}", a.logout)
 	})
 
-
 	r.Route("/", func(r chi.Router) {
 		r.Use(a.accountAuthorization)
 		r.Get("/dashboard", a.homePageHandler)
@@ -85,8 +85,7 @@ func (a *App) accountRouter(cfg EnvConfig) http.Handler {
 	r.Get("/reset", a.resetPageHandler)
 	r.Get("/verify_success", a.verify_successPageHandler)
 	r.Get("/password_reset", a.password_resetPageHandler)
-	r.Get("/home", a.splash_screenPageHandler)
-	
+
 	return r
 }
 
