@@ -41,20 +41,52 @@ func (a *App) Routes(cfg EnvConfig) *chi.Mux {
 	r.Get("/password_reset", a.password_resetPageHandler)
 	r.Get("/home", a.splash_screenPageHandler)
 
-	r.Route("/beltech/agent", func(r chi.Router) {
-		r.Use(a.agentAuthorization)
-		r.Get("/qrcode/{agentID}", a.generateQRCode)
-		r.Post("/addAgent", a.addNewCollectorPost)
-	})
+	// r.Mount("/beltech/account", a.accountRouter(cfg))
 
-	r.Get("/login", a.logInCollector)
-	r.Get("/logout", a.logOutCollector)
-	r.Get("/unauthorized", a.unauthorized)
+	// r.Route("/beltech/agent", func(r chi.Router) {
+	// 	r.Use(a.agentAuthorization)
+	// 	r.Get("/qrcode/{agentID}", a.generateQRCode)
+	// 	r.Post("/addAgent", a.addNewCollectorPost)
+	// })
+
+	// r.Get("/login", a.logInCollector)
+	// r.Get("/logout", a.logOutCollector)
+	// r.Get("/unauthorized", a.unauthorized)
 
 	var staticFiles = fs.FS(frontend.AssetsDir)
 	staticFs, _ := fs.Sub(staticFiles, "assets")
 	r.Handle("/assets/*", http.StripPrefix("/assets/", http.FileServer(http.FS(staticFs))))
 
+	return r
+}
+
+func (a *App) accountRouter(cfg EnvConfig) http.Handler {
+	r := chi.NewRouter()
+
+	r.Route("/auth", func(r chi.Router) {
+		r.Get("/{provider}", a.signInWithProvider)
+		r.Get("/{provider}/callback", a.callbackHandler)
+		r.Get("/logout/{provider}", a.logout)
+	})
+
+
+	r.Route("/", func(r chi.Router) {
+		r.Use(a.accountAuthorization)
+		r.Get("/dashboard", a.homePageHandler)
+		r.Get("/scan", a.scanQRPageHandler)
+		r.Get("/bins", a.locationPageHandler)
+		r.Get("/wallet", a.walletPageHandler)
+		r.Get("/exchange", a.exchangePageHandler)
+	})
+
+	r.Get("/signup", a.signupPageHandler)
+	r.Get("/signin", a.signinPageHandler)
+	r.Get("/verify", a.verifyPageHandler)
+	r.Get("/reset", a.resetPageHandler)
+	r.Get("/verify_success", a.verify_successPageHandler)
+	r.Get("/password_reset", a.password_resetPageHandler)
+	r.Get("/home", a.splash_screenPageHandler)
+	
 	return r
 }
 

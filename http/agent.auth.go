@@ -95,4 +95,3 @@ func (a *App) createNewUserSessionAgent(w http.ResponseWriter, r *http.Request, 
 
 	return session.Save(r, w)
 }
-

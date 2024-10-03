@@ -54,6 +54,7 @@ func (a *App) callbackHandler(w http.ResponseWriter, r *http.Request) {
 		err  error
 	)
 
+	fmt.Println("got to callback handler")
 	if user, err = gothic.CompleteUserAuth(w, r); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return

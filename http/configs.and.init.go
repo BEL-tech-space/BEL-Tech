@@ -5,7 +5,6 @@ import (
 	"bytes"
 	"fmt"
 	"image/png"
-	"log"
 
 	"github.com/caarlos0/env/v11"
 	"github.com/joho/godotenv"
@@ -13,13 +12,13 @@ import (
 
 var beltechWatermarkLogo []byte
 
-func init() {
-	var err error
-	beltechWatermarkLogo, err = readPNGAsBytes("images/beltech_logo.png")
-	if err != nil {
-		log.Fatalln("error reading watermark logo image:", err)
-	}
-}
+// func init() {
+// 	var err error
+// 	beltechWatermarkLogo, err = readPNGAsBytes("images/beltech_logo.png")
+// 	if err != nil {
+// 		log.Fatalln("error reading watermark logo image:", err)
+// 	}
+// }
 
 func readPNGAsBytes(filePath string) ([]byte, error) {
 	imageData, err := frontend.AssetsDir.ReadFile(filePath)
@@ -64,7 +63,7 @@ type EnvConfig struct {
 func LoadEnv(cfg *EnvConfig) error {
 
 	if err := godotenv.Load("prod.env"); err != nil {
-		return fmt.Errorf("error loading prod.env file: %w", err)
+		 fmt.Printf("error loading prod.env file: %v", err)
 	}
 
 	if err := env.Parse(cfg); err != nil {

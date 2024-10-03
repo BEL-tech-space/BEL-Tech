@@ -36,7 +36,7 @@ func NewApp(cfg EnvConfig, db *pgxpool.Pool) *App {
 	store.Options.Secure = true
 
 	gothic.Store = store
-
+	fmt.Printf("Google client key: %s\n", cfg.LoginProvider.Google.ClientKey)
 	goth.UseProviders(
 		google.New(cfg.LoginProvider.Google.ClientKey, cfg.LoginProvider.Google.Secret, "/auth/google/callback"),
 		// facebook.New(cfg.LoginProvider.Facebook.ClientKey, cfg.LoginProvider.Facebook.Secret, "http://localhost:8090/auth/facebook/callback"),
