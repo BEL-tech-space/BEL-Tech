@@ -3,6 +3,8 @@ package http
 import (
 	"beltech/frontend"
 	"context"
+	"errors"
+	"fmt"
 	"io/fs"
 	"net/http"
 
@@ -95,15 +97,33 @@ func (a *App) accountAuthorization(next http.Handler) http.Handler {
 		// Get the session
 		session, err := a.accountSessionStore.Get(r, "beltech-account")
 		if err != nil {
+			if errors.Is(err, http.ErrNoCookie) || errors.Is(err, ErrInvalidCookieValue) {
+				http.Redirect(w, r, "/signin", http.StatusUnauthorized)
+				return
+			}
+			
+			fmt.Println("error in get session accountAuth:", err)
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 
 		// Check if the session lacks user information
-		if _, exist := session.Values["userID"]; !exist {
-			http.Redirect(w, r, "/signup", http.StatusUnauthorized)
+		userID, exist := session.Values["userID"]
+		if !exist {
+			http.Redirect(w, r, "/signin", http.StatusUnauthorized)
 			return
 		}
+
+		var userEmail string
+		if email, exist := session.Values["email"]; exist {
+			userEmail = email.(string)
+		}
+
+		// Add userID and userEmail to the request context
+		ctx := context.WithValue(r.Context(), contextKeyEmail, userEmail)
+		ctx = context.WithValue(ctx, contextKeyAgentID, userID.(string))
+
+		r = r.WithContext(ctx)
 
 		// Session is valid, proceed with the request
 		next.ServeHTTP(w, r)
@@ -113,9 +133,11 @@ func (a *App) accountAuthorization(next http.Handler) http.Handler {
 type contextKey string
 
 const (
-	contextKeyEmail   contextKey = "email"
-	contextKeyAgentID contextKey = "agentID"
-	contextKeyRole    contextKey = "role"
+	contextKeyEmail      contextKey = "email"
+	contextUserAvatarURL contextKey = "avatarURL"
+	contextKeyAgentID    contextKey = "agentID"
+	contextKeyUserID     contextKey = "userID"
+	contextKeyRole       contextKey = "role"
 )
 
 func (a *App) agentAuthorization(next http.Handler) http.Handler {
@@ -129,26 +151,26 @@ func (a *App) agentAuthorization(next http.Handler) http.Handler {
 		}
 
 		// Check if the session lacks user information
-		email, exist := session.Values["email"]
+		email, exist := session.Values[contextKeyEmail]
 		if !exist {
 			http.Redirect(w, r, "/login", http.StatusUnauthorized)
 			return
 		}
 
-		userEmail := email.(string)
+		agentEmail := email.(string)
 
 		var (
-			agentId        uuid.UUID
+			agentID        uuid.UUID
 			role           string
 			foundCollector bool
 		)
 
 		for _, collector := range a.collectors {
-			if collector.Email != userEmail {
+			if collector.Email != agentEmail {
 				continue
 			}
 
-			agentId = collector.AgentID
+			agentID = collector.AgentID
 			role = collector.Role
 			foundCollector = true
 			break
@@ -159,9 +181,9 @@ func (a *App) agentAuthorization(next http.Handler) http.Handler {
 			return
 		}
 
-		// Add userID and agentID to the request context
-		ctx := context.WithValue(r.Context(), contextKeyEmail, userEmail)
-		ctx = context.WithValue(ctx, contextKeyAgentID, agentId)
+		// Add agentID and agentID to the request context
+		ctx := context.WithValue(r.Context(), contextKeyEmail, agentEmail)
+		ctx = context.WithValue(ctx, contextKeyAgentID, agentID)
 		ctx = context.WithValue(ctx, contextKeyRole, role)
 
 		r = r.WithContext(ctx)

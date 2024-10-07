@@ -1,6 +1,6 @@
 package frontend
 
-templ ExchangePage() {
+templ ExchangePage(avatarURL string) {
 	<!DOCTYPE html>
 	<html lang="en">
 		<head>
@@ -12,7 +12,7 @@ templ ExchangePage() {
 		<body>
 			<div class="px-6 pt-8">
 				<div class="flex w-full justify-between leading-4 items-center">
-					<img src="/assets/images/name.jpg" class="rounded-2xl w-8 h-8"/>
+					<img src={avatarURL} class="rounded-2xl w-8 h-8"/>
 					<p class="text-xl font-extrabold text-center">Exchange</p>
 					<button class="bg-green-200 h-12 w-12 rounded-md flex justify-center items-center"><img src="/assets/svg/notification.svg" class="align-middle"/></button>
 				</div>

@@ -30,15 +30,15 @@ func NewService(postgresDb PostgresDb) *Service {
 	return &s
 }
 
-func (s *Service) CreateOrUpdateUser(ctx context.Context, user User) error {
+func (s *Service) CreateOrUpdateUser(ctx context.Context, user User) (User, error) {
 
-	var err error
-	if err = s.dbQuery.UpsertUser(ctx, convertToUpsertUserParams(user)); err == nil {
-		return nil
+	u, err := s.dbQuery.UpsertUser(ctx, convertToUpsertUserParams(user))
+	if err == nil {
+		return broadendUser(u, user), nil
 	}
 
 	// handle error
-	return err
+	return User{}, err
 }
 
 func (s *Service) AddNewTempWasteFromCollector(ctx context.Context, param AddNewTempWasteFromCollectorParams) (uuid.UUID, error) {

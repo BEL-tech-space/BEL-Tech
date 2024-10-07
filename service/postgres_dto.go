@@ -11,31 +11,52 @@ import (
 )
 
 func convertToUpsertUserParams(user User) postgres.UpsertUserParams {
+
 	return postgres.UpsertUserParams{
 		UserID:             user.UserID,
 		Email:              user.Email,
-		FirstName:          user.FirstName,
-		LastName:           user.LastName,
-		NickName:           user.NickName,
-		AvatarUrl:          user.AvatarUrl,
-		SplWallet:          user.SplWallet,
+		FirstName:          pgtype.Text{String: user.FirstName, Valid: true},
+		LastName:           pgtype.Text{String: user.LastName, Valid: true},
+		NickName:           pgtype.Text{String: user.NickName, Valid: true},
+		AvatarUrl:          pgtype.Text{String: user.AvatarUrl, Valid: true},
+		SplWallet:            pgtype.Text{String: user.SplWallet, Valid: true},
 		CurrBalance:        user.CurrBalance,
 		TotalEarned:        user.TotalEarned,
 		TotalGlassWaste:    user.TotalGlassWaste,
 		TotalMetalWaste:    user.TotalMetalWaste,
 		TotalPlasticsWaste: user.TotalPlasticsWaste,
 		TotalPaperWaste:    user.TotalPaperWaste,
-		HashedPassword:     user.HashedPassword,
-		AccessToken:        user.AccessToken,
-		AccessTokenExpires: user.AccessTokenExpires,
-		IDToken:            user.IDToken,
-		LastUpdateEmail:    user.LastUpdateEmail,
+		HashedPassword:     pgtype.Text{String: user.HashedPassword, Valid: true},
+		AccessToken:        pgtype.Text{String: user.AccessToken, Valid: true},
+		AccessTokenExpires: pgtype.Timestamp{Time: user.AccessTokenExpires, InfinityModifier: pgtype.Finite, Valid: true},
+		IDToken:            pgtype.Text{String: user.IDToken, Valid: true},
+		LastUpdateEmail:    pgtype.Timestamp{Time: user.LastUpdateEmail, InfinityModifier: pgtype.Finite, Valid: true},
 	}
 }
 
 type User struct {
-	postgres.User
-	IsAuthenticated bool
+	UserID             string    `json:"user_id"`
+	Email              string    `json:"email"`
+	FirstName          string    `json:"first_name"`
+	LastName           string    `json:"last_name"`
+	NickName           string    `json:"nick_name"`
+	AvatarUrl          string    `json:"avatar_url"`
+	SplWallet          string    `json:"spl_wallet"`
+	CurrBalance        float64   `json:"curr_balance"`
+	TotalEarned        float64   `json:"total_earned"`
+	TotalGlassWaste    float32   `json:"total_glass_waste"`
+	TotalMetalWaste    float32   `json:"total_metal_waste"`
+	TotalPlasticsWaste float32   `json:"total_plastics_waste"`
+	TotalPaperWaste    float32   `json:"total_paper_waste"`
+	HashedPassword     string    `json:"hashed_password"`
+	AccessToken        string    `json:"access_token"`
+	AccessTokenExpires time.Time `json:"access_token_expires"`
+	IDToken            string    `json:"id_token"`
+	LastUpdateEmail    time.Time `json:"last_update_email"`
+	Role               string    `json:"role"`
+	Joined             time.Time `json:"joined"`
+	IsDeleted          bool      `json:"is_deleted"`
+	IsAuthenticated    bool
 }
 
 type Collector struct {
@@ -72,6 +93,24 @@ func makeAddNewTempWasteFromCollectorParams(param AddNewTempWasteFromCollectorPa
 		StMakepoint_2:   param.StMakepoint_2,
 		AgentID:         pgUUUID,
 	}
+}
+
+func broadendUser(u postgres.UpsertUserRow, user User) User {
+	user.FirstName = pgtextToString(u.FirstName)
+	user.LastName = pgtextToString(u.LastName)
+	user.NickName = pgtextToString(u.NickName)
+	user.CurrBalance = u.CurrBalance
+	user.TotalEarned = u.TotalEarned
+	user.TotalGlassWaste = u.TotalGlassWaste
+	user.TotalMetalWaste = u.TotalMetalWaste
+	user.TotalPlasticsWaste = u.TotalPlasticsWaste
+	user.TotalPaperWaste = u.TotalPaperWaste
+	return user
+}
+
+func pgtextToString(t pgtype.Text) string {
+	v, _ := t.Value()
+	return v.(string)
 }
 
 type AddNewAgentParams struct {

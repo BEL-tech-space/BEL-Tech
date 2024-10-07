@@ -5,6 +5,7 @@ import (
 	"bytes"
 	"fmt"
 	"image/png"
+	"log"
 
 	"github.com/caarlos0/env/v11"
 	"github.com/joho/godotenv"
@@ -12,13 +13,13 @@ import (
 
 var beltechWatermarkLogo []byte
 
-// func init() {
-// 	var err error
-// 	beltechWatermarkLogo, err = readPNGAsBytes("images/beltech_logo.png")
-// 	if err != nil {
-// 		log.Fatalln("error reading watermark logo image:", err)
-// 	}
-// }
+func init() {
+	var err error
+	beltechWatermarkLogo, err = readPNGAsBytes("assets/images/beltech_logo.png")
+	if err != nil {
+		log.Fatalln("error reading watermark logo image:", err)
+	}
+}
 
 func readPNGAsBytes(filePath string) ([]byte, error) {
 	imageData, err := frontend.AssetsDir.ReadFile(filePath)

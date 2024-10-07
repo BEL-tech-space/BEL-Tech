@@ -342,7 +342,7 @@ func (q *Queries) RemoveCollector(ctx context.Context, email string) error {
 	return err
 }
 
-const upsertUser = `-- name: UpsertUser :exec
+const upsertUser = `-- name: UpsertUser :one
 INSERT INTO users (
     user_ID, email, first_Name, last_Name, nick_Name, avatar_URL, spl_Wallet, curr_Balance, total_Earned, total_glass_waste, total_metal_waste, total_plastics_waste, total_paper_waste, hashed_password, access_Token, access_Token_Expires, id_Token, last_Update_Email
 ) VALUES (
@@ -365,6 +365,8 @@ INSERT INTO users (
     access_Token_Expires = COALESCE(EXCLUDED.access_Token_Expires, users.access_Token_Expires),
     id_Token = COALESCE(EXCLUDED.id_Token, users.id_Token),
     last_Update_Email = COALESCE(EXCLUDED.last_Update_Email, users.last_Update_Email)
+RETURNING 
+    first_Name, last_Name, nick_Name, spl_Wallet, curr_Balance, total_Earned, total_glass_waste, total_metal_waste, total_plastics_waste, total_paper_waste
 `
 
 type UpsertUserParams struct {
@@ -388,8 +390,21 @@ type UpsertUserParams struct {
 	LastUpdateEmail    pgtype.Timestamp `json:"last_update_email"`
 }
 
-func (q *Queries) UpsertUser(ctx context.Context, arg UpsertUserParams) error {
-	_, err := q.db.Exec(ctx, upsertUser,
+type UpsertUserRow struct {
+	FirstName          pgtype.Text `json:"first_name"`
+	LastName           pgtype.Text `json:"last_name"`
+	NickName           pgtype.Text `json:"nick_name"`
+	SplWallet          pgtype.Text `json:"spl_wallet"`
+	CurrBalance        float64     `json:"curr_balance"`
+	TotalEarned        float64     `json:"total_earned"`
+	TotalGlassWaste    float32     `json:"total_glass_waste"`
+	TotalMetalWaste    float32     `json:"total_metal_waste"`
+	TotalPlasticsWaste float32     `json:"total_plastics_waste"`
+	TotalPaperWaste    float32     `json:"total_paper_waste"`
+}
+
+func (q *Queries) UpsertUser(ctx context.Context, arg UpsertUserParams) (UpsertUserRow, error) {
+	row := q.db.QueryRow(ctx, upsertUser,
 		arg.UserID,
 		arg.Email,
 		arg.FirstName,
@@ -409,5 +424,18 @@ func (q *Queries) UpsertUser(ctx context.Context, arg UpsertUserParams) error {
 		arg.IDToken,
 		arg.LastUpdateEmail,
 	)
-	return err
+	var i UpsertUserRow
+	err := row.Scan(
+		&i.FirstName,
+		&i.LastName,
+		&i.NickName,
+		&i.SplWallet,
+		&i.CurrBalance,
+		&i.TotalEarned,
+		&i.TotalGlassWaste,
+		&i.TotalMetalWaste,
+		&i.TotalPlasticsWaste,
+		&i.TotalPaperWaste,
+	)
+	return i, err
 }

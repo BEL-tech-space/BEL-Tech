@@ -3,13 +3,12 @@ package http
 import (
 	"beltech/service"
 	"context"
+	"errors"
 	"fmt"
 	"net/http"
-	"strings"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/gorilla/sessions"
-	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/markbates/goth"
 	"github.com/markbates/goth/gothic"
 )
@@ -44,7 +43,6 @@ func (a *App) signInWithProvider(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Println("came to begin auth handler")
 	gothic.BeginAuthHandler(w, r)
 }
 
@@ -54,13 +52,13 @@ func (a *App) callbackHandler(w http.ResponseWriter, r *http.Request) {
 		err  error
 	)
 
-	fmt.Println("got to callback handler")
 	if user, err = gothic.CompleteUserAuth(w, r); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
 	if err = a.logInUser(w, r, user); err != nil {
+		fmt.Println("err from loginUser", err.Error())
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
@@ -75,8 +73,10 @@ func (a *App) logout(w http.ResponseWriter, r *http.Request) {
 
 func (a *App) logInUser(w http.ResponseWriter, r *http.Request, u goth.User) error {
 
+	var err error
 	user := mapGothUserToServiceUser(u)
-	if err := a.service.CreateOrUpdateUser(context.Background(), user); err != nil {
+	if user, err = a.service.CreateOrUpdateUser(context.Background(), user); err != nil {
+		fmt.Println("err came from create or update user:", err)
 		return err
 	}
 
@@ -85,13 +85,16 @@ func (a *App) logInUser(w http.ResponseWriter, r *http.Request, u goth.User) err
 
 func (a *App) createNewUserSession(w http.ResponseWriter, r *http.Request, user service.User) error {
 
-	session, err := a.accountSessionStore.Get(r, "beltech-session")
-	if err != nil && !strings.Contains(err.Error(), "securecookie: the value is not valid") {
+	session, err := a.accountSessionStore.Get(r, "beltech-account")
+	if err != nil && !errors.Is(err, ErrInvalidCookieValue) {
 		fmt.Println("error in get session:", err)
 		return err
 	}
 
 	session.Values["userID"] = user.UserID
+	session.Values["email"] = user.Email
+
+	a.cacheStorage.SetDefault(user.Email, &user)
 	session.Options = &sessions.Options{
 		Path:     "/",
 		MaxAge:   3600,                    // Session expires in 1 Hour
@@ -107,12 +110,12 @@ func mapGothUserToServiceUser(gothUser goth.User) service.User {
 	user := service.User{}
 	user.UserID = gothUser.UserID
 	user.Email = gothUser.Email
-	user.FirstName = pgtype.Text{String: gothUser.FirstName, Valid: true}
-	user.LastName = pgtype.Text{String: gothUser.LastName, Valid: true}
-	user.NickName = pgtype.Text{String: gothUser.NickName, Valid: true}
-	user.AvatarUrl = pgtype.Text{String: gothUser.AvatarURL, Valid: true}
-	user.AccessToken = pgtype.Text{String: gothUser.AccessToken, Valid: true}
-	user.AccessTokenExpires = pgtype.Timestamp{Time: gothUser.ExpiresAt, Valid: true}
-	user.IDToken = pgtype.Text{String: gothUser.IDToken, Valid: true}
+	user.FirstName = gothUser.FirstName
+	user.LastName = gothUser.LastName
+	user.NickName = gothUser.NickName
+	user.AvatarUrl = gothUser.AvatarURL
+	user.AccessToken = gothUser.AccessToken
+	user.AccessTokenExpires = gothUser.ExpiresAt
+	user.IDToken = gothUser.IDToken
 	return user
 }

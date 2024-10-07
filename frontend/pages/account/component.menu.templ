@@ -3,29 +3,29 @@ package frontend
 templ menuComp(active string) {
 	<div class="bg-white flex w-full justify-around pt-2 fixed bottom-0 z-50 max-h-20">
 		if active == "home" {
-			<button class=""><a href="/beltech/beltech/dashboard"><img src="/assets/svg/home bold.svg" class="w-10 h-20"/></a></button>
+			<button class=""><a href="/beltech/account/dashboard"><img src="/assets/svg/home bold.svg" class="w-10 h-20"/></a></button>
 		} else {
-			<button><a href="/beltech/dashboard"><img src="/assets/svg/home linear.svg" class="w-10 h-20"/></a></button>
+			<button><a href="/beltech/account/dashboard"><img src="/assets/svg/home linear.svg" class="w-10 h-20"/></a></button>
 		}
 		if active == "scan" {
-			<button class=""><a href="/beltech/scan"><img src="/assets/svg/scan bold.svg" class="w-10 h-20"/></a></button>
+			<button class=""><a href="/beltech/account/scan"><img src="/assets/svg/scan bold.svg" class="w-10 h-20"/></a></button>
 		} else {
-			<button><a href="/beltech/scan"><img src="/assets/svg/scan linear.svg" class="w-10 h-20"/></a></button>
+			<button><a href="/beltech/account/scan"><img src="/assets/svg/scan linear.svg" class="w-10 h-20"/></a></button>
 		}
 		if active == "location" {
-			<button class=""><a href="/beltech/bins"><img src="/assets/svg/location bold.svg" class="w-10 h-20"/></a></button>
+			<button class=""><a href="/beltech/account/bins"><img src="/assets/svg/location bold.svg" class="w-10 h-20"/></a></button>
 		} else {
-			<button><a href="/beltech/bins"><img src="/assets/svg/location linear.svg" class="w-10 h-20"/></a></button>
+			<button><a href="/beltech/account/bins"><img src="/assets/svg/location linear.svg" class="w-10 h-20"/></a></button>
 		}
 		if active == "wallet" {
-			<button class=""><a href="/beltech/wallet"><img src="/assets/svg/wallet bold.svg" class="w-10 h-20"/></a></button>
+			<button class=""><a href="/beltech/account/wallet"><img src="/assets/svg/wallet bold.svg" class="w-10 h-20"/></a></button>
 		} else {
-			<button><a href="/beltech/wallet"><img src="/assets/svg/wallet linear.svg" class="w-10 h-20"/></a></button>
+			<button><a href="/beltech/account/wallet"><img src="/assets/svg/wallet linear.svg" class="w-10 h-20"/></a></button>
 		}
 		if active == "exchange" {
-			<button class=""><a href="/beltech/exchange"><img src="/assets/svg/exchange linear.svg" class="w-10 h-20"/></a></button>
+			<button class=""><a href="/beltech/account/exchange"><img src="/assets/svg/exchange linear.svg" class="w-10 h-20"/></a></button>
 		} else {
-			<button><a href="/beltech/exchange"><img src="/assets/svg/exchange linear.svg" class="w-10 h-20"/></a></button>
+			<button><a href="/beltech/account/exchange"><img src="/assets/svg/exchange linear.svg" class="w-10 h-20"/></a></button>
 		}
 	</div>
 }

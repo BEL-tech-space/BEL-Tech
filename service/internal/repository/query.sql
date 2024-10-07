@@ -17,7 +17,7 @@ VALUES ($1, $2, $3, $4, $5, $6, ST_SetSRID(ST_MakePoint($7, $8), 4326), $9, $10)
 INSERT INTO exchange_History (user_ID, amount, operation, created_At) 
 VALUES ($1, $2, $3::json, $4);
 
--- name: UpsertUser :exec
+-- name: UpsertUser :one
 INSERT INTO users (
     user_ID, email, first_Name, last_Name, nick_Name, avatar_URL, spl_Wallet, curr_Balance, total_Earned, total_glass_waste, total_metal_waste, total_plastics_waste, total_paper_waste, hashed_password, access_Token, access_Token_Expires, id_Token, last_Update_Email
 ) VALUES (
@@ -39,7 +39,9 @@ INSERT INTO users (
     access_Token = COALESCE(EXCLUDED.access_Token, users.access_Token),
     access_Token_Expires = COALESCE(EXCLUDED.access_Token_Expires, users.access_Token_Expires),
     id_Token = COALESCE(EXCLUDED.id_Token, users.id_Token),
-    last_Update_Email = COALESCE(EXCLUDED.last_Update_Email, users.last_Update_Email);
+    last_Update_Email = COALESCE(EXCLUDED.last_Update_Email, users.last_Update_Email)
+RETURNING 
+    first_Name, last_Name, nick_Name, spl_Wallet, curr_Balance, total_Earned, total_glass_waste, total_metal_waste, total_plastics_waste, total_paper_waste;
 
 -- name: AddNewAgentAndCollector :one
 WITH new_agent AS (

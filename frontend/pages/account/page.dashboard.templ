@@ -1,6 +1,6 @@
 package frontend
 
-templ AccountDashboardPage() {
+templ AccountDashboardPage(avatarURL string) {
 	<!DOCTYPE html>
 	<html lang="en">
 		<head>
@@ -15,7 +15,7 @@ templ AccountDashboardPage() {
 		<body>
 			<div class="px-6 pt-8">
 				<div class="flex w-full justify-start leading-4 items-center">
-					<img src="/assets/images/name.jpg" class="rounded-2xl w-8 h-8"/>
+					<img src={avatarURL} class="rounded-2xl w-8 h-8"/>
 					<p class="text-lg font-semibold pl-4">Welcome, Tobias</p>
 					<button class="bg-green-200 h-12 w-12 ml-auto rounded-md flex justify-center items-center">
 						<img src="/assets/svg/notification.svg" class="align-middle"/>

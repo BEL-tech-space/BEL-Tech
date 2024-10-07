@@ -13,4 +13,5 @@ func (a *App) homePageHandler(w http.ResponseWriter, r *http.Request) {
 		a.serverError(w, err)
 		return
 	}
+
 }

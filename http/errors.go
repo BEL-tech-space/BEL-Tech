@@ -1,6 +1,11 @@
 package http
 
-import "net/http"
+import (
+	"fmt"
+	"net/http"
+)
+
+var ErrInvalidCookieValue = fmt.Errorf("securecookie: the value is not valid")
 
 func (a App) clientError(w http.ResponseWriter, errStatus int, err error) {
 	http.Error(w, err.Error(), errStatus)

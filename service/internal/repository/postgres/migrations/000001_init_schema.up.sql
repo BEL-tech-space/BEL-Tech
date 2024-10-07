@@ -1,3 +1,22 @@
+
+
+-- -- Drop the type 'collectorRole' if it exists
+-- DO $$ 
+-- BEGIN
+--     IF EXISTS (SELECT 1 FROM pg_type WHERE typname = 'collectorRole') THEN
+--         DROP TYPE collectorRole;
+--     END IF;
+-- END $$;
+
+-- -- Drop the type 'identifyAs' if it exists
+-- DO $$ 
+-- BEGIN
+--     IF EXISTS (SELECT 1 FROM pg_type WHERE typname = 'identifyAs') THEN
+--         DROP TYPE identifyAs;
+--     END IF;
+-- END $$;
+
+CREATE TYPE collectorRole AS ENUM ('collector', 'super_collector');
 CREATE TYPE identifyAs AS ENUM ('collector', 'bin');
 
 CREATE TABLE IF NOT EXISTS agents (
@@ -10,8 +29,6 @@ CREATE TABLE IF NOT EXISTS agents (
     bin_location_last_Update TIMESTAMP,
     created_At TIMESTAMP DEFAULT NOW()
 );
-
-CREATE TYPE collectorRole AS ENUM ('collector', 'super_collector');
 
 CREATE TABLE IF NOT EXISTS collectors (
     email TEXT PRIMARY KEY,
@@ -41,7 +58,7 @@ CREATE TABLE IF NOT EXISTS users (
     last_Name VARCHAR(64),
     nick_Name VARCHAR(64),
     avatar_URL TEXT,
-    spl_Wallet TEXT UNIQUE,
+    spl_Wallet TEXT,
     curr_Balance DOUBLE PRECISION NOT NULL DEFAULT 0.0,
     total_Earned DOUBLE PRECISION NOT NULL DEFAULT 0.0,
     total_glass_waste REAL NOT NULL DEFAULT 0.0,
@@ -58,6 +75,8 @@ CREATE TABLE IF NOT EXISTS users (
     is_Deleted BOOLEAN NOT NULL DEFAULT FALSE
 );
 
+CREATE UNIQUE INDEX users_spl_wallet_unique_idx ON users (spl_Wallet) WHERE spl_Wallet IS NOT NULL;
+ 
 CREATE TABLE IF NOT EXISTS waste_Logs (
     waste_Id UUID PRIMARY KEY,
     created_At TIMESTAMP DEFAULT NOW(),

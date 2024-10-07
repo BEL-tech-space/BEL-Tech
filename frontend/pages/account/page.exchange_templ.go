@@ -8,7 +8,7 @@ package frontend
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-func ExchangePage() templ.Component {
+func ExchangePage(avatarURL string) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -29,7 +29,20 @@ func ExchangePage() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<!doctype html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><link rel=\"stylesheet\" href=\"/assets/styles/output.css\"><title>Exchange</title></head><body><div class=\"px-6 pt-8\"><div class=\"flex w-full justify-between leading-4 items-center\"><img src=\"/assets/images/name.jpg\" class=\"rounded-2xl w-8 h-8\"><p class=\"text-xl font-extrabold text-center\">Exchange</p><button class=\"bg-green-200 h-12 w-12 rounded-md flex justify-center items-center\"><img src=\"/assets/svg/notification.svg\" class=\"align-middle\"></button></div><div class=\"pt-10 flex w-3/5 justify-between font-light\"><p>Airtime</p><p>Data</p><p>Voucher</p></div><p class=\"text-xl font-extrabold pt-5\">Networks</p><p class=\"text-sm\">Select your network provider for airtime top-up</p><div class=\"flex gap-4 w-full pt-6\"><button class=\"border-green-200 border-solid border-2 rounded-lg w-1/2 pl-5 py-4\"><img src=\"/assets/images/glo.png\" alt=\"\" class=\"w-14 h-14 pl mb-4\"><p class=\"text-bold text-xl text-start\">Glo</p><p class=\"text-bold text-xs text-start\">5% Cashback</p></button> <button class=\"border-green-200 border-solid border-2 rounded-lg w-1/2 pl-5 py-4\"><img src=\"/assets/images/mtn.png\" alt=\"\" class=\"w-14 h-14 pl mb-4\"><p class=\"text-bold text-xl text-start\">MTN</p><p class=\"text-bold text-xs text-start\">5% Cashback</p></button></div><div class=\"flex gap-4 w-full pt-6\"><button class=\"border-green-200 border-solid border-2 rounded-lg w-1/2 pl-5 py-4\"><img src=\"/assets/images/airtel.png\" alt=\"\" class=\"w-14 h-14 pl mb-4\"><p class=\"text-bold text-xl text-start\">Airtel</p><p class=\"text-bold text-xs text-start\">5% Cashback</p></button><!-- <button class=\"border-green-200 border-solid border-2 rounded-lg w-1/2 pl-5 py-4\">\n                    <img src=\"assets/images/mtn.png\" alt=\"\" class=\"w-14 h-14 pl mb-4\"/>\n                    <p class=\"text-bold text-xl text-start\">MTN</p>\n                    <p class=\"text-bold text-xs text-start\">5% Cashback</p>\n                </button> --></div><div class=\"flex w-full gap-4 bg-fuchsia-50 rounded-xl py-4 px-2 my-6\"><img src=\"/assets/images/friends.jpg\" alt=\"\" class=\"w-20 h-20 rounded-lg\"><div><p class=\"text-start text-bold text-sm\">Add beneficiaries for instant <br>top-ups</p><button class=\"text-green-600 font-semibold text-xs\">Add beneficiary</button></div></div><div class=\"flex w-full gap-4 bg-fuchsia-50 rounded-xl py-4 px-2\"><img src=\"/assets/images/bonus.jpg\" alt=\"\" class=\"w-20 h-20 rounded-lg\"><div><p class=\"text-start text-bold text-sm\">Get cashback for any airtime <br>purchase</p><button class=\"text-green-600 font-semibold text-xs\">View cashback</button></div></div></div>")
+		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 1)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var2 string
+		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(avatarURL)
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.exchange.templ`, Line: 15, Col: 24}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 2)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -37,7 +50,7 @@ func ExchangePage() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</body></html>")
+		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 3)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
