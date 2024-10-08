@@ -1,12 +1,12 @@
-templ:
+generate:
+	@tailwindcss -i assets/styles/input.css  -o assets/styles/output.css
 	@templ generate && templ fmt . 
 
-dev: live
-
-live:
+dev:
 	@go generate && templ generate --watch --proxy="http://localhost:8080" --open-browser=false -v
 
 tailwind:
 	@tailwindcss -i assets/styles/input.css  -o assets/styles/output.css --watch
 
-.PHONY: dev live tailwind
+
+.PHONY: generate dev tailwind

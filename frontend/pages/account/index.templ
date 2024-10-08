@@ -1,16 +1,16 @@
 package frontend
 
 templ IndexPage() {
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Beltech</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-    <style>
+	<!DOCTYPE html>
+	<html lang="en">
+		<head>
+			<meta charset="UTF-8"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+			<title>Beltech</title>
+			<link rel="preconnect" href="https://fonts.googleapis.com"/>
+			<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+			<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet"/>
+			<style>
         html {
             font-size:  16px;
         }
@@ -444,124 +444,124 @@ templ IndexPage() {
             }
         }
     </style>
-</head>
-<body>
-    <img class="call-to-action-bg" src="/assets/images/grid.png" alt="background-image">
-    <nav class="navigator-row">
-        <div class="logo-adjustment-container">
-            <img src="/assets/images/beltech.png" alt="logo">
-        </div>
-        <div class="navigator-controls-wrapper">
-            <div></div>
-            <div class="navigator-controls">
-                <span>Home</span>
-                <span>About</span>
-                <span>Contact Us</span>
-            </div>
-            <button onclick="window.location.href='/signin'">
-                <span>Log In</span>
-            </button> 
-        </div>
-    </nav>
-    <main>
-        <section class="call-to-action-container">
-            <div class="call-to-action-text">
-                <p class="call-to-action-header">
-                    Dispose, Recycle and <span class="call-to-action-emphasis">Earn BEL</span> tokens
-                </p>
-                <p class="call-to-action-subtext">
-                    We make it easy to live a zero waste life and earn BEL tokens
-                </p>
-                <button class="call-to-action-button">
-                    <span>Start now</span>
-                </button>
-            </div>
-            <div class="call-to-action-img">
-                <img src="/assets/images/call-to-action-img.png" alt="call to action image">
-            </div>
-        </section>
-        <section class="how-it-works">
-            <div class="how-it-works-label-icon">
-                <img src="/assets/images/world.png" alt="">
-                <p>How does it work?</p>
-            </div>
-            <div class="how-it-works-onboarding">
-                <div class="how-it-works-onboarding-item">
-                    <img src="/assets/images/sign-into-user-account.png" alt="sign in into user account">
-                    <p>Start by signing up on our platform</p>
-                </div>
-                <img class="how-it-works-next-indicator" src="/assets/images/arrow.png" alt="arrow">
-                <div class="how-it-works-onboarding-item-flex-group">
-                    <div class="how-it-works-onboarding-item">
-                        <img src="/assets/images/qr-scan.png" alt="woman scanning qr code with her phone">
-                        <p>Scan the e-bin with your mobile phone</p>
-                    </div>
-                    <img class="how-it-works-next-indicator" src="/assets/images/arrow.png" alt="arrow">
-                    <div class="how-it-works-onboarding-item">
-                        <img src="/assets/images/financial-growth.png" alt="man experiencing financial growth">
-                        <p>Dispose your waste and earn BEL tokens</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section class="waitlist">
-            <img class="waitlist-bg" src="/assets/images/grid.png" alt="background-image">
-            <h2 class="waitlist-header">
-                Join our Waitlist
-            </h2>
-            <p class="waitlist-subtext">
-                Enter email address to join Beltech waitlist and get information firsthand
-            </p>
-            <form>
-                <div class="waitlist-input-container">
-                    <input type="name" id="name" required>
-                    <label for="name">Name</label>
-                  </div>
-                  <div class="waitlist-input-container">
-                    <input type="email" id="email" required>
-                    <label for="email">Email</label>
-                  </div>
-                  <div class="waitlist-input-container">
-                    <input type="wallet-address" id="wallet-address" placeholder="(optional, but anticipate great benefits!)" required>
-                    <label for="wallet-address">SPL wallet address</label>
-                  </div>
-                  <div class="waitlist-input-submit">
-                    <input type="button" id="button" name="button" value="Submit" required>
-                  </div>
-            </form>
-        </section>
-    </main>
-    <footer>
-        <div class="footer-link-logo-row">
-            <div class="footer-logo">
-                <img src="/assets/images/footer-logo.png" alt="Beltech footer logo">
-            </div>
-            <div class="footer-links">
-                <div>
-                    <p>Home</p>
-                    <p>About Us</p>
-                    <p>Contact Us</p>
-                </div>
-                <div>
-                    <p>Register</p>
-                    <p>Waitlist</p>
-                    <p>Newsletter</p>
-                </div>
-                <div>
-                    <p>Sign In</p>
-                    <p>Helpdesk</p>
-                    <p>Policies</p>
-                    <p>Terms and Conditions</p>
-                </div>
-            </div>
-        </div>
-        <div class="footer-app-dowloadables">
-            <img src="/assets/svg/android.svg" alt="android app">
-            <img src="/assets/svg/apple.svg" alt="ios app">
-            <img src="/assets/svg/google-play.svg" alt="playstore">
-            <img src="/assets/svg/global.svg" alt="web">
-        </div>
-    </footer>
-</body>
-</html>    
+		</head>
+		<body>
+			<img class="call-to-action-bg" src="/assets/images/grid.png" alt="background-image"/>
+			<nav class="navigator-row">
+				<div class="logo-adjustment-container">
+					<img src="/assets/images/beltech.png" alt="logo"/>
+				</div>
+				<div class="navigator-controls-wrapper">
+					<div></div>
+					<div class="navigator-controls">
+						<span>Home</span>
+						<span>About</span>
+						<span>Contact Us</span>
+					</div>
+					<button onclick="window.location.href='/signin'">
+						<span>Log In</span>
+					</button>
+				</div>
+			</nav>
+			<main>
+				<section class="call-to-action-container">
+					<div class="call-to-action-text">
+						<p class="call-to-action-header">
+							Dispose, Recycle and <span class="call-to-action-emphasis">Earn BEL</span> tokens
+						</p>
+						<p class="call-to-action-subtext">
+							We make it easy to live a zero waste life and earn BEL tokens
+						</p>
+						<button class="call-to-action-button">
+							<span>Start now</span>
+						</button>
+					</div>
+					<div class="call-to-action-img">
+						<img src="/assets/images/call-to-action-img.png" alt="call to action image"/>
+					</div>
+				</section>
+				<section class="how-it-works">
+					<div class="how-it-works-label-icon">
+						<img src="/assets/images/world.png" alt=""/>
+						<p>How does it work?</p>
+					</div>
+					<div class="how-it-works-onboarding">
+						<div class="how-it-works-onboarding-item">
+							<img src="/assets/images/sign-into-user-account.png" alt="sign in into user account"/>
+							<p>Start by signing up on our platform</p>
+						</div>
+						<img class="how-it-works-next-indicator" src="/assets/images/arrow.png" alt="arrow"/>
+						<div class="how-it-works-onboarding-item-flex-group">
+							<div class="how-it-works-onboarding-item">
+								<img src="/assets/images/qr-scan.png" alt="woman scanning qr code with her phone"/>
+								<p>Scan the e-bin with your mobile phone</p>
+							</div>
+							<img class="how-it-works-next-indicator" src="/assets/images/arrow.png" alt="arrow"/>
+							<div class="how-it-works-onboarding-item">
+								<img src="/assets/images/financial-growth.png" alt="man experiencing financial growth"/>
+								<p>Dispose your waste and earn BEL tokens</p>
+							</div>
+						</div>
+					</div>
+				</section>
+				<section class="waitlist">
+					<img class="waitlist-bg" src="/assets/images/grid.png" alt="background-image"/>
+					<h2 class="waitlist-header">
+						Join our Waitlist
+					</h2>
+					<p class="waitlist-subtext">
+						Enter email address to join Beltech waitlist and get information firsthand
+					</p>
+					<form>
+						<div class="waitlist-input-container">
+							<input type="name" id="name" required/>
+							<label for="name">Name</label>
+						</div>
+						<div class="waitlist-input-container">
+							<input type="email" id="email" required/>
+							<label for="email">Email</label>
+						</div>
+						<div class="waitlist-input-container">
+							<input type="wallet-address" id="wallet-address" placeholder="(optional, but anticipate great benefits!)" required/>
+							<label for="wallet-address">SPL wallet address</label>
+						</div>
+						<div class="waitlist-input-submit">
+							<input type="button" id="button" name="button" value="Submit" required/>
+						</div>
+					</form>
+				</section>
+			</main>
+			<footer>
+				<div class="footer-link-logo-row">
+					<div class="footer-logo">
+						<img src="/assets/images/footer-logo.png" alt="Beltech footer logo"/>
+					</div>
+					<div class="footer-links">
+						<div>
+							<p>Home</p>
+							<p>About Us</p>
+							<p>Contact Us</p>
+						</div>
+						<div>
+							<p>Register</p>
+							<p>Waitlist</p>
+							<p>Newsletter</p>
+						</div>
+						<div>
+							<p>Sign In</p>
+							<p>Helpdesk</p>
+							<p>Policies</p>
+							<p>Terms and Conditions</p>
+						</div>
+					</div>
+				</div>
+				<div class="footer-app-dowloadables">
+					<img src="/assets/svg/android.svg" alt="android app"/>
+					<img src="/assets/svg/apple.svg" alt="ios app"/>
+					<img src="/assets/svg/google-play.svg" alt="playstore"/>
+					<img src="/assets/svg/global.svg" alt="web"/>
+				</div>
+			</footer>
+		</body>
+	</html>
 }
