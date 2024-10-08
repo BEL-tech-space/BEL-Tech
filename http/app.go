@@ -39,9 +39,16 @@ func NewApp(cfg EnvConfig, db *pgxpool.Pool) *App {
 	store.Options.HttpOnly = true
 	store.Options.Secure = true
 
+	var callbackURL string
+	if cfg.Build == productionEnv {
+		callbackURL = "https://beltech.site/auth/google/callback"
+	} else {
+		callbackURL = "http://localhost:8090/auth/google/callback"
+	}
+
 	gothic.Store = store
 	goth.UseProviders(
-		google.New(cfg.LoginProvider.Google.ClientKey, cfg.LoginProvider.Google.Secret, "http://localhost:8090/auth/google/callback"),
+		google.New(cfg.LoginProvider.Google.ClientKey, cfg.LoginProvider.Google.Secret, callbackURL),
 		// facebook.New(cfg.LoginProvider.Facebook.ClientKey, cfg.LoginProvider.Facebook.Secret, "http://localhost:8090/auth/facebook/callback"),
 	)
 

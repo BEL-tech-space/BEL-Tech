@@ -11,6 +11,8 @@ import (
 	"github.com/joho/godotenv"
 )
 
+const productionEnv string ="production"
+
 var beltechWatermarkLogo []byte
 
 func init() {
