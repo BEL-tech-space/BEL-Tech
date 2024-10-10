@@ -3,6 +3,7 @@ package http
 import (
 	"beltech/frontend"
 	"context"
+	"fmt"
 	"io/fs"
 	"log"
 	"net/http"
@@ -90,13 +91,35 @@ func (a *App) accountRouter(cfg EnvConfig) http.Handler {
 	return r
 }
 
+func (a *App) setFlashMessage(w http.ResponseWriter, r *http.Request, message string) {
+    session, _ := a.accountSessionStore.Get(r, "beltech-account")
+    session.AddFlash(message)
+    session.Save(r, w)
+}
+
+func (a *App) getFlashMessage(w http.ResponseWriter, r *http.Request) string {
+    session, _ := a.accountSessionStore.Get(r, "beltech-account")
+    if flashes := session.Flashes(); len(flashes) > 0 {
+        session.Save(r, w)
+        return flashes[0].(string)
+    }
+    return ""
+}
+
 func (a *App) accountAuthorization(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
 		// Get the session
 		session, err := a.accountSessionStore.Get(r, "beltech-account")
 		if err != nil {
-			log.Println("err in get session auth", err)
+			if err.Error() == "securecookie: the value is not valid" {
+				log.Println("err in get session auth", err)
+				// a.setFlashMessage(w, r, "invalid session, let get a new one...")
+				http.Redirect(w, r, "/signin", http.StatusTemporaryRedirect)
+				return
+			}
+			
+			fmt.Println("new error", err.Error())	
 			http.Redirect(w, r, "/signin", http.StatusTemporaryRedirect)
 			return
 		}

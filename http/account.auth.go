@@ -3,7 +3,6 @@ package http
 import (
 	"beltech/service"
 	"context"
-	"errors"
 	"fmt"
 	"net/http"
 
@@ -86,9 +85,16 @@ func (a *App) logInUser(w http.ResponseWriter, r *http.Request, u goth.User) err
 func (a *App) createNewUserSession(w http.ResponseWriter, r *http.Request, user service.User) error {
 
 	session, err := a.accountSessionStore.Get(r, "beltech-account")
-	if err != nil && !errors.Is(err, ErrInvalidCookieValue) {
-		fmt.Println("error in get session:", err)
-		return err
+	if err != nil {
+		if err.Error() != "securecookie: the value is not valid" {
+			return err
+		}
+
+		fmt.Println("error is invalid cookie value")
+		if session, err = a.accountSessionStore.New(r, "beltech-account"); err != nil {
+			fmt.Println("error creating new session:", err)
+
+		}
 	}
 
 	session.Values["userID"] = user.UserID

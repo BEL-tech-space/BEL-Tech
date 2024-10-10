@@ -29,7 +29,7 @@ func AccountDashboardPage(avatarURL string) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<!doctype html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><link rel=\"stylesheet\" href=\"/assets/styles/output.css\"><link rel=\"manifest\" href=\"/assets/manifest.json\"><link rel=\"stylesheet\" href=\"/assets/libriaries/swiper-bundle.min.css\"><script src=\"/assets/libriaries/swiper-bundle.min.js\"></script><title>Home</title></head><body><div class=\"px-6 pt-8\"><div class=\"flex w-full justify-start leading-4 items-center\"><img src=\"")
+		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 1)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -42,7 +42,7 @@ func AccountDashboardPage(avatarURL string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"rounded-2xl w-8 h-8\"><p class=\"text-lg font-semibold pl-4\">Welcome, Tobias</p><button class=\"bg-green-200 h-12 w-12 ml-auto rounded-md flex justify-center items-center\"><img src=\"/assets/svg/notification.svg\" class=\"align-middle\"></button></div><div class=\"flex gap-3 pt-5 pb-3\"><p class=\"text-xl font-semibold\">Let's Recycle! </p><img src=\"/assets/images/Recycle_small.png\" class=\"w-6 h-6\"></div><div class=\"swiper mySwipper w-full\"><div class=\"swiper-wrapper\"><div class=\"swiper-slide text-center bg-white flex justify-center items-center\"><button class=\"\"><img src=\"/assets/images/metal2.jpg\" class=\"w-40 h-40 rounded-lg\"></button><!-- <p class=\"relative bottom-20 left-50 text-black font-extrabold text-xl\">Metal</p> --></div><div class=\"swiper-slide text-center bg-white flex justify-center items-center\"><button><img src=\"/assets/images/glass.jpg\" class=\"w-40 h-40 rounded-lg \"></button><p></p></div><div class=\"swiper-slide text-center bg-white flex justify-center items-center\"><button><img src=\"/assets/images/plastic_2.jpg\" class=\"w-40 h-40 rounded-lg \"></button><p></p></div><div class=\"swiper-slide text-center bg-white flex justify-center items-center\"><button><img src=\"/assets/images/book.jpg\" class=\"w-40 h-40 rounded-lg \"></button><p></p></div></div><div class=\"swiper-pagination text-green-400\"></div></div><div class=\"flex w-full justify-between mt-4 mb-2\"><p class=\"font-bold text-2xl\">Recycled</p><button><p class=\"text-xs text-green-800\">see all</p></button></div><div class=\"flex flex-col gap-4\"><div class=\"bg-fuchsia-100 rounded-lg flex gap-2 p-3\"><img src=\"/assets/images/sports_bottle.jpg\" class=\"w-25 h-24 rounded-lg\"><div class=\"flex flex-col gap-0.5 py-5 mr-auto\"><p>Sport plastic bottle</p><p class=\"font-bold\">54 recycled</p></div><img src=\"/assets/svg/back_arrow.svg\" class=\"rotate-180\"></div><div class=\"bg-fuchsia-100 rounded-lg flex gap-2 p-3\"><img src=\"/assets/images/paper_bag.jpg\" class=\"w-25 h-24 rounded-lg\"><div class=\"flex flex-col gap-0.5 py-5 mr-auto\"><p>Small paper bag</p><p class=\"font-bold\">45 recycled</p></div><img src=\"/assets/svg/back_arrow.svg\" class=\"rotate-180\"></div></div><p class=\"font-bold text-2xl mt-4 mb-3\">Tips on Recycling</p></div>")
+		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 2)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -50,7 +50,7 @@ func AccountDashboardPage(avatarURL string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</body><script type=\"text/javascript\">\n\t\t\tif (\"serviceWorker\" in navigator) {\n\t\t\t\tnavigator.serviceWorker.register(\"/assets/sw.js\",  {scope: '/' });\n\t\t\t};\n\n            const swiper = new Swiper( '.swiper', {\n                direction: \"horizontal\",\n                slidesPerView: 2,\n                mousewheel: true,\n                spaceBetween: 1,\n                pagination: {\n                    el: \".swiper-pagination\",\n                    clickable: true,\n                },\n                autoplay: {\n                    delay: 2500,\n                    disableOnInteraction: true,\n                },\n            } );\n        </script><style>\n            .swiper-pagination-bullet-active {\n                background-color: rgb(62, 184, 62);\n            }\n        </style></html>")
+		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 3)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

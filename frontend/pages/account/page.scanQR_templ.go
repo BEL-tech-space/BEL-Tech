@@ -29,7 +29,7 @@ func ScanQRPage() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<!doctype html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><link rel=\"stylesheet\" href=\"/assets/styles/output.css\"><title>Scan QR</title></head><body><div class=\"px-6 pt-8 flex flex-col justify-between items-center h-minus-menu\"><div class=\"flex w-full justify-between items-center \"><button><img src=\"/assets/svg/back_arrow.svg\" alt=\"\" class=\"w-8 h-8\"></button><p class=\"font-extrabold text-xl\">Scan</p><button class=\"bg-green-200 h-12 w-12 rounded-md flex justify-center items-center\"><img src=\"/assets/svg/notification.svg\" class=\"align-middle\"></button></div><div class=\"h-full w-full flex flex-col justify-center items-center\"><img src=\"/assets/images/qr_code.jpg\" alt=\"\" class=\"w-4/5 h-3/5 mb-6\"><p class=\"text-xl font-light\">Scan QR code on the smart bin to</p><p class=\"text-xl font-light\">dispose waste</p></div><button class=\"bg-green-800 text-white w-4/5 rounded-md h-12\">Scan QR</button></div>")
+		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 1)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -37,7 +37,7 @@ func ScanQRPage() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</body></html>")
+		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 2)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
