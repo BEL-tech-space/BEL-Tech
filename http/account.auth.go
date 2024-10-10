@@ -87,6 +87,7 @@ func (a *App) createNewUserSession(w http.ResponseWriter, r *http.Request, user 
 	session, err := a.accountSessionStore.Get(r, "beltech-account")
 	if err != nil {
 		if err.Error() != "securecookie: the value is not valid" {
+			fmt.Println("a new error", err.Error())
 			return err
 		}
 
