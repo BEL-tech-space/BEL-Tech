@@ -29,66 +29,66 @@ func menuComp(active string) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 1)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"bg-white flex w-full justify-around pt-2 fixed bottom-0 z-50 max-h-20\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		if active == "home" {
-			templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 2)
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button class=\"\"><a href=\"/beltech/account/dashboard\"><img src=\"/assets/svg/home bold.svg\" class=\"w-10 h-20\"></a></button> ")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		} else {
-			templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 3)
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button><a href=\"/beltech/account/dashboard\"><img src=\"/assets/svg/home linear.svg\" class=\"w-10 h-20\"></a></button> ")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
 		if active == "scan" {
-			templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 4)
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button class=\"\"><a href=\"/beltech/account/scan\"><img src=\"/assets/svg/scan bold.svg\" class=\"w-10 h-20\"></a></button> ")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		} else {
-			templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 5)
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button><a href=\"/beltech/account/scan\"><img src=\"/assets/svg/scan linear.svg\" class=\"w-10 h-20\"></a></button> ")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
 		if active == "location" {
-			templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 6)
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button class=\"\"><a href=\"/beltech/account/bins\"><img src=\"/assets/svg/location bold.svg\" class=\"w-10 h-20\"></a></button> ")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		} else {
-			templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 7)
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button><a href=\"/beltech/account/bins\"><img src=\"/assets/svg/location linear.svg\" class=\"w-10 h-20\"></a></button> ")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
 		if active == "wallet" {
-			templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 8)
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button class=\"\"><a href=\"/beltech/account/wallet\"><img src=\"/assets/svg/wallet bold.svg\" class=\"w-10 h-20\"></a></button> ")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		} else {
-			templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 9)
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button><a href=\"/beltech/account/wallet\"><img src=\"/assets/svg/wallet linear.svg\" class=\"w-10 h-20\"></a></button> ")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
 		if active == "exchange" {
-			templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 10)
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button class=\"\"><a href=\"/beltech/account/exchange\"><img src=\"/assets/svg/new_exchange_bold.svg\" class=\"w-10 h-20\"></a></button>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		} else {
-			templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 11)
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button><a href=\"/beltech/account/exchange\"><img src=\"/assets/svg/new_exchange_linear.svg\" class=\"w-10 h-20\"></a></button>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 12)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
