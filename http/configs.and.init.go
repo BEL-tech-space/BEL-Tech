@@ -11,7 +11,7 @@ import (
 	"github.com/joho/godotenv"
 )
 
-const productionEnv string ="production"
+const productionEnv string = "production"
 
 var beltechWatermarkLogo []byte
 

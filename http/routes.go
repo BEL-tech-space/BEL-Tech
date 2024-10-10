@@ -3,9 +3,8 @@ package http
 import (
 	"beltech/frontend"
 	"context"
-	"errors"
-	"fmt"
 	"io/fs"
+	"log"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
@@ -97,20 +96,16 @@ func (a *App) accountAuthorization(next http.Handler) http.Handler {
 		// Get the session
 		session, err := a.accountSessionStore.Get(r, "beltech-account")
 		if err != nil {
-			if errors.Is(err, http.ErrNoCookie) || errors.Is(err, ErrInvalidCookieValue) {
-				http.Redirect(w, r, "/signin", http.StatusUnauthorized)
-				return
-			}
-			
-			fmt.Println("error in get session accountAuth:", err)
-			http.Error(w, err.Error(), http.StatusInternalServerError)
+			log.Println("err in get session auth", err)
+			http.Redirect(w, r, "/signin", http.StatusTemporaryRedirect)
 			return
 		}
 
 		// Check if the session lacks user information
 		userID, exist := session.Values["userID"]
 		if !exist {
-			http.Redirect(w, r, "/signin", http.StatusUnauthorized)
+			log.Println("session did not exit")
+			http.Redirect(w, r, "/signin", http.StatusTemporaryRedirect)
 			return
 		}
 
@@ -151,7 +146,7 @@ func (a *App) agentAuthorization(next http.Handler) http.Handler {
 		}
 
 		// Check if the session lacks user information
-		email, exist := session.Values[contextKeyEmail]
+		email, exist := session.Values["email"]
 		if !exist {
 			http.Redirect(w, r, "/login", http.StatusUnauthorized)
 			return

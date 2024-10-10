@@ -19,7 +19,7 @@ func convertToUpsertUserParams(user User) postgres.UpsertUserParams {
 		LastName:           pgtype.Text{String: user.LastName, Valid: true},
 		NickName:           pgtype.Text{String: user.NickName, Valid: true},
 		AvatarUrl:          pgtype.Text{String: user.AvatarUrl, Valid: true},
-		SplWallet:            pgtype.Text{String: user.SplWallet, Valid: true},
+		SplWallet:          pgtype.Text{String: user.SplWallet, Valid: true},
 		CurrBalance:        user.CurrBalance,
 		TotalEarned:        user.TotalEarned,
 		TotalGlassWaste:    user.TotalGlassWaste,
