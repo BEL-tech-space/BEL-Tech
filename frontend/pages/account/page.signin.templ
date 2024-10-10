@@ -14,29 +14,6 @@ templ SignInPage() {
 				rel="stylesheet"
 				href="/assets/styles/output.css"
 			/>
-			<style>
-        .flash-message {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #f8d7da;
-            padding: 10px 20px;
-            border: 1px solid #f5c6cb;
-            border-radius: 5px;
-            z-index: 1000;
-            opacity: 0;
-            transition: opacity 0.5s ease-in-out;
-        }
-
-        .flash-message.show {
-            opacity: 1;
-        }
-
-        .flash-message.hide {
-            opacity: 0;
-        }
-    </style>
 		</head>
 		<body class="bg-white">
 			<main class="flex flex-col gap-8 justify-center items-center py-12">
@@ -106,38 +83,38 @@ templ SignInPage() {
 							Sign In
 						</button>
 					</div>
-					<div class="my-6 flex items-center justify-between">
+					<div class="mt-6 flex items-center justify-between">
 						<hr class="w-full border-gray-300"/>
 						<span class="px-2 text-gray-500">OR</span>
 						<hr class="w-full border-gray-300"/>
 					</div>
-					<!-- Social Signup Buttons -->
-					<div class="flex items-center justify-around">
-						<a
-							href="/auth/google"
-							class="flex flex-col justify-center items-center bg-white border border-gray-300 text-gray-600 px-5 py-3 rounded-lg shadow hover:bg-gray-100"
-						>
-							<img
-								src="/assets/svg/google_icon.svg"
-								alt="Google"
-								class="w-10 h-10"
-							/>
-							<p>Google</p>
-						</a>
-						<a
-							href="/auth/facebook"
-							class="pointer-events-none flex flex-col justify-center items-center bg-white border border-gray-300 text-gray-600 px-4 py-3 rounded-lg shadow hover:bg-gray-100"
-						>
-							<img
-								src="/assets/svg/facebook_icon.svg"
-								alt="Facebook"
-								class="w-10 h-10"
-							/>
-							<p>Facebook</p>
-						</a>
-					</div>
 				</form>
-				<div class="mt-6 text-center">
+				<!-- Social Signup Buttons -->
+				<div class="flex items-center justify-around gap-4">
+					<a
+						href="/auth/google"
+						class="flex flex-col justify-center items-center bg-white border border-gray-300 text-gray-600 px-5 py-3 rounded-lg shadow hover:bg-gray-100"
+					>
+						<img
+							src="/assets/svg/google_icon.svg"
+							alt="Google"
+							class="w-10 h-10"
+						/>
+						<p>Google</p>
+					</a>
+					<a
+						href="/auth/facebook"
+						class="pointer-events-none flex flex-col justify-center items-center bg-white border border-gray-300 text-gray-600 px-4 py-3 rounded-lg shadow hover:bg-gray-100"
+					>
+						<img
+							src="/assets/svg/facebook_icon.svg"
+							alt="Facebook"
+							class="w-10 h-10"
+						/>
+						<p>Facebook</p>
+					</a>
+				</div>
+				<div class="mt-2 text-center">
 					<p class="text-gray-600">
 						Don't have an accoun? <a
 	href="/signup"
