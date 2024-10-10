@@ -42,7 +42,9 @@ func (a *App) signInWithProvider(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	fmt.Println("at BeginAuthHandler")
 	gothic.BeginAuthHandler(w, r)
+	fmt.Println("Past BeginAuthHandler")
 }
 
 func (a *App) callbackHandler(w http.ResponseWriter, r *http.Request) {
@@ -51,10 +53,13 @@ func (a *App) callbackHandler(w http.ResponseWriter, r *http.Request) {
 		err  error
 	)
 
+	fmt.Println("in callback")
+	
 	if user, err = gothic.CompleteUserAuth(w, r); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+	fmt.Println("past ")
 
 	if err = a.logInUser(w, r, user); err != nil {
 		fmt.Println("err from loginUser", err.Error())
@@ -84,18 +89,10 @@ func (a *App) logInUser(w http.ResponseWriter, r *http.Request, u goth.User) err
 
 func (a *App) createNewUserSession(w http.ResponseWriter, r *http.Request, user service.User) error {
 
-	session, err := a.accountSessionStore.Get(r, "beltech-account")
+	session, err := a.accountSessionStore.New(r, "beltech-account")
 	if err != nil {
-		if err.Error() != "securecookie: the value is not valid" {
-			fmt.Println("a new error", err.Error())
-			return err
-		}
-
-		fmt.Println("error is invalid cookie value")
-		if session, err = a.accountSessionStore.New(r, "beltech-account"); err != nil {
-			fmt.Println("error creating new session:", err)
-
-		}
+		fmt.Println("ERROR IN NEW", err.Error())
+		return err
 	}
 
 	session.Values["userID"] = user.UserID
