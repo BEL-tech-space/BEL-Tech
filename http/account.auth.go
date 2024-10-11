@@ -37,14 +37,11 @@ func (a *App) signInWithProvider(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		fmt.Println("came to redirect")
 		http.Redirect(w, r, "/beltech/account/dashboard", http.StatusTemporaryRedirect)
 		return
 	}
 
-	fmt.Println("at BeginAuthHandler")
 	gothic.BeginAuthHandler(w, r)
-	fmt.Println("Past BeginAuthHandler")
 }
 
 func (a *App) callbackHandler(w http.ResponseWriter, r *http.Request) {
@@ -52,14 +49,11 @@ func (a *App) callbackHandler(w http.ResponseWriter, r *http.Request) {
 		user goth.User
 		err  error
 	)
-
-	fmt.Println("in callback")
 	
 	if user, err = gothic.CompleteUserAuth(w, r); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	fmt.Println("past completeAuth", user.Email)
 
 	if err = a.logInUser(w, r, user); err != nil {
 		fmt.Println("err from loginUser", err.Error())
@@ -82,19 +76,15 @@ func (a *App) logInUser(w http.ResponseWriter, r *http.Request, u goth.User) err
 		fmt.Println("err came from create or update user:", err)
 		return err
 	}
-	fmt.Println("past db")
 	return a.createNewUserSession(w, r, user)
 }
 
 func (a *App) createNewUserSession(w http.ResponseWriter, r *http.Request, user service.User) error {
-	fmt.Println("just in new")
 	session, err := a.accountSessionStore.New(r, beltechAccount)
 	if err != nil {
 		fmt.Println("ERROR IN NEW", err.Error())
 	}
-	fmt.Println("past new")
 
-	session.Values["userID"] = user.UserID
 	session.Values["email"] = user.Email
 	session.Options = &sessions.Options{
 		Path:     "/",
@@ -104,12 +94,9 @@ func (a *App) createNewUserSession(w http.ResponseWriter, r *http.Request, user 
 		SameSite: http.SameSiteStrictMode, // Only allow cookie for requests from the same site
 	}
 	
-	a.cacheStorage.SetDefault(user.Email, &user)
+	a.cacheStorage.SetDefault(user.Email, &user)	
 
-	if err := session.Save(r, w); err != nil {
-		fmt.Println("error at save", err.Error())
-	}
-	return nil
+	return session.Save(r, w)
 }
 
 func mapGothUserToServiceUser(gothUser goth.User) service.User {

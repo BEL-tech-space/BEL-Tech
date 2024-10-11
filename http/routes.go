@@ -5,7 +5,6 @@ import (
 	"context"
 	"fmt"
 	"io/fs"
-	"log"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
@@ -102,36 +101,24 @@ func (a *App) accountAuthorization(next http.Handler) http.Handler {
 
 		// Get the session
 		session, err := a.accountSessionStore.Get(r, beltechAccount)
-		if err != nil {
-			if err.Error() == "securecookie: the value is not valid" {
-				log.Println("err in get session auth", err)
-				// a.setFlashMessage(w, r, "invalid session, let get a new one...")
-				http.Redirect(w, r, "/signin", http.StatusTemporaryRedirect)
-				return
-			}
-			
-			fmt.Println("new error", err.Error())	
+		if err != nil {			
+			fmt.Println("get err in auth", err.Error())	
 			http.Redirect(w, r, "/signin", http.StatusTemporaryRedirect)
 			return
 		}
+
+		fmt.Printf("\n%+v\n", session.Values)
 
 		// Check if the session lacks user information
-		userID, exist := session.Values["userID"]
+		email, exist := session.Values["email"]
 		if !exist {
-			log.Println("session did not exit")
+			fmt.Println("userID not in session")
 			http.Redirect(w, r, "/signin", http.StatusTemporaryRedirect)
 			return
-		}
-
-		var userEmail string
-		if email, exist := session.Values["email"]; exist {
-			userEmail = email.(string)
 		}
 
 		// Add userID and userEmail to the request context
-		ctx := context.WithValue(r.Context(), contextKeyEmail, userEmail)
-		ctx = context.WithValue(ctx, contextKeyAgentID, userID.(string))
-
+		ctx := context.WithValue(r.Context(), contextKeyEmail, email.(string))
 		r = r.WithContext(ctx)
 
 		// Session is valid, proceed with the request
