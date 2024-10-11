@@ -84,7 +84,76 @@ templ AccountDashboardPage(user User) {
 						<img src="/assets/svg/back_arrow.svg" class="rotate-180"/>
 					</div>
 				</div>
-				<p class="font-bold text-2xl mt-4 mb-3">Tips on Recycling</p>
+				<p class="font-bold text-2xl mt-2 mb-1">Tips on Recycling</p>
+				<div class="swiper mySwiperTwo w-full">
+					<div class="swiper-wrapper">
+						<div class="swiper-slide">
+							<div class="bg-[#FEF7FF] rounded-lg flex gap-4 p-2 items-center justify-center">
+								<img
+									src="/assets/images/plastic_1.jpg"
+									class="w-24 h-28 rounded-lg"
+								/>
+								<div class="flex flex-col gap-0.5 py-5">
+									<div class="flex items-center gap-2 pb-3">
+										<p class="font-bold">Plastics:</p>
+										<img
+											src="/assets/images/Recycle_small.png"
+											alt=""
+										/>
+									</div>
+									<p class="">
+										Twist on the bottle caps before tossing them in the bin to make it easier
+										for recyclers.
+									</p>
+								</div>
+							</div>
+						</div>
+						<div class="swiper-slide">
+							<div class="bg-[#FEF7FF] rounded-lg flex gap-4 p-2 items-center justify-center">
+								<img
+									src="/assets/images/plastic_1.jpg"
+									class="w-24 h-28 rounded-lg"
+								/>
+								<div class="flex flex-col gap-0.5 py-5">
+									<div class="flex items-center gap-2 pb-3">
+										<p class="font-bold">Plastics:</p>
+										<img
+											src="/assets/images/Recycle_small.png"
+											alt=""
+										/>
+									</div>
+									<p class="">
+										Twist on the bottle caps before tossing them in the bin to make it easier
+										for recyclers.
+									</p>
+								</div>
+							</div>
+						</div>
+						<div class="swiper-slide">
+							<div class="bg-[#FEF7FF] rounded-lg flex gap-4 p-2 items-center justify-center">
+								<img
+									src="/assets/images/plastic_1.jpg"
+									class="w-24 h-28 rounded-lg"
+								/>
+								<div class="flex flex-col gap-0.5 py-5">
+									<div class="flex items-center gap-2 pb-3">
+										<p class="font-bold">Plastics:</p>
+										<img
+											src="/assets/images/Recycle_small.png"
+											alt=""
+										/>
+									</div>
+									<p class="">
+										Twist on the bottle caps before tossing them in the bin to make it easier
+										for recyclers.
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="swiper-button-next"></div>
+					<div class="swiper-button-prev"></div>
+				</div>
 			</div>
 			@menuComp("home")
 		</body>
@@ -107,11 +176,25 @@ templ AccountDashboardPage(user User) {
                     disableOnInteraction: true,
                 },
             } );
+
+			  const swiperTwo = new Swiper( '.mySwiperTwo', {
+            mousewheel: true,
+            keyboard: true,
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+        } );
         </script>
 		<style>
             .swiper-pagination-bullet-active {
                 background-color: rgb(62, 184, 62);
             }
+			.swiper-button-prev:after,
+        	.swiper-button-next:after {
+            --swiper-navigation-size: 25px;
+            color: rgb(62, 184, 62);
+        }
         </style>
 	</html>
 }
