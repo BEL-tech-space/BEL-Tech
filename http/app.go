@@ -30,6 +30,15 @@ type collector struct {
 	Email   string
 	Role    string
 }
+type contextKey string
+
+const (
+	contextKeyEmail      contextKey = "email"
+	contextUserAvatarURL contextKey = "avatarURL"
+	contextKeyAgentID    contextKey = "agentID"
+	contextKeyUserID     contextKey = "userID"
+	contextKeyRole       contextKey = "role"
+)
 
 func NewApp(cfg EnvConfig, db *pgxpool.Pool) *App {
 
@@ -41,9 +50,9 @@ func NewApp(cfg EnvConfig, db *pgxpool.Pool) *App {
 
 	var callbackURL string
 	if cfg.Build == productionEnv {
-		callbackURL = "https://beltech.site/auth/google/callback"
+		callbackURL = "https://beltech.site/account/auth/google/callback"
 	} else {
-		callbackURL = "http://localhost:8090/auth/google/callback"
+		callbackURL = "http://localhost:8090/account/auth/google/callback"
 	}
 
 	gothic.Store = store

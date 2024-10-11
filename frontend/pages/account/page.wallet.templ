@@ -1,6 +1,8 @@
 package frontend
 
-templ WalletPage(avatarURL string) {
+import "fmt"
+
+templ WalletPage(user User) {
 	<!DOCTYPE html>
 	<html lang="en">
 		<head>
@@ -12,16 +14,12 @@ templ WalletPage(avatarURL string) {
 		</head>
 		<body>
 			<div class="px-6 pt-8">
-				<div class="flex w-full justify-start leading-4 items-center">
-					<img src={ avatarURL } class="rounded-2xl w-8 h-8" p-4/>
-					<p class="text-lg font-semibold pl-4">Welcome, Tobias</p>
-					<button class="bg-green-200 h-12 w-12 ml-auto rounded-md flex justify-center items-center"><img src="/assets/svg/notification.svg" class="align-middle"/></button>
-				</div>
+				@profileBar(user)
 				<div class="flex gap-4">
 					<p class="text-xl">My Balance</p>
 					<img src="/assets/svg/eye.svg"/>
 				</div>
-				<p class="text-2xl font-extrabold pt-3 pb-6">999,999,999.999999 BEL</p>
+				<p class="text-2xl font-extrabold pt-3 pb-6">{ fmt.Sprintf("%.6f", user.CurrBalance) } BEL</p>
 				<div class="flex w-full justify-between items-start">
 					<div class="flex flex-col gap-3 items-center">
 						<button class="bg-green-200 h-12 w-12 rounded-full"><img src="/assets/svg/+.svg" class="h-8 w-8 m-auto"/></button>

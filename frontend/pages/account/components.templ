@@ -1,0 +1,49 @@
+package frontend
+
+templ menuComp(active string) {
+	<div class="bg-white flex w-full justify-around pt-2 fixed bottom-0 z-50 max-h-20">
+		if active == "home" {
+			<button class=""><a href="/account/dashboard"><img src="/assets/svg/home bold.svg" class="w-10 h-20"/></a></button>
+		} else {
+			<button><a href="/account/dashboard"><img src="/assets/svg/home linear.svg" class="w-10 h-20"/></a></button>
+		}
+		if active == "scan" {
+			<button class=""><a href="/account/scan"><img src="/assets/svg/scan bold.svg" class="w-10 h-20"/></a></button>
+		} else {
+			<button><a href="/account/scan"><img src="/assets/svg/scan linear.svg" class="w-10 h-20"/></a></button>
+		}
+		if active == "location" {
+			<button class=""><a href="/account/bins"><img src="/assets/svg/location bold.svg" class="w-10 h-20"/></a></button>
+		} else {
+			<button><a href="/account/bins"><img src="/assets/svg/location linear.svg" class="w-10 h-20"/></a></button>
+		}
+		if active == "wallet" {
+			<button class=""><a href="/account/wallet"><img src="/assets/svg/wallet bold.svg" class="w-10 h-20"/></a></button>
+		} else {
+			<button><a href="/account/wallet"><img src="/assets/svg/wallet linear.svg" class="w-10 h-20"/></a></button>
+		}
+		if active == "exchange" {
+			<button class=""><a href="/account/exchange"><img src="/assets/svg/new_exchange_bold.svg" class="w-10 h-20"/></a></button>
+		} else {
+			<button><a href="/account/exchange"><img src="/assets/svg/new_exchange_linear.svg" class="w-10 h-20"/></a></button>
+		}
+	</div>
+}
+
+templ profileBar(user User) {
+	<div class="flex w-full justify-start leading-4 items-center">
+		<img src={ user.AvatarUrl } class="rounded-2xl w-8 h-8"/>
+		if user.NickName != "" {
+			<p class="text-xl font-bold pl-4">GM, <span class="text-lg font-light">{ user.NickName }</span></p>
+		} else if user.FirstName != "" {
+			<p class="text-xl font-bold pl-4">GM, <span class="text-lg font-light">{ user.NickName }</span></p>
+		} else if user.LastName != "" {
+			<p class="text-xl font-bold pl-4">GM, <span class="text-lg font-light">{ user.NickName }</span></p>
+		} else {
+			<p class="text-xl font-bold pl-4">GM</p>
+		}
+		<button class="bg-green-200 h-12 w-12 ml-auto rounded-md flex justify-center items-center">
+			<img src="/assets/svg/notification.svg" class="align-middle"/>
+		</button>
+	</div>
+}

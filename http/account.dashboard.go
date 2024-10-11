@@ -16,7 +16,7 @@ func (a *App) accountDashboard(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if err := accountPages.AccountDashboardPage(user.AvatarUrl).Render(context.TODO(), w); err != nil {
+	if err := accountPages.AccountDashboardPage(account(*user)).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}

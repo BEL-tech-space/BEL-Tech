@@ -10,8 +10,7 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
-func convertToUpsertUserParams(user User) postgres.UpsertUserParams {
-
+func makeUpsertUserParams(user User) postgres.UpsertUserParams {
 	return postgres.UpsertUserParams{
 		UserID:             user.UserID,
 		Email:              user.Email,
@@ -19,18 +18,9 @@ func convertToUpsertUserParams(user User) postgres.UpsertUserParams {
 		LastName:           pgtype.Text{String: user.LastName, Valid: true},
 		NickName:           pgtype.Text{String: user.NickName, Valid: true},
 		AvatarUrl:          pgtype.Text{String: user.AvatarUrl, Valid: true},
-		SplWallet:          pgtype.Text{String: user.SplWallet, Valid: true},
-		CurrBalance:        user.CurrBalance,
-		TotalEarned:        user.TotalEarned,
-		TotalGlassWaste:    user.TotalGlassWaste,
-		TotalMetalWaste:    user.TotalMetalWaste,
-		TotalPlasticsWaste: user.TotalPlasticsWaste,
-		TotalPaperWaste:    user.TotalPaperWaste,
-		HashedPassword:     pgtype.Text{String: user.HashedPassword, Valid: true},
 		AccessToken:        pgtype.Text{String: user.AccessToken, Valid: true},
 		AccessTokenExpires: pgtype.Timestamp{Time: user.AccessTokenExpires, InfinityModifier: pgtype.Finite, Valid: true},
 		IDToken:            pgtype.Text{String: user.IDToken, Valid: true},
-		LastUpdateEmail:    pgtype.Timestamp{Time: user.LastUpdateEmail, InfinityModifier: pgtype.Finite, Valid: true},
 	}
 }
 

@@ -19,27 +19,18 @@ VALUES ($1, $2, $3::json, $4);
 
 -- name: UpsertUser :one
 INSERT INTO users (
-    user_ID, email, first_Name, last_Name, nick_Name, avatar_URL, spl_Wallet, curr_Balance, total_Earned, total_glass_waste, total_metal_waste, total_plastics_waste, total_paper_waste, hashed_password, access_Token, access_Token_Expires, id_Token, last_Update_Email
+    user_ID, email, first_Name, last_Name, nick_Name, avatar_URL, access_Token, access_Token_Expires, id_Token
 ) VALUES (
-    $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18
+    $1, $2, $3, $4, $5, $6, $7, $8, $9
 ) ON CONFLICT (email) DO UPDATE SET
     user_ID = COALESCE(EXCLUDED.user_ID, users.user_ID),
-    first_Name = COALESCE(EXCLUDED.first_Name, users.first_Name),
-    last_Name = COALESCE(EXCLUDED.last_Name, users.last_Name),
-    nick_Name = COALESCE(EXCLUDED.nick_Name, users.nick_Name),
-    avatar_URL = COALESCE(EXCLUDED.avatar_URL, users.avatar_URL),
-    spl_Wallet = COALESCE(EXCLUDED.spl_Wallet, users.spl_Wallet),
-    curr_Balance = COALESCE(EXCLUDED.curr_Balance, users.curr_Balance),
-    total_Earned = COALESCE(EXCLUDED.total_Earned, users.total_Earned),
-    total_glass_waste = COALESCE(EXCLUDED.total_glass_waste, users.total_glass_waste),
-    total_metal_waste = COALESCE(EXCLUDED.total_metal_waste, users.total_metal_waste),
-    total_plastics_waste = COALESCE(EXCLUDED.total_plastics_waste, users.total_plastics_waste),
-    total_paper_waste = COALESCE(EXCLUDED.total_paper_waste, users.total_paper_waste),
-    hashed_password = COALESCE(EXCLUDED.hashed_password, users.hashed_password),
-    access_Token = COALESCE(EXCLUDED.access_Token, users.access_Token),
+    first_Name = CASE WHEN EXCLUDED.first_Name = '' THEN users.first_Name ELSE EXCLUDED.first_Name END,
+    last_Name = CASE WHEN EXCLUDED.last_Name = '' THEN users.last_Name ELSE EXCLUDED.last_Name END,
+    nick_Name = CASE WHEN EXCLUDED.nick_Name = '' THEN users.nick_Name ELSE EXCLUDED.nick_Name END,
+    avatar_URL = CASE WHEN EXCLUDED.avatar_URL = '' THEN users.avatar_URL ELSE EXCLUDED.avatar_URL END,
+    access_Token = CASE WHEN EXCLUDED.access_Token = '' THEN users.access_Token ELSE EXCLUDED.access_Token END,
     access_Token_Expires = COALESCE(EXCLUDED.access_Token_Expires, users.access_Token_Expires),
-    id_Token = COALESCE(EXCLUDED.id_Token, users.id_Token),
-    last_Update_Email = COALESCE(EXCLUDED.last_Update_Email, users.last_Update_Email)
+    id_Token = CASE WHEN EXCLUDED.id_Token = '' THEN users.id_Token ELSE EXCLUDED.id_Token END
 RETURNING 
     first_Name, last_Name, nick_Name, spl_Wallet, curr_Balance, total_Earned, total_glass_waste, total_metal_waste, total_plastics_waste, total_paper_waste;
 

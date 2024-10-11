@@ -32,7 +32,7 @@ func NewService(postgresDb PostgresDb) *Service {
 
 func (s *Service) CreateOrUpdateUser(ctx context.Context, user User) (User, error) {
 
-	u, err := s.dbQuery.UpsertUser(ctx, convertToUpsertUserParams(user))
+	u, err := s.dbQuery.UpsertUser(ctx, makeUpsertUserParams(user))
 	if err == nil {
 		return broadendUser(u, user), nil
 	}

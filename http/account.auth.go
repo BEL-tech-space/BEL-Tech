@@ -12,7 +12,7 @@ import (
 	"github.com/markbates/goth/gothic"
 )
 
-func (a *App) signInWithProvider(w http.ResponseWriter, r *http.Request) {
+func (a *App) signInWithProviderAccount(w http.ResponseWriter, r *http.Request) {
 
 	var provider string
 	if provider = chi.URLParam(r, "provider"); provider == "" {
@@ -37,14 +37,14 @@ func (a *App) signInWithProvider(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		http.Redirect(w, r, "/beltech/account/dashboard", http.StatusTemporaryRedirect)
+		http.Redirect(w, r, "/account/dashboard", http.StatusTemporaryRedirect)
 		return
 	}
 
 	gothic.BeginAuthHandler(w, r)
 }
 
-func (a *App) callbackHandler(w http.ResponseWriter, r *http.Request) {
+func (a *App) callbackHandlerAccount(w http.ResponseWriter, r *http.Request) {
 	var (
 		user goth.User
 		err  error
@@ -61,12 +61,12 @@ func (a *App) callbackHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	http.Redirect(w, r, "/beltech/account/dashboard", http.StatusTemporaryRedirect)
+	http.Redirect(w, r, "/account/dashboard", http.StatusTemporaryRedirect)
 }
 
 func (a *App) logout(w http.ResponseWriter, r *http.Request) {
 	gothic.Logout(w, r)
-	http.Redirect(w, r, "/home", http.StatusTemporaryRedirect)
+	http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
 }
 
 func (a *App) logInUser(w http.ResponseWriter, r *http.Request, u goth.User) error {
@@ -80,7 +80,7 @@ func (a *App) logInUser(w http.ResponseWriter, r *http.Request, u goth.User) err
 }
 
 func (a *App) createNewUserSession(w http.ResponseWriter, r *http.Request, user service.User) error {
-	session, err := a.accountSessionStore.New(r, beltechAccount)
+	session, err := a.accountSessionStore.New(r, "beltech-account")
 	if err != nil {
 		fmt.Println("ERROR IN NEW", err.Error())
 	}

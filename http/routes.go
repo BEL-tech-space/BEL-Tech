@@ -21,13 +21,27 @@ func (a *App) Routes(cfg EnvConfig) *chi.Mux {
 
 	r.Get("/", a.homePageHandler)
 
+	r.Mount("/account", a.accountRouter(cfg))
+	// r.Mount("/agent", a.agentRouter(cfg))
+
+
+	var staticFiles = fs.FS(frontend.AssetsDir)
+	staticFs, _ := fs.Sub(staticFiles, "assets")
+	r.Handle("/assets/*", http.StripPrefix("/assets/", http.FileServer(http.FS(staticFs))))
+
+	return r
+}
+
+func (a *App) accountRouter(cfg EnvConfig) http.Handler {
+	r := chi.NewRouter()
+
 	r.Route("/auth", func(r chi.Router) {
-		r.Get("/{provider}", a.signInWithProvider)
-		r.Get("/{provider}/callback", a.callbackHandler)
+		r.Get("/{provider}", a.signInWithProviderAccount)
+		r.Get("/{provider}/callback", a.callbackHandlerAccount)
 		r.Get("/logout/{provider}", a.logout)
 	})
 
-	r.Route("/beltech/account", func(r chi.Router) {
+	r.Route("/", func(r chi.Router) {
 		r.Use(a.accountAuthorization)
 		r.Get("/dashboard", a.accountDashboard)
 		r.Get("/scan", a.scanQRPageHandler)
@@ -43,77 +57,47 @@ func (a *App) Routes(cfg EnvConfig) *chi.Mux {
 	r.Get("/verify_success", a.verify_successPageHandler)
 	r.Get("/password_reset", a.password_resetPageHandler)
 
-	// r.Mount("/beltech/account", a.accountRouter(cfg))
-
-	// r.Route("/beltech/agent", func(r chi.Router) {
-	// 	r.Use(a.agentAuthorization)
-	// 	r.Get("/qrcode/{agentID}", a.generateQRCode)
-	// 	r.Post("/addAgent", a.addNewCollectorPost)
-	// })
-
-	// r.Get("/login", a.logInCollector)
-	// r.Get("/logout", a.logOutCollector)
-	// r.Get("/unauthorized", a.unauthorized)
-
-	var staticFiles = fs.FS(frontend.AssetsDir)
-	staticFs, _ := fs.Sub(staticFiles, "assets")
-	r.Handle("/assets/*", http.StripPrefix("/assets/", http.FileServer(http.FS(staticFs))))
-
 	return r
 }
 
-func (a *App) accountRouter(cfg EnvConfig) http.Handler {
+func (a *App)agentRouter(cfg EnvConfig) http.Handler {
 	r := chi.NewRouter()
 
 	r.Route("/auth", func(r chi.Router) {
-		r.Get("/{provider}", a.signInWithProvider)
-		r.Get("/{provider}/callback", a.callbackHandler)
+		r.Get("/{provider}", a.signInWithProviderAccount)
+		r.Get("/{provider}/callback", a.callbackHandlerAccount)
 		r.Get("/logout/{provider}", a.logout)
 	})
-
+	
 	r.Route("/", func(r chi.Router) {
-		r.Use(a.accountAuthorization)
-		r.Get("/dashboard", a.homePageHandler)
-		r.Get("/scan", a.scanQRPageHandler)
-		r.Get("/bins", a.locationPageHandler)
-		r.Get("/wallet", a.walletPageHandler)
-		r.Get("/exchange", a.exchangePageHandler)
+		r.Use(a.agentAuthorization)
+		r.Get("/qrcode/{agentID}", a.generateQRCode)
+		r.Post("/addAgent", a.addNewCollectorPost)
 	})
 
-	r.Get("/signup", a.signupPageHandler)
-	r.Get("/signin", a.signinPageHandler)
-	r.Get("/verify", a.verifyPageHandler)
-	r.Get("/reset", a.resetPageHandler)
-	r.Get("/verify_success", a.verify_successPageHandler)
-	r.Get("/password_reset", a.password_resetPageHandler)
+	r.Get("/login", a.logInCollector)
+	r.Get("/logout", a.logOutCollector)
+	r.Get("/unauthorized", a.unauthorized)
 
 	return r
 }
-
-const (
-	beltechAccount string = "beltechAccount"
-	beltechAgent string = "beltechAgent"
-)
-
 
 func (a *App) accountAuthorization(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
 		// Get the session
-		session, err := a.accountSessionStore.Get(r, beltechAccount)
+		session, err := a.accountSessionStore.Get(r, "beltech-account")
 		if err != nil {			
 			fmt.Println("get err in auth", err.Error())	
-			http.Redirect(w, r, "/signin", http.StatusTemporaryRedirect)
+			http.Redirect(w, r, "/account/signin", http.StatusTemporaryRedirect)
 			return
 		}
-
-		fmt.Printf("\n%+v\n", session.Values)
 
 		// Check if the session lacks user information
 		email, exist := session.Values["email"]
 		if !exist {
-			fmt.Println("email not in session")
-			http.Redirect(w, r, "/signin", http.StatusTemporaryRedirect)
+			fmt.Println("email not in session, weird")
+			http.Redirect(w, r, "/account/signin", http.StatusTemporaryRedirect)
 			return
 		}
 
@@ -125,16 +109,6 @@ func (a *App) accountAuthorization(next http.Handler) http.Handler {
 		next.ServeHTTP(w, r)
 	})
 }
-
-type contextKey string
-
-const (
-	contextKeyEmail      contextKey = "email"
-	contextUserAvatarURL contextKey = "avatarURL"
-	contextKeyAgentID    contextKey = "agentID"
-	contextKeyUserID     contextKey = "userID"
-	contextKeyRole       contextKey = "role"
-)
 
 func (a *App) agentAuthorization(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
