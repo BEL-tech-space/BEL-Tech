@@ -88,7 +88,7 @@ func (a *App) logInUser(w http.ResponseWriter, r *http.Request, u goth.User) err
 
 func (a *App) createNewUserSession(w http.ResponseWriter, r *http.Request, user service.User) error {
 	fmt.Println("just in new")
-	session, err := a.accountSessionStore.New(r, "beltech-account")
+	session, err := a.accountSessionStore.New(r, beltechAccount)
 	if err != nil {
 		fmt.Println("ERROR IN NEW", err.Error())
 	}
@@ -106,7 +106,10 @@ func (a *App) createNewUserSession(w http.ResponseWriter, r *http.Request, user 
 	
 	a.cacheStorage.SetDefault(user.Email, &user)
 
-	return session.Save(r, w)
+	if err := session.Save(r, w); err != nil {
+		fmt.Println("error at save", err.Error())
+	}
+	return nil
 }
 
 func mapGothUserToServiceUser(gothUser goth.User) service.User {
