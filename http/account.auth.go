@@ -77,9 +77,8 @@ func (a *App) logout(w http.ResponseWriter, r *http.Request) {
 
 func (a *App) logInUser(w http.ResponseWriter, r *http.Request, u goth.User) error {
 
-	var err error
-	user := mapGothUserToServiceUser(u)
-	if user, err = a.service.CreateOrUpdateUser(context.Background(), user); err != nil {
+	user, err := a.service.CreateOrUpdateUser(context.Background(), mapGothUserToServiceUser(u)); 
+	if err != nil {
 		fmt.Println("err came from create or update user:", err)
 		return err
 	}
@@ -92,13 +91,10 @@ func (a *App) createNewUserSession(w http.ResponseWriter, r *http.Request, user 
 	session, err := a.accountSessionStore.New(r, "beltech-account")
 	if err != nil {
 		fmt.Println("ERROR IN NEW", err.Error())
-		return err
 	}
 
 	session.Values["userID"] = user.UserID
 	session.Values["email"] = user.Email
-
-	a.cacheStorage.SetDefault(user.Email, &user)
 	session.Options = &sessions.Options{
 		Path:     "/",
 		MaxAge:   3600,                    // Session expires in 1 Hour
@@ -106,6 +102,8 @@ func (a *App) createNewUserSession(w http.ResponseWriter, r *http.Request, user 
 		Secure:   true,                    // Only send over HTTPS
 		SameSite: http.SameSiteStrictMode, // Only allow cookie for requests from the same site
 	}
+	
+	a.cacheStorage.SetDefault(user.Email, &user)
 
 	return session.Save(r, w)
 }
