@@ -91,8 +91,8 @@ func (a *App) accountRouter(cfg EnvConfig) http.Handler {
 }
 
 const (
-	beltechAccount string = "beltech-account"
-	beltechAgent string = "beltech-agent"
+	beltechAccount string = "beltechAccount"
+	beltechAgent string = "beltechAgent"
 )
 
 
@@ -112,7 +112,7 @@ func (a *App) accountAuthorization(next http.Handler) http.Handler {
 		// Check if the session lacks user information
 		email, exist := session.Values["email"]
 		if !exist {
-			fmt.Println("userID not in session")
+			fmt.Println("email not in session")
 			http.Redirect(w, r, "/signin", http.StatusTemporaryRedirect)
 			return
 		}
