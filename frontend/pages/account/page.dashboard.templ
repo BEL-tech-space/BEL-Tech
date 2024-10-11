@@ -162,7 +162,7 @@ templ AccountDashboardPage(user User) {
 				navigator.serviceWorker.register("/assets/sw.js",  {scope: '/' });
 			};
 
-            const swiper = new Swiper( '.swiper', {
+            const swiper = new Swiper( '.mySwiper', {
                 direction: "horizontal",
                 slidesPerView: 2,
                 mousewheel: true,
@@ -177,7 +177,7 @@ templ AccountDashboardPage(user User) {
                 },
             } );
 
-			  const swiperTwo = new Swiper( '.mySwiperTwo', {
+		const swiperTwo = new Swiper( '.mySwiperTwo', {
             mousewheel: true,
             keyboard: true,
             navigation: {
@@ -193,7 +193,7 @@ templ AccountDashboardPage(user User) {
 			.swiper-button-prev:after,
         	.swiper-button-next:after {
             --swiper-navigation-size: 25px;
-            color: rgb(62, 184, 62);
+            	color: rgb(62, 184, 62);
         }
         </style>
 	</html>
