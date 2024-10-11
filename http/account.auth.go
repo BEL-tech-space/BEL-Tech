@@ -91,7 +91,7 @@ func (a *App) createNewUserSession(w http.ResponseWriter, r *http.Request, user 
 		MaxAge:   3600,                    // Session expires in 1 Hour
 		HttpOnly: true,                    // Prevent JavaScript access
 		Secure:   true,                    // Only send over HTTPS
-		SameSite: http.SameSiteStrictMode, // Only allow cookie for requests from the same site
+		// SameSite: http.SameSiteLaxMode, // Only allow cookie for requests from the same site
 	}
 	
 	a.cacheStorage.SetDefault(user.Email, &user)	
