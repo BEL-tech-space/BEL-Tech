@@ -59,7 +59,7 @@ func (a *App) callbackHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	fmt.Println("past ")
+	fmt.Println("past completeAuth", user.Email)
 
 	if err = a.logInUser(w, r, user); err != nil {
 		fmt.Println("err from loginUser", err.Error())
@@ -82,16 +82,17 @@ func (a *App) logInUser(w http.ResponseWriter, r *http.Request, u goth.User) err
 		fmt.Println("err came from create or update user:", err)
 		return err
 	}
-
+	fmt.Println("past db")
 	return a.createNewUserSession(w, r, user)
 }
 
 func (a *App) createNewUserSession(w http.ResponseWriter, r *http.Request, user service.User) error {
-
+	fmt.Println("just in new")
 	session, err := a.accountSessionStore.New(r, "beltech-account")
 	if err != nil {
 		fmt.Println("ERROR IN NEW", err.Error())
 	}
+	fmt.Println("past new")
 
 	session.Values["userID"] = user.UserID
 	session.Values["email"] = user.Email
