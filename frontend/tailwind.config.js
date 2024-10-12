@@ -4,8 +4,6 @@ module.exports = {
   theme: {
     extend: {
       spacing: {
-        'minus-menu': 'calc(100vh - 8rem)',
-        'scale-minus-one': 'transform: scaleX(-1)'
       },
        fontFamily: {
           montserrat: [ 'Montserrat', 'sans-serif' ],
