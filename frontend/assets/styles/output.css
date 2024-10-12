@@ -1007,6 +1007,10 @@ video {
   margin-left: calc(1rem * calc(1 - var(--tw-space-x-reverse)));
 }
 
+.overflow-y-scroll {
+  overflow-y: scroll;
+}
+
 .whitespace-nowrap {
   white-space: nowrap;
 }
@@ -1165,6 +1169,10 @@ video {
 
 .bg-\[url\(\'\.\.\/assets\/svg\/beltech_logo_light\.svg\'\)\] {
   background-image: url('../assets/svg/beltech_logo_light.svg');
+}
+
+.bg-\[url\(\'\/assets\/images\/beltech_background\.png\'\)\] {
+  background-image: url('/assets/images/beltech_background.png');
 }
 
 .bg-cover {
