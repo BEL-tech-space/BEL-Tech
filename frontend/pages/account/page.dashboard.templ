@@ -194,8 +194,8 @@ templ AccountDashboardPage(user User) {
 									</div>
 								</div>
 							</div>
-							<div class="swiper-button-next"></div>
-							<div class="swiper-button-prev"></div>
+							// <div class="swiper-button-next"></div>
+							// <div class="swiper-button-prev"></div>
 						</div>
 					</div>
 				</section>
@@ -203,7 +203,7 @@ templ AccountDashboardPage(user User) {
 			</main>
 		</body>
 		<script type="text/javascript">
-        const swiper = new Swiper( '.mySwiper', {
+             const swiper = new Swiper( '.mySwiper', {
             direction: "horizontal",
             slidesPerView: 2,
             mousewheel: true,
@@ -213,8 +213,8 @@ templ AccountDashboardPage(user User) {
                 clickable: true,
             },
             autoplay: {
-                delay: 2500,
-                disableOnInteraction: true,
+                delay: 3000,
+                disableOnInteraction: false,
             },
         } );
 
@@ -224,6 +224,10 @@ templ AccountDashboardPage(user User) {
             navigation: {
                 nextEl: ".swiper-button-next",
                 prevEl: ".swiper-button-prev",
+            },
+            autoplay: {
+                delay: 1500,
+                disableOnInteraction: false,
             },
         } );
     </script>
