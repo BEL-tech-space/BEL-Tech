@@ -29,11 +29,11 @@ func main() {
 	}
 	defer conn.Close()
 
-	app := backend.NewApp(environmentalVariables, conn)
+	app := backend.NewApp(&environmentalVariables, conn)
 
 	server := http.Server{
 		Addr:    fmt.Sprintf(":%v", environmentalVariables.Port),
-		Handler: app.Routes(environmentalVariables),
+		Handler: app.Routes(),
 		// ErrorLog:    slog.NewLogLogger(jsonLogger, slog.LevelError),
 		// IdleTimeout: time.Minute,
 		// ReadTimeout:  5 * time.Second,

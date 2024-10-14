@@ -17,7 +17,7 @@ func makeUpsertUserParams(user User) postgres.UpsertUserParams {
 		FirstName:          pgtype.Text{String: user.FirstName, Valid: true},
 		LastName:           pgtype.Text{String: user.LastName, Valid: true},
 		NickName:           pgtype.Text{String: user.NickName, Valid: true},
-		AvatarUrl:          pgtype.Text{String: user.AvatarUrl, Valid: true},
+		AvatarUrl:          pgtype.Text{String: user.AvatarURL, Valid: true},
 		AccessToken:        pgtype.Text{String: user.AccessToken, Valid: true},
 		AccessTokenExpires: pgtype.Timestamp{Time: user.AccessTokenExpires, InfinityModifier: pgtype.Finite, Valid: true},
 		IDToken:            pgtype.Text{String: user.IDToken, Valid: true},
@@ -30,7 +30,7 @@ type User struct {
 	FirstName          string    `json:"first_name"`
 	LastName           string    `json:"last_name"`
 	NickName           string    `json:"nick_name"`
-	AvatarUrl          string    `json:"avatar_url"`
+	AvatarURL          string    `json:"avatar_url"`
 	SplWallet          string    `json:"spl_wallet"`
 	CurrBalance        float64   `json:"curr_balance"`
 	TotalEarned        float64   `json:"total_earned"`

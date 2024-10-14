@@ -17,6 +17,7 @@ import (
 )
 
 type App struct {
+	config               *EnvConfig
 	service              *service.Service
 	accountSessionStore  sessions.Store
 	agentSessionStore    sessions.Store
@@ -40,7 +41,7 @@ const (
 	contextKeyRole       contextKey = "role"
 )
 
-func NewApp(cfg EnvConfig, db *pgxpool.Pool) *App {
+func NewApp(cfg *EnvConfig, db *pgxpool.Pool) *App {
 
 	store := sessions.NewCookieStore([]byte(cfg.CookieSecret))
 	store.MaxAge(86_400 * 30) // 30 days
@@ -62,6 +63,7 @@ func NewApp(cfg EnvConfig, db *pgxpool.Pool) *App {
 	)
 
 	app := App{}
+	app.config = cfg
 	app.cacheStorage = cache.New(24*time.Hour, 24*time.Hour)
 	app.accountSessionStore = sessions.NewCookieStore([]byte(GenerateRandomKey(cfg.SessionSecret, cfg.Build)))
 	app.agentSessionStore = sessions.NewCookieStore([]byte(GenerateRandomKey(cfg.SessionSecret, cfg.Build)))

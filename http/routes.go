@@ -12,7 +12,7 @@ import (
 	"github.com/google/uuid"
 )
 
-func (a *App) Routes(cfg EnvConfig) *chi.Mux {
+func (a *App) Routes() *chi.Mux {
 	r := chi.NewRouter()
 
 	// r.Use(middleware.Logger)
@@ -21,9 +21,8 @@ func (a *App) Routes(cfg EnvConfig) *chi.Mux {
 
 	r.Get("/", a.homePageHandler)
 
-	r.Mount("/account", a.accountRouter(cfg))
+	r.Mount("/account", a.accountRouter())
 	// r.Mount("/agent", a.agentRouter(cfg))
-
 
 	var staticFiles = fs.FS(frontend.AssetsDir)
 	staticFs, _ := fs.Sub(staticFiles, "assets")
@@ -32,7 +31,7 @@ func (a *App) Routes(cfg EnvConfig) *chi.Mux {
 	return r
 }
 
-func (a *App) accountRouter(cfg EnvConfig) http.Handler {
+func (a *App) accountRouter() http.Handler {
 	r := chi.NewRouter()
 
 	r.Route("/auth", func(r chi.Router) {
@@ -43,6 +42,7 @@ func (a *App) accountRouter(cfg EnvConfig) http.Handler {
 
 	r.Route("/", func(r chi.Router) {
 		r.Use(a.accountAuthorization)
+
 		r.Get("/dashboard", a.accountDashboard)
 		r.Get("/scan", a.scanQRPageHandler)
 		r.Get("/bins", a.locationPageHandler)
@@ -60,7 +60,7 @@ func (a *App) accountRouter(cfg EnvConfig) http.Handler {
 	return r
 }
 
-func (a *App)agentRouter(cfg EnvConfig) http.Handler {
+func (a *App) agentRouter() http.Handler {
 	r := chi.NewRouter()
 
 	r.Route("/auth", func(r chi.Router) {
@@ -68,7 +68,7 @@ func (a *App)agentRouter(cfg EnvConfig) http.Handler {
 		r.Get("/{provider}/callback", a.callbackHandlerAccount)
 		r.Get("/logout/{provider}", a.logout)
 	})
-	
+
 	r.Route("/", func(r chi.Router) {
 		r.Use(a.agentAuthorization)
 		r.Get("/qrcode/{agentID}", a.generateQRCode)
@@ -87,8 +87,8 @@ func (a *App) accountAuthorization(next http.Handler) http.Handler {
 
 		// Get the session
 		session, err := a.accountSessionStore.Get(r, "beltech-account")
-		if err != nil {			
-			fmt.Println("get err in auth", err.Error())	
+		if err != nil {
+			fmt.Println("get err in auth", err.Error())
 			http.Redirect(w, r, "/account/signin", http.StatusTemporaryRedirect)
 			return
 		}
@@ -162,7 +162,6 @@ func (a *App) agentAuthorization(next http.Handler) http.Handler {
 		next.ServeHTTP(w, r)
 	})
 }
-
 
 // func (a *App) setFlashMessage(w http.ResponseWriter, r *http.Request, message string) {
 //     session, _ := a.accountSessionStore.Get(r, "beltech-account")

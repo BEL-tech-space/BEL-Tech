@@ -12,6 +12,22 @@ import (
 	"github.com/markbates/goth/gothic"
 )
 
+var (
+	devGothUser = goth.User{
+		UserID:    "1234567890",
+		Email:     "giwaoluatobi@gmail.com",
+		AvatarURL: "https://lh3.googleusercontent.com/a-/ALV-UjWhunlRgNtwAAdFNTue7WN3k01azp8GY0qJHQqsdfXBB26X40qIIw=s96-c",
+		NickName:  "Tobias",
+	}
+
+	devServiceUser = service.User{
+		UserID:    "1234567890",
+		Email:     "giwaoluatobi@gmail.com",
+		AvatarURL: "https://lh3.googleusercontent.com/a-/ALV-UjWhunlRgNtwAAdFNTue7WN3k01azp8GY0qJHQqsdfXBB26X40qIIw=s96-c",
+		NickName:  "Tobias",
+	}
+)
+
 func (a *App) signInWithProviderAccount(w http.ResponseWriter, r *http.Request) {
 
 	var provider string
@@ -25,14 +41,18 @@ func (a *App) signInWithProviderAccount(w http.ResponseWriter, r *http.Request) 
 		return
 	}
 
+	if a.config.Build != productionEnv {
+		http.Redirect(w, r, fmt.Sprintf("/account/auth/%s/callback", provider), http.StatusTemporaryRedirect)
+		return
+	}
+
 	q := r.URL.Query()
 	q.Add("provider", provider)
 	r.URL.RawQuery = q.Encode()
 
 	// try to get the user without re-authenticating
 	if gothUser, err := gothic.CompleteUserAuth(w, r); err == nil {
-		err = a.logInUser(w, r, gothUser)
-		if err != nil {
+		if err = a.logInUser(w, r, gothUser); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
@@ -46,13 +66,15 @@ func (a *App) signInWithProviderAccount(w http.ResponseWriter, r *http.Request) 
 
 func (a *App) callbackHandlerAccount(w http.ResponseWriter, r *http.Request) {
 	var (
-		user goth.User
+		user = devGothUser
 		err  error
 	)
-	
-	if user, err = gothic.CompleteUserAuth(w, r); err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
+
+	if a.config.Build == productionEnv {
+		if user, err = gothic.CompleteUserAuth(w, r); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
 	}
 
 	if err = a.logInUser(w, r, user); err != nil {
@@ -70,12 +92,18 @@ func (a *App) logout(w http.ResponseWriter, r *http.Request) {
 }
 
 func (a *App) logInUser(w http.ResponseWriter, r *http.Request, u goth.User) error {
+	var (
+		user = devServiceUser
+		err  error
+	)
 
-	user, err := a.service.CreateOrUpdateUser(context.Background(), mapGothUserToServiceUser(u)); 
-	if err != nil {
-		fmt.Println("err came from create or update user:", err)
-		return err
+	if a.config.Build == productionEnv {
+		if user, err = a.service.CreateOrUpdateUser(context.Background(), mapGothUserToServiceUser(u)); err != nil {
+			fmt.Println("err came from create or update user:", err)
+			return err
+		}
 	}
+
 	return a.createNewUserSession(w, r, user)
 }
 
@@ -88,13 +116,13 @@ func (a *App) createNewUserSession(w http.ResponseWriter, r *http.Request, user 
 	session.Values["email"] = user.Email
 	session.Options = &sessions.Options{
 		Path:     "/",
-		MaxAge:   3600,                    // Session expires in 1 Hour
-		HttpOnly: true,                    // Prevent JavaScript access
-		Secure:   true,                    // Only send over HTTPS
+		MaxAge:   3600, // Session expires in 1 Hour
+		HttpOnly: true, // Prevent JavaScript access
+		Secure:   true, // Only send over HTTPS
 		// SameSite: http.SameSiteLaxMode, // Only allow cookie for requests from the same site
 	}
-	
-	a.cacheStorage.SetDefault(user.Email, &user)	
+
+	a.cacheStorage.SetDefault(user.Email, &user)
 
 	return session.Save(r, w)
 }
@@ -106,7 +134,7 @@ func mapGothUserToServiceUser(gothUser goth.User) service.User {
 	user.FirstName = gothUser.FirstName
 	user.LastName = gothUser.LastName
 	user.NickName = gothUser.NickName
-	user.AvatarUrl = gothUser.AvatarURL
+	user.AvatarURL = gothUser.AvatarURL
 	user.AccessToken = gothUser.AccessToken
 	user.AccessTokenExpires = gothUser.ExpiresAt
 	user.IDToken = gothUser.IDToken

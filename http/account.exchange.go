@@ -15,7 +15,7 @@ func (a *App) exchangePageHandler(w http.ResponseWriter, r *http.Request) {
 		user = x.(*service.User)
 	}
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if err := accountPages.ExchangePage(user.AvatarUrl).Render(context.TODO(), w); err != nil {
+	if err := accountPages.ExchangePage(user.AvatarURL).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}
