@@ -270,6 +270,42 @@ func (q *Queries) GetAllCollectorsEmailAndAgentID(ctx context.Context) ([]GetAll
 	return items, nil
 }
 
+const getUser = `-- name: GetUser :one
+SELECT user_id, email, first_name, last_name, nick_name, avatar_url, spl_wallet, curr_balance, total_earned, total_glass_waste, total_metal_waste, total_plastics_waste, total_paper_waste, hashed_password, access_token, access_token_expires, id_token, last_update_email, role, joined, is_deleted 
+FROM users 
+WHERE email = $1 
+  AND is_Deleted = FALSE
+`
+
+func (q *Queries) GetUser(ctx context.Context, email string) (User, error) {
+	row := q.db.QueryRow(ctx, getUser, email)
+	var i User
+	err := row.Scan(
+		&i.UserID,
+		&i.Email,
+		&i.FirstName,
+		&i.LastName,
+		&i.NickName,
+		&i.AvatarUrl,
+		&i.SplWallet,
+		&i.CurrBalance,
+		&i.TotalEarned,
+		&i.TotalGlassWaste,
+		&i.TotalMetalWaste,
+		&i.TotalPlasticsWaste,
+		&i.TotalPaperWaste,
+		&i.HashedPassword,
+		&i.AccessToken,
+		&i.AccessTokenExpires,
+		&i.IDToken,
+		&i.LastUpdateEmail,
+		&i.Role,
+		&i.Joined,
+		&i.IsDeleted,
+	)
+	return i, err
+}
+
 const getWasteFromCollectorByAgentIDAndDate = `-- name: GetWasteFromCollectorByAgentIDAndDate :many
 WITH temp_waste_count AS (
     SELECT COUNT(*) AS count

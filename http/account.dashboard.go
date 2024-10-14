@@ -2,17 +2,18 @@ package http
 
 import (
 	accountPages "beltech/frontend/pages/account"
-	"beltech/service"
 	"context"
 	"net/http"
 )
 
 func (a *App) accountDashboard(w http.ResponseWriter, r *http.Request) {
 
-	var user *service.User
 	userEmail := r.Context().Value(contextKeyEmail).(string)
-	if x, found := a.cacheStorage.Get(userEmail); found {
-		user = x.(*service.User)
+
+	user, err := a.userFromCache(context.Background(), userEmail)
+	if err != nil {
+		a.serverError(w, err)
+		return
 	}
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")

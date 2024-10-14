@@ -786,10 +786,6 @@ video {
   margin-top: 0.86rem;
 }
 
-.mt-\[1\.125rem\] {
-  margin-top: 1.125rem;
-}
-
 .mt-\[1\.188rem\] {
   margin-top: 1.188rem;
 }
@@ -1071,10 +1067,6 @@ video {
 
 .gap-\[0\.313rem\] {
   gap: 0.313rem;
-}
-
-.gap-\[2\.375rem\] {
-  gap: 2.375rem;
 }
 
 .space-x-2 > :not([hidden]) ~ :not([hidden]) {
@@ -1380,10 +1372,6 @@ video {
 
 .pb-6 {
   padding-bottom: 1.5rem;
-}
-
-.pl-4 {
-  padding-left: 1rem;
 }
 
 .pl-5 {

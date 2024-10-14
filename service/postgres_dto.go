@@ -46,7 +46,6 @@ type User struct {
 	Role               string    `json:"role"`
 	Joined             time.Time `json:"joined"`
 	IsDeleted          bool      `json:"is_deleted"`
-	IsAuthenticated    bool
 }
 
 type Collector struct {
@@ -221,4 +220,56 @@ func googleUUIDToPgtypeUUID(googleUUID uuid.UUID) (pgtype.UUID, error) {
 		return pgtype.UUID{}, err
 	}
 	return pgUUID, nil
+}
+
+func pgUserToServiceUser(pu postgres.User) User {
+	return User{
+		UserID:             pu.UserID,
+		Email:              pu.Email,
+		FirstName:          pu.FirstName.String,
+		LastName:           pu.LastName.String,
+		NickName:           pu.NickName.String,
+		AvatarURL:          pu.AvatarUrl.String,
+		SplWallet:          pu.SplWallet.String,
+		CurrBalance:        pu.CurrBalance,
+		TotalEarned:        pu.TotalEarned,
+		TotalGlassWaste:    pu.TotalGlassWaste,
+		TotalMetalWaste:    pu.TotalMetalWaste,
+		TotalPlasticsWaste: pu.TotalPlasticsWaste,
+		TotalPaperWaste:    pu.TotalPaperWaste,
+		HashedPassword:     pu.HashedPassword.String,
+		AccessToken:        pu.AccessToken.String,
+		AccessTokenExpires: pu.AccessTokenExpires.Time,
+		IDToken:            pu.IDToken.String,
+		LastUpdateEmail:    pu.LastUpdateEmail.Time,
+		Role:               pu.Role,
+		Joined:             pu.Joined.Time,
+		IsDeleted:          pu.IsDeleted,
+	}
+}
+
+func serviceUserToPg(u User) postgres.User {
+	return postgres.User{
+		UserID:             u.UserID,
+		Email:              u.Email,
+		FirstName:          pgtype.Text{String: u.FirstName, Valid: true},
+		LastName:           pgtype.Text{String: u.LastName, Valid: true},
+		NickName:           pgtype.Text{String: u.NickName, Valid: true},
+		AvatarUrl:          pgtype.Text{String: u.AvatarURL, Valid: true},
+		SplWallet:          pgtype.Text{String: u.SplWallet, Valid: true},
+		CurrBalance:        u.CurrBalance,
+		TotalEarned:        u.TotalEarned,
+		TotalGlassWaste:    u.TotalGlassWaste,
+		TotalMetalWaste:    u.TotalMetalWaste,
+		TotalPlasticsWaste: u.TotalPlasticsWaste,
+		TotalPaperWaste:    u.TotalPaperWaste,
+		HashedPassword:     pgtype.Text{String: u.HashedPassword, Valid: true},
+		AccessToken:        pgtype.Text{String: u.AccessToken, Valid: true},
+		AccessTokenExpires: pgtype.Timestamp{Time: u.AccessTokenExpires, Valid: true, InfinityModifier: pgtype.Finite},
+		IDToken:            pgtype.Text{String: u.IDToken, Valid: true},
+		LastUpdateEmail:    pgtype.Timestamp{Time: u.LastUpdateEmail, Valid: true, InfinityModifier: pgtype.Finite},
+		Role:               u.Role,
+		Joined:             pgtype.Timestamp{Time: u.Joined, Valid: true},
+		IsDeleted:          u.IsDeleted,
+	}
 }

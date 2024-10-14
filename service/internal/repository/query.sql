@@ -34,6 +34,12 @@ INSERT INTO users (
 RETURNING 
     first_Name, last_Name, nick_Name, spl_Wallet, curr_Balance, total_Earned, total_glass_waste, total_metal_waste, total_plastics_waste, total_paper_waste;
 
+-- name: GetUser :one
+SELECT * 
+FROM users 
+WHERE email = $1 
+  AND is_Deleted = FALSE;
+
 -- name: AddNewAgentAndCollector :one
 WITH new_agent AS (
     INSERT INTO agents ("is", email, city, "state", "location", bin_location_last_Update) 
