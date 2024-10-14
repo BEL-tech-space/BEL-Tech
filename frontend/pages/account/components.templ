@@ -1,7 +1,7 @@
 package frontend
 
 templ menuComp(active string) {
-	<div class="bg-white flex w-full justify-around pt-[0.5rem] fixed bottom-0 z-50">
+	<footer class="bg-white flex w-full justify-around pt-[0.5rem] fixed bottom-0 z-50">
 		if active == "home" {
 			<button class=""><a href="/account/dashboard"><img src="/assets/svg/home bold.svg" class="w-10 h-20"/></a></button>
 		} else {
@@ -27,7 +27,7 @@ templ menuComp(active string) {
 		} else {
 			<button><a href="/account/exchange"><img src="/assets/svg/new_exchange_linear.svg" class="w-10 h-20"/></a></button>
 		}
-	</div>
+	</footer>
 }
 
 templ profileBar(user User) {
