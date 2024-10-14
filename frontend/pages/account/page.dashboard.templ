@@ -5,179 +5,287 @@ templ AccountDashboardPage(user User) {
 	<html lang="en">
 		<head>
 			<meta charset="UTF-8"/>
-			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-			<link rel="stylesheet" href="/assets/styles/output.css"/>
-			<link rel="manifest" href="/assets/manifest.json"/>
-			<link rel="stylesheet" href="/assets/libriaries/swiper-bundle.min.css"/>
+			<meta
+				name="viewport"
+				content="width=device-width, initial-scale=1.0"
+			/>
+			<link
+				rel="stylesheet"
+				href="/assets/styles/output.css"
+			/>
+			<link
+				rel="stylesheet"
+				href="/assets/libriaries/swiper-bundle.min.css"
+			/>
 			<script src="/assets/libriaries/swiper-bundle.min.js"></script>
+			<style>
+            .overflow-y-scroll::-webkit-scrollbar {
+                width: 0 !important;
+                display: none;
+                overflow: -moz-scrollbars-none;
+                scrollbar-width: none;
+            }
+        </style>
 			<title>Home</title>
 		</head>
-		<body class="bg-[url('/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-y-scroll">
-			<div class="pt-1 px-1">
-				@profileBar(user)
-				<div class="flex gap-3 pt-5 pb-3">
-					<p class="text-xl font-semibold">Let's Recycle! </p>
-					<img src="/assets/images/Recycle_small.png" class="w-6 h-6"/>
-				</div>
-				<div class="swiper mySwiper w-full">
-					<div class="swiper-wrapper">
-						<div class="swiper-slide text-center bg-white flex justify-center items-center">
-							<button class="">
-								<img
-									src="/assets/images/metal2.jpg"
-									class="w-40 h-40 rounded-lg"
-								/>
-							</button>
-							<!-- <p class="relative bottom-20 left-50 text-black font-extrabold text-xl">Metal</p> -->
-						</div>
-						<div class="swiper-slide text-center bg-white flex justify-center items-center">
-							<button>
-								<img
-									src="/assets/images/glass.jpg"
-									class="w-40 h-40 rounded-lg "
-								/>
-							</button>
-							<p></p>
-						</div>
-						<div class="swiper-slide text-center bg-white flex justify-center items-center">
-							<button>
-								<img
-									src="/assets/images/plastic_2.jpg"
-									class="w-40 h-40 rounded-lg "
-								/>
-							</button>
-							<p></p>
-						</div>
-						<div class="swiper-slide text-center bg-white flex justify-center items-center">
-							<button>
-								<img
-									src="/assets/images/book.jpg"
-									class="w-40 h-40 rounded-lg "
-								/>
-							</button>
-							<p></p>
-						</div>
-					</div>
-					<div class="swiper-pagination text-green-400"></div>
-				</div>
-				<div class="flex w-full justify-between mt-4 mb-2">
-					<p class="font-bold text-2xl">Recycled</p>
-					<button>
-						<p class="text-xs text-green-800">see all</p>
+		<body class="bg-[url('/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
+			<main class="w-full h-full flex flex-col font-montserrat text-[#2E2E2E]">
+				<header class="pt-[1.5rem] pl-[1.5rem] pr-[1.56rem] flex w-full justify-start items-center">
+					<img
+						src="/assets/images/name.jpg"
+						class="rounded-full w-[1.86rem] aspect-square mr-[0.5rem]"
+					/>
+					<p class="leading-[0.91rem] font-[500] text-[0.75rem]">
+						Welcome,
+						<span class="font-[600]">Tobias</span>
+					</p>
+					<button class="bg-[#CCE1D699] p-[0.5rem] ml-auto rounded-md flex justify-center items-center">
+						<img
+							src="/assets/svg/notification.svg"
+							class="w-[1.5rem] aspect-square"
+						/>
 					</button>
-				</div>
-				<div class="flex flex-col gap-4">
-					<div class="bg-fuchsia-100 rounded-lg flex gap-2 p-3">
-						<img src="/assets/images/sports_bottle.jpg" class="w-25 h-24 rounded-lg"/>
-						<div class="flex flex-col gap-0.5 py-5 mr-auto">
-							<p>Sport plastic bottle</p>
-							<p class="font-bold">54 recycled</p>
-						</div>
-						<img src="/assets/svg/back_arrow.svg" class="rotate-180"/>
+				</header>
+				<section class="grow overflow-y-scroll pl-[1.5rem] pr-[1.56rem]">
+					<div class="pt-[1.88rem] flex">
+						<p class="leading-[1.143rem] font-[600] text-[0.938rem]">Let's Recycle! </p>
+						<img
+							src="/assets/images/Recycle_small.png"
+							class="w-[1.25rem] aspect-square ml-2"
+						/>
 					</div>
-					<div class="bg-fuchsia-100 rounded-lg flex gap-2 p-3">
-						<img src="/assets/images/paper_bag.jpg" class="w-25 h-24 rounded-lg"/>
-						<div class="flex flex-col gap-0.5 py-5 mr-auto">
-							<p>Small paper bag</p>
-							<p class="font-bold">45 recycled</p>
-						</div>
-						<img src="/assets/svg/back_arrow.svg" class="rotate-180"/>
-					</div>
-				</div>
-				<p class="font-bold text-2xl mt-2 mb-1">Tips on Recycling</p>
-				<div class="swiper mySwiperTwo w-full">
-					<div class="swiper-wrapper">
-						<div class="swiper-slide">
-							<div class="bg-[#FEF7FF] rounded-lg flex gap-4 p-2 items-center justify-center">
-								<img
-									src="/assets/images/plastic_1.jpg"
-									class="w-24 h-28 rounded-lg"
-								/>
-								<div class="flex flex-col gap-0.5 py-5">
-									<div class="flex items-center gap-2 pb-3">
-										<p class="font-bold">Plastics:</p>
+					<div class="swiperOne mt-[0.86rem] mr-0">
+						<div class="swiper mySwiper w-full">
+							<div class="swiper-wrapper">
+								<div class="swiper-slide">
+									<button class="">
 										<img
-											src="/assets/images/Recycle_small.png"
-											alt=""
+											src="/assets/images/metal2.jpg"
+											class="w-[10rem] aspect-square rounded-xl"
 										/>
-									</div>
-									<p class="">
-										Twist on the bottle caps before tossing them in the bin to make it easier
-										for recyclers.
-									</p>
+									</button>
+								</div>
+								<div class="swiper-slide">
+									<button>
+										<img
+											src="/assets/images/glass.jpg"
+											class="w-[10rem] aspect-square rounded-xl "
+										/>
+									</button>
+									<p></p>
+								</div>
+								<div class="swiper-slide">
+									<button>
+										<img
+											src="/assets/images/plastic_2.jpg"
+											class="w-[10rem] aspect-square rounded-xl "
+										/>
+									</button>
+									<p></p>
+								</div>
+								<div class="swiper-slide">
+									<button>
+										<img
+											src="/assets/images/book.jpg"
+											class="w-[10rem] aspect-square rounded-xl "
+										/>
+									</button>
+									<p></p>
 								</div>
 							</div>
-						</div>
-						<div class="swiper-slide">
-							<div class="bg-[#FEF7FF] rounded-lg flex gap-4 p-2 items-center justify-center">
-								<img
-									src="/assets/images/plastic_1.jpg"
-									class="w-24 h-28 rounded-lg"
-								/>
-								<div class="flex flex-col gap-0.5 py-5">
-									<div class="flex items-center gap-2 pb-3">
-										<p class="font-bold">Plastics:</p>
-										<img
-											src="/assets/images/Recycle_small.png"
-											alt=""
-										/>
-									</div>
-									<p class="">
-										Twist on the bottle caps before tossing them in the bin to make it easier
-										for recyclers.
-									</p>
-								</div>
-							</div>
-						</div>
-						<div class="swiper-slide">
-							<div class="bg-[#FEF7FF] rounded-lg flex gap-4 p-2 items-center justify-center">
-								<img
-									src="/assets/images/plastic_1.jpg"
-									class="w-24 h-28 rounded-lg"
-								/>
-								<div class="flex flex-col gap-0.5 py-5">
-									<div class="flex items-center gap-2 pb-3">
-										<p class="font-bold">Plastics:</p>
-										<img
-											src="/assets/images/Recycle_small.png"
-											alt=""
-										/>
-									</div>
-									<p class="">
-										Twist on the bottle caps before tossing them in the bin to make it easier
-										for recyclers.
-									</p>
-								</div>
-							</div>
+							<div class="swiper-pagination text-green-400"></div>
 						</div>
 					</div>
-					<div class="swiper-button-next"></div>
-					<div class="swiper-button-prev"></div>
-				</div>
-			</div>
-			@menuComp("home")
+					<div class="mt-8 w-full flex items-center justify-between">
+						<p class="font-[600] text-[0.94rem] leading-[1.14rem]">Recycled</p>
+						<button>
+							<p class="font-[500] text-[0.63rem] leading-[0.76rem] text-[#016934]">see all</p>
+						</button>
+					</div>
+					<div class="mt-4 flex flex-col gap-4">
+						<div class="bg-[#FEF7FF] w-full rounded-lg flex gap-2">
+							<img
+								src="/assets/images/sports_bottle.jpg"
+								class="w-[4.69rem] aspect-[75/70] py-[0.31rem] pr-[0.31rem] rounded-lg"
+							/>
+							<div class="flex flex-col gap-0.5 ml-4 mt-[1.188rem] mb-[1.125rem]">
+								<p class="font-[500] leading-[0.838rem] text-[0.688rem]">Sport plastic bottle</p>
+								<p class="font-[700] leading-[0.0.762rem] text-[0.625rem]">54 recycled</p>
+							</div>
+							<img
+								src="/assets/svg/back_arrow.svg"
+								class="rotate-180 ml-auto w-[0.938rem] aspect-square"
+							/>
+						</div>
+						<div class="bg-[#FEF7FF] w-full rounded-lg flex gap-2">
+							<img
+								src="/assets/images/paper_bag.jpg"
+								class="w-[4.69rem] aspect-[75/70] py-[0.31rem] pr-[0.31rem] rounded-lg"
+							/>
+							<div class="flex flex-col gap-0.5 ml-4 mt-[1.188rem] mb-[1.125rem]">
+								<p class="font-[500] leading-[0.838rem] text-[0.688rem]">Small paper bag</p>
+								<p class="font-[700] leading-[0.0.762rem] text-[0.625rem]">45 recycled</p>
+							</div>
+							<img
+								src="/assets/svg/back_arrow.svg"
+								class="rotate-180 ml-auto w-[0.938rem] aspect-square"
+							/>
+						</div>
+					</div>
+					<p class="mt-8 font-[600] text-[0.938rem] leading-[1.143rem]">Tips on Recycling</p>
+					<div class="swiperTwo mt-4">
+						<div class="px-4 swiper mySwiperTwo w-full">
+							<div class="swiper-wrapper">
+								<div class="swiper-slide">
+									<div class="bg-[#FEF7FF] rounded-lg flex items-center justify-center">
+										<img
+											src="/assets/images/plastic_1.jpg"
+											class="w-[6.875rem] aspect-[110/101] mx-[0.313rem] mr-[0.313rem] rounded-lg"
+										/>
+										<div class="flex flex-col gap-2 ml-[1.625rem] my-[1.188rem]">
+											<div class="flex items-center gap-[0.313rem]">
+												<p class="font-[600] text-[0.688rem] leading-[0.838rem]">Plastics:</p>
+												<img
+													src="/assets/images/Recycle_small.png"
+													alt=""
+													class="w-[0.813rem] aspect-square"
+												/>
+											</div>
+											<p class="font-[500] text-[0.625rem] leading-[0.875rem]">
+												Twist on the bottle
+												caps before tossing them in the bin to make it
+												easier
+												for recyclers.
+											</p>
+										</div>
+									</div>
+								</div>
+								<div class="swiper-slide">
+									<div class="bg-[#FEF7FF] rounded-lg flex items-center justify-center">
+										<img
+											src="/assets/images/plastic_1.jpg"
+											class="w-[6.875rem] aspect-[110/101] mx-[0.313rem] mr-[0.313rem] rounded-lg"
+										/>
+										<div class="flex flex-col gap-2 ml-[1.625rem] my-[1.188rem]">
+											<div class="flex items-center gap-[0.313rem]">
+												<p class="font-[600] text-[0.688rem] leading-[0.838rem]">Plastics:</p>
+												<img
+													src="/assets/images/Recycle_small.png"
+													alt=""
+													class="w-[0.813rem] aspect-square"
+												/>
+											</div>
+											<p class="font-[500] text-[0.625rem] leading-[0.875rem]">
+												Twist on the bottle
+												caps before tossing them in the bin to make it
+												easier
+												for recyclers.
+											</p>
+										</div>
+									</div>
+								</div>
+								<div class="swiper-slide">
+									<div class="bg-[#FEF7FF] rounded-lg flex items-center justify-center">
+										<img
+											src="/assets/images/plastic_1.jpg"
+											class="w-[6.875rem] aspect-[110/101] mx-[0.313rem] mr-[0.313rem] rounded-lg"
+										/>
+										<div class="flex flex-col gap-2 ml-[1.625rem] my-[1.188rem]">
+											<div class="flex items-center gap-[0.313rem]">
+												<p class="font-[600] text-[0.688rem] leading-[0.838rem]">Plastics:</p>
+												<img
+													src="/assets/images/Recycle_small.png"
+													alt=""
+													class="w-[0.813rem] aspect-square"
+												/>
+											</div>
+											<p class="font-[500] text-[0.625rem] leading-[0.875rem]">
+												Twist on the bottle
+												caps before tossing them in the bin to make it
+												easier
+												for recyclers.
+											</p>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="swiper-button-next"></div>
+							<div class="swiper-button-prev"></div>
+						</div>
+					</div>
+				</section>
+				<footer class="bg-white flex w-full justify-around mt-[1.125rem] gap-[2.375rem]">
+					<a
+						href="/beltech/account/dashboard"
+						class="flex flex-col justify-center items-center gap-[0.25rem]"
+					>
+						<img
+							src="/assets/svg/home bold.svg"
+							class="w-[1.5rem] aspect-square"
+						/>
+						<p class="font-[700] text-[0.5rem] leading-[1.25rem] text-[#016934]">Home</p>
+					</a>
+					<a
+						href="/beltech/account/scan"
+						class="flex flex-col justify-center items-center gap-[0.25rem]"
+					>
+						<img
+							src="/assets/svg/scan bold.svg"
+							class="w-[1.5rem] aspect-square"
+						/>
+						<p class="font-[700] text-[0.5rem] leading-[1.25rem] text-[#016934]">Scan</p>
+					</a>
+					<a
+						href="/beltech/account/agent"
+						class="flex flex-col justify-center items-center gap-[0.25rem]"
+					>
+						<img
+							src="/assets/svg/location bold.svg"
+							class="w-[1.5rem] aspect-square"
+						/>
+						<p class="font-[700] text-[0.5rem] leading-[1.25rem] text-[#016934]">Location</p>
+					</a>
+					<a
+						href="/beltech/account/wallet"
+						class="flex flex-col justify-center items-center gap-[0.25rem]"
+					>
+						<img
+							src="/assets/svg/wallet bold.svg"
+							class="w-[1.5rem] aspect-square"
+						/>
+						<p class="font-[700] text-[0.5rem] leading-[1.25rem] text-[#016934]">Wallet</p>
+					</a>
+					<a
+						href="/beltech/account/spend"
+						class="flex flex-col justify-center items-center gap-[0.25rem]"
+					>
+						<img
+							src="/assets/svg/new_exchange_bold.svg"
+							class="w-[1.5rem] aspect-square"
+						/>
+						<p class="font-[700] text-[0.5rem] leading-[1.25rem] text-[#016934]">Spend</p>
+					</a>
+				</footer>
+			</main>
 		</body>
 		<script type="text/javascript">
-			if ("serviceWorker" in navigator) {
-				navigator.serviceWorker.register("/assets/sw.js",  {scope: '/' });
-			};
 
-            const swiper = new Swiper( '.mySwiper', {
-                direction: "horizontal",
-                slidesPerView: 2,
-                mousewheel: true,
-                spaceBetween: 1,
-                pagination: {
-                    el: ".swiper-pagination",
-                    clickable: true,
-                },
-                autoplay: {
-                    delay: 2500,
-                    disableOnInteraction: true,
-                },
-            } );
+        const swiper = new Swiper( '.mySwiper', {
+            direction: "horizontal",
+            slidesPerView: 2,
+            mousewheel: true,
+            spaceBetween: 8,
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+            },
+            autoplay: {
+                delay: 2500,
+                disableOnInteraction: true,
+            },
+        } );
 
-		const swiperTwo = new Swiper( '.mySwiperTwo', {
+        const swiperTwo = new Swiper( '.mySwiperTwo', {
             mousewheel: true,
             keyboard: true,
             navigation: {
@@ -185,16 +293,17 @@ templ AccountDashboardPage(user User) {
                 prevEl: ".swiper-button-prev",
             },
         } );
-        </script>
+    </script>
 		<style>
-            .swiper-pagination-bullet-active {
-                background-color: rgb(62, 184, 62);
-            }
-			.swiper-button-prev:after,
-        	.swiper-button-next:after {
-            --swiper-navigation-size: 25px;
-            	color: rgb(62, 184, 62);
+        .swiper-pagination-bullet-active {
+            background-color: rgb(62, 184, 62);
         }
-        </style>
+
+        .swiper-button-prev:after,
+        .swiper-button-next:after {
+            --swiper-navigation-size: 20px;
+            color: rgb(62, 184, 62);
+        }
+    </style>
 	</html>
 }
