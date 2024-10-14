@@ -10,11 +10,11 @@ INSERT INTO users (
 );
 
 -- name: AddNewWasteLog :exec
-INSERT INTO waste_Logs (waste_Id, created_At, glass_Weighed, metal_Weighed, plastics_Weighed, paper_Weighed, "location", agent_ID, user_ID) 
+INSERT INTO waste_Logs (waste_Id, created_At, glass_Weighed, metal_Weighed, plastics_Weighed, paper_Weighed, "location", agent_ID, email) 
 VALUES ($1, $2, $3, $4, $5, $6, ST_SetSRID(ST_MakePoint($7, $8), 4326), $9, $10);
 
 -- name: AddNewExchangeHistory :exec
-INSERT INTO exchange_History (user_ID, amount, operation, created_At) 
+INSERT INTO exchange_History (email, amount, operation, created_At) 
 VALUES ($1, $2, $3::json, $4);
 
 -- name: UpsertUser :one
@@ -23,7 +23,7 @@ INSERT INTO users (
 ) VALUES (
     $1, $2, $3, $4, $5, $6, $7, $8, $9
 ) ON CONFLICT (email) DO UPDATE SET
-    user_ID = COALESCE(EXCLUDED.user_ID, users.user_ID),
+    user_ID = CASE WHEN EXCLUDED.user_ID = '' THEN users.user_ID ELSE EXCLUDED.user_ID END,
     first_Name = CASE WHEN EXCLUDED.first_Name = '' THEN users.first_Name ELSE EXCLUDED.first_Name END,
     last_Name = CASE WHEN EXCLUDED.last_Name = '' THEN users.last_Name ELSE EXCLUDED.last_Name END,
     nick_Name = CASE WHEN EXCLUDED.nick_Name = '' THEN users.nick_Name ELSE EXCLUDED.nick_Name END,

@@ -14,13 +14,13 @@ func makeUpsertUserParams(user User) postgres.UpsertUserParams {
 	return postgres.UpsertUserParams{
 		UserID:             user.UserID,
 		Email:              user.Email,
-		FirstName:          pgtype.Text{String: user.FirstName, Valid: true},
-		LastName:           pgtype.Text{String: user.LastName, Valid: true},
-		NickName:           pgtype.Text{String: user.NickName, Valid: true},
-		AvatarUrl:          pgtype.Text{String: user.AvatarURL, Valid: true},
-		AccessToken:        pgtype.Text{String: user.AccessToken, Valid: true},
+		FirstName:           user.FirstName,
+		LastName:            user.LastName,
+		NickName:            user.NickName,
+		AvatarUrl:           user.AvatarURL,
+		AccessToken:         user.AccessToken,
 		AccessTokenExpires: pgtype.Timestamp{Time: user.AccessTokenExpires, InfinityModifier: pgtype.Finite, Valid: true},
-		IDToken:            pgtype.Text{String: user.IDToken, Valid: true},
+		IDToken:             user.IDToken,
 	}
 }
 
@@ -85,9 +85,9 @@ func makeAddNewTempWasteFromCollectorParams(param AddNewTempWasteFromCollectorPa
 }
 
 func broadendUser(u postgres.UpsertUserRow, user User) User {
-	user.FirstName = pgtextToString(u.FirstName)
-	user.LastName = pgtextToString(u.LastName)
-	user.NickName = pgtextToString(u.NickName)
+	user.FirstName = u.FirstName
+	user.LastName = u.LastName
+	user.NickName = u.NickName
 	user.CurrBalance = u.CurrBalance
 	user.TotalEarned = u.TotalEarned
 	user.TotalGlassWaste = u.TotalGlassWaste
@@ -125,12 +125,12 @@ func MakeAddNewAgentParams(param AddNewAgentParams) (postgres.AddNewAgentAndColl
 		if param.Email == "" {
 			return postgres.AddNewAgentAndCollectorParams{}, errors.New("collector email cannot be empty")
 		}
-		r.Email = pgtype.Text{String: param.Email, Valid: true}
+		r.Email =  param.Email
 		r.Email_2 = param.Email
-		r.FirstName = pgtype.Text{String: param.FirstName, Valid: true}
-		r.LastName = pgtype.Text{String: param.LastName, Valid: true}
-		r.NickName = pgtype.Text{String: param.NickName, Valid: true}
-		r.AvatarUrl = pgtype.Text{String: param.AvatarUrl, Valid: true}
+		r.FirstName =  param.FirstName
+		r.LastName =  param.LastName
+		r.NickName =  param.NickName
+		r.AvatarUrl =  param.AvatarUrl
 
 		if param.Role == "super_collector" {
 			r.Role = postgres.CollectorroleSuperCollector
@@ -147,8 +147,8 @@ func MakeAddNewAgentParams(param AddNewAgentParams) (postgres.AddNewAgentAndColl
 
 	r.StMakepoint = param.StMakepoint
 	r.StMakepoint_2 = param.StMakepoint_2
-	r.City = pgtype.Text{String: param.City, Valid: true}
-	r.State = pgtype.Text{String: param.State, Valid: true}
+	r.City =  param.City
+	r.State =  param.State
 
 	return r, nil
 }
@@ -226,21 +226,21 @@ func pgUserToServiceUser(pu postgres.User) User {
 	return User{
 		UserID:             pu.UserID,
 		Email:              pu.Email,
-		FirstName:          pu.FirstName.String,
-		LastName:           pu.LastName.String,
-		NickName:           pu.NickName.String,
-		AvatarURL:          pu.AvatarUrl.String,
-		SplWallet:          pu.SplWallet.String,
+		FirstName:          pu.FirstName,
+		LastName:           pu.LastName,
+		NickName:           pu.NickName,
+		AvatarURL:          pu.AvatarUrl,
+		SplWallet:          pu.SplWallet,
 		CurrBalance:        pu.CurrBalance,
 		TotalEarned:        pu.TotalEarned,
 		TotalGlassWaste:    pu.TotalGlassWaste,
 		TotalMetalWaste:    pu.TotalMetalWaste,
 		TotalPlasticsWaste: pu.TotalPlasticsWaste,
 		TotalPaperWaste:    pu.TotalPaperWaste,
-		HashedPassword:     pu.HashedPassword.String,
-		AccessToken:        pu.AccessToken.String,
+		HashedPassword:     pu.HashedPassword,
+		AccessToken:        pu.AccessToken,
 		AccessTokenExpires: pu.AccessTokenExpires.Time,
-		IDToken:            pu.IDToken.String,
+		IDToken:            pu.IDToken,
 		LastUpdateEmail:    pu.LastUpdateEmail.Time,
 		Role:               pu.Role,
 		Joined:             pu.Joined.Time,
@@ -252,21 +252,21 @@ func serviceUserToPg(u User) postgres.User {
 	return postgres.User{
 		UserID:             u.UserID,
 		Email:              u.Email,
-		FirstName:          pgtype.Text{String: u.FirstName, Valid: true},
-		LastName:           pgtype.Text{String: u.LastName, Valid: true},
-		NickName:           pgtype.Text{String: u.NickName, Valid: true},
-		AvatarUrl:          pgtype.Text{String: u.AvatarURL, Valid: true},
-		SplWallet:          pgtype.Text{String: u.SplWallet, Valid: true},
+		FirstName:           u.FirstName,
+		LastName:            u.LastName,
+		NickName:            u.NickName,
+		AvatarUrl:           u.AvatarURL,
+		SplWallet:           u.SplWallet,
 		CurrBalance:        u.CurrBalance,
 		TotalEarned:        u.TotalEarned,
 		TotalGlassWaste:    u.TotalGlassWaste,
 		TotalMetalWaste:    u.TotalMetalWaste,
 		TotalPlasticsWaste: u.TotalPlasticsWaste,
 		TotalPaperWaste:    u.TotalPaperWaste,
-		HashedPassword:     pgtype.Text{String: u.HashedPassword, Valid: true},
-		AccessToken:        pgtype.Text{String: u.AccessToken, Valid: true},
+		HashedPassword:      u.HashedPassword,
+		AccessToken:         u.AccessToken,
 		AccessTokenExpires: pgtype.Timestamp{Time: u.AccessTokenExpires, Valid: true, InfinityModifier: pgtype.Finite},
-		IDToken:            pgtype.Text{String: u.IDToken, Valid: true},
+		IDToken:             u.IDToken,
 		LastUpdateEmail:    pgtype.Timestamp{Time: u.LastUpdateEmail, Valid: true, InfinityModifier: pgtype.Finite},
 		Role:               u.Role,
 		Joined:             pgtype.Timestamp{Time: u.Joined, Valid: true},
