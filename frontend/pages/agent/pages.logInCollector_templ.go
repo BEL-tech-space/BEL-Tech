@@ -26,7 +26,7 @@ func LogInCollector() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 1)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<!doctype html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><title>Login Page</title><script src=\"https://cdn.tailwindcss.com\"></script></head><body class=\"h-screen\"><!-- Main container with two sections and gap --><div class=\"flex flex-col items-center justify-center h-full gap-6\"><!-- First section: only the image --><section class=\"flex justify-center\"><img src=\"../assets/svg/beltch_logo_dark.svg\" alt=\"Logo\" class=\" \"></section><!-- Second section: button --><section class=\"flex justify-center\"><button class=\"flex items-center px-12 py-3 text-white bg-green-700 rounded-md shadow-lg hover:bg-green-800 focus:outline-none\"><img src=\"../assets/svg/google_logo.svg\" alt=\"Google Logo\" class=\"w-5 h-5\"> <span class=\"ml-2\">Log in with Google</span></button></section></div></body></html>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
