@@ -40,6 +40,8 @@ const (
 	contextKeyRole       contextKey = "role"
 )
 
+const productionEnv string = "production"
+
 func NewApp(cfg *EnvConfig, db *pgxpool.Pool) *App {
 
 	store := sessions.NewCookieStore([]byte(cfg.CookieSecret))

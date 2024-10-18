@@ -5,56 +5,95 @@ templ LocationPage() {
 	<html lang="en">
 		<head>
 			<meta charset="UTF-8"/>
-			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-			<link rel="stylesheet" href="/assets/styles/output.css"/>
+			<meta
+				name="viewport"
+				content="width=device-width, initial-scale=1.0"
+			/>
+			<link
+				rel="stylesheet"
+				href="/assets/styles/output.css"
+			/>
+			<link
+				rel="stylesheet"
+				href="/assets/libriaries/swiper-bundle.min.css"
+			/>
+			<script src="/assets/libriaries/swiper-bundle.min.js"></script>
+			<style>
+            .overflow-y-scroll::-webkit-scrollbar {
+                width: 0 !important;
+                display: none;
+                overflow: -moz-scrollbars-none;
+                scrollbar-width: none;
+            }
+        </style>
 			<title>Location</title>
 		</head>
-		<body>
-			<div class="px-6 pt-4 absolute z-20">
-				<p class="font-bold text-xl pb-4 text-start">Find the closest smart bin to you! 😄</p>
-				<input
-					type="text"
-					placeholder="Search location"
-					class="bg-green-200 rounded-xl w-[90%] text-center absolute"
-				/>
-				<img
-					src="/assets/svg/search.svg"
-					class="w-6 h-6 relative left-72"
-				/>
+		<body
+			class="bg-[url('/assets/images/beltech_background.png')] bg-cover bg-center h-dvh font-montserrat text-[#2E2E2E] overflow-hidden"
+		>
+			<div class="flex flex-col h-full gap-2">
+				<header class="mt-6 mx-6">
+					<div class="flex flex-col justify-between items-start gap-6 px-3">
+						<p class="font-semibold text-left text-[0.938rem] leading-[1.143rem]">
+							Find the closest smart bin to
+							you!
+							😄
+						</p>
+						<div class="bg-[#CCE1D699] rounded-xl w-full flex justify-between items-center gap-[0.234] px-2">
+							<input
+								type="text"
+								placeholder="Search location"
+								class="bg-transparent outline-none w-full"
+							/>
+							<div class="m-[0.646rem]">
+								<img
+									src="/assets/svg/search.svg"
+									class="w-[1.056rem] aspect-square"
+								/>
+							</div>
+						</div>
+					</div>
+				</header>
+				<main class="grow mt-[1.75rem] overflow-y-scroll w-full h-full">
+					<div
+						id="map"
+						class="w-full h-full"
+					></div>
+				</main>
+				@menuComp("location")
 			</div>
-			<div class="absolute top-0 right-0 left-0 bottom-0 py-24">
-				<div
-					id="map"
-					class="w-full h-full"
-				></div>
-			</div>
-			<script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAqjo9EnrHgTK2-TeBIrUCq1GywYk7wlvw&callback=initMap">
-                </script>
-			<script type="text/javascript">
-            function initMap () {
-                var zoomVal = 4.2;
-                if ( window.matchMedia( '(max-width: 767px)' ).matches )
-                {
-                    zoomVal = 2.5;
-                }
-                var options = {
-                    zoom: zoomVal,
-                    center: { lat: 7.405385919885895, lng: 3.889942027649539 },
-                    mapTypeId: google.maps.MapTypeId.ROADMAP
-                };
-                var map = new google.maps.Map( document.getElementById( 'map' ), options );
+			<script>
+            ( g => { var h, a, k, p = "The Google Maps JavaScript API", c = "google", l = "importLibrary", q = "__ib__", m = document, b = window; b = b[ c ] || ( b[ c ] = {} ); var d = b.maps || ( b.maps = {} ), r = new Set, e = new URLSearchParams, u = () => h || ( h = new Promise( async ( f, n ) => { await ( a = m.createElement( "script" ) ); e.set( "libraries", [ ...r ] + "" ); for ( k in g ) e.set( k.replace( /[A-Z]/g, t => "_" + t[ 0 ].toLowerCase() ), g[ k ] ); e.set( "callback", c + ".maps." + q ); a.src = `https://maps.${c}apis.com/maps/api/js?` + e; d[ q ] = f; a.onerror = () => h = n( Error( p + " could not load." ) ); a.nonce = m.querySelector( "script[nonce]" )?.nonce || ""; m.head.append( a ); } ) ); d[ l ] ? console.warn( p + " only loads once. Ignoring:", g ) : d[ l ] = ( f, ...n ) => r.add( f ) && u().then( () => d[ l ]( f, ...n ) ); } )( {
+                key: "AIzaSyAqjo9EnrHgTK2-TeBIrUCq1GywYk7wlvw",
+                v: "weekly",
+            } );
+        </script>
+			<script>
+            let map;
+            var options = {
+                zoom: 14,
+                center: { lat: 7.405385919885895, lng: 3.889942027649539 },
+                mapId: "DEMO_MAP_ID"
+            };
 
-                var marker1 = new google.maps.Marker( {
-                    position: { lat: 7.402616211314639, lng: 3.9020077417937116 },
+            async function initMap () {
+                const position = { lat: -25.344, lng: 131.031 };
+
+                //@ts-ignore
+                const { Map } = await google.maps.importLibrary( "maps" );
+                const { AdvancedMarkerElement } = await google.maps.importLibrary( "marker" );
+
+                map = new Map( document.getElementById( "map" ), options );
+
+                const marker1 = new AdvancedMarkerElement( {
                     map: map,
-                } );
-                var marker2 = new google.maps.Marker( {
-                    position: { lat: 7.475459606302984, lng: 3.903737589460358 },
-                    map: map,
+                    position: options.center,
+                    title: "Apata",
                 } );
             }
+
+            initMap();
         </script>
-			@menuComp("location")
 		</body>
 	</html>
 }
