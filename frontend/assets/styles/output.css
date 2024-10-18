@@ -1,5 +1,5 @@
 /*
-! tailwindcss v3.4.6 | MIT License | https://tailwindcss.com
+! tailwindcss v3.4.10 | MIT License | https://tailwindcss.com
 */
 
 /*
@@ -802,10 +802,6 @@ video {
   display: flex;
 }
 
-.inline-flex {
-  display: inline-flex;
-}
-
 .hidden {
   display: none;
 }
@@ -982,6 +978,10 @@ video {
   max-width: 20rem;
 }
 
+.flex-shrink-0 {
+  flex-shrink: 0;
+}
+
 .grow {
   flex-grow: 1;
 }
@@ -1083,6 +1083,10 @@ video {
   --tw-space-x-reverse: 0;
   margin-right: calc(1rem * var(--tw-space-x-reverse));
   margin-left: calc(1rem * calc(1 - var(--tw-space-x-reverse)));
+}
+
+.self-center {
+  align-self: center;
 }
 
 .overflow-hidden {
@@ -1374,20 +1378,12 @@ video {
   padding-bottom: 1rem;
 }
 
-.pb-6 {
-  padding-bottom: 1.5rem;
-}
-
 .pl-5 {
   padding-left: 1.25rem;
 }
 
 .pl-\[1\.5rem\] {
   padding-left: 1.5rem;
-}
-
-.pr-2 {
-  padding-right: 0.5rem;
 }
 
 .pr-\[0\.31rem\] {
@@ -1400,10 +1396,6 @@ video {
 
 .pt-10 {
   padding-top: 2.5rem;
-}
-
-.pt-3 {
-  padding-top: 0.75rem;
 }
 
 .pt-4 {
@@ -1422,12 +1414,20 @@ video {
   padding-top: 2rem;
 }
 
+.pt-\[0\.5rem\] {
+  padding-top: 0.5rem;
+}
+
 .pt-\[1\.5rem\] {
   padding-top: 1.5rem;
 }
 
 .pt-\[1\.88rem\] {
   padding-top: 1.88rem;
+}
+
+.pt-\[2\.8125rem\] {
+  padding-top: 2.8125rem;
 }
 
 .text-center {
@@ -1481,6 +1481,10 @@ video {
 
 .text-\[0\.94rem\] {
   font-size: 0.94rem;
+}
+
+.text-\[1\.25rem\] {
+  font-size: 1.25rem;
 }
 
 .text-lg {
@@ -1543,6 +1547,10 @@ video {
   line-height: 0.0.762rem;
 }
 
+.leading-\[0\.762rem\] {
+  line-height: 0.762rem;
+}
+
 .leading-\[0\.76rem\] {
   line-height: 0.76rem;
 }
@@ -1553,6 +1561,10 @@ video {
 
 .leading-\[0\.875rem\] {
   line-height: 0.875rem;
+}
+
+.leading-\[0\.914rem\] {
+  line-height: 0.914rem;
 }
 
 .leading-\[0\.91rem\] {
@@ -1569,6 +1581,10 @@ video {
 
 .leading-\[1\.25rem\] {
   line-height: 1.25rem;
+}
+
+.leading-\[1\.524rem\] {
+  line-height: 1.524rem;
 }
 
 .leading-tight {
