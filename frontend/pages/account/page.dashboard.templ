@@ -29,17 +29,17 @@ templ AccountDashboardPage(user User) {
 			<title>Dashboard</title>
 		</head>
 		<body class="bg-[url('/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
-			<main class="w-full h-full flex flex-col font-montserrat text-[#2E2E2E]">
+			<div class="Page w-full h-full flex flex-col font-montserrat text-[#2E2E2E]">
 				@profileBar(user)
-				<section class="grow overflow-y-scroll pl-[1.5rem] pr-[1.56rem]">
-					<div class="pt-[1.88rem] flex">
+				<main class="grow overflow-y-scroll pl-[1.5rem] pr-[1.56rem]">
+					<article class="pt-[1.88rem] flex">
 						<p class="leading-[1.143rem] font-[600] text-[0.938rem]">Let's Recycle! </p>
 						<img
 							src="/assets/images/Recycle_small.png"
 							class="w-[1.25rem] aspect-square ml-2"
 						/>
-					</div>
-					<div class="swiperOne mt-[0.86rem] mr-0">
+					</article>
+					<section class="swiperOne mt-[0.86rem] mr-0">
 						<div class="swiper mySwiper w-full">
 							<div class="swiper-wrapper">
 								<div class="swiper-slide">
@@ -80,14 +80,14 @@ templ AccountDashboardPage(user User) {
 							</div>
 							<div class="swiper-pagination text-green-400"></div>
 						</div>
-					</div>
-					<div class="mt-8 w-full flex items-center justify-between">
+					</section>
+					<section class="mt-8 w-full flex items-center justify-between">
 						<p class="font-[600] text-[0.94rem] leading-[1.14rem]">Recycled</p>
 						<button>
 							<p class="font-[500] text-[0.63rem] leading-[0.76rem] text-[#016934]">see all</p>
 						</button>
-					</div>
-					<div class="mt-4 flex flex-col gap-4">
+					</section>
+					<section class="mt-4 flex flex-col gap-4">
 						<div class="bg-[#FEF7FF] w-full rounded-lg flex gap-2">
 							<img
 								src="/assets/images/sports_bottle.jpg"
@@ -116,9 +116,9 @@ templ AccountDashboardPage(user User) {
 								class="rotate-180 ml-auto w-[0.938rem] aspect-square"
 							/>
 						</div>
-					</div>
+					</section>
 					<p class="mt-8 font-[600] text-[0.938rem] leading-[1.143rem]">Tips on Recycling</p>
-					<div class="swiperTwo mt-4">
+					<section class="swiperTwo mt-4">
 						<div class="px-4 swiper mySwiperTwo w-full">
 							<div class="swiper-wrapper">
 								<div class="swiper-slide">
@@ -194,16 +194,14 @@ templ AccountDashboardPage(user User) {
 									</div>
 								</div>
 							</div>
-							// <div class="swiper-button-next"></div>
-							// <div class="swiper-button-prev"></div>
 						</div>
-					</div>
-				</section>
+					</section>
+				</main>
 				@menuComp("dashboard")
-			</main>
+			</div>
 		</body>
 		<script type="text/javascript">
-             const swiper = new Swiper( '.mySwiper', {
+        const swiper = new Swiper( '.mySwiper', {
             direction: "horizontal",
             slidesPerView: 2,
             mousewheel: true,
@@ -214,20 +212,16 @@ templ AccountDashboardPage(user User) {
             },
             autoplay: {
                 delay: 3000,
-                disableOnInteraction: false,
+                disableOnInteraction: true,
             },
         } );
 
         const swiperTwo = new Swiper( '.mySwiperTwo', {
             mousewheel: true,
             keyboard: true,
-            navigation: {
-                nextEl: ".swiper-button-next",
-                prevEl: ".swiper-button-prev",
-            },
             autoplay: {
                 delay: 1500,
-                disableOnInteraction: false,
+                disableOnInteraction: true,
             },
         } );
     </script>
