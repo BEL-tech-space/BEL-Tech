@@ -19,9 +19,9 @@ VALUES ($1, $2, $3, $4, $5, ST_SetSRID(ST_MakePoint($6, $7), 4326), $8)
 type AddNewAgentParams struct {
 	AgentID               pgtype.UUID      `json:"agent_id"`
 	Is                    Identifyas       `json:"is"`
-	Email                 pgtype.Text      `json:"email"`
-	City                  pgtype.Text      `json:"city"`
-	State                 pgtype.Text      `json:"state"`
+	Email                 string           `json:"email"`
+	City                  string           `json:"city"`
+	State                 string           `json:"state"`
 	StMakepoint           interface{}      `json:"st_makepoint"`
 	StMakepoint_2         interface{}      `json:"st_makepoint_2"`
 	BinLocationLastUpdate pgtype.Timestamp `json:"bin_location_last_update"`
@@ -57,18 +57,18 @@ SELECT agent_ID FROM new_agent
 
 type AddNewAgentAndCollectorParams struct {
 	Is                    Identifyas       `json:"is"`
-	Email                 pgtype.Text      `json:"email"`
-	City                  pgtype.Text      `json:"city"`
-	State                 pgtype.Text      `json:"state"`
+	Email                 string           `json:"email"`
+	City                  string           `json:"city"`
+	State                 string           `json:"state"`
 	StMakepoint           interface{}      `json:"st_makepoint"`
 	StMakepoint_2         interface{}      `json:"st_makepoint_2"`
 	BinLocationLastUpdate pgtype.Timestamp `json:"bin_location_last_update"`
 	Email_2               string           `json:"email_2"`
 	Role                  Collectorrole    `json:"role"`
-	FirstName             pgtype.Text      `json:"first_name"`
-	LastName              pgtype.Text      `json:"last_name"`
-	NickName              pgtype.Text      `json:"nick_name"`
-	AvatarUrl             pgtype.Text      `json:"avatar_url"`
+	FirstName             string           `json:"first_name"`
+	LastName              string           `json:"last_name"`
+	NickName              string           `json:"nick_name"`
+	AvatarUrl             string           `json:"avatar_url"`
 }
 
 func (q *Queries) AddNewAgentAndCollector(ctx context.Context, arg AddNewAgentAndCollectorParams) (pgtype.UUID, error) {
@@ -93,12 +93,12 @@ func (q *Queries) AddNewAgentAndCollector(ctx context.Context, arg AddNewAgentAn
 }
 
 const addNewExchangeHistory = `-- name: AddNewExchangeHistory :exec
-INSERT INTO exchange_History (user_ID, amount, operation, created_At) 
+INSERT INTO exchange_History (email, amount, operation, created_At) 
 VALUES ($1, $2, $3::json, $4)
 `
 
 type AddNewExchangeHistoryParams struct {
-	UserID    string           `json:"user_id"`
+	Email     string           `json:"email"`
 	Amount    float64          `json:"amount"`
 	Column3   []byte           `json:"column_3"`
 	CreatedAt pgtype.Timestamp `json:"created_at"`
@@ -106,7 +106,7 @@ type AddNewExchangeHistoryParams struct {
 
 func (q *Queries) AddNewExchangeHistory(ctx context.Context, arg AddNewExchangeHistoryParams) error {
 	_, err := q.db.Exec(ctx, addNewExchangeHistory,
-		arg.UserID,
+		arg.Email,
 		arg.Amount,
 		arg.Column3,
 		arg.CreatedAt,
@@ -159,21 +159,21 @@ INSERT INTO users (
 type AddNewUserParams struct {
 	UserID             string           `json:"user_id"`
 	Email              string           `json:"email"`
-	HashedPassword     pgtype.Text      `json:"hashed_password"`
-	FirstName          pgtype.Text      `json:"first_name"`
-	LastName           pgtype.Text      `json:"last_name"`
-	NickName           pgtype.Text      `json:"nick_name"`
-	AvatarUrl          pgtype.Text      `json:"avatar_url"`
-	SplWallet          pgtype.Text      `json:"spl_wallet"`
+	HashedPassword     string           `json:"hashed_password"`
+	FirstName          string           `json:"first_name"`
+	LastName           string           `json:"last_name"`
+	NickName           string           `json:"nick_name"`
+	AvatarUrl          string           `json:"avatar_url"`
+	SplWallet          string           `json:"spl_wallet"`
 	CurrBalance        float64          `json:"curr_balance"`
 	TotalEarned        float64          `json:"total_earned"`
 	TotalGlassWaste    float32          `json:"total_glass_waste"`
 	TotalMetalWaste    float32          `json:"total_metal_waste"`
 	TotalPlasticsWaste float32          `json:"total_plastics_waste"`
 	TotalPaperWaste    float32          `json:"total_paper_waste"`
-	AccessToken        pgtype.Text      `json:"access_token"`
+	AccessToken        string           `json:"access_token"`
 	AccessTokenExpires pgtype.Timestamp `json:"access_token_expires"`
-	IDToken            pgtype.Text      `json:"id_token"`
+	IDToken            string           `json:"id_token"`
 	LastUpdateEmail    pgtype.Timestamp `json:"last_update_email"`
 	Joined             pgtype.Timestamp `json:"joined"`
 }
@@ -204,7 +204,7 @@ func (q *Queries) AddNewUser(ctx context.Context, arg AddNewUserParams) error {
 }
 
 const addNewWasteLog = `-- name: AddNewWasteLog :exec
-INSERT INTO waste_Logs (waste_Id, created_At, glass_Weighed, metal_Weighed, plastics_Weighed, paper_Weighed, "location", agent_ID, user_ID) 
+INSERT INTO waste_Logs (waste_Id, created_At, glass_Weighed, metal_Weighed, plastics_Weighed, paper_Weighed, "location", agent_ID, email) 
 VALUES ($1, $2, $3, $4, $5, $6, ST_SetSRID(ST_MakePoint($7, $8), 4326), $9, $10)
 `
 
@@ -218,7 +218,7 @@ type AddNewWasteLogParams struct {
 	StMakepoint     interface{}      `json:"st_makepoint"`
 	StMakepoint_2   interface{}      `json:"st_makepoint_2"`
 	AgentID         pgtype.UUID      `json:"agent_id"`
-	UserID          pgtype.Text      `json:"user_id"`
+	Email           string           `json:"email"`
 }
 
 func (q *Queries) AddNewWasteLog(ctx context.Context, arg AddNewWasteLogParams) error {
@@ -232,7 +232,7 @@ func (q *Queries) AddNewWasteLog(ctx context.Context, arg AddNewWasteLogParams) 
 		arg.StMakepoint,
 		arg.StMakepoint_2,
 		arg.AgentID,
-		arg.UserID,
+		arg.Email,
 	)
 	return err
 }
@@ -271,7 +271,7 @@ func (q *Queries) GetAllCollectorsEmailAndAgentID(ctx context.Context) ([]GetAll
 }
 
 const getUser = `-- name: GetUser :one
-SELECT user_id, email, first_name, last_name, nick_name, avatar_url, spl_wallet, curr_balance, total_earned, total_glass_waste, total_metal_waste, total_plastics_waste, total_paper_waste, hashed_password, access_token, access_token_expires, id_token, last_update_email, role, joined, is_deleted 
+SELECT email, user_id, first_name, last_name, nick_name, avatar_url, spl_wallet, curr_balance, total_earned, total_glass_waste, total_metal_waste, total_plastics_waste, total_paper_waste, hashed_password, access_token, access_token_expires, id_token, last_update_email, role, joined, is_deleted 
 FROM users 
 WHERE email = $1 
   AND is_Deleted = FALSE
@@ -281,8 +281,8 @@ func (q *Queries) GetUser(ctx context.Context, email string) (User, error) {
 	row := q.db.QueryRow(ctx, getUser, email)
 	var i User
 	err := row.Scan(
-		&i.UserID,
 		&i.Email,
+		&i.UserID,
 		&i.FirstName,
 		&i.LastName,
 		&i.NickName,
@@ -384,7 +384,7 @@ INSERT INTO users (
 ) VALUES (
     $1, $2, $3, $4, $5, $6, $7, $8, $9
 ) ON CONFLICT (email) DO UPDATE SET
-    user_ID = COALESCE(EXCLUDED.user_ID, users.user_ID),
+    user_ID = CASE WHEN EXCLUDED.user_ID = '' THEN users.user_ID ELSE EXCLUDED.user_ID END,
     first_Name = CASE WHEN EXCLUDED.first_Name = '' THEN users.first_Name ELSE EXCLUDED.first_Name END,
     last_Name = CASE WHEN EXCLUDED.last_Name = '' THEN users.last_Name ELSE EXCLUDED.last_Name END,
     nick_Name = CASE WHEN EXCLUDED.nick_Name = '' THEN users.nick_Name ELSE EXCLUDED.nick_Name END,
@@ -399,26 +399,26 @@ RETURNING
 type UpsertUserParams struct {
 	UserID             string           `json:"user_id"`
 	Email              string           `json:"email"`
-	FirstName          pgtype.Text      `json:"first_name"`
-	LastName           pgtype.Text      `json:"last_name"`
-	NickName           pgtype.Text      `json:"nick_name"`
-	AvatarUrl          pgtype.Text      `json:"avatar_url"`
-	AccessToken        pgtype.Text      `json:"access_token"`
+	FirstName          string           `json:"first_name"`
+	LastName           string           `json:"last_name"`
+	NickName           string           `json:"nick_name"`
+	AvatarUrl          string           `json:"avatar_url"`
+	AccessToken        string           `json:"access_token"`
 	AccessTokenExpires pgtype.Timestamp `json:"access_token_expires"`
-	IDToken            pgtype.Text      `json:"id_token"`
+	IDToken            string           `json:"id_token"`
 }
 
 type UpsertUserRow struct {
-	FirstName          pgtype.Text `json:"first_name"`
-	LastName           pgtype.Text `json:"last_name"`
-	NickName           pgtype.Text `json:"nick_name"`
-	SplWallet          pgtype.Text `json:"spl_wallet"`
-	CurrBalance        float64     `json:"curr_balance"`
-	TotalEarned        float64     `json:"total_earned"`
-	TotalGlassWaste    float32     `json:"total_glass_waste"`
-	TotalMetalWaste    float32     `json:"total_metal_waste"`
-	TotalPlasticsWaste float32     `json:"total_plastics_waste"`
-	TotalPaperWaste    float32     `json:"total_paper_waste"`
+	FirstName          string  `json:"first_name"`
+	LastName           string  `json:"last_name"`
+	NickName           string  `json:"nick_name"`
+	SplWallet          string  `json:"spl_wallet"`
+	CurrBalance        float64 `json:"curr_balance"`
+	TotalEarned        float64 `json:"total_earned"`
+	TotalGlassWaste    float32 `json:"total_glass_waste"`
+	TotalMetalWaste    float32 `json:"total_metal_waste"`
+	TotalPlasticsWaste float32 `json:"total_plastics_waste"`
+	TotalPaperWaste    float32 `json:"total_paper_waste"`
 }
 
 func (q *Queries) UpsertUser(ctx context.Context, arg UpsertUserParams) (UpsertUserRow, error) {

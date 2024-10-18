@@ -41,10 +41,7 @@ func main() {
 	}
 
 	go func() {
-		if environmentalVariables.Build != "production" {
-			log.Printf("Server is running on http://localhost:%v\n", environmentalVariables.Port)
-		}
-
+		log.Printf("Server is running on http://localhost:%v\n", environmentalVariables.Port)
 		if err := server.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
 			log.Panic("Server error: " + err.Error())
 		}

@@ -11,7 +11,6 @@ import (
 	"github.com/joho/godotenv"
 )
 
-const productionEnv string = "production"
 
 var beltechWatermarkLogo []byte
 
@@ -68,11 +67,8 @@ type EnvConfig struct {
 func LoadEnv(cfg *EnvConfig) error {
 
 	if err := godotenv.Load("dev.env"); err != nil {
-		fmt.Printf("error loading prod.env file: %v", err)
+		fmt.Printf("error loading dev.env file: %v", err)
 	}
 
-	if err := env.Parse(cfg); err != nil {
-		return err
-	}
-	return nil
+	return env.Parse(cfg)
 }

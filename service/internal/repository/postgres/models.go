@@ -98,9 +98,9 @@ func (ns NullIdentifyas) Value() (driver.Value, error) {
 type Agent struct {
 	AgentID               pgtype.UUID      `json:"agent_id"`
 	Is                    Identifyas       `json:"is"`
-	Email                 pgtype.Text      `json:"email"`
-	City                  pgtype.Text      `json:"city"`
-	State                 pgtype.Text      `json:"state"`
+	Email                 string           `json:"email"`
+	City                  string           `json:"city"`
+	State                 string           `json:"state"`
 	Location              interface{}      `json:"location"`
 	BinLocationLastUpdate pgtype.Timestamp `json:"bin_location_last_update"`
 	CreatedAt             pgtype.Timestamp `json:"created_at"`
@@ -108,17 +108,17 @@ type Agent struct {
 
 type Collector struct {
 	Email     string        `json:"email"`
+	FirstName string        `json:"first_name"`
+	LastName  string        `json:"last_name"`
+	NickName  string        `json:"nick_name"`
+	AvatarUrl string        `json:"avatar_url"`
 	Role      Collectorrole `json:"role"`
-	FirstName pgtype.Text   `json:"first_name"`
-	LastName  pgtype.Text   `json:"last_name"`
-	NickName  pgtype.Text   `json:"nick_name"`
-	AvatarUrl pgtype.Text   `json:"avatar_url"`
 	AgentID   pgtype.UUID   `json:"agent_id"`
 }
 
 type ExchangeHistory struct {
 	TranID    pgtype.UUID      `json:"tran_id"`
-	UserID    string           `json:"user_id"`
+	Email     string           `json:"email"`
 	Amount    float64          `json:"amount"`
 	Operation []byte           `json:"operation"`
 	CreatedAt pgtype.Timestamp `json:"created_at"`
@@ -136,23 +136,23 @@ type TempWasteLog struct {
 }
 
 type User struct {
-	UserID             string           `json:"user_id"`
 	Email              string           `json:"email"`
-	FirstName          pgtype.Text      `json:"first_name"`
-	LastName           pgtype.Text      `json:"last_name"`
-	NickName           pgtype.Text      `json:"nick_name"`
-	AvatarUrl          pgtype.Text      `json:"avatar_url"`
-	SplWallet          pgtype.Text      `json:"spl_wallet"`
+	UserID             string           `json:"user_id"`
+	FirstName          string           `json:"first_name"`
+	LastName           string           `json:"last_name"`
+	NickName           string           `json:"nick_name"`
+	AvatarUrl          string           `json:"avatar_url"`
+	SplWallet          string           `json:"spl_wallet"`
 	CurrBalance        float64          `json:"curr_balance"`
 	TotalEarned        float64          `json:"total_earned"`
 	TotalGlassWaste    float32          `json:"total_glass_waste"`
 	TotalMetalWaste    float32          `json:"total_metal_waste"`
 	TotalPlasticsWaste float32          `json:"total_plastics_waste"`
 	TotalPaperWaste    float32          `json:"total_paper_waste"`
-	HashedPassword     pgtype.Text      `json:"hashed_password"`
-	AccessToken        pgtype.Text      `json:"access_token"`
+	HashedPassword     string           `json:"hashed_password"`
+	AccessToken        string           `json:"access_token"`
 	AccessTokenExpires pgtype.Timestamp `json:"access_token_expires"`
-	IDToken            pgtype.Text      `json:"id_token"`
+	IDToken            string           `json:"id_token"`
 	LastUpdateEmail    pgtype.Timestamp `json:"last_update_email"`
 	Role               string           `json:"role"`
 	Joined             pgtype.Timestamp `json:"joined"`
@@ -168,5 +168,5 @@ type WasteLog struct {
 	PaperWeighed    float32          `json:"paper_weighed"`
 	Location        interface{}      `json:"location"`
 	AgentID         pgtype.UUID      `json:"agent_id"`
-	UserID          pgtype.Text      `json:"user_id"`
+	Email           string           `json:"email"`
 }
