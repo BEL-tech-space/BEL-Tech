@@ -206,10 +206,6 @@ templ AccountDashboardPage(user User) {
             slidesPerView: 2,
             mousewheel: true,
             spaceBetween: 8,
-            pagination: {
-                el: ".swiper-pagination",
-                clickable: true,
-            },
             autoplay: {
                 delay: 3000,
                 disableOnInteraction: true,
@@ -225,16 +221,5 @@ templ AccountDashboardPage(user User) {
             },
         } );
     </script>
-		<style>
-        .swiper-pagination-bullet-active {
-            background-color: rgb(62, 184, 62);
-        }
-
-        .swiper-button-prev:after,
-        .swiper-button-next:after {
-            --swiper-navigation-size: 20px;
-            color: rgb(62, 184, 62);
-        }
-    </style>
 	</html>
 }
