@@ -45,7 +45,7 @@ templ ScanQRPage() {
 				</header>
 				<main class="grow overflow-y-scroll pl-[1.438rem] pr-[1.375rem] mt-[4.5rem]">
 					<div class="h-full w-full flex flex-col justify-around items-center ">
-						<section>
+						<section id="xyz">
 							<img
 								src="/assets/images/qr_code.jpg"
 								alt=""
@@ -61,14 +61,26 @@ templ ScanQRPage() {
 								<p>dispose waste</p>
 							</article>
 						</section>
+						<div id="reader"></div>
 						<section class="w-full flex justify-around items-center gap-[0.625rem]">
-							<button class="w-full h-full bg-[#016934] rounded-md">
-								<p class="font-montserrat font-medium text-center text-[0.813rem] text-white">Scan</p>
+							<button
+								onclick="scan()"
+								class="scanButton w-full h-full bg-[#016934] rounded-md"
+							>
+								<p
+									class="scanButtonText font-montserrat font-medium text-center text-[0.813rem] text-white"
+								>
+									Scan
+								</p>
 							</button>
-							<button class="bg-[#CCE1D699] p-[0.688rem] rounded-md flex justify-center items-center">
+							<button
+								onclick="location.reload()"
+								title="reload page"
+								class="bg-[#CCE1D699] p-[0.688rem] rounded-md flex justify-center items-center"
+							>
 								<img
 									src="/assets/svg/octicon_history-16.svg"
-									class="w-[1.125rem] aspect-square"
+									class="w-[1.125rem]  aspect-square"
 								/>
 							</button>
 						</section>
@@ -76,6 +88,73 @@ templ ScanQRPage() {
 				</main>
 				@menuComp("scan")
 			</div>
+			<script src="/assets/libriaries/html5-qrcode.min.js"></script>
+			<script type="text/javascript">
+            const html5QrCode = new Html5Qrcode( "reader" );
+            let isScanning = false;
+
+            function scan () {
+                const readerContainer = document.getElementById( "reader" );
+                const xyz = document.getElementById( 'xyz' );
+                const scanButton = document.getElementsByClassName( 'scanButton' )[ 0 ];
+                const scanButtonText = document.getElementsByClassName( 'scanButtonText' )[ 0 ];
+                const width = xyz.offsetWidth;
+                const height = xyz.offsetHeight;
+
+                if ( isScanning )
+                {
+                    stopScanning();
+                    return;
+                }
+
+                readerContainer.style.width = `${( 2 / 3 ) * width}px`;
+                readerContainer.style.height = `${( 2 / 3 ) * height}px`;
+                const config = { fps: 10, qrbox: { width: width, height: height } };
+
+                html5QrCode.start( { facingMode: "environment" }, config, qrCodeSuccessCallback, qrCodeErrorCallback )
+                    .then( () => {
+                        isScanning = true;
+                        xyz.style.display = 'none';
+                        scanButton.style.backgroundColor = '#FF0000';
+                        scanButtonText.innerText = 'Cancel Scanning';
+                    } )
+                    .catch( ( err ) => {
+                        isScanning = false;
+                        console.error( err );
+                    } );
+
+            }
+
+            function qrCodeSuccessCallback ( decodedText, decodedResult ) {
+                console.log( `Scan result: ${decodedText}`, decodedResult );
+                stopScanning();
+            }
+
+			function qrCodeErrorCallback ( error ) {
+                console.error( "from qrCodeErrorCallback ", error );
+            }
+
+            function stopScanning () {
+                html5QrCode.stop().then( ( ignore ) => {
+                    restoreScreen();
+                    isScanning = false;
+                } )
+                    .catch( ( err ) => {
+                        restoreScreen();
+                        console.error( "error clearing reader", err );
+                    } );
+            }
+
+            function restoreScreen () {
+                const xyz = document.getElementById( "xyz" );
+                const scanButtonText = document.getElementsByClassName( "scanButtonText" )[ 0 ];
+                const scanButton = document.getElementsByClassName( 'scanButton' )[ 0 ];
+
+                xyz.style.display = 'block';
+                scanButton.style.backgroundColor = '';
+                scanButtonText.innerText = 'Scan';
+            }
+        </script>
 		</body>
 	</html>
 }
