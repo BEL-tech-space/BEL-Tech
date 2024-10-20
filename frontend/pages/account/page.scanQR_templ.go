@@ -26,7 +26,7 @@ func ScanQRPage() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<!doctype html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><link rel=\"stylesheet\" href=\"/assets/styles/output.css\"><link rel=\"stylesheet\" href=\"/assets/libriaries/swiper-bundle.min.css\"><script src=\"/assets/libriaries/swiper-bundle.min.js\"></script><style>\r\n            .overflow-y-scroll::-webkit-scrollbar {\r\n                width: 0 !important;\r\n                display: none;\r\n                overflow: -moz-scrollbars-none;\r\n                scrollbar-width: none;\r\n            }\r\n        </style><title>Scan</title></head><body class=\"bg-[url(&#39;/assets/images/beltech_background.png&#39;)] bg-cover bg-center h-dvh font-montserrat text-[#2E2E2E] overflow-hidden\"><div class=\"Page w-full h-full flex flex-col\"><header class=\"pt-[1.5rem] pl-[1.5rem] pr-[1.56rem] flex w-full justify-between items-center\"><button><img src=\"/assets/svg/back_arrow.svg\" alt=\"\" class=\"w-6 aspect-square\"></button><p class=\"font-semibold text-[0.938rem] leading-[1.143rem]\">Scan</p><button class=\"bg-[#CCE1D699] p-2 rounded-md flex justify-center items-center\"><img src=\"/assets/svg/notification.svg\" class=\"w-[1.5rem] aspect-square\"></button></header><main class=\"grow overflow-y-scroll pl-[1.438rem] pr-[1.375rem] mt-[4.5rem]\"><div class=\"h-full w-full flex flex-col justify-around items-center \"><section><img src=\"/assets/images/qr_code.jpg\" alt=\"\" class=\"w-[22rem] aspect-square m-auto\"><article class=\"mt-[0.938rem] mr-10 ml-[2.5625rem] font-normal font-poppins text-sm text-center\"><p>Scan QR code on the smart bin to</p><p>dispose waste</p></article></section><section class=\"w-full flex justify-around items-center gap-[0.625rem]\"><button class=\"w-full h-full bg-[#016934] rounded-md\"><p class=\"font-montserrat font-medium text-center text-[0.813rem] text-white\">Scan</p></button> <button class=\"bg-[#CCE1D699] p-[0.688rem] rounded-md flex justify-center items-center\"><img src=\"/assets/svg/octicon_history-16.svg\" class=\"w-[1.125rem] aspect-square\"></button></section></div></main>")
+		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 1)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -34,7 +34,7 @@ func ScanQRPage() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></body></html>")
+		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 2)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
