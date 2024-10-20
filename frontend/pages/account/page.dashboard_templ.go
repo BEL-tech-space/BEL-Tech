@@ -42,7 +42,7 @@ func AccountDashboardPage(user User) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 3)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></body><script type=\"text/javascript\">\n        const swiper = new Swiper( '.mySwiper', {\n            direction: \"horizontal\",\n            slidesPerView: 2,\n            mousewheel: true,\n            spaceBetween: 8,\n            autoplay: {\n                delay: 3000,\n                disableOnInteraction: true,\n            },\n        } );\n\n        const swiperTwo = new Swiper( '.mySwiperTwo', {\n            mousewheel: true,\n            keyboard: true,\n            autoplay: {\n                delay: 1500,\n                disableOnInteraction: true,\n            },\n        } );\n    </script></html>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
