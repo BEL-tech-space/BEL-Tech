@@ -49,7 +49,7 @@ func (a *App) agentAuthorization(next http.Handler) http.Handler {
 		email, exist := session.Values["email"]
 		if !exist {
 			fmt.Println("missing needed info")
-			http.Redirect(w, r, "/agent/signin", http.StatusUnauthorized)
+			http.Redirect(w, r, "/agent/signin", http.StatusTemporaryRedirect)
 			return
 		}
 
