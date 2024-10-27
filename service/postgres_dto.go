@@ -14,13 +14,13 @@ func makeUpsertUserParams(user User) postgres.UpsertUserParams {
 	return postgres.UpsertUserParams{
 		UserID:             user.UserID,
 		Email:              user.Email,
-		FirstName:           user.FirstName,
-		LastName:            user.LastName,
-		NickName:            user.NickName,
-		AvatarUrl:           user.AvatarURL,
-		AccessToken:         user.AccessToken,
+		FirstName:          user.FirstName,
+		LastName:           user.LastName,
+		NickName:           user.NickName,
+		AvatarUrl:          user.AvatarURL,
+		AccessToken:        user.AccessToken,
 		AccessTokenExpires: pgtype.Timestamp{Time: user.AccessTokenExpires, InfinityModifier: pgtype.Finite, Valid: true},
-		IDToken:             user.IDToken,
+		IDToken:            user.IDToken,
 	}
 }
 
@@ -125,12 +125,12 @@ func MakeAddNewAgentParams(param AddNewAgentParams) (postgres.AddNewAgentAndColl
 		if param.Email == "" {
 			return postgres.AddNewAgentAndCollectorParams{}, errors.New("collector email cannot be empty")
 		}
-		r.Email =  param.Email
+		r.Email = param.Email
 		r.Email_2 = param.Email
-		r.FirstName =  param.FirstName
-		r.LastName =  param.LastName
-		r.NickName =  param.NickName
-		r.AvatarUrl =  param.AvatarUrl
+		r.FirstName = param.FirstName
+		r.LastName = param.LastName
+		r.NickName = param.NickName
+		r.AvatarUrl = param.AvatarUrl
 
 		if param.Role == "super_collector" {
 			r.Role = postgres.CollectorroleSuperCollector
@@ -147,8 +147,8 @@ func MakeAddNewAgentParams(param AddNewAgentParams) (postgres.AddNewAgentAndColl
 
 	r.StMakepoint = param.StMakepoint
 	r.StMakepoint_2 = param.StMakepoint_2
-	r.City =  param.City
-	r.State =  param.State
+	r.City = param.City
+	r.State = param.State
 
 	return r, nil
 }
@@ -252,21 +252,21 @@ func serviceUserToPg(u User) postgres.User {
 	return postgres.User{
 		UserID:             u.UserID,
 		Email:              u.Email,
-		FirstName:           u.FirstName,
-		LastName:            u.LastName,
-		NickName:            u.NickName,
-		AvatarUrl:           u.AvatarURL,
-		SplWallet:           u.SplWallet,
+		FirstName:          u.FirstName,
+		LastName:           u.LastName,
+		NickName:           u.NickName,
+		AvatarUrl:          u.AvatarURL,
+		SplWallet:          u.SplWallet,
 		CurrBalance:        u.CurrBalance,
 		TotalEarned:        u.TotalEarned,
 		TotalGlassWaste:    u.TotalGlassWaste,
 		TotalMetalWaste:    u.TotalMetalWaste,
 		TotalPlasticsWaste: u.TotalPlasticsWaste,
 		TotalPaperWaste:    u.TotalPaperWaste,
-		HashedPassword:      u.HashedPassword,
-		AccessToken:         u.AccessToken,
+		HashedPassword:     u.HashedPassword,
+		AccessToken:        u.AccessToken,
 		AccessTokenExpires: pgtype.Timestamp{Time: u.AccessTokenExpires, Valid: true, InfinityModifier: pgtype.Finite},
-		IDToken:             u.IDToken,
+		IDToken:            u.IDToken,
 		LastUpdateEmail:    pgtype.Timestamp{Time: u.LastUpdateEmail, Valid: true, InfinityModifier: pgtype.Finite},
 		Role:               u.Role,
 		Joined:             pgtype.Timestamp{Time: u.Joined, Valid: true},

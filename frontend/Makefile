@@ -1,3 +1,6 @@
+format:
+	@templ fmt .
+
 generate:
 	@tailwindcss -i assets/styles/input.css  -o assets/styles/output.css
 	@templ generate && templ fmt . 

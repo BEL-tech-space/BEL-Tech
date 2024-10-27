@@ -1,0 +1,81 @@
+package pages
+
+templ footer(active string) {
+	<footer class="mt-1 p-2 w-full flex gap-14 justify-between items-center mb-5">
+		if active == "dashboard" {
+			<a href="/agent/dashboard">
+				<img
+					src="/assets/svg/home bold.svg"
+					class="w-6 aspect-square"
+				/>
+			</a>
+		} else {
+			<a href="/agent/dashboard">
+				<img
+					src="/assets/svg/home linear.svg"
+					class="w-6 aspect-square"
+				/>
+			</a>
+		}
+		if active == "collect" {
+			<a href="/agent/collect">
+				<img
+					src="/assets/svg/collect_icon_bold.svg"
+					class="w-6 aspect-square"
+				/>
+			</a>
+		} else {
+			<a href="/agent/collect">
+				<img
+					src="/assets/svg/collect_icon_linear.svg"
+					class="w-6 aspect-square"
+				/>
+			</a>
+		}
+		if active == "location" {
+			<a href="#">
+				<img
+					src="/assets/svg/history_icon_bold.svg"
+					class="w-6 aspect-square"
+				/>
+			</a>
+		} else {
+			<a href="#">
+				<img
+					src="/assets/svg/history_icon_linear.svg"
+					class="w-6 aspect-square"
+				/>
+			</a>
+		}
+		if active == "wallet" {
+			<a href="#">
+				<img
+					src="/assets/svg/profile-home.svg"
+					class="w-6 aspect-square"
+				/>
+			</a>
+		} else {
+			<a href="#">
+				<img
+					src="/assets/svg/profile.svg"
+					class="w-6 aspect-square"
+				/>
+			</a>
+		}
+		if active == "signout" {
+			<a href="/agent/signout">
+				<img
+					src="/assets/svg/logout_bold.svg"
+					class="w-6 aspect-square"
+				/>
+			</a>
+		} else {
+			<a href="/agent/signout">
+				<img
+					src="/assets/svg/logout_linear.svg"
+					class="w-6 aspect-square"
+				/>
+			</a>
+		}
+	</footer>
+}

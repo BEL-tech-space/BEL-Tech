@@ -3,6 +3,7 @@ package http
 import (
 	"beltech/service"
 	"bytes"
+	"context"
 	"errors"
 	"fmt"
 	"image"
@@ -12,24 +13,57 @@ import (
 	"net/http"
 	"strconv"
 
+	agentPages "beltech/frontend/pages/agent"
+
 	"github.com/go-chi/chi/v5"
 	"github.com/google/uuid"
 	"github.com/nfnt/resize"
 	"github.com/skip2/go-qrcode"
 )
 
-func (a *App) generateQRCode(w http.ResponseWriter, r *http.Request) {
+func (a *App) collectPage(w http.ResponseWriter, r *http.Request) {
 
-	var agentID string
-	if agentID = chi.URLParam(r, "agentID"); agentID == "" {
-		http.Error(w, "agentID not specified", http.StatusBadRequest)
-		return
+	agentID := "devMode"
+	if a.config.Build == productionEnv {
+		agentID = r.Context().Value(contextKeyAgentID).(string)
 	}
 
-	agentUUID, err := uuid.Parse(agentID)
-	if err != nil {
-		http.Error(w, "invalid agentID", http.StatusBadRequest)
+	if err := agentPages.CollectPage(agentID).Render(context.Background(), w); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
+	}
+}
+
+func (a *App) wasteForm(w http.ResponseWriter, r *http.Request) {
+	agentID := "devMode"
+	if a.config.Build == productionEnv {
+		agentID = r.Context().Value(contextKeyAgentID).(string)
+	}
+
+	if err := agentPages.WasteForm(agentID).Render(context.Background(), w); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+}
+
+func (a *App) generateQRCode(w http.ResponseWriter, r *http.Request) {
+
+	var (
+		agentUUID uuid.UUID = uuid.Nil
+		err       error
+	)
+
+	if a.config.Build == productionEnv {
+		agentID := chi.URLParam(r, "agentID")
+		if agentID == "" {
+			http.Error(w, "agentID not specified", http.StatusBadRequest)
+			return
+		}
+
+		if agentUUID, err = uuid.Parse(agentID); err != nil {
+			http.Error(w, "invalid agentID", http.StatusBadRequest)
+			return
+		}
 	}
 
 	if err := r.ParseForm(); err != nil {
@@ -43,17 +77,18 @@ func (a *App) generateQRCode(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	wasteID, err := a.service.AddNewTempWasteFromCollector(r.Context(), service.AddNewTempWasteFromCollectorParams{
-		GlassWeighed:    glass,
-		MetalWeighed:    metal,
-		PlasticsWeighed: plastics,
-		PaperWeighed:    paper,
-		AgentID:         agentUUID,
-	})
-
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
+	wasteID := uuid.New()
+	if a.config.Build == productionEnv {
+		if wasteID, err = a.service.AddNewTempWasteFromCollector(r.Context(), service.AddNewTempWasteFromCollectorParams{
+			GlassWeighed:    glass,
+			MetalWeighed:    metal,
+			PlasticsWeighed: plastics,
+			PaperWeighed:    paper,
+			AgentID:         agentUUID,
+		}); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
 	}
 
 	qrCode := NewSimpleQRCode(wasteID.String())
@@ -63,27 +98,29 @@ func (a *App) generateQRCode(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Header().Set("Content-Type", "image/png")
-	w.Write(codeData)
+	if err := agentPages.RenderQRCode(codeData).Render(context.Background(), w); err != nil {
+		a.serverError(w, err)
+		return
+	}
 }
 
 func getFormattedData(r *http.Request) (glass, paper, metal, plastics float32, err error) {
 
 	paperStringData := r.PostForm.Get("paper")
 	if paperStringData == "" {
-		return 0, 0, 0, 0, errors.New("paper not specified")
+		paperStringData = "0"
 	}
 	glassStringData := r.PostForm.Get("glass")
 	if glassStringData == "" {
-		return 0, 0, 0, 0, errors.New("glass not specified")
+		glassStringData = "0"
 	}
 	metalStringData := r.PostForm.Get("metal")
 	if metalStringData == "" {
-		return 0, 0, 0, 0, errors.New("metal not specified")
+		metalStringData = "0"
 	}
 	plasticsStringData := r.PostForm.Get("plastics")
 	if plasticsStringData == "" {
-		return 0, 0, 0, 0, errors.New("plastics not specified")
+		plasticsStringData = "0"
 	}
 
 	var (
