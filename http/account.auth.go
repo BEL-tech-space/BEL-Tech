@@ -116,7 +116,7 @@ func (a *App) createNewUserSession(w http.ResponseWriter, r *http.Request, user 
 	session.Values["email"] = user.Email
 	session.Options = &sessions.Options{
 		Path:     "/",
-		MaxAge:   3600, // Session expires in 1 Hour
+		MaxAge:   7200, // Session expires in 1 Hour
 		HttpOnly: true, // Prevent JavaScript access
 		Secure:   true, // Only send over HTTPS
 		// SameSite: http.SameSiteLaxMode, // Only allow cookie for requests from the same site

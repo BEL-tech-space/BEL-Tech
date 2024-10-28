@@ -1,7 +1,5 @@
-.vscode
+.vscode/
 .idea
-.node_modules
 beltech
-prod.env
 *.env
-node_modules/
+tmp/

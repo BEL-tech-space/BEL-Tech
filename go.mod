@@ -6,6 +6,7 @@ toolchain go1.23.0
 
 require (
 	github.com/a-h/templ v0.2.778
+	github.com/brianvoe/gofakeit/v7 v7.1.1
 	github.com/caarlos0/env/v11 v11.2.2
 	github.com/go-chi/chi/v5 v5.1.0
 	github.com/google/uuid v1.6.0

@@ -1,9 +1,9 @@
 package http
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
-	"strings"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/gorilla/sessions"
@@ -15,12 +15,17 @@ func (a *App) signInWithProviderAgent(w http.ResponseWriter, r *http.Request) {
 
 	var provider string
 	if provider = chi.URLParam(r, "provider"); provider == "" {
-		http.Error(w, "Provider not specified", http.StatusBadRequest)
+		a.clientError(w, http.StatusBadRequest, errors.New("provider not specified"))
 		return
 	}
 
 	if provider != "google" && provider != "facebook" {
-		http.Error(w, "Invalid provider", http.StatusBadRequest)
+		a.clientError(w, http.StatusBadRequest, errors.New("invalid provider"))
+		return
+	}
+
+	if a.config.Build != productionEnv { // not production
+		http.Redirect(w, r, fmt.Sprintf("/agent/auth/%s/callback", provider), http.StatusTemporaryRedirect)
 		return
 	}
 
@@ -29,69 +34,88 @@ func (a *App) signInWithProviderAgent(w http.ResponseWriter, r *http.Request) {
 	r.URL.RawQuery = q.Encode()
 
 	// try to get the user without re-authenticating
-	if gothUser, err := gothic.CompleteUserAuth(w, r); err == nil {
-		err = a.logInUserAgent(w, r, gothUser)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
+	gothUser, err := gothic.CompleteUserAuth(w, r)
+	if err == nil {
+		if err = a.logInAgent(w, r, gothUser); err != nil {
+			a.serverError(w, err)
+			http.Redirect(w, r, "/agent/signin", http.StatusTemporaryRedirect)
 			return
 		}
 
-		fmt.Println("came to redirect")
-		http.Redirect(w, r, "/beltech/agent/dashboard", http.StatusTemporaryRedirect)
+		http.Redirect(w, r, "/agent/dashboard", http.StatusTemporaryRedirect)
 		return
 	}
 
-	fmt.Println("came to begin auth handler")
 	gothic.BeginAuthHandler(w, r)
 }
 
 func (a *App) callbackHandlerAgent(w http.ResponseWriter, r *http.Request) {
 	var (
-		user goth.User
+		user = devGothUser
 		err  error
 	)
 
-	if user, err = gothic.CompleteUserAuth(w, r); err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+	if a.config.Build == productionEnv {
+		if user, err = gothic.CompleteUserAuth(w, r); err != nil {
+			a.serverError(w, err)
+			http.Redirect(w, r, "/agent/signin", http.StatusTemporaryRedirect)
+			return
+		}
+	}
+
+	if err = a.logInAgent(w, r, user); err != nil {
+		fmt.Println("err from loginUser", err.Error())
+		a.serverError(w, err)
+		http.Redirect(w, r, "/agent/signin", http.StatusTemporaryRedirect)
 		return
 	}
 
-	if err = a.logInUserAgent(w, r, user); err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
-	http.Redirect(w, r, "/beltech/agent/dashboard", http.StatusTemporaryRedirect)
+	http.Redirect(w, r, "/agent/dashboard", http.StatusTemporaryRedirect)
 }
 
 func (a *App) logoutAgent(w http.ResponseWriter, r *http.Request) {
-	gothic.Logout(w, r)
-	http.Redirect(w, r, "/home", http.StatusTemporaryRedirect)
+	if err := gothic.Logout(w, r); err != nil {
+		fmt.Println("error in goth.logout", err.Error())
+	}
+
+	session, err := a.agentSessionStore.Get(r, "beltech-agent")
+	if err != nil {
+		fmt.Println("error in get, logoutAgent", err.Error())
+		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
+		return
+	}
+
+	session.Options.MaxAge = -1
+	session.Values = nil
+	if err := session.Save(r, w); err != nil {
+		fmt.Println("error in saving session, logOut", err.Error())
+		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
+		return
+	}
+
+	http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
 }
 
-func (a *App) logInUserAgent(w http.ResponseWriter, r *http.Request, u goth.User) error {
-	// user := mapGothUserToServiceUser(u)
+func (a *App) logInAgent(w http.ResponseWriter, r *http.Request, u goth.User) error {
 	return a.createNewUserSessionAgent(w, r, u)
 }
 
 func (a *App) createNewUserSessionAgent(w http.ResponseWriter, r *http.Request, collector goth.User) error {
-
-	session, err := a.accountSessionStore.Get(r, "beltech-session")
-	if err != nil && !strings.Contains(err.Error(), "securecookie: the value is not valid") {
-		fmt.Println("error in get session:", err)
-		return err
+	session, err := a.agentSessionStore.New(r, "beltech-agent")
+	if err != nil {
+		fmt.Println("ERROR IN NEW", err.Error())
 	}
 
 	session.Values["email"] = collector.Email
-	// session.Values["agentID"] = collector.AgentID
-
 	session.Options = &sessions.Options{
 		Path:     "/",
-		MaxAge:   7200,                    // Session expires in 2 hours
-		HttpOnly: true,                    // Prevent JavaScript access
-		Secure:   true,                    // Only send over HTTPS
-		SameSite: http.SameSiteStrictMode, // Only allow cookie for requests from the same site
+		MaxAge:   7200, // Session expires in 2 hours
+		HttpOnly: true, // Prevent JavaScript access
+		Secure:   true, // Only send over HTTPS
+		// SameSite: http.SameSiteStrictMode, // Only allow cookie for requests from the same site
 	}
+
+	// a.cacheStorage.SetDefault(user.Email, &user)
 
 	return session.Save(r, w)
 }

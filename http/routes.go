@@ -2,14 +2,11 @@ package http
 
 import (
 	"beltech/frontend"
-	"context"
-	"fmt"
 	"io/fs"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
-	"github.com/google/uuid"
 )
 
 func (a *App) Routes() *chi.Mux {
@@ -22,145 +19,13 @@ func (a *App) Routes() *chi.Mux {
 	r.Get("/", a.homePageHandler)
 
 	r.Mount("/account", a.accountRouter())
-	// r.Mount("/agent", a.agentRouter(cfg))
+	r.Mount("/agent", a.agentRouter())
 
 	var staticFiles = fs.FS(frontend.AssetsDir)
 	staticFs, _ := fs.Sub(staticFiles, "assets")
 	r.Handle("/assets/*", http.StripPrefix("/assets/", http.FileServer(http.FS(staticFs))))
 
 	return r
-}
-
-func (a *App) accountRouter() http.Handler {
-	r := chi.NewRouter()
-
-	r.Route("/auth", func(r chi.Router) {
-		r.Get("/{provider}", a.signInWithProviderAccount)
-		r.Get("/{provider}/callback", a.callbackHandlerAccount)
-		r.Get("/logout/{provider}", a.logout)
-	})
-
-	r.Route("/", func(r chi.Router) {
-		r.Use(a.accountAuthorization)
-
-		r.Get("/dashboard", a.accountDashboard)
-		r.Get("/scan", a.scanQRPageHandler)
-		r.Get("/location", a.locationPageHandler)
-		r.Get("/wallet", a.walletPageHandler)
-		r.Get("/spend", a.exchangePageHandler)
-	})
-
-	r.Get("/signup", a.signupPageHandler)
-	r.Get("/signin", a.signinPageHandler)
-	r.Get("/verify", a.verifyPageHandler)
-	r.Get("/reset", a.resetPageHandler)
-	r.Get("/verify_success", a.verify_successPageHandler)
-	r.Get("/password_reset", a.password_resetPageHandler)
-
-	return r
-}
-
-func (a *App) agentRouter() http.Handler {
-	r := chi.NewRouter()
-
-	r.Route("/auth", func(r chi.Router) {
-		r.Get("/{provider}", a.signInWithProviderAccount)
-		r.Get("/{provider}/callback", a.callbackHandlerAccount)
-		r.Get("/logout/{provider}", a.logout)
-	})
-
-	r.Route("/", func(r chi.Router) {
-		r.Use(a.agentAuthorization)
-		r.Get("/qrcode/{agentID}", a.generateQRCode)
-		r.Post("/addAgent", a.addNewCollectorPost)
-	})
-
-	r.Get("/login", a.logInCollector)
-	r.Get("/logout", a.logOutCollector)
-	r.Get("/unauthorized", a.unauthorized)
-
-	return r
-}
-
-func (a *App) accountAuthorization(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-
-		// Get the session
-		session, err := a.accountSessionStore.Get(r, "beltech-account")
-		if err != nil {
-			fmt.Println("get err in auth", err.Error())
-			http.Redirect(w, r, "/account/signin", http.StatusTemporaryRedirect)
-			return
-		}
-
-		// Check if the session lacks user information
-		email, exist := session.Values["email"]
-		if !exist {
-			fmt.Println("email not in session, weird")
-			http.Redirect(w, r, "/account/signin", http.StatusTemporaryRedirect)
-			return
-		}
-
-		// Add userID and userEmail to the request context
-		ctx := context.WithValue(r.Context(), contextKeyEmail, email.(string))
-		r = r.WithContext(ctx)
-
-		// Session is valid, proceed with the request
-		next.ServeHTTP(w, r)
-	})
-}
-
-func (a *App) agentAuthorization(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-
-		// Get the session
-		session, err := a.accountSessionStore.Get(r, "beltech-agent")
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-
-		// Check if the session lacks user information
-		email, exist := session.Values["email"]
-		if !exist {
-			http.Redirect(w, r, "/login", http.StatusUnauthorized)
-			return
-		}
-
-		agentEmail := email.(string)
-
-		var (
-			agentID        uuid.UUID
-			role           string
-			foundCollector bool
-		)
-
-		for _, collector := range a.collectors {
-			if collector.Email != agentEmail {
-				continue
-			}
-
-			agentID = collector.AgentID
-			role = collector.Role
-			foundCollector = true
-			break
-		}
-
-		if !foundCollector {
-			http.Redirect(w, r, "/unauthorized", http.StatusUnauthorized)
-			return
-		}
-
-		// Add agentID and agentID to the request context
-		ctx := context.WithValue(r.Context(), contextKeyEmail, agentEmail)
-		ctx = context.WithValue(ctx, contextKeyAgentID, agentID)
-		ctx = context.WithValue(ctx, contextKeyRole, role)
-
-		r = r.WithContext(ctx)
-
-		// Session is valid, proceed with the request
-		next.ServeHTTP(w, r)
-	})
 }
 
 // func (a *App) setFlashMessage(w http.ResponseWriter, r *http.Request, message string) {

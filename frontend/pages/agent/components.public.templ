@@ -1,0 +1,121 @@
+package pages
+
+templ footer(active string) {
+	<footer class="bg-white flex w-full justify-around mt-[1.125rem] gap-[2.375rem] text-[#016934]">
+		if active == "dashboard" {
+			<a
+				href="/agent/dashboard"
+				class="grid grid-rows-2 justify-center items-center"
+			>
+				<img
+					src="/assets/svg/home bold.svg"
+					class="w-6 aspect-square"
+				/>
+				<p class="font-bold text-[0.5rem] leading-[1.25rem]">Home</p>
+			</a>
+		} else {
+			<a
+				href="/agent/dashboard"
+				class="grid grid-rows-2 justify-center items-center"
+			>
+				<img
+					src="/assets/svg/home linear.svg"
+					class="w-6 aspect-square"
+				/>
+				<p class="font-bold text-[0.5rem] leading-[1.25rem]">Home</p>
+			</a>
+		}
+		if active == "collect" {
+			<a
+				href="/agent/collect"
+				class="grid grid-rows-2 justify-center items-center"
+			>
+				<img
+					src="/assets/svg/collect_icon_bold.svg"
+					class="w-6 aspect-square"
+				/>
+				<p class="font-bold text-[0.5rem] leading-[1.25rem]">Collect</p>
+			</a>
+		} else {
+			<a
+				href="/agent/collect"
+				class="grid grid-rows-2 justify-center items-center"
+			>
+				<img
+					src="/assets/svg/collect_icon_linear.svg"
+					class="w-6 aspect-square"
+				/>
+				<p class="font-bold text-[0.5rem] leading-[1.25rem]">Collect</p>
+			</a>
+		}
+		if active == "location" {
+			<a
+				href="#"
+				class="grid grid-rows-2 justify-center items-center"
+			>
+				<img
+					src="/assets/svg/history_icon_bold.svg"
+					class="w-6 aspect-square"
+				/>
+				<p class="font-bold text-[0.5rem] leading-[1.25rem]">History</p>
+			</a>
+		} else {
+			<a
+				href="#"
+				class="grid grid-rows-2 justify-center items-center"
+			>
+				<img
+					src="/assets/svg/history_icon_linear.svg"
+					class="w-6 aspect-square"
+				/>
+				<p class="font-bold text-[0.5rem] leading-[1.25rem]">History</p>
+			</a>
+		}
+		if active == "wallet" {
+			<a
+				href="#"
+				class="grid grid-rows-2 justify-center items-center"
+			>
+				<img
+					src="/assets/svg/profile-home.svg"
+					class="w-6 aspect-square"
+				/>
+				<p class="font-bold text-[0.5rem] leading-[1.25rem]">Profile</p>
+			</a>
+		} else {
+			<a
+				href="#"
+				class="grid grid-rows-2 justify-center items-center"
+			>
+				<img
+					src="/assets/svg/profile.svg"
+					class="w-6 aspect-square"
+				/>
+				<p class="font-bold text-[0.5rem] leading-[1.25rem]">Profile</p>
+			</a>
+		}
+		if active == "logout" {
+			<a
+				href="/agent/signout"
+				class="grid grid-rows-2 justify-center items-center"
+			>
+				<img
+					src="/assets/svg/logout_bold.svg"
+					class="w-6 aspect-square"
+				/>
+				<p class="font-bold text-[0.5rem] leading-[1.25rem]">Logout</p>
+			</a>
+		} else {
+			<a
+				href="/agent/signout"
+				class="grid grid-rows-2 justify-center items-center"
+			>
+				<img
+					src="/assets/svg/logout_linear.svg"
+					class="w-6 aspect-square"
+				/>
+				<p class="font-bold text-[0.5rem] leading-[1.25rem]">Logout</p>
+			</a>
+		}
+	</footer>
+}
