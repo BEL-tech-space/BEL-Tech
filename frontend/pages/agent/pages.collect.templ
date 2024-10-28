@@ -47,30 +47,12 @@ templ CollectPage(agentID string) {
 						02:00:00
 					</p>
 				</header>
-				<main id="main" class="overflow-y-auto my-auto mr-[1.688rem] ml-6">
+				<main id="main" class="overflow-y-auto my-auto mr-[1.688rem] ml-6" hx-on:htmx:after-swap="reattachListeners()">
 					@WasteForm(agentID)
 				</main>
 				@footer("collect")
 			</div>
 		</body>
-		<script>
-			const inputElements = document.querySelectorAll("input[type='number']");
-			inputElements.forEach(input => {
-				input.addEventListener("input", function(event) {
-					formatToTwoDecimalPlaces(event.target);
-				});
-			});
-
-			function formatToTwoDecimalPlaces(input) {
-				let value = parseFloat(input.value.replace(/\D/g, '') || 0) / 100;
-				input.value = value.toFixed(2);
-			}
-
-			function resetForm(ev) {
-				ev.preventDefault();
-				document.getElementById("wasteForm").reset();
-			}
-		</script>
 	</html>
 }
 
@@ -86,6 +68,8 @@ templ RenderQRCode(qrcodeByteImage []byte) {
 		>Next</a>
 	</article>
 }
+
+var formFormatterScript = templ.NewOnceHandle()
 
 templ WasteForm(agentID string) {
 	<form
@@ -177,6 +161,37 @@ templ WasteForm(agentID string) {
 				/>
 			</button>
 		</section>
+		@formFormatterScript.Once() {
+			<script type="text/javascript">
+
+			document.addEventListener("DOMContentLoaded", function() {
+                initializeFormFormatter();
+            });
+
+			function reattachListeners() {
+				initializeFormFormatter();
+			}
+
+			function initializeFormFormatter() {
+				const inputElements = document.querySelectorAll("input[type='number']");
+				inputElements.forEach(input => {
+					input.addEventListener("input", function(event) {
+						formatToTwoDecimalPlaces(event.target);
+					});
+				});
+			}
+
+			function formatToTwoDecimalPlaces(input) {
+				let value = parseFloat(input.value.replace(/\D/g, '') || 0) / 100;
+				input.value = value.toFixed(2);
+			}
+
+			function resetForm(ev) {
+				ev.preventDefault();
+				document.getElementById("wasteForm").reset();
+			}
+		</script>
+		}
 		// const form = document.getElementById("wasteForm")
 		// console.log(form)
 		// form.addEventListener("submit", handleSubmit);

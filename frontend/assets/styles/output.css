@@ -627,6 +627,11 @@ video {
   margin-bottom: 1.5rem;
 }
 
+.my-\[0\.328rem\] {
+  margin-top: 0.328rem;
+  margin-bottom: 0.328rem;
+}
+
 .my-\[1\.188rem\] {
   margin-top: 1.188rem;
   margin-bottom: 1.188rem;
@@ -635,51 +640,6 @@ video {
 .my-auto {
   margin-top: auto;
   margin-bottom: auto;
-}
-
-.mx-\[\] {
-  margin-left: ;
-  margin-right: ;
-}
-
-.mx-\[6\.\] {
-  margin-left: 6.;
-  margin-right: 6.;
-}
-
-.mx-\[6\.43\] {
-  margin-left: 6.43;
-  margin-right: 6.43;
-}
-
-.mx-\[6\.438rem\] {
-  margin-left: 6.438rem;
-  margin-right: 6.438rem;
-}
-
-.my-\[0\.3275\] {
-  margin-top: 0.3275;
-  margin-bottom: 0.3275;
-}
-
-.my-\[0\.3275re\] {
-  margin-top: 0.3275re;
-  margin-bottom: 0.3275re;
-}
-
-.my-\[0\.3275rem\] {
-  margin-top: 0.3275rem;
-  margin-bottom: 0.3275rem;
-}
-
-.my-\[0\.32rem\] {
-  margin-top: 0.32rem;
-  margin-bottom: 0.32rem;
-}
-
-.my-\[0\.328rem\] {
-  margin-top: 0.328rem;
-  margin-bottom: 0.328rem;
 }
 
 .mb-10 {
@@ -700,10 +660,6 @@ video {
 
 .mb-8 {
   margin-bottom: 2rem;
-}
-
-.mb-\[0\.384rem\] {
-  margin-bottom: 0.384rem;
 }
 
 .mb-\[1\.125rem\] {
@@ -766,10 +722,6 @@ video {
   margin-top: 0.25rem;
 }
 
-.mt-11 {
-  margin-top: 2.75rem;
-}
-
 .mt-2 {
   margin-top: 0.5rem;
 }
@@ -808,10 +760,6 @@ video {
 
 .mt-\[1\.188rem\] {
   margin-top: 1.188rem;
-}
-
-.mt-\[1\.438rem\] {
-  margin-top: 1.438rem;
 }
 
 .mt-\[1\.75rem\] {
@@ -938,6 +886,10 @@ video {
   width: 5rem;
 }
 
+.w-3 {
+  width: 0.75rem;
+}
+
 .w-3\/5 {
   width: 60%;
 }
@@ -956,10 +908,6 @@ video {
 
 .w-8 {
   width: 2rem;
-}
-
-.w-\[0\.524rem\] {
-  width: 0.524rem;
 }
 
 .w-\[0\.813rem\] {
@@ -1029,10 +977,6 @@ video {
 
 .w-full {
   width: 100%;
-}
-
-.w-3 {
-  width: 0.75rem;
 }
 
 .min-w-\[51\%\] {
@@ -1154,6 +1098,10 @@ video {
   gap: 0.313rem;
 }
 
+.gap-\[0\.417rem\] {
+  gap: 0.417rem;
+}
+
 .gap-\[0\.625rem\] {
   gap: 0.625rem;
 }
@@ -1164,26 +1112,6 @@ video {
 
 .gap-\[5\.5rem\] {
   gap: 5.5rem;
-}
-
-.gap-\[\] {
-  gap: ;
-}
-
-.gap-\[0\.416875\] {
-  gap: 0.416875;
-}
-
-.gap-\[0\.416\] {
-  gap: 0.416;
-}
-
-.gap-\[0\.41\] {
-  gap: 0.41;
-}
-
-.gap-\[0\.417rem\] {
-  gap: 0.417rem;
 }
 
 .space-x-2 > :not([hidden]) ~ :not([hidden]) {
@@ -1426,10 +1354,6 @@ video {
   padding: 0.688rem;
 }
 
-.p-11 {
-  padding: 2.75rem;
-}
-
 .px-1 {
   padding-left: 0.25rem;
   padding-right: 0.25rem;
@@ -1470,6 +1394,11 @@ video {
   padding-right: 5.438rem;
 }
 
+.px-\[6\.438rem\] {
+  padding-left: 6.438rem;
+  padding-right: 6.438rem;
+}
+
 .py-12 {
   padding-top: 3rem;
   padding-bottom: 3rem;
@@ -1503,26 +1432,6 @@ video {
 .py-\[1\.063rem\] {
   padding-top: 1.063rem;
   padding-bottom: 1.063rem;
-}
-
-.py-\[\] {
-  padding-top: ;
-  padding-bottom: ;
-}
-
-.py-\[0\.625\] {
-  padding-top: 0.625;
-  padding-bottom: 0.625;
-}
-
-.py-\[0\.625re\] {
-  padding-top: 0.625re;
-  padding-bottom: 0.625re;
-}
-
-.px-\[6\.438rem\] {
-  padding-left: 6.438rem;
-  padding-right: 6.438rem;
 }
 
 .pb-6 {
@@ -1573,6 +1482,10 @@ video {
   padding-top: 2.5rem;
 }
 
+.pt-11 {
+  padding-top: 2.75rem;
+}
+
 .pt-3 {
   padding-top: 0.75rem;
 }
@@ -1593,6 +1506,10 @@ video {
   padding-top: 2rem;
 }
 
+.pt-\[1\.438rem\] {
+  padding-top: 1.438rem;
+}
+
 .pt-\[1\.5rem\] {
   padding-top: 1.5rem;
 }
@@ -1603,14 +1520,6 @@ video {
 
 .pt-\[1\.88rem\] {
   padding-top: 1.88rem;
-}
-
-.pt-11 {
-  padding-top: 2.75rem;
-}
-
-.pt-\[1\.438rem\] {
-  padding-top: 1.438rem;
 }
 
 .text-left {
@@ -1799,42 +1708,6 @@ video {
   letter-spacing: 0.1px;
 }
 
-.tracking-\[\] {
-  letter-spacing: ;
-}
-
-.tracking-\[0\.\] {
-  letter-spacing: 0.;
-}
-
-.tracking-\[0\.1\] {
-  letter-spacing: 0.1;
-}
-
-.tracking-tighter {
-  letter-spacing: -0.05em;
-}
-
-.tracking-normal {
-  letter-spacing: 0em;
-}
-
-.tracking-tight {
-  letter-spacing: -0.025em;
-}
-
-.tracking-wide {
-  letter-spacing: 0.025em;
-}
-
-.-tracking-widest {
-  letter-spacing: -0.1em;
-}
-
-.-tracking-wide {
-  letter-spacing: -0.025em;
-}
-
 .tracking-widest {
   letter-spacing: 0.1em;
 }
@@ -1927,10 +1800,6 @@ video {
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
-}
-
-.text-\[\] {
-  color: ;
 }
 
 .shadow {
