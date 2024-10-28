@@ -10,9 +10,9 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
-func (s *Service) AddNewTempWasteFromCollector(ctx context.Context, param AddNewTempWasteFromCollectorParams) (uuid.UUID, error) {
+func (s *Service) AddNewTempWasteFromCollector(ctx context.Context, param AddNewWasteFromCollectorParams) (uuid.UUID, error) {
 
-	pgUUID, err := s.dbQuery.AddNewTempWasteFromCollector(ctx, makeAddNewTempWasteFromCollectorParams(param))
+	pgUUID, err := s.dbQuery.AddNewWasteFromCollector(ctx, makeAddNewWasteFromCollectorParams(param))
 	if err != nil {
 		return uuid.Nil, err
 	}

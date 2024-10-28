@@ -57,18 +57,18 @@ SELECT agent_ID FROM new_agent;
 DELETE FROM collectors
 WHERE email = $1 AND "role" != 'super_collector';
 
--- name: AddNewTempWasteFromCollector :one
-INSERT INTO waste_Logs (
-    glass_Weighed, metal_Weighed, plastics_Weighed, paper_Weighed, "location", agent_ID
+-- name: AddNewWasteFromCollector :one
+INSERT INTO Waste_Logs (
+    glass_Weighed, metal_Weighed, plastics_Weighed, paper_Weighed, "location", funny_Name, agent_ID, email
 ) VALUES (
-    $1, $2, $3, $4, ST_SetSRID(ST_MakePoint($5, $6), 4326), $7
+    $1, $2, $3, $4, ST_SetSRID(ST_MakePoint($5, $6), 4326), $7, $8, $9
 )
 RETURNING waste_Id;
 
 -- name: GetWasteFromCollectorByAgentIDAndDate :many
 WITH temp_waste_count AS (
     SELECT COUNT(*) AS count
-    FROM temp_Waste_Logs
+    FROM Waste_Logs
     WHERE agent_ID = $1 AND created_At::date = $2::date
 )
 SELECT 

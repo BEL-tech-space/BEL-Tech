@@ -58,28 +58,30 @@ type GetAllCollectorsEmailAndAgentIDRow struct {
 	Role    postgres.Collectorrole
 }
 
-type AddNewTempWasteFromCollectorParams struct {
+type AddNewWasteFromCollectorParams struct {
 	GlassWeighed    float32     `json:"glass_weighed"`
 	MetalWeighed    float32     `json:"metal_weighed"`
 	PlasticsWeighed float32     `json:"plastics_weighed"`
 	PaperWeighed    float32     `json:"paper_weighed"`
 	StMakepoint     interface{} `json:"st_makepoint"`
 	StMakepoint_2   interface{} `json:"st_makepoint_2"`
+	FunnyName       string      `json:"funny_name"`
 	AgentID         uuid.UUID   `json:"agent_id"`
 }
 
-func makeAddNewTempWasteFromCollectorParams(param AddNewTempWasteFromCollectorParams) postgres.AddNewTempWasteFromCollectorParams {
+func makeAddNewWasteFromCollectorParams(param AddNewWasteFromCollectorParams) postgres.AddNewWasteFromCollectorParams {
 	pgUUUID, err := googleUUIDToPgtypeUUID(param.AgentID)
 	if err != nil {
 		fmt.Println("error converting google UUID to pgtype UUID:", err)
 	}
-	return postgres.AddNewTempWasteFromCollectorParams{
+	return postgres.AddNewWasteFromCollectorParams{
 		GlassWeighed:    param.GlassWeighed,
 		MetalWeighed:    param.MetalWeighed,
 		PlasticsWeighed: param.PlasticsWeighed,
 		PaperWeighed:    param.PaperWeighed,
 		StMakepoint:     param.StMakepoint,
 		StMakepoint_2:   param.StMakepoint_2,
+		FunnyName:       param.FunnyName,
 		AgentID:         pgUUUID,
 	}
 }

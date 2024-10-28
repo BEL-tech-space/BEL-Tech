@@ -15,6 +15,7 @@ import (
 
 	agentPages "beltech/frontend/pages/agent"
 
+	"github.com/brianvoe/gofakeit/v7"
 	"github.com/go-chi/chi/v5"
 	"github.com/google/uuid"
 	"github.com/nfnt/resize"
@@ -77,21 +78,26 @@ func (a *App) generateQRCode(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	wasteID := uuid.New()
-	if a.config.Build == productionEnv {
-		if wasteID, err = a.service.AddNewTempWasteFromCollector(r.Context(), service.AddNewTempWasteFromCollectorParams{
+	var wasteID uuid.UUID
+	p := service.AddNewWasteFromCollectorParams{
 			GlassWeighed:    glass,
 			MetalWeighed:    metal,
 			PlasticsWeighed: plastics,
 			PaperWeighed:    paper,
+			FunnyName: gofakeit.Name(),
 			AgentID:         agentUUID,
-		}); err != nil {
+		}
+	if a.config.Build == productionEnv {
+		if wasteID, err = a.service.AddNewTempWasteFromCollector(r.Context(), p); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 	}
 
-	qrCode := NewSimpleQRCode(wasteID.String())
+	fmt.Printf("\n%s\n\n", wasteID.String())
+
+	e := fmt.Sprintf("glass:%.2f,paper:%.2f,plastics:%.2f,metal:%.2f,uuid:%s", p.GlassWeighed, p.PaperWeighed, p.PlasticsWeighed, p.MetalWeighed, wasteID.String())
+	qrCode := NewSimpleQRCode(e)
 	codeData, err := qrCode.generateWithWatermark()
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)

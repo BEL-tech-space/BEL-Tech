@@ -9,10 +9,11 @@ module.exports = {
           montserrat: [ 'Montserrat', 'sans-serif' ],
           poppins: [ 'Poppins', 'sans-serif' ],
         },
-       colors: {
+      gridTemplateColumns: {
       },
       gridTemplateRows: {
-        'agentCollectPage': 'auto 1fr auto',
+        'agentCollectPage': 'auto 1fr minmax(2.563rem, auto)',
+        'agentDashboardPage': '1fr minmax(2.563rem, auto)',
       },
       backgroundImage: {
       },

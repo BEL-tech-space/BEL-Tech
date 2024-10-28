@@ -31,8 +31,8 @@ templ CollectPage(agentID string) {
 			<title>Collect Waste</title>
 		</head>
 		<body class="bg-[url('/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
-			<div class="grid grid-rows-agentCollectPage h-full mt-8 mr-[1.688rem] ml-6 font-montserrat ">
-				<header class="flex justify-between items-center">
+			<div class="w-full h-full grid grid-rows-agentCollectPage pt-8 font-montserrat ">
+				<header class="flex justify-between items-center mr-[1.688rem] ml-6">
 					<div class="flex justify-center items-center gap-2 w-fit">
 						<p class="font-semibold text-left text-base leading-[1.219rem]">Collect</p>
 						<img
@@ -47,25 +47,43 @@ templ CollectPage(agentID string) {
 						02:00:00
 					</p>
 				</header>
-				<main id="main" class="overflow-y-auto my-auto">
+				<main id="main" class="overflow-y-auto my-auto mr-[1.688rem] ml-6">
 					@WasteForm(agentID)
 				</main>
 				@footer("collect")
 			</div>
 		</body>
+		<script>
+			const inputElements = document.querySelectorAll("input[type='number']");
+			inputElements.forEach(input => {
+				input.addEventListener("input", function(event) {
+					formatToTwoDecimalPlaces(event.target);
+				});
+			});
+
+			function formatToTwoDecimalPlaces(input) {
+				let value = parseFloat(input.value.replace(/\D/g, '') || 0) / 100;
+				input.value = value.toFixed(2);
+			}
+
+			function resetForm(ev) {
+				ev.preventDefault();
+				document.getElementById("wasteForm").reset();
+			}
+		</script>
 	</html>
 }
 
 templ RenderQRCode(qrcodeByteImage []byte) {
 	<article id="wasteQRCode" class="w-full">
-		<img src={ "data:image/png;base64," + base64.StdEncoding.EncodeToString(qrcodeByteImage) } alt="QR Code" class="mx-auto"/>
+		<img src={ "data:image/png;base64," + base64.StdEncoding.EncodeToString(qrcodeByteImage) } alt="QR Code" class="px-auto block w-full"/>
 		<a
 			hx-get="/agent/wasteForm"
 			hx-select="#wasteForm"
 			hx-target="#wasteQRCode"
 			hx-swap="outerHTML"
-			class="block mt-4 bg-[#CCE1D699] py-2 text-center rounded-md font-bold text-sm"
-		>Ok</a>
+			class="block w-full bg-[#016934] rounded-md text-center font-medium text-sm tracking-widest py-[0.625rem] px-[6.438rem] text-white"
+		>Next</a>
 	</article>
 }
 
@@ -159,44 +177,22 @@ templ WasteForm(agentID string) {
 				/>
 			</button>
 		</section>
-		<script>
-			const inputElements = document.querySelectorAll("input[type='number']");
-			inputElements.forEach(input => {
-				input.addEventListener("input", function(event) {
-					formatToTwoDecimalPlaces(event.target);
-				});
-			});
-
-			function formatToTwoDecimalPlaces(input) {
-				let value = parseFloat(input.value.replace(/\D/g, '') || 0) / 100;
-				input.value = value.toFixed(2);
-			}
-
-			function resetForm(ev) {
-				ev.preventDefault();
-				document.getElementById("wasteForm").reset();
-			}
-
-			// const form = document.getElementById("wasteForm")
-			// console.log(form)
-			// form.addEventListener("submit", handleSubmit);
-
-			// function handleSubmit(ev) {
-			// 	console.log("got here", areAllFieldsZeroOrEmpty())
-			// 	if (areAllFieldsZeroOrEmpty()) {
-			// 		ev.preventDefault();        // Prevents HTMX submission
-			// 		ev.stopPropagation();  
-			// 		alert("All fields cannot be zero or empty.");
-			// 		return;
-			// 	}
-
-			// 	// form.submit();
-			// }
-
-			// function areAllFieldsZeroOrEmpty() {
-			// 	const inputs = document.querySelectorAll("input[type='number']");
-			// 	return Array.from(inputs).every(input => parseFloat(input.value) === 0 || input.value.trim() === "");
-			// }
-		</script>
+		// const form = document.getElementById("wasteForm")
+		// console.log(form)
+		// form.addEventListener("submit", handleSubmit);
+		// function handleSubmit(ev) {
+		// 	console.log("got here", areAllFieldsZeroOrEmpty())
+		// 	if (areAllFieldsZeroOrEmpty()) {
+		// 		ev.preventDefault();        // Prevents HTMX submission
+		// 		ev.stopPropagation();  
+		// 		alert("All fields cannot be zero or empty.");
+		// 		return;
+		// 	}
+		// 	// form.submit();
+		// }
+		// function areAllFieldsZeroOrEmpty() {
+		// 	const inputs = document.querySelectorAll("input[type='number']");
+		// 	return Array.from(inputs).every(input => parseFloat(input.value) === 0 || input.value.trim() === "");
+		// }
 	</form>
 }

@@ -77,7 +77,7 @@ func footer(active string) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		if active == "signout" {
+		if active == "logout" {
 			templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 10)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err

@@ -14,18 +14,18 @@ templ DashboardPage() {
 				href="/assets/styles/output.css"
 			/>
 			<style>
-            .overflow-y-scroll::-webkit-scrollbar {
-                width: 0 !important;
-                display: none;
-                overflow: -moz-scrollbars-none;
-                scrollbar-width: none;
-            }
-        </style>
+				.overflow-y-scroll::-webkit-scrollbar {
+					width: 0 !important;
+					display: none;
+					overflow: -moz-scrollbars-none;
+					scrollbar-width: none;
+				}
+			</style>
 			<title>Dashboard Beltech-Agent</title>
 		</head>
 		<body class="bg-[url('/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
-			<div class="Page w-full h-full flex flex-col mt-[1.438rem]">
-				<main class="grow overflow-y-auto mx-[1.563rem] mt-8 mb-[1.9368rem] text-[#2E2E2E] font-montserrat">
+			<div class="w-full h-full grid grid-rows-agentDashboardPage pt-[1.438rem]">
+				<main class="overflow-y-auto mx-[1.563rem] mt-8 mb-[1.9368rem] text-[#2E2E2E] font-montserrat">
 					<img
 						src="/assets/images/beltech_logo.png"
 						alt="Beltech Logo"
@@ -34,15 +34,15 @@ templ DashboardPage() {
 					<section class="w-full flex justify-between items-center">
 						<p class="text-[0.938rem] leading-[1.143rem] font-semibold">Overview</p>
 						<button
-							class="bg-[#01693433] px-[0.833rem] flex justify-center items-center gap-1 rounded-[1.562rem]"
+							class="bg-[#01693433] px-[0.833rem] flex justify-center items-center gap-[0.417rem] rounded-[1.562rem]"
 						>
-							<p class="font-bold text-center text-[0.417rem] leading-[1.041rem]x ">
+							<p class="font-bold text-center text-[0.417rem] leading-[1.041rem]">
 								This week
 							</p>
 							<img
 								src="/assets/svg/filter_small.svg"
 								alt="Notifications"
-								class="w-[0.524rem] aspect-square"
+								class="w-3 aspect-square my-[0.328rem]"
 							/>
 						</button>
 					</section>
