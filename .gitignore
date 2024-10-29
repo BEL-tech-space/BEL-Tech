@@ -1,7 +1,11 @@
-.vscode
+.vscode/
 .idea
-.node_modules
 beltech
-prod.env
 *.env
+tmp/
+
 node_modules/
+dist/
+styles/output.css
+scripts/output.js
+*templ.txt

@@ -5,67 +5,41 @@ templ LogOutCollector() {
 	<html lang="en">
 		<head>
 			<meta charset="UTF-8"/>
-			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-			<title>Signin Page</title>
-			<script src="https://cdn.tailwindcss.com"></script>
+			<meta
+				name="viewport"
+				content="width=device-width, initial-scale=1.0"
+			/>
+			<link
+				rel="stylesheet"
+				href="/assets/styles/output.css"
+			/>
+			<style>
+				.overflow-y-scroll::-webkit-scrollbar {
+					width: 0 !important;
+					display: none;
+					overflow: -moz-scrollbars-none;
+					scrollbar-width: none;
+				}
+        </style>
+			<title>LogOut Beltech-Agent</title>
 		</head>
-		<body class="bg-white h-screen flex items-center justify-center">
-			<!-- <div class="bg-white rounded-lg  p-8 w-full max-w-md"> -->
-			<div class=" bg-cover bg-center bg-no-repeat rounded-lg p-8 w-full max-w-md">
-				<!-- Your content here -->
-				<!-- Form -->
-				<div class="mb-8">
-					<img src="../assets/svg/beltch_logo_dark.svg" alt=""/>
-				</div>
-				<div class="mb-8">
-					<a id="logout" class="flex items-center justify-center w-full py-2 px-3 text-white bg-green-700 rounded-md shadow-lg hover:bg-green-800 focus:outline-none">
-						Logout
+		<body class="h-dvh overflow-hidden">
+			<div class="w-full h-full grid grid-rows-agentDashboardPage pt-11 overflow-y-auto">
+				<div class="mx-6 flex flex-col justify-center items-center gap-[5.5rem]">
+					<img
+						src="/assets/svg/beltechClearLogo.svg"
+						alt=""
+						class="w-[24.375rem] min-w-[51%] aspect-[390/437]"
+					/>
+					<a
+						href="/agent/logout"
+						class="w-full bg-[#016934] py-3 rounded-md px-[5.438rem] font-montserrat font-medium text-sm text-center tracking-[0.1px] text-white text-nowrap"
+					>
+						LogOut 
 					</a>
 				</div>
-				<div class="fixed bottom-0 left-0 right-0 bg-white shadow-md py-4 flex justify-around items-center">
-					<button class="text-green-600">
-						<img src="../assets/svg/home linear.svg"/>
-					</button>
-					<button class="text-green-600">
-						<img src="../assets/svg/refresh-linear.svg"/>
-					</button>
-					<button class="text-green-600">
-						<img src="../assets/svg/receipt-linear.svg"/>
-					</button>
-					<button class="text-green-600">
-						<img src="../assets/svg/profile.svg"/>
-					</button>
-					<button class="text-green-600">
-						<img src="../assets/svg/logout_bold.svg"/>
-					</button>
-				</div>
+				@footer("logout")
 			</div>
-			<div id="qrModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center hidden">
-				<div class="bg-white p-8 rounded-lg shadow-lg max-w-xs w-full text-center">
-					<div class="p-4">
-						<img src="../assets/images/no entry.png" alt="QR Code" class="w-20 h-20 mx-auto mb-4"/>
-						<h3 class="text-lg font-bold mb-2">Unauthorized!</h3>
-						<p class="text-gray-600 mb-4">Sorry, you do not have permission to use this application page</p>
-						<!-- <button id="nextButton" class="bg-green-700 text-white px-4 py-2 rounded">Next</button> -->
-					</div>
-				</div>
-			</div>
-			<script>
-        // Get the button and modal elements
-        const sendCodeButton = document.getElementById('logout');
-        const qrModal = document.getElementById('qrModal');
-        const nextButton = document.getElementById('nextButton');
-    
-        // Show modal when "Send Code" is clicked
-        sendCodeButton.addEventListener('click', function() {
-            qrModal.classList.remove('hidden');
-        });
-    
-        // Close modal when "Next" is clicked
-        nextButton.addEventListener('click', function() {
-            qrModal.classList.add('hidden');
-        });
-    </script>
 		</body>
 	</html>
 }

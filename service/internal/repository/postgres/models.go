@@ -124,17 +124,6 @@ type ExchangeHistory struct {
 	CreatedAt pgtype.Timestamp `json:"created_at"`
 }
 
-type TempWasteLog struct {
-	WasteID         pgtype.UUID      `json:"waste_id"`
-	CreatedAt       pgtype.Timestamp `json:"created_at"`
-	GlassWeighed    float32          `json:"glass_weighed"`
-	MetalWeighed    float32          `json:"metal_weighed"`
-	PlasticsWeighed float32          `json:"plastics_weighed"`
-	PaperWeighed    float32          `json:"paper_weighed"`
-	Location        interface{}      `json:"location"`
-	AgentID         pgtype.UUID      `json:"agent_id"`
-}
-
 type User struct {
 	Email              string           `json:"email"`
 	UserID             string           `json:"user_id"`
@@ -162,11 +151,13 @@ type User struct {
 type WasteLog struct {
 	WasteID         pgtype.UUID      `json:"waste_id"`
 	CreatedAt       pgtype.Timestamp `json:"created_at"`
+	Claimed         pgtype.Bool      `json:"claimed"`
 	GlassWeighed    float32          `json:"glass_weighed"`
 	MetalWeighed    float32          `json:"metal_weighed"`
 	PlasticsWeighed float32          `json:"plastics_weighed"`
 	PaperWeighed    float32          `json:"paper_weighed"`
 	Location        interface{}      `json:"location"`
+	FunnyName       string           `json:"funny_name"`
 	AgentID         pgtype.UUID      `json:"agent_id"`
-	Email           string           `json:"email"`
+	Email           pgtype.Text      `json:"email"`
 }

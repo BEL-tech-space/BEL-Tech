@@ -25,17 +25,6 @@ CREATE TABLE IF NOT EXISTS collectors (
     agent_ID UUID REFERENCES agents (agent_ID)
 );
 
-CREATE TABLE IF NOT EXISTS temp_Waste_Logs (
-    waste_Id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    created_At TIMESTAMP DEFAULT NOW(),
-     glass_Weighed REAL NOT NULL DEFAULT 0,
-    metal_Weighed REAL NOT NULL DEFAULT 0,
-    plastics_Weighed REAL NOT NULL DEFAULT 0, 
-    paper_Weighed REAL NOT NULL DEFAULT 0,
-    "location" geometry(POINT, 4326),
-    agent_ID UUID REFERENCES agents (agent_ID)
-);
-
 CREATE TABLE IF NOT EXISTS users (
     email TEXT PRIMARY KEY,
     user_ID TEXT NOT NULL DEFAULT '',
@@ -65,17 +54,19 @@ DROP INDEX IF EXISTS users_spl_wallet_unique_idx;
 CREATE UNIQUE INDEX users_spl_wallet_unique_idx 
 ON users (spl_Wallet) 
 WHERE spl_Wallet <> '';
- 
-CREATE TABLE IF NOT EXISTS waste_Logs (
-    waste_Id UUID PRIMARY KEY,
+
+CREATE TABLE IF NOT EXISTS Waste_Logs (
+    waste_Id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     created_At TIMESTAMP DEFAULT NOW(),
+    claimed BOOLEAN DEFAULT FALSE,
     glass_Weighed REAL NOT NULL DEFAULT 0,
     metal_Weighed REAL NOT NULL DEFAULT 0,
     plastics_Weighed REAL NOT NULL DEFAULT 0, 
     paper_Weighed REAL NOT NULL DEFAULT 0,
     "location" geometry(POINT, 4326),
-    agent_ID UUID REFERENCES agents(agent_ID) ON DELETE RESTRICT,
-    email TEXT NOT NULL REFERENCES users(email) ON DELETE RESTRICT
+    funny_Name TEXT NOT NULL DEFAULT '',
+    agent_ID UUID REFERENCES agents(agent_ID),
+    email TEXT REFERENCES users(email)
 );
 
 CREATE TABLE IF NOT EXISTS exchange_History (

@@ -114,40 +114,6 @@ func (q *Queries) AddNewExchangeHistory(ctx context.Context, arg AddNewExchangeH
 	return err
 }
 
-const addNewTempWasteFromCollector = `-- name: AddNewTempWasteFromCollector :one
-INSERT INTO waste_Logs (
-    glass_Weighed, metal_Weighed, plastics_Weighed, paper_Weighed, "location", agent_ID
-) VALUES (
-    $1, $2, $3, $4, ST_SetSRID(ST_MakePoint($5, $6), 4326), $7
-)
-RETURNING waste_Id
-`
-
-type AddNewTempWasteFromCollectorParams struct {
-	GlassWeighed    float32     `json:"glass_weighed"`
-	MetalWeighed    float32     `json:"metal_weighed"`
-	PlasticsWeighed float32     `json:"plastics_weighed"`
-	PaperWeighed    float32     `json:"paper_weighed"`
-	StMakepoint     interface{} `json:"st_makepoint"`
-	StMakepoint_2   interface{} `json:"st_makepoint_2"`
-	AgentID         pgtype.UUID `json:"agent_id"`
-}
-
-func (q *Queries) AddNewTempWasteFromCollector(ctx context.Context, arg AddNewTempWasteFromCollectorParams) (pgtype.UUID, error) {
-	row := q.db.QueryRow(ctx, addNewTempWasteFromCollector,
-		arg.GlassWeighed,
-		arg.MetalWeighed,
-		arg.PlasticsWeighed,
-		arg.PaperWeighed,
-		arg.StMakepoint,
-		arg.StMakepoint_2,
-		arg.AgentID,
-	)
-	var waste_id pgtype.UUID
-	err := row.Scan(&waste_id)
-	return waste_id, err
-}
-
 const addNewUser = `-- name: AddNewUser :exec
 INSERT INTO users (
     user_ID, email, hashed_password, first_Name, last_Name, nick_Name, avatar_URL, spl_Wallet, curr_Balance, total_Earned, total_glass_waste, total_metal_waste, total_plastics_waste, total_paper_waste, access_Token, access_Token_Expires, id_Token, last_Update_Email, joined
@@ -203,6 +169,44 @@ func (q *Queries) AddNewUser(ctx context.Context, arg AddNewUserParams) error {
 	return err
 }
 
+const addNewWasteFromCollector = `-- name: AddNewWasteFromCollector :one
+INSERT INTO Waste_Logs (
+    glass_Weighed, metal_Weighed, plastics_Weighed, paper_Weighed, "location", funny_Name, agent_ID, email
+) VALUES (
+    $1, $2, $3, $4, ST_SetSRID(ST_MakePoint($5, $6), 4326), $7, $8, $9
+)
+RETURNING waste_Id
+`
+
+type AddNewWasteFromCollectorParams struct {
+	GlassWeighed    float32     `json:"glass_weighed"`
+	MetalWeighed    float32     `json:"metal_weighed"`
+	PlasticsWeighed float32     `json:"plastics_weighed"`
+	PaperWeighed    float32     `json:"paper_weighed"`
+	StMakepoint     interface{} `json:"st_makepoint"`
+	StMakepoint_2   interface{} `json:"st_makepoint_2"`
+	FunnyName       string      `json:"funny_name"`
+	AgentID         pgtype.UUID `json:"agent_id"`
+	Email           pgtype.Text `json:"email"`
+}
+
+func (q *Queries) AddNewWasteFromCollector(ctx context.Context, arg AddNewWasteFromCollectorParams) (pgtype.UUID, error) {
+	row := q.db.QueryRow(ctx, addNewWasteFromCollector,
+		arg.GlassWeighed,
+		arg.MetalWeighed,
+		arg.PlasticsWeighed,
+		arg.PaperWeighed,
+		arg.StMakepoint,
+		arg.StMakepoint_2,
+		arg.FunnyName,
+		arg.AgentID,
+		arg.Email,
+	)
+	var waste_id pgtype.UUID
+	err := row.Scan(&waste_id)
+	return waste_id, err
+}
+
 const addNewWasteLog = `-- name: AddNewWasteLog :exec
 INSERT INTO waste_Logs (waste_Id, created_At, glass_Weighed, metal_Weighed, plastics_Weighed, paper_Weighed, "location", agent_ID, email) 
 VALUES ($1, $2, $3, $4, $5, $6, ST_SetSRID(ST_MakePoint($7, $8), 4326), $9, $10)
@@ -218,7 +222,7 @@ type AddNewWasteLogParams struct {
 	StMakepoint     interface{}      `json:"st_makepoint"`
 	StMakepoint_2   interface{}      `json:"st_makepoint_2"`
 	AgentID         pgtype.UUID      `json:"agent_id"`
-	Email           string           `json:"email"`
+	Email           pgtype.Text      `json:"email"`
 }
 
 func (q *Queries) AddNewWasteLog(ctx context.Context, arg AddNewWasteLogParams) error {
@@ -309,7 +313,7 @@ func (q *Queries) GetUser(ctx context.Context, email string) (User, error) {
 const getWasteFromCollectorByAgentIDAndDate = `-- name: GetWasteFromCollectorByAgentIDAndDate :many
 WITH temp_waste_count AS (
     SELECT COUNT(*) AS count
-    FROM temp_Waste_Logs
+    FROM Waste_Logs
     WHERE agent_ID = $1 AND created_At::date = $2::date
 )
 SELECT 
