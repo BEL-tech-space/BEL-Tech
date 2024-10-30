@@ -3,3 +3,9 @@
 beltech
 *.env
 tmp/
+
+node_modules/
+dist/
+styles/output.css
+scripts/output.js
+*templ.txt
