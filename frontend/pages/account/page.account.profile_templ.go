@@ -29,7 +29,7 @@ func AccountProfile(user User) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 1)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<!doctype html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><link rel=\"stylesheet\" href=\"/assets/styles/output.css\"><title>Exchange</title><style>\n\t\t\t\t.overflow-y-auto::-webkit-scrollbar {\n\t\t\t\t\twidth: 0 !important;\n\t\t\t\t\tdisplay: none;\n\t\t\t\t\toverflow: -moz-scrollbars-none;\n\t\t\t\t\tscrollbar-width: none;\n\t\t\t\t}\n\t\t\t</style></head><body class=\"bg-[url(&#39;/assets/images/beltech_background.png&#39;)] bg-cover bg-center h-dvh overflow-hidden\"><div class=\"Page w-full h-full flex flex-col font-montserrat text-[#2E2E2E]\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -37,7 +37,7 @@ func AccountProfile(user User) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 2)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<main class=\"grow overflow-y-auto w-full pl-[1.5rem] pr-[1.56rem]\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -45,7 +45,7 @@ func AccountProfile(user User) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 3)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<article class=\"h-full py-auto\"><section class=\"py-[3.25rem]\"><img src=\"/assets/svg/3d_avatar_3.svg\" alt=\"\" class=\"w-[7.75rem] aspect-square mx-auto\"></section><form action=\"\" class=\"flex flex-col gap-3 justify-center items-center\"><div class=\"w-full flex flex-col justify-start items-start gap-1\"><label for=\"\" class=\"font-semibold text-xs\">Display Name:</label> <input type=\"text\" name=\"nickname\" id=\"nickname\" class=\"border-solid border-[#569B78] rounded-[0.0313rem] p-2 w-full\"></div><div class=\"w-full flex flex-col justify-start items-start gap-1\"><label for=\"\" class=\"font-semibold text-xs\">Display Name:</label> <input disabled type=\"text\" name=\"nickname\" id=\"nickname\" placeholder=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -58,7 +58,7 @@ func AccountProfile(user User) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 4)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"border-solid border-[#569B78] rounded-[0.0313rem] p-2 w-full\"></div><div class=\"w-full flex flex-col justify-start items-start gap-1\"><label for=\"\" class=\"font-semibold text-xs\">Wallet:</label> <input disabled type=\"text\" name=\"nickname\" id=\"nickname\" class=\"border-solid border-[#569B78] rounded-[0.0313rem] p-2 w-full\"></div><section class=\"mt-20 w-full grid grid-cols-profileButton items-center gap-[0.625rem]\"><button type=\"submit\" class=\"w-full text-center bg-[#016934] text-white text-sm tracking-[0.1px] font-medium py-[0.625rem] px-1 rounded-md\">Save Changes</button> <a href=\"/account/signout\" title=\"logout\" class=\"bg-[#FFE8E8] rounded-md flex justify-center items-center\"><img src=\"/assets/svg/login.svg\" class=\"w-6 aspect-square m-2\"></a></section></form></article></main>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -66,7 +66,7 @@ func AccountProfile(user User) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 5)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></body></html>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
