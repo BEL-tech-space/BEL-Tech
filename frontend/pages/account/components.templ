@@ -122,10 +122,12 @@ templ menuComp(active string) {
 
 templ profileBar(user User) {
 	<header class="pt-[1.5rem] pl-[1.5rem] pr-[1.56rem] flex w-full justify-start items-center">
-		<img
-			src={ user.AvatarUrl }
-			class="rounded-full w-[1.86rem] aspect-square mr-[0.5rem]"
-		/>
+		<a href="/account/profile">
+			<img
+				src={ user.AvatarUrl }
+				class="rounded-full w-[1.86rem] aspect-square mr-[0.5rem]"
+			/>
+		</a>
 		if user.NickName != "" {
 			<p class="leading-[0.91rem] font-[500] text-[0.75rem]">
 				Gm,

@@ -34,56 +34,56 @@ func footer(active string) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		if active == "dashboard" {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a href=\"/agent/dashboard\" class=\"grid grid-rows-2 justify-center items-center\"><img src=\"/assets/svg/home bold.svg\" class=\"w-6 aspect-square\"><p class=\"font-bold text-[0.5rem] leading-[1.25rem]\">Home</p></a> ")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a href=\"/agent/dashboard\" class=\"flex flex-col justify-center items-center\"><img src=\"/assets/svg/home bold.svg\" class=\"w-6 aspect-square\"><p class=\"font-bold text-[0.5rem] leading-[1.25rem]\">Home</p></a> ")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		} else {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a href=\"/agent/dashboard\" class=\"grid grid-rows-2 justify-center items-center\"><img src=\"/assets/svg/home linear.svg\" class=\"w-6 aspect-square\"><p class=\"font-bold text-[0.5rem] leading-[1.25rem]\">Home</p></a> ")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a href=\"/agent/dashboard\" class=\"flex flex-col justify-center items-center\"><img src=\"/assets/svg/home linear.svg\" class=\"w-6 aspect-square\"><p class=\"font-bold text-[0.5rem] leading-[1.25rem]\">Home</p></a> ")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
 		if active == "collect" {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a href=\"/agent/collect\" class=\"grid grid-rows-2 justify-center items-center\"><img src=\"/assets/svg/collect_icon_bold.svg\" class=\"w-6 aspect-square\"><p class=\"font-bold text-[0.5rem] leading-[1.25rem]\">Collect</p></a> ")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a href=\"/agent/collect\" class=\"flex flex-col justify-center items-center\"><img src=\"/assets/svg/collect_icon_bold.svg\" class=\"w-6 aspect-square\"><p class=\"font-bold text-[0.5rem] leading-[1.25rem]\">Collect</p></a> ")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		} else {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a href=\"/agent/collect\" class=\"grid grid-rows-2 justify-center items-center\"><img src=\"/assets/svg/collect_icon_linear.svg\" class=\"w-6 aspect-square\"><p class=\"font-bold text-[0.5rem] leading-[1.25rem]\">Collect</p></a> ")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a href=\"/agent/collect\" class=\"flex flex-col justify-center items-center\"><img src=\"/assets/svg/collect_icon_linear.svg\" class=\"w-6 aspect-square\"><p class=\"font-bold text-[0.5rem] leading-[1.25rem]\">Collect</p></a> ")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
 		if active == "location" {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a href=\"#\" class=\"grid grid-rows-2 justify-center items-center\"><img src=\"/assets/svg/history_icon_bold.svg\" class=\"w-6 aspect-square\"><p class=\"font-bold text-[0.5rem] leading-[1.25rem]\">History</p></a> ")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a href=\"#\" class=\"flex flex-col justify-center items-center\"><img src=\"/assets/svg/history_icon_bold.svg\" class=\"w-6 aspect-square\"><p class=\"font-bold text-[0.5rem] leading-[1.25rem]\">History</p></a> ")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		} else {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a href=\"#\" class=\"grid grid-rows-2 justify-center items-center\"><img src=\"/assets/svg/history_icon_linear.svg\" class=\"w-6 aspect-square\"><p class=\"font-bold text-[0.5rem] leading-[1.25rem]\">History</p></a> ")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a href=\"#\" class=\"flex flex-col justify-center items-center\"><img src=\"/assets/svg/history_icon_linear.svg\" class=\"w-6 aspect-square\"><p class=\"font-bold text-[0.5rem] leading-[1.25rem]\">History</p></a> ")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
 		if active == "wallet" {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a href=\"#\" class=\"grid grid-rows-2 justify-center items-center\"><img src=\"/assets/svg/profile-home.svg\" class=\"w-6 aspect-square\"><p class=\"font-bold text-[0.5rem] leading-[1.25rem]\">Profile</p></a> ")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a href=\"#\" class=\"flex flex-col justify-center items-center\"><img src=\"/assets/svg/profile-home.svg\" class=\"w-6 aspect-square\"><p class=\"font-bold text-[0.5rem] leading-[1.25rem]\">Profile</p></a> ")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		} else {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a href=\"#\" class=\"grid grid-rows-2 justify-center items-center\"><img src=\"/assets/svg/profile.svg\" class=\"w-6 aspect-square\"><p class=\"font-bold text-[0.5rem] leading-[1.25rem]\">Profile</p></a> ")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a href=\"#\" class=\"flex flex-col justify-center items-center\"><img src=\"/assets/svg/profile.svg\" class=\"w-6 aspect-square\"><p class=\"font-bold text-[0.5rem] leading-[1.25rem]\">Profile</p></a> ")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
 		if active == "logout" {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a href=\"/agent/signout\" class=\"grid grid-rows-2 justify-center items-center\"><img src=\"/assets/svg/logout_bold.svg\" class=\"w-6 aspect-square\"><p class=\"font-bold text-[0.5rem] leading-[1.25rem]\">Logout</p></a>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a href=\"/agent/signout\" class=\"flex flex-col justify-center items-center\"><img src=\"/assets/svg/logout_bold.svg\" class=\"w-6 aspect-square\"><p class=\"font-bold text-[0.5rem] leading-[1.25rem]\">Logout</p></a>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		} else {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a href=\"/agent/signout\" class=\"grid grid-rows-2 justify-center items-center\"><img src=\"/assets/svg/logout_linear.svg\" class=\"w-6 aspect-square\"><p class=\"font-bold text-[0.5rem] leading-[1.25rem]\">Logout</p></a>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a href=\"/agent/signout\" class=\"flex flex-col justify-center items-center\"><img src=\"/assets/svg/logout_linear.svg\" class=\"w-6 aspect-square\"><p class=\"font-bold text-[0.5rem] leading-[1.25rem]\">Logout</p></a>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
