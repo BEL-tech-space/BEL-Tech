@@ -80,13 +80,13 @@ func (a *App) generateQRCode(w http.ResponseWriter, r *http.Request) {
 
 	var wasteID uuid.UUID
 	p := service.AddNewWasteFromCollectorParams{
-			GlassWeighed:    glass,
-			MetalWeighed:    metal,
-			PlasticsWeighed: plastics,
-			PaperWeighed:    paper,
-			FunnyName: gofakeit.Name(),
-			AgentID:         agentUUID,
-		}
+		GlassWeighed:    glass,
+		MetalWeighed:    metal,
+		PlasticsWeighed: plastics,
+		PaperWeighed:    paper,
+		FunnyName:       gofakeit.Name(),
+		AgentID:         agentUUID,
+	}
 	if a.config.Build == productionEnv {
 		if wasteID, err = a.service.AddNewTempWasteFromCollector(r.Context(), p); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -96,7 +96,8 @@ func (a *App) generateQRCode(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Printf("\n%s\n\n", wasteID.String())
 
-	e := fmt.Sprintf("glass:%.2f,paper:%.2f,plastics:%.2f,metal:%.2f,uuid:%s", p.GlassWeighed, p.PaperWeighed, p.PlasticsWeighed, p.MetalWeighed, wasteID.String())
+	e := fmt.Sprintf("glass: %.2f, paper :%.2f,plastics:%.2f,metal:%.2f, funnyName: %s, uuid:%s", p.GlassWeighed, p.PaperWeighed, p.PlasticsWeighed, p.MetalWeighed, p.FunnyName, wasteID.String())
+	fmt.Println(e)
 	qrCode := NewSimpleQRCode(e)
 	codeData, err := qrCode.generateWithWatermark()
 	if err != nil {

@@ -29,7 +29,7 @@ func LogOutCollector() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<!doctype html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><link rel=\"stylesheet\" href=\"/assets/styles/output.css\"><style>\n\t\t\t\t.overflow-y-scroll::-webkit-scrollbar {\n\t\t\t\t\twidth: 0 !important;\n\t\t\t\t\tdisplay: none;\n\t\t\t\t\toverflow: -moz-scrollbars-none;\n\t\t\t\t\tscrollbar-width: none;\n\t\t\t\t}\n        </style><title>LogOut Beltech-Agent</title></head><body class=\"h-dvh overflow-hidden\"><div class=\"w-full h-full grid grid-rows-agentDashboardPage pt-11 overflow-y-auto\"><div class=\"mx-6 flex flex-col justify-center items-center gap-[5.5rem]\"><img src=\"/assets/svg/beltechClearLogo.svg\" alt=\"\" class=\"w-[24.375rem] min-w-[51%] aspect-[390/437]\"> <a href=\"/agent/logout\" class=\"w-full bg-[#016934] py-3 rounded-md px-[5.438rem] font-montserrat font-medium text-sm text-center tracking-[0.1px] text-white text-nowrap\">LogOut </a></div>")
+		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 1)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -37,7 +37,7 @@ func LogOutCollector() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></body></html>")
+		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 2)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

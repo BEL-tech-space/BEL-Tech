@@ -25,6 +25,7 @@ func (a *App) accountRouter() http.Handler {
 		r.Get("/location", a.locationPageHandler)
 		r.Get("/wallet", a.walletPageHandler)
 		r.Get("/spend", a.exchangePageHandler)
+		r.Get("/profile", a.accountProfilePage)
 	})
 
 	r.Get("/signup", a.signupPageHandler)
