@@ -6,8 +6,9 @@ module.exports = {
       spacing: {
       },
        fontFamily: {
-          montserrat: [ 'Montserrat', 'sans-serif' ],
-          poppins: [ 'Poppins', 'sans-serif' ],
+         montserrat: [ 'Montserrat', 'sans-serif' ],
+         montserratSemibold: [ 'Montserrat-semibold', 'sans-serif' ],
+         poppins: [ 'Poppins', 'sans-serif' ],
         },
       gridTemplateColumns: {
         'profileButton': '1fr auto'

@@ -29,66 +29,66 @@ func footer(active string) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<footer class=\"bg-white flex w-full justify-around mt-[1.125rem] gap-[2.375rem] text-[#016934]\">")
+		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 1)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		if active == "dashboard" {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a href=\"/agent/dashboard\" class=\"flex flex-col justify-center items-center\"><img src=\"/assets/svg/home bold.svg\" class=\"w-6 aspect-square\"><p class=\"font-bold text-[0.5rem] leading-[1.25rem]\">Home</p></a> ")
+			templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 2)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		} else {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a href=\"/agent/dashboard\" class=\"flex flex-col justify-center items-center\"><img src=\"/assets/svg/home linear.svg\" class=\"w-6 aspect-square\"><p class=\"font-bold text-[0.5rem] leading-[1.25rem]\">Home</p></a> ")
+			templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 3)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
 		if active == "collect" {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a href=\"/agent/collect\" class=\"flex flex-col justify-center items-center\"><img src=\"/assets/svg/collect_icon_bold.svg\" class=\"w-6 aspect-square\"><p class=\"font-bold text-[0.5rem] leading-[1.25rem]\">Collect</p></a> ")
+			templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 4)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		} else {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a href=\"/agent/collect\" class=\"flex flex-col justify-center items-center\"><img src=\"/assets/svg/collect_icon_linear.svg\" class=\"w-6 aspect-square\"><p class=\"font-bold text-[0.5rem] leading-[1.25rem]\">Collect</p></a> ")
+			templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 5)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
 		if active == "location" {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a href=\"#\" class=\"flex flex-col justify-center items-center\"><img src=\"/assets/svg/history_icon_bold.svg\" class=\"w-6 aspect-square\"><p class=\"font-bold text-[0.5rem] leading-[1.25rem]\">History</p></a> ")
+			templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 6)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		} else {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a href=\"#\" class=\"flex flex-col justify-center items-center\"><img src=\"/assets/svg/history_icon_linear.svg\" class=\"w-6 aspect-square\"><p class=\"font-bold text-[0.5rem] leading-[1.25rem]\">History</p></a> ")
+			templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 7)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
 		if active == "wallet" {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a href=\"#\" class=\"flex flex-col justify-center items-center\"><img src=\"/assets/svg/profile-home.svg\" class=\"w-6 aspect-square\"><p class=\"font-bold text-[0.5rem] leading-[1.25rem]\">Profile</p></a> ")
+			templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 8)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		} else {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a href=\"#\" class=\"flex flex-col justify-center items-center\"><img src=\"/assets/svg/profile.svg\" class=\"w-6 aspect-square\"><p class=\"font-bold text-[0.5rem] leading-[1.25rem]\">Profile</p></a> ")
+			templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 9)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
 		if active == "logout" {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a href=\"/agent/signout\" class=\"flex flex-col justify-center items-center\"><img src=\"/assets/svg/logout_bold.svg\" class=\"w-6 aspect-square\"><p class=\"font-bold text-[0.5rem] leading-[1.25rem]\">Logout</p></a>")
+			templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 10)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		} else {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a href=\"/agent/signout\" class=\"flex flex-col justify-center items-center\"><img src=\"/assets/svg/logout_linear.svg\" class=\"w-6 aspect-square\"><p class=\"font-bold text-[0.5rem] leading-[1.25rem]\">Logout</p></a>")
+			templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 11)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</footer>")
+		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 12)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
