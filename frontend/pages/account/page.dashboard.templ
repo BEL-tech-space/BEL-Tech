@@ -18,14 +18,7 @@ templ AccountDashboardPage(user User) {
 				href="/assets/libriaries/swiper-bundle.min.css"
 			/>
 			<script src="/assets/libriaries/swiper-bundle.min.js"></script>
-			<style>
-            .overflow-y-scroll::-webkit-scrollbar {
-                width: 0 !important;
-                display: none;
-                overflow: -moz-scrollbars-none;
-                scrollbar-width: none;
-            }
-        </style>
+			@removeScrollBar()
 			<title>Dashboard</title>
 		</head>
 		<body class="bg-[url('/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
@@ -219,7 +212,7 @@ templ AccountDashboardPage(user User) {
 }
 
 templ letRecycleAndProfile(text string) {
-	<article class="pt-[1.88rem] flex items-center gap">
+	<article class="pt-[1.88rem] flex items-center gap-1">
 		<p class="leading-[1.143rem] font-semibold text-[0.938rem]">{ text }</p>
 		<img
 			src="/assets/images/Recycle_small.png"

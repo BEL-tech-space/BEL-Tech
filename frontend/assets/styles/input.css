@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: "Monsterrat";
+  src: url("../fonts/montserrat/static/Montserrat-Regular.ttf");
+}
+
+@font-face {
+  font-family: "Monsterrat-semibold";
+  src: url("../fonts/montserrat/static/Montserrat-SemiBold.ttf");
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("../fonts/poppins/Poppins-Regular.ttf");
+
+}

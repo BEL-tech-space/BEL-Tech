@@ -13,14 +13,7 @@ templ LocationPage() {
 				rel="stylesheet"
 				href="/assets/styles/output.css"
 			/>
-			<style>
-            .overflow-y-scroll::-webkit-scrollbar {
-                width: 0 !important;
-                display: none;
-                overflow: -moz-scrollbars-none;
-                scrollbar-width: none;
-            }
-        </style>
+			@removeScrollBar()
 			<title>Location</title>
 		</head>
 		<body

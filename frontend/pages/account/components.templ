@@ -156,3 +156,14 @@ templ profileBar(user User) {
 		</button>
 	</header>
 }
+
+templ removeScrollBar() {
+	<style>
+		.overflow-y-auto::-webkit-scrollbar {
+			width: 0 !important;
+			display: none;
+			overflow: -moz-scrollbars-none;
+			scrollbar-width: none;
+		}
+	</style>
+}

@@ -7,15 +7,10 @@ templ ExchangePage(avatarURL string) {
 			<meta charset="UTF-8"/>
 			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 			<link rel="stylesheet" href="/assets/styles/output.css"/>
-			<style>
-				.overflow-y-auto::-webkit-scrollbar {
-					width: 0 !important;
-					display: none;
-					overflow: -moz-scrollbars-none;
-					scrollbar-width: none;
-				}
-			</style>
+			@removeScrollBar()
 			<title>Spend BEL Token</title>
+			<script src="https://cdn.jsdelivr.net/npm/ms-dropdown@4.0.3/dist/js/dd.min.js"></script>
+			<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 		</head>
 		<body class="bg-[url('/assets/images/beltech_background.png')] bg-cover bg-center h-dvh font-montserrat text-[#2E2E2E] overflow-hidden">
 			<div class="w-full h-full flex flex-col font-montserrat text-[#2E2E2E]">
@@ -41,7 +36,7 @@ templ ExchangePage(avatarURL string) {
 						<img src={ avatarURL } alt="" class="rounded-full w-4 aspect-square"/>
 						<p class="text-[0.5rem] leading-[0.75rem] font-medium text-left font-poppins">Dz3y2237dshyyyyyyyyyybf7</p>
 					</section>
-					<section class="font-poppins p-2 rounded-[0.625rem] border-solid border-[#0169344D] border-[0.063rem] w-full flex justify-between items-center">
+					<section class="p-2 rounded-[0.625rem] border-solid border-[#0169344D] border-[0.063rem] w-full flex justify-between items-center">
 						<p class="text-[0.938rem] leading-[1.406rem] font-medium text-left">3BEL</p>
 						<div class="flex flex-col items-center justify-center gap-2">
 							<p class="font-medium text-[0.75rem] leading-[1.125rem] text-black">Balance 250.06</p>
@@ -50,14 +45,20 @@ templ ExchangePage(avatarURL string) {
 							</button>
 						</div>
 					</section>
-					<img src="/assets/svg/exchange.svg" class="w-10 aspect-square mx-auto"/>
-					<section class="font-poppins px-2 py-6 rounded-[0.625rem] border-solid border-[#0169344D] border-[0.063rem] w-full flex justify-between items-center gap-3">
+					<img src="/assets/svg/exchange.svg" class="w-10 aspect-square mx-auto -my-2"/>
+					<section class="w-full px-2 py-6 rounded-[0.625rem] border-solid border-[#0169344D] border-[0.063rem] flex justify-between items-center gap-2">
 						<p class="text-[0.938rem] leading-[1.406rem] text-left font-semibold text-[#00000099]">Airtime</p>
 						<input type="number" name="amount" id="amount" inputmode="numeric" placeholder="Amount" class="placeholder:italic placeholder:text-center bg-transparent outline-none"/>
-						<select id="options" class="bg-transparent rounded-full appearance-none">
-							<option value="mtn">MTN</option>
-							<option value="airtel">AIRTEL</option>
-							<option value="glo">GLO</option>
+						<select id="options" is="ms-dropdown" class="bg-transparent rounded-full">
+							// <option value="" selected>Please select one</option>
+							// <option value="mtn" style="background-image:url('/assets/images/mtn.png')"></option>
+							// <option value="mtn" style="background-image:url('/assets/images/mtn.png')"></option>
+							// <option value="mtn" style="background-image:url('/assets/images/mtn.png')"></option>
+							// <option value="mtn"><img src="/assets/images/mtn.png" alt=""></option>
+							// <option value="mtn"><img src="/assets/images/mtn.png" alt=""></option>
+							<option data-image="/assets/images/airtel.png" value=""></option>
+							<option data-image="/assets/images/airtel.png" value="airtel"></option>
+							<option data-image="/assets/images/glo.png" value="glo"></option>
 						</select>
 					</section>
 					<p class="text-center font-semibold text-xs text-black mb-10 mt-3">Your #BEL is worth 1,000 naira Airtime</p>

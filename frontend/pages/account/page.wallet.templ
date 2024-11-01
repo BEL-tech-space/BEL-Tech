@@ -8,62 +8,87 @@ templ WalletPage(user User) {
 			<meta charset="UTF-8"/>
 			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 			<link rel="stylesheet" href="/assets/styles/output.css"/>
-			<style>
-				.overflow-y-auto::-webkit-scrollbar {
-					width: 0 !important;
-					display: none;
-					overflow: -moz-scrollbars-none;
-					scrollbar-width: none;
-				}
-			</style>
-			<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+			@removeScrollBar()
+			<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/ms-dropdown@4.0.3/dist/css/dd.min.css"/>
+			<link
+				rel="stylesheet"
+				href="/assets/libriaries/swiper-bundle.min.css"
+			/>
+			<script src="/assets/libriaries/swiper-bundle.min.js"></script>
 			<title>Wallet</title>
 		</head>
 		<body class="bg-[url('/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
 			<main class="w-full h-full flex flex-col font-montserrat text-[#2E2E2E]">
 				@profileBar(user)
-				<section class="grow overflow-y-auto.overflow-y-auto pl-[1.5rem] pr-[1.56rem]">
-					<div class="pt-[1.88rem] flex">
-						<p class="leading-[0.914rem]  text-git [0.75rem]">My Balance </p>
-						<img src="/assets/svg/eye.svg"/>
-					</div>
-					<div class="pt-[0.5rem] flex">
-						<p class="leading-[1.524rem] font-[700] text-[1.25rem] text-[#016934]">250.06 BEL </p>
-					</div>
-					<div class="pt-[2.8125rem] flex w-full justify-between items-start  ">
-						<div class="flex flex-col gap-3 items-center">
-							<button class="bg-green-200 h-12 w-12 rounded-full"><img src="/assets/svg/+.svg" class="h-8 w-8 m-auto"/></button>
-							<p>Send</p>
-						</div>
-						<div class="flex flex-col gap-3 justify-center">
-							<button class="bg-green-200 h-12 w-12 rounded-full flex justify-center items-center"><img src="/assets/svg/-.svg" class="h-8 w-8"/></button>
-							<p>Receive</p>
-						</div>
-						<div class="flex flex-col gap-3 justify-center">
-							<button class="bg-green-200 h-12 w-12 rounded-full flex justify-center items-center"><img src="/assets/svg/cash out.svg" class="h-8 w-8"/></button>
-							<p>Cash out</p>
-						</div>
-						<div class="flex flex-col gap-3 justify-center">
-							<button class="bg-green-200 h-12 w-12 rounded-full flex justify-center items-center"><img src="/assets/svg/learn.svg" class="h-8 w-8"/></button>
-							<p>Learn</p>
-						</div>
-					</div>
-					<div class="mt-8 w-full flex items-center justify-between">
-						<p class="font-[600] text-[0.94rem] leading-[1.14rem]">Watchlist</p>
+				<section class="grow overflow-y-auto.overflow-y-auto pl-6 pr-[1.56rem]">
+					<section class="pt-[1.88rem] flex gap-2 items-center">
+						<p class="font-semibold text-xs leading-[0.914rem]">My Balance </p>
+						<img src="/assets/svg/eye.svg" class="w-[0.938rem] aspect-square"/>
+					</section>
+					<p class="mt-2 mb-8 font-bold text-xl leading-[1.524rem] text-[#016934]">250.06 BEL </p>
+					<section class="flex w-full justify-between items-start gap-2">
+						<a class="flex flex-col gap-2 items-center">
+							<button class="bg-[#CCE1D6] rounded-full p-[0.938rem]"><img src="/assets/svg/+.svg" class="w-5 aspect-square"/></button>
+							<p class="font-poppins font-normal text-xs text-center">Send</p>
+						</a>
+						<a class="flex flex-col gap-2 items-center">
+							<button class="bg-[#CCE1D6] rounded-full p-[0.938rem]"><img src="/assets/svg/-.svg" class="w-5 aspect-square"/></button>
+							<p class="font-poppins font-normal text-xs text-center">Receive</p>
+						</a>
+						<a class="flex flex-col gap-2 items-center">
+							<button class="bg-[#CCE1D6] rounded-full p-[0.938rem]"><img src="/assets/svg/cash out.svg" class="w-5 aspect-square"/></button>
+							<p class="font-poppins font-normal text-xs text-center">Cash out</p>
+						</a>
+						<a class="flex flex-col gap-2 items-center">
+							<button class="bg-[#CCE1D6] rounded-full p-[0.938rem]"><img src="/assets/svg/learn.svg" class="w-5 aspect-square"/></button>
+							<p class="font-poppins font-normal text-xs text-center">Learn</p>
+						</a>
+					</section>
+					<section class="mt-10 w-full flex justify-between items-center">
+						<p class="font-semibold text-[0.94rem] leading-[1.14rem]">Watchlist</p>
 						<button>
-							<p class="font-[500] text-[0.63rem] leading-[0.76rem] text-[#016934]">see all</p>
+							<p class="font-medium text-[0.63rem] leading-[0.76rem] text-[#016934]">see all</p>
 						</button>
-					</div>
-					<div id="coins-container">
-						<ul id="coins-list"></ul>
-					</div>
+					</section>
+					<section id="coins-container">
+						<ul id="coins-list" class="w-full flex gap-6"></ul>
+					</section>
+					<section class="swiperTwo mt-4">
+						<div class="px-4 swiper mySwiperTwo w-full">
+							<div class="swiper-wrapper">
+								for range 4 {
+									<div class="swiper-slide">
+										<div class="bg-[#FEF7FF] rounded-lg flex items-center justify-center gap-3">
+											<img
+												src="/assets/svg/cryptoNews.svg"
+												class="w-[6.875rem] aspect-[110/101] mx-[0.313rem] mr-[0.313rem] rounded-lg"
+											/>
+											<div class="flex flex-col gap-2 my-[1.188rem]">
+												<div class="flex items-center gap-[0.313rem]">
+													<p class="font-[600] text-[0.688rem] leading-[0.838rem]">Solana</p>
+													<img
+														src="/assets/images/Recycle_small.png"
+														alt=""
+														class="w-[0.813rem] aspect-square"
+													/>
+												</div>
+												<p class="font-[500] text-[0.625rem] leading-[0.875rem] text-wrap">
+													Solana’s network has surpassed the Binance Smart Chain (BNB) to become the second-largest by liquid TVL, second only to Ethereum. This surge in TVL reflects increased deposits, which reached 42.5 million SOL, the highest since 2022​
+												</p>
+											</div>
+										</div>
+									</div>
+								}
+							</div>
+						</div>
+					</section>
 				</section>
 				@menuComp("wallet")
 			</main>
 		</body>
 		<script>
 		async function fetchCoinData() {
-			const coins = ['bitcoin', 'ethereum', 'solana', 'binancecoin', 'pancakeswap-token', 'tether'];
+			const coins = ['bitcoin', 'bitcoin', 'bitcoin', 'bitcoin'];
 			const url = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${coins.join(',')}`;
 			
 			try {
@@ -74,29 +99,24 @@ templ WalletPage(user User) {
 
 				data.forEach((coin, index) => {
 					const listItem = document.createElement('li');
-					listItem.classList.add('flex', 'justify-between', 'items-center');
-					
-				listItem.innerHTML = `
-					<div class="flex items-center justify-between gap-4 w-full">
-						<img src="${coin.image}" alt="${coin.name}" class="rounded-full w-10 h-10"/>
-						<div class="flex flex-col gap-0.5 flex-shrink-0">
-							<p class="font-[500] leading-[0.838rem] text-[0.688rem]">${coin.name}</p>
-							<p class="font-[700] leading-[0.762rem] text-[0.625rem]">${coin.symbol.toUpperCase()}</p>
+					listItem.classList.add('w-full', 'flex', 'justify-stretch', 'items-center', 'gap-[0.233rem]', 'text-[#393737]');
+					listItem.innerHTML = `
+						<img src="${coin.image}" alt="${coin.name}" class="w-[2.788rem] aspect-square rounded-full"/>
+						<div class="flex flex-col justisfy-start item-center gap-[0.446rem]">
+							<p class="font-semibold leading-[0.838rem] text-[0.688rem] text-inherit">${coin.name}</p>
+							<p class="font-medium leading-[0.762rem] text-[0.625rem] text-inherit">${coin.symbol.toUpperCase()}</p>
 						</div>
 						<div class="relative w-20 h-7 flex-shrink-0 self-center">
 							<div id="chart-${index}" class="w-full h-full absolute inset-0"></div>
 						</div>
-						<div class="flex flex-col items-center flex-shrink-0 self-center">
-							<p class="font-extrabold text-xl">$${coin.current_price.toLocaleString()}</p>
-							<p class="${coin.price_change_percentage_24h >= 0 ? 'text-green-600' : 'text-red-600'}">
+						<div class="flex flex-col items-center ml-auto">
+							<p class="font-bold text-sm text-center text-inherit">$${coin.current_price.toLocaleString()}</p>
+							<p class="ml-auto font-semibold text-xs text-center {coin.price_change_percentage_24h >= 0 ? text-[#34A853] : text-[#EF0E0E]}">
 								${coin.price_change_percentage_24h.toFixed(2)}%
 							</p>
 						</div>
-					</div>
-				`;
-
+					`;
 					coinsList.appendChild(listItem);
-
 					// Create Sparkline Chart
 					createSparkline(`chart-${index}`, coin);
 				});
@@ -139,6 +159,15 @@ templ WalletPage(user User) {
 		}
 
 		fetchCoinData();
+
+		 const swiperTwo = new Swiper( '.mySwiperTwo', {
+            mousewheel: true,
+            keyboard: true,
+            autoplay: {
+                delay: 300000,
+                disableOnInteraction: true,
+            },
+        } );
 	</script>
 	</html>
 }

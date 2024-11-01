@@ -25,8 +25,6 @@ func (a *App) accountDashboard(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-
-
 func (a *App) accountProfilePage(w http.ResponseWriter, r *http.Request) {
 	userEmail := r.Context().Value(contextKeyEmail).(string)
 
