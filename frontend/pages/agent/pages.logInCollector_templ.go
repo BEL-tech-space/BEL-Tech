@@ -29,7 +29,7 @@ func LogInCollector() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 1)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<!doctype html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><link rel=\"stylesheet\" href=\"/assets/styles/output.css\"><style>\n\t\t\t\t.overflow-y-scroll::-webkit-scrollbar {\n\t\t\t\t\twidth: 0 !important;\n\t\t\t\t\tdisplay: none;\n\t\t\t\t\toverflow: -moz-scrollbars-none;\n\t\t\t\t\tscrollbar-width: none;\n            }\n        </style><title>LogIn Beltech-Agent</title></head><body class=\"h-dvh\"><div class=\"px-6 pt-11 pb-4 h-full grid grid-rows-loginPage justify-center items-center gap-[5.5rem]\"><img src=\"/assets/svg/beltechClearLogo.svg\" alt=\"\" class=\"w-[24.375rem] min-w-[51%] aspect-[390/437]\"> <a href=\"/agent/auth/google\" class=\"flex gap-2 justify-center items-center bg-[#016934] py-3 rounded-md px-[5.438rem]\"><img src=\"/assets/svg/google_icon.svg\" class=\"w-[1.438rem] aspect-square\"><p class=\"font-montserrat font-medium text-sm text-center tracking-[0.1px] text-white text-nowrap\">Log In with Google</p></a></div></body></html>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

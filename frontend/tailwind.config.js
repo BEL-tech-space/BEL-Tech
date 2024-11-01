@@ -11,7 +11,7 @@ module.exports = {
          poppins: [ 'Poppins', 'sans-serif' ],
         },
       gridTemplateColumns: {
-        'profileButton': '1fr auto'
+        'profileButton': '1fr auto',
       },
       gridTemplateRows: {
         'agentCollectPage': 'auto 1fr minmax(2.563rem, auto)',

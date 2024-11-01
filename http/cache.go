@@ -9,7 +9,7 @@ func (a *App) userFromCache(ctx context.Context, userEmail string) (*service.Use
 	if a.config.Build != productionEnv {
 		return &devServiceUser, nil
 	}
-	
+
 	x, found := a.cacheStorage.Get(userEmail)
 	if found {
 		return x.(*service.User), nil
