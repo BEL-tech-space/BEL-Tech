@@ -8,14 +8,7 @@ templ WalletPage(user User) {
 			<meta charset="UTF-8"/>
 			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 			<link rel="stylesheet" href="/assets/styles/output.css"/>
-			<style>
-				.overflow-y-auto::-webkit-scrollbar {
-					width: 0 !important;
-					display: none;
-					overflow: -moz-scrollbars-none;
-					scrollbar-width: none;
-				}
-			</style>
+			@removeScrollBar()
 			<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/ms-dropdown@4.0.3/dist/css/dd.min.css"/>
 			<link
 				rel="stylesheet"
