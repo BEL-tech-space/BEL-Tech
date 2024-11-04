@@ -55,13 +55,13 @@ func footer(active string) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		if active == "location" {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a href=\"#\" class=\"flex flex-col justify-center items-center\"><img src=\"/assets/svg/history_icon_bold.svg\" class=\"w-6 aspect-square\"><p class=\"font-bold text-[0.5rem] leading-[1.25rem]\">History</p></a> ")
+		if active == "history" {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a href=\"/agent/history\" class=\"flex flex-col justify-center items-center\"><img src=\"/assets/svg/history_icon_bold.svg\" class=\"w-6 aspect-square\"><p class=\"font-bold text-[0.5rem] leading-[1.25rem]\">History</p></a> ")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		} else {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a href=\"#\" class=\"flex flex-col justify-center items-center\"><img src=\"/assets/svg/history_icon_linear.svg\" class=\"w-6 aspect-square\"><p class=\"font-bold text-[0.5rem] leading-[1.25rem]\">History</p></a> ")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a href=\"/agent/history\" class=\"flex flex-col justify-center items-center\"><img src=\"/assets/svg/history_icon_linear.svg\" class=\"w-6 aspect-square\"><p class=\"font-bold text-[0.5rem] leading-[1.25rem]\">History</p></a> ")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
