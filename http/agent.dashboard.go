@@ -12,3 +12,10 @@ func (a *App) agentDashboard(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 }
+
+func (a *App) historyPage(w http.ResponseWriter, r *http.Request) {
+	if err := agentPages.HistoryPage().Render(context.Background(), w); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+}
