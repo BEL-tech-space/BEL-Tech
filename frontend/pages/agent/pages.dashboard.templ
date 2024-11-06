@@ -33,18 +33,31 @@ templ DashboardPage() {
 					/>
 					<section class="w-full flex justify-between items-center">
 						<p class="text-[0.938rem] leading-[1.143rem] font-semibold">Overview</p>
-						<button
-							class="bg-[#01693433] px-[0.833rem] flex justify-center items-center gap-[0.417rem] rounded-[1.562rem]"
-						>
-							<p class="font-bold text-center text-[0.417rem] leading-[1.041rem]">
-								This week
-							</p>
-							<img
-								src="/assets/svg/filter_small.svg"
-								alt="Notifications"
-								class="w-3 aspect-square my-[0.328rem]"
-							/>
-						</button>
+						<div class="bg-[#01693433] pl-[0.5rem] pr-[0.833rem] flex justify-center items-center gap-[0.417rem] rounded-[1.562rem]">
+							<select name="filter" id="filter" class="appearance-none min-w-fit outline-none bg-gray-500">
+								<option value="" class="">this week</option>
+								<hr/>
+								<optgroup label="range">
+									<option value="lastweek" class="">last week</option>
+									<option value="2Weeks" class="">2wk ago</option>
+									<option value="3Weeks" class="">3wk ago</option>
+									<option value="4Weeks" class="">4wk ago</option>
+									<option value="thisMonth" class="">this month</option>
+								</optgroup>
+								<hr/>
+								<optgroup label="result">
+									<option value="single" class="">single</option>
+									<option value="combined" class="">combined</option>
+								</optgroup>
+							</select>
+							<label for="filter">
+								<img
+									src="/assets/svg/filter_small.svg"
+									alt="Notifications"
+									class="w-4 aspect-square"
+								/>
+							</label>
+						</div>
 					</section>
 					<section class="flex flex-col gap-4 justify-between items-center mb-6 mt-[0.946rem]">
 						<article
