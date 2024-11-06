@@ -71,9 +71,9 @@ templ footer(active string) {
 				<p class="font-bold text-[0.5rem] leading-[1.25rem]">History</p>
 			</a>
 		}
-		if active == "wallet" {
+		if active == "profile" {
 			<a
-				href="#"
+				href="/agent/profile"
 				class="flex flex-col justify-center items-center"
 			>
 				<img
@@ -84,7 +84,7 @@ templ footer(active string) {
 			</a>
 		} else {
 			<a
-				href="#"
+				href="/agent/profile"
 				class="flex flex-col justify-center items-center"
 			>
 				<img
@@ -118,4 +118,60 @@ templ footer(active string) {
 			</a>
 		}
 	</footer>
+}
+
+templ profileBar(collector Collector) {
+	<header class="flex w-full justify-start items-center">
+		<img
+			src={ collector.AvatarUrl }
+			class="rounded-full w-[1.86rem] aspect-square mr-[0.5rem]"
+		/>
+		if collector.NickName != "" {
+			<p class="leading-[0.91rem] font-[500] text-[0.75rem]">
+				Gm,
+				<span class="font-[600]">{ collector.NickName }</span>
+			</p>
+		} else if collector.FirstName != "" {
+			<p class="leading-[0.91rem] font-[500] text-[0.75rem]">
+				Gm,
+				<span class="font-[600]">{ collector.FirstName }</span>
+			</p>
+		} else if collector.LastName != "" {
+			<p class="leading-[0.91rem] font-[500] text-[0.75rem]">
+				Gm,
+				<span class="font-[600]">{ collector.LastName }</span>
+			</p>
+		} else {
+			<p class="leading-[0.91rem] font-[500] text-[0.75rem]">
+				Gm
+			</p>
+		}
+		<button class="bg-[#CCE1D699] p-[0.5rem] ml-auto rounded-md flex justify-center items-center">
+			<img
+				src="/assets/svg/notification.svg"
+				class="w-6 aspect-square"
+			/>
+		</button>
+	</header>
+}
+
+templ letRecycleAndProfile(text string) {
+	<article class="pt-[1.88rem] flex items-center gap-1">
+		<p class="leading-[1.143rem] font-semibold text-[0.938rem]">{ text }</p>
+		<img
+			src="/assets/images/Recycle_small.png"
+			class="w-5 aspect-square"
+		/>
+	</article>
+}
+
+templ removeScrollBar() {
+	<style>
+		.overflow-y-auto::-webkit-scrollbar {
+			width: 0 !important;
+			display: none;
+			overflow: -moz-scrollbars-none;
+			scrollbar-width: none;
+		}
+	</style>
 }
