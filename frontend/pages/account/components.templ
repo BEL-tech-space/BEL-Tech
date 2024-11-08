@@ -94,7 +94,7 @@ templ menuComp(active string) {
 				<p class="font-[700] text-[0.5rem] leading-[1.25rem] text-[#016934]">Wallet</p>
 			</a>
 		}
-		if active == "exchange" {
+		if active == "spend" {
 			<a
 				href="/account/spend"
 				class="flex flex-col justify-center items-center gap-[0.25rem]"
@@ -152,6 +152,25 @@ templ profileBar(user User) {
 			<img
 				src="/assets/svg/notification.svg"
 				class="w-6 aspect-square"
+			/>
+		</button>
+	</header>
+}
+
+templ frequentHeaderTwo(text, avatarURL, imagePath, btnBehaviour string) {
+	<header class="pt-[1.5rem] pl-[1.5rem] pr-[1.56rem] flex w-full justify-between items-center">
+		<button>
+			<img
+				src={ avatarURL }
+				alt=""
+				class="rounded-full w-[1.86rem] aspect-square mr-[0.5rem]"
+			/>
+		</button>
+		<p class="font-semibold text-[0.938rem] leading-[1.143rem]">{ text }</p>
+		<button _={ btnBehaviour } class="bg-[#CCE1D699] p-2 rounded-md flex justify-center items-center">
+			<img
+				src={ imagePath }
+				class="w-[1.5rem] aspect-square"
 			/>
 		</button>
 	</header>

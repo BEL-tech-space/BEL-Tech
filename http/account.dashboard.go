@@ -40,3 +40,36 @@ func (a *App) accountProfilePage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 }
+
+func (a *App) rechargeAirtime(w http.ResponseWriter, r *http.Request) {
+	userEmail := r.Context().Value(contextKeyEmail).(string)
+
+	user, err := a.userFromCache(context.Background(), userEmail)
+	if err != nil {
+		fmt.Println("error occured here")
+		a.serverError(w, err)
+		return
+	}
+	
+	if err := accountPages.RechargeAirtimePage(account(*user)).Render(context.Background(), w); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+}
+
+
+func (a *App) airtimeBeneficiaries(w http.ResponseWriter, r *http.Request) {
+	userEmail := r.Context().Value(contextKeyEmail).(string)
+
+	user, err := a.userFromCache(context.Background(), userEmail)
+	if err != nil {
+		fmt.Println("error occured here")
+		a.serverError(w, err)
+		return
+	}
+	
+	if err := accountPages.AirtimeBeneficiaryPage(account(*user)).Render(context.Background(), w); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+}

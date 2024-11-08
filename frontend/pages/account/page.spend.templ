@@ -41,7 +41,12 @@ templ ExchangePage(avatarURL string) {
 					<section class="p-2 rounded-[0.625rem] border-solid border-[#0169344D] border-[0.063rem] w-full flex justify-between items-center">
 						<p class="text-[0.938rem] leading-[1.406rem] font-medium text-left">3BEL</p>
 						<div class="flex flex-col items-center justify-center gap-2">
-							<p class="font-medium text-[0.75rem] leading-[1.125rem] text-black">Balance 250.06</p>
+							<div class="flex gap-2 justify-center items-center">
+								<p class="font-medium text-xs text-black font-poppins">Balance 250.06 </p>
+								<button>
+									<img src="/assets/svg/greenEye.svg" class="w-3 aspect-square"/>
+								</button>
+							</div>
 							<button class="rounded-[0.625rem] border-[0.063rem] p-2 border-solid border-[#0169344D]">
 								<p class="font-medium leading-4 text-[0.688rem] text-left text-[#016934]">MAX</p>
 							</button>
@@ -64,11 +69,11 @@ templ ExchangePage(avatarURL string) {
 						</select>
 					</section>
 					<p class="text-center font-semibold text-xs text-black mb-10 mt-3">Your #BEL is worth 1,000 naira Airtime</p>
-					<button type="button" class="w-full bg-[#016934] text-sm font-medium text-white py-[0.625rem] text-center tracking-[0.00625rem] rounded-md">Convert</button>
+					<a href="/account/airtime" type="button" class="block w-full bg-[#016934] text-sm font-medium text-white py-[0.625rem] text-center tracking-[0.00625rem] rounded-md">Convert</a>
 					<section class="mt-12 flex flex-col justify-center items-center gap-6">
 						<div class="flex w-full gap-4 bg-[#FEF7FF] rounded-lg p-[0.313rem]">
 							<img src="/assets/images/friends.jpg" alt="" class="w-[4.688rem] aspect-[75/70] rounded-lg"/>
-							<a class="flex flex-col justify-center items-start gap-1">
+							<a href="/account/beneficiaries" class="flex flex-col justify-center items-start gap-1">
 								<p class="font-medium text-[0.625rem] leading-4">Saved beneficiaries for instant <br/> top-ups</p>
 								<button class="block font-bold text-[#016934] text-[0.5rem] leading-[0.609rem]">View beneficiary</button>
 							</a>
@@ -82,7 +87,7 @@ templ ExchangePage(avatarURL string) {
 						</div>
 					</section>
 				</main>
-				@menuComp("exchange")
+				@menuComp("spend")
 			</div>
 		</body>
 	</html>
