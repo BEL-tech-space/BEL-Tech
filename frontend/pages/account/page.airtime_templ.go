@@ -41,7 +41,7 @@ func RechargeAirtimePage(user User) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = frequentHeaderTwo("Spend BEL Token", user.AvatarUrl, "/assets/svg/notification.svg", "").Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = frequentHeaderTwo("Spend BEL Token", user.AvatarUrl, "/assets/svg/notification.svg", "on click call #addNewBeneficiairyDialog.showModal() then halt").Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -133,7 +133,7 @@ func addNewBeneficiairyDialog() templ.Component {
 			templ_7745c5c3_Var3 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<dialog id=\"addNewBeneficiairyDialog\" class=\"backdrop:backdrop-blur-sm rounded-2xl py-8 pl-7 pr-9 font-montserrat text-[#2E2E2E]\"><p class=\"font-bold text-sm leading-[1.067rem] text-center mb-2 mt-6\">Add new number to your Beneficiary</p><form action=\"\" class=\"mt-8 w-full flex flex-col items-center justify-start gap-[1.141rem]\"><div class=\"w-full\"><label for=\"name\" class=\"font-semibold text-xs\">Name</label> <input type=\"password\" required max=\"4\" minlength=\"4\" name=\"name\" id=\"name\" inputmode=\"numeric\" class=\"min-h-[2.071rem] pl-2 w-full border-solid border-[#569B78] border-[0.0256rem] rounded outline-none\"></div><div class=\"w-full\"><label for=\"number\" class=\"font-semibold text-xs\">Phone Number</label> <input type=\"password\" required max=\"4\" minlength=\"4\" name=\"number\" id=\"number\" inputmode=\"numeric\" class=\"min-h-[2.071rem] pl-2 w-full border-solid border-[#569B78] border-[0.0256rem] rounded outline-none\"></div><button type=\"button\" _=\"on click call #addNewBeneficiairyDialog.close()\" class=\"w-full rounded-md mt-[2.188rem] mb-2 font-medium bg-[#016934] text-[0.813rem] leading-5 tracking-[0.00625em] py-[0.625rem] px-[5.219rem] text-center text-white\">Save Beneficiary</button></form></dialog>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<dialog id=\"addNewBeneficiairyDialog\" class=\"backdrop:backdrop-blur-sm rounded-2xl py-8 pl-7 pr-9 font-montserrat text-[#2E2E2E]\"><p class=\"font-bold text-sm leading-[1.067rem] text-center mb-2 mt-6\">Add new number to your Beneficiary</p><form action=\"\" class=\"mt-8 w-full flex flex-col items-center justify-start gap-[1.141rem]\"><div class=\"w-full\"><label for=\"name\" class=\"font-semibold text-xs\">Name</label> <input type=\"text\" required name=\"name\" id=\"name\" max=\"4\" minlength=\"20\" class=\"min-h-[2.071rem] pl-2 w-full border-solid border-[#569B78] border-[0.0256rem] rounded outline-none\"></div><div class=\"w-full\"><label for=\"number\" class=\"font-semibold text-xs\">Phone Number</label> <input type=\"number\" required name=\"number\" id=\"number\" maxlength=\"11\" minlength=\"11\" inputmode=\"numeric\" class=\"min-h-[2.071rem] pl-2 w-full border-solid border-[#569B78] border-[0.0256rem] rounded outline-none\"></div><button type=\"button\" _=\"on click call #addNewBeneficiairyDialog.close()\" class=\"w-full rounded-md mt-[2.188rem] mb-2 font-medium bg-[#016934] text-[0.813rem] leading-5 tracking-[0.00625em] py-[0.625rem] px-[5.219rem] text-center text-white\">Save Beneficiary</button></form></dialog>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
