@@ -120,7 +120,7 @@ templ menuComp(active string) {
 	</footer>
 }
 
-templ profileBar(user User) {
+templ frequentHeaderOne(user User) {
 	<header class="pt-[1.5rem] pl-[1.5rem] pr-[1.56rem] flex w-full justify-start items-center">
 		<a href="/account/profile">
 			<img
@@ -159,13 +159,12 @@ templ profileBar(user User) {
 
 templ frequentHeaderTwo(text, avatarURL, imagePath, btnBehaviour string) {
 	<header class="pt-[1.5rem] pl-[1.5rem] pr-[1.56rem] flex w-full justify-between items-center">
-		<button>
+		<a href="/account/profile">
 			<img
 				src={ avatarURL }
-				alt=""
 				class="rounded-full w-[1.86rem] aspect-square mr-[0.5rem]"
 			/>
-		</button>
+		</a>
 		<p class="font-semibold text-[0.938rem] leading-[1.143rem]">{ text }</p>
 		<button _={ btnBehaviour } class="bg-[#CCE1D699] p-2 rounded-md flex justify-center items-center">
 			<img

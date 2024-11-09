@@ -17,9 +17,14 @@ templ RechargeAirtimePage(user User) {
 				<main class="overflow-y-auto pl-[1.5rem] pr-[1.56rem] pt-12 grid grid-flow-row-4">
 					<p class="font-bold text-xs leading-5 tracking-[0.00625em] text-center text-black">Which number do you want to receive <br/>your airtime to?</p>
 					<form action="" class="mt-10">
-						<label for="airtime" class="font-semibold text-xs text-black text-left">Input Your Phone Number</label>
-						<input type="number" inputmode="numeric" name="airtime" id="airtime" placeholder="09034097398" class="w-full mt-[0.783rem] min-h-[3.326rem] rounded-[0.652rem] pl-3 font-poppins font-semibold text-xs text-black border-solid border-[#0169344D] border-[0.065rem] placeholder:font-extralight placeholder:text-[0.625rem] placeholder:text-gray-500"/>
-						<button type="button" _="on click call #addNewBeneficiairyDialog.showModal() then halt" class="w-full rounded-md mb-2 font-medium bg-[#016934] mt-10 text-[0.813rem] leading-5 tracking-[0.00625em] py-[0.625rem] px-[5.219rem] text-center text-white">Recharge</button>
+						<div class="flex flex-col justify-start items-start gap-3 relative">
+							<label for="airtime" class="font-semibold text-xs text-black text-left">Input Your Phone Number</label>
+							<input type="tel" maxlength="11" minlength="11" inputmode="numeric" name="airtime" id="airtime" placeholder="09034097398" class="outline-none w-full min-h-[3.326rem] rounded-[0.652rem] pl-3 font-poppins font-semibold text-black border-solid border-[#0169344D] border-[0.065rem] placeholder:font-extralight placeholder:text-[0.625rem] placeholder:text-gray-500"/>
+							<button _="on click call #addNewBeneficiairyDialog.showModal() then halt" class="absolute top-2/4 right-4">
+								<img src="/assets/svg/profile-add.svg" alt="" class="w-[1.875rem] aspect-square"/>
+							</button>
+						</div>
+						<button type="button" class="w-full rounded-md mb-2 font-medium bg-[#016934] mt-10 text-[0.813rem] leading-5 tracking-[0.00625em] py-[0.625rem] px-[5.219rem] text-center text-white">Recharge</button>
 					</form>
 					<section class="mt-10 w-full flex items-center justify-between mb-2">
 						<p class="font-semibold text-[0.688rem] leading-[0.838rem] text-black">Choose from Beneficiary</p>
