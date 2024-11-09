@@ -19,6 +19,7 @@ func (a *App) historyPage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 }
+
 func (a *App) profilePage(w http.ResponseWriter, r *http.Request) {
 	if err := agentPages.ProfilePage(
 		agentPages.Collector{

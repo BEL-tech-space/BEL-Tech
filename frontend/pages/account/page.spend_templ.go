@@ -37,37 +37,32 @@ func ExchangePage(avatarURL string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<title>Spend BEL Token</title><script src=\"https://cdn.jsdelivr.net/npm/ms-dropdown@4.0.3/dist/js/dd.min.js\"></script><script src=\"https://cdn.jsdelivr.net/npm/apexcharts\"></script></head><body class=\"bg-[url(&#39;/assets/images/beltech_background.png&#39;)] bg-cover bg-center h-dvh font-montserrat text-[#2E2E2E] overflow-hidden\"><div class=\"w-full h-full flex flex-col font-montserrat text-[#2E2E2E]\"><header class=\"pt-[1.5rem] pl-[1.5rem] pr-[1.56rem] flex w-full justify-between items-center\"><button><img src=\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<title>Spend BEL Token</title><script src=\"https://cdn.jsdelivr.net/npm/ms-dropdown@4.0.3/dist/js/dd.min.js\"></script><script src=\"https://cdn.jsdelivr.net/npm/apexcharts\"></script></head><body class=\"bg-[url(&#39;/assets/images/beltech_background.png&#39;)] bg-cover bg-center h-dvh font-montserrat text-[#2E2E2E] overflow-hidden\"><div class=\"w-full h-full flex flex-col font-montserrat text-[#2E2E2E]\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = frequentHeaderTwo("Spend BEL Token", avatarURL, "/assets/svg/notification.svg", "").Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<main class=\"grow overflow-y-auto pl-[1.5rem] pr-[1.56rem]\"><p class=\"text-xs font-semibold text-left mt-[2.188rem] mb-6\">Change </p><section class=\"w-full flex justify-end items-center gap-1 mb-2\"><a href=\"/account/profile\"><img src=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var2 string
 		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(avatarURL)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.spend.templ`, Line: 20, Col: 22}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.spend.templ`, Line: 22, Col: 27}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" alt=\"\" class=\"rounded-full w-[1.86rem] aspect-square mr-[0.5rem]\"></button><p class=\"font-semibold text-[0.938rem] leading-[1.143rem]\">Spend BEL Token</p><button class=\"bg-[#CCE1D699] p-2 rounded-md flex justify-center items-center\"><img src=\"/assets/svg/notification.svg\" class=\"w-[1.5rem] aspect-square\"></button></header><main class=\"grow overflow-y-auto pl-[1.5rem] pr-[1.56rem]\"><p class=\"text-xs font-semibold text-left mt-[2.188rem] mb-6\">Change </p><section class=\"w-full flex justify-end items-center gap-1 mb-2\"><a href=\"/account/profile\"><img src=\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" alt=\"\" class=\"rounded-full w-4 aspect-square\"></a><p class=\"text-[0.5rem] leading-[0.75rem] font-medium text-left font-poppins\">Dz3y2237dshyyyyyyyyyybf7</p></section><section class=\"p-2 rounded-[0.625rem] border-solid border-[#0169344D] border-[0.063rem] w-full flex justify-between items-center\"><p class=\"text-[0.938rem] leading-[1.406rem] font-medium text-left\">3BEL</p><div class=\"flex flex-col items-center justify-center gap-2\"><div class=\"flex gap-2 justify-center items-center\"><p class=\"font-medium text-xs text-black font-poppins\">Balance 250.06 </p><button><img src=\"/assets/svg/greenEye.svg\" class=\"w-3 aspect-square\"></button></div><button class=\"rounded-[0.625rem] border-[0.063rem] p-2 border-solid border-[#0169344D]\"><p class=\"font-medium leading-4 text-[0.688rem] text-left text-[#016934]\">MAX</p></button></div></section><img src=\"/assets/svg/exchange.svg\" class=\"w-10 aspect-square mx-auto -my-2\"><section class=\"w-full px-2 py-6 rounded-[0.625rem] border-solid border-[#0169344D] border-[0.063rem] flex justify-between items-center gap-2\"><p class=\"text-[0.938rem] leading-[1.406rem] text-left font-semibold text-[#00000099]\">Airtime</p><input type=\"number\" name=\"amount\" id=\"amount\" inputmode=\"numeric\" placeholder=\"Amount\" class=\"placeholder:italic placeholder:text-center bg-transparent outline-none\"> <select id=\"options\" is=\"ms-dropdown\" class=\"bg-transparent rounded-full\"><option data-image=\"/assets/images/airtel.png\" value=\"\"></option> <option data-image=\"/assets/images/airtel.png\" value=\"airtel\"></option> <option data-image=\"/assets/images/glo.png\" value=\"glo\"></option></select></section><p class=\"text-center font-semibold text-xs text-black mb-10 mt-3\">Your #BEL is worth 1,000 naira Airtime</p><a href=\"/account/airtime\" type=\"button\" class=\"block w-full bg-[#016934] text-sm font-medium text-white py-[0.625rem] text-center tracking-[0.00625rem] rounded-md\">Convert</a><section class=\"mt-12 flex flex-col justify-center items-center gap-6\"><div class=\"flex w-full gap-4 bg-[#FEF7FF] rounded-lg p-[0.313rem]\"><img src=\"/assets/images/friends.jpg\" alt=\"\" class=\"w-[4.688rem] aspect-[75/70] rounded-lg\"> <a href=\"/account/beneficiaries\" class=\"flex flex-col justify-center items-start gap-1\"><p class=\"font-medium text-[0.625rem] leading-4\">Saved beneficiaries for instant <br>top-ups</p><button class=\"block font-bold text-[#016934] text-[0.5rem] leading-[0.609rem]\">View beneficiary</button></a></div><div class=\"flex w-full gap-4 bg-[#FEF7FF] rounded-lg p-[0.313rem]\"><img src=\"/assets/svg/spendVoucher.svg\" alt=\"\" class=\"w-[4.688rem] aspect-[75/70] rounded-lg\"> <a class=\"flex flex-col justify-center items-start gap-1\"><p class=\"font-medium text-[0.625rem] leading-4\">Get Vouchers for purchase of <br>goods and services </p><button class=\"font-bold text-[#016934] text-[0.5rem] leading-[0.609rem]\">Buy Voucher</button></a></div></section></main>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var3 string
-		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(avatarURL)
-		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.spend.templ`, Line: 37, Col: 27}
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" alt=\"\" class=\"rounded-full w-4 aspect-square\"></a><p class=\"text-[0.5rem] leading-[0.75rem] font-medium text-left font-poppins\">Dz3y2237dshyyyyyyyyyybf7</p></section><section class=\"p-2 rounded-[0.625rem] border-solid border-[#0169344D] border-[0.063rem] w-full flex justify-between items-center\"><p class=\"text-[0.938rem] leading-[1.406rem] font-medium text-left\">3BEL</p><div class=\"flex flex-col items-center justify-center gap-2\"><p class=\"font-medium text-[0.75rem] leading-[1.125rem] text-black\">Balance 250.06</p><button class=\"rounded-[0.625rem] border-[0.063rem] p-2 border-solid border-[#0169344D]\"><p class=\"font-medium leading-4 text-[0.688rem] text-left text-[#016934]\">MAX</p></button></div></section><img src=\"/assets/svg/exchange.svg\" class=\"w-10 aspect-square mx-auto -my-2\"><section class=\"w-full px-2 py-6 rounded-[0.625rem] border-solid border-[#0169344D] border-[0.063rem] flex justify-between items-center gap-2\"><p class=\"text-[0.938rem] leading-[1.406rem] text-left font-semibold text-[#00000099]\">Airtime</p><input type=\"number\" name=\"amount\" id=\"amount\" inputmode=\"numeric\" placeholder=\"Amount\" class=\"placeholder:italic placeholder:text-center bg-transparent outline-none\"> <select id=\"options\" is=\"ms-dropdown\" class=\"bg-transparent rounded-full\"><option data-image=\"/assets/images/airtel.png\" value=\"\"></option> <option data-image=\"/assets/images/airtel.png\" value=\"airtel\"></option> <option data-image=\"/assets/images/glo.png\" value=\"glo\"></option></select></section><p class=\"text-center font-semibold text-xs text-black mb-10 mt-3\">Your #BEL is worth 1,000 naira Airtime</p><button type=\"button\" class=\"w-full bg-[#016934] text-sm font-medium text-white py-[0.625rem] text-center tracking-[0.00625rem] rounded-md\">Convert</button><section class=\"mt-12 flex flex-col justify-center items-center gap-6\"><div class=\"flex w-full gap-4 bg-[#FEF7FF] rounded-lg p-[0.313rem]\"><img src=\"/assets/images/friends.jpg\" alt=\"\" class=\"w-[4.688rem] aspect-[75/70] rounded-lg\"> <a class=\"flex flex-col justify-center items-start gap-1\"><p class=\"font-medium text-[0.625rem] leading-4\">Saved beneficiaries for instant <br>top-ups</p><button class=\"block font-bold text-[#016934] text-[0.5rem] leading-[0.609rem]\">View beneficiary</button></a></div><div class=\"flex w-full gap-4 bg-[#FEF7FF] rounded-lg p-[0.313rem]\"><img src=\"/assets/svg/spendVoucher.svg\" alt=\"\" class=\"w-[4.688rem] aspect-[75/70] rounded-lg\"> <a class=\"flex flex-col justify-center items-start gap-1\"><p class=\"font-medium text-[0.625rem] leading-4\">Get Vouchers for purchase of <br>goods and services </p><button class=\"font-bold text-[#016934] text-[0.5rem] leading-[0.609rem]\">Buy Voucher</button></a></div></section></main>")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = menuComp("exchange").Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = menuComp("spend").Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
