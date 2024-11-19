@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"net/http"
 
+	"math/rand"
+
 	"github.com/go-chi/chi/v5"
 )
 
@@ -105,8 +107,35 @@ func (a *App) wasteHistoryHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := accountPages.WasteHistoryPage(account(*user), wasteType).Render(context.Background(), w); err != nil {
+	if err := accountPages.WasteHistoryPage(account(*user), wasteType, randomArray()).Render(context.Background(), w); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+}
+
+func (a *App) wasteTipsHandler(w http.ResponseWriter, r *http.Request) {
+
+	var wasteType string
+	if wasteType = chi.URLParam(r, "wasteType"); wasteType == "" {
+		http.Error(w, "WasteType not specified", http.StatusBadRequest)
+		return
+	}
+
+	if wasteType != "glass" && wasteType != "metal" && wasteType != "paper" && wasteType != "plastics" {
+		http.Error(w, "Invalid wasteType", http.StatusBadRequest)
+		return
+	}
+
+	if err := accountPages.TipsOnRecyclingPage(wasteType).Render(context.Background(), w); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+}
+
+
+func randomArray() []string {
+	if rand.Intn(2) == 0 {
+		return []string{} 
+	}
+	return []string{"example1", "example2", "example3"}
 }

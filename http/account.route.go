@@ -29,6 +29,7 @@ func (a *App) accountRouter() http.Handler {
 		r.Post("/airtime", a.rechargeAirtime)
 		r.Get("/beneficiaries", a.airtimeBeneficiaries)
 		r.Get("/waste/{wasteType}", a.wasteHistoryHandler)
+		r.Get("/tips/{wasteType}", a.wasteTipsHandler)
 
 	})
 

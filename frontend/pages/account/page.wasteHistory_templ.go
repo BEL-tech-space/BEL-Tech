@@ -13,7 +13,7 @@ import (
 	"strings"
 )
 
-func WasteHistoryPage(user User, wasteType string) templ.Component {
+func WasteHistoryPage(user User, wasteType string, history []string) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -34,7 +34,7 @@ func WasteHistoryPage(user User, wasteType string) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<!doctype html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><link rel=\"stylesheet\" href=\"/assets/styles/output.css\"><link rel=\"stylesheet\" href=\"/assets/libriaries/swiper-bundle.min.css\"><script src=\"/assets/libriaries/swiper-bundle.min.js\"></script>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<!doctype html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><link rel=\"stylesheet\" href=\"/assets/styles/output.css\"><link rel=\"stylesheet\" href=\"/assets/libriaries/swiper-bundle.min.css\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -42,7 +42,7 @@ func WasteHistoryPage(user User, wasteType string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<title>Dashboard</title></head><body class=\"bg-[url(&#39;/assets/images/beltech_background.png&#39;)] bg-cover bg-center h-dvh overflow-hidden\"><div class=\"Page w-full h-full flex flex-col font-montserrat text-[#2E2E2E]\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<title>Waste History</title></head><body class=\"bg-[url(&#39;/assets/images/beltech_background.png&#39;)] bg-cover bg-center h-dvh overflow-hidden\"><div class=\"Page w-full h-full flex flex-col font-montserrat text-[#2E2E2E]\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -50,41 +50,135 @@ func WasteHistoryPage(user User, wasteType string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<main class=\"grow overflow-y-auto pl-[1.5rem] pr-[1.56rem] pt-[1.875rem] grid grid-flow-row-4\">")
+		if len(history) > 0 {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<main class=\"grow overflow-y-auto pl-[1.5rem] pr-[1.56rem] pt-[1.875rem] grid grid-flow-row-4\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = letRecycleAndProfile("Let's Recycle!").Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<section class=\"flex justify-start items-center gap-4 mt-6 mb-10\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			switch wasteType {
+			case "paper":
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<img src=\"/assets/images/book.jpg\" alt=\"\" class=\"w-[6.875rem] aspect-square rounded-[0.516rem] bg-[#1E1E1E33]\"><div class=\"flex flex-col justify-start items-start gap-1 text-[#3A3A3A]\"><p class=\"font-bold text-[0.806rem] leading-[0.983rem]\">Material: <span class=\"font-semibold\">Paper</span></p><p class=\"font-bold text-[0.733rem] leading-[0.893rem]\">Total Earned: <span class=\"font-medium font-poppins\">50 BEL</span></p></div>")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+			case "glass":
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<img src=\"/assets/images/glass.jpg\" alt=\"\" class=\"w-[6.875rem] aspect-square rounded-[0.516rem] bg-[#1E1E1E33]\"><div class=\"flex flex-col justify-start items-start gap-1 text-[#3A3A3A]\"><p class=\"font-bold text-[0.806rem] leading-[0.983rem]\">Material: <span class=\"font-semibold\">Glass</span></p><p class=\"font-bold text-[0.733rem] leading-[0.893rem]\">Total Earned: <span class=\"font-medium font-poppins\">50 BEL</span></p></div>")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+			case "metal":
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<img src=\"/assets/images/metal2.jpg\" alt=\"\" class=\"w-[6.875rem] aspect-square rounded-[0.516rem] bg-[#1E1E1E33]\"><div class=\"flex flex-col justify-start items-start gap-1 text-[#3A3A3A]\"><p class=\"font-bold text-[0.806rem] leading-[0.983rem]\">Material: <span class=\"font-semibold\">Metal</span></p><p class=\"font-bold text-[0.733rem] leading-[0.893rem]\">Total Earned: <span class=\"font-medium font-poppins\">50 BEL</span></p></div>")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+			case "plastics":
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<img src=\"/assets/images/plastic_2.jpg\" alt=\"\" class=\"w-[6.875rem] aspect-square rounded-[0.516rem] bg-[#1E1E1E33]\"><div class=\"flex flex-col justify-start items-start gap-1 text-[#3A3A3A]\"><p class=\"font-bold text-[0.806rem] leading-[0.983rem]\">Material: <span class=\"font-semibold\">Plastics</span></p><p class=\"font-bold text-[0.733rem] leading-[0.893rem]\">Total Earned: <span class=\"font-medium font-poppins\">50 BEL</span></p></div>")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</section><section class=\"w-full flex justify-between items-center\"><p class=\"text-[0.938rem] leading-[1.143rem] font-semibold\">Overview</p><div class=\"bg-[#01693433] pl-[0.5rem] pr-[0.833rem] flex justify-center items-center gap-[0.417rem] rounded-[1.562rem]\"><select name=\"filter\" id=\"filter\" class=\"appearance-none min-w-fit outline-none\"><option value=\"\" class=\"\">this week</option><hr><optgroup label=\"range\"><option value=\"lastweek\" class=\"\">last week</option> <option value=\"2Weeks\" class=\"\">2wk ago</option> <option value=\"3Weeks\" class=\"\">3wk ago</option> <option value=\"4Weeks\" class=\"\">4wk ago</option> <option value=\"thisMonth\" class=\"\">this month</option></optgroup><hr><optgroup label=\"result\"><option value=\"single\" class=\"\">single</option> <option value=\"combined\" class=\"\">combined</option></optgroup></select> <label for=\"filter\"><img src=\"/assets/svg/filter_small.svg\" alt=\"Notifications\" class=\"w-4 aspect-square\"></label></div></section>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = notEmptyHistory(wasteType).Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</main>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		} else {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<main class=\"grow overflow-y-auto pl-[1.5rem] pr-[1.56rem] pt-[1.875rem] flex flex-col justify-start\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = letRecycleAndProfile("Let's Recycle!").Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<section class=\"flex justify-start items-center gap-4 mt-6 mb-10\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			switch wasteType {
+			case "paper":
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<img src=\"/assets/images/book.jpg\" alt=\"\" class=\"w-[6.875rem] aspect-square rounded-[0.516rem] bg-[#1E1E1E33]\"><div class=\"flex flex-col justify-start items-start gap-1 text-[#3A3A3A]\"><p class=\"font-bold text-[0.806rem] leading-[0.983rem]\">Material: <span class=\"font-semibold\">Paper</span></p><p class=\"font-bold text-[0.733rem] leading-[0.893rem]\">Total Earned: <span class=\"font-medium font-poppins\">0 BEL</span></p></div>")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+			case "glass":
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<img src=\"/assets/images/glass.jpg\" alt=\"\" class=\"w-[6.875rem] aspect-square rounded-[0.516rem] bg-[#1E1E1E33]\"><div class=\"flex flex-col justify-start items-start gap-1 text-[#3A3A3A]\"><p class=\"font-bold text-[0.806rem] leading-[0.983rem]\">Material: <span class=\"font-semibold\">Glass</span></p><p class=\"font-bold text-[0.733rem] leading-[0.893rem]\">Total Earned: <span class=\"font-medium font-poppins\">0 BEL</span></p></div>")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+			case "metal":
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<img src=\"/assets/images/metal2.jpg\" alt=\"\" class=\"w-[6.875rem] aspect-square rounded-[0.516rem] bg-[#1E1E1E33]\"><div class=\"flex flex-col justify-start items-start gap-1 text-[#3A3A3A]\"><p class=\"font-bold text-[0.806rem] leading-[0.983rem]\">Material: <span class=\"font-semibold\">Metal</span></p><p class=\"font-bold text-[0.733rem] leading-[0.893rem]\">Total Earned: <span class=\"font-medium font-poppins\">0 BEL</span></p></div>")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+			case "plastics":
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<img src=\"/assets/images/plastic_2.jpg\" alt=\"\" class=\"w-[6.875rem] aspect-square rounded-[0.516rem] bg-[#1E1E1E33]\"><div class=\"flex flex-col justify-start items-start gap-1 text-[#3A3A3A]\"><p class=\"font-bold text-[0.806rem] leading-[0.983rem]\">Material: <span class=\"font-semibold\">Plastics</span></p><p class=\"font-bold text-[0.733rem] leading-[0.893rem]\">Total Earned: <span class=\"font-medium font-poppins\">0 BEL</span></p></div>")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</section>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = emptyHistory(wasteType).Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</main>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		}
+		templ_7745c5c3_Err = menuComp("dashboard").Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = letRecycleAndProfile("Let's Recycle!").Render(ctx, templ_7745c5c3_Buffer)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></body></html>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<section class=\"flex justify-start items-center gap-4 mt-6 mb-10\">")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
+		return templ_7745c5c3_Err
+	})
+}
+
+func notEmptyHistory(wasteType string) templ.Component {
+	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
+		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
+		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
+			return templ_7745c5c3_CtxErr
 		}
-		switch wasteType {
-		case "paper":
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<img src=\"/assets/images/book.jpg\" alt=\"\" class=\"w-[6.875rem] aspect-square rounded-[0.516rem] bg-[#1E1E1E33]\"><div class=\"flex flex-col justify-start items-start gap-1 text-[#3A3A3A]\"><p class=\"font-bold text-[0.806rem] leading-[0.983rem]\">Material: <span class=\"font-semibold\">Paper</span></p><p class=\"font-bold text-[0.733rem] leading-[0.893rem]\">Total Earned: <span class=\"font-medium font-poppins\">50 BEL</span></p></div>")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-		case "glass":
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<img src=\"/assets/images/glass.jpg\" alt=\"\" class=\"w-[6.875rem] aspect-square rounded-[0.516rem] bg-[#1E1E1E33]\"><div class=\"flex flex-col justify-start items-start gap-1 text-[#3A3A3A]\"><p class=\"font-bold text-[0.806rem] leading-[0.983rem]\">Material: <span class=\"font-semibold\">Glass</span></p><p class=\"font-bold text-[0.733rem] leading-[0.893rem]\">Total Earned: <span class=\"font-medium font-poppins\">50 BEL</span></p></div>")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-		case "metal":
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<img src=\"/assets/images/metal2.jpg\" alt=\"\" class=\"w-[6.875rem] aspect-square rounded-[0.516rem] bg-[#1E1E1E33]\"><div class=\"flex flex-col justify-start items-start gap-1 text-[#3A3A3A]\"><p class=\"font-bold text-[0.806rem] leading-[0.983rem]\">Material: <span class=\"font-semibold\">Metal</span></p><p class=\"font-bold text-[0.733rem] leading-[0.893rem]\">Total Earned: <span class=\"font-medium font-poppins\">50 BEL</span></p></div>")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-		case "plastics":
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<img src=\"/assets/images/plastic_2.jpg\" alt=\"\" class=\"w-[6.875rem] aspect-square rounded-[0.516rem] bg-[#1E1E1E33]\"><div class=\"flex flex-col justify-start items-start gap-1 text-[#3A3A3A]\"><p class=\"font-bold text-[0.806rem] leading-[0.983rem]\">Material: <span class=\"font-semibold\">Plastics</span></p><p class=\"font-bold text-[0.733rem] leading-[0.893rem]\">Total Earned: <span class=\"font-medium font-poppins\">50 BEL</span></p></div>")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
+		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
+		if !templ_7745c5c3_IsBuffer {
+			defer func() {
+				templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
+				if templ_7745c5c3_Err == nil {
+					templ_7745c5c3_Err = templ_7745c5c3_BufErr
+				}
+			}()
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</section><section class=\"w-full flex justify-between items-center\"><p class=\"text-[0.938rem] leading-[1.143rem] font-semibold\">Overview</p><div class=\"bg-[#01693433] pl-[0.5rem] pr-[0.833rem] flex justify-center items-center gap-[0.417rem] rounded-[1.562rem]\"><select name=\"filter\" id=\"filter\" class=\"appearance-none min-w-fit outline-none\"><option value=\"\" class=\"\">this week</option><hr><optgroup label=\"range\"><option value=\"lastweek\" class=\"\">last week</option> <option value=\"2Weeks\" class=\"\">2wk ago</option> <option value=\"3Weeks\" class=\"\">3wk ago</option> <option value=\"4Weeks\" class=\"\">4wk ago</option> <option value=\"thisMonth\" class=\"\">this month</option></optgroup><hr><optgroup label=\"result\"><option value=\"single\" class=\"\">single</option> <option value=\"combined\" class=\"\">combined</option></optgroup></select> <label for=\"filter\"><img src=\"/assets/svg/filter_small.svg\" alt=\"Notifications\" class=\"w-4 aspect-square\"></label></div></section><section class=\"overflow-y-auto mt-8 max-h-full\"><ul class=\"flex flex-col justify-start items-start gap-9 py-2\">")
+		ctx = templ.InitializeContext(ctx)
+		templ_7745c5c3_Var2 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var2 == nil {
+			templ_7745c5c3_Var2 = templ.NopComponent
+		}
+		ctx = templ.ClearChildren(ctx)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<section class=\"overflow-y-auto mt-8 max-h-full\"><ul class=\"flex flex-col justify-start items-start gap-9 py-2\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -93,12 +187,12 @@ func WasteHistoryPage(user User, wasteType string) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var2 string
-			templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%s: %2fkg", strings.ToUpper(wasteType), 23.45))
+			var templ_7745c5c3_Var3 string
+			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%s: %2fkg", strings.ToUpper(wasteType), 23.45))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wasteHistory.templ`, Line: 96, Col: 141}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wasteHistory.templ`, Line: 139, Col: 137}
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -107,15 +201,49 @@ func WasteHistoryPage(user User, wasteType string) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</ul></section></main>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</ul></section>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = menuComp("dashboard").Render(ctx, templ_7745c5c3_Buffer)
+		return templ_7745c5c3_Err
+	})
+}
+
+func emptyHistory(wasteType string) templ.Component {
+	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
+		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
+		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
+			return templ_7745c5c3_CtxErr
+		}
+		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
+		if !templ_7745c5c3_IsBuffer {
+			defer func() {
+				templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
+				if templ_7745c5c3_Err == nil {
+					templ_7745c5c3_Err = templ_7745c5c3_BufErr
+				}
+			}()
+		}
+		ctx = templ.InitializeContext(ctx)
+		templ_7745c5c3_Var4 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var4 == nil {
+			templ_7745c5c3_Var4 = templ.NopComponent
+		}
+		ctx = templ.ClearChildren(ctx)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<section class=\"h-full w-full flex justify-center items-center\"><p class=\"font-bold text-sm text-[#3A3A3A]\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></body></html>")
+		var templ_7745c5c3_Var5 string
+		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("No history yet for %s", strings.ToUpper(wasteType)))
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wasteHistory.templ`, Line: 163, Col: 113}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p></section>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

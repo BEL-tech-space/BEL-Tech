@@ -18,6 +18,7 @@ templ AccountDashboardPage(user User) {
 				href="/assets/libriaries/swiper-bundle.min.css"
 			/>
 			<script src="/assets/libriaries/swiper-bundle.min.js"></script>
+			<script src="/assets/libriaries/swiper-bundle.min.js"></script>
 			@removeScrollBar()
 			<title>Dashboard</title>
 		</head>
@@ -120,7 +121,7 @@ templ AccountDashboardPage(user User) {
 					<section class="swiperTwo mt-4">
 						<div class="px-4 swiper mySwiperTwo w-full">
 							<div class="swiper-wrapper">
-								<div class="swiper-slide">
+								<a href="/account/tips/plastics" class="swiper-slide block">
 									<div class="bg-[#FEF7FF] rounded-lg flex items-center justify-center">
 										<img
 											src="/assets/images/plastic_1.jpg"
@@ -135,7 +136,7 @@ templ AccountDashboardPage(user User) {
 													class="w-[0.813rem] aspect-square"
 												/>
 											</div>
-											<p class="font-[500] text-[0.625rem] leading-[0.875rem]">
+											<p class="font-[500] text-[0.625rem] leading-[0.875rem] text-left">
 												Twist on the bottle
 												caps before tossing them in the bin to make it
 												easier
@@ -143,8 +144,8 @@ templ AccountDashboardPage(user User) {
 											</p>
 										</div>
 									</div>
-								</div>
-								<div class="swiper-slide">
+								</a>
+								<a href="/account/tips/glass" class="swiper-slide block">
 									<div class="bg-[#FEF7FF] rounded-lg flex items-center justify-center">
 										<img
 											src="/assets/svg/glassSwipper.svg"
@@ -159,13 +160,13 @@ templ AccountDashboardPage(user User) {
 													class="w-[0.813rem] aspect-square"
 												/>
 											</div>
-											<p class="font-[500] text-[0.625rem] leading-[0.875rem]">
+											<p class="font-[500] text-[0.625rem] leading-[0.875rem] text-left">
 												Remove food or drink residues from the glass as it can contaminate recycling process.
 											</p>
 										</div>
 									</div>
-								</div>
-								<div class="swiper-slide">
+								</a>
+								<a href="/account/tips/metal" class="swiper-slide block">
 									<div class="bg-[#FEF7FF] rounded-lg flex items-center justify-center">
 										<img
 											src="/assets/svg/metalSwipper.svg"
@@ -180,13 +181,13 @@ templ AccountDashboardPage(user User) {
 													class="w-[0.813rem] aspect-square"
 												/>
 											</div>
-											<p class="font-[500] text-[0.625rem] leading-[0.875rem]">
+											<p class="font-[500] text-[0.625rem] leading-[0.875rem] text-left">
 												Be careful not to crush metals like cans, as it makes sorting easier before recycling.
 											</p>
 										</div>
 									</div>
-								</div>
-								<div class="swiper-slide">
+								</a>
+								<a href="/account/tips/paper" class="swiper-slide block">
 									<div class="bg-[#FEF7FF] rounded-lg flex items-center justify-center">
 										<img
 											src="/assets/svg/paperSwipper.svg"
@@ -201,12 +202,12 @@ templ AccountDashboardPage(user User) {
 													class="w-[0.813rem] aspect-square"
 												/>
 											</div>
-											<p class="font-[500] text-[0.625rem] leading-[0.875rem]">
+											<p class="font-[500] text-[0.625rem] leading-[0.875rem] text-left">
 												Wet paper can become too damaged to recycle, as paper weakens fibers. So keep paper dry!											
 											</p>
 										</div>
 									</div>
-								</div>
+								</a>
 							</div>
 						</div>
 					</section>
