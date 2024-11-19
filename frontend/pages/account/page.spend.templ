@@ -93,12 +93,15 @@ templ ExchangePage(avatarURL string) {
 				border-radius: 6px;
 			}
 		</style>
-		<script defer>
+		<script>
 			const airtimeFrom = document.getElementById('airtimeForm');
 			const airttimeFormSubmitBtn =  document.getElementById("submitBtn")
 
 			airtimeFrom.addEventListener('input', () => {
 				if (!airtimeFrom.checkValidity()) {
+					airttimeFormSubmitBtn.disabled = true
+					airttimeFormSubmitBtn.classList.remove('bg-[#016934]')
+					airttimeFormSubmitBtn.classList.add('opacity-45', 'bg-green-400')
 					return
 				}
 				airttimeFormSubmitBtn.disabled = false
@@ -109,7 +112,6 @@ templ ExchangePage(avatarURL string) {
 			const radioInputs = document.querySelectorAll('input[type="radio"][name="network"]');
 			radioInputs.forEach((radio) => {
 				radio.addEventListener('change', () => {	
-
 					const labels = document.querySelectorAll('label');
 					labels.forEach((label) => {
 						label.classList.remove('selected');

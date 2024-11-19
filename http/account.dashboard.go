@@ -132,20 +132,17 @@ func (a *App) wasteTipsHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-
 func randomArray() []string {
 	if rand.Intn(2) == 0 {
-		return []string{} 
+		return []string{}
 	}
 	return []string{"example1", "example2", "example3"}
 }
 
 func (a *App) allWasteHistoryHandler(w http.ResponseWriter, r *http.Request) {
 
-
 	if err := accountPages.AllWasteHistoryPage().Render(context.Background(), w); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 }
-

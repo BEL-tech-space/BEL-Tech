@@ -574,6 +574,10 @@ video {
   top: -0.75rem;
 }
 
+.bottom-2\/4 {
+  bottom: 50%;
+}
+
 .bottom-4 {
   bottom: 1rem;
 }
@@ -588,6 +592,10 @@ video {
 
 .left-4 {
   left: 1rem;
+}
+
+.left-6 {
+  left: 1.5rem;
 }
 
 .right-4 {
@@ -854,6 +862,10 @@ video {
 
 .mt-\[4\.5rem\] {
   margin-top: 4.5rem;
+}
+
+.mt-auto {
+  margin-top: auto;
 }
 
 .block {
@@ -2275,6 +2287,12 @@ video {
 .shadow-\[0px_1\.83px_3\.65px_0px_\#0000001A\] {
   --tw-shadow: 0px 1.83px 3.65px 0px #0000001A;
   --tw-shadow-colored: 0px 1.83px 3.65px 0px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+.shadow-\[0px_1px_2px_0px_\#00000026\] {
+  --tw-shadow: 0px 1px 2px 0px #00000026;
+  --tw-shadow-colored: 0px 1px 2px 0px var(--tw-shadow-color);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 

@@ -18,9 +18,9 @@ templ WalletPage(user User) {
 			<title>Wallet</title>
 		</head>
 		<body class="bg-[url('/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
-			<main class="w-full h-full flex flex-col font-montserrat text-[#2E2E2E]">
+			<div class="w-full h-full flex flex-col font-montserrat text-[#2E2E2E]">
 				@frequentHeaderOne(user)
-				<section class="grow overflow-y-auto.overflow-y-auto pl-6 pr-[1.56rem]">
+				<main class="grow overflow-y-auto.overflow-y-auto pl-6 pr-[1.56rem]">
 					<section class="pt-[1.88rem] flex gap-2 items-center">
 						<p class="font-semibold text-xs leading-[0.914rem]">My Balance </p>
 						<img src="/assets/svg/eye.svg" class="w-[0.938rem] aspect-square"/>
@@ -53,7 +53,7 @@ templ WalletPage(user User) {
 					<section id="coins-container">
 						<ul id="coins-list" class="w-full flex gap-6"></ul>
 					</section>
-					<section class="swiperTwo mt-4">
+					<section class="swiperTwo mt-auto">
 						<div class="px-4 swiper mySwiperTwo w-full">
 							<div class="swiper-wrapper">
 								for range 4 {
@@ -82,9 +82,9 @@ templ WalletPage(user User) {
 							</div>
 						</div>
 					</section>
-				</section>
+				</main>
 				@menuComp("wallet")
-			</main>
+			</div>
 		</body>
 		<script>
 		async function fetchCoinData() {
