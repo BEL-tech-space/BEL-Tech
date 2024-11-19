@@ -30,42 +30,54 @@ templ AccountDashboardPage(user User) {
 						<div class="swiper mySwiper w-full">
 							<div class="swiper-wrapper">
 								<div class="swiper-slide">
-									<button class="">
-										<img
-											src="/assets/images/metal2.jpg"
-											class="w-[10rem] aspect-square rounded-xl"
-										/>
-									</button>
-								</div>
-								<div class="swiper-slide">
-									<button>
-										<img
-											src="/assets/images/glass.jpg"
-											class="w-[10rem] aspect-square rounded-xl "
-										/>
-									</button>
-									<p></p>
-								</div>
-								<div class="swiper-slide">
-									<button>
-										<img
-											src="/assets/images/plastic_2.jpg"
-											class="w-[10rem] aspect-square rounded-xl "
-										/>
-									</button>
-									<p></p>
-								</div>
-								<div class="swiper-slide">
-									<button>
+									<a href="/account/waste/paper" class="relative block">
 										<img
 											src="/assets/images/book.jpg"
 											class="w-[10rem] aspect-square rounded-xl "
 										/>
-									</button>
-									<p></p>
+										<div class="absolute bottom-4 left-4 text-white text-left">
+											<p class="font-semibold text-xs leading-[0.838rem]">PAPER</p>
+											<p class="font-bold text-[0.625rem] leading-[0.762rem]">50 BEL</p>
+										</div>
+									</a>
+								</div>
+								<div class="swiper-slide">
+									<a href="/account/waste/glass" class="relative block">
+										<img
+											src="/assets/images/glass.jpg"
+											class="w-[10rem] aspect-square rounded-xl"
+										/>
+										<div class="absolute bottom-4 left-4 text-white text-left">
+											<p class="font-semibold text-xs leading-[0.838rem]">GLASS</p>
+											<p class="font-bold text-[0.625rem] leading-[0.762rem]">50 BEL</p>
+										</div>
+									</a>
+								</div>
+								<div class="swiper-slide">
+									<a href="/account/waste/metal" class="relative block">
+										<img
+											src="/assets/images/metal2.jpg"
+											class="w-[10rem] aspect-square rounded-xl"
+										/>
+										<div class="absolute bottom-4 left-4 text-white text-left">
+											<p class="font-semibold text-xs leading-[0.838rem]">METAL</p>
+											<p class="font-bold text-[0.625rem] leading-[0.762rem]">50 BEL</p>
+										</div>
+									</a>
+								</div>
+								<div class="swiper-slide">
+									<a href="/account/waste/plastics" class="relative block">
+										<img
+											src="/assets/images/plastic_2.jpg"
+											class="w-[10rem] aspect-square rounded-xl "
+										/>
+										<div class="absolute bottom-4 left-4 text-white text-left">
+											<p class="font-semibold text-xs leading-[0.838rem]">PLASTICS</p>
+											<p class="font-bold text-[0.625rem] leading-[0.762rem]">50 BEL</p>
+										</div>
+									</a>
 								</div>
 							</div>
-							<div class="swiper-pagination text-green-400"></div>
 						</div>
 					</section>
 					<section class="mt-8 w-full flex items-center justify-between">
@@ -135,12 +147,12 @@ templ AccountDashboardPage(user User) {
 								<div class="swiper-slide">
 									<div class="bg-[#FEF7FF] rounded-lg flex items-center justify-center">
 										<img
-											src="/assets/images/plastic_1.jpg"
+											src="/assets/svg/glassSwipper.svg"
 											class="w-[6.875rem] aspect-[110/101] mx-[0.313rem] mr-[0.313rem] rounded-lg"
 										/>
 										<div class="flex flex-col gap-2 ml-[1.625rem] my-[1.188rem]">
 											<div class="flex items-center gap-[0.313rem]">
-												<p class="font-[600] text-[0.688rem] leading-[0.838rem]">Plastics:</p>
+												<p class="font-[600] text-[0.688rem] leading-[0.838rem]">GLASS:</p>
 												<img
 													src="/assets/images/Recycle_small.png"
 													alt=""
@@ -148,10 +160,7 @@ templ AccountDashboardPage(user User) {
 												/>
 											</div>
 											<p class="font-[500] text-[0.625rem] leading-[0.875rem]">
-												Twist on the bottle
-												caps before tossing them in the bin to make it
-												easier
-												for recyclers.
+												Remove food or drink residues from the glass as it can contaminate recycling process.
 											</p>
 										</div>
 									</div>
@@ -159,12 +168,12 @@ templ AccountDashboardPage(user User) {
 								<div class="swiper-slide">
 									<div class="bg-[#FEF7FF] rounded-lg flex items-center justify-center">
 										<img
-											src="/assets/images/plastic_1.jpg"
+											src="/assets/svg/metalSwipper.svg"
 											class="w-[6.875rem] aspect-[110/101] mx-[0.313rem] mr-[0.313rem] rounded-lg"
 										/>
 										<div class="flex flex-col gap-2 ml-[1.625rem] my-[1.188rem]">
 											<div class="flex items-center gap-[0.313rem]">
-												<p class="font-[600] text-[0.688rem] leading-[0.838rem]">Plastics:</p>
+												<p class="font-[600] text-[0.688rem] leading-[0.838rem]">METAL:</p>
 												<img
 													src="/assets/images/Recycle_small.png"
 													alt=""
@@ -172,10 +181,28 @@ templ AccountDashboardPage(user User) {
 												/>
 											</div>
 											<p class="font-[500] text-[0.625rem] leading-[0.875rem]">
-												Twist on the bottle
-												caps before tossing them in the bin to make it
-												easier
-												for recyclers.
+												Be careful not to crush metals like cans, as it makes sorting easier before recycling.
+											</p>
+										</div>
+									</div>
+								</div>
+								<div class="swiper-slide">
+									<div class="bg-[#FEF7FF] rounded-lg flex items-center justify-center">
+										<img
+											src="/assets/svg/paperSwipper.svg"
+											class="w-[6.875rem] aspect-[110/101] mx-[0.313rem] mr-[0.313rem] rounded-lg"
+										/>
+										<div class="flex flex-col gap-2 ml-[1.625rem] my-[1.188rem]">
+											<div class="flex items-center gap-[0.313rem]">
+												<p class="font-[600] text-[0.688rem] leading-[0.838rem]">PAPER:</p>
+												<img
+													src="/assets/images/Recycle_small.png"
+													alt=""
+													class="w-[0.813rem] aspect-square"
+												/>
+											</div>
+											<p class="font-[500] text-[0.625rem] leading-[0.875rem]">
+												Wet paper can become too damaged to recycle, as paper weakens fibers. So keep paper dry!											
 											</p>
 										</div>
 									</div>
