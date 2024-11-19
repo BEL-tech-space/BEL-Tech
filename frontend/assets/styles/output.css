@@ -736,10 +736,6 @@ video {
   margin-left: 1.5rem;
 }
 
-.ml-\[1\.625rem\] {
-  margin-left: 1.625rem;
-}
-
 .ml-\[2\.5625rem\] {
   margin-left: 2.5625rem;
 }
@@ -866,6 +862,10 @@ video {
 
 .inline-block {
   display: inline-block;
+}
+
+.inline {
+  display: inline;
 }
 
 .flex {
@@ -1905,6 +1905,10 @@ video {
   line-height: 2rem;
 }
 
+.text-\[0\.0375rem\] {
+  font-size: 0.0375rem;
+}
+
 .text-\[0\.235rem\] {
   font-size: 0.235rem;
 }
@@ -2027,6 +2031,10 @@ video {
 
 .leading-\[0\.286rem\] {
   line-height: 0.286rem;
+}
+
+.leading-\[0\.457rem\] {
+  line-height: 0.457rem;
 }
 
 .leading-\[0\.609rem\] {

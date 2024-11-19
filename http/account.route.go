@@ -30,6 +30,7 @@ func (a *App) accountRouter() http.Handler {
 		r.Get("/beneficiaries", a.airtimeBeneficiaries)
 		r.Get("/waste/{wasteType}", a.wasteHistoryHandler)
 		r.Get("/tips/{wasteType}", a.wasteTipsHandler)
+		r.Get("/history", a.allWasteHistoryHandler)
 
 	})
 

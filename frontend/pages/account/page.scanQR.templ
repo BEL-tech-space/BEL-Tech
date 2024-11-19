@@ -13,21 +13,14 @@ templ ScanQRPage() {
 				rel="stylesheet"
 				href="/assets/styles/output.css"
 			/>
-			<style>
-            .overflow-y-auto::-webkit-scrollbar {
-                width: 0 !important;
-                display: none;
-                overflow: -moz-scrollbars-none;
-                scrollbar-width: none;
-            }
-        </style>
+			@removeScrollBar()
 			<title>Scan</title>
 		</head>
 		<body
 			class="bg-[url('/assets/images/beltech_background.png')] bg-cover bg-center h-dvh font-montserrat text-[#2E2E2E] overflow-hidden"
 		>
-			<div class="Page w-full h-full flex flex-col">
-				<header class="pt-[1.5rem] pl-[1.5rem] pr-[1.56rem] flex w-full justify-between items-center">
+			<div class="Page w-full h-full flex flex-col font-montserrat text-[#2E2E2E]">
+				<header class="pt-6 pl-6 pr-[1.56rem] flex w-full justify-between items-center">
 					<button>
 						<img
 							src="/assets/svg/back_arrow.svg"
@@ -73,23 +66,22 @@ templ ScanQRPage() {
 									Scan
 								</p>
 							</button>
-							<button
-								onclick="location.reload()"
-								title="reload page"
-								class="bg-[#CCE1D699] p-[0.688rem] rounded-md flex justify-center items-center"
+							<a
+								href="/account/history"
+								class="bg-[#CCE1D699] p-[0.688rem] rounded-md inline justify-center items-center"
 							>
 								<img
 									src="/assets/svg/octicon_history-16.svg"
 									class="w-[1.125rem]  aspect-square"
 								/>
-							</button>
+							</a>
 						</section>
 					</div>
 				</main>
 				@menuComp("scan")
 			</div>
 			<script src="/assets/libriaries/html5-qrcode.min.js"></script>
-			<script type="text/javascript">
+			<script>
             const html5QrCode = new Html5Qrcode( "reader" );
             let isScanning = false;
 
