@@ -3,14 +3,7 @@ package frontend
 templ RechargeAirtimePage(user User) {
 	<!DOCTYPE html>
 	<html lang="en">
-		<head>
-			<meta charset="UTF-8"/>
-			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-			<link rel="stylesheet" href="/assets/styles/output.css"/>
-			<script src="/assets/libriaries/hyperscript.min.js"></script>
-			@removeScrollBar()
-			<title>Wallet</title>
-		</head>
+		@htmlHeadTag("Airtime Recharge")
 		<body class="bg-[url('/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
 			<div class="w-full h-full grid grid-rows-agentCollectPage font-montserrat text-[#2E2E2E]">
 				@frequentHeaderTwo("Spend BEL Token", user.AvatarUrl, "/assets/svg/notification.svg", "")
@@ -21,7 +14,7 @@ templ RechargeAirtimePage(user User) {
 							<label for="airtime" class="font-semibold text-xs text-black text-left">Input Your Phone Number</label>
 							<input required type="tel" maxlength="11" minlength="11" enterkeyhint="send" inputmode="numeric" name="airtime" id="airtime" placeholder="09034097398" class="outline-none w-full min-h-[3.326rem] rounded-[0.652rem] pl-3 font-poppins font-semibold text-black border-solid border-[#0169344D] border-[0.065rem] placeholder:font-extralight placeholder:text-[0.625rem] placeholder:text-gray-500"/>
 							<button type="button" _="on click call #addNewBeneficiairyDialog.showModal() then halt" class="absolute top-2/4 right-4">
-								<img src="/assets/svg/profile-add.svg" alt="" class="w-[1.875rem] aspect-square"/>
+								<img src="/public/assets/svg/profile-add.svg" alt="" class="w-[1.875rem] aspect-square"/>
 							</button>
 						</div>
 						<button disabled type="submit" id="submitButton" class="w-full opacity-45 bg-green-400 rounded-md mb-2 font-medium mt-10 text-[0.813rem] leading-5 tracking-[0.00625em] py-[0.625rem] px-[5.219rem] text-center text-white">Recharge</button>
@@ -40,7 +33,7 @@ templ RechargeAirtimePage(user User) {
 										_="on click set #airtime's value to my.querySelector('.phone-number').textContent then call #airtime.reportValidity() then call changeSubmitBtnState()"
 										class="w-full bg-[#FEF7FF] shadow-[0px_1px_2px_1px_#00000014] px-2 py-3 flex justify-start items-center gap-6 rounded-lg"
 									>
-										<img src="/assets/images/mtn.png" alt="" class="w-[3.5rem] aspect-square rounded-full"/>
+										<img src="/public/assets/images/mtn.png" alt="" class="w-[3.5rem] aspect-square rounded-full"/>
 										<div class="flex flex-col gap-2 justify-start items-center">
 											<p class="font-poppins font-medium text-xs leading-[1.125rem] text-[#2E2E2E]">Tobias</p>
 											<p class="phone-number font-montserrat font-bold text-[0.625rem] leading-[0.762rem] text-[#016934]">09034097398</p>
@@ -52,7 +45,7 @@ templ RechargeAirtimePage(user User) {
 										_="on click set #airtime's value to my.querySelector('.phone-number').textContent then call #airtime.reportValidity() then call changeSubmitBtnState()"
 										class="w-full bg-[#FEF7FF] shadow-[0px_1px_2px_1px_#00000014] px-2 py-3 flex justify-start items-center gap-6 rounded-lg"
 									>
-										<img src="/assets/images/airtel.png" alt="" class="w-[3.5rem] aspect-square rounded-full"/>
+										<img src="/public/assets/images/airtel.png" alt="" class="w-[3.5rem] aspect-square rounded-full"/>
 										<div class="flex flex-col gap-2 justify-start items-center">
 											<p class="font-poppins font-medium text-xs leading-[1.125rem] text-[#2E2E2E]">Elijah</p>
 											<p class="phone-number font-montserrat font-bold text-[0.625rem] leading-[0.762rem] text-[#016934]">09034097322</p>
@@ -63,7 +56,7 @@ templ RechargeAirtimePage(user User) {
 						</ul>
 					</section>
 				</main>
-				@menuComp("spend")
+				@footerMenubar("spend")
 			</div>
 		</body>
 		@airtimeRechargeSuccessDialog()
@@ -93,7 +86,7 @@ templ RechargeAirtimePage(user User) {
 
 templ airtimeRechargeSuccessDialog() {
 	<dialog id="airtimeRechargeSuccessDialog" class="backdrop:backdrop-blur-sm rounded-2xl py-8 pl-7 pr-9 font-montserrat text-[#2E2E2E]">
-		<img src="/assets/svg/confetti.svg" alt="" class="w-[6.25rem] aspect-square mx-auto"/>
+		<img src="/public/assets/svg/confetti.svg" alt="" class="w-[6.25rem] aspect-square mx-auto"/>
 		<p class="mt-6 mb-4 font-bold text-[0.813rem] leading-5 tracking-[0.00625em] text-black text-center">Airtime has been recharged to the given phone number.</p>
 		<button type="button" _="on click call #airtimeRechargeSuccessDialog.close()" class="outline-none w-full rounded-md mb-2 font-medium bg-[#016934] text-[0.813rem] leading-5 tracking-[0.00625em] py-[0.625rem] px-[5.219rem] text-center text-white">Proceed</button>
 	</dialog>
@@ -113,22 +106,22 @@ templ addNewBeneficiairyDialog() {
 			</div>
 			<section class="grid grid-cols-4 justify-between items-center gap-[2.125rem] mb-8">
 				<label for="mtn" class="label shadow-[0px_0.053rem_0.105rem_0.053rem_#00000014] py-[0.869rem] px-[1.25rem] flex flex-col justify-center items-center">
-					<img src="/assets/svg/mtn.svg" alt="" class="w-[1.259rem] rounded-full"/>
+					<img src="/public/assets/svg/mtn.svg" alt="" class="w-[1.259rem] rounded-full"/>
 					<p class="font-poppins font-bold text-[0.524rem] leading-[0.787rem] mt-[0.482rem]">MTN</p>
 				</label>
 				<input required type="radio" id="mtn" name="network" autocomplete="off" value="mtn" class="hidden"/>
 				<label for="airtel" class="label shadow-[0px_0.053rem_0.105rem_0.053rem_#00000014] py-[0.869rem] px-[1.25rem] flex flex-col justify-center items-center">
-					<img src="/assets/svg/airtel.svg" alt="" class="w-[1.259rem] rounded-full"/>
+					<img src="/public/assets/svg/airtel.svg" alt="" class="w-[1.259rem] rounded-full"/>
 					<p class="font-poppins font-bold text-[0.524rem] leading-[0.787rem] mt-[0.482rem]">AIRTEL</p>
 				</label>
 				<input type="radio" id="airtel" name="network" autocomplete="off" value="airtel" class="hidden"/>
 				<label for="glo" class="label shadow-[0px_0.053rem_0.105rem_0.053rem_#00000014] py-[0.869rem] px-[1.25rem] flex flex-col justify-center items-center">
-					<img src="/assets/svg/glo.svg" alt="" class="w-[1.259rem] rounded-full"/>
+					<img src="/public/assets/svg/glo.svg" alt="" class="w-[1.259rem] rounded-full"/>
 					<p class="font-poppins font-bold text-[0.524rem] leading-[0.787rem] mt-[0.482rem]">GLO</p>
 				</label>
 				<input type="radio" id="glo" name="network" autocomplete="off" value="glo" class="hidden"/>
 				<label for="9mobile" class="label shadow-[0px_0.053rem_0.105rem_0.053rem_#00000014] py-[0.869rem] px-[1.25rem] flex flex-col justify-center items-center">
-					<img src="/assets/svg/9mobile.svg" alt="" class="w-[1.259rem] rounded-full"/>
+					<img src="/public/assets/svg/9mobile.svg" alt="" class="w-[1.259rem] rounded-full"/>
 					<p class="font-poppins font-bold text-[0.524rem] leading-[0.787rem] mt-[0.482rem]">9MOBILE</p>
 				</label>
 				<input type="radio" id="9mobile" name="network" autocomplete="off" value="9mobile" class="hidden"/>

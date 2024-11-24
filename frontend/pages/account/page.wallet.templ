@@ -4,43 +4,31 @@ package frontend
 templ WalletPage(user User) {
 	<!DOCTYPE html>
 	<html lang="en">
-		<head>
-			<meta charset="UTF-8"/>
-			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-			<link rel="stylesheet" href="/assets/styles/output.css"/>
-			@removeScrollBar()
-			<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/ms-dropdown@4.0.3/dist/css/dd.min.css"/>
-			<link
-				rel="stylesheet"
-				href="/assets/libriaries/swiper-bundle.min.css"
-			/>
-			<script src="/assets/libriaries/swiper-bundle.min.js"></script>
-			<title>Wallet</title>
-		</head>
+		@htmlHeadTag("Wallet")
 		<body class="bg-[url('/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
 			<div class="w-full h-full flex flex-col font-montserrat text-[#2E2E2E]">
 				@frequentHeaderOne(user)
 				<main class="grow overflow-y-auto.overflow-y-auto pl-6 pr-[1.56rem]">
 					<section class="pt-[1.88rem] flex gap-2 items-center">
 						<p class="font-semibold text-xs leading-[0.914rem]">My Balance </p>
-						<img src="/assets/svg/eye.svg" class="w-[0.938rem] aspect-square"/>
+						<img src="/public/assets/svg/eye.svg" class="w-[0.938rem] aspect-square"/>
 					</section>
 					<p class="mt-2 mb-8 font-bold text-xl leading-[1.524rem] text-[#016934]">250.06 BEL </p>
 					<section class="flex w-full justify-between items-start gap-2">
 						<a class="flex flex-col gap-2 items-center">
-							<button class="bg-[#CCE1D6] rounded-full p-[0.938rem]"><img src="/assets/svg/+.svg" class="w-5 aspect-square"/></button>
+							<button class="bg-[#CCE1D6] rounded-full p-[0.938rem]"><img src="/public/assets/svg/+.svg" class="w-5 aspect-square"/></button>
 							<p class="font-poppins font-normal text-xs text-center">Send</p>
 						</a>
 						<a class="flex flex-col gap-2 items-center">
-							<button class="bg-[#CCE1D6] rounded-full p-[0.938rem]"><img src="/assets/svg/-.svg" class="w-5 aspect-square"/></button>
+							<button class="bg-[#CCE1D6] rounded-full p-[0.938rem]"><img src="/public/assets/svg/-.svg" class="w-5 aspect-square"/></button>
 							<p class="font-poppins font-normal text-xs text-center">Receive</p>
 						</a>
 						<a class="flex flex-col gap-2 items-center">
-							<button class="bg-[#CCE1D6] rounded-full p-[0.938rem]"><img src="/assets/svg/cash out.svg" class="w-5 aspect-square"/></button>
+							<button class="bg-[#CCE1D6] rounded-full p-[0.938rem]"><img src="/public/assets/svg/cash out.svg" class="w-5 aspect-square"/></button>
 							<p class="font-poppins font-normal text-xs text-center">Cash out</p>
 						</a>
 						<a class="flex flex-col gap-2 items-center">
-							<button class="bg-[#CCE1D6] rounded-full p-[0.938rem]"><img src="/assets/svg/learn.svg" class="w-5 aspect-square"/></button>
+							<button class="bg-[#CCE1D6] rounded-full p-[0.938rem]"><img src="/public/assets/svg/learn.svg" class="w-5 aspect-square"/></button>
 							<p class="font-poppins font-normal text-xs text-center">Learn</p>
 						</a>
 					</section>
@@ -60,14 +48,14 @@ templ WalletPage(user User) {
 									<div class="swiper-slide">
 										<div class="bg-[#FEF7FF] rounded-lg flex items-center justify-center gap-3">
 											<img
-												src="/assets/svg/cryptoNews.svg"
+												src="/public/assets/svg/cryptoNews.svg"
 												class="w-[6.875rem] aspect-[110/101] mx-[0.313rem] mr-[0.313rem] rounded-lg"
 											/>
 											<div class="flex flex-col gap-2 my-[1.188rem]">
 												<div class="flex items-center gap-[0.313rem]">
 													<p class="font-[600] text-[0.688rem] leading-[0.838rem]">Solana</p>
 													<img
-														src="/assets/images/Recycle_small.png"
+														src="/public/assets/images/Recycle_small.png"
 														alt=""
 														class="w-[0.813rem] aspect-square"
 													/>
@@ -83,7 +71,7 @@ templ WalletPage(user User) {
 						</div>
 					</section>
 				</main>
-				@menuComp("wallet")
+				@footerMenubar("wallet")
 			</div>
 		</body>
 		<script>
@@ -160,7 +148,7 @@ templ WalletPage(user User) {
 
 		fetchCoinData();
 
-		 const swiperTwo = new Swiper( '.mySwiperTwo', {
+		new Swiper( '.mySwiperTwo', {
             mousewheel: true,
             keyboard: true,
             autoplay: {

@@ -3,25 +3,7 @@ package frontend
 templ AccountDashboardPage(user User) {
 	<!DOCTYPE html>
 	<html lang="en">
-		<head>
-			<meta charset="UTF-8"/>
-			<meta
-				name="viewport"
-				content="width=device-width, initial-scale=1.0"
-			/>
-			<link
-				rel="stylesheet"
-				href="/assets/styles/output.css"
-			/>
-			<link
-				rel="stylesheet"
-				href="/assets/libriaries/swiper-bundle.min.css"
-			/>
-			<script src="/assets/libriaries/swiper-bundle.min.js"></script>
-			<script src="/assets/libriaries/swiper-bundle.min.js"></script>
-			@removeScrollBar()
-			<title>Dashboard</title>
-		</head>
+		@htmlHeadTag("Dashboard")
 		<body class="bg-[url('/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
 			<div class="Page w-full h-full flex flex-col font-montserrat text-[#2E2E2E]">
 				@frequentHeaderOne(user)
@@ -33,7 +15,7 @@ templ AccountDashboardPage(user User) {
 								<div class="swiper-slide">
 									<a href="/account/waste/paper" class="relative block">
 										<img
-											src="/assets/images/book.jpg"
+											src="/public/assets/images/book.jpg"
 											class="w-[10rem] aspect-square rounded-xl "
 										/>
 										<div class="absolute bottom-4 left-4 text-white text-left">
@@ -45,7 +27,7 @@ templ AccountDashboardPage(user User) {
 								<div class="swiper-slide">
 									<a href="/account/waste/glass" class="relative block">
 										<img
-											src="/assets/images/glass.jpg"
+											src="/public/assets/images/glass.jpg"
 											class="w-[10rem] aspect-square rounded-xl"
 										/>
 										<div class="absolute bottom-4 left-4 text-white text-left">
@@ -57,7 +39,7 @@ templ AccountDashboardPage(user User) {
 								<div class="swiper-slide">
 									<a href="/account/waste/metal" class="relative block">
 										<img
-											src="/assets/images/metal2.jpg"
+											src="/public/assets/images/metal2.jpg"
 											class="w-[10rem] aspect-square rounded-xl"
 										/>
 										<div class="absolute bottom-4 left-4 text-white text-left">
@@ -69,7 +51,7 @@ templ AccountDashboardPage(user User) {
 								<div class="swiper-slide">
 									<a href="/account/waste/plastics" class="relative block">
 										<img
-											src="/assets/images/plastic_2.jpg"
+											src="/public/assets/images/plastic_2.jpg"
 											class="w-[10rem] aspect-square rounded-xl "
 										/>
 										<div class="absolute bottom-4 left-4 text-white text-left">
@@ -90,7 +72,7 @@ templ AccountDashboardPage(user User) {
 					<section class="mt-4 flex flex-col gap-4">
 						<div class="bg-[#FEF7FF] w-full rounded-lg flex gap-2">
 							<img
-								src="/assets/images/sports_bottle.jpg"
+								src="/public/assets/images/sports_bottle.jpg"
 								class="w-[4.69rem] aspect-[75/70] py-[0.31rem] pr-[0.31rem] rounded-lg"
 							/>
 							<div class="flex flex-col gap-0.5 ml-4 mt-[1.188rem] mb-[1.125rem]">
@@ -98,13 +80,13 @@ templ AccountDashboardPage(user User) {
 								<p class="font-[700] leading-[0.0.762rem] text-[0.625rem]">54 recycled</p>
 							</div>
 							<img
-								src="/assets/svg/back_arrow.svg"
+								src="/public/assets/svg/back_arrow.svg"
 								class="rotate-180 ml-auto w-[0.938rem] aspect-square"
 							/>
 						</div>
 						<div class="bg-[#FEF7FF] w-full rounded-lg flex gap-2">
 							<img
-								src="/assets/images/paper_bag.jpg"
+								src="/public/assets/images/paper_bag.jpg"
 								class="w-[4.69rem] aspect-[75/70] py-[0.31rem] pr-[0.31rem] rounded-lg"
 							/>
 							<div class="flex flex-col gap-0.5 ml-4 mt-[1.188rem] mb-[1.125rem]">
@@ -112,7 +94,7 @@ templ AccountDashboardPage(user User) {
 								<p class="font-[700] leading-[0.0.762rem] text-[0.625rem]">45 recycled</p>
 							</div>
 							<img
-								src="/assets/svg/back_arrow.svg"
+								src="/public/assets/svg/back_arrow.svg"
 								class="rotate-180 ml-auto w-[0.938rem] aspect-square"
 							/>
 						</div>
@@ -124,14 +106,14 @@ templ AccountDashboardPage(user User) {
 								<a href="/account/tips/plastics" class="swiper-slide block">
 									<div class="bg-[#FEF7FF] rounded-lg flex items-center justify-center p-[0.313rem]">
 										<img
-											src="/assets/images/plastic_1.jpg"
+											src="/public/assets/images/plastic_1.jpg"
 											class="w-[6.875rem] aspect-[110/101] mx-[0.313rem] mr-[0.313rem] rounded-lg"
 										/>
 										<div class="flex flex-col gap-2">
 											<div class="flex items-center gap-[0.313rem]">
 												<p class="font-[600] text-[0.688rem] leading-[0.838rem]">Plastics:</p>
 												<img
-													src="/assets/images/Recycle_small.png"
+													src="/public/assets/images/Recycle_small.png"
 													alt=""
 													class="w-[0.813rem] aspect-square"
 												/>
@@ -148,14 +130,14 @@ templ AccountDashboardPage(user User) {
 								<a href="/account/tips/glass" class="swiper-slide block">
 									<div class="bg-[#FEF7FF] rounded-lg flex items-center justify-center p-[0.313rem]">
 										<img
-											src="/assets/svg/glassSwipper.svg"
+											src="/public/assets/svg/glassSwipper.svg"
 											class="w-[6.875rem] aspect-[110/101] mx-[0.313rem] mr-[0.313rem] rounded-lg"
 										/>
 										<div class="flex flex-col gap-2">
 											<div class="flex items-center gap-[0.313rem]">
 												<p class="font-[600] text-[0.688rem] leading-[0.838rem]">GLASS:</p>
 												<img
-													src="/assets/images/Recycle_small.png"
+													src="/public/assets/images/Recycle_small.png"
 													alt=""
 													class="w-[0.813rem] aspect-square"
 												/>
@@ -169,14 +151,14 @@ templ AccountDashboardPage(user User) {
 								<a href="/account/tips/metal" class="swiper-slide block">
 									<div class="bg-[#FEF7FF] rounded-lg flex items-center justify-center p-[0.313rem]">
 										<img
-											src="/assets/svg/metalSwipper.svg"
+											src="/public/assets/svg/metalSwipper.svg"
 											class="w-[6.875rem] aspect-[110/101] mx-[0.313rem] mr-[0.313rem] rounded-lg"
 										/>
 										<div class="flex flex-col gap-2">
 											<div class="flex items-center gap-[0.313rem]">
 												<p class="font-[600] text-[0.688rem] leading-[0.838rem]">METAL:</p>
 												<img
-													src="/assets/images/Recycle_small.png"
+													src="/public/assets/images/Recycle_small.png"
 													alt=""
 													class="w-[0.813rem] aspect-square"
 												/>
@@ -190,14 +172,14 @@ templ AccountDashboardPage(user User) {
 								<a href="/account/tips/paper" class="swiper-slide block">
 									<div class="bg-[#FEF7FF] rounded-lg flex items-center justify-center p-[0.313rem]">
 										<img
-											src="/assets/svg/paperSwipper.svg"
+											src="/public/assets/svg/paperSwipper.svg"
 											class="w-[6.875rem] aspect-[110/101] mx-[0.313rem] mr-[0.313rem] rounded-lg"
 										/>
 										<div class="flex flex-col gap-2">
 											<div class="flex items-center gap-[0.313rem]">
 												<p class="font-[600] text-[0.688rem] leading-[0.838rem]">PAPER:</p>
 												<img
-													src="/assets/images/Recycle_small.png"
+													src="/public/assets/images/Recycle_small.png"
 													alt=""
 													class="w-[0.813rem] aspect-square"
 												/>
@@ -212,7 +194,7 @@ templ AccountDashboardPage(user User) {
 						</div>
 					</section>
 				</main>
-				@menuComp("dashboard")
+				@footerMenubar("dashboard")
 			</div>
 		</body>
 		<script type="text/javascript">
@@ -235,6 +217,17 @@ templ AccountDashboardPage(user User) {
                 disableOnInteraction: true,
             },
         } );
+
+		 window.addEventListener('load', () => {
+			if ('serviceWorker' in navigator) {
+				navigator.serviceWorker.register('/public/pwa/swOne.js').then(() => {
+					console.log('Service worker registered!');
+				}).catch((error) => {
+					console.warn('Error registering service worker:');
+					console.warn(error);
+				});
+			}
+		});
     </script>
 	</html>
 }
@@ -243,7 +236,7 @@ templ letRecycleAndProfile(text string) {
 	<article class="flex items-center gap-1">
 		<p class="leading-[1.143rem] font-semibold text-[0.938rem]">{ text }</p>
 		<img
-			src="/assets/images/Recycle_small.png"
+			src="/public/assets/images/Recycle_small.png"
 			class="w-5 aspect-square"
 		/>
 	</article>

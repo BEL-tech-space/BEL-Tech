@@ -29,7 +29,7 @@ func ProfilePage(collector Collector) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<!doctype html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><link rel=\"stylesheet\" href=\"/assets/styles/output.css\"><title>Profile Beltech-Agent</title></head><body class=\"bg-[url(&#39;/assets/images/beltech_background.png&#39;)] bg-cover bg-center h-dvh overflow-hidden\"><div class=\"w-full h-full flex flex-col px-6 pt-6 text-[#2E2E2E] font-montserrat \">")
+		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 1)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -37,7 +37,7 @@ func ProfilePage(collector Collector) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<main class=\"grow overflow-y-scroll\">")
+		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 2)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -45,7 +45,7 @@ func ProfilePage(collector Collector) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<form class=\"mt-10 flex flex-col justify-center items-center gap-6\"><div class=\"relative\"><label for=\"firstname\" name=\"collector\" class=\"font-bold text-sm tracking-[0.025rem] text-[#49454F]\">First Name</label> <input id=\"firstname\" type=\"text\" value=\"")
+		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 3)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -58,7 +58,7 @@ func ProfilePage(collector Collector) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"w-[21.375rem] aspect-[342/36] rounded border-[0.0313rem] outline-none border-[#569B78] border-solid text-xs font-medium pl-3 pt-1\"></div><div class=\"relative\"><label for=\"lastname\" name=\"collector\" class=\"font-bold text-sm tracking-[0.025rem] text-[#49454F]\">Last Name</label> <input id=\"lastname\" type=\"text\" value=\"")
+		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 4)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -71,7 +71,7 @@ func ProfilePage(collector Collector) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"w-[21.375rem] aspect-[342/36] rounded border-[0.0313rem] outline-none border-[#569B78] border-solid text-xs font-medium pl-3 pt-1\"></div><div class=\"relative\"><label for=\"nickName\" name=\"collector\" class=\"font-bold text-sm tracking-[0.025rem] text-[#49454F]\">Display Name</label> <input id=\"nickName\" type=\"text\" value=\"")
+		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 5)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -84,7 +84,7 @@ func ProfilePage(collector Collector) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"w-[21.375rem] aspect-[342/36] rounded border-[0.0313rem] outline-none border-[#569B78] border-solid text-xs font-medium pl-3 pt-1\"></div><div class=\"relative\"><label for=\"email\" name=\"collector\" class=\"font-bold text-sm tracking-[0.025rem] text-[#49454F]\">Email Address</label> <input disabled id=\"email\" type=\"text\" value=\"")
+		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 6)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -97,7 +97,7 @@ func ProfilePage(collector Collector) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"w-[21.375rem] aspect-[342/36] rounded border-[0.0313rem] outline-none border-[#569B78] border-solid text-xs font-medium pl-3 pt-1\"></div><div class=\"relative\"><label for=\"role\" name=\"collector\" class=\"font-bold text-sm tracking-[0.025rem] text-[#49454F]\">Role</label> <input disabled id=\"role\" type=\"text\" value=\"")
+		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 7)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -110,7 +110,7 @@ func ProfilePage(collector Collector) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"w-[21.375rem] aspect-[342/36] rounded border-[0.0313rem] outline-none border-[#569B78] border-solid text-xs font-medium pl-3 pt-1\"></div><div class=\"my-7 w-full\"><button class=\"w-full bg-[#016934] py-3 rounded-md px-[5.438rem] font-montserrat font-medium text-sm text-center tracking-[0.1px] text-white text-nowrap\">Save Changes</button></div></form></main>")
+		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 8)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -118,7 +118,7 @@ func ProfilePage(collector Collector) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></body></html>")
+		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 9)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

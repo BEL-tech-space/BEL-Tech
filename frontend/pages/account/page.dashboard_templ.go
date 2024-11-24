@@ -29,15 +29,15 @@ func AccountDashboardPage(user User) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<!doctype html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><link rel=\"stylesheet\" href=\"/assets/styles/output.css\"><link rel=\"stylesheet\" href=\"/assets/libriaries/swiper-bundle.min.css\"><script src=\"/assets/libriaries/swiper-bundle.min.js\"></script><script src=\"/assets/libriaries/swiper-bundle.min.js\"></script>")
+		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 1)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = removeScrollBar().Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = htmlHeadTag("Dashboard").Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<title>Dashboard</title></head><body class=\"bg-[url(&#39;/assets/images/beltech_background.png&#39;)] bg-cover bg-center h-dvh overflow-hidden\"><div class=\"Page w-full h-full flex flex-col font-montserrat text-[#2E2E2E]\">")
+		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 2)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -45,7 +45,7 @@ func AccountDashboardPage(user User) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<main class=\"grow overflow-y-scroll pl-[1.5rem] pr-[1.56rem] pt-[1.875rem]\">")
+		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 3)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -53,15 +53,15 @@ func AccountDashboardPage(user User) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<section class=\"swiperOne mt-[0.86rem] mr-0\"><div class=\"swiper mySwiper w-full\"><div class=\"swiper-wrapper\"><div class=\"swiper-slide\"><a href=\"/account/waste/paper\" class=\"relative block\"><img src=\"/assets/images/book.jpg\" class=\"w-[10rem] aspect-square rounded-xl \"><div class=\"absolute bottom-4 left-4 text-white text-left\"><p class=\"font-semibold text-xs leading-[0.838rem]\">PAPER</p><p class=\"font-bold text-[0.625rem] leading-[0.762rem]\">50 BEL</p></div></a></div><div class=\"swiper-slide\"><a href=\"/account/waste/glass\" class=\"relative block\"><img src=\"/assets/images/glass.jpg\" class=\"w-[10rem] aspect-square rounded-xl\"><div class=\"absolute bottom-4 left-4 text-white text-left\"><p class=\"font-semibold text-xs leading-[0.838rem]\">GLASS</p><p class=\"font-bold text-[0.625rem] leading-[0.762rem]\">50 BEL</p></div></a></div><div class=\"swiper-slide\"><a href=\"/account/waste/metal\" class=\"relative block\"><img src=\"/assets/images/metal2.jpg\" class=\"w-[10rem] aspect-square rounded-xl\"><div class=\"absolute bottom-4 left-4 text-white text-left\"><p class=\"font-semibold text-xs leading-[0.838rem]\">METAL</p><p class=\"font-bold text-[0.625rem] leading-[0.762rem]\">50 BEL</p></div></a></div><div class=\"swiper-slide\"><a href=\"/account/waste/plastics\" class=\"relative block\"><img src=\"/assets/images/plastic_2.jpg\" class=\"w-[10rem] aspect-square rounded-xl \"><div class=\"absolute bottom-4 left-4 text-white text-left\"><p class=\"font-semibold text-xs leading-[0.838rem]\">PLASTICS</p><p class=\"font-bold text-[0.625rem] leading-[0.762rem]\">50 BEL</p></div></a></div></div></div></section><section class=\"mt-8 w-full flex items-center justify-between\"><p class=\"font-[600] text-[0.94rem] leading-[1.14rem]\">Recycled</p><button><p class=\"font-[500] text-[0.63rem] leading-[0.76rem] text-[#016934]\">see all</p></button></section><section class=\"mt-4 flex flex-col gap-4\"><div class=\"bg-[#FEF7FF] w-full rounded-lg flex gap-2\"><img src=\"/assets/images/sports_bottle.jpg\" class=\"w-[4.69rem] aspect-[75/70] py-[0.31rem] pr-[0.31rem] rounded-lg\"><div class=\"flex flex-col gap-0.5 ml-4 mt-[1.188rem] mb-[1.125rem]\"><p class=\"font-[500] leading-[0.838rem] text-[0.688rem]\">Sport plastic bottle</p><p class=\"font-[700] leading-[0.0.762rem] text-[0.625rem]\">54 recycled</p></div><img src=\"/assets/svg/back_arrow.svg\" class=\"rotate-180 ml-auto w-[0.938rem] aspect-square\"></div><div class=\"bg-[#FEF7FF] w-full rounded-lg flex gap-2\"><img src=\"/assets/images/paper_bag.jpg\" class=\"w-[4.69rem] aspect-[75/70] py-[0.31rem] pr-[0.31rem] rounded-lg\"><div class=\"flex flex-col gap-0.5 ml-4 mt-[1.188rem] mb-[1.125rem]\"><p class=\"font-[500] leading-[0.838rem] text-[0.688rem]\">Small paper bag</p><p class=\"font-[700] leading-[0.0.762rem] text-[0.625rem]\">45 recycled</p></div><img src=\"/assets/svg/back_arrow.svg\" class=\"rotate-180 ml-auto w-[0.938rem] aspect-square\"></div></section><p class=\"mt-8 font-[600] text-[0.938rem] leading-[1.143rem]\">Tips on Recycling</p><section class=\"swiperTwo mt-4\"><div class=\"px-4 swiper mySwiperTwo w-full\"><div class=\"swiper-wrapper\"><a href=\"/account/tips/plastics\" class=\"swiper-slide block\"><div class=\"bg-[#FEF7FF] rounded-lg flex items-center justify-center p-[0.313rem]\"><img src=\"/assets/images/plastic_1.jpg\" class=\"w-[6.875rem] aspect-[110/101] mx-[0.313rem] mr-[0.313rem] rounded-lg\"><div class=\"flex flex-col gap-2\"><div class=\"flex items-center gap-[0.313rem]\"><p class=\"font-[600] text-[0.688rem] leading-[0.838rem]\">Plastics:</p><img src=\"/assets/images/Recycle_small.png\" alt=\"\" class=\"w-[0.813rem] aspect-square\"></div><p class=\"font-[500] text-[0.625rem] leading-[0.875rem] text-left\">Twist on the bottle caps before tossing them in the bin to make it easier for recyclers.</p></div></div></a> <a href=\"/account/tips/glass\" class=\"swiper-slide block\"><div class=\"bg-[#FEF7FF] rounded-lg flex items-center justify-center p-[0.313rem]\"><img src=\"/assets/svg/glassSwipper.svg\" class=\"w-[6.875rem] aspect-[110/101] mx-[0.313rem] mr-[0.313rem] rounded-lg\"><div class=\"flex flex-col gap-2\"><div class=\"flex items-center gap-[0.313rem]\"><p class=\"font-[600] text-[0.688rem] leading-[0.838rem]\">GLASS:</p><img src=\"/assets/images/Recycle_small.png\" alt=\"\" class=\"w-[0.813rem] aspect-square\"></div><p class=\"font-[500] text-[0.625rem] leading-[0.875rem] text-left\">Remove food or drink residues from the glass as it can contaminate recycling process.</p></div></div></a> <a href=\"/account/tips/metal\" class=\"swiper-slide block\"><div class=\"bg-[#FEF7FF] rounded-lg flex items-center justify-center p-[0.313rem]\"><img src=\"/assets/svg/metalSwipper.svg\" class=\"w-[6.875rem] aspect-[110/101] mx-[0.313rem] mr-[0.313rem] rounded-lg\"><div class=\"flex flex-col gap-2\"><div class=\"flex items-center gap-[0.313rem]\"><p class=\"font-[600] text-[0.688rem] leading-[0.838rem]\">METAL:</p><img src=\"/assets/images/Recycle_small.png\" alt=\"\" class=\"w-[0.813rem] aspect-square\"></div><p class=\"font-[500] text-[0.625rem] leading-[0.875rem] text-left\">Be careful not to crush metals like cans, as it makes sorting easier before recycling.</p></div></div></a> <a href=\"/account/tips/paper\" class=\"swiper-slide block\"><div class=\"bg-[#FEF7FF] rounded-lg flex items-center justify-center p-[0.313rem]\"><img src=\"/assets/svg/paperSwipper.svg\" class=\"w-[6.875rem] aspect-[110/101] mx-[0.313rem] mr-[0.313rem] rounded-lg\"><div class=\"flex flex-col gap-2\"><div class=\"flex items-center gap-[0.313rem]\"><p class=\"font-[600] text-[0.688rem] leading-[0.838rem]\">PAPER:</p><img src=\"/assets/images/Recycle_small.png\" alt=\"\" class=\"w-[0.813rem] aspect-square\"></div><p class=\"font-[500] text-[0.625rem] leading-[0.875rem] text-left\">Wet paper can become too damaged to recycle, as paper weakens fibers. So keep paper dry!\t\t\t\t\t\t\t\t\t\t\t</p></div></div></a></div></div></section></main>")
+		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 4)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = menuComp("dashboard").Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = footerMenubar("dashboard").Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></body><script type=\"text/javascript\">\n        const swiper = new Swiper( '.mySwiper', {\n            direction: \"horizontal\",\n            slidesPerView: 2,\n            mousewheel: true,\n            spaceBetween: 8,\n            autoplay: {\n                delay: 3000,\n                disableOnInteraction: true,\n            },\n        } );\n\n        const swiperTwo = new Swiper( '.mySwiperTwo', {\n            mousewheel: true,\n            keyboard: true,\n            autoplay: {\n                delay: 1500,\n                disableOnInteraction: true,\n            },\n        } );\n    </script></html>")
+		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 5)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -90,20 +90,20 @@ func letRecycleAndProfile(text string) templ.Component {
 			templ_7745c5c3_Var2 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<article class=\"flex items-center gap-1\"><p class=\"leading-[1.143rem] font-semibold text-[0.938rem]\">")
+		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 6)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var3 string
 		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(text)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.dashboard.templ`, Line: 244, Col: 68}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.dashboard.templ`, Line: 237, Col: 68}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p><img src=\"/assets/images/Recycle_small.png\" class=\"w-5 aspect-square\"></article>")
+		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 7)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

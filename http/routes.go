@@ -1,7 +1,7 @@
 package http
 
 import (
-	"beltech/frontend"
+	frontend "beltech/frontend"
 	"io/fs"
 	"net/http"
 
@@ -22,23 +22,8 @@ func (a *App) Routes() *chi.Mux {
 	r.Mount("/agent", a.agentRouter())
 
 	var staticFiles = fs.FS(frontend.AssetsDir)
-	staticFs, _ := fs.Sub(staticFiles, "assets")
-	r.Handle("/assets/*", http.StripPrefix("/assets/", http.FileServer(http.FS(staticFs))))
+	staticFs, _ := fs.Sub(staticFiles, "public")
+	r.Handle("/public/*", http.StripPrefix("/public/", http.FileServer(http.FS(staticFs))))
 
 	return r
 }
-
-// func (a *App) setFlashMessage(w http.ResponseWriter, r *http.Request, message string) {
-//     session, _ := a.accountSessionStore.Get(r, "beltech-account")
-//     session.AddFlash(message)
-//     session.Save(r, w)
-// }
-
-// func (a *App) getFlashMessage(w http.ResponseWriter, r *http.Request) string {
-//     session, _ := a.accountSessionStore.Get(r, "beltech-account")
-//     if flashes := session.Flashes(); len(flashes) > 0 {
-//         session.Save(r, w)
-//         return flashes[0].(string)
-//     }
-//     return ""
-// }

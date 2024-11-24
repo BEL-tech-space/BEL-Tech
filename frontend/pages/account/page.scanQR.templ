@@ -3,19 +3,7 @@ package frontend
 templ ScanQRPage() {
 	<!DOCTYPE html>
 	<html lang="en">
-		<head>
-			<meta charset="UTF-8"/>
-			<meta
-				name="viewport"
-				content="width=device-width, initial-scale=1.0"
-			/>
-			<link
-				rel="stylesheet"
-				href="/assets/styles/output.css"
-			/>
-			@removeScrollBar()
-			<title>Scan</title>
-		</head>
+		@htmlHeadTag("Scan")
 		<body
 			class="bg-[url('/assets/images/beltech_background.png')] bg-cover bg-center h-dvh font-montserrat text-[#2E2E2E] overflow-hidden"
 		>
@@ -23,7 +11,7 @@ templ ScanQRPage() {
 				<header class="pt-6 pl-6 pr-[1.56rem] flex w-full justify-between items-center">
 					<button>
 						<img
-							src="/assets/svg/back_arrow.svg"
+							src="/public/assets/svg/back_arrow.svg"
 							alt=""
 							class="w-6 aspect-square"
 						/>
@@ -31,7 +19,7 @@ templ ScanQRPage() {
 					<p class="font-semibold text-[0.938rem] leading-[1.143rem]">Scan</p>
 					<button class="bg-[#CCE1D699] p-2 rounded-md flex justify-center items-center">
 						<img
-							src="/assets/svg/notification.svg"
+							src="/public/assets/svg/notification.svg"
 							class="w-[1.5rem] aspect-square"
 						/>
 					</button>
@@ -40,7 +28,7 @@ templ ScanQRPage() {
 					<div class="h-full w-full flex flex-col justify-around items-center ">
 						<section id="xyz">
 							<img
-								src="/assets/images/qr_code.jpg"
+								src="/public/assets/images/qr_code.jpg"
 								alt=""
 								class="w-[22rem] aspect-square m-auto"
 							/>
@@ -71,16 +59,16 @@ templ ScanQRPage() {
 								class="bg-[#CCE1D699] p-[0.688rem] rounded-md inline justify-center items-center"
 							>
 								<img
-									src="/assets/svg/octicon_history-16.svg"
+									src="/public/assets/svg/octicon_history-16.svg"
 									class="w-[1.125rem]  aspect-square"
 								/>
 							</a>
 						</section>
 					</div>
 				</main>
-				@menuComp("scan")
+				@footerMenubar("scan")
 			</div>
-			<script src="/assets/libriaries/html5-qrcode.min.js"></script>
+			<script src="/public/assets/scripts/html5-qrcode.min.js"></script>
 			<script>
             const html5QrCode = new Html5Qrcode( "reader" );
             let isScanning = false;

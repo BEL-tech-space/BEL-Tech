@@ -3,29 +3,13 @@ package frontend
 templ AllWasteHistoryPage() {
 	<!DOCTYPE html>
 	<html lang="en">
-		<head>
-			<meta charset="UTF-8"/>
-			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-			<link
-				rel="stylesheet"
-				href="/assets/styles/output.css"
-			/>
-			<style>
-				.overflow-y-auto::-webkit-scrollbar {
-					width: 0 !important;
-					display: none;
-					overflow: -moz-scrollbars-none;
-					scrollbar-width: none;
-				}
-			</style>
-			<title>History Beltech-Agent</title>
-		</head>
+		@htmlHeadTag("Detailed Waste History")
 		<body class="bg-[url('/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
 			<div class="w-full h-full flex flex-col px-6 text-[#2E2E2E] font-montserrat">
 				<header class="flex pt-4 justify-between items-center">
 					<button>
 						<img
-							src="/assets/svg/back_arrow.svg"
+							src="/public/assets/svg/back_arrow.svg"
 							alt=""
 							class="w-6 aspect-square"
 						/>
@@ -33,7 +17,7 @@ templ AllWasteHistoryPage() {
 					<p class="font-semibold text-[0.938rem] leading-[1.143rem] text-inherit">History</p>
 					<button class="bg-[#CCE1D699] p-2 rounded-md w-fit">
 						<img
-							src="/assets/svg/agentSort.svg"
+							src="/public/assets/svg/agentSort.svg"
 							class="w-6 aspect-square"
 						/>
 					</button>
@@ -64,18 +48,18 @@ templ AllWasteHistoryPage() {
 							<div class="flex flex-col h-full justify-between items-end">
 								<p class="font-medium text-[#807B7B] text-[0.5rem] leading-[0.609rem]">24-05-24 03:30:45</p>
 								<button onclick="document.getElementById('dialog').showModal()">
-									<img src="/assets/svg/bi_qr-code.svg" alt="" class="w-[1.125rem] aspect-square"/>
+									<img src="/public/assets/svg/bi_qr-code.svg" alt="" class="w-[1.125rem] aspect-square"/>
 								</button>
 							</div>
 						</section>
 					}
 				</main>
-				@menuComp("scan")
+				@footerMenubar("scan")
 			</div>
 		</body>
 		<dialog id="dialog" class="backdrop:backdrop-blur-sm pt-8 pb-16 px-8 rounded-3xl border-solid border-[0.0625rem] border-white text-[#2E2E2E] outline-none">
 			<img
-				src="/assets/svg/bi_qr-code.svg"
+				src="/public/assets/svg/bi_qr-code.svg"
 				class="w-[7.375rem] aspect-square mx-auto"
 			/>
 			<p class="text-center font-poppins font-normal text-base leading-[1.219rem] mx-auto mb-4 mt-10">
