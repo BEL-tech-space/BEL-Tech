@@ -41,7 +41,7 @@ func AirtimeBeneficiaryPage(user User) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = frequentHeaderTwo("Beneficiaries", user.AvatarUrl, "/assets/svg/+.svg", "on click call #addNewBeneficiairyDialog.showModal() then halt").Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = frequentHeaderTwo("Beneficiaries", user.AvatarUrl, "/public/assets/svg/+.svg", "on click call #addNewBeneficiairyDialog.showModal() then halt").Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

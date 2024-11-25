@@ -9,7 +9,7 @@ templ WasteHistoryPage(user User, wasteType string, history []string) {
 	<!DOCTYPE html>
 	<html lang="en">
 		@htmlHeadTag("Waste History")
-		<body class="bg-[url('/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
+		<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
 			<div class="Page w-full h-full flex flex-col font-montserrat text-[#2E2E2E]">
 				@frequentHeaderOne(user)
 				if len(history) > 0 {

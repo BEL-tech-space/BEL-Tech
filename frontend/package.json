@@ -6,7 +6,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "tsc",
     "build": "esbuild src/index.ts --bundle --minify --sourcemap --outfile=public/assets/scripts/index.js",
-    "sw": "esbuild src/build-sw.ts --bundle --sourcemap --platform=node --packages=external --outfile=public/pwa/workbox-config.js && node public/pwa/workbox-config.js",
+    "sw": "esbuild src/build-sw.ts --bundle --sourcemap --platform=node --packages=external --outfile=public/workbox-config.js && node public/workbox-config.js",
     "dev:tsc": "tsc --watch --preserveWatchOutput",
     "dev:esbuild": "pnpm run build --watch=forever",
     "dev": "run-p dev:*"

@@ -4,7 +4,7 @@ templ AccountDashboardPage(user User) {
 	<!DOCTYPE html>
 	<html lang="en">
 		@htmlHeadTag("Dashboard")
-		<body class="bg-[url('/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
+		<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
 			<div class="Page w-full h-full flex flex-col font-montserrat text-[#2E2E2E]">
 				@frequentHeaderOne(user)
 				<main class="grow overflow-y-scroll pl-[1.5rem] pr-[1.56rem] pt-[1.875rem]">
@@ -220,7 +220,7 @@ templ AccountDashboardPage(user User) {
 
 		 window.addEventListener('load', () => {
 			if ('serviceWorker' in navigator) {
-				navigator.serviceWorker.register('/public/pwa/swOne.js').then(() => {
+				navigator.serviceWorker.register('/public/swThree.js').then(() => {
 					console.log('Service worker registered!');
 				}).catch((error) => {
 					console.warn('Error registering service worker:');

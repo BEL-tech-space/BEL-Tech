@@ -7,7 +7,7 @@ templ htmlHeadTag(title string) {
 			name="viewport"
 			content="width=device-width, initial-scale=1.0, maximum-scale=5.0"
 		/>
-		<link rel="manifest" href="/public/assets/json/manifest.json"/>
+		<link rel="manifest" href="/public/manifest.json"/>
 		<meta name="theme-color" content="#fff"/>
 		<link
 			rel="icon"
@@ -41,7 +41,7 @@ templ htmlHeadTag(title string) {
 }
 
 templ footerMenubar(active string) {
-	<footer class="bg-white flex w-full justify-around mt-[1.125rem] gap-[2.375rem]" hx-boost="true">
+	<footer class="bg-white flex w-full justify-around mt-[1.125rem] gap-[2.375rem]" hx-boost="false">
 		if active == "dashboard" {
 			<a
 				href="/account/dashboard"

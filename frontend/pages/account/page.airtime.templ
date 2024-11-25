@@ -4,9 +4,9 @@ templ RechargeAirtimePage(user User) {
 	<!DOCTYPE html>
 	<html lang="en">
 		@htmlHeadTag("Airtime Recharge")
-		<body class="bg-[url('/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
+		<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
 			<div class="w-full h-full grid grid-rows-agentCollectPage font-montserrat text-[#2E2E2E]">
-				@frequentHeaderTwo("Spend BEL Token", user.AvatarUrl, "/assets/svg/notification.svg", "")
+				@frequentHeaderTwo("Spend BEL Token", user.AvatarUrl, "/public/assets/svg/notification.svg", "")
 				<main class="overflow-y-auto pl-[1.5rem] pr-[1.56rem] pt-12 grid grid-flow-row-4">
 					<p class="font-bold text-xs leading-5 tracking-[0.00625em] text-center text-black">Which number do you want to receive <br/>your airtime to?</p>
 					<form id="beneficiaryNumber" action="" class="mt-10">

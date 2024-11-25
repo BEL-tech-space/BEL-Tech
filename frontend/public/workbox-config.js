@@ -27,8 +27,8 @@ var import_workbox_build = require("workbox-build");
 async function buildSW() {
   const { count, size, warnings } = await (0, import_workbox_build.generateSW)({
     globDirectory: "public/assets",
-    globPatterns: ["**/*.{js,css,ttf}"],
-    swDest: "public/pwa/swOne.js",
+    globPatterns: ["**/*.{js,css}"],
+    swDest: "public/swThree.js",
     maximumFileSizeToCacheInBytes: 2e9,
     runtimeCaching: [{
       urlPattern: new RegExp("/.(?:png|jpg|jpeg|svg)$/,"),

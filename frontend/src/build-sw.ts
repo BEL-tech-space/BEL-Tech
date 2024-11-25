@@ -4,8 +4,8 @@ export async function buildSW() {
 
   const {count, size, warnings}  = await generateSW({
     globDirectory: 'public/assets',
-    globPatterns: ['**/*.{js,css,ttf}'],
-    swDest: 'public/pwa/swOne.js',
+    globPatterns: ['**/*.{js,css}'],
+    swDest: 'public/swThree.js',
     maximumFileSizeToCacheInBytes: 2000000000,
     runtimeCaching: [{
       urlPattern: new RegExp('/\.(?:png|jpg|jpeg|svg)$/,'),

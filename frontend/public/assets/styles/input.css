@@ -6,18 +6,18 @@
   font-family: "Monsterrat";
   src: 
   local("Monsterrat"),
-  url("public/assets/fonts/montserrat/static/Montserrat-Regular.ttf");
+  url("/public/assets/fonts/montserrat/static/Montserrat-Regular.ttf");
 }
 
 @font-face {
   font-family: "Monsterrat-semibold";
-  src: url("public/assets/fonts/montserrat/static/Montserrat-SemiBold.ttf");
+  src: url("/public/assets/fonts/montserrat/static/Montserrat-SemiBold.ttf");
 }
 
 @font-face {
   font-family: "Poppins";
   src: 
   local("Poppins"),
-  url("public/assets/fonts/poppins/Poppins-Regular.ttf");
+  url("/public/assets/fonts/poppins/Poppins-Regular.ttf");
 
 }
