@@ -2263,6 +2263,12 @@ video {
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
+.shadow-\[0px_0\.125rem_0\.25rem_0px_\#0000001A\] {
+  --tw-shadow: 0px 0.125rem 0.25rem 0px #0000001A;
+  --tw-shadow-colored: 0px 0.125rem 0.25rem 0px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
 .shadow-\[0px_1\.83px_3\.65px_0px_\#0000001A\] {
   --tw-shadow: 0px 1.83px 3.65px 0px #0000001A;
   --tw-shadow-colored: 0px 1.83px 3.65px 0px var(--tw-shadow-color);
@@ -2421,12 +2427,6 @@ video {
   content: var(--tw-content);
   --tw-bg-opacity: 1;
   background-color: rgb(46 46 46 / var(--tw-bg-opacity, 1));
-}
-
-.before\:px-4::before {
-  content: var(--tw-content);
-  padding-left: 1rem;
-  padding-right: 1rem;
 }
 
 .before\:content-\[\'\'\]::before {
