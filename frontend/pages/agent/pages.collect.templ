@@ -16,10 +16,10 @@ templ CollectPage(agentID string) {
 			/>
 			<link
 				rel="stylesheet"
-				href="/assets/styles/output.css"
+				href="/public/assets/styles/output.css"
 			/>
-			<script src="/assets/libriaries/htmx.min.js"></script>
-			<script src="/assets/libriaries/hyperscript.min.js"></script>
+			<script src="/public/assets/scripts/htmx.min.js"></script>
+			<script src="/public/assets/scripts/hyperscript.min.js"></script>
 			<style>
 			.overflow-y-auto::-webkit-scrollbar {
 				width: 0 !important;
@@ -30,7 +30,7 @@ templ CollectPage(agentID string) {
 	</style>
 			<title>Collect Waste</title>
 		</head>
-		<body class="bg-[url('/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
+		<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
 			<div class="w-full h-full grid grid-rows-agentCollectPage pt-8 font-montserrat ">
 				<header class="flex justify-between items-center mr-[1.688rem] ml-6">
 					<div class="flex justify-center items-center gap-2 w-fit">
@@ -160,7 +160,7 @@ templ WasteForm(agentID string) {
 				class="bg-[#CCE1D699] p-[0.688rem] rounded-md flex justify-center items-center"
 			>
 				<img
-					src="/assets/svg/octicon_history-16.svg"
+					src="/public/assets/svg/octicon_history-16.svg"
 					class="w-[1.125rem]  aspect-square"
 				/>
 			</button>

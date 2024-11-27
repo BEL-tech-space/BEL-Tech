@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./pages/account/*.templ","./pages/agent/*.templ" , "*.html"],
+  content: ["./pages/account/*.templ","./pages/agent/*.templ"],
   theme: {
     extend: {
       spacing: {
@@ -17,6 +17,7 @@ module.exports = {
         'agentCollectPage': 'auto 1fr minmax(2.563rem, auto)',
         'agentDashboardPage': '1fr minmax(2.563rem, auto)',
         'loginPage': '1fr minmax(2.563rem, auto)',
+        'spendPage': 'repeat(4, auto) 1fr auto',
         
       },
       backgroundImage: {

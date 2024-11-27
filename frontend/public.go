@@ -2,8 +2,8 @@ package frontend
 
 import "embed"
 
-//go:generate tailwindcss -i assets/styles/input.css -o assets/styles/output.css
+//go:generate tailwindcss -i public/assets/styles/input.css -o public/assets/styles/output.css
 //go:generate templ generate
 
-//go:embed assets
+//go:embed public
 var AssetsDir embed.FS

@@ -1,5 +1,3 @@
 node_modules/
-dist/
-styles/output.css
-scripts/output.js
+DS_Store/
 *templ.txt

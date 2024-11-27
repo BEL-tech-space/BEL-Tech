@@ -3,24 +3,17 @@ package frontend
 templ AccountProfile(user User) {
 	<!DOCTYPE html>
 	<html lang="en">
-		<head>
-			<meta charset="UTF-8"/>
-			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-			<link rel="stylesheet" href="/assets/styles/output.css"/>
-			<script src="/assets/libriaries/hyperscript.min.js"></script>
-			<title>Account Profile</title>
-			@removeScrollBar()
-		</head>
-		<body class="bg-[url('/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
+		@htmlHeadTag("Account Profile")
+		<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
 			<div class="Page w-full h-full flex flex-col font-montserrat text-[#2E2E2E]">
 				@frequentHeaderOne(user)
 				<main class="grow overflow-y-auto w-full pl-[1.5rem] pr-[1.56rem] pt-[1.875rem]">
 					@letRecycleAndProfile("My Profile")
 					<article class="h-full py-auto">
 						<section class="my-[3.25rem] flex relative w-[7.75rem] aspect-square mx-auto items-end justify-end">
-							<img src="/assets/svg/3d_avatar_3.svg" alt="" class="absolute"/>
+							<img src="/public/assets/svg/3d_avatar_3.svg" alt="" class="absolute"/>
 							<button>
-								<img src="/assets/svg/editPFP.svg" alt="" class="w-[1.962rem] aspect-square z-20 "/>
+								<img src="/public/assets/svg/editPFP.svg" alt="" class="w-[1.962rem] aspect-square z-20 "/>
 							</button>
 						</section>
 						<form action="" class="flex flex-col gap-3 justify-center items-center">
@@ -36,7 +29,7 @@ templ AccountProfile(user User) {
 								<label for="" class="font-semibold text-xs">Wallet:</label>
 								<input disabled type="text" name="nickname" id="wallet" class="outline-none  border-solid border-[#569B78] border-[0.0313rem] rounded p-2 w-full"/>
 								<button class="absolute top-2/4 right-4" _="on click call #createNewPinDialog.showModal() then halt">
-									<img src="/assets/svg/connectWallet.svg" alt="" class="w-5 aspect-square"/>
+									<img src="/public/assets/svg/connectWallet.svg" alt="" class="w-5 aspect-square"/>
 								</button>
 							</div>
 							<section class="mt-10 w-full grid grid-cols-profileButton items-center gap-[0.625rem]">
@@ -47,7 +40,7 @@ templ AccountProfile(user User) {
 									class="bg-[#FFE8E8] rounded-md flex justify-center items-center"
 								>
 									<img
-										src="/assets/svg/login.svg"
+										src="/public/assets/svg/login.svg"
 										class="w-6 aspect-square m-2"
 									/>
 								</a>
@@ -55,7 +48,7 @@ templ AccountProfile(user User) {
 						</form>
 					</article>
 				</main>
-				@menuComp("dashboard")
+				@footerMenubar("dashboard")
 			</div>
 		</body>
 		@createNewPinDialog()
@@ -68,7 +61,7 @@ templ AccountProfile(user User) {
 templ createNewPinDialog() {
 	<dialog id="createNewPinDialog" class="backdrop:backdrop-blur-sm rounded-2xl py-8 pl-7 pr-9 font-montserrat text-[#2E2E2E]">
 		<img
-			src="/assets/images/beltech_logo.png"
+			src="/public/assets/images/beltech_logo.png"
 			alt="Beltech Logo"
 			class="w-[6.56rem] aspect-[104.96/107.84] mx-auto"
 		/>
@@ -79,7 +72,7 @@ templ createNewPinDialog() {
 				<label for="pin" class="font-bold text-xs">Enter Pin</label>
 				<input required type="number" name="pin" id="pin" maxlength="4" minlength="4" inputmode="numeric" class="min-h-[2.071rem] pl-2 w-full border-solid border-[#569B78] border-[0.0256rem] rounded outline-none"/>
 				<button class="absolute top-[60%] right-4" id="eye">
-					<img src="/assets/svg/greenEye.svg" alt="" class="w-4 aspect-square"/>
+					<img src="/public/assets/svg/greenEye.svg" alt="" class="w-4 aspect-square"/>
 				</button>
 			</div>
 			<div class=" mt-16 flex justify-between items-center gap-3">
@@ -108,7 +101,7 @@ templ createNewPinDialog() {
 templ enterSPLWalletAddrDialog() {
 	<dialog id="enterSPLWalletAddrDialog" class="backdrop:backdrop-blur-sm rounded-2xl py-8 pl-7 pr-9 font-montserrat text-[#2E2E2E]">
 		<img
-			src="/assets/images/beltech_logo.png"
+			src="/public/assets/images/beltech_logo.png"
 			alt="Beltech Logo"
 			class="w-[6.56rem] aspect-[104.96/107.84] mx-auto"
 		/>
@@ -124,7 +117,7 @@ templ enterSPLWalletAddrDialog() {
 
 templ successDialog(new bool) {
 	<dialog id="successDialog" class="backdrop:backdrop-blur-sm rounded-2xl py-8 pl-7 pr-9 font-montserrat text-[#2E2E2E]">
-		<img src="/assets/svg/confetti.svg" alt="" class="w-[6.25rem] aspect-square mx-auto"/>
+		<img src="/public/assets/svg/confetti.svg" alt="" class="w-[6.25rem] aspect-square mx-auto"/>
 		if new {
 			<p class="mt-6 mb-4 font-bold text-[0.813rem] leading-5 tracking-[0.00625em] text-black text-center">Success! Wallet address has been successfully added</p>
 		} else {

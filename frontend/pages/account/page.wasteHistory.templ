@@ -1,0 +1,149 @@
+package frontend
+
+import (
+	"fmt"
+	"strings"
+)
+
+templ WasteHistoryPage(user User, wasteType string, history []string) {
+	<!DOCTYPE html>
+	<html lang="en">
+		@htmlHeadTag("Waste History")
+		<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
+			<div class="Page w-full h-full flex flex-col font-montserrat text-[#2E2E2E]">
+				@frequentHeaderOne(user)
+				if len(history) > 0 {
+					<main class="grow overflow-y-auto pl-[1.5rem] pr-[1.56rem] pt-[1.875rem] grid grid-flow-row-4">
+						@letRecycleAndProfile("Let's Recycle!")
+						<section class="flex justify-start items-center gap-4 mt-6 mb-10">
+							switch wasteType {
+								case "paper" :
+									<img src="/public/assets/images/book.jpg" alt="" class="w-[6.875rem] aspect-square rounded-[0.516rem] bg-[#1E1E1E33]"/>
+									<div class="flex flex-col justify-start items-start gap-1 text-[#3A3A3A]">
+										<p class="font-bold text-[0.806rem] leading-[0.983rem]">Material: <span class="font-semibold">Paper</span></p>
+										<p class="font-bold text-[0.733rem] leading-[0.893rem]">Total Earned: <span class="font-medium font-poppins">50 BEL</span></p>
+									</div>
+								case "glass" :
+									<img src="/public/assets/images/glass.jpg" alt="" class="w-[6.875rem] aspect-square rounded-[0.516rem] bg-[#1E1E1E33]"/>
+									<div class="flex flex-col justify-start items-start gap-1 text-[#3A3A3A]">
+										<p class="font-bold text-[0.806rem] leading-[0.983rem]">Material: <span class="font-semibold">Glass</span></p>
+										<p class="font-bold text-[0.733rem] leading-[0.893rem]">Total Earned: <span class="font-medium font-poppins">50 BEL</span></p>
+									</div>
+								case "metal" :
+									<img src="/public/assets/images/metal2.jpg" alt="" class="w-[6.875rem] aspect-square rounded-[0.516rem] bg-[#1E1E1E33]"/>
+									<div class="flex flex-col justify-start items-start gap-1 text-[#3A3A3A]">
+										<p class="font-bold text-[0.806rem] leading-[0.983rem]">Material: <span class="font-semibold">Metal</span></p>
+										<p class="font-bold text-[0.733rem] leading-[0.893rem]">Total Earned: <span class="font-medium font-poppins">50 BEL</span></p>
+									</div>
+								case "plastics" :
+									<img src="/public/assets/images/plastic_2.jpg" alt="" class="w-[6.875rem] aspect-square rounded-[0.516rem] bg-[#1E1E1E33]"/>
+									<div class="flex flex-col justify-start items-start gap-1 text-[#3A3A3A]">
+										<p class="font-bold text-[0.806rem] leading-[0.983rem]">Material: <span class="font-semibold">Plastics</span></p>
+										<p class="font-bold text-[0.733rem] leading-[0.893rem]">Total Earned: <span class="font-medium font-poppins">50 BEL</span></p>
+									</div>
+							}
+						</section>
+						<section class="w-full flex justify-between items-center">
+							<p class="text-[0.938rem] leading-[1.143rem] font-semibold">Overview</p>
+							<div class="bg-[#01693433] pl-[0.5rem] pr-[0.833rem] flex justify-center items-center gap-[0.417rem] rounded-[1.562rem]">
+								<select name="filter" id="filter" class="appearance-none min-w-fit outline-none">
+									<option value="" class="">this week</option>
+									<hr/>
+									<optgroup label="range">
+										<option value="lastweek" class="">last week</option>
+										<option value="2Weeks" class="">2wk ago</option>
+										<option value="3Weeks" class="">3wk ago</option>
+										<option value="4Weeks" class="">4wk ago</option>
+										<option value="thisMonth" class="">this month</option>
+									</optgroup>
+									<hr/>
+									<optgroup label="result">
+										<option value="single" class="">single</option>
+										<option value="combined" class="">combined</option>
+									</optgroup>
+								</select>
+								<label for="filter">
+									<img
+										src="/public/assets/svg/filter_small.svg"
+										alt="Notifications"
+										class="w-4 aspect-square"
+									/>
+								</label>
+							</div>
+						</section>
+						@notEmptyHistory(wasteType)
+					</main>
+				} else {
+					<main class="grow overflow-y-auto pl-[1.5rem] pr-[1.56rem] pt-[1.875rem] flex flex-col justify-start">
+						@letRecycleAndProfile("Let's Recycle!")
+						<section class="flex justify-start items-center gap-4 mt-6 mb-10">
+							switch wasteType {
+								case "paper" :
+									<img src="/public/assets/images/book.jpg" alt="" class="w-[6.875rem] aspect-square rounded-[0.516rem] bg-[#1E1E1E33]"/>
+									<div class="flex flex-col justify-start items-start gap-1 text-[#3A3A3A]">
+										<p class="font-bold text-[0.806rem] leading-[0.983rem]">Material: <span class="font-semibold">Paper</span></p>
+										<p class="font-bold text-[0.733rem] leading-[0.893rem]">Total Earned: <span class="font-medium font-poppins">0 BEL</span></p>
+									</div>
+								case "glass" :
+									<img src="/public/assets/images/glass.jpg" alt="" class="w-[6.875rem] aspect-square rounded-[0.516rem] bg-[#1E1E1E33]"/>
+									<div class="flex flex-col justify-start items-start gap-1 text-[#3A3A3A]">
+										<p class="font-bold text-[0.806rem] leading-[0.983rem]">Material: <span class="font-semibold">Glass</span></p>
+										<p class="font-bold text-[0.733rem] leading-[0.893rem]">Total Earned: <span class="font-medium font-poppins">0 BEL</span></p>
+									</div>
+								case "metal" :
+									<img src="/public/assets/images/metal2.jpg" alt="" class="w-[6.875rem] aspect-square rounded-[0.516rem] bg-[#1E1E1E33]"/>
+									<div class="flex flex-col justify-start items-start gap-1 text-[#3A3A3A]">
+										<p class="font-bold text-[0.806rem] leading-[0.983rem]">Material: <span class="font-semibold">Metal</span></p>
+										<p class="font-bold text-[0.733rem] leading-[0.893rem]">Total Earned: <span class="font-medium font-poppins">0 BEL</span></p>
+									</div>
+								case "plastics" :
+									<img src="/public/assets/images/plastic_2.jpg" alt="" class="w-[6.875rem] aspect-square rounded-[0.516rem] bg-[#1E1E1E33]"/>
+									<div class="flex flex-col justify-start items-start gap-1 text-[#3A3A3A]">
+										<p class="font-bold text-[0.806rem] leading-[0.983rem]">Material: <span class="font-semibold">Plastics</span></p>
+										<p class="font-bold text-[0.733rem] leading-[0.893rem]">Total Earned: <span class="font-medium font-poppins">0 BEL</span></p>
+									</div>
+							}
+						</section>
+						@emptyHistory(wasteType)
+					</main>
+				}
+				@footerMenubar("dashboard")
+			</div>
+		</body>
+	</html>
+}
+
+templ notEmptyHistory(wasteType string) {
+	<section class="overflow-y-auto mt-8 max-h-full">
+		<ul class="flex flex-col justify-start items-start gap-9 py-2">
+			for range 8 {
+				<li class="sucess grid grid-cols-2 justify-between w-full">
+					<div class="flex flex-col justify-start items-start gap-4">
+						<div class="flex items-start gap-2">
+							<p class="font-medium text-[0.643rem] leading-[0.832rem] text-black">{ fmt.Sprintf("%s: %.2fkg", strings.ToUpper(wasteType), 23.45) }</p>
+							<p class="bg-[#299960] rounded-[9.391rem] text-center font-bold text-white text-[0.235rem] leading-[0.286rem] py-[0.0788rem] px-[0.729rem]">
+								Success
+							</p>
+						</div>
+						<div class="text-nowrap flex flex-col gap-2 items-start pb-4 font-medium text-[0.558rem] leading-[0.681]">
+							<p>Token Earned: 2 BEL</p>
+							<p>TransactionName: Albert Tyson</p>
+						</div>
+					</div>
+					<div class="flex flex-col h-full justify-between items-end">
+						<p class="font-medium text-[#807B7B] text-[0.5rem] leading-[0.609rem]">24-05-24 03:30:45</p>
+						<button onclick="">
+							<img src="/public/assets/svg/bi_qr-code.svg" alt="" class="w-[1.125rem] aspect-square"/>
+						</button>
+					</div>
+				</li>
+			}
+		</ul>
+	</section>
+}
+
+templ emptyHistory(wasteType string) {
+	<section class="h-full w-full flex justify-center items-center">
+		<p class="font-bold text-sm text-[#3A3A3A]">{ fmt.Sprintf("No history yet for %s", strings.ToUpper(wasteType) ) }</p>
+	</section>
+}

@@ -1,0 +1,69 @@
+{
+    "name": "beltech",
+    "short_name": "beltech",
+    "lang": "en-us",
+    "description": "Creating a greener environment, one waste at a time.",
+    "theme_color": "#fff",
+    "background_color": "#fff",
+    "display": "standalone",
+    "orientation": "portrait",
+    "start_url": "http://localhost:8090/account/dashboard",
+    "scope": "/",
+    "id": "/",
+    "prefer_related_applications": false,
+    "icons": [
+        {
+            "src": "/public/assets/svg/beltechClearLogo.svg",
+            "sizes": "any",
+            "type": "image/svg"
+        },
+        {
+            "src": "/public/assets/images/maskAny.jpeg",
+            "sizes": "138x142",
+            "type": "image/jpg",
+            "purpose": "maskable"
+        },
+        {
+            "src": "/public/assets/images/beltech_logo_2.jpg",
+            "sizes": "138x142",
+            "type": "image/jpg",
+            "purpose": "maskable"
+        },
+        {
+            "src": "/public/assets/images/beltech_logo_104x107.jpg",
+            "sizes": "104x107",
+            "type": "image/jpg"
+        },
+        {
+            "src": "/public/assets/images/beltech_logo_35x36.jpg",
+            "sizes": "35x36",
+            "type": "image/jpg"
+        },
+        {
+            "src": "/public/assets/images/beltech_logo.png",
+            "sizes": "349x350",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/public/assets/images/beltech_wide.png",
+            "sizes": "1920x1080",
+            "type": "image/png"
+        }
+       
+    ],
+    "screenshots": [
+        {
+            "src": "/public/assets/images/beltech_logo_square.png",
+            "sizes": "340x350",
+            "type": "image/png",
+            "form_factor": "narrow"
+        },
+        {
+            "src": "/public/assets/images/beltech_wide.png",
+            "sizes": "1920x1080",
+            "type": "image/png",
+            "form_factor": "wide"
+        }
+    ]
+}

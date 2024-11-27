@@ -1,7 +1,7 @@
 package http
 
 import (
-	"beltech/frontend"
+	frontend "beltech/frontend"
 	"bytes"
 	"fmt"
 	"image/png"
@@ -15,7 +15,7 @@ var beltechWatermarkLogo []byte
 
 func init() {
 	var err error
-	beltechWatermarkLogo, err = readPNGAsBytes("assets/images/beltech_logo.png")
+	beltechWatermarkLogo, err = readPNGAsBytes("public/assets/images/beltech_logo.png")
 	if err != nil {
 		log.Fatalln("error reading watermark logo image:", err)
 	}

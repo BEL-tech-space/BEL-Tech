@@ -26,8 +26,11 @@ func (a *App) accountRouter() http.Handler {
 		r.Get("/wallet", a.walletPageHandler)
 		r.Get("/spend", a.exchangePageHandler)
 		r.Get("/profile", a.accountProfilePage)
-		r.Get("/airtime", a.rechargeAirtime)
+		r.Post("/airtime", a.rechargeAirtime)
 		r.Get("/beneficiaries", a.airtimeBeneficiaries)
+		r.Get("/waste/{wasteType}", a.wasteHistoryHandler)
+		r.Get("/tips/{wasteType}", a.wasteTipsHandler)
+		r.Get("/history", a.allWasteHistoryHandler)
 
 	})
 
@@ -36,7 +39,6 @@ func (a *App) accountRouter() http.Handler {
 	r.Get("/verify", a.verifyPageHandler)
 	r.Get("/reset", a.resetPageHandler)
 	r.Get("/verify_success", a.verify_successPageHandler)
-	r.Get("/password_reset", a.password_resetPageHandler)
 
 	return r
 }

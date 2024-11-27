@@ -1,11 +1,10 @@
 .vscode/
 .idea
+.DS_Store
+**/.DS_Store
 beltech
 *.env
 tmp/
 
 node_modules/
-dist/
-styles/output.css
-scripts/output.js
 *templ.txt

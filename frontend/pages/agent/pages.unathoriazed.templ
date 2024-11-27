@@ -8,15 +8,15 @@ templ UnauthorizedPage() {
 			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 			<link
 				rel="stylesheet"
-				href="/assets/styles/output.css"
+				href="/public/assets/styles/output.css"
 			/>
 			<title>Unauthorized</title>
 		</head>
-		<body class="bg-[url('/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
+		<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
 			<div class="w-full h-full grid grid-rows-agentDashboardPage pt-11 overflow-y-auto font-montserrat">
 				<div class="mx-6 flex flex-col justify-center items-center gap-[5.5rem]">
 					<img
-						src="/assets/svg/unauthorized.svg"
+						src="/public/assets/svg/unauthorized.svg"
 						alt=""
 						class="w-[24.375rem] min-w-[51%] aspect-[390/437]"
 					/>
@@ -33,7 +33,7 @@ templ UnauthorizedPage() {
 						class="flex flex-col justify-center items-center"
 					>
 						<img
-							src="/assets/svg/home linear.svg"
+							src="/public/assets/svg/home linear.svg"
 							class="w-6 aspect-square"
 						/>
 						<p class="font-bold text-[0.5rem] leading-[1.25rem]">Home</p>
@@ -43,7 +43,7 @@ templ UnauthorizedPage() {
 						class="flex flex-col justify-center items-center"
 					>
 						<img
-							src="/assets/svg/collect_icon_linear.svg"
+							src="/public/assets/svg/collect_icon_linear.svg"
 							class="w-6 aspect-square"
 						/>
 						<p class="font-bold text-[0.5rem] leading-[1.25rem]">Collect</p>
@@ -53,7 +53,7 @@ templ UnauthorizedPage() {
 						class="flex flex-col justify-center items-center"
 					>
 						<img
-							src="/assets/svg/history_icon_linear.svg"
+							src="/public/assets/svg/history_icon_linear.svg"
 							class="w-6 aspect-square"
 						/>
 						<p class="font-bold text-[0.5rem] leading-[1.25rem]">History</p>
@@ -63,7 +63,7 @@ templ UnauthorizedPage() {
 						class="flex flex-col justify-center items-center"
 					>
 						<img
-							src="/assets/svg/profile.svg"
+							src="/public/assets/svg/profile.svg"
 							class="w-6 aspect-square"
 						/>
 						<p class="font-bold text-[0.5rem] leading-[1.25rem]">Profile</p>
@@ -73,7 +73,7 @@ templ UnauthorizedPage() {
 						class="flex flex-col justify-center items-center"
 					>
 						<img
-							src="/assets/svg/logout_linear.svg"
+							src="/public/assets/svg/logout_linear.svg"
 							class="w-6 aspect-square"
 						/>
 						<p class="font-bold text-[0.5rem] leading-[1.25rem]">Logout</p>
@@ -88,7 +88,7 @@ templ UnauthorizedPage() {
 templ unauthorizedDialog() {
 	<dialog id="unauthorized" class="backdrop:backdrop-blur-sm pt-8 pb-16 px-8 rounded-3xl border-solid border-[0.0625rem] border-white text-[#2E2E2E] outline-none">
 		<img
-			src="/assets/svg/unauthorized.svg"
+			src="/public/assets/svg/unauthorized.svg"
 			alt=""
 			class="w-[11.813rem] aspect-square mx-auto"
 		/>

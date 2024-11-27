@@ -9,7 +9,7 @@ templ IndexPage() {
 			<title>Beltech</title>
 			<link
 				rel="stylesheet"
-				href="/assets/styles/output.css"
+				href="/public/assets/styles/output.css"
 			/>
 			<style>
         html {
@@ -156,8 +156,6 @@ templ IndexPage() {
             margin-left: auto;
             margin-right: auto;
         }
-
-    
 
         .how-it-works-onboarding {
             display: flex;
@@ -324,26 +322,38 @@ templ IndexPage() {
             font-size: clamp(0.6325rem, 0.313rem + 1.3107vw, 1.5rem);  
             line-height: clamp(0.94875rem, 0.4695rem + 1.966vw, 2.25rem);
         }
+        .menu-text {
+            font-size: clamp(0.3825rem, 0.1781rem + 0.8385vw, 0.9375rem);
+            line-height: clamp(0.46625rem, 0.217rem + 1.0227vw, 1.143125rem);
+        }
         
     </style>
 		</head>
-		<body class="font-montserrat">
-			<img class="call-to-action-bg" src="/assets/images/grid.png" alt="background-image"/>
-			<nav class="navigator-row">
-				<div class="logo-adjustment-container">
-					<img src="/assets/images/beltech.png" alt="logo"/>
+		<body class="font-montserrat text-[#2E2E2E]">
+			<img class="call-to-action-bg" src="/public/assets/images/grid.png" alt="background-image"/>
+			<nav class="w-full flex justify-between items-center pr-6 pl-[0.625rem] mt-2">
+				<div class="logo flex justify-start items-center gap-1">
+					<img src="/public/assets/svg/beltechClearLogo.svg" alt="logo" class="w-6 aspect-square"/>
+					<p class="font-bold text-nowrap text-[#2E2E2E]">BELTECH</p>
 				</div>
-				<div class="navigator-controls-wrapper">
-					<div></div>
-					<div class="navigator-controls">
-						<span class="text-[#016934] font-bold">Home</span>
-						<span>About</span>
-						<span>Contact Us</span>
-					</div>
-					<button onclick="window.location.href='/account/signin'">
-						<span>Log In</span>
-					</button>
-				</div>
+				<menu class="flex justify-between items-center max-sm:gap-6 gap-10 menu-text">
+					<li>
+						<a href="#" class="text-center text-nowrap text-[#016934] font-bold">Home</a>
+					</li>
+					<li>
+						<a href="#" class="text-center text-nowrap text-[#2E2E2E] font-medium">About</a>
+					</li>
+					<li>
+						<a href="#" class="text-center text-nowrap text-[#2E2E2E] font-medium">Contact Us</a>
+					</li>
+					<li>
+						<a href="#" class="text-center text-nowrap text-[#2E2E2E] font-medium md:w-0 max-sm:w-1">Agent</a>
+					</li>
+					<li class="hidden max-sm:block ml-9">
+						<a href="/account/signin" class="text-center text-nowrap bg-[#016934] rounded-md px-7 py-2 max-sm:px-3 max-sm:py-1 text-white">Log In</a>
+					</li>
+				</menu>
+				<a href="/account/signin" class="max-sm:hidden block text-center text-nowrap bg-[#016934] rounded-md px-8 py-2 max-sm:px-6 max-sm:py-2 text-white">Log In</a>
 			</nav>
 			<main>
 				<section class="call-to-action-container px-2">
@@ -354,33 +364,33 @@ templ IndexPage() {
 						<p class="call-to-action-subtext font-poppins">
 							We make it easy to live a zero waste life and earn BEL tokens
 						</p>
-						<button class="call-to-action-button py-[0.75rem] px-[3.969rem] text-white font-bold max-sm:tracking-[0.00313rem] tracking-[0.00813rem]">
+						<a href="/account/signin" class="block w-fit call-to-action-button py-[0.75rem] px-[3.969rem] text-white font-bold max-sm:tracking-[0.00313rem] tracking-[0.00813rem]">
 							Start now
-						</button>
+						</a>
 					</div>
 					<div class="call-to-action-img">
-						<img src="/assets/images/call-to-action-img.png" alt="call to action image"/>
+						<img src="/public/assets/images/call-to-action-img.png" alt="call to action image"/>
 					</div>
 				</section>
 				<section class="how-it-works">
 					<section class="how-it-works-label-icon mt-20 flex flex-col gap-4 justify-center items-center">
-						<img src="/assets/images/world.png" alt="" class=""/>
+						<img src="/public/assets/images/world.png" alt="" class=""/>
 						<p class="font-bold text-[#016934]">How does it work?</p>
 					</section>
 					<div class="how-it-works-onboarding">
 						<div class="how-it-works-onboarding-item">
-							<img src="/assets/images/sign-into-user-account.png" alt="sign in into user account"/>
+							<img src="/public/assets/images/sign-into-user-account.png" alt="sign in into user account"/>
 							<p class="font-medium text-center text-black">Start by signing up on our platform</p>
 						</div>
-						<img class="how-it-works-next-indicator" src="/assets/images/arrow.png" alt="arrow"/>
+						<img class="how-it-works-next-indicator" src="/public/assets/images/arrow.png" alt="arrow"/>
 						<div class="how-it-works-onboarding-item-flex-group">
 							<div class="how-it-works-onboarding-item">
-								<img src="/assets/images/qr-scan.png" alt="woman scanning qr code with her phone"/>
+								<img src="/public/assets/images/qr-scan.png" alt="woman scanning qr code with her phone"/>
 								<p class="font-medium text-center text-black">Scan the e-bin with your mobile phone</p>
 							</div>
-							<img class="how-it-works-next-indicator" src="/assets/images/arrow.png" alt="arrow"/>
+							<img class="how-it-works-next-indicator" src="/public/assets/images/arrow.png" alt="arrow"/>
 							<div class="how-it-works-onboarding-item">
-								<img src="/assets/images/financial-growth.png" alt="man experiencing financial growth"/>
+								<img src="/public/assets/images/financial-growth.png" alt="man experiencing financial growth"/>
 								<p class="font-medium text-center text-black">Dispose your waste and earn BEL tokens</p>
 							</div>
 						</div>
@@ -398,7 +408,7 @@ templ IndexPage() {
 				</section>
 			</main>
 			<footer class="bg-[#016934] flex flex-row justify-between max-sm:justify-center items-center py-32 pr-6 max-sm:flex-col max-sm:gap-[3.008rem] max-sm:pt-8 max-sm:pb-[1.652rem] max-sm:pl-[1.966rem] max-sm:pr-[1.031rem]">
-				<img src="/assets/images/footer-logo.png" alt="Beltech footer logo" class="w-[10.719rem] aspect-[171.51/176.22] mx-auto rounded-full"/>
+				<img src="/public/assets/images/footer-logo.png" alt="Beltech footer logo" class="w-[10.719rem] aspect-[171.51/176.22] mx-auto rounded-full"/>
 				<section class="grid grid-cols-3 justify-between items-start gap-[2.659rem] text-xs text-white font-medium">
 					<div class="flex flex-col justify-start items-start gap-6 max-sm:gap-[0.798rem] font-medium">
 						<a href="#">Home</a>
@@ -418,16 +428,16 @@ templ IndexPage() {
 				</section>
 				<section class="ml-auto mt-[1.823rem] flex flex-col max-sm:flex-row gap-4 items-center">
 					<a href="">
-						<img src="/assets/svg/android.svg" alt="android app" class="max-sm:w-[1.125rem] w-6"/>
+						<img src="/public/assets/svg/android.svg" alt="android app" class="max-sm:w-[1.125rem] w-6"/>
 					</a>
 					<a href="">
-						<img src="/assets/svg/apple.svg" alt="ios app" class="max-sm:w-[1.125rem] w-6"/>
+						<img src="/public/assets/svg/apple.svg" alt="ios app" class="max-sm:w-[1.125rem] w-6"/>
 					</a>
 					<a href="">
-						<img src="/assets/svg/google-play.svg" alt="playstore" class="max-sm:w-[1.125rem] w-6"/>
+						<img src="/public/assets/svg/google-play.svg" alt="playstore" class="max-sm:w-[1.125rem] w-6"/>
 					</a>
 					<a href="">
-						<img src="/assets/svg/global.svg" alt="web" class="max-sm:w-[1.125rem] w-6"/>
+						<img src="/public/assets/svg/global.svg" alt="web" class="max-sm:w-[1.125rem] w-6"/>
 					</a>
 				</section>
 			</footer>
