@@ -7,9 +7,9 @@
     "background_color": "#fff",
     "display": "standalone",
     "orientation": "portrait",
+    "start_url": "http://localhost:8090/account/dashboard",
     "scope": "/",
     "id": "/",
-    "start_url": "/",
     "prefer_related_applications": false,
     "icons": [
         {
@@ -42,7 +42,8 @@
         {
             "src": "/public/assets/images/beltech_logo.png",
             "sizes": "349x350",
-            "type": "image/png"
+            "type": "image/png",
+            "purpose": "any"
         },
         {
             "src": "/public/assets/images/beltech_wide.png",

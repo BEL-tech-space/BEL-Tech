@@ -1,2 +1,5 @@
+self.addEventListener('fetch', (event) => {
+    console.log(`SW intercepted: ${event}`);
+});	
 
-console.log('build is done.');
+console.log('script was run.');

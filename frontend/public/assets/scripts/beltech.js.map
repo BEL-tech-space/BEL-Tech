@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../src/index.ts"],
+  "sourcesContent": ["self.addEventListener('fetch', (event) => {\n    console.log(`SW intercepted: ${event}`);\n});\t\n\nconsole.log('script was run.');"],
+  "mappings": "mBAAA,KAAK,iBAAiB,QAAUA,GAAU,CACtC,QAAQ,IAAI,mBAAmBA,CAAK,EAAE,CAC1C,CAAC,EAED,QAAQ,IAAI,iBAAiB",
+  "names": ["event"]
+}

@@ -26,15 +26,19 @@ module.exports = __toCommonJS(build_sw_exports);
 var import_workbox_build = require("workbox-build");
 async function buildSW() {
   const { count, size, warnings } = await (0, import_workbox_build.generateSW)({
-    globDirectory: "public/assets",
-    globPatterns: ["**/*.{js,css}"],
-    swDest: "public/swThree.js",
+    globDirectory: "public",
+    globPatterns: ["**/*.{js,css,svg,img,ttf}"],
+    swDest: "public/sw.js",
     maximumFileSizeToCacheInBytes: 2e9,
+    disableDevLogs: false,
     runtimeCaching: [{
-      urlPattern: new RegExp("/.(?:png|jpg|jpeg|svg)$/,"),
+      urlPattern: ({ url }) => {
+        console.log(url);
+        return /\.(?:png|jpg|jpeg|svg|gif|webp)$/.test(url.pathname);
+      },
       handler: "CacheFirst",
       options: {
-        cacheName: "moreAssets",
+        cacheName: "images",
         expiration: {
           maxEntries: 10,
           maxAgeSeconds: 60 * 60 * 24 * 30
@@ -42,10 +46,13 @@ async function buildSW() {
         }
       }
     }, {
-      urlPattern: new RegExp("/.(?:xml|html)$/,"),
-      handler: "StaleWhileRevalidate",
+      urlPattern: ({ request }) => {
+        console.log(request, request.destination);
+        return request.destination === "image";
+      },
+      handler: "CacheFirst",
       options: {
-        cacheName: "html-cache",
+        cacheName: "image-cache",
         expiration: {
           maxEntries: 10,
           maxAgeSeconds: 60 * 60 * 24 * 30

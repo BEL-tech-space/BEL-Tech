@@ -220,7 +220,8 @@ templ AccountDashboardPage(user User) {
 
 		 window.addEventListener('load', () => {
 			if ('serviceWorker' in navigator) {
-				navigator.serviceWorker.register('/public/swThree.js').then(() => {
+				navigator.serviceWorker.register('/public/sw.js').then((sw) => {
+					console.log(sw)
 					console.log('Service worker registered!');
 				}).catch((error) => {
 					console.warn('Error registering service worker:');

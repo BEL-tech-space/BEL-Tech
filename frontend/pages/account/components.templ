@@ -22,7 +22,7 @@ templ htmlHeadTag(title string) {
 			href="/public/assets/images/beltech_logo_16x16.png"
 		/>
 		<link rel="shortcut icon" href="/public/assets/images/beltech_logo_2.ico"/>
-		<link rel="apple-touch-icon" href="assets/images/maskAny.jpeg"/>
+		<link rel="apple-touch-icon" href="/pubic/assets/images/maskAny.jpeg"/>
 		<link
 			rel="stylesheet"
 			href="/public/assets/styles/output.css"
@@ -34,7 +34,8 @@ templ htmlHeadTag(title string) {
 		<script src="/public/assets/scripts/swiper-bundle.min.js"></script>
 		<script src="/public/assets/scripts/htmx.min.js"></script>
 		<script src="/public/assets/scripts/hyperscript.min.js"></script>
-		<script src="/public/assets/scripts/html5-qrcode.min.js"></script>
+		<script src="/public/assets/scripts/beltech.js"></script>
+		<script async src="/public/assets/scripts/html5-qrcode.min.js"></script>
 		@removeScrollBar()
 		<title>{ title }</title>
 	</head>
