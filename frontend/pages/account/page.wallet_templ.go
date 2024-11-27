@@ -30,7 +30,7 @@ func WalletPage(user User) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 1)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<!doctype html><html lang=\"en\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -38,7 +38,7 @@ func WalletPage(user User) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 2)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<body class=\"bg-[url(&#39;/public/assets/images/beltech_background.png&#39;)] bg-cover bg-center h-dvh overflow-hidden\"><div class=\"w-full h-full flex flex-col font-montserrat text-[#2E2E2E]\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -46,17 +46,17 @@ func WalletPage(user User) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 3)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<main class=\"grow overflow-y-auto.overflow-y-auto pl-6 pr-[1.56rem]\"><section class=\"pt-[1.88rem] flex gap-2 items-center\"><p class=\"font-semibold text-xs leading-[0.914rem]\">My Balance </p><img src=\"/public/assets/svg/eye.svg\" class=\"w-[0.938rem] aspect-square\"></section><p class=\"mt-2 mb-8 font-bold text-xl leading-[1.524rem] text-[#016934]\">250.06 BEL </p><section class=\"flex w-full justify-between items-start gap-2\"><a class=\"flex flex-col gap-2 items-center\"><button class=\"bg-[#CCE1D6] rounded-full p-[0.938rem]\"><img src=\"/public/assets/svg/+.svg\" class=\"w-5 aspect-square\"></button><p class=\"font-poppins font-normal text-xs text-center\">Send</p></a> <a class=\"flex flex-col gap-2 items-center\"><button class=\"bg-[#CCE1D6] rounded-full p-[0.938rem]\"><img src=\"/public/assets/svg/-.svg\" class=\"w-5 aspect-square\"></button><p class=\"font-poppins font-normal text-xs text-center\">Receive</p></a> <a class=\"flex flex-col gap-2 items-center\"><button class=\"bg-[#CCE1D6] rounded-full p-[0.938rem]\"><img src=\"/public/assets/svg/cash out.svg\" class=\"w-5 aspect-square\"></button><p class=\"font-poppins font-normal text-xs text-center\">Cash out</p></a> <a class=\"flex flex-col gap-2 items-center\"><button class=\"bg-[#CCE1D6] rounded-full p-[0.938rem]\"><img src=\"/public/assets/svg/learn.svg\" class=\"w-5 aspect-square\"></button><p class=\"font-poppins font-normal text-xs text-center\">Learn</p></a></section><section class=\"mt-10 w-full flex justify-between items-center\"><p class=\"font-semibold text-[0.94rem] leading-[1.14rem]\">Watchlist</p><button><p class=\"font-medium text-[0.63rem] leading-[0.76rem] text-[#016934]\">see all</p></button></section><section id=\"coins-container\"><ul id=\"coins-list\" class=\"w-full flex gap-6\"></ul></section><section class=\"swiperTwo mt-auto\"><div class=\"px-4 swiper mySwiperTwo w-full\"><div class=\"swiper-wrapper\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		for range 4 {
-			templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 4)
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"swiper-slide\"><div class=\"bg-[#FEF7FF] rounded-lg flex items-center justify-center gap-3\"><img src=\"/public/assets/svg/cryptoNews.svg\" class=\"w-[6.875rem] aspect-[110/101] mx-[0.313rem] mr-[0.313rem] rounded-lg\"><div class=\"flex flex-col gap-2 my-[1.188rem]\"><div class=\"flex items-center gap-[0.313rem]\"><p class=\"font-[600] text-[0.688rem] leading-[0.838rem]\">Solana</p><img src=\"/public/assets/images/Recycle_small.png\" alt=\"\" class=\"w-[0.813rem] aspect-square\"></div><p class=\"font-[500] text-[0.625rem] leading-[0.875rem] text-wrap\">Solana’s network has surpassed the Binance Smart Chain (BNB) to become the second-largest by liquid TVL, second only to Ethereum. This surge in TVL reflects increased deposits, which reached 42.5 million SOL, the highest since 2022\u200b</p></div></div></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 5)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div></section></main>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -64,7 +64,7 @@ func WalletPage(user User) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 6)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></body><script>\n\t\tasync function fetchCoinData() {\n\t\t\tconst coins = ['bitcoin', 'bitcoin', 'bitcoin', 'bitcoin'];\n\t\t\tconst url = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${coins.join(',')}`;\n\t\t\t\n\t\t\ttry {\n\t\t\t\tconst response = await fetch(url);\n\t\t\t\tconst data = await response.json();\n\n\t\t\t\tconst coinsList = document.getElementById('coins-list');\n\n\t\t\t\tdata.forEach((coin, index) => {\n\t\t\t\t\tconst listItem = document.createElement('li');\n\t\t\t\t\tlistItem.classList.add('w-full', 'flex', 'justify-stretch', 'items-center', 'gap-[0.233rem]', 'text-[#393737]');\n\t\t\t\t\tlistItem.innerHTML = `\n\t\t\t\t\t\t<img src=\"${coin.image}\" alt=\"${coin.name}\" class=\"w-[2.788rem] aspect-square rounded-full\"/>\n\t\t\t\t\t\t<div class=\"flex flex-col justisfy-start item-center gap-[0.446rem]\">\n\t\t\t\t\t\t\t<p class=\"font-semibold leading-[0.838rem] text-[0.688rem] text-inherit\">${coin.name}</p>\n\t\t\t\t\t\t\t<p class=\"font-medium leading-[0.762rem] text-[0.625rem] text-inherit\">${coin.symbol.toUpperCase()}</p>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"relative w-20 h-7 flex-shrink-0 self-center\">\n\t\t\t\t\t\t\t<div id=\"chart-${index}\" class=\"w-full h-full absolute inset-0\"></div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"flex flex-col items-center ml-auto\">\n\t\t\t\t\t\t\t<p class=\"font-bold text-sm text-center text-inherit\">$${coin.current_price.toLocaleString()}</p>\n\t\t\t\t\t\t\t<p class=\"ml-auto font-semibold text-xs text-center {coin.price_change_percentage_24h >= 0 ? text-[#34A853] : text-[#EF0E0E]}\">\n\t\t\t\t\t\t\t\t${coin.price_change_percentage_24h.toFixed(2)}%\n\t\t\t\t\t\t\t</p>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t`;\n\t\t\t\t\tcoinsList.appendChild(listItem);\n\t\t\t\t\t// Create Sparkline Chart\n\t\t\t\t\tcreateSparkline(`chart-${index}`, coin);\n\t\t\t\t});\n\t\t\t} catch (error) {\n\t\t\t\tconsole.error('Error fetching coin data:', error);\n\t\t\t}\n\t\t}\n\n\t\t// Function to create the sparkline graph using ApexCharts\n\t\tfunction createSparkline(elementId, coin) {\n\t\t\tconst options = {\n\t\t\t\tchart: {\n\t\t\t\t\ttype: 'line',\n\t\t\t\t\tsparkline: {\n\t\t\t\t\t\tenabled: true\n\t\t\t\t\t}\n\t\t\t\t},\n\t\t\t\tseries: [{\n\t\t\t\t\tname: coin.name,\n\t\t\t\t\tdata: generateRandomData() \n\t\t\t\t}],\n\t\t\t\tstroke: {\n\t\t\t\t\tcurve: 'smooth',\n\t\t\t\t\twidth: 2\n\t\t\t\t},\n\t\t\t\tcolors: coin.price_change_percentage_24h >= 0 ? ['#16a34a'] : ['#dc2626'], // Green for uptrend, Red for downtrend\n\t\t\t};\n\n\t\t\tconst chart = new ApexCharts(document.querySelector(`#${elementId}`), options);\n\t\t\tchart.render();\n\t\t}\n\n\t\t// Dummy data generator for sparkline, replace this with actual price data over time\n\t\tfunction generateRandomData() {\n\t\t\tconst data = [];\n\t\t\tfor (let i = 0; i < 10; i++) {\n\t\t\t\tdata.push(Math.floor(Math.random() * 100));\n\t\t\t}\n\t\t\treturn data;\n\t\t}\n\n\t\tfetchCoinData();\n\n\t\tnew Swiper( '.mySwiperTwo', {\n            mousewheel: true,\n            keyboard: true,\n            autoplay: {\n                delay: 300000,\n                disableOnInteraction: true,\n            },\n        } );\n\t</script></html>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

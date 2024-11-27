@@ -29,7 +29,7 @@ func AirtimeBeneficiaryPage(user User) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 1)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<!doctype html><html lang=\"en\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -37,7 +37,7 @@ func AirtimeBeneficiaryPage(user User) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 2)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<body class=\"bg-[url(&#39;/public/assets/images/beltech_background.png&#39;)] bg-cover bg-center h-dvh overflow-hidden\"><div class=\"w-full h-full grid grid-rows-agentCollectPage font-montserrat text-[#2E2E2E]\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -45,17 +45,17 @@ func AirtimeBeneficiaryPage(user User) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 3)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<main class=\"overflow-y-auto pl-[1.5rem] pr-[1.56rem] pt-12\"><ul class=\"w-full flex flex-col justify-center items-center gap-6\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		for range 8 {
-			templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 4)
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<li class=\"w-full bg-[#FEF7FF] shadow-[0px_1px_2px_1px_#00000014] pl-2 pr-7 py-3 flex justify-between items-center rounded-lg\"><div class=\"flex gap-6 items-center justify-start\"><img src=\"/public/assets/images/mtn.png\" alt=\"\" class=\"w-[3.5rem] aspect-square rounded-full\"><div class=\"flex flex-col gap-2 justify-start items-start\"><p class=\"font-poppins font-medium text-xs leading-[1.125rem] text-[#2E2E2E]\">Tobias</p><p class=\"font-montserrat font-bold text-[0.625rem] leading-[0.762rem] text-[#016934]\">09034097398</p></div></div><img src=\"/public/assets/svg/greenEdit.svg\" alt=\"\" class=\"w-5 aspect-square\"></li><li class=\"w-full bg-[#FEF7FF] shadow-[0px_1px_2px_1px_#00000014] pl-2 pr-7 py-3 flex justify-between items-center rounded-lg\"><div class=\"flex gap-6 items-center justify-start\"><img src=\"/public/assets/images/airtel.png\" alt=\"\" class=\"w-[3.5rem] aspect-square rounded-full\"><div class=\"flex flex-col gap-2 justify-start items-start\"><p class=\"font-poppins font-medium text-xs leading-[1.125rem] text-[#2E2E2E]\">Tobias</p><p class=\"font-montserrat font-bold text-[0.625rem] leading-[0.762rem] text-[#016934]\">09034097398</p></div></div><img src=\"/public/assets/svg/greenEdit.svg\" alt=\"\" class=\"w-5 aspect-square\"></li><li class=\"w-full bg-[#FEF7FF] shadow-[0px_1px_2px_1px_#00000014] pl-2 pr-7 py-3 flex justify-between items-center rounded-lg\"><div class=\"flex gap-6 items-center justify-start\"><img src=\"/public/assets/images/glo.png\" alt=\"\" class=\"w-[3.5rem] aspect-square rounded-full\"><div class=\"flex flex-col gap-2 justify-start items-start\"><p class=\"font-poppins font-medium text-xs leading-[1.125rem] text-[#2E2E2E]\">Tobias</p><p class=\"font-montserrat font-bold text-[0.625rem] leading-[0.762rem] text-[#016934]\">09034097398</p></div></div><img src=\"/public/assets/svg/greenEdit.svg\" alt=\"\" class=\"w-5 aspect-square\"></li>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 5)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</ul></main>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -63,7 +63,7 @@ func AirtimeBeneficiaryPage(user User) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 6)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></body>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -71,7 +71,7 @@ func AirtimeBeneficiaryPage(user User) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 7)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</html>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
