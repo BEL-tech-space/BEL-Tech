@@ -1,6 +1,9 @@
 package frontend
 
-import "time"
+import (
+	"strings"
+	"time"
+)
 
 type User struct {
 	Email              string    `json:"email"`
@@ -16,4 +19,8 @@ type User struct {
 	TotalPlasticsWaste float32   `json:"total_plastics_waste"`
 	TotalPaperWaste    float32   `json:"total_paper_waste"`
 	LastUpdateEmail    time.Time `json:"last_update_email"`
+}
+
+func toTitle(s string) string {
+	return strings.ToUpper(s[:1]) + strings.ToLower(s[1:])
 }

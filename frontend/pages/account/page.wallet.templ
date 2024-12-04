@@ -1,14 +1,16 @@
 package frontend
 
+import "beltech/types"
+
 // import "fmt"
-templ WalletPage(user User) {
+templ WalletPage(user User, data []types.TokenData) {
 	<!DOCTYPE html>
 	<html lang="en">
 		@htmlHeadTag("Wallet")
 		<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
 			<div class="w-full h-full flex flex-col font-montserrat text-[#2E2E2E]">
 				@frequentHeaderOne(user)
-				<main class="grow overflow-y-auto.overflow-y-auto pl-6 pr-[1.56rem]">
+				<main class="grow overflow-y-auto.overflow-y-auto pl-6 pr-[1.56rem] flex flex-col">
 					<section class="pt-[1.88rem] flex gap-2 items-center">
 						<p class="font-semibold text-xs leading-[0.914rem]">My Balance </p>
 						<img src="/public/assets/svg/eye.svg" class="w-[0.938rem] aspect-square"/>
@@ -35,13 +37,11 @@ templ WalletPage(user User) {
 					<section class="mt-10 w-full flex justify-between items-center">
 						<p class="font-semibold text-[0.94rem] leading-[1.14rem]">Watchlist</p>
 						<button>
-							<p class="font-medium text-[0.63rem] leading-[0.76rem] text-[#016934]">see all</p>
+							<p class="font-medium text-[0.63rem] leading-[0.76rem] text-[#016934]">Past 7d</p>
 						</button>
 					</section>
-					<section id="coins-container">
-						<ul id="coins-list" class="w-full flex gap-6"></ul>
-					</section>
-					<section class="swiperTwo mt-auto">
+					@coinData(data)
+					<section class="swiperTwo mt-auto min-h-fit">
 						<div class="px-4 swiper mySwiperTwo w-full">
 							<div class="swiper-wrapper">
 								for range 4 {
@@ -75,79 +75,6 @@ templ WalletPage(user User) {
 			</div>
 		</body>
 		<script>
-		async function fetchCoinData() {
-			const coins = ['bitcoin', 'bitcoin', 'bitcoin', 'bitcoin'];
-			const url = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${coins.join(',')}`;
-			
-			try {
-				const response = await fetch(url);
-				const data = await response.json();
-
-				const coinsList = document.getElementById('coins-list');
-
-				data.forEach((coin, index) => {
-					const listItem = document.createElement('li');
-					listItem.classList.add('w-full', 'flex', 'justify-stretch', 'items-center', 'gap-[0.233rem]', 'text-[#393737]');
-					listItem.innerHTML = `
-						<img src="${coin.image}" alt="${coin.name}" class="w-[2.788rem] aspect-square rounded-full"/>
-						<div class="flex flex-col justisfy-start item-center gap-[0.446rem]">
-							<p class="font-semibold leading-[0.838rem] text-[0.688rem] text-inherit">${coin.name}</p>
-							<p class="font-medium leading-[0.762rem] text-[0.625rem] text-inherit">${coin.symbol.toUpperCase()}</p>
-						</div>
-						<div class="relative w-20 h-7 flex-shrink-0 self-center">
-							<div id="chart-${index}" class="w-full h-full absolute inset-0"></div>
-						</div>
-						<div class="flex flex-col items-center ml-auto">
-							<p class="font-bold text-sm text-center text-inherit">$${coin.current_price.toLocaleString()}</p>
-							<p class="ml-auto font-semibold text-xs text-center {coin.price_change_percentage_24h >= 0 ? text-[#34A853] : text-[#EF0E0E]}">
-								${coin.price_change_percentage_24h.toFixed(2)}%
-							</p>
-						</div>
-					`;
-					coinsList.appendChild(listItem);
-					// Create Sparkline Chart
-					createSparkline(`chart-${index}`, coin);
-				});
-			} catch (error) {
-				console.error('Error fetching coin data:', error);
-			}
-		}
-
-		// Function to create the sparkline graph using ApexCharts
-		function createSparkline(elementId, coin) {
-			const options = {
-				chart: {
-					type: 'line',
-					sparkline: {
-						enabled: true
-					}
-				},
-				series: [{
-					name: coin.name,
-					data: generateRandomData() 
-				}],
-				stroke: {
-					curve: 'smooth',
-					width: 2
-				},
-				colors: coin.price_change_percentage_24h >= 0 ? ['#16a34a'] : ['#dc2626'], // Green for uptrend, Red for downtrend
-			};
-
-			const chart = new ApexCharts(document.querySelector(`#${elementId}`), options);
-			chart.render();
-		}
-
-		// Dummy data generator for sparkline, replace this with actual price data over time
-		function generateRandomData() {
-			const data = [];
-			for (let i = 0; i < 10; i++) {
-				data.push(Math.floor(Math.random() * 100));
-			}
-			return data;
-		}
-
-		fetchCoinData();
-
 		new Swiper( '.mySwiperTwo', {
             mousewheel: true,
             keyboard: true,
@@ -158,4 +85,35 @@ templ WalletPage(user User) {
         } );
 	</script>
 	</html>
+}
+
+templ coinData(data []types.TokenData) {
+	<section class="h-full">
+		<ul class="w-full flex flex-col justify-around items-center h-full">
+			for _, v := range data {
+				<li class="w-full flex justify-between items-center gap-4 text-[#393737]">
+					<div class="flex gap-1">
+						<img src={ v.TokenLogo } alt="" class="w-[2.788rem] aspect-square rounded-full"/>
+						<div class="flex flex-col item-start gap-[0.446rem]">
+							<p class="font-semibold leading-[0.838rem] text-[0.688rem] text-inherit">{ toTitle(v.TokenName) }</p>
+							<p class="font-medium leading-[0.762rem] text-[0.625rem] text-inherit">{ v.TokenSymbol }</p>
+						</div>
+					</div>
+					<img src={ v.ChartUrl } alt="" class="w-[4.175rem] aspect-[66.8/26.05] max-w-[30%]" loading="lazy"/>
+					<div class="flex flex-col items-center">
+						<p class="font-bold text-sm text-center text-inherit">{ v.TokenPrice }</p>
+						if v.UpOrDown == "gecko-up" {
+							<p class="ml-auto font-semibold text-xs text-center text-[#34A853]">
+								{ v.PercentUpOrDown }
+							</p>
+						} else {
+							<p class="ml-auto font-semibold text-xs text-center text-[#EF0E0E]}">
+								{ v.PercentUpOrDown }
+							</p>
+						}
+					</div>
+				</li>
+			}
+		</ul>
+	</section>
 }

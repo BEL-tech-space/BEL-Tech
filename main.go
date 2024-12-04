@@ -30,6 +30,7 @@ func main() {
 	defer conn.Close()
 
 	app := backend.NewApp(&environmentalVariables, conn)
+	stopScrapping := app.ScrapeCryptoData()
 
 	server := http.Server{
 		Addr:    fmt.Sprintf(":%v", environmentalVariables.Port),
@@ -56,6 +57,8 @@ func main() {
 	if err := server.Shutdown(context.TODO()); err != nil {
 		log.Panic("Graceful server shutdown Failed: " + err.Error())
 	}
+
+	stopScrapping <- struct{}{}
 
 	log.Println("SERVER STOPPED GRACEFULLY")
 }
