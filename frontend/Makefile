@@ -5,7 +5,7 @@ generate:
 	@tailwindcss -i public/assets/styles/input.css  -o public/assets/styles/output.css
 	@templ generate && templ fmt . 
 
-pnpm:
+scripts:
 	@pnpm sw
 	@pnpm build
 

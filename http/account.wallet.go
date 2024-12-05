@@ -24,14 +24,24 @@ func (a *App) walletPageHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if err := accountPages.WalletPage(account(*user), []types.TokenData{liveCryptoData.bitcoin, liveCryptoData.ethereum, liveCryptoData.solana}).Render(context.TODO(), w); err != nil {
+	if err := accountPages.WalletPage(account(*user), []types.TokenData{liveCryptoData.bitcoin, liveCryptoData.ethereum, liveCryptoData.solana, liveCryptoData.usdCoin}).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}
 }
 
+func (a *App) coinDataHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	if err := accountPages.CoinData([]types.TokenData{liveCryptoData.bitcoin, liveCryptoData.ethereum, liveCryptoData.solana, liveCryptoData.usdCoin}).Render(context.TODO(), w); err != nil {
+		a.serverError(w, err)
+		return
+	}
+}
+
+
+
 type tokenData struct {
-	bitcoin, ethereum, solana types.TokenData
+	bitcoin, ethereum, solana, usdCoin types.TokenData
 	rwLock                    sync.RWMutex
 }
 
@@ -41,7 +51,6 @@ func (a *App) ScrapeCryptoData() chan struct{} {
 
 	ticker := time.NewTicker(10 * time.Second)
 	closing := make(chan struct{})
-
 	go foreverRunning(ticker, closing)
 
 	return closing
@@ -109,7 +118,7 @@ func scraping(doc *goquery.Document) {
 		exist  bool
 	)
 
-	for _, v := range [3]string{"bitcoin", "ethereum", "solana"} {
+	for _, v := range [4]string{"bitcoin", "ethereum", "solana", "usd-coin"} {
 
 		rtData.TokenName = v
 		identifier := fmt.Sprintf("a[href='/currencies/%s/']", v)
@@ -162,5 +171,14 @@ func (td *tokenData) writeResult(data types.TokenData) {
 		liveCryptoData.solana.ChartUrl = data.ChartUrl
 		liveCryptoData.solana.TokenSymbol = "SOL"
 		liveCryptoData.solana.TokenLogo = "/public/assets/images/solana.png"
+	
+	case "usd-coin":
+		liveCryptoData.usdCoin.TokenName = "Circle USDC"
+		liveCryptoData.usdCoin.TokenPrice = data.TokenPrice
+		liveCryptoData.usdCoin.UpOrDown = data.UpOrDown
+		liveCryptoData.usdCoin.PercentUpOrDown = data.PercentUpOrDown
+		liveCryptoData.usdCoin.ChartUrl = data.ChartUrl
+		liveCryptoData.usdCoin.TokenSymbol = "USDC"
+		liveCryptoData.usdCoin.TokenLogo = "/public/assets/images/usdc.png"
 	}
 }

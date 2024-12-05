@@ -852,10 +852,6 @@ video {
   margin-top: 4.5rem;
 }
 
-.mt-auto {
-  margin-top: auto;
-}
-
 .block {
   display: block;
 }
@@ -898,10 +894,6 @@ video {
 
 .aspect-\[390\/437\] {
   aspect-ratio: 390/437;
-}
-
-.aspect-\[66\.8\/26\.05\] {
-  aspect-ratio: 66.8/26.05;
 }
 
 .aspect-\[75\/70\] {
@@ -1061,10 +1053,6 @@ video {
   width: 3.5rem;
 }
 
-.w-\[4\.175rem\] {
-  width: 4.175rem;
-}
-
 .w-\[4\.688rem\] {
   width: 4.688rem;
 }
@@ -1109,10 +1097,6 @@ video {
 .min-w-fit {
   min-width: -moz-fit-content;
   min-width: fit-content;
-}
-
-.max-w-\[30\%\] {
-  max-width: 30%;
 }
 
 .max-w-md {
@@ -2323,6 +2307,26 @@ video {
   src: 
   local("Poppins"),
   url("/public/assets/fonts/poppins/Poppins-Regular.ttf");
+}
+
+.coloredRed {
+  background-color: red;
+  /* defines the background color of the image */
+  mask: url('https://s3.coinmarketcap.com/generated/sparklines/web/7d/2781/1.svg') no-repeat center / contain;
+  -webkit-mask: url(https://s3.coinmarketcap.com/generated/sparklines/web/7d/2781/1.svg) no-repeat center / contain;
+}
+
+.coloredGreen {
+  background-color: green;
+  /* defines the background color of the image */
+  mask: url('https://s3.coinmarketcap.com/generated/sparklines/web/7d/2781/1.svg') no-repeat center / contain;
+  -webkit-mask: url(https://s3.coinmarketcap.com/generated/sparklines/web/7d/2781/1.svg) no-repeat center / contain;
+}
+
+.colored {
+  width: 160px;
+  height: 48px;
+  margin-top: 4px;
 }
 
 .placeholder\:pl-2::-moz-placeholder {

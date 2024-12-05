@@ -48,15 +48,15 @@ func WalletPage(user User, data []types.TokenData) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<main class=\"grow overflow-y-auto.overflow-y-auto pl-6 pr-[1.56rem] flex flex-col\"><section class=\"pt-[1.88rem] flex gap-2 items-center\"><p class=\"font-semibold text-xs leading-[0.914rem]\">My Balance </p><img src=\"/public/assets/svg/eye.svg\" class=\"w-[0.938rem] aspect-square\"></section><p class=\"mt-2 mb-8 font-bold text-xl leading-[1.524rem] text-[#016934]\">250.06 BEL </p><section class=\"flex w-full justify-between items-start gap-2\"><a class=\"flex flex-col gap-2 items-center\"><button class=\"bg-[#CCE1D6] rounded-full p-[0.938rem]\"><img src=\"/public/assets/svg/+.svg\" class=\"w-5 aspect-square\"></button><p class=\"font-poppins font-normal text-xs text-center\">Send</p></a> <a class=\"flex flex-col gap-2 items-center\"><button class=\"bg-[#CCE1D6] rounded-full p-[0.938rem]\"><img src=\"/public/assets/svg/-.svg\" class=\"w-5 aspect-square\"></button><p class=\"font-poppins font-normal text-xs text-center\">Receive</p></a> <a class=\"flex flex-col gap-2 items-center\"><button class=\"bg-[#CCE1D6] rounded-full p-[0.938rem]\"><img src=\"/public/assets/svg/cash out.svg\" class=\"w-5 aspect-square\"></button><p class=\"font-poppins font-normal text-xs text-center\">Cash out</p></a> <a class=\"flex flex-col gap-2 items-center\"><button class=\"bg-[#CCE1D6] rounded-full p-[0.938rem]\"><img src=\"/public/assets/svg/learn.svg\" class=\"w-5 aspect-square\"></button><p class=\"font-poppins font-normal text-xs text-center\">Learn</p></a></section><section class=\"mt-10 w-full flex justify-between items-center\"><p class=\"font-semibold text-[0.94rem] leading-[1.14rem]\">Watchlist</p><button><p class=\"font-medium text-[0.63rem] leading-[0.76rem] text-[#016934]\">Past 7d</p></button></section>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<main class=\"grow overflow-y-auto pl-6 pr-[1.56rem] flex flex-col\"><section class=\"pt-[1.88rem] flex gap-2 items-center\"><p class=\"font-semibold text-xs leading-[0.914rem]\">My Balance </p><img src=\"/public/assets/svg/eye.svg\" class=\"w-[0.938rem] aspect-square\"></section><p class=\"mt-2 mb-8 font-bold text-xl leading-[1.524rem] text-[#016934]\">250.06 BEL </p><section class=\"flex w-full justify-between items-start gap-2\"><a class=\"flex flex-col gap-2 items-center\"><button class=\"bg-[#CCE1D6] rounded-full p-[0.938rem]\"><img src=\"/public/assets/svg/+.svg\" class=\"w-5 aspect-square\"></button><p class=\"font-poppins font-normal text-xs text-center\">Send</p></a> <a class=\"flex flex-col gap-2 items-center\"><button class=\"bg-[#CCE1D6] rounded-full p-[0.938rem]\"><img src=\"/public/assets/svg/-.svg\" class=\"w-5 aspect-square\"></button><p class=\"font-poppins font-normal text-xs text-center\">Receive</p></a> <a class=\"flex flex-col gap-2 items-center\"><button class=\"bg-[#CCE1D6] rounded-full p-[0.938rem]\"><img src=\"/public/assets/svg/cash out.svg\" class=\"w-5 aspect-square\"></button><p class=\"font-poppins font-normal text-xs text-center\">Cash out</p></a> <a class=\"flex flex-col gap-2 items-center\"><button class=\"bg-[#CCE1D6] rounded-full p-[0.938rem]\"><img src=\"/public/assets/svg/learn.svg\" class=\"w-5 aspect-square\"></button><p class=\"font-poppins font-normal text-xs text-center\">Learn</p></a></section><section class=\"mt-10 mb-4 w-full flex justify-between items-center\"><p class=\"font-semibold text-[0.94rem] leading-[1.14rem]\">Watchlist</p><button><p class=\"font-medium text-[0.63rem] leading-[0.76rem] text-[#016934]\">Past 7d</p></button></section><section><ul hx-get=\"/account/coinData\" hx-trigger=\"every 11s\" hx-swap=\"innerHTML\" class=\"w-full flex flex-col gap-3 justify-around items-center h-full\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = coinData(data).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = CoinData(data).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<section class=\"swiperTwo mt-auto min-h-fit\"><div class=\"px-4 swiper mySwiperTwo w-full\"><div class=\"swiper-wrapper\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</ul></section><section class=\"swiperTwo min-h-fit mt-6\"><div class=\"px-4 swiper mySwiperTwo w-full\"><div class=\"swiper-wrapper\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -82,7 +82,7 @@ func WalletPage(user User, data []types.TokenData) templ.Component {
 	})
 }
 
-func coinData(data []types.TokenData) templ.Component {
+func CoinData(data []types.TokenData) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -103,19 +103,15 @@ func coinData(data []types.TokenData) templ.Component {
 			templ_7745c5c3_Var2 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<section class=\"h-full\"><ul class=\"w-full flex flex-col justify-around items-center h-full\">")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
 		for _, v := range data {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<li class=\"w-full flex justify-between items-center gap-4 text-[#393737]\"><div class=\"flex gap-1\"><img src=\"")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<li class=\"w-full flex justify-between items-center gap-8 text-[#393737]\"><div class=\"flex gap-1\"><img src=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var3 string
 			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(v.TokenLogo)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wallet.templ`, Line: 96, Col: 28}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wallet.templ`, Line: 98, Col: 26}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
@@ -128,7 +124,7 @@ func coinData(data []types.TokenData) templ.Component {
 			var templ_7745c5c3_Var4 string
 			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(toTitle(v.TokenName))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wallet.templ`, Line: 98, Col: 102}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wallet.templ`, Line: 100, Col: 100}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 			if templ_7745c5c3_Err != nil {
@@ -141,35 +137,37 @@ func coinData(data []types.TokenData) templ.Component {
 			var templ_7745c5c3_Var5 string
 			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(v.TokenSymbol)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wallet.templ`, Line: 99, Col: 93}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wallet.templ`, Line: 101, Col: 91}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p></div></div><img src=\"")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p></div></div>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			if v.UpOrDown == "icon-Caret-up" {
+				templ_7745c5c3_Err = templ.Raw(chartUrlGreen(v.ChartUrl)).Render(ctx, templ_7745c5c3_Buffer)
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+			} else {
+				templ_7745c5c3_Err = templ.Raw(chartUrlRed(v.ChartUrl)).Render(ctx, templ_7745c5c3_Buffer)
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex flex-col items-center\"><p class=\"font-bold text-sm text-center text-inherit\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var6 string
-			templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(v.ChartUrl)
+			templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(v.TokenPrice)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wallet.templ`, Line: 102, Col: 26}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wallet.templ`, Line: 110, Col: 72}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" alt=\"\" class=\"w-[4.175rem] aspect-[66.8/26.05] max-w-[30%]\" loading=\"lazy\"><div class=\"flex flex-col items-center\"><p class=\"font-bold text-sm text-center text-inherit\">")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			var templ_7745c5c3_Var7 string
-			templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(v.TokenPrice)
-			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wallet.templ`, Line: 104, Col: 74}
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -177,17 +175,17 @@ func coinData(data []types.TokenData) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			if v.UpOrDown == "gecko-up" {
+			if v.UpOrDown == "icon-Caret-up" {
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<p class=\"ml-auto font-semibold text-xs text-center text-[#34A853]\">")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				var templ_7745c5c3_Var8 string
-				templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(v.PercentUpOrDown)
+				var templ_7745c5c3_Var7 string
+				templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(v.PercentUpOrDown)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wallet.templ`, Line: 107, Col: 27}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wallet.templ`, Line: 113, Col: 25}
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -196,16 +194,16 @@ func coinData(data []types.TokenData) templ.Component {
 					return templ_7745c5c3_Err
 				}
 			} else {
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<p class=\"ml-auto font-semibold text-xs text-center text-[#EF0E0E]}\">")
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<p class=\"ml-auto font-semibold text-xs text-center text-[#EF0E0E]\">")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				var templ_7745c5c3_Var9 string
-				templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(v.PercentUpOrDown)
+				var templ_7745c5c3_Var8 string
+				templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(v.PercentUpOrDown)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wallet.templ`, Line: 111, Col: 27}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wallet.templ`, Line: 117, Col: 25}
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -218,10 +216,6 @@ func coinData(data []types.TokenData) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</ul></section>")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
 		}
 		return templ_7745c5c3_Err
 	})

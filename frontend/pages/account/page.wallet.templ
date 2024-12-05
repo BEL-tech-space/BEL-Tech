@@ -10,7 +10,7 @@ templ WalletPage(user User, data []types.TokenData) {
 		<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
 			<div class="w-full h-full flex flex-col font-montserrat text-[#2E2E2E]">
 				@frequentHeaderOne(user)
-				<main class="grow overflow-y-auto.overflow-y-auto pl-6 pr-[1.56rem] flex flex-col">
+				<main class="grow overflow-y-auto pl-6 pr-[1.56rem] flex flex-col">
 					<section class="pt-[1.88rem] flex gap-2 items-center">
 						<p class="font-semibold text-xs leading-[0.914rem]">My Balance </p>
 						<img src="/public/assets/svg/eye.svg" class="w-[0.938rem] aspect-square"/>
@@ -34,14 +34,18 @@ templ WalletPage(user User, data []types.TokenData) {
 							<p class="font-poppins font-normal text-xs text-center">Learn</p>
 						</a>
 					</section>
-					<section class="mt-10 w-full flex justify-between items-center">
+					<section class="mt-10 mb-4 w-full flex justify-between items-center">
 						<p class="font-semibold text-[0.94rem] leading-[1.14rem]">Watchlist</p>
 						<button>
 							<p class="font-medium text-[0.63rem] leading-[0.76rem] text-[#016934]">Past 7d</p>
 						</button>
 					</section>
-					@coinData(data)
-					<section class="swiperTwo mt-auto min-h-fit">
+					<section>
+						<ul hx-get="/account/coinData" hx-trigger="every 11s" hx-swap="innerHTML" class="w-full flex flex-col gap-3 justify-around items-center h-full">
+							@CoinData(data)
+						</ul>
+					</section>
+					<section class="swiperTwo min-h-fit mt-6">
 						<div class="px-4 swiper mySwiperTwo w-full">
 							<div class="swiper-wrapper">
 								for range 4 {
@@ -87,33 +91,33 @@ templ WalletPage(user User, data []types.TokenData) {
 	</html>
 }
 
-templ coinData(data []types.TokenData) {
-	<section class="h-full">
-		<ul class="w-full flex flex-col justify-around items-center h-full">
-			for _, v := range data {
-				<li class="w-full flex justify-between items-center gap-4 text-[#393737]">
-					<div class="flex gap-1">
-						<img src={ v.TokenLogo } alt="" class="w-[2.788rem] aspect-square rounded-full"/>
-						<div class="flex flex-col item-start gap-[0.446rem]">
-							<p class="font-semibold leading-[0.838rem] text-[0.688rem] text-inherit">{ toTitle(v.TokenName) }</p>
-							<p class="font-medium leading-[0.762rem] text-[0.625rem] text-inherit">{ v.TokenSymbol }</p>
-						</div>
-					</div>
-					<img src={ v.ChartUrl } alt="" class="w-[4.175rem] aspect-[66.8/26.05] max-w-[30%]" loading="lazy"/>
-					<div class="flex flex-col items-center">
-						<p class="font-bold text-sm text-center text-inherit">{ v.TokenPrice }</p>
-						if v.UpOrDown == "gecko-up" {
-							<p class="ml-auto font-semibold text-xs text-center text-[#34A853]">
-								{ v.PercentUpOrDown }
-							</p>
-						} else {
-							<p class="ml-auto font-semibold text-xs text-center text-[#EF0E0E]}">
-								{ v.PercentUpOrDown }
-							</p>
-						}
-					</div>
-				</li>
+templ CoinData(data []types.TokenData) {
+	for _, v := range data {
+		<li class="w-full flex justify-between items-center gap-8 text-[#393737]">
+			<div class="flex gap-1">
+				<img src={ v.TokenLogo } alt="" class="w-[2.788rem] aspect-square rounded-full"/>
+				<div class="flex flex-col item-start gap-[0.446rem]">
+					<p class="font-semibold leading-[0.838rem] text-[0.688rem] text-inherit">{ toTitle(v.TokenName) }</p>
+					<p class="font-medium leading-[0.762rem] text-[0.625rem] text-inherit">{ v.TokenSymbol }</p>
+				</div>
+			</div>
+			if v.UpOrDown == "icon-Caret-up" {
+				@templ.Raw(chartUrlGreen(v.ChartUrl))
+			} else {
+				@templ.Raw(chartUrlRed(v.ChartUrl))
 			}
-		</ul>
-	</section>
+			<div class="flex flex-col items-center">
+				<p class="font-bold text-sm text-center text-inherit">{ v.TokenPrice }</p>
+				if v.UpOrDown == "icon-Caret-up" {
+					<p class="ml-auto font-semibold text-xs text-center text-[#34A853]">
+						{ v.PercentUpOrDown }
+					</p>
+				} else {
+					<p class="ml-auto font-semibold text-xs text-center text-[#EF0E0E]">
+						{ v.PercentUpOrDown }
+					</p>
+				}
+			</div>
+		</li>
+	}
 }
