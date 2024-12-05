@@ -8,8 +8,10 @@ package frontend
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
+import "beltech/types"
+
 // import "fmt"
-func WalletPage(user User) templ.Component {
+func WalletPage(user User, data []types.TokenData) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -46,7 +48,15 @@ func WalletPage(user User) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<main class=\"grow overflow-y-auto.overflow-y-auto pl-6 pr-[1.56rem]\"><section class=\"pt-[1.88rem] flex gap-2 items-center\"><p class=\"font-semibold text-xs leading-[0.914rem]\">My Balance </p><img src=\"/public/assets/svg/eye.svg\" class=\"w-[0.938rem] aspect-square\"></section><p class=\"mt-2 mb-8 font-bold text-xl leading-[1.524rem] text-[#016934]\">250.06 BEL </p><section class=\"flex w-full justify-between items-start gap-2\"><a class=\"flex flex-col gap-2 items-center\"><button class=\"bg-[#CCE1D6] rounded-full p-[0.938rem]\"><img src=\"/public/assets/svg/+.svg\" class=\"w-5 aspect-square\"></button><p class=\"font-poppins font-normal text-xs text-center\">Send</p></a> <a class=\"flex flex-col gap-2 items-center\"><button class=\"bg-[#CCE1D6] rounded-full p-[0.938rem]\"><img src=\"/public/assets/svg/-.svg\" class=\"w-5 aspect-square\"></button><p class=\"font-poppins font-normal text-xs text-center\">Receive</p></a> <a class=\"flex flex-col gap-2 items-center\"><button class=\"bg-[#CCE1D6] rounded-full p-[0.938rem]\"><img src=\"/public/assets/svg/cash out.svg\" class=\"w-5 aspect-square\"></button><p class=\"font-poppins font-normal text-xs text-center\">Cash out</p></a> <a class=\"flex flex-col gap-2 items-center\"><button class=\"bg-[#CCE1D6] rounded-full p-[0.938rem]\"><img src=\"/public/assets/svg/learn.svg\" class=\"w-5 aspect-square\"></button><p class=\"font-poppins font-normal text-xs text-center\">Learn</p></a></section><section class=\"mt-10 w-full flex justify-between items-center\"><p class=\"font-semibold text-[0.94rem] leading-[1.14rem]\">Watchlist</p><button><p class=\"font-medium text-[0.63rem] leading-[0.76rem] text-[#016934]\">see all</p></button></section><section id=\"coins-container\"><ul id=\"coins-list\" class=\"w-full flex gap-6\"></ul></section><section class=\"swiperTwo mt-auto\"><div class=\"px-4 swiper mySwiperTwo w-full\"><div class=\"swiper-wrapper\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<main class=\"grow overflow-y-auto pl-6 pr-[1.56rem] flex flex-col\"><section class=\"pt-[1.88rem] flex gap-2 items-center\"><p class=\"font-semibold text-xs leading-[0.914rem]\">My Balance </p><img src=\"/public/assets/svg/eye.svg\" class=\"w-[0.938rem] aspect-square\"></section><p class=\"mt-2 mb-8 font-bold text-xl leading-[1.524rem] text-[#016934]\">250.06 BEL </p><section class=\"flex w-full justify-between items-start gap-2\"><a class=\"flex flex-col gap-2 items-center\"><button class=\"bg-[#CCE1D6] rounded-full p-[0.938rem]\"><img src=\"/public/assets/svg/+.svg\" class=\"w-5 aspect-square\"></button><p class=\"font-poppins font-normal text-xs text-center\">Send</p></a> <a class=\"flex flex-col gap-2 items-center\"><button class=\"bg-[#CCE1D6] rounded-full p-[0.938rem]\"><img src=\"/public/assets/svg/-.svg\" class=\"w-5 aspect-square\"></button><p class=\"font-poppins font-normal text-xs text-center\">Receive</p></a> <a class=\"flex flex-col gap-2 items-center\"><button class=\"bg-[#CCE1D6] rounded-full p-[0.938rem]\"><img src=\"/public/assets/svg/cash out.svg\" class=\"w-5 aspect-square\"></button><p class=\"font-poppins font-normal text-xs text-center\">Cash out</p></a> <a class=\"flex flex-col gap-2 items-center\"><button class=\"bg-[#CCE1D6] rounded-full p-[0.938rem]\"><img src=\"/public/assets/svg/learn.svg\" class=\"w-5 aspect-square\"></button><p class=\"font-poppins font-normal text-xs text-center\">Learn</p></a></section><section class=\"mt-10 mb-4 w-full flex justify-between items-center\"><p class=\"font-semibold text-[0.94rem] leading-[1.14rem]\">Watchlist</p><button><p class=\"font-medium text-[0.63rem] leading-[0.76rem] text-[#016934]\">Past 7d</p></button></section><section><ul hx-get=\"/account/coinData\" hx-trigger=\"every 11s\" hx-swap=\"innerHTML\" class=\"w-full flex flex-col gap-3 justify-around items-center h-full\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = CoinData(data).Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</ul></section><section class=\"swiperTwo min-h-fit mt-6\"><div class=\"px-4 swiper mySwiperTwo w-full\"><div class=\"swiper-wrapper\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -64,9 +74,148 @@ func WalletPage(user User) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></body><script>\n\t\tasync function fetchCoinData() {\n\t\t\tconst coins = ['bitcoin', 'bitcoin', 'bitcoin', 'bitcoin'];\n\t\t\tconst url = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${coins.join(',')}`;\n\t\t\t\n\t\t\ttry {\n\t\t\t\tconst response = await fetch(url);\n\t\t\t\tconst data = await response.json();\n\n\t\t\t\tconst coinsList = document.getElementById('coins-list');\n\n\t\t\t\tdata.forEach((coin, index) => {\n\t\t\t\t\tconst listItem = document.createElement('li');\n\t\t\t\t\tlistItem.classList.add('w-full', 'flex', 'justify-stretch', 'items-center', 'gap-[0.233rem]', 'text-[#393737]');\n\t\t\t\t\tlistItem.innerHTML = `\n\t\t\t\t\t\t<img src=\"${coin.image}\" alt=\"${coin.name}\" class=\"w-[2.788rem] aspect-square rounded-full\"/>\n\t\t\t\t\t\t<div class=\"flex flex-col justisfy-start item-center gap-[0.446rem]\">\n\t\t\t\t\t\t\t<p class=\"font-semibold leading-[0.838rem] text-[0.688rem] text-inherit\">${coin.name}</p>\n\t\t\t\t\t\t\t<p class=\"font-medium leading-[0.762rem] text-[0.625rem] text-inherit\">${coin.symbol.toUpperCase()}</p>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"relative w-20 h-7 flex-shrink-0 self-center\">\n\t\t\t\t\t\t\t<div id=\"chart-${index}\" class=\"w-full h-full absolute inset-0\"></div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"flex flex-col items-center ml-auto\">\n\t\t\t\t\t\t\t<p class=\"font-bold text-sm text-center text-inherit\">$${coin.current_price.toLocaleString()}</p>\n\t\t\t\t\t\t\t<p class=\"ml-auto font-semibold text-xs text-center {coin.price_change_percentage_24h >= 0 ? text-[#34A853] : text-[#EF0E0E]}\">\n\t\t\t\t\t\t\t\t${coin.price_change_percentage_24h.toFixed(2)}%\n\t\t\t\t\t\t\t</p>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t`;\n\t\t\t\t\tcoinsList.appendChild(listItem);\n\t\t\t\t\t// Create Sparkline Chart\n\t\t\t\t\tcreateSparkline(`chart-${index}`, coin);\n\t\t\t\t});\n\t\t\t} catch (error) {\n\t\t\t\tconsole.error('Error fetching coin data:', error);\n\t\t\t}\n\t\t}\n\n\t\t// Function to create the sparkline graph using ApexCharts\n\t\tfunction createSparkline(elementId, coin) {\n\t\t\tconst options = {\n\t\t\t\tchart: {\n\t\t\t\t\ttype: 'line',\n\t\t\t\t\tsparkline: {\n\t\t\t\t\t\tenabled: true\n\t\t\t\t\t}\n\t\t\t\t},\n\t\t\t\tseries: [{\n\t\t\t\t\tname: coin.name,\n\t\t\t\t\tdata: generateRandomData() \n\t\t\t\t}],\n\t\t\t\tstroke: {\n\t\t\t\t\tcurve: 'smooth',\n\t\t\t\t\twidth: 2\n\t\t\t\t},\n\t\t\t\tcolors: coin.price_change_percentage_24h >= 0 ? ['#16a34a'] : ['#dc2626'], // Green for uptrend, Red for downtrend\n\t\t\t};\n\n\t\t\tconst chart = new ApexCharts(document.querySelector(`#${elementId}`), options);\n\t\t\tchart.render();\n\t\t}\n\n\t\t// Dummy data generator for sparkline, replace this with actual price data over time\n\t\tfunction generateRandomData() {\n\t\t\tconst data = [];\n\t\t\tfor (let i = 0; i < 10; i++) {\n\t\t\t\tdata.push(Math.floor(Math.random() * 100));\n\t\t\t}\n\t\t\treturn data;\n\t\t}\n\n\t\tfetchCoinData();\n\n\t\tnew Swiper( '.mySwiperTwo', {\n            mousewheel: true,\n            keyboard: true,\n            autoplay: {\n                delay: 300000,\n                disableOnInteraction: true,\n            },\n        } );\n\t</script></html>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></body><script>\n\t\tnew Swiper( '.mySwiperTwo', {\n            mousewheel: true,\n            keyboard: true,\n            autoplay: {\n                delay: 300000,\n                disableOnInteraction: true,\n            },\n        } );\n\t</script></html>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
+		}
+		return templ_7745c5c3_Err
+	})
+}
+
+func CoinData(data []types.TokenData) templ.Component {
+	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
+		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
+		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
+			return templ_7745c5c3_CtxErr
+		}
+		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
+		if !templ_7745c5c3_IsBuffer {
+			defer func() {
+				templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
+				if templ_7745c5c3_Err == nil {
+					templ_7745c5c3_Err = templ_7745c5c3_BufErr
+				}
+			}()
+		}
+		ctx = templ.InitializeContext(ctx)
+		templ_7745c5c3_Var2 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var2 == nil {
+			templ_7745c5c3_Var2 = templ.NopComponent
+		}
+		ctx = templ.ClearChildren(ctx)
+		for _, v := range data {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<li class=\"w-full flex justify-between items-center gap-8 text-[#393737]\"><div class=\"flex gap-1\"><img src=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var3 string
+			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(v.TokenLogo)
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wallet.templ`, Line: 98, Col: 26}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" alt=\"\" class=\"w-[2.788rem] aspect-square rounded-full\"><div class=\"flex flex-col item-start gap-[0.446rem]\"><p class=\"font-semibold leading-[0.838rem] text-[0.688rem] text-inherit\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var4 string
+			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(toTitle(v.TokenName))
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wallet.templ`, Line: 100, Col: 100}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p><p class=\"font-medium leading-[0.762rem] text-[0.625rem] text-inherit\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var5 string
+			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(v.TokenSymbol)
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wallet.templ`, Line: 101, Col: 91}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p></div></div>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			if v.UpOrDown == "icon-Caret-up" {
+				templ_7745c5c3_Err = templ.Raw(chartUrlGreen(v.ChartUrl)).Render(ctx, templ_7745c5c3_Buffer)
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+			} else {
+				templ_7745c5c3_Err = templ.Raw(chartUrlRed(v.ChartUrl)).Render(ctx, templ_7745c5c3_Buffer)
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex flex-col items-center\"><p class=\"font-bold text-sm text-center text-inherit\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var6 string
+			templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(v.TokenPrice)
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wallet.templ`, Line: 110, Col: 72}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			if v.UpOrDown == "icon-Caret-up" {
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<p class=\"ml-auto font-semibold text-xs text-center text-[#34A853]\">")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				var templ_7745c5c3_Var7 string
+				templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(v.PercentUpOrDown)
+				if templ_7745c5c3_Err != nil {
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wallet.templ`, Line: 113, Col: 25}
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p>")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+			} else {
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<p class=\"ml-auto font-semibold text-xs text-center text-[#EF0E0E]\">")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				var templ_7745c5c3_Var8 string
+				templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(v.PercentUpOrDown)
+				if templ_7745c5c3_Err != nil {
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wallet.templ`, Line: 117, Col: 25}
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p>")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></li>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
 		}
 		return templ_7745c5c3_Err
 	})

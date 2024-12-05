@@ -19,5 +19,21 @@
   src: 
   local("Poppins"),
   url("/public/assets/fonts/poppins/Poppins-Regular.ttf");
+}
 
+.coloredRed {
+  background-color: red; /* defines the background color of the image */
+  mask: url('https://s3.coinmarketcap.com/generated/sparklines/web/7d/2781/1.svg') no-repeat center / contain;
+  -webkit-mask: url(https://s3.coinmarketcap.com/generated/sparklines/web/7d/2781/1.svg) no-repeat center / contain;
+}
+.coloredGreen {
+  background-color: green; /* defines the background color of the image */
+  mask: url('https://s3.coinmarketcap.com/generated/sparklines/web/7d/2781/1.svg') no-repeat center / contain;
+  -webkit-mask: url(https://s3.coinmarketcap.com/generated/sparklines/web/7d/2781/1.svg) no-repeat center / contain;
+}
+
+.colored {
+  width: 160px;
+  height: 48px;
+  margin-top: 4px;
 }

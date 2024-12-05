@@ -24,6 +24,7 @@ func (a *App) accountRouter() http.Handler {
 		r.Get("/scan", a.scanQRPageHandler)
 		r.Get("/location", a.locationPageHandler)
 		r.Get("/wallet", a.walletPageHandler)
+		r.Get("/coinData", a.coinDataHandler)
 		r.Get("/spend", a.exchangePageHandler)
 		r.Get("/profile", a.accountProfilePage)
 		r.Post("/airtime", a.rechargeAirtime)

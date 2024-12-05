@@ -1,6 +1,10 @@
 package frontend
 
-import "time"
+import (
+	"fmt"
+	"strings"
+	"time"
+)
 
 type User struct {
 	Email              string    `json:"email"`
@@ -17,3 +21,33 @@ type User struct {
 	TotalPaperWaste    float32   `json:"total_paper_waste"`
 	LastUpdateEmail    time.Time `json:"last_update_email"`
 }
+
+func toTitle(s string) string {
+	return strings.ToUpper(s[:1]) + strings.ToLower(s[1:])
+}
+
+func chartUrlGreen(url string) string {
+	return fmt.Sprintf(`
+	<div
+		style="
+			background-color: #2FBE85;
+			width: 7.5rem;
+			height: 3rem;
+			mask: url('%s') no-repeat center / contain;
+			-webkit-mask: url('%s') no-repeat center / contain;"
+	></div>`, url, url)
+}
+
+
+func chartUrlRed(url string) string {
+	return fmt.Sprintf(`
+	<div
+		style="
+			background-color: #F6455D;
+			width: 7.5rem;
+			height: 3rem;
+			mask: url('%s') no-repeat center / contain;
+			-webkit-mask: url('%s') no-repeat center / contain;"
+	></div>`, url, url)
+}
+
