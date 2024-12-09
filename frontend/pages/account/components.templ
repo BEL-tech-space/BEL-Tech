@@ -7,6 +7,10 @@ templ htmlHeadTag(title string) {
 			name="viewport"
 			content="width=device-width, initial-scale=1.0, maximum-scale=5.0"
 		/>
+		<link
+			rel="stylesheet"
+			href="/public/assets/styles/swiper-bundle.min.css"
+		/>
 		<link rel="manifest" href="/public/manifest.json"/>
 		<meta name="theme-color" content="#fff"/>
 		<link
@@ -26,13 +30,10 @@ templ htmlHeadTag(title string) {
 		<link
 			rel="stylesheet"
 			href="/public/assets/styles/output.css"
-		/>
-		<link
-			rel="stylesheet"
-			href="/public/assets/styles/swiper-bundle.min.css"
-		/>
+		/> 
+		
+		<script  src="/public/assets/scripts/htmx.min.js"></script>
 		<script src="/public/assets/scripts/swiper-bundle.min.js"></script>
-		<script src="/public/assets/scripts/htmx.min.js"></script>
 		<script src="/public/assets/scripts/hyperscript.min.js"></script>
 		<script src="/public/assets/scripts/beltech.js"></script>
 		<script async src="/public/assets/scripts/html5-qrcode.min.js"></script>

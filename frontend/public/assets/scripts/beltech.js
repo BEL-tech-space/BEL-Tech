@@ -1,2 +1,2 @@
-"use strict";(()=>{self.addEventListener("fetch",e=>{console.log(`SW intercepted: ${e}`)});console.log("script was run.");})();
+"use strict";(()=>{})();
 //# sourceMappingURL=beltech.js.map

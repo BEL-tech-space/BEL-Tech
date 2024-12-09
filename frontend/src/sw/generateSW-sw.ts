@@ -1,8 +1,9 @@
-import {generateSW} from 'workbox-build';
+import {generateSW, injectManifest} from 'workbox-build';
 async function buildSW() {
   const {count, size, warnings}  = await generateSW({
     globDirectory: 'public',
     globPatterns: ['**/*.{js,css,ttf}'],
+    swDest: 'public/sw.js',
     maximumFileSizeToCacheInBytes: 2000000000,
     skipWaiting: true,
     disableDevLogs: false,
@@ -10,18 +11,29 @@ async function buildSW() {
     cleanupOutdatedCaches: true,
     clientsClaim: true,
     mode: "development",
-    runtimeCaching: [{
-      urlPattern: '/\.(?:png|jpg|jpeg|svg)$/',
+    runtimeCaching: [
+      {
+      urlPattern: /.*\.(?:png|jpg|jpeg|svg)$/,
       handler: 'CacheFirst',
       options: {
-        cacheName: 'image-cache',
+        cacheName: 'images-cache',
         expiration: {
-          maxEntries: 10,
+          maxEntries: 300,
           maxAgeSeconds: 60 * 60 * 24 * 30, // about a month
         },
       },
-    }],
-    swDest: 'public/sw.js',
+    }, {
+       urlPattern: /.*partial.*/,
+        handler: 'CacheFirst',
+        options: {
+          cacheName: 'partials-cache',
+          expiration: {
+            maxEntries: 100,
+            maxAgeSeconds: 60 * 60 * 24 * 30, // about a month
+          },
+        },
+    },
+  ],
   })
   
   console.log(`Generated a service worker, which will precache ${count} files, totaling ${size} bytes and \n warning: \n ${warnings}.`);  
@@ -29,5 +41,6 @@ async function buildSW() {
 
 
 buildSW();
+
 
 

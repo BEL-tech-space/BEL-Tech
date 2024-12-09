@@ -7,3 +7,6 @@ import "embed"
 
 //go:embed public
 var AssetsDir embed.FS
+
+//go:embed *.js
+var ServiceWorker embed.FS

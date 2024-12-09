@@ -38,11 +38,9 @@ func (a *App) coinDataHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-
-
 type tokenData struct {
 	bitcoin, ethereum, solana, usdCoin types.TokenData
-	rwLock                    sync.RWMutex
+	rwLock                             sync.RWMutex
 }
 
 var liveCryptoData tokenData
@@ -75,8 +73,6 @@ loop:
 				if err := getCoinData(); err != nil {
 					log.Println(err)
 				}
-				fmt.Println()
-				fmt.Println()
 			}(&wg)
 
 			wg.Wait()
@@ -135,7 +131,7 @@ func scraping(doc *goquery.Document) {
 			rtData.UpOrDown = "not-found"
 		}
 
-		fmt.Printf("%+v\n", rtData)
+		// fmt.Printf("%+v\n", rtData)
 		liveCryptoData.writeResult(rtData)
 	}
 }
@@ -171,7 +167,7 @@ func (td *tokenData) writeResult(data types.TokenData) {
 		liveCryptoData.solana.ChartUrl = data.ChartUrl
 		liveCryptoData.solana.TokenSymbol = "SOL"
 		liveCryptoData.solana.TokenLogo = "/public/assets/images/solana.png"
-	
+
 	case "usd-coin":
 		liveCryptoData.usdCoin.TokenName = "Circle USDC"
 		liveCryptoData.usdCoin.TokenPrice = data.TokenPrice

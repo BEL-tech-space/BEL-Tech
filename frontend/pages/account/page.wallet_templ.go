@@ -32,7 +32,7 @@ func WalletPage(user User, data []types.TokenData) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<!doctype html><html lang=\"en\">")
+		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 1)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -40,7 +40,7 @@ func WalletPage(user User, data []types.TokenData) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<body class=\"bg-[url(&#39;/public/assets/images/beltech_background.png&#39;)] bg-cover bg-center h-dvh overflow-hidden\"><div class=\"w-full h-full flex flex-col font-montserrat text-[#2E2E2E]\">")
+		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 2)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -48,7 +48,7 @@ func WalletPage(user User, data []types.TokenData) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<main class=\"grow overflow-y-auto pl-6 pr-[1.56rem] flex flex-col\"><section class=\"pt-[1.88rem] flex gap-2 items-center\"><p class=\"font-semibold text-xs leading-[0.914rem]\">My Balance </p><img src=\"/public/assets/svg/eye.svg\" class=\"w-[0.938rem] aspect-square\"></section><p class=\"mt-2 mb-8 font-bold text-xl leading-[1.524rem] text-[#016934]\">250.06 BEL </p><section class=\"flex w-full justify-between items-start gap-2\"><a class=\"flex flex-col gap-2 items-center\"><button class=\"bg-[#CCE1D6] rounded-full p-[0.938rem]\"><img src=\"/public/assets/svg/+.svg\" class=\"w-5 aspect-square\"></button><p class=\"font-poppins font-normal text-xs text-center\">Send</p></a> <a class=\"flex flex-col gap-2 items-center\"><button class=\"bg-[#CCE1D6] rounded-full p-[0.938rem]\"><img src=\"/public/assets/svg/-.svg\" class=\"w-5 aspect-square\"></button><p class=\"font-poppins font-normal text-xs text-center\">Receive</p></a> <a class=\"flex flex-col gap-2 items-center\"><button class=\"bg-[#CCE1D6] rounded-full p-[0.938rem]\"><img src=\"/public/assets/svg/cash out.svg\" class=\"w-5 aspect-square\"></button><p class=\"font-poppins font-normal text-xs text-center\">Cash out</p></a> <a class=\"flex flex-col gap-2 items-center\"><button class=\"bg-[#CCE1D6] rounded-full p-[0.938rem]\"><img src=\"/public/assets/svg/learn.svg\" class=\"w-5 aspect-square\"></button><p class=\"font-poppins font-normal text-xs text-center\">Learn</p></a></section><section class=\"mt-10 mb-4 w-full flex justify-between items-center\"><p class=\"font-semibold text-[0.94rem] leading-[1.14rem]\">Watchlist</p><button><p class=\"font-medium text-[0.63rem] leading-[0.76rem] text-[#016934]\">Past 7d</p></button></section><section><ul hx-get=\"/account/coinData\" hx-trigger=\"every 11s\" hx-swap=\"innerHTML\" class=\"w-full flex flex-col gap-3 justify-around items-center h-full\">")
+		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 3)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -56,17 +56,17 @@ func WalletPage(user User, data []types.TokenData) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</ul></section><section class=\"swiperTwo min-h-fit mt-6\"><div class=\"px-4 swiper mySwiperTwo w-full\"><div class=\"swiper-wrapper\">")
+		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 4)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		for range 4 {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"swiper-slide\"><div class=\"bg-[#FEF7FF] rounded-lg flex items-center justify-center gap-3\"><img src=\"/public/assets/svg/cryptoNews.svg\" class=\"w-[6.875rem] aspect-[110/101] mx-[0.313rem] mr-[0.313rem] rounded-lg\"><div class=\"flex flex-col gap-2 my-[1.188rem]\"><div class=\"flex items-center gap-[0.313rem]\"><p class=\"font-[600] text-[0.688rem] leading-[0.838rem]\">Solana</p><img src=\"/public/assets/images/Recycle_small.png\" alt=\"\" class=\"w-[0.813rem] aspect-square\"></div><p class=\"font-[500] text-[0.625rem] leading-[0.875rem] text-wrap\">Solana’s network has surpassed the Binance Smart Chain (BNB) to become the second-largest by liquid TVL, second only to Ethereum. This surge in TVL reflects increased deposits, which reached 42.5 million SOL, the highest since 2022\u200b</p></div></div></div>")
+			templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 5)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div></section></main>")
+		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 6)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -74,7 +74,7 @@ func WalletPage(user User, data []types.TokenData) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></body><script>\n\t\tnew Swiper( '.mySwiperTwo', {\n            mousewheel: true,\n            keyboard: true,\n            autoplay: {\n                delay: 300000,\n                disableOnInteraction: true,\n            },\n        } );\n\t</script></html>")
+		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 7)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -104,7 +104,7 @@ func CoinData(data []types.TokenData) templ.Component {
 		}
 		ctx = templ.ClearChildren(ctx)
 		for _, v := range data {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<li class=\"w-full flex justify-between items-center gap-8 text-[#393737]\"><div class=\"flex gap-1\"><img src=\"")
+			templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 8)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -117,7 +117,7 @@ func CoinData(data []types.TokenData) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" alt=\"\" class=\"w-[2.788rem] aspect-square rounded-full\"><div class=\"flex flex-col item-start gap-[0.446rem]\"><p class=\"font-semibold leading-[0.838rem] text-[0.688rem] text-inherit\">")
+			templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 9)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -130,7 +130,7 @@ func CoinData(data []types.TokenData) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p><p class=\"font-medium leading-[0.762rem] text-[0.625rem] text-inherit\">")
+			templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 10)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -143,7 +143,7 @@ func CoinData(data []types.TokenData) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p></div></div>")
+			templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 11)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -158,7 +158,7 @@ func CoinData(data []types.TokenData) templ.Component {
 					return templ_7745c5c3_Err
 				}
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex flex-col items-center\"><p class=\"font-bold text-sm text-center text-inherit\">")
+			templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 12)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -171,12 +171,12 @@ func CoinData(data []types.TokenData) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p>")
+			templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 13)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			if v.UpOrDown == "icon-Caret-up" {
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<p class=\"ml-auto font-semibold text-xs text-center text-[#34A853]\">")
+				templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 14)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -189,12 +189,12 @@ func CoinData(data []types.TokenData) templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p>")
+				templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 15)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 			} else {
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<p class=\"ml-auto font-semibold text-xs text-center text-[#EF0E0E]\">")
+				templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 16)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -207,12 +207,12 @@ func CoinData(data []types.TokenData) templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p>")
+				templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 17)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></li>")
+			templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 18)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
