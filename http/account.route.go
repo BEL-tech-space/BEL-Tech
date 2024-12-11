@@ -20,12 +20,26 @@ func (a *App) accountRouter() http.Handler {
 	r.Route("/", func(r chi.Router) {
 		r.Use(a.accountAuthorization)
 
-		r.Get("/dashboard", a.accountDashboard)
+
+		r.Get("/dashboard/header-Partial.html", a.CommonHeaderOne)
+		r.Get("/dashboard/footer-Partial.html", a.footerPartial)
+		r.Get("/dashboard", a.dashboardPageHandler)
+
 		r.Get("/scan", a.scanQRPageHandler)
+
+		r.Get("/location/header-Partial.html", a.locationHeaderTagPartial)
+		r.Get("/location/footer-Partial.html", a.footerPartial)
 		r.Get("/location", a.locationPageHandler)
+
+		r.Get("/wallet/header-Partial.html", a.CommonHeaderOne)
+		r.Get("/wallet/footer-Partial.html", a.footerPartial)
 		r.Get("/wallet", a.walletPageHandler)
 		r.Get("/coinData", a.coinDataHandler)
-		r.Get("/spend", a.exchangePageHandler)
+
+		r.Get("/spend/header-Partial.html", a.spendPageHeaderPartial)
+		r.Get("/spend/footer-Partial.html", a.footerPartial)
+		r.Get("/spend", a.spendPageHandler)
+
 		r.Get("/profile", a.accountProfilePage)
 		r.Post("/airtime", a.rechargeAirtime)
 		r.Get("/beneficiaries", a.airtimeBeneficiaries)

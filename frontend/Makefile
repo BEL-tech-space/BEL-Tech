@@ -2,7 +2,7 @@ format:
 	@templ fmt .
 
 scripts:
-	#@pnpm sw
+	@pnpm sw
 	@pnpm build
 
 templ:

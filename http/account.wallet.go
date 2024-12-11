@@ -16,7 +16,6 @@ import (
 func (a *App) walletPageHandler(w http.ResponseWriter, r *http.Request) {
 
 	userEmail := r.Context().Value(contextKeyEmail).(string)
-
 	user, err := a.userFromCache(context.Background(), userEmail)
 	if err != nil {
 		a.serverError(w, err)
@@ -24,7 +23,64 @@ func (a *App) walletPageHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if err := accountPages.WalletPage(account(*user), []types.TokenData{liveCryptoData.bitcoin, liveCryptoData.ethereum, liveCryptoData.solana, liveCryptoData.usdCoin}).Render(context.TODO(), w); err != nil {
+
+	if r.Header.Get("X-Content-Mode") == "partials" {
+		if err := accountPages.WalletMainPartial([]types.TokenData{
+			liveCryptoData.bitcoin, 
+			liveCryptoData.ethereum, 
+			liveCryptoData.solana, 
+			liveCryptoData.usdCoin}).Render(context.TODO(), w); err != nil {
+			a.serverError(w, err)
+			return
+		}
+		return
+	}
+
+	if err := accountPages.WalletPage(account(*user), []types.TokenData{
+		liveCryptoData.bitcoin, 
+		liveCryptoData.ethereum, 
+		liveCryptoData.solana, 
+		liveCryptoData.usdCoin}).Render(context.TODO(), w); err != nil {
+		a.serverError(w, err)
+		return
+	}
+}
+
+func (a *App) walletBalancePartial(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	if err := accountPages.WalletBalancePartail(accountPages.WalletMainOpenTagPartial()).Render(context.TODO(), w); err != nil {
+		a.serverError(w, err)
+		return
+	}
+}
+
+func (a *App) walletOptionsPartial(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	if err := accountPages.WalletOptionsPartial().Render(context.TODO(), w); err != nil {
+		a.serverError(w, err)
+		return
+	}
+}
+
+func (a *App) walletWatchlistPartial(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	if err := accountPages.WalletWatchlistPartial().Render(context.TODO(), w); err != nil {
+		a.serverError(w, err)
+		return
+	}
+}
+
+func (a *App) walletcoinDataPartial(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	if err := accountPages.WalletCoinDataPartial([]types.TokenData{liveCryptoData.bitcoin, liveCryptoData.ethereum, liveCryptoData.solana, liveCryptoData.usdCoin}).Render(context.TODO(), w); err != nil {
+		a.serverError(w, err)
+		return
+	}
+}
+
+func (a *App) walletswiperPartial(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	if err := accountPages.WalletSwiperPartial(accountPages.WalletMainCloseTagPartial()).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}
@@ -45,22 +101,23 @@ type tokenData struct {
 
 var liveCryptoData tokenData
 
-func (a *App) ScrapeCryptoData() chan struct{} {
+func (a *App) ScrapeCryptoData() context.CancelFunc {
 
+	getCoinData()
+
+	context, cancel := context.WithCancel(context.Background())
 	ticker := time.NewTicker(10 * time.Second)
-	closing := make(chan struct{})
-	go foreverRunning(ticker, closing)
+	go foreverRunning(ticker, context)
 
-	return closing
+	return cancel
 }
 
-func foreverRunning(ticker *time.Ticker, closing chan struct{}) {
+func foreverRunning(ticker *time.Ticker, closing context.Context) {
 loop:
 	for {
 		select {
-		case <-closing:
+		case <-closing.Done():
 			ticker.Stop()
-			close(closing)
 			break loop
 
 		case <-ticker.C:
@@ -97,7 +154,6 @@ func getCoinData() error {
 		return fmt.Errorf("HTTP Error %d: %s", res.StatusCode, res.Status)
 	}
 
-	// parse the HTML document
 	doc, err := goquery.NewDocumentFromReader(res.Body)
 	if err != nil {
 		return fmt.Errorf("failed to parse the HTML document: err %v", err)

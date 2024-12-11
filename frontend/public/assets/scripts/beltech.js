@@ -1,2 +1,4 @@
-"use strict";(()=>{})();
+"use strict";
+(() => {
+})();
 //# sourceMappingURL=beltech.js.map

@@ -3,7 +3,7 @@ package frontend
 templ TipsOnRecyclingPage(wasteType string) {
 	<!DOCTYPE html>
 	<html lang="en">
-		@htmlHeadTag("Waste History")
+		@headTag("Waste History")
 		<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh w-full overflow-hidden">
 			<div class="w-full h-full grid grid-rows-agentDashboardPage">
 				<main class="bg-[#FEF7FF] max-h-full overflow-y-auto p-2">
@@ -18,7 +18,7 @@ templ TipsOnRecyclingPage(wasteType string) {
 							@plastics()
 					}
 				</main>
-				@footerMenubar("dashboard")
+				@Footer("dashboard", templ.NopComponent)
 			</div>
 		</body>
 	</html>

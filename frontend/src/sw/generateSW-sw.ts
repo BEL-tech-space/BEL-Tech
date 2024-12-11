@@ -1,4 +1,4 @@
-import {generateSW, injectManifest} from 'workbox-build';
+import {generateSW} from 'workbox-build';
 async function buildSW() {
   const {count, size, warnings}  = await generateSW({
     globDirectory: 'public',

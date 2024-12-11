@@ -29,23 +29,60 @@ func ScanQRPage() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 1)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<!doctype html><html lang=\"en\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = htmlHeadTag("Scan").Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = headTag("Scan").Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 2)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<body class=\"bg-[url(&#39;/public/assets/images/beltech_background.png&#39;)] bg-cover bg-center h-dvh font-montserrat text-[#2E2E2E] overflow-hidden\"><div class=\"Page w-full h-full flex flex-col font-montserrat text-[#2E2E2E]\"><header class=\"pt-6 pl-6 pr-[1.56rem] flex w-full justify-between items-center\"><button><img src=\"/public/assets/svg/back_arrow.svg\" alt=\"\" class=\"w-6 aspect-square\"></button><p class=\"font-semibold text-[0.938rem] leading-[1.143rem]\">Scan</p><button class=\"bg-[#CCE1D699] p-2 rounded-md flex justify-center items-center\"><img src=\"/public/assets/svg/notification.svg\" class=\"w-[1.5rem] aspect-square\"></button></header><main class=\"grow overflow-y-auto pl-[1.438rem] pr-[1.375rem] mt-[4.5rem]\"><div class=\"h-full w-full flex flex-col justify-around items-center \"><section id=\"xyz\"><img src=\"/public/assets/images/qr_code.jpg\" alt=\"\" class=\"w-[22rem] aspect-square m-auto\"><article class=\"mt-[0.938rem] mr-10 ml-[2.5625rem] font-normal font-poppins text-sm text-center\"><p>Scan QR code on the smart bin to</p><p>dispose waste</p></article></section><div id=\"reader\"></div><section class=\"w-full flex justify-around items-center gap-[0.625rem]\"><button onclick=\"scan()\" class=\"scanButton w-full h-full bg-[#016934] rounded-md\"><p class=\"scanButtonText font-montserrat font-medium text-center text-[0.813rem] text-white\">Scan</p></button> <a href=\"/account/history\" class=\"bg-[#CCE1D699] p-[0.688rem] rounded-md inline justify-center items-center\"><img src=\"/public/assets/svg/octicon_history-16.svg\" class=\"w-[1.125rem]  aspect-square\"></a></section></div></main>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = footerMenubar("scan").Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = Footer("scan", templ.NopComponent).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 3)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = scriptForScanPage().Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</body></html>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		return templ_7745c5c3_Err
+	})
+}
+
+func scriptForScanPage() templ.Component {
+	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
+		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
+		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
+			return templ_7745c5c3_CtxErr
+		}
+		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
+		if !templ_7745c5c3_IsBuffer {
+			defer func() {
+				templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
+				if templ_7745c5c3_Err == nil {
+					templ_7745c5c3_Err = templ_7745c5c3_BufErr
+				}
+			}()
+		}
+		ctx = templ.InitializeContext(ctx)
+		templ_7745c5c3_Var2 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var2 == nil {
+			templ_7745c5c3_Var2 = templ.NopComponent
+		}
+		ctx = templ.ClearChildren(ctx)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<script defer>\n            const html5QrCode = new Html5Qrcode( \"reader\" );\n            let isScanning = false;\n\n            function scan () {\n                const readerContainer = document.getElementById( \"reader\" );\n                const xyz = document.getElementById( 'xyz' );\n                const scanButton = document.getElementsByClassName( 'scanButton' )[ 0 ];\n                const scanButtonText = document.getElementsByClassName( 'scanButtonText' )[ 0 ];\n                const width = xyz.offsetWidth;\n                const height = xyz.offsetHeight;\n\n                if ( isScanning )\n                {\n                    stopScanning();\n                    return;\n                }\n\n                readerContainer.style.width = `${( 2 / 3 ) * width}px`;\n                readerContainer.style.height = `${( 2 / 3 ) * height}px`;\n                const config = { fps: 10, qrbox: { width: width, height: height } };\n\n                html5QrCode.start( { facingMode: \"environment\" }, config, qrCodeSuccessCallback, qrCodeErrorCallback )\n                    .then( () => {\n                        isScanning = true;\n                        xyz.style.display = 'none';\n                        scanButton.style.backgroundColor = '#FF0000';\n                        scanButtonText.innerText = 'Cancel Scanning';\n                    } )\n                    .catch( ( err ) => {\n                        isScanning = false;\n                        console.error( err );\n                    } );\n\n            }\n\n            function qrCodeSuccessCallback ( decodedText, decodedResult ) {\n                console.log( `Scan result: ${decodedText}`, decodedResult );\n                stopScanning();\n            }\n\n\t\t\tfunction qrCodeErrorCallback ( error ) {\n                console.error( \"from qrCodeErrorCallback \", error );\n            }\n\n            function stopScanning () {\n                html5QrCode.stop().then( ( ignore ) => {\n                    restoreScreen();\n                    isScanning = false;\n                } )\n                    .catch( ( err ) => {\n                        restoreScreen();\n                        console.error( \"error clearing reader\", err );\n                    } );\n            }\n\n            function restoreScreen () {\n                const xyz = document.getElementById( \"xyz\" );\n                const scanButtonText = document.getElementsByClassName( \"scanButtonText\" )[ 0 ];\n                const scanButton = document.getElementsByClassName( 'scanButton' )[ 0 ];\n\n                xyz.style.display = 'block';\n                scanButton.style.backgroundColor = '';\n                scanButtonText.innerText = 'Scan';\n            }\n        </script>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

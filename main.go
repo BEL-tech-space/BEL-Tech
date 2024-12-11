@@ -58,7 +58,7 @@ func main() {
 		log.Panic("Graceful server shutdown Failed: " + err.Error())
 	}
 
-	stopScrapping <- struct{}{}
+	stopScrapping()
 
 	log.Println("SERVER STOPPED GRACEFULLY")
 }

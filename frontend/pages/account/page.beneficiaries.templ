@@ -3,10 +3,10 @@ package frontend
 templ AirtimeBeneficiaryPage(user User) {
 	<!DOCTYPE html>
 	<html lang="en">
-		@htmlHeadTag("Airtime Beneficiaries")
+		@headTag("Airtime Beneficiaries")
 		<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
 			<div class="w-full h-full grid grid-rows-agentCollectPage font-montserrat text-[#2E2E2E]">
-				@frequentHeaderTwo("Beneficiaries", user.AvatarUrl, "/public/assets/svg/+.svg", "on click call #addNewBeneficiairyDialog.showModal() then halt")
+				@commonHeaderTwo("Beneficiaries", user.AvatarUrl, "/public/assets/svg/+.svg", "on click call #addNewBeneficiairyDialog.showModal() then halt", templ.NopComponent)
 				<main class="overflow-y-auto pl-[1.5rem] pr-[1.56rem] pt-12">
 					<ul class="w-full flex flex-col justify-center items-center gap-6">
 						for range 8 {
@@ -43,7 +43,7 @@ templ AirtimeBeneficiaryPage(user User) {
 						}
 					</ul>
 				</main>
-				@footerMenubar("spend")
+				@Footer("spend", templ.NopComponent)
 			</div>
 		</body>
 		@addNewBeneficiairyDialog()

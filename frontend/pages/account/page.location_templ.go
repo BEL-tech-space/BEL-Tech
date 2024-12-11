@@ -29,23 +29,130 @@ func LocationPage() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 1)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<!doctype html><html lang=\"en\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = htmlHeadTag("Location").Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = headTag("Location").Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 2)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<body class=\"bg-[url(&#39;/public/assets/images/beltech_background.png&#39;)] bg-cover bg-center h-dvh overflow-hidden\"><div class=\"flex flex-col h-full gap-2 font-montserrat text-[#2E2E2E]\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = footerMenubar("location").Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = LocationHeaderTagPartial(templ.NopComponent).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 3)
+		templ_7745c5c3_Err = LocationMainPartial().Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = Footer("location", templ.NopComponent).Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></body>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = ScriptForLocationPage().Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</html>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		return templ_7745c5c3_Err
+	})
+}
+
+func LocationHeaderTagPartial(beforeHeaderTagPartial templ.Component) templ.Component {
+	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
+		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
+		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
+			return templ_7745c5c3_CtxErr
+		}
+		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
+		if !templ_7745c5c3_IsBuffer {
+			defer func() {
+				templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
+				if templ_7745c5c3_Err == nil {
+					templ_7745c5c3_Err = templ_7745c5c3_BufErr
+				}
+			}()
+		}
+		ctx = templ.InitializeContext(ctx)
+		templ_7745c5c3_Var2 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var2 == nil {
+			templ_7745c5c3_Var2 = templ.NopComponent
+		}
+		ctx = templ.ClearChildren(ctx)
+		templ_7745c5c3_Err = beforeHeaderTagPartial.Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<header class=\"mt-6 mx-6\"><div class=\"flex flex-col justify-between items-start gap-6 px-3\"><p class=\"font-semibold text-left text-[0.938rem] leading-[1.143rem]\">Find the closest smart bin to you! 😄</p><div class=\"bg-[#CCE1D699] rounded-xl w-full flex justify-between items-center gap-[0.234] px-2\"><input type=\"text\" placeholder=\"Search location\" class=\"bg-transparent outline-none w-full\"><div class=\"m-[0.646rem]\"><img src=\"/public/assets/svg/search.svg\" class=\"w-[1.056rem] aspect-square\"></div></div></div></header>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		return templ_7745c5c3_Err
+	})
+}
+
+func LocationMainPartial() templ.Component {
+	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
+		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
+		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
+			return templ_7745c5c3_CtxErr
+		}
+		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
+		if !templ_7745c5c3_IsBuffer {
+			defer func() {
+				templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
+				if templ_7745c5c3_Err == nil {
+					templ_7745c5c3_Err = templ_7745c5c3_BufErr
+				}
+			}()
+		}
+		ctx = templ.InitializeContext(ctx)
+		templ_7745c5c3_Var3 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var3 == nil {
+			templ_7745c5c3_Var3 = templ.NopComponent
+		}
+		ctx = templ.ClearChildren(ctx)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<main class=\"grow mt-[1.75rem] relative overflow-y-scroll w-full h-full\"><div id=\"map\" class=\"w-full h-full\"></div><div class=\"absolute flex flex-col justify-center items-center gap-8 bottom-2/4 left-6\"><button title=\"bin\" class=\"bg-[#016934] rounded-md p-2 shadow-[0px_1px_2px_0px_#00000026]\"><img src=\"/public/assets/svg/binAgent.svg\" alt=\"\" class=\"w-5 aspect-square\"></button> <button title=\"collector\" class=\"bg-white rounded-md p-2 shadow-[0px_1px_2px_0px_#00000026]\"><img src=\"/public/assets/svg/collectorAgent.svg\" alt=\"\" class=\"w-5 aspect-square\"></button></div></main>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		return templ_7745c5c3_Err
+	})
+}
+
+func ScriptForLocationPage() templ.Component {
+	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
+		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
+		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
+			return templ_7745c5c3_CtxErr
+		}
+		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
+		if !templ_7745c5c3_IsBuffer {
+			defer func() {
+				templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
+				if templ_7745c5c3_Err == nil {
+					templ_7745c5c3_Err = templ_7745c5c3_BufErr
+				}
+			}()
+		}
+		ctx = templ.InitializeContext(ctx)
+		templ_7745c5c3_Var4 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var4 == nil {
+			templ_7745c5c3_Var4 = templ.NopComponent
+		}
+		ctx = templ.ClearChildren(ctx)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<script defer>\n            ( g => { var h, a, k, p = \"The Google Maps JavaScript API\", c = \"google\", l = \"importLibrary\", q = \"__ib__\", m = document, b = window; b = b[ c ] || ( b[ c ] = {} ); var d = b.maps || ( b.maps = {} ), r = new Set, e = new URLSearchParams, u = () => h || ( h = new Promise( async ( f, n ) => { await ( a = m.createElement( \"script\" ) ); e.set( \"libraries\", [ ...r ] + \"\" ); for ( k in g ) e.set( k.replace( /[A-Z]/g, t => \"_\" + t[ 0 ].toLowerCase() ), g[ k ] ); e.set( \"callback\", c + \".maps.\" + q ); a.src = `https://maps.${c}apis.com/maps/api/js?` + e; d[ q ] = f; a.onerror = () => h = n( Error( p + \" could not load.\" ) ); a.nonce = m.querySelector( \"script[nonce]\" )?.nonce || \"\"; m.head.append( a ); } ) ); d[ l ] ? console.warn( p + \" only loads once. Ignoring:\", g ) : d[ l ] = ( f, ...n ) => r.add( f ) && u().then( () => d[ l ]( f, ...n ) ); } )( {\n                key: \"AIzaSyAqjo9EnrHgTK2-TeBIrUCq1GywYk7wlvw\",\n                v: \"weekly\",\n            } );\n        </script><script defer>\n           let map;\n            var options = {\n                zoom: 14,\n                center: { lat: 7.405385919885895, lng: 3.889942027649539 },\n                mapId: \"DEMO_MAP_ID\"\n            };\n\n            async function initMap () {\n                const position = { lat: -25.344, lng: 131.031 };\n\n                //@ts-ignore\n                const { Map } = await google.maps.importLibrary( \"maps\" );\n                const { AdvancedMarkerElement } = await google.maps.importLibrary( \"marker\" );\n\n                map = new Map( document.getElementById( \"map\" ), options );\n\n                const marker1 = new AdvancedMarkerElement( {\n                    map: map,\n                    position: options.center,\n                    title: \"Apata\",\n                } );\n            }\n\n            initMap();\n        </script>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

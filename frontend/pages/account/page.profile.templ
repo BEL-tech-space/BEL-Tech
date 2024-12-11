@@ -3,10 +3,10 @@ package frontend
 templ AccountProfile(user User) {
 	<!DOCTYPE html>
 	<html lang="en">
-		@htmlHeadTag("Account Profile")
+		@headTag("Account Profile")
 		<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
 			<div class="Page w-full h-full flex flex-col font-montserrat text-[#2E2E2E]">
-				@frequentHeaderOne(user)
+				@CommonHeaderOne(user, templ.NopComponent)
 				<main class="grow overflow-y-auto w-full pl-[1.5rem] pr-[1.56rem] pt-[1.875rem]">
 					@letRecycleAndProfile("My Profile")
 					<article class="h-full py-auto">
@@ -48,7 +48,7 @@ templ AccountProfile(user User) {
 						</form>
 					</article>
 				</main>
-				@footerMenubar("dashboard")
+				@Footer("dashboard", templ.NopComponent)
 			</div>
 		</body>
 		@createNewPinDialog()
