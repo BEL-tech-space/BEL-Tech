@@ -7,7 +7,7 @@
     "background_color": "#fff",
     "display": "standalone",
     "orientation": "portrait",
-    "start_url": "http://localhost:8090/account/dashboard",
+    "start_url": "/account/dashboard",
     "scope": "/",
     "id": "/",
     "prefer_related_applications": false,

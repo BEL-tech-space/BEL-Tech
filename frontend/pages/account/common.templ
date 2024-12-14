@@ -70,7 +70,7 @@ templ headTag(pageTitle string) {
 }
 
 templ Footer(active string, afterFooterTagPartial templ.Component) {
-	<footer class="bg-white flex w-full justify-around mt-[1.125rem] gap-[2.375rem]" hx-boost="false">
+	<footer class="bg-white flex w-full justify-around px-4 pt-2 pb-3 gap-[2.375rem]" hx-boost="false">
 		if active == "dashboard" {
 			<a
 				href="/account/dashboard"
