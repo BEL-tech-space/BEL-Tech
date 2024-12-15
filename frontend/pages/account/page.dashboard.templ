@@ -206,6 +206,11 @@ templ DashboardMainPartial() {
 }
 
 templ scriptForDashboardPage() {
+	<link
+		rel="stylesheet"
+		href="/public/assets/styles/swiper-bundle.min.css"
+	/>
+	<script src="/public/assets/scripts/swiper-bundle.min.js"></script>
 	<script>
         const swiperOne = new Swiper( '.mySwiperOne', {
             direction: "horizontal",
