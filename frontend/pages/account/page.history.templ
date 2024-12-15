@@ -3,7 +3,7 @@ package frontend
 templ AllWasteHistoryPage() {
 	<!DOCTYPE html>
 	<html lang="en">
-		@htmlHeadTag("Detailed Waste History")
+		@headTag("Detailed Waste History")
 		<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
 			<div class="w-full h-full flex flex-col px-6 text-[#2E2E2E] font-montserrat">
 				<header class="flex pt-4 justify-between items-center">
@@ -54,7 +54,7 @@ templ AllWasteHistoryPage() {
 						</section>
 					}
 				</main>
-				@footerMenubar("scan")
+				@Footer("scan", templ.NopComponent)
 			</div>
 		</body>
 		<dialog id="dialog" class="backdrop:backdrop-blur-sm pt-8 pb-16 px-8 rounded-3xl border-solid border-[0.0625rem] border-white text-[#2E2E2E] outline-none">

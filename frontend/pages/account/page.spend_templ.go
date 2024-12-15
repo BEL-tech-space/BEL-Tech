@@ -8,7 +8,7 @@ package frontend
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-func ExchangePage(avatarURL string) templ.Component {
+func SpendPage(avatarURL string) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -33,7 +33,7 @@ func ExchangePage(avatarURL string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = htmlHeadTag("Spend BEL Token").Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = headTag("Spend BEL Token").Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -41,20 +41,98 @@ func ExchangePage(avatarURL string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = frequentHeaderTwo("Spend BEL Token", avatarURL, "/public/assets/svg/notification.svg", "").Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = SpendPageHeader(avatarURL, templ.NopComponent).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
+		templ_7745c5c3_Err = SpendMainPartial(avatarURL).Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = Footer("spend", templ.NopComponent).Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></body>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = scriptForSpendPage().Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</html>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		return templ_7745c5c3_Err
+	})
+}
+
+func SpendPageHeader(avatarURL string, beforeHeaderTagPartial templ.Component) templ.Component {
+	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
+		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
+		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
+			return templ_7745c5c3_CtxErr
+		}
+		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
+		if !templ_7745c5c3_IsBuffer {
+			defer func() {
+				templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
+				if templ_7745c5c3_Err == nil {
+					templ_7745c5c3_Err = templ_7745c5c3_BufErr
+				}
+			}()
+		}
+		ctx = templ.InitializeContext(ctx)
+		templ_7745c5c3_Var2 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var2 == nil {
+			templ_7745c5c3_Var2 = templ.NopComponent
+		}
+		ctx = templ.ClearChildren(ctx)
+		templ_7745c5c3_Err = BeforeHeaderTagPartial("Spend BEL Token").Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = commonHeaderTwo("Spend BEL Token", avatarURL, "/public/assets/svg/notification.svg", "", templ.NopComponent).Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		return templ_7745c5c3_Err
+	})
+}
+
+func SpendMainPartial(avatarURL string) templ.Component {
+	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
+		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
+		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
+			return templ_7745c5c3_CtxErr
+		}
+		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
+		if !templ_7745c5c3_IsBuffer {
+			defer func() {
+				templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
+				if templ_7745c5c3_Err == nil {
+					templ_7745c5c3_Err = templ_7745c5c3_BufErr
+				}
+			}()
+		}
+		ctx = templ.InitializeContext(ctx)
+		templ_7745c5c3_Var3 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var3 == nil {
+			templ_7745c5c3_Var3 = templ.NopComponent
+		}
+		ctx = templ.ClearChildren(ctx)
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<main class=\"grow overflow-y-auto pl-[1.5rem] pr-[1.56rem]\"><p class=\"text-xs font-semibold text-left mt-[2.188rem] mb-6\">Change </p><section class=\"w-full flex justify-end items-center gap-1 mb-2\"><a href=\"/account/profile\"><img src=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var2 string
-		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(avatarURL)
+		var templ_7745c5c3_Var4 string
+		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(avatarURL)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.spend.templ`, Line: 14, Col: 27}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.spend.templ`, Line: 28, Col: 24}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -62,11 +140,32 @@ func ExchangePage(avatarURL string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = footerMenubar("spend").Render(ctx, templ_7745c5c3_Buffer)
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
+		return templ_7745c5c3_Err
+	})
+}
+
+func scriptForSpendPage() templ.Component {
+	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
+		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
+		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
+			return templ_7745c5c3_CtxErr
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></body><style>\n\t\t\t.selected {\n\t\t\t\tbackground-color: #b1ddc8;\n\t\t\t\tborder-radius: 6px;\n\t\t\t}\n\t\t</style><script>\n\t\t\tconst airtimeFrom = document.getElementById('airtimeForm');\n\t\t\tconst airttimeFormSubmitBtn =  document.getElementById(\"submitBtn\")\n\n\t\t\tairtimeFrom.addEventListener('input', () => {\n\t\t\t\tif (!airtimeFrom.checkValidity()) {\n\t\t\t\t\tairttimeFormSubmitBtn.disabled = true\n\t\t\t\t\tairttimeFormSubmitBtn.classList.remove('bg-[#016934]')\n\t\t\t\t\tairttimeFormSubmitBtn.classList.add('opacity-45', 'bg-green-400')\n\t\t\t\t\treturn\n\t\t\t\t}\n\t\t\t\tairttimeFormSubmitBtn.disabled = false\n\t\t\t\tairttimeFormSubmitBtn.classList.add('bg-[#016934]')\n\t\t\t\tairttimeFormSubmitBtn.classList.remove('opacity-45', 'bg-green-400')\n\t\t\t});\n\n\t\t\tconst radioInputs = document.querySelectorAll('input[type=\"radio\"][name=\"network\"]');\n\t\t\tradioInputs.forEach((radio) => {\n\t\t\t\tradio.addEventListener('change', () => {\t\n\t\t\t\t\tconst labels = document.querySelectorAll('label');\n\t\t\t\t\tlabels.forEach((label) => {\n\t\t\t\t\t\tlabel.classList.remove('selected');\n\t\t\t\t\t});\n\n\t\t\t\t\tconst checkedRadio = document.querySelector('input[type=\"radio\"][name=\"network\"]:checked');\n\t\t\t\t\tif (checkedRadio) {\n\t\t\t\t\t\tconst label = document.querySelector(`label[for=\"${checkedRadio.id}\"]`);\n\t\t\t\t\t\tlabel.classList.add('selected');\n\t\t\t\t\t\tconsole.log(checkedRadio.value);\n\t\t\t\t\t}\n\t\t\t\t});\n\t\t\t});\n\t\t</script></html>")
+		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
+		if !templ_7745c5c3_IsBuffer {
+			defer func() {
+				templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
+				if templ_7745c5c3_Err == nil {
+					templ_7745c5c3_Err = templ_7745c5c3_BufErr
+				}
+			}()
+		}
+		ctx = templ.InitializeContext(ctx)
+		templ_7745c5c3_Var5 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var5 == nil {
+			templ_7745c5c3_Var5 = templ.NopComponent
+		}
+		ctx = templ.ClearChildren(ctx)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<style>\n\t\t.selected {\n\t\t\tbackground-color: #b1ddc8;\n\t\t\tborder-radius: 6px;\n\t\t}\n\t</style><script defer>\n\t\t\tconst airtimeFrom = document.getElementById('airtimeForm');\n\t\t\tconst airttimeFormSubmitBtn =  document.getElementById(\"submitBtn\")\n\n\t\t\tairtimeFrom.addEventListener('input', () => {\n\t\t\t\tif (!airtimeFrom.checkValidity()) {\n\t\t\t\t\tairttimeFormSubmitBtn.disabled = true\n\t\t\t\t\tairttimeFormSubmitBtn.classList.remove('bg-[#016934]')\n\t\t\t\t\tairttimeFormSubmitBtn.classList.add('opacity-45', 'bg-green-400')\n\t\t\t\t\treturn\n\t\t\t\t}\n\t\t\t\tairttimeFormSubmitBtn.disabled = false\n\t\t\t\tairttimeFormSubmitBtn.classList.add('bg-[#016934]')\n\t\t\t\tairttimeFormSubmitBtn.classList.remove('opacity-45', 'bg-green-400')\n\t\t\t});\n\n\t\t\tconst radioInputs = document.querySelectorAll('input[type=\"radio\"][name=\"network\"]');\n\t\t\tradioInputs.forEach((radio) => {\n\t\t\t\tradio.addEventListener('change', () => {\t\n\t\t\t\t\tconst labels = document.querySelectorAll('label');\n\t\t\t\t\tlabels.forEach((label) => {\n\t\t\t\t\t\tlabel.classList.remove('selected');\n\t\t\t\t\t});\n\n\t\t\t\t\tconst checkedRadio = document.querySelector('input[type=\"radio\"][name=\"network\"]:checked');\n\t\t\t\t\tif (checkedRadio) {\n\t\t\t\t\t\tconst label = document.querySelector(`label[for=\"${checkedRadio.id}\"]`);\n\t\t\t\t\t\tlabel.classList.add('selected');\n\t\t\t\t\t\tconsole.log(checkedRadio.value);\n\t\t\t\t\t}\n\t\t\t\t});\n\t\t\t});\n\t\t</script>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

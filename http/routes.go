@@ -23,6 +23,8 @@ func (a *App) Routes() *chi.Mux {
 
 	var staticFiles = fs.FS(frontend.AssetsDir)
 	staticFs, _ := fs.Sub(staticFiles, "public")
+
+	r.Handle("/public/sw.js", http.HandlerFunc(a.sw))
 	r.Handle("/public/*", http.StripPrefix("/public/", http.FileServer(http.FS(staticFs))))
 
 	return r

@@ -33,7 +33,7 @@ func AirtimeBeneficiaryPage(user User) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = htmlHeadTag("Airtime Beneficiaries").Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = headTag("Airtime Beneficiaries").Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -41,7 +41,7 @@ func AirtimeBeneficiaryPage(user User) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = frequentHeaderTwo("Beneficiaries", user.AvatarUrl, "/public/assets/svg/+.svg", "on click call #addNewBeneficiairyDialog.showModal() then halt").Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = commonHeaderTwo("Beneficiaries", user.AvatarUrl, "/public/assets/svg/+.svg", "on click call #addNewBeneficiairyDialog.showModal() then halt", templ.NopComponent).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -59,7 +59,7 @@ func AirtimeBeneficiaryPage(user User) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = footerMenubar("spend").Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = Footer("spend", templ.NopComponent).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

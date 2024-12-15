@@ -24,7 +24,7 @@ func main() {
 	// connect to database
 	conn, err := pgxpool.New(context.Background(), environmentalVariables.Database.Url)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Unable to create connection pool: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Unable to create db connection pool: %v\n", err)
 		os.Exit(1)
 	}
 	defer conn.Close()
@@ -58,7 +58,7 @@ func main() {
 		log.Panic("Graceful server shutdown Failed: " + err.Error())
 	}
 
-	stopScrapping <- struct{}{}
+	stopScrapping()
 
 	log.Println("SERVER STOPPED GRACEFULLY")
 }

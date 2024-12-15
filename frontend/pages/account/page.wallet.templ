@@ -2,93 +2,131 @@ package frontend
 
 import "beltech/types"
 
-// import "fmt"
 templ WalletPage(user User, data []types.TokenData) {
 	<!DOCTYPE html>
 	<html lang="en">
-		@htmlHeadTag("Wallet")
+		@headTag("Wallet")
 		<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
 			<div class="w-full h-full flex flex-col font-montserrat text-[#2E2E2E]">
-				@frequentHeaderOne(user)
-				<main class="grow overflow-y-auto pl-6 pr-[1.56rem] flex flex-col">
-					<section class="pt-[1.88rem] flex gap-2 items-center">
-						<p class="font-semibold text-xs leading-[0.914rem]">My Balance </p>
-						<img src="/public/assets/svg/eye.svg" class="w-[0.938rem] aspect-square"/>
-					</section>
-					<p class="mt-2 mb-8 font-bold text-xl leading-[1.524rem] text-[#016934]">250.06 BEL </p>
-					<section class="flex w-full justify-between items-start gap-2">
-						<a class="flex flex-col gap-2 items-center">
-							<button class="bg-[#CCE1D6] rounded-full p-[0.938rem]"><img src="/public/assets/svg/+.svg" class="w-5 aspect-square"/></button>
-							<p class="font-poppins font-normal text-xs text-center">Send</p>
-						</a>
-						<a class="flex flex-col gap-2 items-center">
-							<button class="bg-[#CCE1D6] rounded-full p-[0.938rem]"><img src="/public/assets/svg/-.svg" class="w-5 aspect-square"/></button>
-							<p class="font-poppins font-normal text-xs text-center">Receive</p>
-						</a>
-						<a class="flex flex-col gap-2 items-center">
-							<button class="bg-[#CCE1D6] rounded-full p-[0.938rem]"><img src="/public/assets/svg/cash out.svg" class="w-5 aspect-square"/></button>
-							<p class="font-poppins font-normal text-xs text-center">Cash out</p>
-						</a>
-						<a class="flex flex-col gap-2 items-center">
-							<button class="bg-[#CCE1D6] rounded-full p-[0.938rem]"><img src="/public/assets/svg/learn.svg" class="w-5 aspect-square"/></button>
-							<p class="font-poppins font-normal text-xs text-center">Learn</p>
-						</a>
-					</section>
-					<section class="mt-10 mb-4 w-full flex justify-between items-center">
-						<p class="font-semibold text-[0.94rem] leading-[1.14rem]">Watchlist</p>
-						<button>
-							<p class="font-medium text-[0.63rem] leading-[0.76rem] text-[#016934]">Past 7d</p>
-						</button>
-					</section>
-					<section>
-						<ul hx-get="/account/coinData" hx-trigger="every 11s" hx-swap="innerHTML" class="w-full flex flex-col gap-3 justify-around items-center h-full">
-							@CoinData(data)
-						</ul>
-					</section>
-					<section class="swiperTwo min-h-fit mt-6">
-						<div class="px-4 swiper mySwiperTwo w-full">
-							<div class="swiper-wrapper">
-								for range 4 {
-									<div class="swiper-slide">
-										<div class="bg-[#FEF7FF] rounded-lg flex items-center justify-center gap-3">
-											<img
-												src="/public/assets/svg/cryptoNews.svg"
-												class="w-[6.875rem] aspect-[110/101] mx-[0.313rem] mr-[0.313rem] rounded-lg"
-											/>
-											<div class="flex flex-col gap-2 my-[1.188rem]">
-												<div class="flex items-center gap-[0.313rem]">
-													<p class="font-[600] text-[0.688rem] leading-[0.838rem]">Solana</p>
-													<img
-														src="/public/assets/images/Recycle_small.png"
-														alt=""
-														class="w-[0.813rem] aspect-square"
-													/>
-												</div>
-												<p class="font-[500] text-[0.625rem] leading-[0.875rem] text-wrap">
-													Solana’s network has surpassed the Binance Smart Chain (BNB) to become the second-largest by liquid TVL, second only to Ethereum. This surge in TVL reflects increased deposits, which reached 42.5 million SOL, the highest since 2022​
-												</p>
-											</div>
-										</div>
-									</div>
-								}
+				@CommonHeaderOne(user, templ.NopComponent)
+				@WalletMainPartial(data)
+				@Footer("wallet", templ.NopComponent)
+			</div>
+			@scriptForWalletPage()
+		</body>
+	</html>
+}
+
+templ WalletMainPartial(data []types.TokenData) {
+	<main class="grow overflow-y-auto pl-6 pr-[1.56rem] flex flex-col">
+		@WalletBalancePartail(templ.NopComponent)
+		@WalletOptionsPartial()
+		@WalletWatchlistPartial()
+		@WalletCoinDataPartial(data)
+		@WalletSwiperPartial(templ.NopComponent)
+	</main>
+}
+
+templ WalletMainOpenTagPartial() {
+	@templ.Raw(`<main class="grow overflow-y-auto pl-6 pr-[1.56rem] flex flex-col">`)
+}
+
+templ WalletMainCloseTagPartial() {
+	@templ.Raw(`</main>`)
+}
+
+templ WalletBalancePartail(mainOpeningTag templ.Component) {
+	@mainOpeningTag
+	<section class="pt-[1.88rem] flex gap-2 items-center">
+		<p class="font-semibold text-xs leading-[0.914rem]">My Balance </p>
+		<img src="/public/assets/svg/eye.svg" class="w-[0.938rem] aspect-square"/>
+	</section>
+	<p class="mt-2 mb-8 font-bold text-xl leading-[1.524rem] text-[#016934]">250.06 BEL </p>
+}
+
+templ WalletOptionsPartial() {
+	<section class="flex w-full justify-between items-start gap-2">
+		<a class="flex flex-col gap-2 items-center">
+			<button class="bg-[#CCE1D6] rounded-full p-[0.938rem]"><img src="/public/assets/svg/+.svg" class="w-5 aspect-square"/></button>
+			<p class="font-poppins font-normal text-xs text-center">Send</p>
+		</a>
+		<a class="flex flex-col gap-2 items-center">
+			<button class="bg-[#CCE1D6] rounded-full p-[0.938rem]"><img src="/public/assets/svg/-.svg" class="w-5 aspect-square"/></button>
+			<p class="font-poppins font-normal text-xs text-center">Receive</p>
+		</a>
+		<a class="flex flex-col gap-2 items-center">
+			<button class="bg-[#CCE1D6] rounded-full p-[0.938rem]"><img src="/public/assets/svg/cash out.svg" class="w-5 aspect-square"/></button>
+			<p class="font-poppins font-normal text-xs text-center">Cash out</p>
+		</a>
+		<a class="flex flex-col gap-2 items-center">
+			<button class="bg-[#CCE1D6] rounded-full p-[0.938rem]"><img src="/public/assets/svg/learn.svg" class="w-5 aspect-square"/></button>
+			<p class="font-poppins font-normal text-xs text-center">Learn</p>
+		</a>
+	</section>
+}
+
+templ WalletWatchlistPartial() {
+	<section class="mt-10 mb-4 w-full flex justify-between items-center">
+		<p class="font-semibold text-[0.94rem] leading-[1.14rem]">Watchlist</p>
+		<button>
+			<p class="font-medium text-[0.63rem] leading-[0.76rem] text-[#016934]">Past 7d</p>
+		</button>
+	</section>
+}
+
+templ WalletCoinDataPartial(data []types.TokenData) {
+	<section>
+		<ul hx-get="/account/coinData" hx-trigger="every 11s" hx-swap="innerHTML" class="w-full flex flex-col gap-3 justify-around items-center h-full">
+			@CoinData(data)
+		</ul>
+	</section>
+}
+
+templ WalletSwiperPartial(mainClosingTag templ.Component) {
+	<section class="swiperThree min-h-fit mt-6">
+		<div class="px-4 swiper mySwiperThree w-full">
+			<div class="swiper-wrapper">
+				for range 4 {
+					<div class="swiper-slide">
+						<div class="bg-[#FEF7FF] rounded-lg flex items-center justify-center gap-3">
+							<img
+								src="/public/assets/svg/cryptoNews.svg"
+								class="w-[6.875rem] aspect-[110/101] mx-[0.313rem] mr-[0.313rem] rounded-lg"
+							/>
+							<div class="flex flex-col gap-2 my-[1.188rem]">
+								<div class="flex items-center gap-[0.313rem]">
+									<p class="font-[600] text-[0.688rem] leading-[0.838rem]">Solana</p>
+									<img
+										src="/public/assets/images/Recycle_small.png"
+										alt=""
+										class="w-[0.813rem] aspect-square"
+									/>
+								</div>
+								<p class="font-medium text-[0.625rem] leading-[0.875rem] text-justify hyphens-auto break-words">
+									Solana's network has surpassed the Binance Smart Chain (BNB) to become the second-largest by liquid TVL, second only to Ethereum. This surge in TVL reflects increased deposits, which reached 42.5 million SOL, the highest since 2022
+								</p>
 							</div>
 						</div>
-					</section>
-				</main>
-				@footerMenubar("wallet")
+					</div>
+				}
 			</div>
-		</body>
-		<script>
-		new Swiper( '.mySwiperTwo', {
+		</div>
+	</section>
+	@mainClosingTag
+}
+
+templ scriptForWalletPage() {
+	<script>
+		const swiperThree = new Swiper( '.mySwiperThree', {
             mousewheel: true,
             keyboard: true,
+			spaceBetween: 8,
             autoplay: {
-                delay: 300000,
+                delay: 1500,
                 disableOnInteraction: true,
             },
         } );
 	</script>
-	</html>
 }
 
 templ CoinData(data []types.TokenData) {

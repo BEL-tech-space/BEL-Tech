@@ -33,7 +33,7 @@ func RechargeAirtimePage(user User) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = htmlHeadTag("Airtime Recharge").Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = headTag("Airtime Recharge").Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -41,7 +41,7 @@ func RechargeAirtimePage(user User) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = frequentHeaderTwo("Spend BEL Token", user.AvatarUrl, "/public/assets/svg/notification.svg", "").Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = commonHeaderTwo("Spend BEL Token", user.AvatarUrl, "/public/assets/svg/notification.svg", "", templ.NopComponent).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -59,7 +59,7 @@ func RechargeAirtimePage(user User) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = footerMenubar("spend").Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = Footer("spend", templ.NopComponent).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

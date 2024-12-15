@@ -38,7 +38,7 @@ func WasteHistoryPage(user User, wasteType string, history []string) templ.Compo
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = htmlHeadTag("Waste History").Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = headTag("Waste History").Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -46,7 +46,7 @@ func WasteHistoryPage(user User, wasteType string, history []string) templ.Compo
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = frequentHeaderOne(user).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = CommonHeaderOne(user, templ.NopComponent).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -145,7 +145,7 @@ func WasteHistoryPage(user User, wasteType string, history []string) templ.Compo
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = footerMenubar("dashboard").Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = Footer("dashboard", templ.NopComponent).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

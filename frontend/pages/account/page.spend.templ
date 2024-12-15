@@ -1,92 +1,106 @@
 package frontend
 
-templ ExchangePage(avatarURL string) {
+templ SpendPage(avatarURL string) {
 	<!DOCTYPE html>
 	<html lang="en">
-		@htmlHeadTag("Spend BEL Token")
+		@headTag("Spend BEL Token")
 		<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh font-montserrat text-[#2E2E2E] overflow-hidden">
 			<div class="w-full h-full flex flex-col font-montserrat text-[#2E2E2E]">
-				@frequentHeaderTwo("Spend BEL Token", avatarURL, "/public/assets/svg/notification.svg", "")
-				<main class="grow overflow-y-auto pl-[1.5rem] pr-[1.56rem]">
-					<p class="text-xs font-semibold text-left mt-[2.188rem] mb-6">Change </p>
-					<section class="w-full flex justify-end items-center gap-1 mb-2">
-						<a href="/account/profile">
-							<img src={ avatarURL } alt="" class="rounded-full w-4 aspect-square"/>
-						</a>
-						<p class="text-[0.5rem] leading-[0.75rem] font-medium text-left font-poppins">Dz3y2237dshyyyyyyyyyybf7</p>
-					</section>
-					<section class="p-2 rounded-[0.625rem] border-solid border-[#0169344D] border-[0.063rem] w-full flex justify-between items-center">
-						<p class="text-[0.938rem] leading-[1.406rem] font-medium text-left">3BEL</p>
-						<div class="flex flex-col items-center justify-center gap-2">
-							<div class="flex gap-2 justify-center items-center">
-								<p class="font-medium text-xs text-black font-poppins">Balance 250.06 </p>
-								<button>
-									<img src="/public/assets/svg/greenEye.svg" class="w-3 aspect-square"/>
-								</button>
-							</div>
-							<button class="rounded-[0.625rem] border-[0.063rem] p-2 border-solid border-[#0169344D]">
-								<p class="font-medium leading-4 text-[0.688rem] text-left text-[#016934]">MAX</p>
-							</button>
-						</div>
-					</section>
-					<img src="/public/assets/svg/exchange.svg" class="w-10 aspect-square mx-auto -my-2"/>
-					<form id="airtimeForm" action="/account/airtime" method="post">
-						<section class="w-full px-2 py-6 rounded-[0.625rem] border-solid border-[#0169344D] border-[0.063rem] flex justify-between items-center gap-2">
-							<label for="amount" class="text-[0.938rem] leading-[1.406rem] text-left font-semibold text-[#00000099]">Airtime</label>
-							<input autofocus required type="number" name="amount" id="amount" autocomplete="off" min="100" inputmode="numeric" placeholder="Amount" enterkeyhint="convert" class="max-h-[3.313rem] placeholder:italic placeholder:text-left bg-transparent outline-none"/>
-						</section>
-						<p class="text-center font-semibold text-xs text-black mb-4 mt-2">Your #BEL is worth 1,000 naira Airtime</p>
-						<section class="grid grid-cols-4 justify-between items-center gap-[2.125rem] mb-8">
-							<label for="mtn" class="label shadow-[0px_0.053rem_0.105rem_0.053rem_#00000014] py-[0.869rem] px-[1.25rem] flex flex-col justify-center items-center">
-								<img src="/public/assets/svg/mtn.svg" alt="" class="w-[1.259rem] rounded-full"/>
-								<p class="font-poppins font-bold text-[0.524rem] leading-[0.787rem] mt-[0.482rem]">MTN</p>
-							</label>
-							<input required type="radio" id="mtn" name="network" autocomplete="off" value="mtn" class="hidden"/>
-							<label for="airtel" class="label shadow-[0px_0.053rem_0.105rem_0.053rem_#00000014] py-[0.869rem] px-[1.25rem] flex flex-col justify-center items-cente">
-								<img src="/public/assets/svg/airtel.svg" alt="" class="w-[1.259rem] rounded-full"/>
-								<p class="font-poppins font-bold text-[0.524rem] leading-[0.787rem] mt-[0.482rem]">AIRTEL</p>
-							</label>
-							<input type="radio" id="airtel" name="network" autocomplete="off" value="airtel" class="hidden"/>
-							<label for="glo" class="label shadow-[0px_0.053rem_0.105rem_0.053rem_#00000014] py-[0.869rem] px-[1.25rem] flex flex-col justify-center items-center">
-								<img src="/public/assets/svg/glo.svg" alt="" class="w-[1.259rem] rounded-full"/>
-								<p class="font-poppins font-bold text-[0.524rem] leading-[0.787rem] mt-[0.482rem]">GLO</p>
-							</label>
-							<input type="radio" id="glo" name="network" autocomplete="off" value="glo" class="hidden"/>
-							<label for="9mobile" class="label shadow-[0px_0.053rem_0.105rem_0.053rem_#00000014] py-[0.869rem] px-[1.25rem] flex flex-col justify-center items-center">
-								<img src="/public/assets/svg/9mobile.svg" alt="" class="w-[1.259rem] rounded-full"/>
-								<p class="font-poppins font-bold text-[0.524rem] leading-[0.787rem] mt-[0.482rem]">9MOBILE</p>
-							</label>
-							<input type="radio" id="9mobile" name="network" autocomplete="off" value="9mobile" class="hidden"/>
-						</section>
-						<button disabled type="submit" id="submitBtn" class="w-full opacity-45 bg-green-400 text-sm font-medium text-white py-[0.625rem] text-center tracking-[0.00625rem] rounded-md">Convert</button>
-					</form>
-					<section class="mt-12 flex flex-col justify-center items-center gap-6">
-						<div class="flex w-full gap-4 bg-[#FEF7FF] rounded-lg p-[0.313rem]">
-							<img src="/public/assets/images/friends.jpg" alt="" class="w-[4.688rem] aspect-[75/70] rounded-lg"/>
-							<a href="/account/beneficiaries" class="flex flex-col justify-center items-start gap-1">
-								<p class="font-medium text-[0.625rem] leading-4">Saved beneficiaries for instant <br/> top-ups</p>
-								<button class="block font-bold text-[#016934] text-[0.5rem] leading-[0.609rem]">View beneficiary</button>
-							</a>
-						</div>
-						<div class="flex w-full gap-4 bg-[#FEF7FF] rounded-lg p-[0.313rem]">
-							<img src="/public/assets/svg/spendVoucher.svg" alt="" class="w-[4.688rem] aspect-[75/70] rounded-lg"/>
-							<a class="flex flex-col justify-center items-start gap-1">
-								<p class="font-medium text-[0.625rem] leading-4">Get Vouchers for purchase of <br/> goods and services </p>
-								<button class="font-bold text-[#016934] text-[0.5rem] leading-[0.609rem]">Buy Voucher</button>
-							</a>
-						</div>
-					</section>
-				</main>
-				@footerMenubar("spend")
+				@SpendPageHeader(avatarURL, templ.NopComponent)
+				@SpendMainPartial(avatarURL)
+				@Footer("spend", templ.NopComponent)
 			</div>
 		</body>
-		<style>
-			.selected {
-				background-color: #b1ddc8;
-				border-radius: 6px;
-			}
-		</style>
-		<script>
+		@scriptForSpendPage()
+	</html>
+}
+
+templ SpendPageHeader(avatarURL string, beforeHeaderTagPartial templ.Component) {
+	@BeforeHeaderTagPartial("Spend BEL Token")
+	@commonHeaderTwo("Spend BEL Token", avatarURL, "/public/assets/svg/notification.svg", "", templ.NopComponent)
+}
+
+templ SpendMainPartial(avatarURL string) {
+	<main class="grow overflow-y-auto pl-[1.5rem] pr-[1.56rem]">
+		<p class="text-xs font-semibold text-left mt-[2.188rem] mb-6">Change </p>
+		<section class="w-full flex justify-end items-center gap-1 mb-2">
+			<a href="/account/profile">
+				<img src={ avatarURL } alt="" class="rounded-full w-4 aspect-square"/>
+			</a>
+			<p class="text-[0.5rem] leading-[0.75rem] font-medium text-left font-poppins">Dz3y2237dshyyyyyyyyyybf7</p>
+		</section>
+		<section class="p-2 rounded-[0.625rem] border-solid border-[#0169344D] border-[0.063rem] w-full flex justify-between items-center">
+			<p class="text-[0.938rem] leading-[1.406rem] font-medium text-left">3BEL</p>
+			<div class="flex flex-col items-center justify-center gap-2">
+				<div class="flex gap-2 justify-center items-center">
+					<p class="font-medium text-xs text-black font-poppins">Balance 250.06 </p>
+					<button>
+						<img src="/public/assets/svg/greenEye.svg" class="w-3 aspect-square"/>
+					</button>
+				</div>
+				<button class="rounded-[0.625rem] border-[0.063rem] p-2 border-solid border-[#0169344D]">
+					<p class="font-medium leading-4 text-[0.688rem] text-left text-[#016934]">MAX</p>
+				</button>
+			</div>
+		</section>
+		<img src="/public/assets/svg/exchange.svg" class="w-10 aspect-square mx-auto -my-2"/>
+		<form id="airtimeForm" action="/account/airtime" method="post">
+			<section class="w-full px-2 py-6 rounded-[0.625rem] border-solid border-[#0169344D] border-[0.063rem] flex justify-between items-center gap-2">
+				<label for="amount" class="text-[0.938rem] leading-[1.406rem] text-left font-semibold text-[#00000099]">Airtime</label>
+				<input autofocus required type="number" name="amount" id="amount" autocomplete="off" min="100" inputmode="numeric" placeholder="Amount" enterkeyhint="convert" class="max-h-[3.313rem] placeholder:italic placeholder:text-left bg-transparent outline-none"/>
+			</section>
+			<p class="text-center font-semibold text-xs text-black mb-4 mt-2">Your #BEL is worth 1,000 naira Airtime</p>
+			<section class="grid grid-cols-4 justify-between items-center gap-[2.125rem] mb-8">
+				<label for="mtn" class="label shadow-[0px_0.053rem_0.105rem_0.053rem_#00000014] py-[0.869rem] px-[1.25rem] flex flex-col justify-center items-center">
+					<img src="/public/assets/svg/mtn.svg" alt="" class="w-[1.259rem] rounded-full"/>
+					<p class="font-poppins font-bold text-[0.524rem] leading-[0.787rem] mt-[0.482rem]">MTN</p>
+				</label>
+				<input required type="radio" id="mtn" name="network" autocomplete="off" value="mtn" class="hidden"/>
+				<label for="airtel" class="label shadow-[0px_0.053rem_0.105rem_0.053rem_#00000014] py-[0.869rem] px-[1.25rem] flex flex-col justify-center items-cente">
+					<img src="/public/assets/svg/airtel.svg" alt="" class="w-[1.259rem] rounded-full"/>
+					<p class="font-poppins font-bold text-[0.524rem] leading-[0.787rem] mt-[0.482rem]">AIRTEL</p>
+				</label>
+				<input type="radio" id="airtel" name="network" autocomplete="off" value="airtel" class="hidden"/>
+				<label for="glo" class="label shadow-[0px_0.053rem_0.105rem_0.053rem_#00000014] py-[0.869rem] px-[1.25rem] flex flex-col justify-center items-center">
+					<img src="/public/assets/svg/glo.svg" alt="" class="w-[1.259rem] rounded-full"/>
+					<p class="font-poppins font-bold text-[0.524rem] leading-[0.787rem] mt-[0.482rem]">GLO</p>
+				</label>
+				<input type="radio" id="glo" name="network" autocomplete="off" value="glo" class="hidden"/>
+				<label for="9mobile" class="label shadow-[0px_0.053rem_0.105rem_0.053rem_#00000014] py-[0.869rem] px-[1.25rem] flex flex-col justify-center items-center">
+					<img src="/public/assets/svg/9mobile.svg" alt="" class="w-[1.259rem] rounded-full"/>
+					<p class="font-poppins font-bold text-[0.524rem] leading-[0.787rem] mt-[0.482rem]">9MOBILE</p>
+				</label>
+				<input type="radio" id="9mobile" name="network" autocomplete="off" value="9mobile" class="hidden"/>
+			</section>
+			<button disabled type="submit" id="submitBtn" class="w-full opacity-45 bg-green-400 text-sm font-medium text-white py-[0.625rem] text-center tracking-[0.00625rem] rounded-md">Convert</button>
+		</form>
+		<section class="mt-12 flex flex-col justify-center items-center gap-6">
+			<div class="flex w-full gap-4 bg-[#FEF7FF] rounded-lg p-[0.313rem]">
+				<img src="/public/assets/images/friends.jpg" alt="" class="w-[4.688rem] aspect-[75/70] rounded-lg"/>
+				<a href="/account/beneficiaries" class="flex flex-col justify-center items-start gap-1">
+					<p class="font-medium text-[0.625rem] leading-4">Saved beneficiaries for instant <br/> top-ups</p>
+					<button class="block font-bold text-[#016934] text-[0.5rem] leading-[0.609rem]">View beneficiary</button>
+				</a>
+			</div>
+			<div class="flex w-full gap-4 bg-[#FEF7FF] rounded-lg p-[0.313rem]">
+				<img src="/public/assets/svg/spendVoucher.svg" alt="" class="w-[4.688rem] aspect-[75/70] rounded-lg"/>
+				<a class="flex flex-col justify-center items-start gap-1">
+					<p class="font-medium text-[0.625rem] leading-4">Get Vouchers for purchase of <br/> goods and services </p>
+					<button class="font-bold text-[#016934] text-[0.5rem] leading-[0.609rem]">Buy Voucher</button>
+				</a>
+			</div>
+		</section>
+	</main>
+}
+
+templ scriptForSpendPage() {
+	<style>
+		.selected {
+			background-color: #b1ddc8;
+			border-radius: 6px;
+		}
+	</style>
+	<script defer>
 			const airtimeFrom = document.getElementById('airtimeForm');
 			const airttimeFormSubmitBtn =  document.getElementById("submitBtn")
 
@@ -119,5 +133,4 @@ templ ExchangePage(avatarURL string) {
 				});
 			});
 		</script>
-	</html>
 }

@@ -1,6 +1,29 @@
 package frontend
 
-templ htmlHeadTag(title string) {
+templ BeforeHeaderTagPartial(pageTitle string) {
+	@templ.Raw(`<!DOCTYPE html><html lang="en">`)
+	@headTag(pageTitle)
+	@templ.Raw(`<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden"><div class="Page w-full h-full flex flex-col font-montserrat text-[#2E2E2E]">`)
+}
+
+templ AfterFooterTagPartial(pageTitle string) {
+	@templ.Raw(`</div></body>`)
+	switch pageTitle {
+		case "dashboard":
+			@scriptForDashboardPage()
+		case "scan":
+			@scriptForScanPage()
+		case "location":
+			@ScriptForLocationPage()
+		case "wallet":
+			@scriptForWalletPage()
+		case "spend":
+			@scriptForSpendPage()
+	}
+	@templ.Raw(`</html>`)
+}
+
+templ headTag(pageTitle string) {
 	<head>
 		<meta charset="UTF-8"/>
 		<meta
@@ -13,16 +36,16 @@ templ htmlHeadTag(title string) {
 			rel="icon"
 			type="image/png"
 			sizes="32x32"
-			href="/public/assets/images/beltech_logo_32x32.png"
+			href="/public/assets/icons/ios/32.png"
 		/>
 		<link
 			rel="icon"
 			type="image/png"
 			sizes="16x16"
-			href="/public/assets/images/beltech_logo_16x16.png"
+			href="/public/assets/icons/ios/16.png"
 		/>
-		<link rel="shortcut icon" href="/public/assets/images/beltech_logo_2.ico"/>
-		<link rel="apple-touch-icon" href="/pubic/assets/images/maskAny.jpeg"/>
+		// <link rel="shortcut icon" href="/public/assets/images/beltech_logo_2.ico"/>
+		<link rel="apple-touch-icon" href="/pubic/assets/icons/ios/32.png"/>
 		<link
 			rel="stylesheet"
 			href="/public/assets/styles/output.css"
@@ -31,18 +54,23 @@ templ htmlHeadTag(title string) {
 			rel="stylesheet"
 			href="/public/assets/styles/swiper-bundle.min.css"
 		/>
-		<script src="/public/assets/scripts/swiper-bundle.min.js"></script>
 		<script src="/public/assets/scripts/htmx.min.js"></script>
 		<script src="/public/assets/scripts/hyperscript.min.js"></script>
 		<script src="/public/assets/scripts/beltech.js"></script>
-		<script async src="/public/assets/scripts/html5-qrcode.min.js"></script>
+		<script src="/public/assets/scripts/swiper-bundle.min.js"></script>
+		<script src="/public/assets/scripts/html5-qrcode.min.js"></script>
 		@removeScrollBar()
-		<title>{ title }</title>
+		<title>{ pageTitle }</title>
+		// @ScriptForAccountDashboardPage()
+		// @ScriptForAccountSpendPage()
+		// @ScriptForAccountWalletPage()
+		// @ScriptForAccountScanPage()
+		// @ScriptForAccountLocationPage()
 	</head>
 }
 
-templ footerMenubar(active string) {
-	<footer class="bg-white flex w-full justify-around mt-[1.125rem] gap-[2.375rem]" hx-boost="false">
+templ Footer(active string, afterFooterTagPartial templ.Component) {
+	<footer class="bg-white flex w-full justify-around px-4 pt-2 pb-3 gap-[2.375rem]" hx-boost="false">
 		if active == "dashboard" {
 			<a
 				href="/account/dashboard"
@@ -159,9 +187,11 @@ templ footerMenubar(active string) {
 			</a>
 		}
 	</footer>
+	@afterFooterTagPartial
 }
 
-templ frequentHeaderOne(user User) {
+templ CommonHeaderOne(user User, beforeHeaderTagPartial templ.Component) {
+	@beforeHeaderTagPartial
 	<header class="pt-[1.5rem] pl-[1.5rem] pr-[1.56rem] flex w-full justify-start items-center">
 		<a href="/account/profile">
 			<img
@@ -198,7 +228,8 @@ templ frequentHeaderOne(user User) {
 	</header>
 }
 
-templ frequentHeaderTwo(text, avatarURL, imagePath, btnBehaviour string) {
+templ commonHeaderTwo(text, avatarURL, imagePath, btnBehaviour string, beforeHeaderTagPartial templ.Component) {
+	@beforeHeaderTagPartial
 	<header class="pt-[1.5rem] pl-[1.5rem] pr-[1.56rem] flex w-full justify-between items-center">
 		<a href="/account/profile">
 			<img
@@ -214,6 +245,16 @@ templ frequentHeaderTwo(text, avatarURL, imagePath, btnBehaviour string) {
 			/>
 		</button>
 	</header>
+}
+
+templ letRecycleAndProfile(text string) {
+	<article class="flex items-center gap-1">
+		<p class="leading-[1.143rem] font-semibold text-[0.938rem]">{ text }</p>
+		<img
+			src="/public/assets/images/Recycle_small.png"
+			class="w-5 aspect-square"
+		/>
+	</article>
 }
 
 templ removeScrollBar() {

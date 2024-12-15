@@ -3,7 +3,7 @@ package frontend
 templ ScanQRPage() {
 	<!DOCTYPE html>
 	<html lang="en">
-		@htmlHeadTag("Scan")
+		@headTag("Scan")
 		<body
 			class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh font-montserrat text-[#2E2E2E] overflow-hidden"
 		>
@@ -66,10 +66,15 @@ templ ScanQRPage() {
 						</section>
 					</div>
 				</main>
-				@footerMenubar("scan")
+				@Footer("scan", templ.NopComponent)
 			</div>
-			<script src="/public/assets/scripts/html5-qrcode.min.js"></script>
-			<script>
+			@scriptForScanPage()
+		</body>
+	</html>
+}
+
+templ scriptForScanPage() {
+	<script defer>
             const html5QrCode = new Html5Qrcode( "reader" );
             let isScanning = false;
 
@@ -135,6 +140,4 @@ templ ScanQRPage() {
                 scanButtonText.innerText = 'Scan';
             }
         </script>
-		</body>
-	</html>
 }

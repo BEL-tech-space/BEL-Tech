@@ -38,7 +38,6 @@ func chartUrlGreen(url string) string {
 	></div>`, url, url)
 }
 
-
 func chartUrlRed(url string) string {
 	return fmt.Sprintf(`
 	<div
@@ -50,4 +49,3 @@ func chartUrlRed(url string) string {
 			-webkit-mask: url('%s') no-repeat center / contain;"
 	></div>`, url, url)
 }
-

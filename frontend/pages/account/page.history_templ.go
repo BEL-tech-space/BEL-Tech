@@ -33,7 +33,7 @@ func AllWasteHistoryPage() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = htmlHeadTag("Detailed Waste History").Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = headTag("Detailed Waste History").Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -51,7 +51,7 @@ func AllWasteHistoryPage() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = footerMenubar("scan").Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = Footer("scan", templ.NopComponent).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
