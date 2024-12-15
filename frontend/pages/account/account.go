@@ -26,6 +26,10 @@ func toTitle(s string) string {
 	return strings.ToUpper(s[:1]) + strings.ToLower(s[1:])
 }
 
+func useWebp(url string) string {
+	return strings.Replace(url, ".png", ".webp", 1)
+}
+
 func chartUrlGreen(url string) string {
 	return fmt.Sprintf(`
 	<div

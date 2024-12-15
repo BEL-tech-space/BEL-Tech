@@ -4094,19 +4094,17 @@ This is generally NOT safe. Learn more at https://bit.ly/wb-precache`;
   clientsClaim();
   enable();
   registerRoute(
-    RegExp(/.*\.(?:png|jpg|jpeg|svg)$/),
-    new CacheFirst(
-      {
-        cacheName: imagesCache,
-        plugins: [
-          new ExpirationPlugin({
-            maxEntries: 300,
-            maxAgeSeconds: 60 * 60 * 24 * 30
-            // about a month
-          })
-        ]
-      }
-    )
+    RegExp(/.*\.(?:png|jpg|jpeg|svg|webp)$/),
+    new CacheFirst({
+      cacheName: imagesCache,
+      plugins: [
+        new ExpirationPlugin({
+          maxEntries: 300,
+          maxAgeSeconds: 60 * 60 * 24 * 30
+          // about a month
+        })
+      ]
+    })
   );
   var cacheFirstPartialStrategy = new CacheFirst({
     cacheName: partialsCache,
@@ -4142,15 +4140,20 @@ This is generally NOT safe. Learn more at https://bit.ly/wb-precache`;
   });
   var dashboardPageStream = strategy(
     [
-      async ({ event }) => cacheFirstPartialStrategy.handle(
-        { request: new Request("/account/dashboard/header-Partial.html"), event }
-      ),
-      async ({ event }) => networkFirstContentStrategy.handle(
-        { request: new Request("/account/dashboard", { headers: [["X-Content-Mode", "partials"]] }), event }
-      ),
-      async ({ event }) => cacheFirstPartialStrategy.handle(
-        { request: new Request("/account/dashboard/footer-Partial.html"), event }
-      )
+      async ({ event }) => cacheFirstPartialStrategy.handle({
+        request: new Request("/account/dashboard/header-Partial.html"),
+        event
+      }),
+      async ({ event }) => networkFirstContentStrategy.handle({
+        request: new Request("/account/dashboard", {
+          headers: [["X-Content-Mode", "partials"]]
+        }),
+        event
+      }),
+      async ({ event }) => cacheFirstPartialStrategy.handle({
+        request: new Request("/account/dashboard/footer-Partial.html"),
+        event
+      })
     ],
     {}
   );
@@ -4173,15 +4176,20 @@ This is generally NOT safe. Learn more at https://bit.ly/wb-precache`;
   );
   var locationPageStream = strategy(
     [
-      async ({ event }) => cacheFirstPartialStrategy.handle(
-        { request: new Request("/account/location/header-Partial.html"), event }
-      ),
-      async ({ event }) => networkFirstContentStrategy.handle(
-        { request: new Request("/account/location", { headers: [["X-Content-Mode", "partials"]] }), event }
-      ),
-      async ({ event }) => cacheFirstPartialStrategy.handle(
-        { request: new Request("/account/location/footer-Partial.html"), event }
-      )
+      async ({ event }) => cacheFirstPartialStrategy.handle({
+        request: new Request("/account/location/header-Partial.html"),
+        event
+      }),
+      async ({ event }) => networkFirstContentStrategy.handle({
+        request: new Request("/account/location", {
+          headers: [["X-Content-Mode", "partials"]]
+        }),
+        event
+      }),
+      async ({ event }) => cacheFirstPartialStrategy.handle({
+        request: new Request("/account/location/footer-Partial.html"),
+        event
+      })
     ],
     {}
   );
@@ -4191,40 +4199,44 @@ This is generally NOT safe. Learn more at https://bit.ly/wb-precache`;
   );
   var walletPageStream = strategy(
     [
-      async ({ event }) => cacheFirstPartialStrategy.handle(
-        { request: new Request("/account/wallet/header-Partial.html"), event }
-      ),
-      async ({ event }) => networkFirstContentStrategy.handle(
-        { request: new Request("/account/wallet", { headers: [["X-Content-Mode", "partials"]] }), event }
-      ),
-      async ({ event }) => cacheFirstPartialStrategy.handle(
-        { request: new Request("/account/wallet/footer-Partial.html"), event }
-      )
+      async ({ event }) => cacheFirstPartialStrategy.handle({
+        request: new Request("/account/wallet/header-Partial.html"),
+        event
+      }),
+      async ({ event }) => networkFirstContentStrategy.handle({
+        request: new Request("/account/wallet", {
+          headers: [["X-Content-Mode", "partials"]]
+        }),
+        event
+      }),
+      async ({ event }) => cacheFirstPartialStrategy.handle({
+        request: new Request("/account/wallet/footer-Partial.html"),
+        event
+      })
     ],
     {}
   );
-  registerRoute(
-    ({ url }) => url.pathname == "/account/wallet",
-    walletPageStream
-  );
+  registerRoute(({ url }) => url.pathname == "/account/wallet", walletPageStream);
   var spendPageStream = strategy(
     [
-      async ({ event }) => cacheFirstPartialStrategy.handle(
-        { request: new Request("/account/spend/header-Partial.html"), event }
-      ),
-      async ({ event }) => networkFirstContentStrategy.handle(
-        { request: new Request("/account/spend", { headers: [["X-Content-Mode", "partials"]] }), event }
-      ),
-      async ({ event }) => cacheFirstPartialStrategy.handle(
-        { request: new Request("/account/spend/footer-Partial.html"), event }
-      )
+      async ({ event }) => cacheFirstPartialStrategy.handle({
+        request: new Request("/account/spend/header-Partial.html"),
+        event
+      }),
+      async ({ event }) => networkFirstContentStrategy.handle({
+        request: new Request("/account/spend", {
+          headers: [["X-Content-Mode", "partials"]]
+        }),
+        event
+      }),
+      async ({ event }) => cacheFirstPartialStrategy.handle({
+        request: new Request("/account/spend/footer-Partial.html"),
+        event
+      })
     ],
     {}
   );
-  registerRoute(
-    ({ url }) => url.pathname == "/account/spend",
-    spendPageStream
-  );
-  precacheAndRoute([{"revision":"5e077c15f6e1d334dd4e9be62b28ac75","url":"assets/fonts/montserrat/static/Montserrat-Regular.ttf"},{"revision":"cc10461cb5e0a6f2621c7179f4d6de17","url":"assets/fonts/montserrat/static/Montserrat-SemiBold.ttf"},{"revision":"093ee89be9ede30383f39a899c485a82","url":"assets/fonts/poppins/Poppins-Regular.ttf"},{"revision":"adb55f7b6bd155aee484821913573808","url":"assets/scripts/beltech.js"},{"revision":"d88d3200cb547c9e86ee972975561dcd","url":"assets/scripts/html5-qrcode.min.js"},{"revision":"93063fe04ea37e3b3441590f9abf141a","url":"assets/scripts/htmx.min.js"},{"revision":"35467f89118bd098ed1030b77d78a032","url":"assets/scripts/hyperscript.min.js"},{"revision":"96760f90b96ce00be8e4a204dd3d4b98","url":"assets/scripts/swiper-bundle.min.js"},{"revision":"ca5d4d4e92856f1732110bca7cefba2b","url":"assets/styles/input.css"},{"revision":"92db9b9fea6b9ec437a9a9f25a0516a9","url":"assets/styles/output.css"},{"revision":"766238d2d89efd82440dd641f2c569f5","url":"assets/styles/swiper-bundle.min.css"}] || []);
+  registerRoute(({ url }) => url.pathname == "/account/spend", spendPageStream);
+  precacheAndRoute([{"revision":"5e077c15f6e1d334dd4e9be62b28ac75","url":"assets/fonts/montserrat/static/Montserrat-Regular.ttf"},{"revision":"cc10461cb5e0a6f2621c7179f4d6de17","url":"assets/fonts/montserrat/static/Montserrat-SemiBold.ttf"},{"revision":"093ee89be9ede30383f39a899c485a82","url":"assets/fonts/poppins/Poppins-Regular.ttf"},{"revision":"adb55f7b6bd155aee484821913573808","url":"assets/scripts/beltech.js"},{"revision":"d88d3200cb547c9e86ee972975561dcd","url":"assets/scripts/html5-qrcode.min.js"},{"revision":"93063fe04ea37e3b3441590f9abf141a","url":"assets/scripts/htmx.min.js"},{"revision":"35467f89118bd098ed1030b77d78a032","url":"assets/scripts/hyperscript.min.js"},{"revision":"96760f90b96ce00be8e4a204dd3d4b98","url":"assets/scripts/swiper-bundle.min.js"},{"revision":"ca5d4d4e92856f1732110bca7cefba2b","url":"assets/styles/input.css"},{"revision":"5e27269763b7c008044577d7c2986f8a","url":"assets/styles/output.css"},{"revision":"766238d2d89efd82440dd641f2c569f5","url":"assets/styles/swiper-bundle.min.css"}] || []);
 })();
 //# sourceMappingURL=sw.js.map

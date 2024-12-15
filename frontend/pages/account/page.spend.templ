@@ -76,7 +76,10 @@ templ SpendMainPartial(avatarURL string) {
 		</form>
 		<section class="mt-12 flex flex-col justify-center items-center gap-6">
 			<div class="flex w-full gap-4 bg-[#FEF7FF] rounded-lg p-[0.313rem]">
-				<img src="/public/assets/images/friends.jpg" alt="" class="w-[4.688rem] aspect-[75/70] rounded-lg"/>
+				<picture>
+					<source type="image/webp" srcset="/public/assets/images/friends.webp"/>
+					<img src="/public/assets/images/friends.jpg" alt="" class="w-[4.688rem] aspect-[75/70] rounded-lg"/>
+				</picture>
 				<a href="/account/beneficiaries" class="flex flex-col justify-center items-start gap-1">
 					<p class="font-medium text-[0.625rem] leading-4">Saved beneficiaries for instant <br/> top-ups</p>
 					<button class="block font-bold text-[#016934] text-[0.5rem] leading-[0.609rem]">View beneficiary</button>
@@ -100,7 +103,7 @@ templ scriptForSpendPage() {
 			border-radius: 6px;
 		}
 	</style>
-	<script defer>
+	<script>
 			const airtimeFrom = document.getElementById('airtimeForm');
 			const airttimeFormSubmitBtn =  document.getElementById("submitBtn")
 
