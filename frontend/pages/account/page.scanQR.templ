@@ -74,7 +74,8 @@ templ ScanQRPage() {
 }
 
 templ scriptForScanPage() {
-	<script defer>
+	<script src="/public/assets/scripts/html5-qrcode.min.js"></script>
+	<script>
             const html5QrCode = new Html5Qrcode( "reader" );
             let isScanning = false;
 

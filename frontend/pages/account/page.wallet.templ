@@ -116,6 +116,8 @@ templ WalletSwiperPartial(mainClosingTag templ.Component) {
 }
 
 templ scriptForWalletPage() {
+	<script src="/public/assets/scripts/htmx.min.js"></script>
+	<script src="/public/assets/scripts/swiper-bundle.min.js"></script>
 	<script>
 		const swiperThree = new Swiper( '.mySwiperThree', {
             mousewheel: true,

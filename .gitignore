@@ -1,10 +1,7 @@
 .vscode/
 .idea
 .DS_Store
-**/.DS_Store
 beltech
 *.env
 tmp/
 
-node_modules/
-*templ.txt
