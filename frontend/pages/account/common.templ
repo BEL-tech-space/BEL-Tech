@@ -226,7 +226,7 @@ templ commonHeaderTwo(text, avatarURL, imagePath, btnBehaviour string, beforeHea
 			<img
 				src={ avatarURL }
 				class="rounded-full w-[1.86rem] aspect-square mr-[0.5rem]"
-			/>
+			/>`
 		</a>
 		<p class="font-semibold text-[0.938rem] leading-[1.143rem]">{ text }</p>
 		<button _={ btnBehaviour } class="bg-[#CCE1D699] p-2 rounded-md flex justify-center items-center">
@@ -241,10 +241,13 @@ templ commonHeaderTwo(text, avatarURL, imagePath, btnBehaviour string, beforeHea
 templ letRecycleAndProfile(text string) {
 	<article class="flex items-center gap-1">
 		<p class="leading-[1.143rem] font-semibold text-[0.938rem]">{ text }</p>
-		<img
-			src="/public/assets/images/Recycle_small.png"
-			class="w-5 aspect-square"
-		/>
+		<picture>
+			<source type="image/webp" srcset="/public/assets/images/Recycle_small.webp"/>
+			<img
+				src="/public/assets/images/Recycle_small.png"
+				class="w-5 aspect-square"
+			/>
+		</picture>
 	</article>
 }
 

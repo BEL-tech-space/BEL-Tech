@@ -96,11 +96,14 @@ templ WalletSwiperPartial(mainClosingTag templ.Component) {
 							<div class="flex flex-col gap-2 my-[1.188rem]">
 								<div class="flex items-center gap-[0.313rem]">
 									<p class="font-[600] text-[0.688rem] leading-[0.838rem]">Solana</p>
-									<img
-										src="/public/assets/images/Recycle_small.png"
-										alt=""
-										class="w-[0.813rem] aspect-square"
-									/>
+									<picture>
+										<source srcset="/public/assets/images/Recycle_small.webp" type="image/webp"/>
+										<img
+											src="/public/assets/images/Recycle_small.png"
+											alt=""
+											class="w-[0.813rem] aspect-square"
+										/>
+									</picture>
 								</div>
 								<p class="font-medium text-[0.625rem] leading-[0.875rem] text-justify hyphens-auto break-words">
 									Solana's network has surpassed the Binance Smart Chain (BNB) to become the second-largest by liquid TVL, second only to Ethereum. This surge in TVL reflects increased deposits, which reached 42.5 million SOL, the highest since 2022
@@ -135,7 +138,10 @@ templ CoinData(data []types.TokenData) {
 	for _, v := range data {
 		<li class="w-full flex justify-between items-center gap-8 text-[#393737]">
 			<div class="flex gap-1">
-				<img src={ v.TokenLogo } alt="" class="w-[2.788rem] aspect-square rounded-full"/>
+				<picture>
+					<source srcset={ useWebp(v.TokenLogo) } type="image/webp"/>
+					<img src={ v.TokenLogo } alt="" class="w-[2.788rem] aspect-square rounded-full"/>
+				</picture>
 				<div class="flex flex-col item-start gap-[0.446rem]">
 					<p class="font-semibold leading-[0.838rem] text-[0.688rem] text-inherit">{ toTitle(v.TokenName) }</p>
 					<p class="font-medium leading-[0.762rem] text-[0.625rem] text-inherit">{ v.TokenSymbol }</p>

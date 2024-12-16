@@ -395,7 +395,7 @@ func commonHeaderTwo(text, avatarURL, imagePath, btnBehaviour string, beforeHead
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"rounded-full w-[1.86rem] aspect-square mr-[0.5rem]\"></a><p class=\"font-semibold text-[0.938rem] leading-[1.143rem]\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"rounded-full w-[1.86rem] aspect-square mr-[0.5rem]\">`</a><p class=\"font-semibold text-[0.938rem] leading-[1.143rem]\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -476,7 +476,7 @@ func letRecycleAndProfile(text string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p><img src=\"/public/assets/images/Recycle_small.png\" class=\"w-5 aspect-square\"></article>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p><picture><source type=\"image/webp\" srcset=\"/public/assets/images/Recycle_small.webp\"> <img src=\"/public/assets/images/Recycle_small.png\" class=\"w-5 aspect-square\"></picture></article>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
