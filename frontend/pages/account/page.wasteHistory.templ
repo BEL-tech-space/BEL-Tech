@@ -11,10 +11,10 @@ templ WasteHistoryPage(user User, wasteType string, history []string) {
 		@headTag("Waste History")
 		<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
 			<div class="Page w-full h-full flex flex-col font-montserrat text-[#2E2E2E]">
-				@CommonHeaderOne(user, templ.NopComponent)
+				@CommonHeaderOne(user, templ.NopComponent, templ.NopComponent)
 				if len(history) > 0 {
 					<main class="grow overflow-y-auto pl-[1.5rem] pr-[1.56rem] pt-[1.875rem] grid grid-flow-row-4">
-						@letRecycleAndProfile("Let's Recycle!")
+						@LetRecycleAndProfileComp("Let's Recycle!")
 						<section class="flex justify-start items-center gap-4 mt-6 mb-10">
 							switch wasteType {
 								case "paper" :
@@ -75,7 +75,7 @@ templ WasteHistoryPage(user User, wasteType string, history []string) {
 					</main>
 				} else {
 					<main class="grow overflow-y-auto pl-[1.5rem] pr-[1.56rem] pt-[1.875rem] flex flex-col justify-start">
-						@letRecycleAndProfile("Let's Recycle!")
+						@LetRecycleAndProfileComp("Let's Recycle!")
 						<section class="flex justify-start items-center gap-4 mt-6 mb-10">
 							switch wasteType {
 								case "paper" :
@@ -107,7 +107,7 @@ templ WasteHistoryPage(user User, wasteType string, history []string) {
 						@emptyHistory(wasteType)
 					</main>
 				}
-				@Footer("dashboard", templ.NopComponent)
+				@Footer("dashboard", templ.NopComponent, templ.NopComponent)
 			</div>
 		</body>
 	</html>

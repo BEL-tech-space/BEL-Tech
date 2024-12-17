@@ -1,12 +1,12 @@
 package http
 
 import (
-	accountPages "beltech/frontend/pages/account"
+	accPages "beltech/frontend/pages/account"
 	"beltech/service"
 )
 
-func account(user service.User) accountPages.User {
-	return accountPages.User{
+func account(user service.User) accPages.User {
+	return accPages.User{
 		Email:              user.Email,
 		FirstName:          user.FirstName,
 		LastName:           user.LastName,

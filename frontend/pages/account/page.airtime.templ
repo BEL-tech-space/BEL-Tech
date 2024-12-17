@@ -1,68 +1,93 @@
 package frontend
 
-templ RechargeAirtimePage(user User) {
+templ AirtimePage(avatarURL string) {
 	<!DOCTYPE html>
 	<html lang="en">
-		@headTag("Airtime Recharge")
+		@headTag("Airtime")
 		<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
 			<div class="w-full h-full grid grid-rows-agentCollectPage font-montserrat text-[#2E2E2E]">
-				@commonHeaderTwo("Spend BEL Token", user.AvatarUrl, "/public/assets/svg/notification.svg", "", templ.NopComponent)
-				<main class="overflow-y-auto pl-[1.5rem] pr-[1.56rem] pt-12 grid grid-flow-row-4">
-					<p class="font-bold text-xs leading-5 tracking-[0.00625em] text-center text-black">Which number do you want to receive <br/>your airtime to?</p>
-					<form id="beneficiaryNumber" action="" class="mt-10">
-						<div class="flex flex-col justify-start items-start gap-3 relative">
-							<label for="airtime" class="font-semibold text-xs text-black text-left">Input Your Phone Number</label>
-							<input required type="tel" maxlength="11" minlength="11" enterkeyhint="send" inputmode="numeric" name="airtime" id="airtime" placeholder="09034097398" class="outline-none w-full min-h-[3.326rem] rounded-[0.652rem] pl-3 font-poppins font-semibold text-black border-solid border-[#0169344D] border-[0.065rem] placeholder:font-extralight placeholder:text-[0.625rem] placeholder:text-gray-500"/>
-							<button type="button" _="on click call #addNewBeneficiairyDialog.showModal() then halt" class="absolute top-2/4 right-4">
-								<img src="/public/assets/svg/profile-add.svg" alt="" class="w-[1.875rem] aspect-square"/>
-							</button>
-						</div>
-						<button disabled type="submit" id="submitButton" class="w-full opacity-45 bg-green-400 rounded-md mb-2 font-medium mt-10 text-[0.813rem] leading-5 tracking-[0.00625em] py-[0.625rem] px-[5.219rem] text-center text-white">Recharge</button>
-					</form>
-					<section class="mt-10 w-full flex items-center justify-between mb-2">
-						<p class="font-semibold text-[0.688rem] leading-[0.838rem] text-black">Choose from Beneficiary</p>
-						<button>
-							<p class="font-medium text-[0.63rem] leading-[0.762rem] text-[#016934]">see all</p>
-						</button>
-					</section>
-					<section class="overflow-y-auto max-h-full w-full rounded-md">
-						<ul class="w-full flex flex-col justify-center items-center gap-6">
-							for range 8 {
-								<li class="w-full">
-									<button
-										_="on click set #airtime's value to my.querySelector('.phone-number').textContent then call #airtime.reportValidity() then call changeSubmitBtnState()"
-										class="w-full bg-[#FEF7FF] shadow-[0px_1px_2px_1px_#00000014] px-2 py-3 flex justify-start items-center gap-6 rounded-lg"
-									>
-										<img src="/public/assets/images/mtn.png" alt="" class="w-[3.5rem] aspect-square rounded-full"/>
-										<div class="flex flex-col gap-2 justify-start items-center">
-											<p class="font-poppins font-medium text-xs leading-[1.125rem] text-[#2E2E2E]">Tobias</p>
-											<p class="phone-number font-montserrat font-bold text-[0.625rem] leading-[0.762rem] text-[#016934]">09034097398</p>
-										</div>
-									</button>
-								</li>
-								<li class="w-full">
-									<button
-										_="on click set #airtime's value to my.querySelector('.phone-number').textContent then call #airtime.reportValidity() then call changeSubmitBtnState()"
-										class="w-full bg-[#FEF7FF] shadow-[0px_1px_2px_1px_#00000014] px-2 py-3 flex justify-start items-center gap-6 rounded-lg"
-									>
-										<img src="/public/assets/images/airtel.png" alt="" class="w-[3.5rem] aspect-square rounded-full"/>
-										<div class="flex flex-col gap-2 justify-start items-center">
-											<p class="font-poppins font-medium text-xs leading-[1.125rem] text-[#2E2E2E]">Elijah</p>
-											<p class="phone-number font-montserrat font-bold text-[0.625rem] leading-[0.762rem] text-[#016934]">09034097322</p>
-										</div>
-									</button>
-								</li>
-							}
-						</ul>
-					</section>
-				</main>
-				@Footer("spend", templ.NopComponent)
+				@commonHeaderTwo("Spend BEL Token", avatarURL, "/public/assets/svg/notification.svg", "", templ.NopComponent, templ.NopComponent)
+				@AirtimeMain()
+				@Footer("spend", templ.NopComponent, templ.NopComponent)
 			</div>
 		</body>
 		<script src="/public/assets/scripts/hyperscript.min.js"></script>
+		@scriptForAirtimePage()
 		@airtimeRechargeSuccessDialog()
 		@addNewBeneficiairyDialog()
-		<script>
+	</html>
+}
+
+templ AirtimeMain() {
+	<main class="overflow-y-auto pl-[1.5rem] pr-[1.56rem] pt-12 grid grid-flow-row-4">
+		@AirtimeInputNumberPartialcomp()
+		@AirtimeBeneficiariesComp()
+	</main>
+}
+
+templ AirtimeMainOpeningTagComp() {
+	@templ.Raw(`<main class="overflow-y-auto pl-[1.5rem] pr-[1.56rem] pt-12 grid grid-flow-row-4">`)
+}
+
+templ AirtimeHeaderPartialComp(avatarURL string, beforeHeaderTagPartial, afterHeaderTagPartial templ.Component) {
+	@commonHeaderTwo("Spend BEL Token", avatarURL, "/public/assets/svg/notification.svg", "", beforeHeaderTagPartial, afterHeaderTagPartial)
+}
+
+templ AirtimeInputNumberPartialcomp() {
+	<p class="font-bold text-xs leading-5 tracking-[0.00625em] text-center text-black">Which number do you want to receive <br/>your airtime to?</p>
+	<form id="beneficiaryNumber" action="" class="mt-10">
+		<div class="flex flex-col justify-start items-start gap-3 relative">
+			<label for="airtime" class="font-semibold text-xs text-black text-left">Input Your Phone Number</label>
+			<input required type="tel" maxlength="11" minlength="11" enterkeyhint="send" inputmode="numeric" name="airtime" id="airtime" placeholder="09034097398" class="outline-none w-full min-h-[3.326rem] rounded-[0.652rem] pl-3 font-poppins font-semibold text-black border-solid border-[#0169344D] border-[0.065rem] placeholder:font-extralight placeholder:text-[0.625rem] placeholder:text-gray-500"/>
+			<button type="button" _="on click call #addNewBeneficiairyDialog.showModal() then halt" class="absolute top-2/4 right-4">
+				<img src="/public/assets/svg/profile-add.svg" alt="" class="w-[1.875rem] aspect-square"/>
+			</button>
+		</div>
+		<button disabled type="submit" id="submitButton" class="w-full opacity-45 bg-green-400 rounded-md mb-2 font-medium mt-10 text-[0.813rem] leading-5 tracking-[0.00625em] py-[0.625rem] px-[5.219rem] text-center text-white">Recharge</button>
+	</form>
+	<section class="mt-10 w-full flex items-center justify-between mb-2">
+		<p class="font-semibold text-[0.688rem] leading-[0.838rem] text-black">Choose from Beneficiary</p>
+		<button>
+			<p class="font-medium text-[0.63rem] leading-[0.762rem] text-[#016934]">see all</p>
+		</button>
+	</section>
+}
+
+templ AirtimeBeneficiariesComp() {
+	<section class="overflow-y-auto max-h-full w-full rounded-md">
+		<ul class="w-full flex flex-col justify-center items-center gap-6">
+			for range 8 {
+				<li class="w-full">
+					<button
+						_="on click set #airtime's value to my.querySelector('.phone-number').textContent then call #airtime.reportValidity() then call changeSubmitBtnState()"
+						class="w-full bg-[#FEF7FF] shadow-[0px_1px_2px_1px_#00000014] px-2 py-3 flex justify-start items-center gap-6 rounded-lg"
+					>
+						<img src="/public/assets/images/mtn.png" alt="" class="w-[3.5rem] aspect-square rounded-full"/>
+						<div class="flex flex-col gap-2 justify-start items-center">
+							<p class="font-poppins font-medium text-xs leading-[1.125rem] text-[#2E2E2E]">Tobias</p>
+							<p class="phone-number font-montserrat font-bold text-[0.625rem] leading-[0.762rem] text-[#016934]">09034097398</p>
+						</div>
+					</button>
+				</li>
+				<li class="w-full">
+					<button
+						_="on click set #airtime's value to my.querySelector('.phone-number').textContent then call #airtime.reportValidity() then call changeSubmitBtnState()"
+						class="w-full bg-[#FEF7FF] shadow-[0px_1px_2px_1px_#00000014] px-2 py-3 flex justify-start items-center gap-6 rounded-lg"
+					>
+						<img src="/public/assets/images/airtel.png" alt="" class="w-[3.5rem] aspect-square rounded-full"/>
+						<div class="flex flex-col gap-2 justify-start items-center">
+							<p class="font-poppins font-medium text-xs leading-[1.125rem] text-[#2E2E2E]">Elijah</p>
+							<p class="phone-number font-montserrat font-bold text-[0.625rem] leading-[0.762rem] text-[#016934]">09034097322</p>
+						</div>
+					</button>
+				</li>
+			}
+		</ul>
+	</section>
+}
+
+templ scriptForAirtimePage() {
+	<script>
 			const beneficiaryNumberForm = document.getElementById('beneficiaryNumber');
 			const beneficiaryNumberSubmitBtn = document.getElementById('submitButton');
 
@@ -82,7 +107,6 @@ templ RechargeAirtimePage(user User) {
 				beneficiaryNumberSubmitBtn.classList.remove('opacity-45', 'bg-green-400')
 			}
 		</script>
-	</html>
 }
 
 templ airtimeRechargeSuccessDialog() {
