@@ -18,14 +18,14 @@ func (a *App) spendPageHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 
 	if r.Header.Get("X-Content-Mode") == "partials" {
-		if err := accPages.SpendMain(user.AvatarURL).Render(context.TODO(), w); err != nil {
+		if err := accPages.SpendMain(account(*user)).Render(context.TODO(), w); err != nil {
 			a.serverError(w, err)
 			return
 		}
 		return
 	}
 
-	if err := accPages.SpendPage(user.AvatarURL).Render(context.TODO(), w); err != nil {
+	if err := accPages.SpendPage(account(*user)).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}
@@ -60,7 +60,7 @@ func (a *App) spendBalance(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if err := accPages.SpendBalanceComp(user.AvatarURL).Render(context.TODO(), w); err != nil {
+	if err := accPages.SpendBalanceComp(account(*user)).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}

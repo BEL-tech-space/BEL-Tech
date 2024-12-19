@@ -626,6 +626,10 @@ video {
   z-index: 20;
 }
 
+.z-40 {
+  z-index: 40;
+}
+
 .m-10 {
   margin: 2.5rem;
 }
@@ -850,6 +854,10 @@ video {
 
 .mt-\[4\.5rem\] {
   margin-top: 4.5rem;
+}
+
+.mt-auto {
+  margin-top: auto;
 }
 
 .block {
@@ -2056,6 +2064,10 @@ video {
   line-height: 0.893rem;
 }
 
+.leading-\[0\.913rem\] {
+  line-height: 0.913rem;
+}
+
 .leading-\[0\.914rem\] {
   line-height: 0.914rem;
 }
@@ -2142,6 +2154,11 @@ video {
 
 .text-\[\#00000099\] {
   color: #00000099;
+}
+
+.text-\[\#000000\] {
+  --tw-text-opacity: 1;
+  color: rgb(0 0 0 / var(--tw-text-opacity, 1));
 }
 
 .text-\[\#014623\] {

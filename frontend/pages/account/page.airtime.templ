@@ -151,7 +151,10 @@ templ addNewBeneficiairyDialog() {
 				</label>
 				<input type="radio" id="9mobile" name="network" autocomplete="off" value="9mobile" class="hidden"/>
 			</section>
-			<button disabled type="submit" id="submitBtn" class="w-full opacity-45 bg-green-400 text-sm font-medium text-white py-[0.625rem] text-center tracking-[0.00625rem] rounded-md">Save Beneficiary</button>
+			<section class="w-full flex justify-between items-center gap-3">
+				<button disabled type="submit" id="submitBtn" class="w-full opacity-45 bg-green-400 text-sm font-medium text-white py-[0.625rem] text-center tracking-[0.00625rem] rounded-md">Save Beneficiary</button>
+				<button _="on click call #addNewBeneficiairyDialog.close()" class="outline-none rounded-md mb-2 font-medium bg-black text-[0.813rem] leading-5 tracking-[0.00625em] py-[0.625rem] px-8 text-center text-white">Close</button>
+			</section>
 		</form>
 		<style>
 			.selected {

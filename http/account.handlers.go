@@ -2,7 +2,6 @@ package http
 
 import (
 	"context"
-	"fmt"
 	"net/http"
 	"strings"
 
@@ -11,21 +10,6 @@ import (
 	"github.com/go-chi/chi/v5"
 	"golang.org/x/exp/rand"
 )
-
-// func (a *App) CommonHeaderOne(w http.ResponseWriter, r *http.Request) {
-
-// 	userEmail := r.Context().Value(contextKeyEmail).(string)
-// 	user, err := a.userFromCache(context.Background(), userEmail)
-// 	if err != nil {
-// 		a.serverError(w, err)
-// 		return
-// 	}
-// 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-// 	if err := accPages.CommonHeaderOne(account(*user), accPages.BeforeHeaderTagPartial(strings.Split(r.URL.Path, "/")[2])).Render(context.TODO(), w); err != nil {
-// 		a.serverError(w, err)
-// 		return
-// 	}
-// }
 
 func (a *App) footerPartial(w http.ResponseWriter, r *http.Request) {
 	pageTitle := strings.Split(r.URL.Path, "/")[2]
@@ -37,36 +21,6 @@ func (a *App) footerPartial(w http.ResponseWriter, r *http.Request) {
 		accPages.AfterFooterTagPartial(pageTitle),
 	).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
-		return
-	}
-}
-
-
-
-func (a *App) wasteHistoryHandler(w http.ResponseWriter, r *http.Request) {
-
-	var wasteType string
-	if wasteType = chi.URLParam(r, "wasteType"); wasteType == "" {
-		http.Error(w, "WasteType not specified", http.StatusBadRequest)
-		return
-	}
-
-	if wasteType != "glass" && wasteType != "metal" && wasteType != "paper" && wasteType != "plastics" {
-		http.Error(w, "Invalid wasteType", http.StatusBadRequest)
-		return
-	}
-
-	userEmail := r.Context().Value(contextKeyEmail).(string)
-
-	user, err := a.userFromCache(context.Background(), userEmail)
-	if err != nil {
-		fmt.Println("error occured here")
-		a.serverError(w, err)
-		return
-	}
-
-	if err := accPages.WasteHistoryPage(account(*user), wasteType, randomArray()).Render(context.Background(), w); err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 }
@@ -95,12 +49,4 @@ func randomArray() []string {
 		return []string{}
 	}
 	return []string{"example1", "example2", "example3"}
-}
-
-func (a *App) allWasteHistoryHandler(w http.ResponseWriter, r *http.Request) {
-
-	if err := accPages.AllWasteHistoryPage().Render(context.Background(), w); err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
 }

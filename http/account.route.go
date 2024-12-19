@@ -42,11 +42,13 @@ func (a *App) accountRouter() http.Handler {
 		r.Get("/profile", a.ProfilePageHandler)
 
 		r.Post("/airtime", a.airtimePageHandler)
+		
+		r.Get("/history", a.historyPageHandler)
 
-		r.Get("/beneficiaries", a.airtimeBeneficiaries)
+		r.Get("/beneficiaries", a.beneficiariesPageHandler)
+		
 		r.Get("/waste/{wasteType}", a.wasteHistoryHandler)
 		r.Get("/tips/{wasteType}", a.wasteTipsHandler)
-		r.Get("/history", a.allWasteHistoryHandler)
 
 	})
 

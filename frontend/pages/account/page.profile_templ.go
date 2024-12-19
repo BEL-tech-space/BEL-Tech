@@ -183,13 +183,13 @@ func ProfileChangeDisplayIconComp(avatarURL string) templ.Component {
 		var templ_7745c5c3_Var5 string
 		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(avatarURL)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.profile.templ`, Line: 36, Col: 22}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.profile.templ`, Line: 38, Col: 22}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" alt=\"\" class=\"absolute\"> <button><img src=\"/public/assets/svg/editPFP.svg\" alt=\"\" class=\"w-[1.962rem] aspect-square z-20 \"></button></section>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" alt=\"\" class=\"absolute rounded-full w-full aspect-square\"> <button class=\"z-40\"><img src=\"/public/assets/svg/editPFP.svg\" alt=\"\" class=\"w-[1.962rem] aspect-square\"></button></section>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -218,20 +218,46 @@ func ProfileUpdataAccountInfoPartialComp(user User) templ.Component {
 			templ_7745c5c3_Var6 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<form action=\"\" class=\"flex flex-col gap-3 justify-center items-center\"><div class=\"w-full flex flex-col justify-start items-start gap-1\"><label for=\"\" class=\"font-semibold text-xs\">Display Name:</label> <input type=\"text\" name=\"nickname\" id=\"nickname\" class=\"outline-none border-solid border-[#569B78] border-[0.0313rem] rounded p-2 w-full\"></div><div class=\"w-full flex flex-col justify-start items-start gap-1\"><label for=\"\" class=\"font-semibold text-xs\">Email:</label> <input disabled type=\"text\" name=\"nickname\" id=\"email\" placeholder=\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<form action=\"\" class=\"flex flex-col gap-3 justify-center items-center\"><div class=\"w-full flex flex-col justify-start items-start gap-1\"><label for=\"\" class=\"font-semibold text-xs\">Display Name:</label> <input type=\"text\" name=\"nickname\" id=\"nickname\" placeholder=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var7 string
-		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(user.Email)
+		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(user.NickName)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.profile.templ`, Line: 51, Col: 82}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.profile.templ`, Line: 49, Col: 79}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"outline-none border-solid border-[#569B78] border-[0.0313rem] rounded p-2 w-full\"></div><div class=\"w-full flex flex-col justify-start items-start gap-1 relative\"><label for=\"\" class=\"font-semibold text-xs\">Wallet:</label> <input disabled type=\"text\" name=\"nickname\" id=\"wallet\" class=\"outline-none  border-solid border-[#569B78] border-[0.0313rem] rounded p-2 w-full\"> <button class=\"absolute top-2/4 right-4\" _=\"on click call #createNewPinDialog.showModal() then halt\"><img src=\"/public/assets/svg/connectWallet.svg\" alt=\"\" class=\"w-5 aspect-square\"></button></div><section class=\"mt-10 w-full grid grid-cols-profileButton items-center gap-[0.625rem]\"><button _=\"on click call #enterSPLWalletAddrDialog.showModal() then halt\" class=\"w-full text-center bg-[#016934] text-white text-sm tracking-[0.1px] font-medium py-[0.625rem] px-1 rounded-md\">Save Changes</button> <a href=\"/account/signout\" title=\"logout\" class=\"bg-[#FFE8E8] rounded-md flex justify-center items-center\"><img src=\"/public/assets/svg/login.svg\" class=\"w-6 aspect-square m-2\"></a></section></form>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"outline-none border-solid border-[#569B78] border-[0.0313rem] rounded p-2 w-full\"></div><div class=\"w-full flex flex-col justify-start items-start gap-1\"><label for=\"\" class=\"font-semibold text-xs\">Email:</label> <input disabled type=\"text\" name=\"nickname\" id=\"email\" placeholder=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var8 string
+		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(user.Email)
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.profile.templ`, Line: 53, Col: 82}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"outline-none border-solid border-[#569B78] border-[0.0313rem] rounded p-2 w-full\"></div><div class=\"w-full flex flex-col justify-start items-start gap-1 relative\"><label for=\"\" class=\"font-semibold text-xs\">Wallet:</label> <input disabled type=\"text\" name=\"nickname\" id=\"wallet\" placeholder=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var9 string
+		templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(user.SplWallet)
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.profile.templ`, Line: 57, Col: 87}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"outline-none  border-solid border-[#569B78] border-[0.0313rem] rounded p-2 w-full\"> <button class=\"absolute top-2/4 right-4\" _=\"on click call #createNewPinDialog.showModal() then halt\"><img src=\"/public/assets/svg/connectWallet.svg\" alt=\"\" class=\"w-5 aspect-square\"></button></div><section class=\"mt-10 w-full grid grid-cols-profileButton items-center gap-[0.625rem]\"><button _=\"on click call #enterSPLWalletAddrDialog.showModal() then halt\" class=\"w-full text-center bg-[#016934] text-white text-sm tracking-[0.1px] font-medium py-[0.625rem] px-1 rounded-md\">Save Changes</button> <a href=\"/account/signout\" title=\"logout\" class=\"bg-[#FFE8E8] rounded-md flex justify-center items-center\"><img src=\"/public/assets/svg/login.svg\" class=\"w-6 aspect-square m-2\"></a></section></form>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -255,9 +281,9 @@ func createNewPinDialog() templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var8 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var8 == nil {
-			templ_7745c5c3_Var8 = templ.NopComponent
+		templ_7745c5c3_Var10 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var10 == nil {
+			templ_7745c5c3_Var10 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<dialog id=\"createNewPinDialog\" class=\"backdrop:backdrop-blur-sm rounded-2xl py-8 pl-7 pr-9 font-montserrat text-[#2E2E2E]\"><img src=\"/public/assets/images/beltech_logo.png\" alt=\"Beltech Logo\" class=\"w-[6.56rem] aspect-[104.96/107.84] mx-auto\"><p class=\"font-bold text-sm leading-[1.067rem] text-center mb-2 mt-6\">Enter Private Pin</p><p class=\"font-normal text-xs text-center text-nowrap\">Enter your private pin to change your wallet</p><form action=\"\" class=\"mt-8 w-full\"><div class=\"flex flex-col justify-start items-start gap-3 relative\"><label for=\"pin\" class=\"font-bold text-xs\">Enter Pin</label> <input required type=\"number\" name=\"pin\" id=\"pin\" maxlength=\"4\" minlength=\"4\" inputmode=\"numeric\" class=\"min-h-[2.071rem] pl-2 w-full border-solid border-[#569B78] border-[0.0256rem] rounded outline-none\"> <button class=\"absolute top-[60%] right-4\" id=\"eye\"><img src=\"/public/assets/svg/greenEye.svg\" alt=\"\" class=\"w-4 aspect-square\"></button></div><div class=\" mt-16 flex justify-between items-center gap-3\"><button type=\"button\" class=\"outline-none rounded-md mb-2 font-medium bg-[#016934] text-[0.813rem] leading-5 tracking-[0.00625em] py-[0.625rem] px-8 text-center text-white\">Proceed</button> <button _=\"on click call #createNewPinDialog.close()\" class=\"outline-none rounded-md mb-2 font-medium bg-black text-[0.813rem] leading-5 tracking-[0.00625em] py-[0.625rem] px-8 text-center text-white\">Close</button></div></form><p class=\" text-center font-poppins text-xs leading-[1.125rem] font-normal tracking-[0.01em]\">Don't have a pin? <a class=\"font-montserrat font-bold text-xs text-[#016934]\">Set Pin</a></p></dialog>")
@@ -284,9 +310,9 @@ func enterSPLWalletAddrDialog() templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var9 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var9 == nil {
-			templ_7745c5c3_Var9 = templ.NopComponent
+		templ_7745c5c3_Var11 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var11 == nil {
+			templ_7745c5c3_Var11 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<dialog id=\"enterSPLWalletAddrDialog\" class=\"backdrop:backdrop-blur-sm rounded-2xl py-8 pl-7 pr-9 font-montserrat text-[#2E2E2E]\"><img src=\"/public/assets/images/beltech_logo.png\" alt=\"Beltech Logo\" class=\"w-[6.56rem] aspect-[104.96/107.84] mx-auto\"><p class=\"font-bold text-sm leading-[1.067rem] text-center mb-2 mt-6\">Connect Wallet</p><p class=\"font-normal text-xs text-center text-nowrap\">Enter new SPL wallet address</p><form action=\"\" class=\"mt-8 w-full\"><label for=\"newWallet\" class=\"font-bold text-xs\">SPL Wallet Address</label> <input type=\"text\" name=\"newWallet\" id=\"newWallet\" class=\"min-h-[2.071rem] pl-1 w-full border-solid border-[#569B78] border-[0.0256rem] rounded outline-none\"> <button type=\"button\" _=\"on click call #enterSPLWalletAddrDialog.close()\" class=\"w-full rounded-md mt-16 mb-2 font-medium bg-[#016934] text-[0.813rem] leading-5 tracking-[0.00625em] py-[0.625rem] px-[5.219rem] text-center text-white\">Proceed</button></form></dialog>")
@@ -313,9 +339,9 @@ func successDialog(new bool) templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var10 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var10 == nil {
-			templ_7745c5c3_Var10 = templ.NopComponent
+		templ_7745c5c3_Var12 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var12 == nil {
+			templ_7745c5c3_Var12 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<dialog id=\"successDialog\" class=\"backdrop:backdrop-blur-sm rounded-2xl py-8 pl-7 pr-9 font-montserrat text-[#2E2E2E]\"><img src=\"/public/assets/svg/confetti.svg\" alt=\"\" class=\"w-[6.25rem] aspect-square mx-auto\"> ")
@@ -357,9 +383,9 @@ func changeSPLWalletAddrDialog() templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var11 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var11 == nil {
-			templ_7745c5c3_Var11 = templ.NopComponent
+		templ_7745c5c3_Var13 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var13 == nil {
+			templ_7745c5c3_Var13 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<dialog id=\"changeSPLWalletAddrDialog\" class=\"backdrop:backdrop-blur-sm rounded-2xl py-8 pl-7 pr-9 font-montserrat text-[#2E2E2E]\"><p class=\"mt-2 mb-4 font-poppins font-extralight text-[0.813rem] leading-5 tracking-[0.00625em] text-black text-left text-wrap\">BxfSXLfrj3DsFVk6Pnqnt2b7F5AwoaSPtsbDnRCXfwbe</p><p class=\"font-semibold text-[0.813rem] leading-5 tracking-[0.00625em] text-black text-left text-wrap\">Change SPL wallet address?</p><div class=\"mx-auto w-4/5 mt-2 flex justify-between items-center gap-2\"><button type=\"button\" _=\"on click call #changeSPLWalletAddrDialog.close()\" class=\"outline-none rounded-md mb-2 font-medium bg-[#016934] text-[0.813rem] leading-5 tracking-[0.00625em] py-[0.625rem] px-8 text-center text-white\">Proceed</button> <button type=\"button\" _=\"on click call #changeSPLWalletAddrDialog.close()\" class=\"outline-none rounded-md mb-2 font-medium bg-black text-[0.813rem] leading-5 tracking-[0.00625em] py-[0.625rem] px-8 text-center text-white\">Close</button></div></dialog>")

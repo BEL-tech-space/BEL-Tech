@@ -21,6 +21,9 @@ templ AfterFooterTagPartial(pageTitle string) {
 			@scriptForSpendPage()
 		case "airtime":
 			@scriptForAirtimePage()
+		case "beneficiaries":
+			@scriptForBeneficiariesPage()
+			@addNewBeneficiairyDialog()
 	}
 	@templ.Raw(`</html>`)
 }

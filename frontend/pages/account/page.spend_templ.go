@@ -8,7 +8,9 @@ package frontend
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-func SpendPage(avatarURL string) templ.Component {
+import "fmt"
+
+func SpendPage(user User) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -41,11 +43,11 @@ func SpendPage(avatarURL string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = SpendHeaderPartialComp(avatarURL, templ.NopComponent, templ.NopComponent).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = SpendHeaderPartialComp(user.AvatarUrl, templ.NopComponent, templ.NopComponent).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = SpendMain(avatarURL).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = SpendMain(user).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -98,7 +100,7 @@ func SpendHeaderPartialComp(avatarURL string, beforeHeaderTagPartial, afterHeade
 	})
 }
 
-func SpendMain(avatarURL string) templ.Component {
+func SpendMain(user User) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -123,7 +125,7 @@ func SpendMain(avatarURL string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = SpendBalanceComp(avatarURL).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = SpendBalanceComp(user).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -197,7 +199,7 @@ func scriptForSpendPage() templ.Component {
 	})
 }
 
-func SpendBalanceComp(avatarURL string) templ.Component {
+func SpendBalanceComp(user User) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -218,20 +220,48 @@ func SpendBalanceComp(avatarURL string) templ.Component {
 			templ_7745c5c3_Var6 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<p class=\"text-xs font-semibold text-left mt-[2.188rem] mb-6\">Change </p><section class=\"w-full flex justify-end items-center gap-1 mb-2\"><a href=\"/account/profile\"><img src=\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<p class=\"text-xs leading-[0.913rem] font-semibold text-left mt-[2.188rem] mb-6 text-[#000000]\">Change </p><section class=\"w-full flex justify-end items-center gap-1 mb-2\"><a href=\"/account/profile\"><img src=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var7 string
-		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(avatarURL)
+		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(user.AvatarUrl)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.spend.templ`, Line: 79, Col: 23}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.spend.templ`, Line: 81, Col: 28}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" alt=\"\" class=\"rounded-full w-4 aspect-square\"></a><p class=\"text-[0.5rem] leading-[0.75rem] font-medium text-left font-poppins\">Dz3y2237dshyyyyyyyyyybf7</p></section><section class=\"p-2 rounded-[0.625rem] border-solid border-[#0169344D] border-[0.063rem] w-full flex justify-between items-center\"><p class=\"text-[0.938rem] leading-[1.406rem] font-medium text-left\">3BEL</p><div class=\"flex flex-col items-center justify-center gap-2\"><div class=\"flex gap-2 justify-center items-center\"><p class=\"font-medium text-xs text-black font-poppins\">Balance 250.06 </p><button><img src=\"/public/assets/svg/greenEye.svg\" class=\"w-3 aspect-square\"></button></div><button class=\"rounded-[0.625rem] border-[0.063rem] p-2 border-solid border-[#0169344D]\"><p class=\"font-medium leading-4 text-[0.688rem] text-left text-[#016934]\">MAX</p></button></div></section>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" alt=\"\" class=\"rounded-full w-4 aspect-square\"></a> ")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		if user.SplWallet == "" {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a href=\"/account/profile\" class=\"block text-[0.5rem] leading-[0.75rem] font-medium text-left font-poppins\">connect wallet</a>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		} else {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<p class=\"text-[0.5rem] leading-[0.75rem] font-medium text-left font-poppins\">Dz3y2237dshyyyyyyyyyybf7</p>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</section><section class=\"p-2 rounded-[0.625rem] border-solid border-[#0169344D] border-[0.063rem] w-full flex justify-between items-center\"><p class=\"text-[0.938rem] leading-[1.406rem] font-medium text-left text-[#000000] font-poppins\">Spending: 0.00 BEL</p><div class=\"flex flex-col items-center justify-center gap-2\"><div class=\"flex gap-2 justify-center items-center\"><p class=\"font-medium text-xs text-black font-poppins\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var8 string
+		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("Balance %.4f", user.CurrBalance))
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.spend.templ`, Line: 93, Col: 106}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p><button><img src=\"/public/assets/svg/greenEye.svg\" class=\"w-3 aspect-square\"></button></div><button class=\"rounded-[0.625rem] border-[0.063rem] p-2 border-solid border-[#0169344D]\"><p class=\"font-medium leading-4 text-[0.688rem] text-left text-[#016934]\">MAX</p></button></div></section>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -255,12 +285,12 @@ func SpendOtherHalfPartialComp() templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var8 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var8 == nil {
-			templ_7745c5c3_Var8 = templ.NopComponent
+		templ_7745c5c3_Var9 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var9 == nil {
+			templ_7745c5c3_Var9 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<img src=\"/public/assets/svg/exchange.svg\" class=\"w-10 aspect-square mx-auto -my-2\"><form id=\"airtimeForm\" action=\"/account/airtime\" method=\"post\"><section class=\"w-full px-2 py-6 rounded-[0.625rem] border-solid border-[#0169344D] border-[0.063rem] flex justify-between items-center gap-2\"><label for=\"amount\" class=\"text-[0.938rem] leading-[1.406rem] text-left font-semibold text-[#00000099]\">Airtime</label> <input autofocus required type=\"number\" name=\"amount\" id=\"amount\" autocomplete=\"off\" min=\"100\" inputmode=\"numeric\" placeholder=\"Amount\" enterkeyhint=\"convert\" class=\"max-h-[3.313rem] placeholder:italic placeholder:text-left bg-transparent outline-none\"></section><p class=\"text-center font-semibold text-xs text-black mb-4 mt-2\">Your #BEL is worth 1,000 naira Airtime</p><section class=\"grid grid-cols-4 justify-between items-center gap-[2.125rem] mb-8\"><label for=\"mtn\" class=\"label shadow-[0px_0.053rem_0.105rem_0.053rem_#00000014] py-[0.869rem] px-[1.25rem] flex flex-col justify-center items-center\"><img src=\"/public/assets/svg/mtn.svg\" alt=\"\" class=\"w-[1.259rem] rounded-full\"><p class=\"font-poppins font-bold text-[0.524rem] leading-[0.787rem] mt-[0.482rem]\">MTN</p></label> <input required type=\"radio\" id=\"mtn\" name=\"network\" autocomplete=\"off\" value=\"mtn\" class=\"hidden\"> <label for=\"airtel\" class=\"label shadow-[0px_0.053rem_0.105rem_0.053rem_#00000014] py-[0.869rem] px-[1.25rem] flex flex-col justify-center items-cente\"><img src=\"/public/assets/svg/airtel.svg\" alt=\"\" class=\"w-[1.259rem] rounded-full\"><p class=\"font-poppins font-bold text-[0.524rem] leading-[0.787rem] mt-[0.482rem]\">AIRTEL</p></label> <input type=\"radio\" id=\"airtel\" name=\"network\" autocomplete=\"off\" value=\"airtel\" class=\"hidden\"> <label for=\"glo\" class=\"label shadow-[0px_0.053rem_0.105rem_0.053rem_#00000014] py-[0.869rem] px-[1.25rem] flex flex-col justify-center items-center\"><img src=\"/public/assets/svg/glo.svg\" alt=\"\" class=\"w-[1.259rem] rounded-full\"><p class=\"font-poppins font-bold text-[0.524rem] leading-[0.787rem] mt-[0.482rem]\">GLO</p></label> <input type=\"radio\" id=\"glo\" name=\"network\" autocomplete=\"off\" value=\"glo\" class=\"hidden\"> <label for=\"9mobile\" class=\"label shadow-[0px_0.053rem_0.105rem_0.053rem_#00000014] py-[0.869rem] px-[1.25rem] flex flex-col justify-center items-center\"><img src=\"/public/assets/svg/9mobile.svg\" alt=\"\" class=\"w-[1.259rem] rounded-full\"><p class=\"font-poppins font-bold text-[0.524rem] leading-[0.787rem] mt-[0.482rem]\">9MOBILE</p></label> <input type=\"radio\" id=\"9mobile\" name=\"network\" autocomplete=\"off\" value=\"9mobile\" class=\"hidden\"></section><button disabled type=\"submit\" id=\"submitBtn\" class=\"w-full opacity-45 bg-green-400 text-sm font-medium text-white py-[0.625rem] text-center tracking-[0.00625rem] rounded-md\">Convert</button></form><section class=\"mt-12 flex flex-col justify-center items-center gap-6\"><div class=\"flex w-full gap-4 bg-[#FEF7FF] rounded-lg p-[0.313rem]\"><picture><source type=\"image/webp\" srcset=\"/public/assets/images/friends.webp\"> <img src=\"/public/assets/images/friends.jpg\" alt=\"\" class=\"w-[4.688rem] aspect-[75/70] rounded-lg\"></picture> <a href=\"/account/beneficiaries\" class=\"flex flex-col justify-center items-start gap-1\"><p class=\"font-medium text-[0.625rem] leading-4\">Saved beneficiaries for instant <br>top-ups</p><button class=\"block font-bold text-[#016934] text-[0.5rem] leading-[0.609rem]\">View beneficiary</button></a></div><div class=\"flex w-full gap-4 bg-[#FEF7FF] rounded-lg p-[0.313rem]\"><img src=\"/public/assets/svg/spendVoucher.svg\" alt=\"\" class=\"w-[4.688rem] aspect-[75/70] rounded-lg\"> <a class=\"flex flex-col justify-center items-start gap-1\"><p class=\"font-medium text-[0.625rem] leading-4\">Get Vouchers for purchase of <br>goods and services </p><button class=\"font-bold text-[#016934] text-[0.5rem] leading-[0.609rem]\">Buy Voucher</button></a></div></section>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<img src=\"/public/assets/svg/exchange.svg\" class=\"w-10 aspect-square mx-auto -my-2\"><form id=\"airtimeForm\" action=\"/account/airtime\" method=\"post\"><section class=\"w-full px-2 py-6 rounded-[0.625rem] border-solid border-[#0169344D] border-[0.063rem] flex justify-between items-center gap-2\"><label for=\"amount\" class=\"text-[0.938rem] leading-[1.406rem] text-left font-semibold text-[#00000099]\">Airtime</label> <input autofocus required type=\"number\" name=\"amount\" id=\"amount\" autocomplete=\"off\" min=\"100\" inputmode=\"numeric\" placeholder=\"Amount\" enterkeyhint=\"convert\" class=\"max-h-[3.313rem] placeholder:italic placeholder:text-left bg-transparent outline-none\"></section><p class=\"text-center font-semibold text-xs text-black mb-4 mt-2\">Your #BEL is worth 1,000 naira Airtime</p><section class=\"grid grid-cols-4 justify-between items-center gap-[2.125rem] mb-8\"><label for=\"mtn\" class=\"label shadow-[0px_0.053rem_0.105rem_0.053rem_#00000014] py-[0.869rem] px-[1.25rem] flex flex-col justify-center items-center\"><img src=\"/public/assets/svg/mtn.svg\" alt=\"\" class=\"w-[1.259rem] aspect-square rounded-full\"><p class=\"font-poppins font-bold text-[0.524rem] leading-[0.787rem] mt-[0.482rem]\">MTN</p></label> <input required type=\"radio\" id=\"mtn\" name=\"network\" autocomplete=\"off\" value=\"mtn\" class=\"hidden\"> <label for=\"airtel\" class=\"label shadow-[0px_0.053rem_0.105rem_0.053rem_#00000014] py-[0.869rem] px-[1.25rem] flex flex-col justify-center items-center\"><img src=\"/public/assets/svg/airtel.svg\" alt=\"\" class=\"w-[1.259rem] aspect-square rounded-full\"><p class=\"font-poppins font-bold text-[0.524rem] leading-[0.787rem] mt-[0.482rem]\">AIRTEL</p></label> <input type=\"radio\" id=\"airtel\" name=\"network\" autocomplete=\"off\" value=\"airtel\" class=\"hidden\"> <label for=\"glo\" class=\"label shadow-[0px_0.053rem_0.105rem_0.053rem_#00000014] py-[0.869rem] px-[1.25rem] flex flex-col justify-center items-center\"><img src=\"/public/assets/svg/glo.svg\" alt=\"\" class=\"w-[1.259rem] aspect-square rounded-full\"><p class=\"font-poppins font-bold text-[0.524rem] leading-[0.787rem] mt-[0.482rem]\">GLO</p></label> <input type=\"radio\" id=\"glo\" name=\"network\" autocomplete=\"off\" value=\"glo\" class=\"hidden\"> <label for=\"9mobile\" class=\"label shadow-[0px_0.053rem_0.105rem_0.053rem_#00000014] py-[0.869rem] px-[1.25rem] flex flex-col justify-center items-center\"><img src=\"/public/assets/svg/9mobile.svg\" alt=\"\" class=\"w-[1.259rem] aspect-square rounded-full\"><p class=\"font-poppins font-bold text-[0.524rem] leading-[0.787rem] mt-[0.482rem]\">9MOBILE</p></label> <input type=\"radio\" id=\"9mobile\" name=\"network\" autocomplete=\"off\" value=\"9mobile\" class=\"hidden\"></section><button disabled type=\"submit\" id=\"submitBtn\" class=\"w-full opacity-45 bg-green-400 text-sm font-medium text-white py-[0.625rem] text-center tracking-[0.00625rem] rounded-md\">Convert</button></form><section class=\"mt-12 flex flex-col justify-center items-center gap-6\"><div class=\"flex w-full gap-4 bg-[#FEF7FF] rounded-lg p-[0.313rem]\"><picture><source type=\"image/webp\" srcset=\"/public/assets/images/friends.webp\"> <img src=\"/public/assets/images/friends.jpg\" alt=\"\" class=\"w-[4.688rem] aspect-[75/70] rounded-lg\"></picture> <a href=\"/account/beneficiaries\" class=\"flex flex-col justify-center items-start gap-1\"><p class=\"font-medium text-[0.625rem] leading-4\">Saved beneficiaries for instant <br>top-ups</p><button class=\"block font-bold text-[#016934] text-[0.5rem] leading-[0.609rem]\">View beneficiary</button></a></div><div class=\"flex w-full gap-4 bg-[#FEF7FF] rounded-lg p-[0.313rem]\"><img src=\"/public/assets/svg/spendVoucher.svg\" alt=\"\" class=\"w-[4.688rem] aspect-[75/70] rounded-lg\"> <a class=\"flex flex-col justify-center items-start gap-1\"><p class=\"font-medium text-[0.625rem] leading-4\">Get Vouchers for purchase of <br>goods and services </p><button class=\"font-bold text-[#016934] text-[0.5rem] leading-[0.609rem]\">Buy Voucher</button></a></div></section>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

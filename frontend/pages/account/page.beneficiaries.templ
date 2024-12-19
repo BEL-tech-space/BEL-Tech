@@ -11,6 +11,7 @@ templ BeneficiariesPage(avatarURL string) {
 				@Footer("spend", templ.NopComponent, templ.NopComponent)
 			</div>
 		</body>
+		@scriptForBeneficiariesPage()
 		@addNewBeneficiairyDialog()
 	</html>
 }
@@ -56,4 +57,8 @@ templ BeneficiariesMain() {
 			}
 		</ul>
 	</main>
+}
+
+templ scriptForBeneficiariesPage() {
+	<script src="/public/assets/scripts/hyperscript.min.js"></script>
 }

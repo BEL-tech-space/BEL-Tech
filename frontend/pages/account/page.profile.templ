@@ -33,9 +33,9 @@ templ ProfileMainOpeningTagComp() {
 
 templ ProfileChangeDisplayIconComp(avatarURL string) {
 	<section class="my-[3.25rem] flex relative w-[7.75rem] aspect-square mx-auto items-end justify-end">
-		<img src={ avatarURL } alt="" class="absolute"/>
-		<button>
-			<img src="/public/assets/svg/editPFP.svg" alt="" class="w-[1.962rem] aspect-square z-20 "/>
+		<img src={ avatarURL } alt="" class="absolute rounded-full w-full aspect-square"/>
+		<button class="z-40">
+			<img src="/public/assets/svg/editPFP.svg" alt="" class="w-[1.962rem] aspect-square"/>
 		</button>
 	</section>
 }
@@ -44,7 +44,7 @@ templ ProfileUpdataAccountInfoPartialComp(user User) {
 	<form action="" class="flex flex-col gap-3 justify-center items-center">
 		<div class="w-full flex flex-col justify-start items-start gap-1">
 			<label for="" class="font-semibold text-xs">Display Name:</label>
-			<input type="text" name="nickname" id="nickname" class="outline-none border-solid border-[#569B78] border-[0.0313rem] rounded p-2 w-full"/>
+			<input type="text" name="nickname" id="nickname" placeholder={ user.NickName } class="outline-none border-solid border-[#569B78] border-[0.0313rem] rounded p-2 w-full"/>
 		</div>
 		<div class="w-full flex flex-col justify-start items-start gap-1">
 			<label for="" class="font-semibold text-xs">Email:</label>
@@ -52,7 +52,7 @@ templ ProfileUpdataAccountInfoPartialComp(user User) {
 		</div>
 		<div class="w-full flex flex-col justify-start items-start gap-1 relative">
 			<label for="" class="font-semibold text-xs">Wallet:</label>
-			<input disabled type="text" name="nickname" id="wallet" class="outline-none  border-solid border-[#569B78] border-[0.0313rem] rounded p-2 w-full"/>
+			<input disabled type="text" name="nickname" id="wallet" placeholder={ user.SplWallet } class="outline-none  border-solid border-[#569B78] border-[0.0313rem] rounded p-2 w-full"/>
 			<button class="absolute top-2/4 right-4" _="on click call #createNewPinDialog.showModal() then halt">
 				<img src="/public/assets/svg/connectWallet.svg" alt="" class="w-5 aspect-square"/>
 			</button>

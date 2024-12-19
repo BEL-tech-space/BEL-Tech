@@ -26,7 +26,7 @@ func (a *App) walletPageHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 
 	if r.Header.Get("X-Content-Mode") == "partials" {
-		if err := accPages.WalletMain([]types.TokenData{
+		if err := accPages.WalletMain(account(*user), []types.TokenData{
 			liveCryptoData.bitcoin,
 			liveCryptoData.ethereum,
 			liveCryptoData.solana,
@@ -67,8 +67,16 @@ func (a *App) walletHeaderPartial(w http.ResponseWriter, r *http.Request) {
 }
 
 func (a *App) walletBalance(w http.ResponseWriter, r *http.Request) {
+
+	userEmail := r.Context().Value(contextKeyEmail).(string)
+	user, err := a.userFromCache(context.Background(), userEmail)
+	if err != nil {
+		a.serverError(w, err)
+		return
+	}
+
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if err := accPages.WalletBalanceComp().Render(context.TODO(), w); err != nil {
+	if err := accPages.WalletBalanceComp(account(*user).CurrBalance).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}
