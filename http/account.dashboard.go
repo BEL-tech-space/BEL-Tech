@@ -19,14 +19,14 @@ func (a *App) dashboardPageHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 
 	if r.Header.Get("X-Content-Mode") == "partials" {
-		if err := accPages.DashboardMain().Render(context.TODO(), w); err != nil {
+		if err := accPages.DashboardMain(chart()).Render(context.TODO(), w); err != nil {
 			a.serverError(w, err)
 			return
 		}
 		return
 	}
 
-	if err := accPages.DashboardPage(account(*user)).Render(context.TODO(), w); err != nil {
+	if err := accPages.DashboardPage(account(*user), chart()).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}
@@ -81,7 +81,7 @@ func (a *App) dashboardRecycledAndSeeAllPartial(w http.ResponseWriter, r *http.R
 func (a *App) dashboardDataViz(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if err := accPages.DashboardDataVizComp().Render(context.TODO(), w); err != nil {
+	if err := accPages.DashboardDataVizComp(chart()).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}

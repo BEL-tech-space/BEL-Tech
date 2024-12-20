@@ -10,6 +10,7 @@ require (
 	github.com/brianvoe/gofakeit/v7 v7.1.1
 	github.com/caarlos0/env/v11 v11.2.2
 	github.com/go-chi/chi/v5 v5.1.0
+	github.com/go-echarts/go-echarts/v2 v2.4.6
 	github.com/google/uuid v1.6.0
 	github.com/gorilla/sessions v1.4.0
 	github.com/jackc/pgx/v5 v5.7.1

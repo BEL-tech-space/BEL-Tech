@@ -1,13 +1,15 @@
 package frontend
 
-templ DashboardPage(user User) {
+import "html/template"
+
+templ DashboardPage(user User, chart template.HTML) {
 	<!DOCTYPE html>
 	<html lang="en">
 		@headTag("Dashboard")
 		<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
 			<div class="Page w-full h-full flex flex-col font-montserrat text-[#2E2E2E]">
 				@CommonHeaderOne(user, templ.NopComponent, templ.NopComponent)
-				@DashboardMain()
+				@DashboardMain(chart)
 				@Footer("dashboard", templ.NopComponent, templ.NopComponent)
 			</div>
 		</body>
@@ -15,12 +17,12 @@ templ DashboardPage(user User) {
 	</html>
 }
 
-templ DashboardMain() {
+templ DashboardMain(chart template.HTML) {
 	<main class="grow overflow-y-scroll pl-6 pr-[1.56rem] pt-[1.875rem]">
 		@LetRecycleAndProfileComp("Let's Recycle!")
 		@DashboardSwiperOneComp()
 		@DashboardRecycledAndSeeAllComp()
-		@DashboardDataVizComp()
+		@DashboardDataVizComp(chart)
 		@DashboardTipsParagraphComp()
 		@DashboardSwiperTwoComp()
 	</main>
@@ -145,47 +147,14 @@ templ DashboardRecycledAndSeeAllComp() {
 	</section>
 }
 
-templ DashboardDataVizComp() {
-	<section class="mt-4 flex flex-col gap-4">
-		<div class="bg-[#FEF7FF] w-full rounded-lg flex gap-2">
-			<picture>
-				<source type="image/webp" srcset="/public/assets/images/sports_bottle.webp"/>
-				<img
-					src="/public/assets/images/sports_bottle.jpg"
-					class="w-[4.69rem] aspect-[75/70] py-[0.31rem] pr-[0.31rem] rounded-lg"
-				/>
-			</picture>
-			<div class="flex flex-col gap-0.5 ml-4 mt-[1.188rem] mb-[1.125rem]">
-				<p class="font-[500] leading-[0.838rem] text-[0.688rem]">Sport plastic bottle</p>
-				<p class="font-[700] leading-[0.0.762rem] text-[0.625rem]">54 recycled</p>
-			</div>
-			<img
-				src="/public/assets/svg/back_arrow.svg"
-				class="rotate-180 ml-auto w-[0.938rem] aspect-square"
-			/>
-		</div>
-		<div class="bg-[#FEF7FF] w-full rounded-lg flex gap-2">
-			<picture>
-				<source type="image/webp" srcset="/public/assets/images/paper_bag.webp"/>
-				<img
-					src="/public/assets/images/paper_bag.jpg"
-					class="w-[4.69rem] aspect-[75/70] py-[0.31rem] pr-[0.31rem] rounded-lg"
-				/>
-			</picture>
-			<div class="flex flex-col gap-0.5 ml-4 mt-[1.188rem] mb-[1.125rem]">
-				<p class="font-[500] leading-[0.838rem] text-[0.688rem]">Small paper bag</p>
-				<p class="font-[700] leading-[0.0.762rem] text-[0.625rem]">45 recycled</p>
-			</div>
-			<img
-				src="/public/assets/svg/back_arrow.svg"
-				class="rotate-180 ml-auto w-[0.938rem] aspect-square"
-			/>
-		</div>
+templ DashboardDataVizComp(chart template.HTML) {
+	<section id="echart" class="bg-transparent mt-5">
+		@templ.Raw(chart)
 	</section>
 }
 
 templ DashboardTipsParagraphComp() {
-	<p class="mt-8 font-semibold text-[0.938rem] leading-[1.143rem]">Tips on Recycling</p>
+	<p class="font-semibold text-[0.938rem] leading-[1.143rem]">Tips on Recycling</p>
 }
 
 templ DashboardSwiperTwoComp() {

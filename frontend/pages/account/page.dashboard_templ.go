@@ -8,7 +8,9 @@ package frontend
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-func DashboardPage(user User) templ.Component {
+import "html/template"
+
+func DashboardPage(user User, chart template.HTML) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -45,7 +47,7 @@ func DashboardPage(user User) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = DashboardMain().Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = DashboardMain(chart).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -69,7 +71,7 @@ func DashboardPage(user User) templ.Component {
 	})
 }
 
-func DashboardMain() templ.Component {
+func DashboardMain(chart template.HTML) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -106,7 +108,7 @@ func DashboardMain() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = DashboardDataVizComp().Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = DashboardDataVizComp(chart).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -242,7 +244,7 @@ func DashboardRecycledAndSeeAllComp() templ.Component {
 	})
 }
 
-func DashboardDataVizComp() templ.Component {
+func DashboardDataVizComp(chart template.HTML) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -263,7 +265,15 @@ func DashboardDataVizComp() templ.Component {
 			templ_7745c5c3_Var7 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<section class=\"mt-4 flex flex-col gap-4\"><div class=\"bg-[#FEF7FF] w-full rounded-lg flex gap-2\"><picture><source type=\"image/webp\" srcset=\"/public/assets/images/sports_bottle.webp\"> <img src=\"/public/assets/images/sports_bottle.jpg\" class=\"w-[4.69rem] aspect-[75/70] py-[0.31rem] pr-[0.31rem] rounded-lg\"></picture><div class=\"flex flex-col gap-0.5 ml-4 mt-[1.188rem] mb-[1.125rem]\"><p class=\"font-[500] leading-[0.838rem] text-[0.688rem]\">Sport plastic bottle</p><p class=\"font-[700] leading-[0.0.762rem] text-[0.625rem]\">54 recycled</p></div><img src=\"/public/assets/svg/back_arrow.svg\" class=\"rotate-180 ml-auto w-[0.938rem] aspect-square\"></div><div class=\"bg-[#FEF7FF] w-full rounded-lg flex gap-2\"><picture><source type=\"image/webp\" srcset=\"/public/assets/images/paper_bag.webp\"> <img src=\"/public/assets/images/paper_bag.jpg\" class=\"w-[4.69rem] aspect-[75/70] py-[0.31rem] pr-[0.31rem] rounded-lg\"></picture><div class=\"flex flex-col gap-0.5 ml-4 mt-[1.188rem] mb-[1.125rem]\"><p class=\"font-[500] leading-[0.838rem] text-[0.688rem]\">Small paper bag</p><p class=\"font-[700] leading-[0.0.762rem] text-[0.625rem]\">45 recycled</p></div><img src=\"/public/assets/svg/back_arrow.svg\" class=\"rotate-180 ml-auto w-[0.938rem] aspect-square\"></div></section>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<section id=\"echart\" class=\"bg-transparent mt-5\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templ.Raw(chart).Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</section>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -292,7 +302,7 @@ func DashboardTipsParagraphComp() templ.Component {
 			templ_7745c5c3_Var8 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<p class=\"mt-8 font-semibold text-[0.938rem] leading-[1.143rem]\">Tips on Recycling</p>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<p class=\"font-semibold text-[0.938rem] leading-[1.143rem]\">Tips on Recycling</p>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
