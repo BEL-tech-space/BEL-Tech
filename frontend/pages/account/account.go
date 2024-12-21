@@ -2,6 +2,7 @@ package frontend
 
 import (
 	"fmt"
+	"reflect"
 	"strings"
 	"time"
 )
@@ -52,4 +53,18 @@ func chartUrlRed(url string) string {
 			mask: url('%s') no-repeat center / contain;
 			-webkit-mask: url('%s') no-repeat center / contain;"
 	></div>`, url, url)
+}
+
+func isAllElementZero[T any](arr []T) bool {
+	if len(arr) == 0 {
+		return true
+	}
+
+	for _, v := range arr {
+		if !reflect.ValueOf(v).IsZero() {
+			return false
+		}
+	}
+
+	return true
 }

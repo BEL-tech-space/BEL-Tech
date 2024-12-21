@@ -20,8 +20,7 @@ func (a *App) accountRouter() http.Handler {
 	r.Route("/", func(r chi.Router) {
 		r.Use(a.accountAuthorization)
 
-
-		r.Get("/dashboard/header-Partial.html", a.CommonHeaderOne)
+		r.Get("/dashboard/header-Partial.html", a.dashboardHeaderPartial)
 		r.Get("/dashboard/footer-Partial.html", a.footerPartial)
 		r.Get("/dashboard", a.dashboardPageHandler)
 
@@ -31,7 +30,7 @@ func (a *App) accountRouter() http.Handler {
 		r.Get("/location/footer-Partial.html", a.footerPartial)
 		r.Get("/location", a.locationPageHandler)
 
-		r.Get("/wallet/header-Partial.html", a.CommonHeaderOne)
+		r.Get("/wallet/header-Partial.html", a.walletHeaderPartial)
 		r.Get("/wallet/footer-Partial.html", a.footerPartial)
 		r.Get("/wallet", a.walletPageHandler)
 		r.Get("/coinData", a.coinDataHandler)
@@ -40,12 +39,16 @@ func (a *App) accountRouter() http.Handler {
 		r.Get("/spend/footer-Partial.html", a.footerPartial)
 		r.Get("/spend", a.spendPageHandler)
 
-		r.Get("/profile", a.accountProfilePage)
-		r.Post("/airtime", a.rechargeAirtime)
-		r.Get("/beneficiaries", a.airtimeBeneficiaries)
+		r.Get("/profile", a.ProfilePageHandler)
+
+		r.Post("/airtime", a.airtimePageHandler)
+		
+		r.Get("/history", a.historyPageHandler)
+
+		r.Get("/beneficiaries", a.beneficiariesPageHandler)
+		
 		r.Get("/waste/{wasteType}", a.wasteHistoryHandler)
 		r.Get("/tips/{wasteType}", a.wasteTipsHandler)
-		r.Get("/history", a.allWasteHistoryHandler)
 
 	})
 

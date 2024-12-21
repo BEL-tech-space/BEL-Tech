@@ -14,11 +14,16 @@ templ AfterFooterTagPartial(pageTitle string) {
 		case "scan":
 			@scriptForScanPage()
 		case "location":
-			@ScriptForLocationPage()
+			@scriptForLocationPage()
 		case "wallet":
 			@scriptForWalletPage()
 		case "spend":
 			@scriptForSpendPage()
+		case "airtime":
+			@scriptForAirtimePage()
+		case "beneficiaries":
+			@scriptForBeneficiariesPage()
+			@addNewBeneficiairyDialog()
 	}
 	@templ.Raw(`</html>`)
 }
@@ -60,7 +65,12 @@ templ headTag(pageTitle string) {
 	</head>
 }
 
-templ Footer(active string, afterFooterTagPartial templ.Component) {
+templ MainClosingTag() {
+	@templ.Raw(`</main>`)
+}
+
+templ Footer(active string, beforeFooterTagPartial, afterFooterTagPartial templ.Component) {
+	@beforeFooterTagPartial
 	<footer class="bg-white flex w-full justify-around px-4 pt-2 pb-3 gap-[2.375rem]" hx-boost="false">
 		if active == "dashboard" {
 			<a
@@ -181,7 +191,7 @@ templ Footer(active string, afterFooterTagPartial templ.Component) {
 	@afterFooterTagPartial
 }
 
-templ CommonHeaderOne(user User, beforeHeaderTagPartial templ.Component) {
+templ CommonHeaderOne(user User, beforeHeaderTagPartial, afterHeaderTagPartial templ.Component) {
 	@beforeHeaderTagPartial
 	<header class="pt-[1.5rem] pl-[1.5rem] pr-[1.56rem] flex w-full justify-start items-center">
 		<a href="/account/profile">
@@ -217,9 +227,10 @@ templ CommonHeaderOne(user User, beforeHeaderTagPartial templ.Component) {
 			/>
 		</button>
 	</header>
+	@afterHeaderTagPartial
 }
 
-templ commonHeaderTwo(text, avatarURL, imagePath, btnBehaviour string, beforeHeaderTagPartial templ.Component) {
+templ commonHeaderTwo(text, avatarURL, imagePath, btnBehaviour string, beforeHeaderTagPartial, afterHeaderTagPartial templ.Component) {
 	@beforeHeaderTagPartial
 	<header class="pt-[1.5rem] pl-[1.5rem] pr-[1.56rem] flex w-full justify-between items-center">
 		<a href="/account/profile">
@@ -236,9 +247,10 @@ templ commonHeaderTwo(text, avatarURL, imagePath, btnBehaviour string, beforeHea
 			/>
 		</button>
 	</header>
+	@afterHeaderTagPartial
 }
 
-templ letRecycleAndProfile(text string) {
+templ LetRecycleAndProfileComp(text string) {
 	<article class="flex items-center gap-1">
 		<p class="leading-[1.143rem] font-semibold text-[0.938rem]">{ text }</p>
 		<picture>

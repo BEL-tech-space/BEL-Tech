@@ -87,7 +87,26 @@ func (a *App) callbackHandlerAccount(w http.ResponseWriter, r *http.Request) {
 }
 
 func (a *App) logout(w http.ResponseWriter, r *http.Request) {
-	gothic.Logout(w, r)
+
+	if err := gothic.Logout(w, r); err != nil {
+		fmt.Println("error in goth.logout", err.Error())
+	}
+
+	session, err := a.accountSessionStore.Get(r, "beltech-account")
+	if err != nil {
+		fmt.Println("error in get, logoutAccount", err.Error())
+		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
+		return
+	}
+
+	session.Options.MaxAge = -1
+	session.Values = nil
+	if err := session.Save(r, w); err != nil {
+		fmt.Println("error in saving session, logOut", err.Error())
+		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
+		return
+	}
+
 	http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
 }
 

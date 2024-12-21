@@ -1,7 +1,7 @@
 package http
 
 import (
-	accountPages "beltech/frontend/pages/account"
+	accPages "beltech/frontend/pages/account"
 	"context"
 	"net/http"
 )
@@ -9,7 +9,7 @@ import (
 func (a *App) signupPageHandler(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if err := accountPages.SignUpPage().Render(context.TODO(), w); err != nil {
+	if err := accPages.SignUpPage().Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}
@@ -18,7 +18,7 @@ func (a *App) signupPageHandler(w http.ResponseWriter, r *http.Request) {
 func (a *App) signinPageHandler(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if err := accountPages.SignInPage().Render(context.TODO(), w); err != nil {
+	if err := accPages.SignInPage().Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}

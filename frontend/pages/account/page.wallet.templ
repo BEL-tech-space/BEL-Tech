@@ -1,6 +1,9 @@
 package frontend
 
-import "beltech/types"
+import (
+	"beltech/types"
+	"fmt"
+)
 
 templ WalletPage(user User, data []types.TokenData) {
 	<!DOCTYPE html>
@@ -8,43 +11,54 @@ templ WalletPage(user User, data []types.TokenData) {
 		@headTag("Wallet")
 		<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
 			<div class="w-full h-full flex flex-col font-montserrat text-[#2E2E2E]">
-				@CommonHeaderOne(user, templ.NopComponent)
-				@WalletMainPartial(data)
-				@Footer("wallet", templ.NopComponent)
+				@CommonHeaderOne(user, templ.NopComponent, templ.NopComponent)
+				@WalletMain(user, data)
+				@Footer("wallet", templ.NopComponent, templ.NopComponent)
 			</div>
 			@scriptForWalletPage()
 		</body>
 	</html>
 }
 
-templ WalletMainPartial(data []types.TokenData) {
+templ WalletMain(user User, data []types.TokenData) {
 	<main class="grow overflow-y-auto pl-6 pr-[1.56rem] flex flex-col">
-		@WalletBalancePartail(templ.NopComponent)
-		@WalletOptionsPartial()
-		@WalletWatchlistPartial()
-		@WalletCoinDataPartial(data)
-		@WalletSwiperPartial(templ.NopComponent)
+		@WalletBalanceComp(user.CurrBalance)
+		@WalletOptionsPartialComp()
+		@WalletWatchlistPartialComp()
+		@WalletCoinDataComp(data)
+		@WalletSwiperComp()
 	</main>
 }
 
-templ WalletMainOpenTagPartial() {
+templ scriptForWalletPage() {
+	<script src="/public/assets/scripts/htmx.min.js"></script>
+	<script src="/public/assets/scripts/swiper-bundle.min.js"></script>
+	<script>
+		const swiperThree = new Swiper( '.mySwiperThree', {
+            mousewheel: true,
+            keyboard: true,
+			spaceBetween: 8,
+            autoplay: {
+                delay: 1500,
+                disableOnInteraction: true,
+            },
+        } );
+	</script>
+}
+
+templ WalletMainOpeningTagComp() {
 	@templ.Raw(`<main class="grow overflow-y-auto pl-6 pr-[1.56rem] flex flex-col">`)
 }
 
-templ WalletMainCloseTagPartial() {
-	@templ.Raw(`</main>`)
-}
-
-templ WalletBalancePartail(mainOpeningTag templ.Component) {
-	@mainOpeningTag
+templ WalletBalanceComp(belTokenBalance float64) {
 	<section class="pt-[1.88rem] flex gap-2 items-center">
 		<p class="font-semibold text-xs leading-[0.914rem]">My Balance </p>
 		<img src="/public/assets/svg/eye.svg" class="w-[0.938rem] aspect-square"/>
 	</section>
-	<p class="mt-2 mb-8 font-bold text-xl leading-[1.524rem] text-[#016934]">250.06 BEL </p>
+	<p class="mt-2 mb-8 font-bold text-xl leading-[1.524rem] text-[#016934]">{ fmt.Sprintf("%.4f BEL", belTokenBalance) }</p>
 }
 
-templ WalletOptionsPartial() {
+templ WalletOptionsPartialComp() {
 	<section class="flex w-full justify-between items-start gap-2">
 		<a class="flex flex-col gap-2 items-center">
 			<button class="bg-[#CCE1D6] rounded-full p-[0.938rem]"><img src="/public/assets/svg/+.svg" class="w-5 aspect-square"/></button>
@@ -65,7 +79,7 @@ templ WalletOptionsPartial() {
 	</section>
 }
 
-templ WalletWatchlistPartial() {
+templ WalletWatchlistPartialComp() {
 	<section class="mt-10 mb-4 w-full flex justify-between items-center">
 		<p class="font-semibold text-[0.94rem] leading-[1.14rem]">Watchlist</p>
 		<button>
@@ -74,7 +88,7 @@ templ WalletWatchlistPartial() {
 	</section>
 }
 
-templ WalletCoinDataPartial(data []types.TokenData) {
+templ WalletCoinDataComp(data []types.TokenData) {
 	<section>
 		<ul hx-get="/account/coinData" hx-trigger="every 11s" hx-swap="innerHTML" class="w-full flex flex-col gap-3 justify-around items-center h-full">
 			@CoinData(data)
@@ -82,8 +96,79 @@ templ WalletCoinDataPartial(data []types.TokenData) {
 	</section>
 }
 
-templ WalletSwiperPartial(mainClosingTag templ.Component) {
-	<section class="swiperThree min-h-fit mt-6">
+templ CoinData(data []types.TokenData) {
+	if isAllElementZero(data) {
+		<div class="w-full h-full flex justify-center items-center">
+			<p class="text-center font-poppins font-light">No live crypto data, maybe offline ☹️</p>
+		</div>
+	} else {
+		for _, v := range data {
+			<li class="w-full flex justify-between items-center gap-8 text-[#393737]">
+				<div class="flex gap-1">
+					<picture>
+						<source srcset={ useWebp(v.TokenLogo) } type="image/webp"/>
+						<img src={ v.TokenLogo } alt="" class="w-[2.788rem] aspect-square rounded-full"/>
+					</picture>
+					<div class="flex flex-col item-start gap-[0.446rem]">
+						<p class="font-semibold leading-[0.838rem] text-[0.688rem] text-inherit">{ toTitle(v.TokenName) }</p>
+						<p class="font-medium leading-[0.762rem] text-[0.625rem] text-inherit">{ v.TokenSymbol }</p>
+					</div>
+				</div>
+				if v.UpOrDown == "icon-Caret-up" {
+					@templ.Raw(chartUrlGreen(v.ChartUrl))
+				} else {
+					@templ.Raw(chartUrlRed(v.ChartUrl))
+				}
+				<div class="flex flex-col items-center">
+					<p class="font-bold text-sm text-center text-inherit">{ v.TokenPrice }</p>
+					if v.UpOrDown == "icon-Caret-up" {
+						<p class="ml-auto font-semibold text-xs text-center text-[#34A853]">
+							{ v.PercentUpOrDown }
+						</p>
+					} else {
+						<p class="ml-auto font-semibold text-xs text-center text-[#EF0E0E]">
+							{ v.PercentUpOrDown }
+						</p>
+					}
+				</div>
+			</li>
+		}
+	}
+	// for _, v := range data {
+	// <li class="w-full flex justify-between items-center gap-8 text-[#393737]">
+	// 	<div class="flex gap-1">
+	// 		<picture>
+	// 			<source srcset={ useWebp(v.TokenLogo) } type="image/webp"/>
+	// 			<img src={ v.TokenLogo } alt="" class="w-[2.788rem] aspect-square rounded-full"/>
+	// 		</picture>
+	// 		<div class="flex flex-col item-start gap-[0.446rem]">
+	// 			<p class="font-semibold leading-[0.838rem] text-[0.688rem] text-inherit">{ toTitle(v.TokenName) }</p>
+	// 			<p class="font-medium leading-[0.762rem] text-[0.625rem] text-inherit">{ v.TokenSymbol }</p>
+	// 		</div>
+	// 	</div>
+	// 	if v.UpOrDown == "icon-Caret-up" {
+	// 		@templ.Raw(chartUrlGreen(v.ChartUrl))
+	// 	} else {
+	// 		@templ.Raw(chartUrlRed(v.ChartUrl))
+	// 	}
+	// 	<div class="flex flex-col items-center">
+	// 		<p class="font-bold text-sm text-center text-inherit">{ v.TokenPrice }</p>
+	// 		if v.UpOrDown == "icon-Caret-up" {
+	// 			<p class="ml-auto font-semibold text-xs text-center text-[#34A853]">
+	// 				{ v.PercentUpOrDown }
+	// 			</p>
+	// 		} else {
+	// 			<p class="ml-auto font-semibold text-xs text-center text-[#EF0E0E]">
+	// 				{ v.PercentUpOrDown }
+	// 			</p>
+	// 		}
+	// 	</div>
+	// </li>
+	// }
+}
+
+templ WalletSwiperComp() {
+	<section class="swiperThree min-h-fit mt-auto">
 		<div class="px-4 swiper mySwiperThree w-full">
 			<div class="swiper-wrapper">
 				for range 4 {
@@ -115,55 +200,4 @@ templ WalletSwiperPartial(mainClosingTag templ.Component) {
 			</div>
 		</div>
 	</section>
-	@mainClosingTag
-}
-
-templ scriptForWalletPage() {
-	<script src="/public/assets/scripts/htmx.min.js"></script>
-	<script src="/public/assets/scripts/swiper-bundle.min.js"></script>
-	<script>
-		const swiperThree = new Swiper( '.mySwiperThree', {
-            mousewheel: true,
-            keyboard: true,
-			spaceBetween: 8,
-            autoplay: {
-                delay: 1500,
-                disableOnInteraction: true,
-            },
-        } );
-	</script>
-}
-
-templ CoinData(data []types.TokenData) {
-	for _, v := range data {
-		<li class="w-full flex justify-between items-center gap-8 text-[#393737]">
-			<div class="flex gap-1">
-				<picture>
-					<source srcset={ useWebp(v.TokenLogo) } type="image/webp"/>
-					<img src={ v.TokenLogo } alt="" class="w-[2.788rem] aspect-square rounded-full"/>
-				</picture>
-				<div class="flex flex-col item-start gap-[0.446rem]">
-					<p class="font-semibold leading-[0.838rem] text-[0.688rem] text-inherit">{ toTitle(v.TokenName) }</p>
-					<p class="font-medium leading-[0.762rem] text-[0.625rem] text-inherit">{ v.TokenSymbol }</p>
-				</div>
-			</div>
-			if v.UpOrDown == "icon-Caret-up" {
-				@templ.Raw(chartUrlGreen(v.ChartUrl))
-			} else {
-				@templ.Raw(chartUrlRed(v.ChartUrl))
-			}
-			<div class="flex flex-col items-center">
-				<p class="font-bold text-sm text-center text-inherit">{ v.TokenPrice }</p>
-				if v.UpOrDown == "icon-Caret-up" {
-					<p class="ml-auto font-semibold text-xs text-center text-[#34A853]">
-						{ v.PercentUpOrDown }
-					</p>
-				} else {
-					<p class="ml-auto font-semibold text-xs text-center text-[#EF0E0E]">
-						{ v.PercentUpOrDown }
-					</p>
-				}
-			</div>
-		</li>
-	}
 }
