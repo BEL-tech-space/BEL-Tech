@@ -120,40 +120,40 @@ templ airtimeRechargeSuccessDialog() {
 templ addNewBeneficiairyDialog() {
 	<dialog id="addNewBeneficiairyDialog" class="backdrop:backdrop-blur-sm rounded-2xl py-8 pl-7 pr-9 font-montserrat text-[#2E2E2E]">
 		<p class="font-bold text-sm leading-[1.067rem] text-center mb-2 mt-6">Add new number to your Beneficiary</p>
-		<form id="newBeneficiary" action="#" class="mt-8 w-full flex flex-col items-center justify-start gap-[1.141rem]">
+		<form id="newBeneficiary" action="/account/beneficiaries/addNew" method="post" class="mt-8 w-full flex flex-col items-center justify-start gap-[1.141rem]">
 			<div class="w-full">
 				<label for="name" class="font-semibold text-xs">Name</label>
-				<input type="text" autocomplete="off" required name="name" id="name" minlength="2" maxlength="20" class="min-h-[2.071rem] pl-2 w-full border-solid border-[#569B78] border-[0.0256rem] rounded outline-none"/>
+				<input type="text" autocomplete="off" required name="name" id="name" minlength="2" maxlength="20" placeholder="min. 2 - max. 20" class="min-h-[2.071rem] pl-2 w-full border-solid border-[#569B78] border-[0.0256rem] rounded outline-none placeholder:text-xs"/>
 			</div>
 			<div class="w-full">
 				<label for="number" class="font-semibold text-xs">Phone Number</label>
-				<input type="tel" autocomplete="off" required name="number" id="number" maxlength="11" minlength="11" inputmode="numeric" class="min-h-[2.071rem] pl-2 w-full border-solid border-[#569B78] border-[0.0256rem] rounded outline-none"/>
+				<input title="number must be 11 in length" pattern="^0[1-9][0-1]\d{8}" placeholder="length of 11 numbers e.g 090xxxxxxxx" type="tel" autocomplete="off" required name="number" id="number" maxlength="11" minlength="11" inputmode="numeric" class="min-h-[2.071rem] pl-2 w-full border-solid border-[#569B78] border-[0.0256rem] rounded outline-none placeholder:text-xs"/>
 			</div>
 			<section class="grid grid-cols-4 justify-between items-center gap-[2.125rem] mb-8">
 				<label for="mtn" class="label shadow-[0px_0.053rem_0.105rem_0.053rem_#00000014] py-[0.869rem] px-[1.25rem] flex flex-col justify-center items-center">
-					<img src="/public/assets/svg/mtn.svg" alt="" class="w-[1.259rem] rounded-full"/>
+					<img src="/public/assets/svg/mtn.svg" alt="" class="w-9 rounded-full"/>
 					<p class="font-poppins font-bold text-[0.524rem] leading-[0.787rem] mt-[0.482rem]">MTN</p>
 				</label>
-				<input required type="radio" id="mtn" name="network" autocomplete="off" value="mtn" class="hidden"/>
+				<input required type="radio" id="mtn" name="sp" autocomplete="off" value="mtn" class="hidden"/>
 				<label for="airtel" class="label shadow-[0px_0.053rem_0.105rem_0.053rem_#00000014] py-[0.869rem] px-[1.25rem] flex flex-col justify-center items-center">
-					<img src="/public/assets/svg/airtel.svg" alt="" class="w-[1.259rem] rounded-full"/>
+					<img src="/public/assets/svg/airtel.svg" alt="" class="w-9 rounded-full"/>
 					<p class="font-poppins font-bold text-[0.524rem] leading-[0.787rem] mt-[0.482rem]">AIRTEL</p>
 				</label>
-				<input type="radio" id="airtel" name="network" autocomplete="off" value="airtel" class="hidden"/>
+				<input type="radio" id="airtel" name="sp" autocomplete="off" value="airtel" class="hidden"/>
 				<label for="glo" class="label shadow-[0px_0.053rem_0.105rem_0.053rem_#00000014] py-[0.869rem] px-[1.25rem] flex flex-col justify-center items-center">
-					<img src="/public/assets/svg/glo.svg" alt="" class="w-[1.259rem] rounded-full"/>
+					<img src="/public/assets/svg/glo.svg" alt="" class="w-9 rounded-full"/>
 					<p class="font-poppins font-bold text-[0.524rem] leading-[0.787rem] mt-[0.482rem]">GLO</p>
 				</label>
-				<input type="radio" id="glo" name="network" autocomplete="off" value="glo" class="hidden"/>
+				<input type="radio" id="glo" name="sp" autocomplete="off" value="glo" class="hidden"/>
 				<label for="9mobile" class="label shadow-[0px_0.053rem_0.105rem_0.053rem_#00000014] py-[0.869rem] px-[1.25rem] flex flex-col justify-center items-center">
-					<img src="/public/assets/svg/9mobile.svg" alt="" class="w-[1.259rem] rounded-full"/>
+					<img src="/public/assets/svg/9mobile.svg" alt="" class="w-9 rounded-full"/>
 					<p class="font-poppins font-bold text-[0.524rem] leading-[0.787rem] mt-[0.482rem]">9MOBILE</p>
 				</label>
-				<input type="radio" id="9mobile" name="network" autocomplete="off" value="9mobile" class="hidden"/>
+				<input type="radio" id="9mobile" name="sp" autocomplete="off" value="9mobile" class="hidden"/>
 			</section>
 			<section class="w-full flex justify-between items-center gap-3">
 				<button disabled type="submit" id="submitBtn" class="w-full opacity-45 bg-green-400 text-sm font-medium text-white py-[0.625rem] text-center tracking-[0.00625rem] rounded-md">Save Beneficiary</button>
-				<button _="on click call #addNewBeneficiairyDialog.close()" class="outline-none rounded-md mb-2 font-medium bg-black text-[0.813rem] leading-5 tracking-[0.00625em] py-[0.625rem] px-8 text-center text-white">Close</button>
+				<button type="reset" _="on click call #addNewBeneficiairyDialog.close() then call #newBeneficiary.reset()" class="outline-none rounded-md mb-2 font-medium bg-black text-[0.813rem] leading-5 tracking-[0.00625em] py-[0.625rem] px-8 text-center text-white">Close</button>
 			</section>
 		</form>
 		<style>
@@ -178,7 +178,7 @@ templ addNewBeneficiairyDialog() {
 				newBeneficiaryFormSubmitBtn.classList.remove('opacity-45', 'bg-green-400')
 			});
 
-			const radioInputs = document.querySelectorAll('input[type="radio"][name="network"]');
+			const radioInputs = document.querySelectorAll('input[type="radio"][name="sp"]');
 			radioInputs.forEach((radio) => {
 				radio.addEventListener('change', () => {	
 					const labels = document.querySelectorAll('label');
@@ -186,7 +186,7 @@ templ addNewBeneficiairyDialog() {
 						label.classList.remove('selected');
 					});
 
-					const checkedRadio = document.querySelector('input[type="radio"][name="network"]:checked');
+					const checkedRadio = document.querySelector('input[type="radio"][name="sp"]:checked');
 					if (checkedRadio) {
 						const label = document.querySelector(`label[for="${checkedRadio.id}"]`);
 						label.classList.add('selected');

@@ -26,7 +26,7 @@ func (a *App) agentRouter() http.Handler {
 
 		r.Post("/qrcode/{agentID}", a.generateQRCode)
 		r.Get("/wasteForm", a.wasteForm)
-		r.Post("/addAgent", a.addNewCollectorPost)
+		// r.Post("/addAgent", a.addNewCollectorPost)
 	})
 
 	r.Get("/signin", a.logInCollector)

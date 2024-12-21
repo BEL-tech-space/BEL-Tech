@@ -3,7 +3,9 @@ package http
 import (
 	accPages "beltech/frontend/pages/account"
 	"context"
+	"fmt"
 	"net/http"
+	"regexp"
 
 	"github.com/a-h/templ"
 )
@@ -60,3 +62,56 @@ func (a *App) beneficiariesMain(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 }
+
+func (a *App) addNewBeneficiary(w http.ResponseWriter, r *http.Request) {
+
+	if err := r.ParseForm(); err != nil {
+		a.clientError(w, http.StatusBadRequest, fmt.Errorf("err parsing form data; %s", err.Error()))
+		return
+	}
+
+	if err := validateNewBeneficiary(r); err != nil {
+		a.clientError(w, http.StatusBadRequest, fmt.Errorf("err validating form data; %s", err.Error()))
+		return
+	}
+
+	userEmail := r.Context().Value(contextKeyEmail).(string)
+
+	name := r.Form.Get("name")
+	if len(name) > 20 {
+		name = name[:19]
+	}
+	
+	if err := a.service.AddNewBeneficiary(context.Background(),
+		r.Form.Get("number"),
+		name,
+		r.Form.Get("sp"),
+		userEmail,
+	); err != nil {
+		a.serverError(w, err)
+
+	}
+
+	http.Redirect(w, r, "/account/beneficiaries", http.StatusSeeOther)
+}
+
+func validateNewBeneficiary(r *http.Request) error {
+
+	bName := r.Form.Get("name")
+	bPhoneNo := r.Form.Get("number")
+	ServiceProvider := r.Form.Get("sp")
+
+	if bName == "" || bPhoneNo == "" || ServiceProvider == "" {
+		return fmt.Errorf("all fields are required")
+	}
+
+	fmt.Println(bName, bPhoneNo, ServiceProvider)
+
+	if !validPhoneNoRegexp.MatchString(bPhoneNo) {
+		return fmt.Errorf("invalid phone number")
+	}
+
+	return nil
+}
+
+var validPhoneNoRegexp = regexp.MustCompile(`^0[1-9][0-1]\d{8}`)

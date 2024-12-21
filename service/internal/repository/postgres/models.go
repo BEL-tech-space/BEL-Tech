@@ -5,128 +5,12 @@
 package postgres
 
 import (
-	"database/sql/driver"
-	"fmt"
-
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
-type Collectorrole string
-
-const (
-	CollectorroleCollector      Collectorrole = "collector"
-	CollectorroleSuperCollector Collectorrole = "super_collector"
-)
-
-func (e *Collectorrole) Scan(src interface{}) error {
-	switch s := src.(type) {
-	case []byte:
-		*e = Collectorrole(s)
-	case string:
-		*e = Collectorrole(s)
-	default:
-		return fmt.Errorf("unsupported scan type for Collectorrole: %T", src)
-	}
-	return nil
-}
-
-type NullCollectorrole struct {
-	Collectorrole Collectorrole `json:"collectorrole"`
-	Valid         bool          `json:"valid"` // Valid is true if Collectorrole is not NULL
-}
-
-// Scan implements the Scanner interface.
-func (ns *NullCollectorrole) Scan(value interface{}) error {
-	if value == nil {
-		ns.Collectorrole, ns.Valid = "", false
-		return nil
-	}
-	ns.Valid = true
-	return ns.Collectorrole.Scan(value)
-}
-
-// Value implements the driver Valuer interface.
-func (ns NullCollectorrole) Value() (driver.Value, error) {
-	if !ns.Valid {
-		return nil, nil
-	}
-	return string(ns.Collectorrole), nil
-}
-
-type Identifyas string
-
-const (
-	IdentifyasCollector Identifyas = "collector"
-	IdentifyasBin       Identifyas = "bin"
-)
-
-func (e *Identifyas) Scan(src interface{}) error {
-	switch s := src.(type) {
-	case []byte:
-		*e = Identifyas(s)
-	case string:
-		*e = Identifyas(s)
-	default:
-		return fmt.Errorf("unsupported scan type for Identifyas: %T", src)
-	}
-	return nil
-}
-
-type NullIdentifyas struct {
-	Identifyas Identifyas `json:"identifyas"`
-	Valid      bool       `json:"valid"` // Valid is true if Identifyas is not NULL
-}
-
-// Scan implements the Scanner interface.
-func (ns *NullIdentifyas) Scan(value interface{}) error {
-	if value == nil {
-		ns.Identifyas, ns.Valid = "", false
-		return nil
-	}
-	ns.Valid = true
-	return ns.Identifyas.Scan(value)
-}
-
-// Value implements the driver Valuer interface.
-func (ns NullIdentifyas) Value() (driver.Value, error) {
-	if !ns.Valid {
-		return nil, nil
-	}
-	return string(ns.Identifyas), nil
-}
-
-type Agent struct {
-	AgentID               pgtype.UUID      `json:"agent_id"`
-	Is                    Identifyas       `json:"is"`
-	Email                 string           `json:"email"`
-	City                  string           `json:"city"`
-	State                 string           `json:"state"`
-	Location              interface{}      `json:"location"`
-	BinLocationLastUpdate pgtype.Timestamp `json:"bin_location_last_update"`
-	CreatedAt             pgtype.Timestamp `json:"created_at"`
-}
-
-type Collector struct {
-	Email     string        `json:"email"`
-	FirstName string        `json:"first_name"`
-	LastName  string        `json:"last_name"`
-	NickName  string        `json:"nick_name"`
-	AvatarUrl string        `json:"avatar_url"`
-	Role      Collectorrole `json:"role"`
-	AgentID   pgtype.UUID   `json:"agent_id"`
-}
-
-type ExchangeHistory struct {
-	TranID    pgtype.UUID      `json:"tran_id"`
-	Email     string           `json:"email"`
-	Amount    float64          `json:"amount"`
-	Operation []byte           `json:"operation"`
-	CreatedAt pgtype.Timestamp `json:"created_at"`
-}
-
-type User struct {
+type Account struct {
 	Email              string           `json:"email"`
-	UserID             string           `json:"user_id"`
+	AccountID          string           `json:"account_id"`
 	FirstName          string           `json:"first_name"`
 	LastName           string           `json:"last_name"`
 	NickName           string           `json:"nick_name"`
@@ -148,16 +32,10 @@ type User struct {
 	IsDeleted          bool             `json:"is_deleted"`
 }
 
-type WasteLog struct {
-	WasteID         pgtype.UUID      `json:"waste_id"`
+type Beneficiary struct {
+	BName           string           `json:"b_name"`
+	BPhoneNo        string           `json:"b_phone_no"`
+	ServiceProvider string           `json:"service_provider"`
 	CreatedAt       pgtype.Timestamp `json:"created_at"`
-	Claimed         pgtype.Bool      `json:"claimed"`
-	GlassWeighed    float32          `json:"glass_weighed"`
-	MetalWeighed    float32          `json:"metal_weighed"`
-	PlasticsWeighed float32          `json:"plastics_weighed"`
-	PaperWeighed    float32          `json:"paper_weighed"`
-	Location        interface{}      `json:"location"`
-	FunnyName       string           `json:"funny_name"`
-	AgentID         pgtype.UUID      `json:"agent_id"`
 	Email           pgtype.Text      `json:"email"`
 }

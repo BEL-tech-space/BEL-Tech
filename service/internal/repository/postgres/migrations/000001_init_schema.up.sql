@@ -1,33 +1,33 @@
-DROP TYPE IF EXISTS collectorRole;
-DROP TYPE IF EXISTS identifyAs;
+-- DROP TYPE IF EXISTS collectorRole;
+-- DROP TYPE IF EXISTS identifyAs;
 
-CREATE TYPE collectorRole AS ENUM ('collector', 'super_collector');
-CREATE TYPE identifyAs AS ENUM ('collector', 'bin');
+-- CREATE TYPE collectorRole AS ENUM ('collector', 'super_collector');
+-- CREATE TYPE identifyAs AS ENUM ('collector', 'bin');
 
-CREATE TABLE IF NOT EXISTS agents (
-    agent_ID UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    "is" identifyAs NOT NULL,
-    email TEXT NOT NULL DEFAULT '',
-    city TEXT NOT NULL DEFAULT '',
-    "state" TEXT NOT NULL DEFAULT '',
-    "location" geometry(POINT, 4326),
-    bin_location_last_Update TIMESTAMP,
-    created_At TIMESTAMP DEFAULT NOW()
-);
+-- CREATE TABLE IF NOT EXISTS agents (
+--     agent_ID UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+--     "is" identifyAs NOT NULL,
+--     email TEXT NOT NULL DEFAULT '',
+--     city TEXT NOT NULL DEFAULT '',
+--     "state" TEXT NOT NULL DEFAULT '',
+--     "location" geometry(POINT, 4326),
+--     bin_location_last_Update TIMESTAMP,
+--     created_At TIMESTAMP DEFAULT NOW()
+-- );
 
-CREATE TABLE IF NOT EXISTS collectors (
-    email TEXT PRIMARY KEY,
-    first_Name VARCHAR(30) NOT NULL DEFAULT '',
-    last_Name VARCHAR(30) NOT NULL DEFAULT '',
-    nick_Name VARCHAR(30) NOT NULL DEFAULT '',
-    avatar_URL TEXT NOT NULL DEFAULT '',
-    "role" collectorRole NOT NULL DEFAULT 'collector',
-    agent_ID UUID REFERENCES agents (agent_ID)
-);
+-- CREATE TABLE IF NOT EXISTS collectors (
+--     email TEXT PRIMARY KEY,
+--     first_Name VARCHAR(30) NOT NULL DEFAULT '',
+--     last_Name VARCHAR(30) NOT NULL DEFAULT '',
+--     nick_Name VARCHAR(30) NOT NULL DEFAULT '',
+--     avatar_URL TEXT NOT NULL DEFAULT '',
+--     "role" collectorRole NOT NULL DEFAULT 'collector',
+--     agent_ID UUID REFERENCES agents (agent_ID)
+-- );
 
-CREATE TABLE IF NOT EXISTS users (
-    email TEXT PRIMARY KEY,
-    user_ID TEXT NOT NULL DEFAULT '',
+CREATE TABLE IF NOT EXISTS accounts (
+    email VARCHAR(255) PRIMARY KEY,
+    account_ID TEXT NOT NULL DEFAULT '',
     first_Name VARCHAR(30) NOT NULL DEFAULT '',
     last_Name VARCHAR(30) NOT NULL DEFAULT '',
     nick_Name VARCHAR(30) NOT NULL DEFAULT '',
@@ -49,31 +49,43 @@ CREATE TABLE IF NOT EXISTS users (
     is_Deleted BOOLEAN NOT NULL DEFAULT FALSE
 );
 
-DROP INDEX IF EXISTS users_spl_wallet_unique_idx;
+DROP INDEX IF EXISTS accounts_spl_wallet_unique_idx;
 
-CREATE UNIQUE INDEX users_spl_wallet_unique_idx 
-ON users (spl_Wallet) 
+CREATE UNIQUE INDEX accounts_spl_wallet_unique_idx 
+ON accounts (spl_Wallet) 
 WHERE spl_Wallet <> '';
 
-CREATE TABLE IF NOT EXISTS Waste_Logs (
-    waste_Id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    created_At TIMESTAMP DEFAULT NOW(),
-    claimed BOOLEAN DEFAULT FALSE,
-    glass_Weighed REAL NOT NULL DEFAULT 0,
-    metal_Weighed REAL NOT NULL DEFAULT 0,
-    plastics_Weighed REAL NOT NULL DEFAULT 0, 
-    paper_Weighed REAL NOT NULL DEFAULT 0,
-    "location" geometry(POINT, 4326),
-    funny_Name TEXT NOT NULL DEFAULT '',
-    agent_ID UUID REFERENCES agents(agent_ID),
-    email TEXT REFERENCES users(email)
+CREATE TABLE IF NOT EXISTS beneficiaries (
+    b_name VARCHAR(25) NOT NULL,
+    b_phone_no CHAR(11) NOT NULL,
+    service_provider VARCHAR(15) NOT NULL,
+    created_at TIMESTAMP DEFAULT NOW(),
+    email VARCHAR(255) REFERENCES accounts(email) ON DELETE CASCADE,
+    UNIQUE (b_phone_no, service_provider)
 );
 
-CREATE TABLE IF NOT EXISTS exchange_History (
-    tran_ID UUID PRIMARY KEY,
-    email TEXT NOT NULL REFERENCES users (email),
-    amount DOUBLE PRECISION NOT NULL DEFAULT 0,
-    operation  JSONB NOT NULL DEFAULT '{}',
-    created_At TIMESTAMP DEFAULT NOW()
-);
+
+-- CREATE TABLE IF NOT EXISTS Waste_Logs (
+--     waste_Id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+--     created_At TIMESTAMP DEFAULT NOW(),
+--     claimed BOOLEAN DEFAULT FALSE,
+--     glass_Weighed REAL NOT NULL DEFAULT 0,
+--     metal_Weighed REAL NOT NULL DEFAULT 0,
+--     plastics_Weighed REAL NOT NULL DEFAULT 0, 
+--     paper_Weighed REAL NOT NULL DEFAULT 0,
+--     "location" geometry(POINT, 4326),
+--     funny_Name TEXT NOT NULL DEFAULT '',
+--     agent_ID UUID REFERENCES agents(agent_ID),
+--     email VARCHAR(255) REFERENCES accounts(email)
+-- );
+
+-- CREATE TABLE IF NOT EXISTS exchange_History (
+--     tran_ID UUID PRIMARY KEY,
+--     email VARCHAR(255) NOT NULL REFERENCES accounts(email),
+--     amount DOUBLE PRECISION NOT NULL DEFAULT 0,
+--     operation  JSONB NOT NULL DEFAULT '{}',
+--     created_At TIMESTAMP DEFAULT NOW()
+-- );
+
+
 

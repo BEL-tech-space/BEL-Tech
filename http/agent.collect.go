@@ -88,10 +88,10 @@ func (a *App) generateQRCode(w http.ResponseWriter, r *http.Request) {
 		AgentID:         agentUUID,
 	}
 	if a.config.Build == productionEnv {
-		if wasteID, err = a.service.AddNewTempWasteFromCollector(r.Context(), p); err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
+		// if wasteID, err = a.service.AddNewTempWasteFromCollector(r.Context(), p); err != nil {
+		// 	http.Error(w, err.Error(), http.StatusInternalServerError)
+		// 	return
+		// }
 	}
 
 	fmt.Printf("\n%s\n\n", wasteID.String())
