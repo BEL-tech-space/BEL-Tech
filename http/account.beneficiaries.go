@@ -12,8 +12,14 @@ import (
 
 func (a *App) beneficiariesPageHandler(w http.ResponseWriter, r *http.Request) {
 
-	userEmail := r.Context().Value(contextKeyEmail).(string)
-	user, err := a.userFromCache(context.Background(), userEmail)
+	accountEmail := r.Context().Value(contextKeyEmail).(string)
+	user, err := a.userFromCache(context.Background(), accountEmail)
+	if err != nil {
+		a.serverError(w, err)
+		return
+	}
+
+	result, err := a.service.GetBeneficiaries(context.Background(), accountEmail)
 	if err != nil {
 		a.serverError(w, err)
 		return
@@ -22,14 +28,14 @@ func (a *App) beneficiariesPageHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 
 	if r.Header.Get("X-Content-Mode") == "partials" {
-		if err := accPages.BeneficiariesMain().Render(context.TODO(), w); err != nil {
+		if err := accPages.BeneficiariesMain(result).Render(context.TODO(), w); err != nil {
 			a.serverError(w, err)
 			return
 		}
 		return
 	}
 
-	if err := accPages.BeneficiariesPage(account(*user).AvatarUrl).Render(context.TODO(), w); err != nil {
+	if err := accPages.BeneficiariesPage(account(*user).AvatarUrl, result).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}
@@ -37,8 +43,8 @@ func (a *App) beneficiariesPageHandler(w http.ResponseWriter, r *http.Request) {
 
 func (a *App) beneficiariesPageHeaderPartial(w http.ResponseWriter, r *http.Request) {
 
-	userEmail := r.Context().Value(contextKeyEmail).(string)
-	user, err := a.userFromCache(context.Background(), userEmail)
+	accountEmail := r.Context().Value(contextKeyEmail).(string)
+	user, err := a.userFromCache(context.Background(), accountEmail)
 	if err != nil {
 		a.serverError(w, err)
 		return
@@ -56,8 +62,16 @@ func (a *App) beneficiariesPageHeaderPartial(w http.ResponseWriter, r *http.Requ
 
 func (a *App) beneficiariesMain(w http.ResponseWriter, r *http.Request) {
 
+	accountEmail := r.Context().Value(contextKeyEmail).(string)
+
+	result, err := a.service.GetBeneficiaries(context.Background(), accountEmail)
+	if err != nil {
+		a.serverError(w, err)
+		return
+	}
+
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if err := accPages.BeneficiariesMain().Render(context.TODO(), w); err != nil {
+	if err := accPages.BeneficiariesMain(result).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}
@@ -75,18 +89,18 @@ func (a *App) addNewBeneficiary(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	userEmail := r.Context().Value(contextKeyEmail).(string)
+	accountEmail := r.Context().Value(contextKeyEmail).(string)
 
 	name := r.Form.Get("name")
 	if len(name) > 20 {
 		name = name[:19]
 	}
-	
+
 	if err := a.service.AddNewBeneficiary(context.Background(),
 		r.Form.Get("number"),
 		name,
 		r.Form.Get("sp"),
-		userEmail,
+		accountEmail,
 	); err != nil {
 		a.serverError(w, err)
 

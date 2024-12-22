@@ -8,7 +8,7 @@ import (
 )
 
 func (a *App) airtimePageHandler(w http.ResponseWriter, r *http.Request) {
-	userEmail := r.Context().Value(contextKeyEmail).(string)
+	accountEmail := r.Context().Value(contextKeyEmail).(string)
 
 	if err := r.ParseForm(); err != nil {
 		a.clientError(w, http.StatusBadRequest, err)
@@ -19,7 +19,7 @@ func (a *App) airtimePageHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(v, c)
 	}
 
-	user, err := a.userFromCache(context.Background(), userEmail)
+	user, err := a.userFromCache(context.Background(), accountEmail)
 	if err != nil {
 		a.serverError(w, err)
 		return
@@ -43,8 +43,8 @@ func (a *App) airtimePageHandler(w http.ResponseWriter, r *http.Request) {
 
 func (a *App) airtimePageHeaderPartial(w http.ResponseWriter, r *http.Request) {
 
-	userEmail := r.Context().Value(contextKeyEmail).(string)
-	user, err := a.userFromCache(context.Background(), userEmail)
+	accountEmail := r.Context().Value(contextKeyEmail).(string)
+	user, err := a.userFromCache(context.Background(), accountEmail)
 	if err != nil {
 		a.serverError(w, err)
 		return

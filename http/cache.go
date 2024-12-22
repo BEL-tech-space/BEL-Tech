@@ -5,17 +5,17 @@ import (
 	"context"
 )
 
-func (a *App) userFromCache(ctx context.Context, userEmail string) (*service.User, error) {
+func (a *App) userFromCache(ctx context.Context, accountEmail string) (*service.User, error) {
 	if a.config.Build != productionEnv {
 		return &devServiceUser, nil
 	}
 
-	x, found := a.cacheStorage.Get(userEmail)
+	x, found := a.cacheStorage.Get(accountEmail)
 	if found {
 		return x.(*service.User), nil
 	}
 
-	user, err := a.addUserToCache(ctx, userEmail)
+	user, err := a.addUserToCache(ctx, accountEmail)
 	if err != nil {
 		return nil, err
 	}

@@ -8,9 +8,9 @@ import (
 )
 
 func (a *App) ProfilePageHandler(w http.ResponseWriter, r *http.Request) {
-	userEmail := r.Context().Value(contextKeyEmail).(string)
+	accountEmail := r.Context().Value(contextKeyEmail).(string)
 
-	user, err := a.userFromCache(context.Background(), userEmail)
+	user, err := a.userFromCache(context.Background(), accountEmail)
 	if err != nil {
 		a.serverError(w, err)
 		return
@@ -34,8 +34,8 @@ func (a *App) ProfilePageHandler(w http.ResponseWriter, r *http.Request) {
 
 func (a *App) profileHeaderPartial(w http.ResponseWriter, r *http.Request) {
 
-	userEmail := r.Context().Value(contextKeyEmail).(string)
-	user, err := a.userFromCache(context.Background(), userEmail)
+	accountEmail := r.Context().Value(contextKeyEmail).(string)
+	user, err := a.userFromCache(context.Background(), accountEmail)
 	if err != nil {
 		a.serverError(w, err)
 		return
@@ -62,8 +62,8 @@ func (a *App) profileLetRecyclePartial(w http.ResponseWriter, r *http.Request) {
 
 func (a *App) profileChangeDisplayIcon(w http.ResponseWriter, r *http.Request) {
 
-	userEmail := r.Context().Value(contextKeyEmail).(string)
-	user, err := a.userFromCache(context.Background(), userEmail)
+	accountEmail := r.Context().Value(contextKeyEmail).(string)
+	user, err := a.userFromCache(context.Background(), accountEmail)
 	if err != nil {
 		a.serverError(w, err)
 		return
@@ -78,8 +78,8 @@ func (a *App) profileChangeDisplayIcon(w http.ResponseWriter, r *http.Request) {
 
 func (a *App) profileUpdateProfilePartial(w http.ResponseWriter, r *http.Request) {
 
-	userEmail := r.Context().Value(contextKeyEmail).(string)
-	user, err := a.userFromCache(context.Background(), userEmail)
+	accountEmail := r.Context().Value(contextKeyEmail).(string)
+	user, err := a.userFromCache(context.Background(), accountEmail)
 	if err != nil {
 		a.serverError(w, err)
 		return

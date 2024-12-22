@@ -2,6 +2,7 @@ package service
 
 import (
 	"beltech/service/internal/repository/postgres"
+	"beltech/types"
 	"fmt"
 	"time"
 
@@ -275,14 +276,8 @@ func serviceUserToPg(u User) postgres.Account {
 	}
 }
 
-type Beneficiary struct {
-	BPhoneNo        string
-	BName           string
-	ServiceProvider string
-}
-
-func pgBeneficiaryToServiceBeneficiary(pgBen postgres.GetBeneficiariesByEmailRow) Beneficiary {
-	return Beneficiary{
+func pgBeneficiaryToServiceBeneficiary(pgBen postgres.GetBeneficiariesByEmailRow) types.Beneficiary {
+	return types.Beneficiary{
 		BPhoneNo:        pgBen.BPhoneNo,
 		BName:           pgBen.BName,
 		ServiceProvider: pgBen.ServiceProvider,

@@ -8,8 +8,8 @@ import (
 
 func (a *App) spendPageHandler(w http.ResponseWriter, r *http.Request) {
 
-	userEmail := r.Context().Value(contextKeyEmail).(string)
-	user, err := a.userFromCache(context.Background(), userEmail)
+	accountEmail := r.Context().Value(contextKeyEmail).(string)
+	user, err := a.userFromCache(context.Background(), accountEmail)
 	if err != nil {
 		a.serverError(w, err)
 		return
@@ -33,8 +33,8 @@ func (a *App) spendPageHandler(w http.ResponseWriter, r *http.Request) {
 
 func (a *App) spendPageHeaderPartial(w http.ResponseWriter, r *http.Request) {
 
-	userEmail := r.Context().Value(contextKeyEmail).(string)
-	user, err := a.userFromCache(context.Background(), userEmail)
+	accountEmail := r.Context().Value(contextKeyEmail).(string)
+	user, err := a.userFromCache(context.Background(), accountEmail)
 	if err != nil {
 		a.serverError(w, err)
 		return
@@ -52,8 +52,8 @@ func (a *App) spendPageHeaderPartial(w http.ResponseWriter, r *http.Request) {
 
 func (a *App) spendBalance(w http.ResponseWriter, r *http.Request) {
 
-	userEmail := r.Context().Value(contextKeyEmail).(string)
-	user, err := a.userFromCache(context.Background(), userEmail)
+	accountEmail := r.Context().Value(contextKeyEmail).(string)
+	user, err := a.userFromCache(context.Background(), accountEmail)
 	if err != nil {
 		a.serverError(w, err)
 		return

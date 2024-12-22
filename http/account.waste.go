@@ -23,9 +23,9 @@ func (a *App) wasteHistoryHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	userEmail := r.Context().Value(contextKeyEmail).(string)
+	accountEmail := r.Context().Value(contextKeyEmail).(string)
 
-	user, err := a.userFromCache(context.Background(), userEmail)
+	user, err := a.userFromCache(context.Background(), accountEmail)
 	if err != nil {
 		fmt.Println("error occured here")
 		a.serverError(w, err)

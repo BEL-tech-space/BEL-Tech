@@ -152,7 +152,7 @@ templ addNewBeneficiairyDialog() {
 				<input type="radio" id="9mobile" name="sp" autocomplete="off" value="9mobile" class="hidden"/>
 			</section>
 			<section class="w-full flex justify-between items-center gap-3">
-				<button disabled type="submit" id="submitBtn" class="w-full opacity-45 bg-green-400 text-sm font-medium text-white py-[0.625rem] text-center tracking-[0.00625rem] rounded-md">Save Beneficiary</button>
+				<button disabled type="submit" id="submitBtn" _="on click call #addNewBeneficiairyDialog.close() then call #newBeneficiary.submit()" class="w-full opacity-45 bg-green-400 text-sm font-medium text-white py-[0.625rem] text-center tracking-[0.00625rem] rounded-md">Save Beneficiary</button>
 				<button type="reset" _="on click call #addNewBeneficiairyDialog.close() then call #newBeneficiary.reset()" class="outline-none rounded-md mb-2 font-medium bg-black text-[0.813rem] leading-5 tracking-[0.00625em] py-[0.625rem] px-8 text-center text-white">Close</button>
 			</section>
 		</form>

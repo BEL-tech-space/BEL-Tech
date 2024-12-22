@@ -116,12 +116,12 @@ func (a *App) logInUser(w http.ResponseWriter, r *http.Request, u goth.User) err
 		err  error
 	)
 
-	if a.config.Build == productionEnv {
-		if user, err = a.service.CreateOrUpdateUser(context.Background(), mapGothUserToServiceUser(u)); err != nil {
-			fmt.Println("err came from create or update user:", err)
-			return err
-		}
+	// if a.config.Build == productionEnv {
+	if user, err = a.service.CreateOrUpdateUser(context.Background(), mapGothUserToServiceUser(u)); err != nil {
+		fmt.Println("err came from create or update user:", err)
+		return err
 	}
+	// }
 
 	return a.createNewUserSession(w, r, user)
 }
