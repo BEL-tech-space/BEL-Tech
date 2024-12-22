@@ -10,7 +10,7 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import "fmt"
 
-func SpendPage(user User) templ.Component {
+func SpendPage(acc Account) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -43,11 +43,11 @@ func SpendPage(user User) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = SpendHeaderPartialComp(user.AvatarUrl, templ.NopComponent, templ.NopComponent).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = SpendHeaderPartialComp(acc.AvatarUrl, templ.NopComponent, templ.NopComponent).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = SpendMain(user).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = SpendMain(acc).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -100,7 +100,7 @@ func SpendHeaderPartialComp(avatarURL string, beforeHeaderTagPartial, afterHeade
 	})
 }
 
-func SpendMain(user User) templ.Component {
+func SpendMain(acc Account) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -125,7 +125,7 @@ func SpendMain(user User) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = SpendBalanceComp(user).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = SpendBalanceComp(acc).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -199,7 +199,7 @@ func scriptForSpendPage() templ.Component {
 	})
 }
 
-func SpendBalanceComp(user User) templ.Component {
+func SpendBalanceComp(acc Account) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -225,9 +225,9 @@ func SpendBalanceComp(user User) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var7 string
-		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(user.AvatarUrl)
+		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(acc.AvatarUrl)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.spend.templ`, Line: 81, Col: 28}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.spend.templ`, Line: 81, Col: 27}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 		if templ_7745c5c3_Err != nil {
@@ -237,7 +237,7 @@ func SpendBalanceComp(user User) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		if user.SplWallet == "" {
+		if acc.SplWallet == "" {
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a href=\"/account/profile\" class=\"block text-[0.5rem] leading-[0.75rem] font-medium text-left font-poppins\">connect wallet</a>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
@@ -253,9 +253,9 @@ func SpendBalanceComp(user User) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var8 string
-		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("Balance %.4f", user.CurrBalance))
+		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("Balance %.4f", acc.CurrBalance))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.spend.templ`, Line: 93, Col: 106}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.spend.templ`, Line: 93, Col: 105}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 		if templ_7745c5c3_Err != nil {

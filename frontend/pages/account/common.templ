@@ -191,7 +191,7 @@ templ Footer(active string, beforeFooterTagPartial, afterFooterTagPartial templ.
 	@afterFooterTagPartial
 }
 
-templ CommonHeaderOne(user User, beforeHeaderTagPartial, afterHeaderTagPartial templ.Component) {
+templ CommonHeaderOne(user Account, beforeHeaderTagPartial, afterHeaderTagPartial templ.Component) {
 	@beforeHeaderTagPartial
 	<header class="pt-[1.5rem] pl-[1.5rem] pr-[1.56rem] flex w-full justify-start items-center">
 		<a href="/account/profile">
@@ -200,10 +200,10 @@ templ CommonHeaderOne(user User, beforeHeaderTagPartial, afterHeaderTagPartial t
 				class="rounded-full w-[1.86rem] aspect-square mr-[0.5rem]"
 			/>
 		</a>
-		if user.NickName != "" {
+		if user.DisplayName != "" {
 			<p class="leading-[0.91rem] font-[500] text-[0.75rem]">
 				Gm,
-				<span class="font-[600]">{ user.NickName }</span>
+				<span class="font-[600]">{ user.DisplayName }</span>
 			</p>
 		} else if user.FirstName != "" {
 			<p class="leading-[0.91rem] font-[500] text-[0.75rem]">
@@ -237,7 +237,7 @@ templ commonHeaderTwo(text, avatarURL, imagePath, btnBehaviour string, beforeHea
 			<img
 				src={ avatarURL }
 				class="rounded-full w-[1.86rem] aspect-square mr-[0.5rem]"
-			/>`
+			/>
 		</a>
 		<p class="font-semibold text-[0.938rem] leading-[1.143rem]">{ text }</p>
 		<button _={ btnBehaviour } class="bg-[#CCE1D699] p-2 rounded-md flex justify-center items-center">

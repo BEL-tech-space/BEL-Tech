@@ -3,33 +3,33 @@ package http
 import (
 	"beltech/service"
 	"context"
+	"time"
 )
 
-func (a *App) userFromCache(ctx context.Context, accountEmail string) (*service.User, error) {
-	if a.config.Build != productionEnv {
-		return &devServiceUser, nil
-	}
+func (a *App) getAccountFromCache(ctx context.Context, accountEmail string) (service.Account, error) {
 
-	x, found := a.cacheStorage.Get(accountEmail)
+	acc, found := a.accountCache.Get(accountEmail)
 	if found {
-		return x.(*service.User), nil
+		return acc, nil
 	}
 
-	user, err := a.addUserToCache(ctx, accountEmail)
+	acc, err := a.addUserToCache(ctx, accountEmail)
 	if err != nil {
-		return nil, err
+		return service.Account{}, err
 	}
-
-	return user, nil
+	return acc, nil
 }
 
-func (a *App) addUserToCache(ctx context.Context, email string) (*service.User, error) {
-	user, err := a.service.GetUserByEmail(ctx, email)
+func (a *App) addUserToCache(ctx context.Context, email string) (service.Account, error) {
+	acc, err := a.service.GetUserByEmail(ctx, email)
 	if err != nil {
-		return nil, err
+		return service.Account{}, err
 	}
 
-	a.cacheStorage.SetDefault(email, &user)
+	a.accountCache.SetWithTTL(email, acc, 1, time.Hour)
+	return acc, nil
+}
 
-	return &user, nil
+func (a *App) updateAccountCache(ctx context.Context, acc service.Account) bool {
+	return a.accountCache.Set(acc.Email, acc, 1)
 }

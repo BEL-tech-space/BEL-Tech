@@ -47,6 +47,7 @@ CREATE TABLE IF NOT EXISTS accounts (
     "role" VARCHAR(10) NOT NULL DEFAULT 'user',
     joined TIMESTAMP DEFAULT NOW(),
     is_Deleted BOOLEAN NOT NULL DEFAULT FALSE
+
 );
 
 DROP INDEX IF EXISTS accounts_spl_wallet_unique_idx;

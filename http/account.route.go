@@ -14,7 +14,7 @@ func (a *App) accountRouter() http.Handler {
 	r.Route("/auth", func(r chi.Router) {
 		r.Get("/{provider}", a.signInWithProviderAccount)
 		r.Get("/{provider}/callback", a.callbackHandlerAccount)
-		r.Get("/logout/{provider}", a.logout)
+		r.Get("/logout/{provider}", a.logoutAccount)
 	})
 
 	r.Route("/", func(r chi.Router) {
@@ -40,6 +40,7 @@ func (a *App) accountRouter() http.Handler {
 		r.Get("/spend", a.spendPageHandler)
 
 		r.Get("/profile", a.ProfilePageHandler)
+		r.Post("/profile/displayName", a.changeProfileDisplayName)
 
 		r.Post("/airtime", a.airtimePageHandler)
 
@@ -55,6 +56,7 @@ func (a *App) accountRouter() http.Handler {
 
 	r.Get("/signup", a.signupPageHandler)
 	r.Get("/signin", a.signinPageHandler)
+
 	r.Get("/verify", a.verifyPageHandler)
 	r.Get("/reset", a.resetPageHandler)
 	r.Get("/verify_success", a.verify_successPageHandler)

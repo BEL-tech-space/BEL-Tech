@@ -19,7 +19,7 @@ const addNewAccount = `-- name: AddNewAccount :exec
 
 
 INSERT INTO accounts (
-    account_ID, email, hashed_password, first_Name, last_Name, nick_Name, avatar_URL, spl_Wallet, curr_Balance, total_Earned, total_glass_waste, total_metal_waste, total_plastics_waste, total_paper_waste, access_Token, access_Token_Expires, id_Token, last_Update_Email, joined
+    account_ID, email, hashed_password, first_Name, last_Name, display_Name, avatar_URL, spl_Wallet, curr_Balance, total_Earned, total_glass_waste, total_metal_waste, total_plastics_waste, total_paper_waste, access_Token, access_Token_Expires, id_Token, last_Update_Email, joined
 ) VALUES (
     $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19
 )
@@ -31,7 +31,7 @@ type AddNewAccountParams struct {
 	HashedPassword     string           `json:"hashed_password"`
 	FirstName          string           `json:"first_name"`
 	LastName           string           `json:"last_name"`
-	NickName           string           `json:"nick_name"`
+	DisplayName        string           `json:"display_name"`
 	AvatarUrl          string           `json:"avatar_url"`
 	SplWallet          string           `json:"spl_wallet"`
 	CurrBalance        float64          `json:"curr_balance"`
@@ -66,7 +66,7 @@ type AddNewAccountParams struct {
 // )
 // , insert_collector AS (
 //
-//	INSERT INTO collectors (email, "role", first_Name, last_Name, nick_Name, avatar_URL, agent_ID)
+//	INSERT INTO collectors (email, "role", first_Name, last_Name, display_Name, avatar_URL, agent_ID)
 //	VALUES ($8, $9, $10, $11, $12, $13, (SELECT agent_ID FROM new_agent))
 //	RETURNING agent_ID
 //
@@ -82,7 +82,7 @@ func (q *Queries) AddNewAccount(ctx context.Context, arg AddNewAccountParams) er
 		arg.HashedPassword,
 		arg.FirstName,
 		arg.LastName,
-		arg.NickName,
+		arg.DisplayName,
 		arg.AvatarUrl,
 		arg.SplWallet,
 		arg.CurrBalance,
@@ -183,7 +183,7 @@ func (q *Queries) DeleteBeneficiary(ctx context.Context, arg DeleteBeneficiaryPa
 }
 
 const getAccount = `-- name: GetAccount :one
-SELECT email, account_id, first_name, last_name, nick_name, avatar_url, spl_wallet, curr_balance, total_earned, total_glass_waste, total_metal_waste, total_plastics_waste, total_paper_waste, hashed_password, access_token, access_token_expires, id_token, last_update_email, role, joined, is_deleted 
+SELECT email, account_id, first_name, last_name, display_name, avatar_url, spl_wallet, curr_balance, total_earned, total_glass_waste, total_metal_waste, total_plastics_waste, total_paper_waste, hashed_password, access_token, access_token_expires, id_token, last_update_email, role, joined, is_deleted 
 FROM accounts 
 WHERE email = $1 
   AND is_Deleted = FALSE
@@ -197,7 +197,7 @@ func (q *Queries) GetAccount(ctx context.Context, email string) (Account, error)
 		&i.AccountID,
 		&i.FirstName,
 		&i.LastName,
-		&i.NickName,
+		&i.DisplayName,
 		&i.AvatarUrl,
 		&i.SplWallet,
 		&i.CurrBalance,
@@ -251,66 +251,28 @@ func (q *Queries) GetBeneficiariesByEmail(ctx context.Context, email pgtype.Text
 	return items, nil
 }
 
-const upsertAccount = `-- name: UpsertAccount :one
-INSERT INTO accounts (
-    account_ID, email, first_Name, last_Name, nick_Name, avatar_URL, access_Token, access_Token_Expires, id_Token
-) VALUES (
-    $1, $2, $3, $4, $5, $6, $7, $8, $9
-) ON CONFLICT (email) DO UPDATE SET
-    account_ID = CASE WHEN EXCLUDED.account_ID = '' THEN accounts.account_ID ELSE EXCLUDED.account_ID END,
-    first_Name = CASE WHEN EXCLUDED.first_Name = '' THEN accounts.first_Name ELSE EXCLUDED.first_Name END,
-    last_Name = CASE WHEN EXCLUDED.last_Name = '' THEN accounts.last_Name ELSE EXCLUDED.last_Name END,
-    nick_Name = CASE WHEN EXCLUDED.nick_Name = '' THEN accounts.nick_Name ELSE EXCLUDED.nick_Name END,
-    avatar_URL = CASE WHEN EXCLUDED.avatar_URL = '' THEN accounts.avatar_URL ELSE EXCLUDED.avatar_URL END,
-    access_Token = CASE WHEN EXCLUDED.access_Token = '' THEN accounts.access_Token ELSE EXCLUDED.access_Token END,
-    access_Token_Expires = COALESCE(EXCLUDED.access_Token_Expires, accounts.access_Token_Expires),
-    id_Token = CASE WHEN EXCLUDED.id_Token = '' THEN accounts.id_Token ELSE EXCLUDED.id_Token END
-RETURNING 
-    first_Name, last_Name, nick_Name, spl_Wallet, curr_Balance, total_Earned, total_glass_waste, total_metal_waste, total_plastics_waste, total_paper_waste
+const updateNickName = `-- name: UpdateNickName :one
+UPDATE accounts
+SET display_Name = $1
+WHERE email = $2
+RETURNING email, account_id, first_name, last_name, display_name, avatar_url, spl_wallet, curr_balance, total_earned, total_glass_waste, total_metal_waste, total_plastics_waste, total_paper_waste, hashed_password, access_token, access_token_expires, id_token, last_update_email, role, joined, is_deleted
 `
 
-type UpsertAccountParams struct {
-	AccountID          string           `json:"account_id"`
-	Email              string           `json:"email"`
-	FirstName          string           `json:"first_name"`
-	LastName           string           `json:"last_name"`
-	NickName           string           `json:"nick_name"`
-	AvatarUrl          string           `json:"avatar_url"`
-	AccessToken        string           `json:"access_token"`
-	AccessTokenExpires pgtype.Timestamp `json:"access_token_expires"`
-	IDToken            string           `json:"id_token"`
+type UpdateNickNameParams struct {
+	DisplayName string `json:"display_name"`
+	Email       string `json:"email"`
 }
 
-type UpsertAccountRow struct {
-	FirstName          string  `json:"first_name"`
-	LastName           string  `json:"last_name"`
-	NickName           string  `json:"nick_name"`
-	SplWallet          string  `json:"spl_wallet"`
-	CurrBalance        float64 `json:"curr_balance"`
-	TotalEarned        float64 `json:"total_earned"`
-	TotalGlassWaste    float32 `json:"total_glass_waste"`
-	TotalMetalWaste    float32 `json:"total_metal_waste"`
-	TotalPlasticsWaste float32 `json:"total_plastics_waste"`
-	TotalPaperWaste    float32 `json:"total_paper_waste"`
-}
-
-func (q *Queries) UpsertAccount(ctx context.Context, arg UpsertAccountParams) (UpsertAccountRow, error) {
-	row := q.db.QueryRow(ctx, upsertAccount,
-		arg.AccountID,
-		arg.Email,
-		arg.FirstName,
-		arg.LastName,
-		arg.NickName,
-		arg.AvatarUrl,
-		arg.AccessToken,
-		arg.AccessTokenExpires,
-		arg.IDToken,
-	)
-	var i UpsertAccountRow
+func (q *Queries) UpdateNickName(ctx context.Context, arg UpdateNickNameParams) (Account, error) {
+	row := q.db.QueryRow(ctx, updateNickName, arg.DisplayName, arg.Email)
+	var i Account
 	err := row.Scan(
+		&i.Email,
+		&i.AccountID,
 		&i.FirstName,
 		&i.LastName,
-		&i.NickName,
+		&i.DisplayName,
+		&i.AvatarUrl,
 		&i.SplWallet,
 		&i.CurrBalance,
 		&i.TotalEarned,
@@ -318,6 +280,82 @@ func (q *Queries) UpsertAccount(ctx context.Context, arg UpsertAccountParams) (U
 		&i.TotalMetalWaste,
 		&i.TotalPlasticsWaste,
 		&i.TotalPaperWaste,
+		&i.HashedPassword,
+		&i.AccessToken,
+		&i.AccessTokenExpires,
+		&i.IDToken,
+		&i.LastUpdateEmail,
+		&i.Role,
+		&i.Joined,
+		&i.IsDeleted,
+	)
+	return i, err
+}
+
+const upsertAccount = `-- name: UpsertAccount :one
+INSERT INTO accounts (
+    account_ID, email, first_Name, last_Name, display_Name, avatar_URL, access_Token, access_Token_Expires, id_Token
+) VALUES (
+    $1, $2, $3, $4, $5, $6, $7, $8, $9
+) ON CONFLICT (email) DO UPDATE SET
+    account_ID = CASE WHEN EXCLUDED.account_ID = '' THEN accounts.account_ID ELSE EXCLUDED.account_ID END,
+    first_Name = CASE WHEN EXCLUDED.first_Name = '' THEN accounts.first_Name ELSE EXCLUDED.first_Name END,
+    last_Name = CASE WHEN EXCLUDED.last_Name = '' THEN accounts.last_Name ELSE EXCLUDED.last_Name END,
+    display_Name = CASE WHEN EXCLUDED.display_Name = '' THEN accounts.display_Name ELSE EXCLUDED.display_Name END,
+    avatar_URL = CASE WHEN EXCLUDED.avatar_URL = '' THEN accounts.avatar_URL ELSE EXCLUDED.avatar_URL END,
+    access_Token = CASE WHEN EXCLUDED.access_Token = '' THEN accounts.access_Token ELSE EXCLUDED.access_Token END,
+    access_Token_Expires = COALESCE(EXCLUDED.access_Token_Expires, accounts.access_Token_Expires),
+    id_Token = CASE WHEN EXCLUDED.id_Token = '' THEN accounts.id_Token ELSE EXCLUDED.id_Token END
+RETURNING email, account_id, first_name, last_name, display_name, avatar_url, spl_wallet, curr_balance, total_earned, total_glass_waste, total_metal_waste, total_plastics_waste, total_paper_waste, hashed_password, access_token, access_token_expires, id_token, last_update_email, role, joined, is_deleted
+`
+
+type UpsertAccountParams struct {
+	AccountID          string           `json:"account_id"`
+	Email              string           `json:"email"`
+	FirstName          string           `json:"first_name"`
+	LastName           string           `json:"last_name"`
+	DisplayName        string           `json:"display_name"`
+	AvatarUrl          string           `json:"avatar_url"`
+	AccessToken        string           `json:"access_token"`
+	AccessTokenExpires pgtype.Timestamp `json:"access_token_expires"`
+	IDToken            string           `json:"id_token"`
+}
+
+func (q *Queries) UpsertAccount(ctx context.Context, arg UpsertAccountParams) (Account, error) {
+	row := q.db.QueryRow(ctx, upsertAccount,
+		arg.AccountID,
+		arg.Email,
+		arg.FirstName,
+		arg.LastName,
+		arg.DisplayName,
+		arg.AvatarUrl,
+		arg.AccessToken,
+		arg.AccessTokenExpires,
+		arg.IDToken,
+	)
+	var i Account
+	err := row.Scan(
+		&i.Email,
+		&i.AccountID,
+		&i.FirstName,
+		&i.LastName,
+		&i.DisplayName,
+		&i.AvatarUrl,
+		&i.SplWallet,
+		&i.CurrBalance,
+		&i.TotalEarned,
+		&i.TotalGlassWaste,
+		&i.TotalMetalWaste,
+		&i.TotalPlasticsWaste,
+		&i.TotalPaperWaste,
+		&i.HashedPassword,
+		&i.AccessToken,
+		&i.AccessTokenExpires,
+		&i.IDToken,
+		&i.LastUpdateEmail,
+		&i.Role,
+		&i.Joined,
+		&i.IsDeleted,
 	)
 	return i, err
 }

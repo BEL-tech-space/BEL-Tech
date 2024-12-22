@@ -10,7 +10,7 @@ import (
 func (a *App) dashboardPageHandler(w http.ResponseWriter, r *http.Request) {
 
 	accountEmail := r.Context().Value(contextKeyEmail).(string)
-	user, err := a.userFromCache(context.Background(), accountEmail)
+	user, err := a.getAccountFromCache(context.Background(), accountEmail)
 	if err != nil {
 		a.serverError(w, err)
 		return
@@ -26,7 +26,7 @@ func (a *App) dashboardPageHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := accPages.DashboardPage(account(*user), chart()).Render(context.TODO(), w); err != nil {
+	if err := accPages.DashboardPage(account(user), chart()).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}
@@ -35,7 +35,7 @@ func (a *App) dashboardPageHandler(w http.ResponseWriter, r *http.Request) {
 func (a *App) dashboardHeaderPartial(w http.ResponseWriter, r *http.Request) {
 
 	accountEmail := r.Context().Value(contextKeyEmail).(string)
-	user, err := a.userFromCache(context.Background(), accountEmail)
+	user, err := a.getAccountFromCache(context.Background(), accountEmail)
 	if err != nil {
 		a.serverError(w, err)
 		return
@@ -43,7 +43,7 @@ func (a *App) dashboardHeaderPartial(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 
 	if err := accPages.CommonHeaderOne(
-		account(*user),
+		account(user),
 		accPages.BeforeHeaderTagPartial(strings.Split(r.URL.Path, "/")[2]),
 		accPages.DashboardMainOpeningTagComp()).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)

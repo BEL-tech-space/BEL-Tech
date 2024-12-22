@@ -10,27 +10,27 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
-func makeUpsertUserParams(user User) postgres.UpsertAccountParams {
+func makeUpsertUserParams(acc Account) postgres.UpsertAccountParams {
 	return postgres.UpsertAccountParams{
-		AccountID:          user.UserID,
-		Email:              user.Email,
-		FirstName:          user.FirstName,
-		LastName:           user.LastName,
-		NickName:           user.NickName,
-		AvatarUrl:          user.AvatarURL,
-		AccessToken:        user.AccessToken,
-		AccessTokenExpires: pgtype.Timestamp{Time: user.AccessTokenExpires, InfinityModifier: pgtype.Finite, Valid: true},
-		IDToken:            user.IDToken,
+		AccountID:          acc.AccountID,
+		Email:              acc.Email,
+		FirstName:          acc.FirstName,
+		LastName:           acc.LastName,
+		DisplayName:        acc.DisplayName,
+		AvatarUrl:          acc.AvatarUrl,
+		AccessToken:        acc.AccessToken,
+		AccessTokenExpires: pgtype.Timestamp{Time: acc.AccessTokenExpires, InfinityModifier: pgtype.Finite, Valid: true},
+		IDToken:            acc.IDToken,
 	}
 }
 
-type User struct {
-	UserID             string    `json:"user_id"`
+type Account struct {
 	Email              string    `json:"email"`
+	AccountID          string    `json:"account_id"`
 	FirstName          string    `json:"first_name"`
 	LastName           string    `json:"last_name"`
-	NickName           string    `json:"nick_name"`
-	AvatarURL          string    `json:"avatar_url"`
+	DisplayName        string    `json:"display_name"`
+	AvatarUrl          string    `json:"avatar_url"`
 	SplWallet          string    `json:"spl_wallet"`
 	CurrBalance        float64   `json:"curr_balance"`
 	TotalEarned        float64   `json:"total_earned"`
@@ -46,6 +46,58 @@ type User struct {
 	Role               string    `json:"role"`
 	Joined             time.Time `json:"joined"`
 	IsDeleted          bool      `json:"is_deleted"`
+}
+
+func pgAccountToserviceAccount(pgAcc postgres.Account) Account {
+	return Account{
+		AccountID:          pgAcc.AccountID,
+		Email:              pgAcc.Email,
+		FirstName:          pgAcc.FirstName,
+		LastName:           pgAcc.LastName,
+		DisplayName:        pgAcc.DisplayName,
+		AvatarUrl:          pgAcc.AvatarUrl,
+		SplWallet:          pgAcc.SplWallet,
+		CurrBalance:        pgAcc.CurrBalance,
+		TotalEarned:        pgAcc.TotalEarned,
+		TotalGlassWaste:    pgAcc.TotalGlassWaste,
+		TotalMetalWaste:    pgAcc.TotalMetalWaste,
+		TotalPlasticsWaste: pgAcc.TotalPlasticsWaste,
+		TotalPaperWaste:    pgAcc.TotalPaperWaste,
+		HashedPassword:     pgAcc.HashedPassword,
+		AccessToken:        pgAcc.AccessToken,
+		AccessTokenExpires: pgAcc.AccessTokenExpires.Time,
+		IDToken:            pgAcc.IDToken,
+		LastUpdateEmail:    pgAcc.LastUpdateEmail.Time,
+		Role:               pgAcc.Role,
+		Joined:             pgAcc.Joined.Time,
+		IsDeleted:          pgAcc.IsDeleted,
+	}
+}
+
+func serviceAccountTopgAccount(acc Account) postgres.Account {
+	return postgres.Account{
+		AccountID:          acc.AccountID,
+		Email:              acc.Email,
+		FirstName:          acc.FirstName,
+		LastName:           acc.LastName,
+		DisplayName:        acc.DisplayName,
+		AvatarUrl:          acc.AvatarUrl,
+		SplWallet:          acc.SplWallet,
+		CurrBalance:        acc.CurrBalance,
+		TotalEarned:        acc.TotalEarned,
+		TotalGlassWaste:    acc.TotalGlassWaste,
+		TotalMetalWaste:    acc.TotalMetalWaste,
+		TotalPlasticsWaste: acc.TotalPlasticsWaste,
+		TotalPaperWaste:    acc.TotalPaperWaste,
+		HashedPassword:     acc.HashedPassword,
+		AccessToken:        acc.AccessToken,
+		AccessTokenExpires: pgtype.Timestamp{Time: acc.AccessTokenExpires, Valid: true, InfinityModifier: pgtype.Finite},
+		IDToken:            acc.IDToken,
+		LastUpdateEmail:    pgtype.Timestamp{Time: acc.LastUpdateEmail, Valid: true, InfinityModifier: pgtype.Finite},
+		Role:               acc.Role,
+		Joined:             pgtype.Timestamp{Time: acc.Joined, Valid: true},
+		IsDeleted:          acc.IsDeleted,
+	}
 }
 
 // type Collector struct {
@@ -86,18 +138,18 @@ type AddNewWasteFromCollectorParams struct {
 // 	}
 // }
 
-func broadendUser(u postgres.UpsertAccountRow, user User) User {
-	user.FirstName = u.FirstName
-	user.LastName = u.LastName
-	user.NickName = u.NickName
-	user.CurrBalance = u.CurrBalance
-	user.TotalEarned = u.TotalEarned
-	user.TotalGlassWaste = u.TotalGlassWaste
-	user.TotalMetalWaste = u.TotalMetalWaste
-	user.TotalPlasticsWaste = u.TotalPlasticsWaste
-	user.TotalPaperWaste = u.TotalPaperWaste
-	return user
-}
+// func broadendUser(u postgres.UpsertAccountRow, acc Account) User {
+// 	user.FirstName = u.FirstName
+// 	user.LastName = u.LastName
+// 	user.DisplayName = u.DisplayName
+// 	user.CurrBalance = u.CurrBalance
+// 	user.TotalEarned = u.TotalEarned
+// 	user.TotalGlassWaste = u.TotalGlassWaste
+// 	user.TotalMetalWaste = u.TotalMetalWaste
+// 	user.TotalPlasticsWaste = u.TotalPlasticsWaste
+// 	user.TotalPaperWaste = u.TotalPaperWaste
+// 	return user
+// }
 
 func pgtextToString(t pgtype.Text) string {
 	v, _ := t.Value()
@@ -222,58 +274,6 @@ func googleUUIDToPgtypeUUID(googleUUID uuid.UUID) (pgtype.UUID, error) {
 		return pgtype.UUID{}, err
 	}
 	return pgUUID, nil
-}
-
-func pgUserToServiceUser(pu postgres.Account) User {
-	return User{
-		UserID:             pu.AccountID,
-		Email:              pu.Email,
-		FirstName:          pu.FirstName,
-		LastName:           pu.LastName,
-		NickName:           pu.NickName,
-		AvatarURL:          pu.AvatarUrl,
-		SplWallet:          pu.SplWallet,
-		CurrBalance:        pu.CurrBalance,
-		TotalEarned:        pu.TotalEarned,
-		TotalGlassWaste:    pu.TotalGlassWaste,
-		TotalMetalWaste:    pu.TotalMetalWaste,
-		TotalPlasticsWaste: pu.TotalPlasticsWaste,
-		TotalPaperWaste:    pu.TotalPaperWaste,
-		HashedPassword:     pu.HashedPassword,
-		AccessToken:        pu.AccessToken,
-		AccessTokenExpires: pu.AccessTokenExpires.Time,
-		IDToken:            pu.IDToken,
-		LastUpdateEmail:    pu.LastUpdateEmail.Time,
-		Role:               pu.Role,
-		Joined:             pu.Joined.Time,
-		IsDeleted:          pu.IsDeleted,
-	}
-}
-
-func serviceUserToPg(u User) postgres.Account {
-	return postgres.Account{
-		AccountID:          u.UserID,
-		Email:              u.Email,
-		FirstName:          u.FirstName,
-		LastName:           u.LastName,
-		NickName:           u.NickName,
-		AvatarUrl:          u.AvatarURL,
-		SplWallet:          u.SplWallet,
-		CurrBalance:        u.CurrBalance,
-		TotalEarned:        u.TotalEarned,
-		TotalGlassWaste:    u.TotalGlassWaste,
-		TotalMetalWaste:    u.TotalMetalWaste,
-		TotalPlasticsWaste: u.TotalPlasticsWaste,
-		TotalPaperWaste:    u.TotalPaperWaste,
-		HashedPassword:     u.HashedPassword,
-		AccessToken:        u.AccessToken,
-		AccessTokenExpires: pgtype.Timestamp{Time: u.AccessTokenExpires, Valid: true, InfinityModifier: pgtype.Finite},
-		IDToken:            u.IDToken,
-		LastUpdateEmail:    pgtype.Timestamp{Time: u.LastUpdateEmail, Valid: true, InfinityModifier: pgtype.Finite},
-		Role:               u.Role,
-		Joined:             pgtype.Timestamp{Time: u.Joined, Valid: true},
-		IsDeleted:          u.IsDeleted,
-	}
 }
 
 func pgBeneficiaryToServiceBeneficiary(pgBen postgres.GetBeneficiariesByEmailRow) types.Beneficiary {

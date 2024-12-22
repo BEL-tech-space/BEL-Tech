@@ -13,7 +13,7 @@ import (
 func (a *App) beneficiariesPageHandler(w http.ResponseWriter, r *http.Request) {
 
 	accountEmail := r.Context().Value(contextKeyEmail).(string)
-	user, err := a.userFromCache(context.Background(), accountEmail)
+	user, err := a.getAccountFromCache(context.Background(), accountEmail)
 	if err != nil {
 		a.serverError(w, err)
 		return
@@ -35,7 +35,7 @@ func (a *App) beneficiariesPageHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := accPages.BeneficiariesPage(account(*user).AvatarUrl, result).Render(context.TODO(), w); err != nil {
+	if err := accPages.BeneficiariesPage(account(user).AvatarUrl, result).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}
@@ -44,14 +44,14 @@ func (a *App) beneficiariesPageHandler(w http.ResponseWriter, r *http.Request) {
 func (a *App) beneficiariesPageHeaderPartial(w http.ResponseWriter, r *http.Request) {
 
 	accountEmail := r.Context().Value(contextKeyEmail).(string)
-	user, err := a.userFromCache(context.Background(), accountEmail)
+	user, err := a.getAccountFromCache(context.Background(), accountEmail)
 	if err != nil {
 		a.serverError(w, err)
 		return
 	}
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := accPages.BeneficiariesHeaderPartialComp(
-		account(*user).AvatarUrl,
+		account(user).AvatarUrl,
 		accPages.BeforeHeaderTagPartial(
 			"Spend"),
 		templ.NopComponent).Render(context.TODO(), w); err != nil {

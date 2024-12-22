@@ -11,21 +11,22 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
-func (s *Service) CreateOrUpdateUser(ctx context.Context, user User) (User, error) {
-	u, err := s.dbQuery.UpsertAccount(ctx, makeUpsertUserParams(user))
+func (s *Service) CreateOrUpdateUser(ctx context.Context, user Account) (Account, error) {
+	pgAcc, err := s.dbQuery.UpsertAccount(ctx, makeUpsertUserParams(user))
 	if err == nil {
-		return broadendUser(u, user), nil
+		return pgAccountToserviceAccount(pgAcc), nil
 	}
 	// handle error
-	return User{}, err
+	return Account{}, err
 }
 
-func (s *Service) GetUserByEmail(ctx context.Context, email string) (User, error) {
+func (s *Service) GetUserByEmail(ctx context.Context, email string) (Account, error) {
 	user, err := s.dbQuery.GetAccount(ctx, email)
 	if err != nil {
-		return User{}, err
+		fmt.Println("error in get account", err)
+		return Account{}, err
 	}
-	return pgUserToServiceUser(user), nil
+	return pgAccountToserviceAccount(user), nil
 }
 
 func (s *Service) AddNewBeneficiary(ctx context.Context, bPhoneNo, bName, bSP, email string) error {
@@ -97,4 +98,14 @@ func (s *Service) GetBeneficiaries(ctx context.Context, email string) ([]types.B
 	}
 
 	return beneficiaries, nil
+}
+
+func (s *Service) UpdateAccountDisplayName(ctx context.Context, email, newDisplayName string) (Account, error) {
+	pgAcc, err := s.dbQuery.UpdateNickName(ctx,
+		postgres.UpdateNickNameParams{Email: email, DisplayName: newDisplayName})
+	if err != nil {
+		return Account{}, err
+	}
+
+	return pgAccountToserviceAccount(pgAcc), nil
 }

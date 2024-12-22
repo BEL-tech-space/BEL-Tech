@@ -1201,6 +1201,10 @@ video {
   grid-template-rows: 1fr minmax(2.563rem, auto);
 }
 
+.grid-rows-wastePage {
+  grid-template-rows: repeat(3, auto) 1fr;
+}
+
 .flex-row {
   flex-direction: row;
 }

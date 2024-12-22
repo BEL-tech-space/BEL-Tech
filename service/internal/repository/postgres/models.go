@@ -13,7 +13,7 @@ type Account struct {
 	AccountID          string           `json:"account_id"`
 	FirstName          string           `json:"first_name"`
 	LastName           string           `json:"last_name"`
-	NickName           string           `json:"nick_name"`
+	DisplayName        string           `json:"display_name"`
 	AvatarUrl          string           `json:"avatar_url"`
 	SplWallet          string           `json:"spl_wallet"`
 	CurrBalance        float64          `json:"curr_balance"`

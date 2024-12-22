@@ -17,7 +17,7 @@
 --     RETURNING agent_ID
 -- )
 -- , insert_collector AS (
---     INSERT INTO collectors (email, "role", first_Name, last_Name, nick_Name, avatar_URL, agent_ID)
+--     INSERT INTO collectors (email, "role", first_Name, last_Name, display_Name, avatar_URL, agent_ID)
 --     VALUES ($8, $9, $10, $11, $12, $13, (SELECT agent_ID FROM new_agent))
 --     RETURNING agent_ID
 -- )
@@ -30,33 +30,39 @@
 
 -- name: AddNewAccount :exec
 INSERT INTO accounts (
-    account_ID, email, hashed_password, first_Name, last_Name, nick_Name, avatar_URL, spl_Wallet, curr_Balance, total_Earned, total_glass_waste, total_metal_waste, total_plastics_waste, total_paper_waste, access_Token, access_Token_Expires, id_Token, last_Update_Email, joined
+    account_ID, email, hashed_password, first_Name, last_Name, display_Name, avatar_URL, spl_Wallet, curr_Balance, total_Earned, total_glass_waste, total_metal_waste, total_plastics_waste, total_paper_waste, access_Token, access_Token_Expires, id_Token, last_Update_Email, joined
 ) VALUES (
     $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19
 );
 
 -- name: UpsertAccount :one
 INSERT INTO accounts (
-    account_ID, email, first_Name, last_Name, nick_Name, avatar_URL, access_Token, access_Token_Expires, id_Token
+    account_ID, email, first_Name, last_Name, display_Name, avatar_URL, access_Token, access_Token_Expires, id_Token
 ) VALUES (
     $1, $2, $3, $4, $5, $6, $7, $8, $9
 ) ON CONFLICT (email) DO UPDATE SET
     account_ID = CASE WHEN EXCLUDED.account_ID = '' THEN accounts.account_ID ELSE EXCLUDED.account_ID END,
     first_Name = CASE WHEN EXCLUDED.first_Name = '' THEN accounts.first_Name ELSE EXCLUDED.first_Name END,
     last_Name = CASE WHEN EXCLUDED.last_Name = '' THEN accounts.last_Name ELSE EXCLUDED.last_Name END,
-    nick_Name = CASE WHEN EXCLUDED.nick_Name = '' THEN accounts.nick_Name ELSE EXCLUDED.nick_Name END,
+    display_Name = CASE WHEN EXCLUDED.display_Name = '' THEN accounts.display_Name ELSE EXCLUDED.display_Name END,
     avatar_URL = CASE WHEN EXCLUDED.avatar_URL = '' THEN accounts.avatar_URL ELSE EXCLUDED.avatar_URL END,
     access_Token = CASE WHEN EXCLUDED.access_Token = '' THEN accounts.access_Token ELSE EXCLUDED.access_Token END,
     access_Token_Expires = COALESCE(EXCLUDED.access_Token_Expires, accounts.access_Token_Expires),
     id_Token = CASE WHEN EXCLUDED.id_Token = '' THEN accounts.id_Token ELSE EXCLUDED.id_Token END
-RETURNING 
-    first_Name, last_Name, nick_Name, spl_Wallet, curr_Balance, total_Earned, total_glass_waste, total_metal_waste, total_plastics_waste, total_paper_waste;
+RETURNING *;
 
 -- name: GetAccount :one
 SELECT * 
 FROM accounts 
 WHERE email = $1 
   AND is_Deleted = FALSE;
+
+-- name: UpdateNickName :one
+UPDATE accounts
+SET display_Name = $1
+WHERE email = $2
+RETURNING *;
+
 
 -- -- name: AddNewWasteFromCollector :one
 -- INSERT INTO Waste_Logs (
@@ -72,7 +78,7 @@ WHERE email = $1
 --     FROM Waste_Logs
 --     WHERE agent_ID = $1 AND created_At::date = $2::date
 -- )
--- SELECT 
+-- SELECT
 --     wl.waste_Id, wl.created_At AS "date", wl.glass_Weighed, wl.metal_Weighed, wl.plastics_Weighed, wl.paper_Weighed, wl."location", wl.agent_ID, 
 --     (SELECT count FROM temp_waste_count) AS temp_waste_count
 -- FROM 

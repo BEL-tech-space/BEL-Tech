@@ -5,115 +5,108 @@ import (
 	"strings"
 )
 
-templ WastePage(user User, wasteType string, history []string) {
+templ WastePage(acc Account, wasteType string, history []string) {
 	<!DOCTYPE html>
 	<html lang="en">
 		@headTag("Waste History")
 		<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
 			<div class="Page w-full h-full flex flex-col font-montserrat text-[#2E2E2E]">
-				@CommonHeaderOne(user, templ.NopComponent, templ.NopComponent)
-				if len(history) > 0 {
-					<main class="grow overflow-y-auto pl-[1.5rem] pr-[1.56rem] pt-[1.875rem] grid grid-flow-row-4">
-						@LetRecycleAndProfileComp("Let's Recycle!")
-						<section class="flex justify-start items-center gap-4 mt-6 mb-10">
-							switch wasteType {
-								case "paper" :
-									<img src="/public/assets/images/book.jpg" alt="" class="w-[6.875rem] aspect-square rounded-[0.516rem] bg-[#1E1E1E33]"/>
-									<div class="flex flex-col justify-start items-start gap-1 text-[#3A3A3A]">
-										<p class="font-bold text-[0.806rem] leading-[0.983rem]">Material: <span class="font-semibold">Paper</span></p>
-										<p class="font-bold text-[0.733rem] leading-[0.893rem]">Total Earned: <span class="font-medium font-poppins">50 BEL</span></p>
-									</div>
-								case "glass" :
-									<img src="/public/assets/images/glass.jpg" alt="" class="w-[6.875rem] aspect-square rounded-[0.516rem] bg-[#1E1E1E33]"/>
-									<div class="flex flex-col justify-start items-start gap-1 text-[#3A3A3A]">
-										<p class="font-bold text-[0.806rem] leading-[0.983rem]">Material: <span class="font-semibold">Glass</span></p>
-										<p class="font-bold text-[0.733rem] leading-[0.893rem]">Total Earned: <span class="font-medium font-poppins">50 BEL</span></p>
-									</div>
-								case "metal" :
-									<img src="/public/assets/images/metal2.jpg" alt="" class="w-[6.875rem] aspect-square rounded-[0.516rem] bg-[#1E1E1E33]"/>
-									<div class="flex flex-col justify-start items-start gap-1 text-[#3A3A3A]">
-										<p class="font-bold text-[0.806rem] leading-[0.983rem]">Material: <span class="font-semibold">Metal</span></p>
-										<p class="font-bold text-[0.733rem] leading-[0.893rem]">Total Earned: <span class="font-medium font-poppins">50 BEL</span></p>
-									</div>
-								case "plastics" :
-									<img src="/public/assets/images/plastic_2.jpg" alt="" class="w-[6.875rem] aspect-square rounded-[0.516rem] bg-[#1E1E1E33]"/>
-									<div class="flex flex-col justify-start items-start gap-1 text-[#3A3A3A]">
-										<p class="font-bold text-[0.806rem] leading-[0.983rem]">Material: <span class="font-semibold">Plastics</span></p>
-										<p class="font-bold text-[0.733rem] leading-[0.893rem]">Total Earned: <span class="font-medium font-poppins">50 BEL</span></p>
-									</div>
-							}
-						</section>
-						<section class="w-full flex justify-between items-center">
-							<p class="text-[0.938rem] leading-[1.143rem] font-semibold">Overview</p>
-							<div class="bg-[#01693433] pl-[0.5rem] pr-[0.833rem] flex justify-center items-center gap-[0.417rem] rounded-[1.562rem]">
-								<select name="filter" id="filter" class="appearance-none min-w-fit outline-none">
-									<option value="" class="">this week</option>
-									<hr/>
-									<optgroup label="range">
-										<option value="lastweek" class="">last week</option>
-										<option value="2Weeks" class="">2wk ago</option>
-										<option value="3Weeks" class="">3wk ago</option>
-										<option value="4Weeks" class="">4wk ago</option>
-										<option value="thisMonth" class="">this month</option>
-									</optgroup>
-									<hr/>
-									<optgroup label="result">
-										<option value="single" class="">single</option>
-										<option value="combined" class="">combined</option>
-									</optgroup>
-								</select>
-								<label for="filter">
-									<img
-										src="/public/assets/svg/filter_small.svg"
-										alt="Notifications"
-										class="w-4 aspect-square"
-									/>
-								</label>
-							</div>
-						</section>
-						@notEmptyHistory(wasteType)
-					</main>
-				} else {
-					<main class="grow overflow-y-auto pl-[1.5rem] pr-[1.56rem] pt-[1.875rem] flex flex-col justify-start">
-						@LetRecycleAndProfileComp("Let's Recycle!")
-						<section class="flex justify-start items-center gap-4 mt-6 mb-10">
-							switch wasteType {
-								case "paper" :
-									<img src="/public/assets/images/book.jpg" alt="" class="w-[6.875rem] aspect-square rounded-[0.516rem] bg-[#1E1E1E33]"/>
-									<div class="flex flex-col justify-start items-start gap-1 text-[#3A3A3A]">
-										<p class="font-bold text-[0.806rem] leading-[0.983rem]">Material: <span class="font-semibold">Paper</span></p>
-										<p class="font-bold text-[0.733rem] leading-[0.893rem]">Total Earned: <span class="font-medium font-poppins">0 BEL</span></p>
-									</div>
-								case "glass" :
-									<img src="/public/assets/images/glass.jpg" alt="" class="w-[6.875rem] aspect-square rounded-[0.516rem] bg-[#1E1E1E33]"/>
-									<div class="flex flex-col justify-start items-start gap-1 text-[#3A3A3A]">
-										<p class="font-bold text-[0.806rem] leading-[0.983rem]">Material: <span class="font-semibold">Glass</span></p>
-										<p class="font-bold text-[0.733rem] leading-[0.893rem]">Total Earned: <span class="font-medium font-poppins">0 BEL</span></p>
-									</div>
-								case "metal" :
-									<img src="/public/assets/images/metal2.jpg" alt="" class="w-[6.875rem] aspect-square rounded-[0.516rem] bg-[#1E1E1E33]"/>
-									<div class="flex flex-col justify-start items-start gap-1 text-[#3A3A3A]">
-										<p class="font-bold text-[0.806rem] leading-[0.983rem]">Material: <span class="font-semibold">Metal</span></p>
-										<p class="font-bold text-[0.733rem] leading-[0.893rem]">Total Earned: <span class="font-medium font-poppins">0 BEL</span></p>
-									</div>
-								case "plastics" :
-									<img src="/public/assets/images/plastic_2.jpg" alt="" class="w-[6.875rem] aspect-square rounded-[0.516rem] bg-[#1E1E1E33]"/>
-									<div class="flex flex-col justify-start items-start gap-1 text-[#3A3A3A]">
-										<p class="font-bold text-[0.806rem] leading-[0.983rem]">Material: <span class="font-semibold">Plastics</span></p>
-										<p class="font-bold text-[0.733rem] leading-[0.893rem]">Total Earned: <span class="font-medium font-poppins">0 BEL</span></p>
-									</div>
-							}
-						</section>
-						@emptyHistory(wasteType)
-					</main>
-				}
+				@CommonHeaderOne(acc, templ.NopComponent, templ.NopComponent)
+				@WasteMain(acc, wasteType, history)
 				@Footer("dashboard", templ.NopComponent, templ.NopComponent)
 			</div>
 		</body>
 	</html>
 }
 
-templ notEmptyHistory(wasteType string) {
+templ WasteMain(acc Account, wasteType string, history []string) {
+	<main class="grow overflow-y-auto pl-[1.5rem] pr-[1.56rem] pt-[1.875rem] grid grid-rows-wastePage">
+		@LetRecycleAndProfileComp("Let's Recycle!")
+		@WasteQuickInfoComp(wasteType, acc)
+		@WasteFilterOptionsPartialComp()
+		if len(history) > 0 {
+			@WasteNotEmptyHistoryComp(wasteType)
+		} else {
+			@WasteEmptyHistoryComp(wasteType)
+		}
+	</main>
+}
+
+templ WasteQuickInfoComp(wasteType string, acc Account) {
+	<section class="flex justify-start items-center gap-4 mt-6 mb-10">
+		switch wasteType {
+			case "paper" :
+				<picture>
+					<source type="image/webp" srcset="/public/assets/images/book.webp"/>
+					<img src="/public/assets/images/book.jpg" alt="" class="w-[6.875rem] aspect-square rounded-[0.516rem] bg-[#1E1E1E33]"/>
+				</picture>
+				<div class="flex flex-col justify-start items-start gap-1 text-[#3A3A3A]">
+					<p class="font-bold text-[0.806rem] leading-[0.983rem]">Material: <span class="font-semibold">Paper</span></p>
+					<p class="font-bold text-[0.733rem] leading-[0.893rem]">Total Earned: <span class="font-medium font-poppins">{ fmt.Sprintf("%.4f BEL", acc.TotalPaperWaste) }</span></p>
+				</div>
+			case "glass" :
+				<picture>
+					<source type="image/webp" srcset="/public/assets/images/glass.webp"/>
+					<img src="/public/assets/images/glass.jpg" alt="" class="w-[6.875rem] aspect-square rounded-[0.516rem] bg-[#1E1E1E33]"/>
+				</picture>
+				<div class="flex flex-col justify-start items-start gap-1 text-[#3A3A3A]">
+					<p class="font-bold text-[0.806rem] leading-[0.983rem]">Material: <span class="font-semibold">Glass</span></p>
+					<p class="font-bold text-[0.733rem] leading-[0.893rem]">Total Earned: <span class="font-medium font-poppins">{ fmt.Sprintf("%.4f BEL", acc.TotalGlassWaste) }</span></p>
+				</div>
+			case "metal" :
+				<picture>
+					<source type="image/webp" srcset="/public/assets/images/metal2.webp"/>
+					<img src="/public/assets/images/metal2.jpg" alt="" class="w-[6.875rem] aspect-square rounded-[0.516rem] bg-[#1E1E1E33]"/>
+				</picture>
+				<div class="flex flex-col justify-start items-start gap-1 text-[#3A3A3A]">
+					<p class="font-bold text-[0.806rem] leading-[0.983rem]">Material: <span class="font-semibold">Metal</span></p>
+					<p class="font-bold text-[0.733rem] leading-[0.893rem]">Total Earned: <span class="font-medium font-poppins">{ fmt.Sprintf("%.4f BEL", acc.TotalMetalWaste) }</span></p>
+				</div>
+			case "plastics" :
+				<picture>
+					<source type="image/webp" srcset="/public/assets/images/plastic_2.webp"/>
+					<img src="/public/assets/images/plastic_2.jpg" alt="" class="w-[6.875rem] aspect-square rounded-[0.516rem] bg-[#1E1E1E33]"/>
+				</picture>
+				<div class="flex flex-col justify-start items-start gap-1 text-[#3A3A3A]">
+					<p class="font-bold text-[0.806rem] leading-[0.983rem]">Material: <span class="font-semibold">Plastics</span></p>
+					<p class="font-bold text-[0.733rem] leading-[0.893rem]">Total Earned: <span class="font-medium font-poppins">{ fmt.Sprintf("%.4f BEL", acc.TotalPlasticsWaste) }</span></p>
+				</div>
+		}
+	</section>
+}
+
+templ WasteFilterOptionsPartialComp() {
+	<section class="w-full flex justify-between items-center">
+		<p class="text-[0.938rem] leading-[1.143rem] font-semibold">Overview</p>
+		<div class="bg-[#01693433] pl-[0.5rem] pr-[0.833rem] flex justify-center items-center gap-[0.417rem] rounded-[1.562rem]">
+			<select name="filter" id="filter" class="appearance-none min-w-fit outline-none">
+				<option value="" class="">this week</option>
+				<hr/>
+				<optgroup label="range">
+					<option value="lastweek" class="">last week</option>
+					<option value="2Weeks" class="">2wk ago</option>
+					<option value="3Weeks" class="">3wk ago</option>
+					<option value="4Weeks" class="">4wk ago</option>
+					<option value="thisMonth" class="">this month</option>
+				</optgroup>
+				<hr/>
+				<optgroup label="result">
+					<option value="single" class="">single</option>
+					<option value="combined" class="">combined</option>
+				</optgroup>
+			</select>
+			<label for="filter">
+				<img
+					src="/public/assets/svg/filter_small.svg"
+					alt="Notifications"
+					class="w-4 aspect-square"
+				/>
+			</label>
+		</div>
+	</section>
+}
+
+templ WasteNotEmptyHistoryComp(wasteType string) {
 	<section class="overflow-y-auto mt-8 max-h-full">
 		<ul class="flex flex-col justify-start items-start gap-9 py-2">
 			for range 8 {
@@ -142,7 +135,7 @@ templ notEmptyHistory(wasteType string) {
 	</section>
 }
 
-templ emptyHistory(wasteType string) {
+templ WasteEmptyHistoryComp(wasteType string) {
 	<section class="h-full w-full flex justify-center items-center">
 		<p class="font-bold text-sm text-[#3A3A3A]">{ fmt.Sprintf("No history yet for %s", strings.ToUpper(wasteType) ) }</p>
 	</section>

@@ -8,7 +8,7 @@ package frontend
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-func Profile(user User) templ.Component {
+func Profile(acc Account) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -41,11 +41,11 @@ func Profile(user User) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = CommonHeaderOne(user, templ.NopComponent, templ.NopComponent).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = CommonHeaderOne(acc, templ.NopComponent, templ.NopComponent).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = ProfileMain(user).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = ProfileMain(acc).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -81,7 +81,7 @@ func Profile(user User) templ.Component {
 	})
 }
 
-func ProfileMain(user User) templ.Component {
+func ProfileMain(acc Account) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -110,11 +110,11 @@ func ProfileMain(user User) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = ProfileChangeDisplayIconComp(user.AvatarUrl).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = ProfileChangeDisplayIconComp(acc.AvatarUrl).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = ProfileUpdataAccountInfoPartialComp(user).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = ProfileUpdataAccountInfoPartialComp(acc).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -197,7 +197,7 @@ func ProfileChangeDisplayIconComp(avatarURL string) templ.Component {
 	})
 }
 
-func ProfileUpdataAccountInfoPartialComp(user User) templ.Component {
+func ProfileUpdataAccountInfoPartialComp(acc Account) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -218,14 +218,14 @@ func ProfileUpdataAccountInfoPartialComp(user User) templ.Component {
 			templ_7745c5c3_Var6 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<form action=\"\" class=\"flex flex-col gap-3 justify-center items-center\"><div class=\"w-full flex flex-col justify-start items-start gap-1\"><label for=\"\" class=\"font-semibold text-xs\">Display Name:</label> <input type=\"text\" name=\"nickname\" id=\"nickname\" placeholder=\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<form action=\"/account/profile/displayName\" method=\"post\" class=\"flex flex-col gap-3 justify-center items-center\"><div class=\"w-full flex flex-col justify-start items-start gap-1\"><label for=\"\" class=\"font-semibold text-xs\">Display Name:</label> <input type=\"text\" name=\"nickname\" id=\"nickname\" min=\"2\" max=\"20\" placeholder=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var7 string
-		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(user.NickName)
+		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(acc.DisplayName)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.profile.templ`, Line: 47, Col: 79}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.profile.templ`, Line: 47, Col: 98}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 		if templ_7745c5c3_Err != nil {
@@ -236,9 +236,9 @@ func ProfileUpdataAccountInfoPartialComp(user User) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var8 string
-		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(user.Email)
+		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(acc.Email)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.profile.templ`, Line: 51, Col: 82}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.profile.templ`, Line: 51, Col: 81}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 		if templ_7745c5c3_Err != nil {
@@ -249,15 +249,15 @@ func ProfileUpdataAccountInfoPartialComp(user User) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var9 string
-		templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(user.SplWallet)
+		templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(acc.SplWallet)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.profile.templ`, Line: 55, Col: 87}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.profile.templ`, Line: 55, Col: 86}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"outline-none  border-solid border-[#569B78] border-[0.0313rem] rounded p-2 w-full\"> <button class=\"absolute top-2/4 right-4\" _=\"on click call #createNewPinDialog.showModal() then halt\"><img src=\"/public/assets/svg/connectWallet.svg\" alt=\"\" class=\"w-5 aspect-square\"></button></div><section class=\"mt-10 w-full grid grid-cols-profileButton items-center gap-[0.625rem]\"><button _=\"on click call #enterSPLWalletAddrDialog.showModal() then halt\" class=\"w-full text-center bg-[#016934] text-white text-sm tracking-[0.1px] font-medium py-[0.625rem] px-1 rounded-md\">Save Changes</button> <a href=\"/account/signout\" title=\"logout\" class=\"bg-[#FFE8E8] rounded-md flex justify-center items-center\"><img src=\"/public/assets/svg/login.svg\" class=\"w-6 aspect-square m-2\"></a></section></form>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"outline-none  border-solid border-[#569B78] border-[0.0313rem] rounded p-2 w-full\"> <button class=\"absolute top-2/4 right-4\" _=\"on click call #createNewPinDialog.showModal() then halt\"><img src=\"/public/assets/svg/connectWallet.svg\" alt=\"\" class=\"w-5 aspect-square\"></button></div><section class=\"mt-10 w-full grid grid-cols-profileButton items-center gap-[0.625rem]\"><button type=\"submit\" class=\"w-full text-center bg-[#016934] text-white text-sm tracking-[0.1px] font-medium py-[0.625rem] px-1 rounded-md\">Save Changes</button> <a href=\"/account/auth/logout/google\" title=\"logout\" class=\"bg-[#FFE8E8] rounded-md flex justify-center items-center\"><img src=\"/public/assets/svg/login.svg\" class=\"w-6 aspect-square m-2\"></a></section></form>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

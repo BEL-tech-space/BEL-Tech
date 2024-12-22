@@ -5,14 +5,14 @@ import (
 	"fmt"
 )
 
-templ WalletPage(user User, data []types.TokenData) {
+templ WalletPage(acc Account, data []types.TokenData) {
 	<!DOCTYPE html>
 	<html lang="en">
 		@headTag("Wallet")
 		<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
 			<div class="w-full h-full flex flex-col font-montserrat text-[#2E2E2E]">
-				@CommonHeaderOne(user, templ.NopComponent, templ.NopComponent)
-				@WalletMain(user, data)
+				@CommonHeaderOne(acc, templ.NopComponent, templ.NopComponent)
+				@WalletMain(acc, data)
 				@Footer("wallet", templ.NopComponent, templ.NopComponent)
 			</div>
 			@scriptForWalletPage()
@@ -20,9 +20,9 @@ templ WalletPage(user User, data []types.TokenData) {
 	</html>
 }
 
-templ WalletMain(user User, data []types.TokenData) {
+templ WalletMain(acc Account, data []types.TokenData) {
 	<main class="grow overflow-y-auto pl-6 pr-[1.56rem] flex flex-col">
-		@WalletBalanceComp(user.CurrBalance)
+		@WalletBalanceComp(acc.CurrBalance)
 		@WalletOptionsPartialComp()
 		@WalletWatchlistPartialComp()
 		@WalletCoinDataComp(data)

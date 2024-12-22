@@ -4,15 +4,14 @@ import (
 	"beltech/service"
 	"crypto/rand"
 	"encoding/hex"
-	"time"
 
+	"github.com/dgraph-io/ristretto/v2"
 	"github.com/google/uuid"
 	"github.com/gorilla/sessions"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/markbates/goth"
 	"github.com/markbates/goth/gothic"
 	"github.com/markbates/goth/providers/google"
-	"github.com/patrickmn/go-cache"
 )
 
 type App struct {
@@ -22,7 +21,7 @@ type App struct {
 	agentSessionStore    sessions.Store
 	collectors           []collector
 	beltechWatermarkLogo []byte
-	cacheStorage         *cache.Cache
+	accountCache         *ristretto.Cache[string, service.Account]
 }
 
 type collector struct {
@@ -42,7 +41,7 @@ const (
 
 const productionEnv string = "production"
 
-func NewApp(cfg *EnvConfig, db *pgxpool.Pool) *App {
+func NewApp(cfg *EnvConfig, db *pgxpool.Pool, rCache *ristretto.Cache[string, service.Account]) *App {
 
 	store := sessions.NewCookieStore([]byte(cfg.CookieSecret))
 	store.MaxAge(86_400 * 30) // 30 days
@@ -63,7 +62,8 @@ func NewApp(cfg *EnvConfig, db *pgxpool.Pool) *App {
 
 	app := App{}
 	app.config = cfg
-	app.cacheStorage = cache.New(24*time.Hour, 24*time.Hour)
+
+	app.accountCache = rCache
 	app.accountSessionStore = sessions.NewCookieStore([]byte(GenerateRandomKey(cfg.SessionSecret, cfg.Build)))
 	app.agentSessionStore = sessions.NewCookieStore([]byte(GenerateRandomKey(cfg.SessionSecret, cfg.Build)))
 	app.service = service.NewService(db)
@@ -87,3 +87,5 @@ func GenerateRandomKey(d, buildMode string) string {
 
 	return hex.EncodeToString(key)
 }
+
+

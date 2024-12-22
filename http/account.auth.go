@@ -5,6 +5,7 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+	"time"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/gorilla/sessions"
@@ -20,11 +21,11 @@ var (
 		NickName:  "Tobias",
 	}
 
-	devServiceUser = service.User{
-		UserID:    "1234567890",
-		Email:     "giwaoluatobi@gmail.com",
-		AvatarURL: "https://lh3.googleusercontent.com/a-/ALV-UjWhunlRgNtwAAdFNTue7WN3k01azp8GY0qJHQqsdfXBB26X40qIIw=s96-c",
-		NickName:  "Tobias",
+	devServiceUser = service.Account{
+		AccountID:   "1234567890",
+		Email:       "giwaoluatobi@gmail.com",
+		AvatarUrl:   "https://lh3.googleusercontent.com/a-/ALV-UjWhunlRgNtwAAdFNTue7WN3k01azp8GY0qJHQqsdfXBB26X40qIIw=s96-c",
+		DisplayName: "Tobias",
 	}
 )
 
@@ -86,7 +87,7 @@ func (a *App) callbackHandlerAccount(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/account/dashboard", http.StatusTemporaryRedirect)
 }
 
-func (a *App) logout(w http.ResponseWriter, r *http.Request) {
+func (a *App) logoutAccount(w http.ResponseWriter, r *http.Request) {
 
 	if err := gothic.Logout(w, r); err != nil {
 		fmt.Println("error in goth.logout", err.Error())
@@ -95,7 +96,7 @@ func (a *App) logout(w http.ResponseWriter, r *http.Request) {
 	session, err := a.accountSessionStore.Get(r, "beltech-account")
 	if err != nil {
 		fmt.Println("error in get, logoutAccount", err.Error())
-		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
+		http.Redirect(w, r, "/account/signin", http.StatusTemporaryRedirect)
 		return
 	}
 
@@ -103,11 +104,11 @@ func (a *App) logout(w http.ResponseWriter, r *http.Request) {
 	session.Values = nil
 	if err := session.Save(r, w); err != nil {
 		fmt.Println("error in saving session, logOut", err.Error())
-		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
+		http.Redirect(w, r, "/account/signin", http.StatusTemporaryRedirect)
 		return
 	}
 
-	http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
+	http.Redirect(w, r, "/account/signin", http.StatusTemporaryRedirect)
 }
 
 func (a *App) logInUser(w http.ResponseWriter, r *http.Request, u goth.User) error {
@@ -126,13 +127,13 @@ func (a *App) logInUser(w http.ResponseWriter, r *http.Request, u goth.User) err
 	return a.createNewUserSession(w, r, user)
 }
 
-func (a *App) createNewUserSession(w http.ResponseWriter, r *http.Request, user service.User) error {
+func (a *App) createNewUserSession(w http.ResponseWriter, r *http.Request, acc service.Account) error {
 	session, err := a.accountSessionStore.New(r, "beltech-account")
 	if err != nil {
 		fmt.Println("ERROR IN NEW", err.Error())
 	}
 
-	session.Values["email"] = user.Email
+	session.Values["email"] = acc.Email
 	session.Options = &sessions.Options{
 		Path:     "/",
 		MaxAge:   7200, // Session expires in 1 Hour
@@ -141,19 +142,19 @@ func (a *App) createNewUserSession(w http.ResponseWriter, r *http.Request, user 
 		// SameSite: http.SameSiteLaxMode, // Only allow cookie for requests from the same site
 	}
 
-	a.cacheStorage.SetDefault(user.Email, &user)
+	a.accountCache.SetWithTTL(acc.Email, acc, 1, time.Hour)
 
 	return session.Save(r, w)
 }
 
-func mapGothUserToServiceUser(gothUser goth.User) service.User {
-	user := service.User{}
-	user.UserID = gothUser.UserID
+func mapGothUserToServiceUser(gothUser goth.User) service.Account {
+	user := service.Account{}
+	user.AccountID = gothUser.UserID
 	user.Email = gothUser.Email
 	user.FirstName = gothUser.FirstName
 	user.LastName = gothUser.LastName
-	user.NickName = gothUser.NickName
-	user.AvatarURL = gothUser.AvatarURL
+	user.DisplayName = gothUser.NickName
+	user.AvatarUrl = gothUser.AvatarURL
 	user.AccessToken = gothUser.AccessToken
 	user.AccessTokenExpires = gothUser.ExpiresAt
 	user.IDToken = gothUser.IDToken

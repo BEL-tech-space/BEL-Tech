@@ -298,7 +298,7 @@ func Footer(active string, beforeFooterTagPartial, afterFooterTagPartial templ.C
 	})
 }
 
-func CommonHeaderOne(user User, beforeHeaderTagPartial, afterHeaderTagPartial templ.Component) templ.Component {
+func CommonHeaderOne(user Account, beforeHeaderTagPartial, afterHeaderTagPartial templ.Component) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -340,15 +340,15 @@ func CommonHeaderOne(user User, beforeHeaderTagPartial, afterHeaderTagPartial te
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		if user.NickName != "" {
+		if user.DisplayName != "" {
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<p class=\"leading-[0.91rem] font-[500] text-[0.75rem]\">Gm, <span class=\"font-[600]\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var9 string
-			templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(user.NickName)
+			templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(user.DisplayName)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 206, Col: 44}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 206, Col: 47}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 			if templ_7745c5c3_Err != nil {
@@ -450,7 +450,7 @@ func commonHeaderTwo(text, avatarURL, imagePath, btnBehaviour string, beforeHead
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"rounded-full w-[1.86rem] aspect-square mr-[0.5rem]\">`</a><p class=\"font-semibold text-[0.938rem] leading-[1.143rem]\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"rounded-full w-[1.86rem] aspect-square mr-[0.5rem]\"></a><p class=\"font-semibold text-[0.938rem] leading-[1.143rem]\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

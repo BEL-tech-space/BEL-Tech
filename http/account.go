@@ -5,20 +5,28 @@ import (
 	"beltech/service"
 )
 
-func account(user service.User) accPages.User {
-	return accPages.User{
-		Email:              user.Email,
-		FirstName:          user.FirstName,
-		LastName:           user.LastName,
-		NickName:           user.NickName,
-		AvatarUrl:          user.AvatarURL,
-		SplWallet:          user.SplWallet,
-		CurrBalance:        user.CurrBalance,
-		TotalEarned:        user.TotalEarned,
-		TotalGlassWaste:    user.TotalGlassWaste,
-		TotalMetalWaste:    user.TotalMetalWaste,
-		TotalPlasticsWaste: user.TotalPlasticsWaste,
-		TotalPaperWaste:    user.TotalPaperWaste,
-		LastUpdateEmail:    user.LastUpdateEmail,
+func account(acc service.Account) accPages.Account {
+	return accPages.Account{
+		AccountID:          acc.AccountID,
+		Email:              acc.Email,
+		FirstName:          acc.FirstName,
+		LastName:           acc.LastName,
+		DisplayName:        acc.DisplayName,
+		AvatarUrl:          acc.AvatarUrl,
+		SplWallet:          acc.SplWallet,
+		CurrBalance:        acc.CurrBalance,
+		TotalEarned:        acc.TotalEarned,
+		TotalGlassWaste:    acc.TotalGlassWaste,
+		TotalMetalWaste:    acc.TotalMetalWaste,
+		TotalPlasticsWaste: acc.TotalPlasticsWaste,
+		TotalPaperWaste:    acc.TotalPaperWaste,
+		HashedPassword:     acc.HashedPassword,
+		AccessToken:        acc.AccessToken,
+		AccessTokenExpires: acc.AccessTokenExpires,
+		IDToken:            acc.IDToken,
+		LastUpdateEmail:    acc.LastUpdateEmail,
+		Role:               acc.Role,
+		Joined:             acc.Joined,
+		IsDeleted:          acc.IsDeleted,
 	}
 }

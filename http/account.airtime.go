@@ -19,7 +19,7 @@ func (a *App) airtimePageHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(v, c)
 	}
 
-	user, err := a.userFromCache(context.Background(), accountEmail)
+	user, err := a.getAccountFromCache(context.Background(), accountEmail)
 	if err != nil {
 		a.serverError(w, err)
 		return
@@ -35,7 +35,7 @@ func (a *App) airtimePageHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := accPages.AirtimePage(user.AvatarURL).Render(context.Background(), w); err != nil {
+	if err := accPages.AirtimePage(user.AvatarUrl).Render(context.Background(), w); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
@@ -44,14 +44,14 @@ func (a *App) airtimePageHandler(w http.ResponseWriter, r *http.Request) {
 func (a *App) airtimePageHeaderPartial(w http.ResponseWriter, r *http.Request) {
 
 	accountEmail := r.Context().Value(contextKeyEmail).(string)
-	user, err := a.userFromCache(context.Background(), accountEmail)
+	user, err := a.getAccountFromCache(context.Background(), accountEmail)
 	if err != nil {
 		a.serverError(w, err)
 		return
 	}
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := accPages.AirtimeHeaderPartialComp(
-		account(*user).AvatarUrl,
+		account(user).AvatarUrl,
 		accPages.BeforeHeaderTagPartial(
 			"Airtime"),
 		accPages.AirtimeMainOpeningTagComp()).Render(context.TODO(), w); err != nil {

@@ -8,6 +8,7 @@ import (
 	accPages "beltech/frontend/pages/account"
 
 	"github.com/go-chi/chi/v5"
+	"golang.org/x/exp/rand"
 )
 
 func (a *App) wasteHistoryHandler(w http.ResponseWriter, r *http.Request) {
@@ -25,15 +26,22 @@ func (a *App) wasteHistoryHandler(w http.ResponseWriter, r *http.Request) {
 
 	accountEmail := r.Context().Value(contextKeyEmail).(string)
 
-	user, err := a.userFromCache(context.Background(), accountEmail)
+	user, err := a.getAccountFromCache(context.Background(), accountEmail)
 	if err != nil {
 		fmt.Println("error occured here")
 		a.serverError(w, err)
 		return
 	}
 
-	if err := accPages.WastePage(account(*user), wasteType, randomArray()).Render(context.Background(), w); err != nil {
+	if err := accPages.WastePage(account(user), wasteType, nil).Render(context.Background(), w); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+}
+
+func randomArray() []string {
+	if rand.Intn(2) == 0 {
+		return []string{}
+	}
+	return []string{"example1", "example2", "example3"}
 }
