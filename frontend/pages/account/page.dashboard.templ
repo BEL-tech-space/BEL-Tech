@@ -2,13 +2,13 @@ package frontend
 
 import "html/template"
 
-templ DashboardPage(user User, chart template.HTML) {
+templ DashboardPage(acc Account, chart template.HTML) {
 	<!DOCTYPE html>
 	<html lang="en">
 		@headTag("Dashboard")
 		<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
 			<div class="Page w-full h-full flex flex-col font-montserrat text-[#2E2E2E]">
-				@CommonHeaderOne(user, templ.NopComponent, templ.NopComponent)
+				@CommonHeaderOne(acc, templ.NopComponent, templ.NopComponent)
 				@DashboardMain(chart)
 				@Footer("dashboard", templ.NopComponent, templ.NopComponent)
 			</div>

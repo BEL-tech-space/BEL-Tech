@@ -14,7 +14,7 @@ func (a *App) accountRouter() http.Handler {
 	r.Route("/auth", func(r chi.Router) {
 		r.Get("/{provider}", a.signInWithProviderAccount)
 		r.Get("/{provider}/callback", a.callbackHandlerAccount)
-		r.Get("/logout/{provider}", a.logout)
+		r.Get("/logout/{provider}", a.logoutAccount)
 	})
 
 	r.Route("/", func(r chi.Router) {
@@ -40,13 +40,15 @@ func (a *App) accountRouter() http.Handler {
 		r.Get("/spend", a.spendPageHandler)
 
 		r.Get("/profile", a.ProfilePageHandler)
+		r.Post("/profile/displayName", a.changeProfileDisplayName)
 
 		r.Post("/airtime", a.airtimePageHandler)
-		
+
 		r.Get("/history", a.historyPageHandler)
 
 		r.Get("/beneficiaries", a.beneficiariesPageHandler)
-		
+		r.Post("/beneficiaries/addNew", a.addNewBeneficiary)
+
 		r.Get("/waste/{wasteType}", a.wasteHistoryHandler)
 		r.Get("/tips/{wasteType}", a.wasteTipsHandler)
 
@@ -54,6 +56,7 @@ func (a *App) accountRouter() http.Handler {
 
 	r.Get("/signup", a.signupPageHandler)
 	r.Get("/signin", a.signinPageHandler)
+
 	r.Get("/verify", a.verifyPageHandler)
 	r.Get("/reset", a.resetPageHandler)
 	r.Get("/verify_success", a.verify_successPageHandler)
@@ -80,7 +83,7 @@ func (a *App) accountAuthorization(next http.Handler) http.Handler {
 			return
 		}
 
-		// Add userID and userEmail to the request context
+		// Add userID and accountEmail to the request context
 		ctx := context.WithValue(r.Context(), contextKeyEmail, email.(string))
 		r = r.WithContext(ctx)
 

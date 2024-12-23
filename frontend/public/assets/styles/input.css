@@ -4,9 +4,8 @@
 
 @font-face {
   font-family: "Monsterrat";
-  src: 
-  local("Monsterrat"),
-  url("/public/assets/fonts/montserrat/static/Montserrat-Regular.ttf");
+  src: local("Monsterrat"),
+    url("/public/assets/fonts/montserrat/static/Montserrat-Regular.ttf");
 }
 
 @font-face {
@@ -16,7 +15,27 @@
 
 @font-face {
   font-family: "Poppins";
-  src: 
-  local("Poppins"),
-  url("/public/assets/fonts/poppins/Poppins-Regular.ttf");
+  src: local("Poppins"), url("/public/assets/fonts/poppins/Poppins-Regular.ttf");
 }
+
+/* input:not(:placeholder-shown):valid {
+  outline-color: green;
+}
+
+input:not(:placeholder-shown):invalid {
+  outline-color: rgb(237, 18, 18);
+}
+
+input:focus:invalid {
+  outline-color: yellow;
+}
+
+input:user-valid {
+  outline-color: rgb(57, 158, 57);
+  outline-width: 0.06rem;
+}
+
+input:user-invalid {
+  outline-color: rgb(237, 18, 18);
+  outline-width: 0.06rem;
+} */

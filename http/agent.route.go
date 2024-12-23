@@ -14,7 +14,7 @@ func (a *App) agentRouter() http.Handler {
 	r.Route("/auth", func(r chi.Router) {
 		r.Get("/{provider}", a.signInWithProviderAgent)
 		r.Get("/{provider}/callback", a.callbackHandlerAgent)
-		r.Get("/logout/{provider}", a.logout)
+		// r.Get("/logout/{provider}", a.logout)
 	})
 
 	r.Route("/", func(r chi.Router) {
@@ -26,7 +26,7 @@ func (a *App) agentRouter() http.Handler {
 
 		r.Post("/qrcode/{agentID}", a.generateQRCode)
 		r.Get("/wasteForm", a.wasteForm)
-		r.Post("/addAgent", a.addNewCollectorPost)
+		// r.Post("/addAgent", a.addNewCollectorPost)
 	})
 
 	r.Get("/signin", a.logInCollector)

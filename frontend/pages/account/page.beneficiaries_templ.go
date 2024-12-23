@@ -8,7 +8,9 @@ package frontend
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-func BeneficiariesPage(avatarURL string) templ.Component {
+import "beltech/types"
+
+func BeneficiariesPage(avatarURL string, ben []types.Beneficiary) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -45,7 +47,7 @@ func BeneficiariesPage(avatarURL string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = BeneficiariesMain().Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = BeneficiariesMain(ben).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -102,7 +104,7 @@ func BeneficiariesHeaderPartialComp(avatarURL string, beforeHeaderTagPartial, af
 	})
 }
 
-func BeneficiariesMain() templ.Component {
+func BeneficiariesMain(ben []types.Beneficiary) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -123,17 +125,84 @@ func BeneficiariesMain() templ.Component {
 			templ_7745c5c3_Var3 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<main class=\"overflow-y-auto pl-[1.5rem] pr-[1.56rem] pt-12\"><ul class=\"w-full flex flex-col justify-center items-center gap-6\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<main class=\"overflow-y-auto pl-[1.5rem] pr-[1.56rem] pt-12\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		for range 8 {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<li class=\"w-full bg-[#FEF7FF] shadow-[0px_1px_2px_1px_#00000014] pl-2 pr-7 py-3 flex justify-between items-center rounded-lg\"><div class=\"flex gap-6 items-center justify-start\"><img src=\"/public/assets/images/mtn.png\" alt=\"\" class=\"w-[3.5rem] aspect-square rounded-full\"><div class=\"flex flex-col gap-2 justify-start items-start\"><p class=\"font-poppins font-medium text-xs leading-[1.125rem] text-[#2E2E2E]\">Tobias</p><p class=\"font-montserrat font-bold text-[0.625rem] leading-[0.762rem] text-[#016934]\">09034097398</p></div></div><img src=\"/public/assets/svg/greenEdit.svg\" alt=\"\" class=\"w-5 aspect-square\"></li><li class=\"w-full bg-[#FEF7FF] shadow-[0px_1px_2px_1px_#00000014] pl-2 pr-7 py-3 flex justify-between items-center rounded-lg\"><div class=\"flex gap-6 items-center justify-start\"><img src=\"/public/assets/images/airtel.png\" alt=\"\" class=\"w-[3.5rem] aspect-square rounded-full\"><div class=\"flex flex-col gap-2 justify-start items-start\"><p class=\"font-poppins font-medium text-xs leading-[1.125rem] text-[#2E2E2E]\">Tobias</p><p class=\"font-montserrat font-bold text-[0.625rem] leading-[0.762rem] text-[#016934]\">09034097398</p></div></div><img src=\"/public/assets/svg/greenEdit.svg\" alt=\"\" class=\"w-5 aspect-square\"></li><li class=\"w-full bg-[#FEF7FF] shadow-[0px_1px_2px_1px_#00000014] pl-2 pr-7 py-3 flex justify-between items-center rounded-lg\"><div class=\"flex gap-6 items-center justify-start\"><img src=\"/public/assets/images/glo.png\" alt=\"\" class=\"w-[3.5rem] aspect-square rounded-full\"><div class=\"flex flex-col gap-2 justify-start items-start\"><p class=\"font-poppins font-medium text-xs leading-[1.125rem] text-[#2E2E2E]\">Tobias</p><p class=\"font-montserrat font-bold text-[0.625rem] leading-[0.762rem] text-[#016934]\">09034097398</p></div></div><img src=\"/public/assets/svg/greenEdit.svg\" alt=\"\" class=\"w-5 aspect-square\"></li>")
+		if len(ben) == 0 {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex justify-center items-center\"><p class=\"text-center\">No beneficiary, click the + to add new beneficiary.</p></div>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		} else {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<ul class=\"w-full flex flex-col justify-center items-center gap-6\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			for _, v := range ben {
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<li class=\"w-full bg-[#FEF7FF] shadow-[0px_1px_2px_1px_#00000014] pl-2 pr-7 py-3 flex justify-between items-center rounded-lg\"><div class=\"flex gap-6 items-center justify-start\">")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				switch v.ServiceProvider {
+				case "mtn":
+					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<picture><source type=\"image/webp\" srcset=\"/public/assets/images/mtn.webp\"> <img src=\"/public/assets/images/mtn.png\" alt=\"\" class=\"w-[3.5rem] aspect-square rounded-full\"></picture>")
+					if templ_7745c5c3_Err != nil {
+						return templ_7745c5c3_Err
+					}
+				case "airtel":
+					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<picture><source type=\"image/webp\" srcset=\"/public/assets/images/airtel.webp\"> <img src=\"/public/assets/images/airtel.png\" alt=\"\" class=\"w-[3.5rem] aspect-square rounded-full\"></picture>")
+					if templ_7745c5c3_Err != nil {
+						return templ_7745c5c3_Err
+					}
+				case "glo":
+					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<picture><source type=\"image/webp\" srcset=\"/public/assets/images/glo.webp\"> <img src=\"/public/assets/images/glo.png\" alt=\"\" class=\"w-[3.5rem] aspect-square rounded-full\"></picture>")
+					if templ_7745c5c3_Err != nil {
+						return templ_7745c5c3_Err
+					}
+				case "9mobile":
+					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<img src=\"/public/assets/svg/9mobile.svg\" alt=\"\" class=\"w-[3.5rem] aspect-square rounded-full\">")
+					if templ_7745c5c3_Err != nil {
+						return templ_7745c5c3_Err
+					}
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex flex-col gap-2 justify-start items-start\"><p class=\"font-poppins font-medium text-xs leading-[1.125rem] text-[#2E2E2E]\">")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				var templ_7745c5c3_Var4 string
+				templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(v.BName)
+				if templ_7745c5c3_Err != nil {
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.beneficiaries.templ`, Line: 56, Col: 95}
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p><p class=\"font-montserrat font-bold text-[0.625rem] leading-[0.762rem] text-[#016934]\">")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				var templ_7745c5c3_Var5 string
+				templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(v.BPhoneNo)
+				if templ_7745c5c3_Err != nil {
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.beneficiaries.templ`, Line: 57, Col: 107}
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p></div></div><img src=\"/public/assets/svg/greenEdit.svg\" alt=\"\" class=\"w-5 aspect-square\"></li>                   ")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</ul>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</ul></main>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</main>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -157,9 +226,9 @@ func scriptForBeneficiariesPage() templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var4 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var4 == nil {
-			templ_7745c5c3_Var4 = templ.NopComponent
+		templ_7745c5c3_Var6 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var6 == nil {
+			templ_7745c5c3_Var6 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<script src=\"/public/assets/scripts/hyperscript.min.js\"></script>")

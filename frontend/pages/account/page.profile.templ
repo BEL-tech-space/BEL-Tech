@@ -1,13 +1,13 @@
 package frontend
 
-templ Profile(user User) {
+templ Profile(acc Account) {
 	<!DOCTYPE html>
 	<html lang="en">
 		@headTag("Profile")
 		<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
 			<div class="Page w-full h-full flex flex-col font-montserrat text-[#2E2E2E]">
-				@CommonHeaderOne(user, templ.NopComponent, templ.NopComponent)
-				@ProfileMain(user)
+				@CommonHeaderOne(acc, templ.NopComponent, templ.NopComponent)
+				@ProfileMain(acc)
 				@Footer("dashboard", templ.NopComponent, templ.NopComponent)
 			</div>
 		</body>
@@ -19,11 +19,11 @@ templ Profile(user User) {
 	</html>
 }
 
-templ ProfileMain(user User) {
+templ ProfileMain(acc Account) {
 	<main class="grow overflow-y-auto w-full pl-[1.5rem] pr-[1.56rem] pt-[1.875rem]">
 		@LetRecycleAndProfileComp("My Profile")
-		@ProfileChangeDisplayIconComp(user.AvatarUrl)
-		@ProfileUpdataAccountInfoPartialComp(user)
+		@ProfileChangeDisplayIconComp(acc.AvatarUrl)
+		@ProfileUpdataAccountInfoPartialComp(acc)
 	</main>
 }
 
@@ -40,27 +40,27 @@ templ ProfileChangeDisplayIconComp(avatarURL string) {
 	</section>
 }
 
-templ ProfileUpdataAccountInfoPartialComp(user User) {
-	<form action="" class="flex flex-col gap-3 justify-center items-center">
+templ ProfileUpdataAccountInfoPartialComp(acc Account) {
+	<form action="/account/profile/displayName" method="post" class="flex flex-col gap-3 justify-center items-center">
 		<div class="w-full flex flex-col justify-start items-start gap-1">
 			<label for="" class="font-semibold text-xs">Display Name:</label>
-			<input type="text" name="nickname" id="nickname" placeholder={ user.NickName } class="outline-none border-solid border-[#569B78] border-[0.0313rem] rounded p-2 w-full"/>
+			<input type="text" name="nickname" id="nickname" min="2" max="20" placeholder={ acc.DisplayName } class="outline-none border-solid border-[#569B78] border-[0.0313rem] rounded p-2 w-full"/>
 		</div>
 		<div class="w-full flex flex-col justify-start items-start gap-1">
 			<label for="" class="font-semibold text-xs">Email:</label>
-			<input disabled type="text" name="nickname" id="email" placeholder={ user.Email } class="outline-none border-solid border-[#569B78] border-[0.0313rem] rounded p-2 w-full"/>
+			<input disabled type="text" name="nickname" id="email" placeholder={ acc.Email } class="outline-none border-solid border-[#569B78] border-[0.0313rem] rounded p-2 w-full"/>
 		</div>
 		<div class="w-full flex flex-col justify-start items-start gap-1 relative">
 			<label for="" class="font-semibold text-xs">Wallet:</label>
-			<input disabled type="text" name="nickname" id="wallet" placeholder={ user.SplWallet } class="outline-none  border-solid border-[#569B78] border-[0.0313rem] rounded p-2 w-full"/>
+			<input disabled type="text" name="nickname" id="wallet" placeholder={ acc.SplWallet } class="outline-none  border-solid border-[#569B78] border-[0.0313rem] rounded p-2 w-full"/>
 			<button class="absolute top-2/4 right-4" _="on click call #createNewPinDialog.showModal() then halt">
 				<img src="/public/assets/svg/connectWallet.svg" alt="" class="w-5 aspect-square"/>
 			</button>
 		</div>
 		<section class="mt-10 w-full grid grid-cols-profileButton items-center gap-[0.625rem]">
-			<button _="on click call #enterSPLWalletAddrDialog.showModal() then halt" class="w-full text-center bg-[#016934] text-white text-sm tracking-[0.1px] font-medium py-[0.625rem] px-1 rounded-md">Save Changes</button>
+			<button type="submit" class="w-full text-center bg-[#016934] text-white text-sm tracking-[0.1px] font-medium py-[0.625rem] px-1 rounded-md">Save Changes</button>
 			<a
-				href="/account/signout"
+				href="/account/auth/logout/google"
 				title="logout"
 				class="bg-[#FFE8E8] rounded-md flex justify-center items-center"
 			>

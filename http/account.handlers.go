@@ -8,7 +8,6 @@ import (
 	accPages "beltech/frontend/pages/account"
 
 	"github.com/go-chi/chi/v5"
-	"golang.org/x/exp/rand"
 )
 
 func (a *App) footerPartial(w http.ResponseWriter, r *http.Request) {
@@ -42,11 +41,4 @@ func (a *App) wasteTipsHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-}
-
-func randomArray() []string {
-	if rand.Intn(2) == 0 {
-		return []string{}
-	}
-	return []string{"example1", "example2", "example3"}
 }

@@ -16,8 +16,8 @@ import (
 
 func (a *App) walletPageHandler(w http.ResponseWriter, r *http.Request) {
 
-	userEmail := r.Context().Value(contextKeyEmail).(string)
-	user, err := a.userFromCache(context.Background(), userEmail)
+	accountEmail := r.Context().Value(contextKeyEmail).(string)
+	user, err := a.getAccountFromCache(context.Background(), accountEmail)
 	if err != nil {
 		a.serverError(w, err)
 		return
@@ -26,7 +26,7 @@ func (a *App) walletPageHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 
 	if r.Header.Get("X-Content-Mode") == "partials" {
-		if err := accPages.WalletMain(account(*user), []types.TokenData{
+		if err := accPages.WalletMain(account(user), []types.TokenData{
 			liveCryptoData.bitcoin,
 			liveCryptoData.ethereum,
 			liveCryptoData.solana,
@@ -37,7 +37,7 @@ func (a *App) walletPageHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := accPages.WalletPage(account(*user), []types.TokenData{
+	if err := accPages.WalletPage(account(user), []types.TokenData{
 		liveCryptoData.bitcoin,
 		liveCryptoData.ethereum,
 		liveCryptoData.solana,
@@ -49,8 +49,8 @@ func (a *App) walletPageHandler(w http.ResponseWriter, r *http.Request) {
 
 func (a *App) walletHeaderPartial(w http.ResponseWriter, r *http.Request) {
 
-	userEmail := r.Context().Value(contextKeyEmail).(string)
-	user, err := a.userFromCache(context.Background(), userEmail)
+	accountEmail := r.Context().Value(contextKeyEmail).(string)
+	user, err := a.getAccountFromCache(context.Background(), accountEmail)
 	if err != nil {
 		a.serverError(w, err)
 		return
@@ -58,7 +58,7 @@ func (a *App) walletHeaderPartial(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 
 	if err := accPages.CommonHeaderOne(
-		account(*user),
+		account(user),
 		accPages.BeforeHeaderTagPartial(strings.Split(r.URL.Path, "/")[2]),
 		accPages.WalletMainOpeningTagComp()).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
@@ -68,15 +68,15 @@ func (a *App) walletHeaderPartial(w http.ResponseWriter, r *http.Request) {
 
 func (a *App) walletBalance(w http.ResponseWriter, r *http.Request) {
 
-	userEmail := r.Context().Value(contextKeyEmail).(string)
-	user, err := a.userFromCache(context.Background(), userEmail)
+	accountEmail := r.Context().Value(contextKeyEmail).(string)
+	user, err := a.getAccountFromCache(context.Background(), accountEmail)
 	if err != nil {
 		a.serverError(w, err)
 		return
 	}
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if err := accPages.WalletBalanceComp(account(*user).CurrBalance).Render(context.TODO(), w); err != nil {
+	if err := accPages.WalletBalanceComp(account(user).CurrBalance).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}

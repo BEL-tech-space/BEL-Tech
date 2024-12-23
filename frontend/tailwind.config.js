@@ -18,6 +18,7 @@ module.exports = {
         'agentDashboardPage': '1fr minmax(2.563rem, auto)',
         'loginPage': '1fr minmax(2.563rem, auto)',
         'spendPage': 'repeat(4, auto) 1fr auto',
+        'wastePage': 'repeat(3, auto) 1fr',
       },
       backgroundImage: {
       },

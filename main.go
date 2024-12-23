@@ -2,6 +2,7 @@ package main
 
 import (
 	backend "beltech/http"
+	"beltech/service"
 	"context"
 	"errors"
 	"fmt"
@@ -11,6 +12,7 @@ import (
 	"os/signal"
 	"syscall"
 
+	"github.com/dgraph-io/ristretto/v2"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
@@ -29,7 +31,13 @@ func main() {
 	}
 	defer conn.Close()
 
-	app := backend.NewApp(&environmentalVariables, conn)
+	rcache, err := buildCache()
+	if err != nil {
+		log.Fatalln("Error creating cache: " + err.Error())
+	}
+	defer rcache.Close()
+
+	app := backend.NewApp(&environmentalVariables, conn, rcache)
 	stopScrapping := app.ScrapeCryptoData()
 
 	server := http.Server{
@@ -61,4 +69,18 @@ func main() {
 	stopScrapping()
 
 	log.Println("SERVER STOPPED GRACEFULLY")
+}
+
+func buildCache() (*ristretto.Cache[string, service.Account], error) {
+	cache, err := ristretto.NewCache(&ristretto.Config[string, service.Account]{
+		NumCounters: 1e6,     // number of keys to track frequency of (1M).
+		MaxCost:     1 << 30, // maximum cost of cache (1GB).
+		BufferItems: 64,      // number of keys per Get buffer.
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return cache, nil
 }

@@ -2,7 +2,7 @@ package service
 
 import (
 	"beltech/service/internal/repository/postgres"
-	"errors"
+	"beltech/types"
 	"fmt"
 	"time"
 
@@ -10,27 +10,27 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
-func makeUpsertUserParams(user User) postgres.UpsertUserParams {
-	return postgres.UpsertUserParams{
-		UserID:             user.UserID,
-		Email:              user.Email,
-		FirstName:          user.FirstName,
-		LastName:           user.LastName,
-		NickName:           user.NickName,
-		AvatarUrl:          user.AvatarURL,
-		AccessToken:        user.AccessToken,
-		AccessTokenExpires: pgtype.Timestamp{Time: user.AccessTokenExpires, InfinityModifier: pgtype.Finite, Valid: true},
-		IDToken:            user.IDToken,
+func makeUpsertUserParams(acc Account) postgres.UpsertAccountParams {
+	return postgres.UpsertAccountParams{
+		AccountID:          acc.AccountID,
+		Email:              acc.Email,
+		FirstName:          acc.FirstName,
+		LastName:           acc.LastName,
+		DisplayName:        acc.DisplayName,
+		AvatarUrl:          acc.AvatarUrl,
+		AccessToken:        acc.AccessToken,
+		AccessTokenExpires: pgtype.Timestamp{Time: acc.AccessTokenExpires, InfinityModifier: pgtype.Finite, Valid: true},
+		IDToken:            acc.IDToken,
 	}
 }
 
-type User struct {
-	UserID             string    `json:"user_id"`
+type Account struct {
 	Email              string    `json:"email"`
+	AccountID          string    `json:"account_id"`
 	FirstName          string    `json:"first_name"`
 	LastName           string    `json:"last_name"`
-	NickName           string    `json:"nick_name"`
-	AvatarURL          string    `json:"avatar_url"`
+	DisplayName        string    `json:"display_name"`
+	AvatarUrl          string    `json:"avatar_url"`
 	SplWallet          string    `json:"spl_wallet"`
 	CurrBalance        float64   `json:"curr_balance"`
 	TotalEarned        float64   `json:"total_earned"`
@@ -48,15 +48,67 @@ type User struct {
 	IsDeleted          bool      `json:"is_deleted"`
 }
 
-type Collector struct {
-	postgres.Collector
+func pgAccountToserviceAccount(pgAcc postgres.Account) Account {
+	return Account{
+		AccountID:          pgAcc.AccountID,
+		Email:              pgAcc.Email,
+		FirstName:          pgAcc.FirstName,
+		LastName:           pgAcc.LastName,
+		DisplayName:        pgAcc.DisplayName,
+		AvatarUrl:          pgAcc.AvatarUrl,
+		SplWallet:          pgAcc.SplWallet,
+		CurrBalance:        pgAcc.CurrBalance,
+		TotalEarned:        pgAcc.TotalEarned,
+		TotalGlassWaste:    pgAcc.TotalGlassWaste,
+		TotalMetalWaste:    pgAcc.TotalMetalWaste,
+		TotalPlasticsWaste: pgAcc.TotalPlasticsWaste,
+		TotalPaperWaste:    pgAcc.TotalPaperWaste,
+		HashedPassword:     pgAcc.HashedPassword,
+		AccessToken:        pgAcc.AccessToken,
+		AccessTokenExpires: pgAcc.AccessTokenExpires.Time,
+		IDToken:            pgAcc.IDToken,
+		LastUpdateEmail:    pgAcc.LastUpdateEmail.Time,
+		Role:               pgAcc.Role,
+		Joined:             pgAcc.Joined.Time,
+		IsDeleted:          pgAcc.IsDeleted,
+	}
 }
 
-type GetAllCollectorsEmailAndAgentIDRow struct {
-	Email   string    `json:"email"`
-	AgentID uuid.UUID `json:"agent_id"`
-	Role    postgres.Collectorrole
+func serviceAccountTopgAccount(acc Account) postgres.Account {
+	return postgres.Account{
+		AccountID:          acc.AccountID,
+		Email:              acc.Email,
+		FirstName:          acc.FirstName,
+		LastName:           acc.LastName,
+		DisplayName:        acc.DisplayName,
+		AvatarUrl:          acc.AvatarUrl,
+		SplWallet:          acc.SplWallet,
+		CurrBalance:        acc.CurrBalance,
+		TotalEarned:        acc.TotalEarned,
+		TotalGlassWaste:    acc.TotalGlassWaste,
+		TotalMetalWaste:    acc.TotalMetalWaste,
+		TotalPlasticsWaste: acc.TotalPlasticsWaste,
+		TotalPaperWaste:    acc.TotalPaperWaste,
+		HashedPassword:     acc.HashedPassword,
+		AccessToken:        acc.AccessToken,
+		AccessTokenExpires: pgtype.Timestamp{Time: acc.AccessTokenExpires, Valid: true, InfinityModifier: pgtype.Finite},
+		IDToken:            acc.IDToken,
+		LastUpdateEmail:    pgtype.Timestamp{Time: acc.LastUpdateEmail, Valid: true, InfinityModifier: pgtype.Finite},
+		Role:               acc.Role,
+		Joined:             pgtype.Timestamp{Time: acc.Joined, Valid: true},
+		IsDeleted:          acc.IsDeleted,
+	}
 }
+
+// type Collector struct {
+// 	postgres.Collector
+// }
+
+// type GetAllCollectorsEmailAndAgentIDRow struct {
+// 	Email   string    `json:"email"`
+// 	AgentID uuid.UUID `json:"agent_id"`
+// 	Role    postgres.Collectorrole
+// }
 
 type AddNewWasteFromCollectorParams struct {
 	GlassWeighed    float32     `json:"glass_weighed"`
@@ -69,35 +121,35 @@ type AddNewWasteFromCollectorParams struct {
 	AgentID         uuid.UUID   `json:"agent_id"`
 }
 
-func makeAddNewWasteFromCollectorParams(param AddNewWasteFromCollectorParams) postgres.AddNewWasteFromCollectorParams {
-	pgUUUID, err := googleUUIDToPgtypeUUID(param.AgentID)
-	if err != nil {
-		fmt.Println("error converting google UUID to pgtype UUID:", err)
-	}
-	return postgres.AddNewWasteFromCollectorParams{
-		GlassWeighed:    param.GlassWeighed,
-		MetalWeighed:    param.MetalWeighed,
-		PlasticsWeighed: param.PlasticsWeighed,
-		PaperWeighed:    param.PaperWeighed,
-		StMakepoint:     param.StMakepoint,
-		StMakepoint_2:   param.StMakepoint_2,
-		FunnyName:       param.FunnyName,
-		AgentID:         pgUUUID,
-	}
-}
+// func makeAddNewWasteFromCollectorParams(param AddNewWasteFromCollectorParams) postgres.AddNewWasteFromCollectorParams {
+// 	pgUUUID, err := googleUUIDToPgtypeUUID(param.AgentID)
+// 	if err != nil {
+// 		fmt.Println("error converting google UUID to pgtype UUID:", err)
+// 	}
+// 	return postgres.AddNewWasteFromCollectorParams{
+// 		GlassWeighed:    param.GlassWeighed,
+// 		MetalWeighed:    param.MetalWeighed,
+// 		PlasticsWeighed: param.PlasticsWeighed,
+// 		PaperWeighed:    param.PaperWeighed,
+// 		StMakepoint:     param.StMakepoint,
+// 		StMakepoint_2:   param.StMakepoint_2,
+// 		FunnyName:       param.FunnyName,
+// 		AgentID:         pgUUUID,
+// 	}
+// }
 
-func broadendUser(u postgres.UpsertUserRow, user User) User {
-	user.FirstName = u.FirstName
-	user.LastName = u.LastName
-	user.NickName = u.NickName
-	user.CurrBalance = u.CurrBalance
-	user.TotalEarned = u.TotalEarned
-	user.TotalGlassWaste = u.TotalGlassWaste
-	user.TotalMetalWaste = u.TotalMetalWaste
-	user.TotalPlasticsWaste = u.TotalPlasticsWaste
-	user.TotalPaperWaste = u.TotalPaperWaste
-	return user
-}
+// func broadendUser(u postgres.UpsertAccountRow, acc Account) User {
+// 	user.FirstName = u.FirstName
+// 	user.LastName = u.LastName
+// 	user.DisplayName = u.DisplayName
+// 	user.CurrBalance = u.CurrBalance
+// 	user.TotalEarned = u.TotalEarned
+// 	user.TotalGlassWaste = u.TotalGlassWaste
+// 	user.TotalMetalWaste = u.TotalMetalWaste
+// 	user.TotalPlasticsWaste = u.TotalPlasticsWaste
+// 	user.TotalPaperWaste = u.TotalPaperWaste
+// 	return user
+// }
 
 func pgtextToString(t pgtype.Text) string {
 	v, _ := t.Value()
@@ -118,42 +170,42 @@ type AddNewAgentParams struct {
 	AvatarUrl     string  `json:"avatar_url"`
 }
 
-func MakeAddNewAgentParams(param AddNewAgentParams) (postgres.AddNewAgentAndCollectorParams, error) {
-	var r postgres.AddNewAgentAndCollectorParams
+// func MakeAddNewAgentParams(param AddNewAgentParams) (postgres.AddNewAgentAndCollectorParams, error) {
+// 	var r postgres.AddNewAgentAndCollectorParams
 
-	switch param.Is {
-	case "collector":
-		r.Is = postgres.IdentifyasCollector
-		if param.Email == "" {
-			return postgres.AddNewAgentAndCollectorParams{}, errors.New("collector email cannot be empty")
-		}
-		r.Email = param.Email
-		r.Email_2 = param.Email
-		r.FirstName = param.FirstName
-		r.LastName = param.LastName
-		r.NickName = param.NickName
-		r.AvatarUrl = param.AvatarUrl
+// 	switch param.Is {
+// 	case "collector":
+// 		r.Is = postgres.IdentifyasCollector
+// 		if param.Email == "" {
+// 			return postgres.AddNewAgentAndCollectorParams{}, errors.New("collector email cannot be empty")
+// 		}
+// 		r.Email = param.Email
+// 		r.Email_2 = param.Email
+// 		r.FirstName = param.FirstName
+// 		r.LastName = param.LastName
+// 		r.NickName = param.NickName
+// 		r.AvatarUrl = param.AvatarUrl
 
-		if param.Role == "super_collector" {
-			r.Role = postgres.CollectorroleSuperCollector
-		} else {
-			r.Role = postgres.CollectorroleCollector
-		}
+// 		if param.Role == "super_collector" {
+// 			r.Role = postgres.CollectorroleSuperCollector
+// 		} else {
+// 			r.Role = postgres.CollectorroleCollector
+// 		}
 
-	case "bin":
-		r.Is = postgres.IdentifyasBin
+// 	case "bin":
+// 		r.Is = postgres.IdentifyasBin
 
-	default:
-		return postgres.AddNewAgentAndCollectorParams{}, errors.New("agent should either be a 'bin' or 'collector'")
-	}
+// 	default:
+// 		return postgres.AddNewAgentAndCollectorParams{}, errors.New("agent should either be a 'bin' or 'collector'")
+// 	}
 
-	r.StMakepoint = param.StMakepoint
-	r.StMakepoint_2 = param.StMakepoint_2
-	r.City = param.City
-	r.State = param.State
+// 	r.StMakepoint = param.StMakepoint
+// 	r.StMakepoint_2 = param.StMakepoint_2
+// 	r.City = param.City
+// 	r.State = param.State
 
-	return r, nil
-}
+// 	return r, nil
+// }
 
 type GetWasteFromCollectorByAgentIDAndDateRow struct {
 	WasteID         uuid.UUID   `json:"waste_id"`
@@ -166,33 +218,33 @@ type GetWasteFromCollectorByAgentIDAndDateRow struct {
 	TempWasteCount  int64       `json:"temp_waste_count"`
 }
 
-func makeGetWasteFromCollectorByAgentIDAndDateRow(param []postgres.GetWasteFromCollectorByAgentIDAndDateRow) ([]GetWasteFromCollectorByAgentIDAndDateRow, error) {
+// func makeGetWasteFromCollectorByAgentIDAndDateRow(param []postgres.GetWasteFromCollectorByAgentIDAndDateRow) ([]GetWasteFromCollectorByAgentIDAndDateRow, error) {
 
-	var (
-		r   = make([]GetWasteFromCollectorByAgentIDAndDateRow, 0, len(param))
-		err error
-	)
+// 	var (
+// 		r   = make([]GetWasteFromCollectorByAgentIDAndDateRow, 0, len(param))
+// 		err error
+// 	)
 
-	for i := 0; i < len(param); i++ {
-		r[i].GlassWeighed = param[i].GlassWeighed
-		r[i].MetalWeighed = param[i].MetalWeighed
-		r[i].PlasticsWeighed = param[i].PlasticsWeighed
-		r[i].PaperWeighed = param[i].PaperWeighed
-		r[i].TempWasteCount = param[i].TempWasteCount
-		r[i].Location = param[i].Location
+// 	for i := 0; i < len(param); i++ {
+// 		r[i].GlassWeighed = param[i].GlassWeighed
+// 		r[i].MetalWeighed = param[i].MetalWeighed
+// 		r[i].PlasticsWeighed = param[i].PlasticsWeighed
+// 		r[i].PaperWeighed = param[i].PaperWeighed
+// 		r[i].TempWasteCount = param[i].TempWasteCount
+// 		r[i].Location = param[i].Location
 
-		if r[i].WasteID, err = pgtypeUUIDToGoogleUUID(param[i].WasteID); err != nil {
-			return nil, fmt.Errorf("error parsing pgtypeUUID to ggUUID: %w", err)
-		}
-		var d any
-		if d, err = param[i].Date.Value(); err != nil {
-			return nil, fmt.Errorf("error getting date value: %w", err)
-		}
-		r[i].Date = d.(time.Time)
-	}
+// 		if r[i].WasteID, err = pgtypeUUIDToGoogleUUID(param[i].WasteID); err != nil {
+// 			return nil, fmt.Errorf("error parsing pgtypeUUID to ggUUID: %w", err)
+// 		}
+// 		var d any
+// 		if d, err = param[i].Date.Value(); err != nil {
+// 			return nil, fmt.Errorf("error getting date value: %w", err)
+// 		}
+// 		r[i].Date = d.(time.Time)
+// 	}
 
-	return r, nil
-}
+// 	return r, nil
+// }
 
 func pgtypeUUIDToGoogleUUID(pgUUID pgtype.UUID) (uuid.UUID, error) {
 	pgUUIDStr, err := pgUUID.Value()
@@ -224,54 +276,10 @@ func googleUUIDToPgtypeUUID(googleUUID uuid.UUID) (pgtype.UUID, error) {
 	return pgUUID, nil
 }
 
-func pgUserToServiceUser(pu postgres.User) User {
-	return User{
-		UserID:             pu.UserID,
-		Email:              pu.Email,
-		FirstName:          pu.FirstName,
-		LastName:           pu.LastName,
-		NickName:           pu.NickName,
-		AvatarURL:          pu.AvatarUrl,
-		SplWallet:          pu.SplWallet,
-		CurrBalance:        pu.CurrBalance,
-		TotalEarned:        pu.TotalEarned,
-		TotalGlassWaste:    pu.TotalGlassWaste,
-		TotalMetalWaste:    pu.TotalMetalWaste,
-		TotalPlasticsWaste: pu.TotalPlasticsWaste,
-		TotalPaperWaste:    pu.TotalPaperWaste,
-		HashedPassword:     pu.HashedPassword,
-		AccessToken:        pu.AccessToken,
-		AccessTokenExpires: pu.AccessTokenExpires.Time,
-		IDToken:            pu.IDToken,
-		LastUpdateEmail:    pu.LastUpdateEmail.Time,
-		Role:               pu.Role,
-		Joined:             pu.Joined.Time,
-		IsDeleted:          pu.IsDeleted,
-	}
-}
-
-func serviceUserToPg(u User) postgres.User {
-	return postgres.User{
-		UserID:             u.UserID,
-		Email:              u.Email,
-		FirstName:          u.FirstName,
-		LastName:           u.LastName,
-		NickName:           u.NickName,
-		AvatarUrl:          u.AvatarURL,
-		SplWallet:          u.SplWallet,
-		CurrBalance:        u.CurrBalance,
-		TotalEarned:        u.TotalEarned,
-		TotalGlassWaste:    u.TotalGlassWaste,
-		TotalMetalWaste:    u.TotalMetalWaste,
-		TotalPlasticsWaste: u.TotalPlasticsWaste,
-		TotalPaperWaste:    u.TotalPaperWaste,
-		HashedPassword:     u.HashedPassword,
-		AccessToken:        u.AccessToken,
-		AccessTokenExpires: pgtype.Timestamp{Time: u.AccessTokenExpires, Valid: true, InfinityModifier: pgtype.Finite},
-		IDToken:            u.IDToken,
-		LastUpdateEmail:    pgtype.Timestamp{Time: u.LastUpdateEmail, Valid: true, InfinityModifier: pgtype.Finite},
-		Role:               u.Role,
-		Joined:             pgtype.Timestamp{Time: u.Joined, Valid: true},
-		IsDeleted:          u.IsDeleted,
+func pgBeneficiaryToServiceBeneficiary(pgBen postgres.GetBeneficiariesByEmailRow) types.Beneficiary {
+	return types.Beneficiary{
+		BPhoneNo:        pgBen.BPhoneNo,
+		BName:           pgBen.BName,
+		ServiceProvider: pgBen.ServiceProvider,
 	}
 }

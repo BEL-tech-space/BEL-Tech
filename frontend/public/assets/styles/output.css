@@ -1022,6 +1022,10 @@ video {
   width: 1.5rem;
 }
 
+.w-9 {
+  width: 2.25rem;
+}
+
 .w-\[0\.813rem\] {
   width: 0.813rem;
 }
@@ -1195,6 +1199,10 @@ video {
 
 .grid-rows-loginPage {
   grid-template-rows: 1fr minmax(2.563rem, auto);
+}
+
+.grid-rows-wastePage {
+  grid-template-rows: repeat(3, auto) 1fr;
 }
 
 .flex-row {
@@ -2343,9 +2351,8 @@ video {
 @font-face {
   font-family: "Monsterrat";
 
-  src: 
-  local("Monsterrat"),
-  url("/public/assets/fonts/montserrat/static/Montserrat-Regular.ttf");
+  src: local("Monsterrat"),
+    url("/public/assets/fonts/montserrat/static/Montserrat-Regular.ttf");
 }
 
 @font-face {
@@ -2357,10 +2364,30 @@ video {
 @font-face {
   font-family: "Poppins";
 
-  src: 
-  local("Poppins"),
-  url("/public/assets/fonts/poppins/Poppins-Regular.ttf");
+  src: local("Poppins"), url("/public/assets/fonts/poppins/Poppins-Regular.ttf");
 }
+
+/* input:not(:placeholder-shown):valid {
+  outline-color: green;
+}
+
+input:not(:placeholder-shown):invalid {
+  outline-color: rgb(237, 18, 18);
+}
+
+input:focus:invalid {
+  outline-color: yellow;
+}
+
+input:user-valid {
+  outline-color: rgb(57, 158, 57);
+  outline-width: 0.06rem;
+}
+
+input:user-invalid {
+  outline-color: rgb(237, 18, 18);
+  outline-width: 0.06rem;
+} */
 
 .placeholder\:pl-2::-moz-placeholder {
   padding-left: 0.5rem;
@@ -2384,6 +2411,16 @@ video {
 
 .placeholder\:text-\[0\.625rem\]::placeholder {
   font-size: 0.625rem;
+}
+
+.placeholder\:text-xs::-moz-placeholder {
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+
+.placeholder\:text-xs::placeholder {
+  font-size: 0.75rem;
+  line-height: 1rem;
 }
 
 .placeholder\:font-extralight::-moz-placeholder {

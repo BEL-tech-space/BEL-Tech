@@ -9,3 +9,9 @@ type TokenData struct {
 	TokenSymbol     string `json:"token_symbol"`
 	TokenLogo       string `json:"token_logo"`
 }
+
+type Beneficiary struct {
+	BPhoneNo        string
+	BName           string
+	ServiceProvider string
+}

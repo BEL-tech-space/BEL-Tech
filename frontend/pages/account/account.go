@@ -7,11 +7,12 @@ import (
 	"time"
 )
 
-type User struct {
+type Account struct {
 	Email              string    `json:"email"`
+	AccountID          string    `json:"account_id"`
 	FirstName          string    `json:"first_name"`
 	LastName           string    `json:"last_name"`
-	NickName           string    `json:"nick_name"`
+	DisplayName        string    `json:"display_name"`
 	AvatarUrl          string    `json:"avatar_url"`
 	SplWallet          string    `json:"spl_wallet"`
 	CurrBalance        float64   `json:"curr_balance"`
@@ -20,7 +21,14 @@ type User struct {
 	TotalMetalWaste    float32   `json:"total_metal_waste"`
 	TotalPlasticsWaste float32   `json:"total_plastics_waste"`
 	TotalPaperWaste    float32   `json:"total_paper_waste"`
+	HashedPassword     string    `json:"hashed_password"`
+	AccessToken        string    `json:"access_token"`
+	AccessTokenExpires time.Time `json:"access_token_expires"`
+	IDToken            string    `json:"id_token"`
 	LastUpdateEmail    time.Time `json:"last_update_email"`
+	Role               string    `json:"role"`
+	Joined             time.Time `json:"joined"`
+	IsDeleted          bool      `json:"is_deleted"`
 }
 
 func toTitle(s string) string {
