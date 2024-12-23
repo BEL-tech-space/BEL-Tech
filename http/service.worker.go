@@ -45,5 +45,6 @@ func (a *App) sw(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Service-Worker-Allowed", "/")
 	w.Header().Set("Content-Type", "application/javascript")
+	w.Header().Set("Cache-Control", "no-store")
 	http.ServeContent(w, r, filePath, info.ModTime(), bytes.NewReader(content))
 }
