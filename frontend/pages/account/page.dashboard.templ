@@ -1,6 +1,10 @@
 package frontend
 
-import "html/template"
+import (
+	"fmt"
+	"html/template"
+	"time"
+)
 
 templ DashboardPage(acc Account, chart template.HTML) {
 	<!DOCTYPE html>
@@ -34,6 +38,7 @@ templ DashboardMainOpeningTag() {
 
 templ scriptForDashboardPage() {
 	<script src="/public/assets/scripts/swiper-bundle.min.js"></script>
+	<script src="/public/assets/scripts/htmx.min.js"></script>
 	<script>
         const swiperOne = new Swiper( '.mySwiperOne', {
             direction: "horizontal",
@@ -55,6 +60,17 @@ templ scriptForDashboardPage() {
                 disableOnInteraction: true,
             },
         } );
+
+		document.querySelectorAll('.graph-select').forEach(button => {
+			button.addEventListener('click', () => {
+				document.querySelectorAll('.graph-select').forEach(btn => {
+					btn.classList.remove('bg-[#016934]', 'text-[#FFFFFF]');
+					btn.classList.add('bg-[#FFFFFF]', 'text-[#000000]');
+				});
+				button.classList.remove('bg-[#FFFFFF]', 'text-[#000000]');
+				button.classList.add('bg-[#016934]', 'text-[#FFFFFF]');
+			});
+		});
 
 		 window.addEventListener('load', () => {
 			if ('serviceWorker' in navigator) {
@@ -141,38 +157,69 @@ templ DashboardSwiperOne() {
 templ DashboardRecycledAndSeeAll() {
 	<section class="mt-8 w-full flex items-center justify-between">
 		<p class="font-semibold text-[0.94rem] leading-[1.14rem]">Recycled</p>
-		<button>
+		<button
+			hx-get="/account/dashboard/chart/0"
+			hx-trigger="click"
+			hx-swap="outerHTML"
+			hx-target="#echart"
+		>
 			<p class="font-[500] text-[0.63rem] leading-[0.76rem] text-[#016934]">see all</p>
 		</button>
 	</section>
 }
 
 templ DashboardDataViz(chart template.HTML) {
-	<section id="echart" class="bg-transparent mt-5">
-		@templ.Raw(chart)
+	<section class="mt-5">
+		@DashboardEchart(chart)
 		<div class="flex justify-between items-center gap-8  px-2">
 			<button
-				class="font-poppins font-semibold text-[#FFFFFF] text-[0.5rem] leading-3 py-[0.563rem] 
-			pl-[0.688rem] pr-[0.75rem] bg-[#016934] [box-shadow:0rem_0.0575rem_0.115rem_0.0575rem_#00000014] rounded-[0.344rem]"
-			>Jan</button>
+				hx-get="/account/dashboard/chart?month=4"
+				hx-trigger="click"
+				hx-swap="outerHTML"
+				hx-target="#echart"
+				class="graph-select font-poppins font-semibold  text-[0.5rem] leading-3 py-[0.563rem] 
+			pl-[0.688rem] pr-[0.75rem] bg-[#FFFFFF] text-[#000000] [box-shadow:0rem_0.0575rem_0.115rem_0.0575rem_#00000014] rounded-[0.344rem]"
+			>{ fmt.Sprintf("%s", time.Now().AddDate(0, -4, 0).Format("Jan")) }</button>
 			<button
-				class="font-poppins font-semibold text-[#000000] text-[0.5rem] leading-3 py-[0.563rem] 
-			pl-[0.688rem] pr-[0.75rem] bg-[#FFFFFF] [box-shadow:0rem_0.0575rem_0.115rem_0.0575rem_#00000014] rounded-[0.344rem]"
-			>Jan</button>
+				hx-get="/account/dashboard/chart?month=3"
+				hx-trigger="click"
+				hx-swap="outerHTML"
+				hx-target="#echart"
+				class="graph-select font-poppins font-semibold  text-[0.5rem] leading-3 py-[0.563rem] 
+			pl-[0.688rem] pr-[0.75rem] bg-[#FFFFFF] text-[#000000] [box-shadow:0rem_0.0575rem_0.115rem_0.0575rem_#00000014] rounded-[0.344rem]"
+			>{ fmt.Sprintf("%s", time.Now().AddDate(0, -3, 0).Format("Jan")) }</button>
 			<button
-				class="font-poppins font-semibold text-[#000000] text-[0.5rem] leading-3 py-[0.563rem] 
-			pl-[0.688rem] pr-[0.75rem] bg-[#FFFFFF] [box-shadow:0rem_0.0575rem_0.115rem_0.0575rem_#00000014] rounded-[0.344rem]"
-			>Jan</button>
+				hx-get="/account/dashboard/chart?month=2"
+				hx-trigger="click"
+				hx-swap="outerHTML"
+				hx-target="#echart"
+				class="graph-select font-poppins font-semibold  text-[0.5rem] leading-3 py-[0.563rem] 
+			pl-[0.688rem] pr-[0.75rem] bg-[#FFFFFF] text-[#000000] [box-shadow:0rem_0.0575rem_0.115rem_0.0575rem_#00000014] rounded-[0.344rem]"
+			>{ fmt.Sprintf("%s", time.Now().AddDate(0, -2, 0).Format("Jan")) }</button>
 			<button
-				class="font-poppins font-semibold text-[#000000] text-[0.5rem] leading-3 py-[0.563rem] 
-			pl-[0.688rem] pr-[0.75rem] bg-[#FFFFFF] [box-shadow:0rem_0.0575rem_0.115rem_0.0575rem_#00000014] rounded-[0.344rem]"
-			>Jan</button>
+				hx-get="/account/dashboard/chart?month=1"
+				hx-trigger="click"
+				hx-swap="outerHTML"
+				hx-target="#echart"
+				class="graph-select font-poppins font-semibold  text-[0.5rem] leading-3 py-[0.563rem] 
+			pl-[0.688rem] pr-[0.75rem] bg-[#FFFFFF] text-[#000000] [box-shadow:0rem_0.0575rem_0.115rem_0.0575rem_#00000014] rounded-[0.344rem]"
+			>{ fmt.Sprintf("%s", time.Now().AddDate(0, -1, 0).Format("Jan")) }</button>
 			<button
-				class="font-poppins font-semibold text-[#000000] text-[0.5rem] leading-3 py-[0.563rem] 
-			pl-[0.688rem] pr-[0.75rem] bg-[#FFFFFF] [box-shadow:0rem_0.0575rem_0.115rem_0.0575rem_#00000014] rounded-[0.344rem]"
-			>Jan</button>
+				hx-get="/account/dashboard/chart?month=0"
+				hx-trigger="click"
+				hx-swap="outerHTML"
+				hx-target="#echart"
+				class="graph-select font-poppins font-semibold text-[0.5rem] leading-3 py-[0.563rem] 
+			pl-[0.688rem] pr-[0.75rem] bg-[#016934] text-[#FFFFFF] [box-shadow:0rem_0.0575rem_0.115rem_0.0575rem_#00000014] rounded-[0.344rem]"
+			>{ fmt.Sprintf("%s.", time.Now().AddDate(0, -0, 0).Format("Jan")) }</button>
 		</div>
 	</section>
+}
+
+templ DashboardEchart(chart template.HTML) {
+	<div id="echart" class="bg-transparent">
+		@templ.Raw(chart)
+	</div>
 }
 
 templ DashboardTipsParagraph() {

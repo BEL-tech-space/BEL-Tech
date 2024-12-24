@@ -24,6 +24,7 @@ func (a *App) accountRouter() http.Handler {
 		r.Get("/dashboard/closingHtmlTag-Partial.html", a.closingHtmlTagPartial)
 		r.Get("/dashboard/header-Partial.html", a.dashboardHeaderPartial)
 		r.Get("/dashboard/footer-Partial.html", a.footerPartial)
+		r.Get("/dashboard/chart", a.dashboardEchart)
 		r.Get("/dashboard", a.dashboardPageHandler)
 
 		r.Get("/scan", a.scanQRPageHandler)

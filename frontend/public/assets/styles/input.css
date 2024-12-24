@@ -18,6 +18,11 @@
   src: local("Poppins"), url("/public/assets/fonts/poppins/Poppins-Regular.ttf");
 }
 
+@font-face {
+  font-family: "TT Chocolates";
+  src: local("TT Chocolates"), url("/public/assets/fonts/tt_chocolates/TT Chocolates Trial Regular.otf");
+}
+
 /* input:not(:placeholder-shown):valid {
   outline-color: green;
 }
