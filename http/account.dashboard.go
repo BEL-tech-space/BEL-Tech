@@ -4,7 +4,6 @@ import (
 	accPages "beltech/frontend/pages/account"
 	"context"
 	"net/http"
-	"strings"
 )
 
 func (a *App) dashboardPageHandler(w http.ResponseWriter, r *http.Request) {
@@ -43,9 +42,7 @@ func (a *App) dashboardHeaderPartial(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 
 	if err := accPages.CommonHeaderOne(
-		account(user),
-		accPages.BeforeHeaderTagPartial(strings.Split(r.URL.Path, "/")[2]),
-		accPages.DashboardMainOpeningTagComp()).Render(context.TODO(), w); err != nil {
+		account(user), accPages.DashboardMainOpeningTag()).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}
@@ -54,7 +51,7 @@ func (a *App) dashboardHeaderPartial(w http.ResponseWriter, r *http.Request) {
 func (a *App) dashboardLetRecyclePartial(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if err := accPages.LetRecycleAndProfileComp("Let's Recycle!").Render(context.TODO(), w); err != nil {
+	if err := accPages.LetRecycleAndProfile("Let's Recycle!").Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}
@@ -63,7 +60,7 @@ func (a *App) dashboardLetRecyclePartial(w http.ResponseWriter, r *http.Request)
 func (a *App) dashboardSwiperOne(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if err := accPages.DashboardSwiperOneComp().Render(context.TODO(), w); err != nil {
+	if err := accPages.DashboardSwiperOne().Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}
@@ -72,7 +69,7 @@ func (a *App) dashboardSwiperOne(w http.ResponseWriter, r *http.Request) {
 func (a *App) dashboardRecycledAndSeeAllPartial(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if err := accPages.DashboardRecycledAndSeeAllComp().Render(context.TODO(), w); err != nil {
+	if err := accPages.DashboardRecycledAndSeeAll().Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}
@@ -81,7 +78,7 @@ func (a *App) dashboardRecycledAndSeeAllPartial(w http.ResponseWriter, r *http.R
 func (a *App) dashboardDataViz(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if err := accPages.DashboardDataVizComp(chart()).Render(context.TODO(), w); err != nil {
+	if err := accPages.DashboardDataViz(chart()).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}
@@ -90,7 +87,7 @@ func (a *App) dashboardDataViz(w http.ResponseWriter, r *http.Request) {
 func (a *App) dashboardTipsParagraph(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if err := accPages.DashboardTipsParagraphComp().Render(context.TODO(), w); err != nil {
+	if err := accPages.DashboardTipsParagraph().Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}
@@ -99,7 +96,7 @@ func (a *App) dashboardTipsParagraph(w http.ResponseWriter, r *http.Request) {
 func (a *App) dashboardSwiperTwo(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if err := accPages.DashboardSwiperTwoComp().Render(context.TODO(), w); err != nil {
+	if err := accPages.DashboardSwiperTwo().Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}

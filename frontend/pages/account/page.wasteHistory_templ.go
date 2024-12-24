@@ -38,7 +38,7 @@ func WastePage(acc Account, wasteType string, history []string) templ.Component 
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = headTag("Waste History").Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = HeadTag("Waste History").Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -46,7 +46,7 @@ func WastePage(acc Account, wasteType string, history []string) templ.Component 
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = CommonHeaderOne(acc, templ.NopComponent, templ.NopComponent).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = CommonHeaderOne(acc, templ.NopComponent).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -54,7 +54,7 @@ func WastePage(acc Account, wasteType string, history []string) templ.Component 
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = Footer("dashboard", templ.NopComponent, templ.NopComponent).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = Footer("dashboard", templ.NopComponent).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -91,25 +91,25 @@ func WasteMain(acc Account, wasteType string, history []string) templ.Component 
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = LetRecycleAndProfileComp("Let's Recycle!").Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = LetRecycleAndProfile("Let's Recycle!").Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = WasteQuickInfoComp(wasteType, acc).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = WasteQuickInfo(wasteType, acc).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = WasteFilterOptionsPartialComp().Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = WasteFilterOptionsPartial().Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		if len(history) > 0 {
-			templ_7745c5c3_Err = WasteNotEmptyHistoryComp(wasteType).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = WasteNotEmptyHistory(wasteType).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		} else {
-			templ_7745c5c3_Err = WasteEmptyHistoryComp(wasteType).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = WasteEmptyHistory(wasteType).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -122,7 +122,7 @@ func WasteMain(acc Account, wasteType string, history []string) templ.Component 
 	})
 }
 
-func WasteQuickInfoComp(wasteType string, acc Account) templ.Component {
+func WasteQuickInfo(wasteType string, acc Account) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -229,7 +229,7 @@ func WasteQuickInfoComp(wasteType string, acc Account) templ.Component {
 	})
 }
 
-func WasteFilterOptionsPartialComp() templ.Component {
+func WasteFilterOptionsPartial() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -258,7 +258,7 @@ func WasteFilterOptionsPartialComp() templ.Component {
 	})
 }
 
-func WasteNotEmptyHistoryComp(wasteType string) templ.Component {
+func WasteNotEmptyHistory(wasteType string) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -310,7 +310,7 @@ func WasteNotEmptyHistoryComp(wasteType string) templ.Component {
 	})
 }
 
-func WasteEmptyHistoryComp(wasteType string) templ.Component {
+func WasteEmptyHistory(wasteType string) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {

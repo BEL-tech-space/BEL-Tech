@@ -5,12 +5,12 @@ import "beltech/types"
 templ BeneficiariesPage(avatarURL string, ben []types.Beneficiary) {
 	<!DOCTYPE html>
 	<html lang="en">
-		@headTag("Airtime Beneficiaries")
+		@HeadTag("Airtime Beneficiaries")
 		<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
 			<div class="w-full h-full grid grid-rows-agentCollectPage font-montserrat text-[#2E2E2E]">
 				@commonHeaderTwo("Beneficiaries", avatarURL, "/public/assets/svg/+.svg", "on click call #addNewBeneficiairyDialog.showModal() then halt", templ.NopComponent, templ.NopComponent)
 				@BeneficiariesMain(ben)
-				@Footer("spend", templ.NopComponent, templ.NopComponent)
+				@Footer("spend", templ.NopComponent)
 			</div>
 		</body>
 		@scriptForBeneficiariesPage()
@@ -18,7 +18,7 @@ templ BeneficiariesPage(avatarURL string, ben []types.Beneficiary) {
 	</html>
 }
 
-templ BeneficiariesHeaderPartialComp(avatarURL string, beforeHeaderTagPartial, afterHeaderTagPartial templ.Component) {
+templ BeneficiariesHeaderPartial(avatarURL string, beforeHeaderTagPartial, afterHeaderTagPartial templ.Component) {
 	@commonHeaderTwo("Beneficiaries", avatarURL, "/public/assets/svg/+.svg", "on click call #addNewBeneficiairyDialog.showModal() then halt", templ.NopComponent, templ.NopComponent)
 }
 

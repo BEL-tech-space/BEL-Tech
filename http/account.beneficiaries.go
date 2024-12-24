@@ -50,7 +50,7 @@ func (a *App) beneficiariesPageHeaderPartial(w http.ResponseWriter, r *http.Requ
 		return
 	}
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if err := accPages.BeneficiariesHeaderPartialComp(
+	if err := accPages.BeneficiariesHeaderPartial(
 		account(user).AvatarUrl,
 		accPages.BeforeHeaderTagPartial(
 			"Spend"),

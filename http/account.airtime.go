@@ -50,11 +50,11 @@ func (a *App) airtimePageHeaderPartial(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if err := accPages.AirtimeHeaderPartialComp(
+	if err := accPages.AirtimeHeaderPartial(
 		account(user).AvatarUrl,
 		accPages.BeforeHeaderTagPartial(
 			"Airtime"),
-		accPages.AirtimeMainOpeningTagComp()).Render(context.TODO(), w); err != nil {
+		accPages.AirtimeMainOpeningTag()).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}
@@ -63,7 +63,7 @@ func (a *App) airtimePageHeaderPartial(w http.ResponseWriter, r *http.Request) {
 func (a *App) airtimeInputNumberPartial(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if err := accPages.AirtimeInputNumberPartialcomp().Render(context.TODO(), w); err != nil {
+	if err := accPages.AirtimeInputNumberPartial().Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}
@@ -72,7 +72,7 @@ func (a *App) airtimeInputNumberPartial(w http.ResponseWriter, r *http.Request) 
 func (a *App) airtimeBeneficiaries(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if err := accPages.AirtimeBeneficiariesComp().Render(context.TODO(), w); err != nil {
+	if err := accPages.AirtimeBeneficiaries().Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}

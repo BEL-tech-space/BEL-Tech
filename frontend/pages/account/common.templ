@@ -2,11 +2,28 @@ package frontend
 
 templ BeforeHeaderTagPartial(pageTitle string) {
 	@templ.Raw(`<!DOCTYPE html><html lang="en">`)
-	@headTag(pageTitle)
+	@HeadTag(pageTitle)
 	@templ.Raw(`<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden"><div class="Page w-full h-full flex flex-col font-montserrat text-[#2E2E2E]">`)
 }
 
-templ AfterFooterTagPartial(pageTitle string) {
+// HtmlAndBodyOpeningTagPartial contains the partial for the html opening tag, the header opening &
+// closing tag and a default body opening tag. *others* would replace the body tag and be render by
+// lowest index first
+templ HtmlAndBodyOpeningTagPartial(pageTitle string, others ...templ.Component) {
+	@templ.Raw(`<!DOCTYPE html><html lang="en">`)
+	@HeadTag(pageTitle)
+	@templ.Raw(`
+			<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
+					<div class="Page w-full h-full flex flex-col font-montserrat text-[#2E2E2E]">`)
+	if others != nil {
+		for _, comp := range others {
+			@comp
+		}
+	}
+}
+
+// HtmlAndBodyClosingTagPartial renders the script, closing tags for body and html elements
+templ HtmlAndBodyClosingTagPartial(pageTitle string, others ...templ.Component) {
 	@templ.Raw(`</div></body>`)
 	switch pageTitle {
 		case "dashboard":
@@ -25,41 +42,53 @@ templ AfterFooterTagPartial(pageTitle string) {
 			@scriptForBeneficiariesPage()
 			@addNewBeneficiairyDialog()
 	}
+	if others != nil {
+		for _, comp := range others {
+			@comp
+		}
+	}
 	@templ.Raw(`</html>`)
 }
 
-templ headTag(pageTitle string) {
+templ HeadTag(pageTitle string) {
 	<head>
 		<meta charset="UTF-8"/>
 		<meta
 			name="viewport"
 			content="width=device-width, initial-scale=1.0, maximum-scale=5.0"
 		/>
-		<link rel="manifest" href="/public/manifest.json"/>
-		<meta name="theme-color" content="#fff"/>
-		<link
-			rel="icon"
-			type="image/png"
-			sizes="32x32"
-			href="/public/assets/icons/ios/32.png"
-		/>
-		<link
-			rel="icon"
-			type="image/png"
-			sizes="16x16"
-			href="/public/assets/icons/ios/16.png"
-		/>
-		// <link rel="shortcut icon" href="/public/assets/images/beltech_logo_2.ico"/>
-		<link rel="apple-touch-icon" href="/pubic/assets/icons/ios/32.png"/>
 		<link
 			rel="stylesheet"
 			href="/public/assets/styles/output.css"
 		/>
-		<link
-			rel="stylesheet"
-			href="/public/assets/styles/swiper-bundle.min.css"
-		/>
-		// <script src="/public/assets/scripts/beltech.js"></script>
+		if pageTitle == "dashboard" || 
+			pageTitle == "scan" ||
+		  	pageTitle == "location" ||
+		   	pageTitle == "wallet" ||
+		    pageTitle == "spend" {
+			<link rel="manifest" href="/public/manifest.json"/>
+			<meta name="theme-color" content="#fff"/>
+			<link
+				rel="icon"
+				type="image/png"
+				sizes="32x32"
+				href="/public/assets/icons/ios/32.png"
+			/>
+			<link
+				rel="icon"
+				type="image/png"
+				sizes="16x16"
+				href="/public/assets/icons/ios/16.png"
+			/>
+			// <link rel="shortcut icon" href="/public/assets/images/beltech_logo_2.ico"/>
+			<link rel="apple-touch-icon" href="/pubic/assets/icons/ios/32.png"/>
+		}
+		if pageTitle == "dashboard" || pageTitle == "wallet" {
+			<link
+				rel="stylesheet"
+				href="/public/assets/styles/swiper-bundle.min.css"
+			/>
+		}
 		@removeScrollBar()
 		<title>{ pageTitle }</title>
 	</head>
@@ -69,8 +98,8 @@ templ MainClosingTag() {
 	@templ.Raw(`</main>`)
 }
 
-templ Footer(active string, beforeFooterTagPartial, afterFooterTagPartial templ.Component) {
-	@beforeFooterTagPartial
+templ Footer(active string, mainClosingTag templ.Component) {
+	@mainClosingTag
 	<footer class="bg-white flex w-full justify-around px-4 pt-2 pb-3 gap-[2.375rem]" hx-boost="false">
 		if active == "dashboard" {
 			<a
@@ -188,11 +217,9 @@ templ Footer(active string, beforeFooterTagPartial, afterFooterTagPartial templ.
 			</a>
 		}
 	</footer>
-	@afterFooterTagPartial
 }
 
-templ CommonHeaderOne(user Account, beforeHeaderTagPartial, afterHeaderTagPartial templ.Component) {
-	@beforeHeaderTagPartial
+templ CommonHeaderOne(user Account, mainOpenTag templ.Component) {
 	<header class="pt-[1.5rem] pl-[1.5rem] pr-[1.56rem] flex w-full justify-start items-center">
 		<a href="/account/profile">
 			<img
@@ -227,7 +254,7 @@ templ CommonHeaderOne(user Account, beforeHeaderTagPartial, afterHeaderTagPartia
 			/>
 		</button>
 	</header>
-	@afterHeaderTagPartial
+	@mainOpenTag
 }
 
 templ commonHeaderTwo(text, avatarURL, imagePath, btnBehaviour string, beforeHeaderTagPartial, afterHeaderTagPartial templ.Component) {
@@ -250,7 +277,7 @@ templ commonHeaderTwo(text, avatarURL, imagePath, btnBehaviour string, beforeHea
 	@afterHeaderTagPartial
 }
 
-templ LetRecycleAndProfileComp(text string) {
+templ LetRecycleAndProfile(text string) {
 	<article class="flex items-center gap-1">
 		<p class="leading-[1.143rem] font-semibold text-[0.938rem]">{ text }</p>
 		<picture>

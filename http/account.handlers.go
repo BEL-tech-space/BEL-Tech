@@ -10,6 +10,26 @@ import (
 	"github.com/go-chi/chi/v5"
 )
 
+func (a *App) openingHThmlTagPartial(w http.ResponseWriter, r *http.Request) {
+	pageTitle := strings.Split(r.URL.Path, "/")[2]
+
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	if err := accPages.HtmlAndBodyOpeningTagPartial(pageTitle).Render(context.TODO(), w); err != nil {
+		a.serverError(w, err)
+		return
+	}
+}
+
+func (a *App) closingHtmlTagPartial(w http.ResponseWriter, r *http.Request) {
+	pageTitle := strings.Split(r.URL.Path, "/")[2]
+
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	if err := accPages.HtmlAndBodyClosingTagPartial(pageTitle).Render(context.TODO(), w); err != nil {
+		a.serverError(w, err)
+		return
+	}
+}
+
 func (a *App) footerPartial(w http.ResponseWriter, r *http.Request) {
 	pageTitle := strings.Split(r.URL.Path, "/")[2]
 
@@ -17,7 +37,6 @@ func (a *App) footerPartial(w http.ResponseWriter, r *http.Request) {
 	if err := accPages.Footer(
 		pageTitle,
 		accPages.MainClosingTag(),
-		accPages.AfterFooterTagPartial(pageTitle),
 	).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return

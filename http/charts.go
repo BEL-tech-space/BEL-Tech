@@ -47,25 +47,36 @@ const barChartOptions = `{
 			}
 		},
 		xAxis: {
-			name: 'waste',
 			axisLabel: {
-				fontSize: 10,
-				fontWeight: 'bold',
-			},
-			nameTextStyle: {
-				color: '#000000',
-				fontWeight: 'bolder',
-				fontSize: 10,
+				fontSize: 12,
+				color: '#232323',
+				lineHeight: 17.7,
+				fontFamily: 'Poppins',
+				align: 'middle',
+				fontWeight: '500'
 			}
 		},
 		yAxis: {
 			type: 'value',
 			axisLabel: {
-				fontSize: 10,
+				fontSize: 12,
+				color: '#232323',
+				lineHeight: 17.7,
+				fontFamily: 'Poppins',
 				align: 'middle',
-				fontWeight: '700',
+				fontWeight: '500',
 				formatter: '{value} Kg'
 			}
+		},
+		series: [{
+			barCategoryGap: '85%',
+			itemStyle: {
+        		borderRadius: [10, 10, 0, 0]
+      		},
+		}],
+		grid: {
+			bottom: '12%',
+			top: '12%'
 		}
 	}`
 
@@ -84,7 +95,7 @@ func barItems(YAxis []float64, xAxis []string) []opts.BarData {
 			Name:  xAxis[i],
 			Value: YAxis[i],
 			ItemStyle: &opts.ItemStyle{
-				Color:       barChartColors[i],
+				Color:       "rgba(1, 105, 52, 1)",
 				BorderColor: barChartColorsBackGround[i],
 			},
 		})
@@ -141,7 +152,7 @@ func WeekStatBarChart(data BarChartData) template.HTML {
 
 	bar.SetGlobalOptions(
 		charts.WithTitleOpts(opts.Title{
-			Title: fmt.Sprintf("Beltech colletion for the month of %s, %s.", data.Month, data.Year),
+			Title: fmt.Sprintf("Month of %s, %s.", data.Month, data.Year),
 			TitleStyle: &opts.TextStyle{
 				Color:      "black",
 				FontWeight: "700",

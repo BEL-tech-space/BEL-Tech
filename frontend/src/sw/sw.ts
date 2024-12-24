@@ -69,6 +69,11 @@ const dashboardPageStream = composeStrategies(
   [
     async ({ event }) =>
       cacheFirstPartialStrategy.handle({
+        request: new Request("/account/dashboard/openingHtmlTag-Partial.html"),
+        event,
+      }),
+    async ({ event }) =>
+      cacheFirstPartialStrategy.handle({
         request: new Request("/account/dashboard/header-Partial.html"),
         event,
       }),
@@ -82,6 +87,11 @@ const dashboardPageStream = composeStrategies(
     async ({ event }) =>
       cacheFirstPartialStrategy.handle({
         request: new Request("/account/dashboard/footer-Partial.html"),
+        event,
+      }),
+    async ({ event }) =>
+      cacheFirstPartialStrategy.handle({
+        request: new Request("/account/dashboard/closingHtmlTag-Partial.html"),
         event,
       }),
   ],
@@ -112,6 +122,11 @@ const locationPageStream = composeStrategies(
   [
     async ({ event }) =>
       cacheFirstPartialStrategy.handle({
+        request: new Request("/account/location/openingHtmlTag-Partial.html"),
+        event,
+      }),
+    async ({ event }) =>
+      cacheFirstPartialStrategy.handle({
         request: new Request("/account/location/header-Partial.html"),
         event,
       }),
@@ -127,6 +142,11 @@ const locationPageStream = composeStrategies(
         request: new Request("/account/location/footer-Partial.html"),
         event,
       }),
+    async ({ event }) =>
+      cacheFirstPartialStrategy.handle({
+        request: new Request("/account/location/closingHtmlTag-Partial.html"),
+        event,
+      }),
   ],
   {}
 );
@@ -139,6 +159,11 @@ registerRoute(
 
 const walletPageStream = composeStrategies(
   [
+    async ({ event }) =>
+      cacheFirstPartialStrategy.handle({
+        request: new Request("/account/wallet/openingHtmlTag-Partial.html"),
+        event,
+      }),
     async ({ event }) =>
       cacheFirstPartialStrategy.handle({
         request: new Request("/account/wallet/header-Partial.html"),
@@ -156,6 +181,11 @@ const walletPageStream = composeStrategies(
         request: new Request("/account/wallet/footer-Partial.html"),
         event,
       }),
+    async ({ event }) =>
+      cacheFirstPartialStrategy.handle({
+        request: new Request("/account/wallet/closingHtmlTag-Partial.html"),
+        event,
+      }),
   ],
   {}
 );
@@ -165,6 +195,11 @@ registerRoute(({ url }) => url.pathname == "/account/wallet", walletPageStream);
 
 const spendPageStream = composeStrategies(
   [
+    async ({ event }) =>
+      cacheFirstPartialStrategy.handle({
+        request: new Request("/account/spend/openingHtmlTag-Partial.html"),
+        event,
+      }),
     async ({ event }) =>
       cacheFirstPartialStrategy.handle({
         request: new Request("/account/spend/header-Partial.html"),
@@ -180,6 +215,11 @@ const spendPageStream = composeStrategies(
     async ({ event }) =>
       cacheFirstPartialStrategy.handle({
         request: new Request("/account/spend/footer-Partial.html"),
+        event,
+      }),
+    async ({ event }) =>
+      cacheFirstPartialStrategy.handle({
+        request: new Request("/account/spend/closingHtmlTag-Partial.html"),
         event,
       }),
   ],

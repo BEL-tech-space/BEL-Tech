@@ -5,7 +5,6 @@ import (
 	"context"
 	"fmt"
 	"net/http"
-	"strings"
 )
 
 func (a *App) ProfilePageHandler(w http.ResponseWriter, r *http.Request) {
@@ -44,9 +43,7 @@ func (a *App) profileHeaderPartial(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 
 	if err := accPages.CommonHeaderOne(
-		account(user),
-		accPages.BeforeHeaderTagPartial(strings.Split(r.URL.Path, "/")[2]),
-		accPages.ProfileMainOpeningTagComp()).Render(context.TODO(), w); err != nil {
+		account(user), accPages.ProfileMainOpeningTag()).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}
@@ -55,7 +52,7 @@ func (a *App) profileHeaderPartial(w http.ResponseWriter, r *http.Request) {
 func (a *App) profileLetRecyclePartial(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if err := accPages.LetRecycleAndProfileComp("My Profile").Render(context.TODO(), w); err != nil {
+	if err := accPages.LetRecycleAndProfile("My Profile").Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}
@@ -71,7 +68,7 @@ func (a *App) profileChangeDisplayIcon(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if err := accPages.ProfileChangeDisplayIconComp(user.AvatarUrl).Render(context.TODO(), w); err != nil {
+	if err := accPages.ProfileChangeDisplayIcon(user.AvatarUrl).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}
@@ -87,7 +84,7 @@ func (a *App) profileUpdateProfilePartial(w http.ResponseWriter, r *http.Request
 	}
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if err := accPages.ProfileUpdataAccountInfoPartialComp(account(user)).Render(context.TODO(), w); err != nil {
+	if err := accPages.ProfileUpdataAccountInfoPartial(account(user)).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}

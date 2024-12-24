@@ -40,11 +40,11 @@ func (a *App) spendPageHeaderPartial(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if err := accPages.SpendHeaderPartialComp(
+	if err := accPages.SpendHeaderPartial(
 		account(user).AvatarUrl,
 		accPages.BeforeHeaderTagPartial(
 			"Spend BEL Token"),
-		accPages.SpendMainOpeningTagComp()).Render(context.TODO(), w); err != nil {
+		accPages.SpendMainOpeningTag()).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}
@@ -60,7 +60,7 @@ func (a *App) spendBalance(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if err := accPages.SpendBalanceComp(account(user)).Render(context.TODO(), w); err != nil {
+	if err := accPages.SpendBalance(account(user)).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}
@@ -68,7 +68,7 @@ func (a *App) spendBalance(w http.ResponseWriter, r *http.Request) {
 
 func (a *App) spendOtherHalfPartial(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if err := accPages.SpendOtherHalfPartialComp().Render(context.TODO(), w); err != nil {
+	if err := accPages.SpendOtherHalfPartial().Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}

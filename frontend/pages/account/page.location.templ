@@ -3,19 +3,19 @@ package frontend
 templ LocationPage() {
 	<!DOCTYPE html>
 	<html lang="en">
-		@headTag("Location")
+		@HeadTag("Location")
 		<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
 			<div class="flex flex-col h-full gap-2 font-montserrat text-[#2E2E2E]">
-				@LocationHeaderPartialComp(templ.NopComponent)
+				@LocationHeaderPartial(templ.NopComponent)
 				@LocationMain()
-				@Footer("location", templ.NopComponent, templ.NopComponent)
+				@Footer("location", templ.NopComponent)
 			</div>
 		</body>
 		@scriptForLocationPage()
 	</html>
 }
 
-templ LocationHeaderPartialComp(beforeHeaderTagPartial templ.Component) {
+templ LocationHeaderPartial(beforeHeaderTagPartial templ.Component) {
 	@beforeHeaderTagPartial
 	<header class="mt-6 mx-6">
 		<div class="flex flex-col justify-between items-start gap-6 px-3">

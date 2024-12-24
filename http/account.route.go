@@ -20,21 +20,29 @@ func (a *App) accountRouter() http.Handler {
 	r.Route("/", func(r chi.Router) {
 		r.Use(a.accountAuthorization)
 
+		r.Get("/dashboard/openingHtmlTag-Partial.html", a.openingHThmlTagPartial)
+		r.Get("/dashboard/closingHtmlTag-Partial.html", a.closingHtmlTagPartial)
 		r.Get("/dashboard/header-Partial.html", a.dashboardHeaderPartial)
 		r.Get("/dashboard/footer-Partial.html", a.footerPartial)
 		r.Get("/dashboard", a.dashboardPageHandler)
 
 		r.Get("/scan", a.scanQRPageHandler)
 
+		r.Get("/location/openingHtmlTag-Partial.html", a.openingHThmlTagPartial)
+		r.Get("/location/closingHtmlTag-Partial.html", a.closingHtmlTagPartial)
 		r.Get("/location/header-Partial.html", a.locationHeaderTagPartial)
 		r.Get("/location/footer-Partial.html", a.footerPartial)
 		r.Get("/location", a.locationPageHandler)
 
+		r.Get("/wallet/openingHtmlTag-Partial.html", a.openingHThmlTagPartial)
+		r.Get("/wallet/closingHtmlTag-Partial.html", a.closingHtmlTagPartial)
 		r.Get("/wallet/header-Partial.html", a.walletHeaderPartial)
 		r.Get("/wallet/footer-Partial.html", a.footerPartial)
 		r.Get("/wallet", a.walletPageHandler)
 		r.Get("/coinData", a.coinDataHandler)
 
+		r.Get("/spend/openingHtmlTag-Partial.html", a.openingHThmlTagPartial)
+		r.Get("/spend/closingHtmlTag-Partial.html", a.closingHtmlTagPartial)
 		r.Get("/spend/header-Partial.html", a.spendPageHeaderPartial)
 		r.Get("/spend/footer-Partial.html", a.footerPartial)
 		r.Get("/spend", a.spendPageHandler)
