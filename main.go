@@ -38,7 +38,6 @@ func main() {
 	defer rcache.Close()
 
 	app := backend.NewApp(&environmentalVariables, conn, rcache)
-	stopScrapping := app.ScrapeCryptoData()
 
 	server := http.Server{
 		Addr:    fmt.Sprintf(":%v", environmentalVariables.Port),
@@ -59,11 +58,12 @@ func main() {
 	done := make(chan os.Signal, 1)
 	signal.Notify(done, os.Interrupt, syscall.SIGTERM)
 
+	stopScrapping := app.ScrapeCryptoData()
 	<-done
 	close(done)
 
 	if err := server.Shutdown(context.TODO()); err != nil {
-		log.Panic("Graceful server shutdown Failed: " + err.Error())
+		log.Fatalln("Graceful server shutdown Failed: " + err.Error())
 	}
 
 	stopScrapping()

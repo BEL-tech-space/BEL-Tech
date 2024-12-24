@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"strings"
 	"sync"
 	"time"
 
@@ -22,8 +21,6 @@ func (a *App) walletPageHandler(w http.ResponseWriter, r *http.Request) {
 		a.serverError(w, err)
 		return
 	}
-
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 
 	if r.Header.Get("X-Content-Mode") == "partials" {
 		if err := accPages.WalletMain(account(user), []types.TokenData{
@@ -55,12 +52,9 @@ func (a *App) walletHeaderPartial(w http.ResponseWriter, r *http.Request) {
 		a.serverError(w, err)
 		return
 	}
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 
 	if err := accPages.CommonHeaderOne(
-		account(user),
-		accPages.BeforeHeaderTagPartial(strings.Split(r.URL.Path, "/")[2]),
-		accPages.WalletMainOpeningTagComp()).Render(context.TODO(), w); err != nil {
+		account(user)).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}
@@ -75,47 +69,46 @@ func (a *App) walletBalance(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if err := accPages.WalletBalanceComp(account(user).CurrBalance).Render(context.TODO(), w); err != nil {
+	if err := accPages.WalletBalance(account(user).CurrBalance).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}
 }
 
 func (a *App) walletOptionsPartial(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if err := accPages.WalletOptionsPartialComp().Render(context.TODO(), w); err != nil {
+
+	if err := accPages.WalletOptionsPartial().Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}
 }
 
 func (a *App) walletWatchlistPartial(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if err := accPages.WalletWatchlistPartialComp().Render(context.TODO(), w); err != nil {
+
+	if err := accPages.WalletWatchlistPartial().Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}
 }
 
 func (a *App) walletcoinData(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if err := accPages.WalletCoinDataComp([]types.TokenData{liveCryptoData.bitcoin, liveCryptoData.ethereum, liveCryptoData.solana, liveCryptoData.usdCoin}).Render(context.TODO(), w); err != nil {
+
+	if err := accPages.WalletCoinData([]types.TokenData{liveCryptoData.bitcoin, liveCryptoData.ethereum, liveCryptoData.solana, liveCryptoData.usdCoin}).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}
 }
 
 func (a *App) walletswiper(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if err := accPages.WalletSwiperComp().Render(context.TODO(), w); err != nil {
+
+	if err := accPages.WalletSwiper().Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}
 }
 
 func (a *App) coinDataHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+
 	if err := accPages.CoinData([]types.TokenData{liveCryptoData.bitcoin, liveCryptoData.ethereum, liveCryptoData.solana, liveCryptoData.usdCoin}).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return

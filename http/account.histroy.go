@@ -24,11 +24,10 @@ func (a *App) historyPageHandler(w http.ResponseWriter, r *http.Request) {
 
 func (a *App) historyPageHeaderPartial(w http.ResponseWriter, r *http.Request) {
 
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if err := accPages.HistoryHeaderPartialComp(
+	if err := accPages.HistoryHeaderPartial(
 		accPages.BeforeHeaderTagPartial(
 			"History"),
-		accPages.HistoryMainOpeningTagComp()).Render(context.TODO(), w); err != nil {
+		accPages.HistoryMainOpeningTag()).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}

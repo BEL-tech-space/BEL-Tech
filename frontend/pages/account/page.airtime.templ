@@ -3,12 +3,12 @@ package frontend
 templ AirtimePage(avatarURL string) {
 	<!DOCTYPE html>
 	<html lang="en">
-		@headTag("Airtime")
+		@HeadTag("Airtime")
 		<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
 			<div class="w-full h-full grid grid-rows-agentCollectPage font-montserrat text-[#2E2E2E]">
 				@commonHeaderTwo("Spend BEL Token", avatarURL, "/public/assets/svg/notification.svg", "", templ.NopComponent, templ.NopComponent)
 				@AirtimeMain()
-				@Footer("spend", templ.NopComponent, templ.NopComponent)
+				@Footer("spend", templ.NopComponent)
 			</div>
 		</body>
 		<script src="/public/assets/scripts/hyperscript.min.js"></script>
@@ -20,20 +20,20 @@ templ AirtimePage(avatarURL string) {
 
 templ AirtimeMain() {
 	<main class="overflow-y-auto pl-[1.5rem] pr-[1.56rem] pt-12 grid grid-flow-row-4">
-		@AirtimeInputNumberPartialcomp()
-		@AirtimeBeneficiariesComp()
+		@AirtimeInputNumberPartial()
+		@AirtimeBeneficiaries()
 	</main>
 }
 
-templ AirtimeMainOpeningTagComp() {
+templ AirtimeMainOpeningTag() {
 	@templ.Raw(`<main class="overflow-y-auto pl-[1.5rem] pr-[1.56rem] pt-12 grid grid-flow-row-4">`)
 }
 
-templ AirtimeHeaderPartialComp(avatarURL string, beforeHeaderTagPartial, afterHeaderTagPartial templ.Component) {
+templ AirtimeHeaderPartial(avatarURL string, beforeHeaderTagPartial, afterHeaderTagPartial templ.Component) {
 	@commonHeaderTwo("Spend BEL Token", avatarURL, "/public/assets/svg/notification.svg", "", beforeHeaderTagPartial, afterHeaderTagPartial)
 }
 
-templ AirtimeInputNumberPartialcomp() {
+templ AirtimeInputNumberPartial() {
 	<p class="font-bold text-xs leading-5 tracking-[0.00625em] text-center text-black">Which number do you want to receive <br/>your airtime to?</p>
 	<form id="beneficiaryNumber" action="" class="mt-10">
 		<div class="flex flex-col justify-start items-start gap-3 relative">
@@ -53,7 +53,7 @@ templ AirtimeInputNumberPartialcomp() {
 	</section>
 }
 
-templ AirtimeBeneficiariesComp() {
+templ AirtimeBeneficiaries() {
 	<section class="overflow-y-auto max-h-full w-full rounded-md">
 		<ul class="w-full flex flex-col justify-center items-center gap-6">
 			for range 8 {

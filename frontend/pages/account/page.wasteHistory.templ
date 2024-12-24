@@ -8,12 +8,12 @@ import (
 templ WastePage(acc Account, wasteType string, history []string) {
 	<!DOCTYPE html>
 	<html lang="en">
-		@headTag("Waste History")
+		@HeadTag("Waste History")
 		<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
 			<div class="Page w-full h-full flex flex-col font-montserrat text-[#2E2E2E]">
-				@CommonHeaderOne(acc, templ.NopComponent, templ.NopComponent)
+				@CommonHeaderOne(acc)
 				@WasteMain(acc, wasteType, history)
-				@Footer("dashboard", templ.NopComponent, templ.NopComponent)
+				@Footer("dashboard", templ.NopComponent)
 			</div>
 		</body>
 	</html>
@@ -21,18 +21,18 @@ templ WastePage(acc Account, wasteType string, history []string) {
 
 templ WasteMain(acc Account, wasteType string, history []string) {
 	<main class="grow overflow-y-auto pl-[1.5rem] pr-[1.56rem] pt-[1.875rem] grid grid-rows-wastePage">
-		@LetRecycleAndProfileComp("Let's Recycle!")
-		@WasteQuickInfoComp(wasteType, acc)
-		@WasteFilterOptionsPartialComp()
+		@LetRecycleAndProfile("Let's Recycle!")
+		@WasteQuickInfo(wasteType, acc)
+		@WasteFilterOptionsPartial()
 		if len(history) > 0 {
-			@WasteNotEmptyHistoryComp(wasteType)
+			@WasteNotEmptyHistory(wasteType)
 		} else {
-			@WasteEmptyHistoryComp(wasteType)
+			@WasteEmptyHistory(wasteType)
 		}
 	</main>
 }
 
-templ WasteQuickInfoComp(wasteType string, acc Account) {
+templ WasteQuickInfo(wasteType string, acc Account) {
 	<section class="flex justify-start items-center gap-4 mt-6 mb-10">
 		switch wasteType {
 			case "paper" :
@@ -75,7 +75,7 @@ templ WasteQuickInfoComp(wasteType string, acc Account) {
 	</section>
 }
 
-templ WasteFilterOptionsPartialComp() {
+templ WasteFilterOptionsPartial() {
 	<section class="w-full flex justify-between items-center">
 		<p class="text-[0.938rem] leading-[1.143rem] font-semibold">Overview</p>
 		<div class="bg-[#01693433] pl-[0.5rem] pr-[0.833rem] flex justify-center items-center gap-[0.417rem] rounded-[1.562rem]">
@@ -106,7 +106,7 @@ templ WasteFilterOptionsPartialComp() {
 	</section>
 }
 
-templ WasteNotEmptyHistoryComp(wasteType string) {
+templ WasteNotEmptyHistory(wasteType string) {
 	<section class="overflow-y-auto mt-8 max-h-full">
 		<ul class="flex flex-col justify-start items-start gap-9 py-2">
 			for range 8 {
@@ -135,7 +135,7 @@ templ WasteNotEmptyHistoryComp(wasteType string) {
 	</section>
 }
 
-templ WasteEmptyHistoryComp(wasteType string) {
+templ WasteEmptyHistory(wasteType string) {
 	<section class="h-full w-full flex justify-center items-center">
 		<p class="font-bold text-sm text-[#3A3A3A]">{ fmt.Sprintf("No history yet for %s", strings.ToUpper(wasteType) ) }</p>
 	</section>

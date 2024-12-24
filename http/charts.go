@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"html/template"
 	"io"
+	"time"
 
 	"github.com/go-echarts/go-echarts/v2/charts"
 	"github.com/go-echarts/go-echarts/v2/opts"
@@ -47,25 +48,37 @@ const barChartOptions = `{
 			}
 		},
 		xAxis: {
-			name: 'waste',
 			axisLabel: {
-				fontSize: 10,
-				fontWeight: 'bold',
-			},
-			nameTextStyle: {
-				color: '#000000',
-				fontWeight: 'bolder',
-				fontSize: 10,
+				fontSize: 12,
+				color: '#232323',
+				lineHeight: 17.7,
+				fontFamily: 'TT Chocolates',
+				align: 'middle',
+				fontWeight: '500',
 			}
 		},
 		yAxis: {
 			type: 'value',
 			axisLabel: {
-				fontSize: 10,
+				fontSize: 12,
+				color: '#232323',
+				lineHeight: 17.7,
+				fontFamily: 'TT Chocolates',
 				align: 'middle',
-				fontWeight: '700',
-				formatter: '{value} Kg'
+				fontWeight: '500',
+				formatter: '{value} Kg',				
+				margin: 14, 
 			}
+		},
+		series: [{
+			barCategoryGap: '85%',
+			itemStyle: {
+        		borderRadius: [10, 10, 0, 0]
+      		},
+		}],
+		grid: {
+			bottom: '12%',
+			top: '12%'
 		}
 	}`
 
@@ -84,7 +97,7 @@ func barItems(YAxis []float64, xAxis []string) []opts.BarData {
 			Name:  xAxis[i],
 			Value: YAxis[i],
 			ItemStyle: &opts.ItemStyle{
-				Color:       barChartColors[i],
+				Color:       "rgba(1, 105, 52, 1)",
 				BorderColor: barChartColorsBackGround[i],
 			},
 		})
@@ -113,13 +126,13 @@ var barChartColorsBackGround [7]string = [7]string{
 
 const chartName = "beltech"
 
-func chart() template.HTML {
+func produceChartHTML(values [4]float64, t time.Time) template.HTML {
 	return WeekStatBarChart(
 		BarChartData{
 			XAxis: []string{"Plastic", "Glass", "Metal", "Paper"},
-			YAxis: []float64{3, 4, 6, 9},
-			Month: "December",
-			Year:  "2024",
+			YAxis: values[:],
+			Month: t.Month().String(),
+			Year:  fmt.Sprintf("%d", t.Year()),
 			Keys:  []string{},
 		},
 	)
@@ -141,20 +154,13 @@ func WeekStatBarChart(data BarChartData) template.HTML {
 
 	bar.SetGlobalOptions(
 		charts.WithTitleOpts(opts.Title{
-			Title: fmt.Sprintf("Beltech colletion for the month of %s, %s.", data.Month, data.Year),
+			Title: fmt.Sprintf("Month of %s, %s.", data.Month, data.Year),
 			TitleStyle: &opts.TextStyle{
 				Color:      "black",
 				FontWeight: "700",
 				FontSize:   10,
-				FontFamily: "Poppins",
+				FontFamily: "TT Chocolates",
 			},
-			// Subtitle: fmt.Sprintf("from %s - %s %s. Total Uptime of %s", data.XAxis[0], data.XAxis[6], data.Month, utils.UsageTimeInHrsMin(data.TotalUptime)),
-			// SubtitleStyle: &opts.TextStyle{
-			// 	Color:      "black",
-			// 	FontWeight: "500",
-			// 	FontSize:   14,
-			// 	FontFamily: "system-ui",
-			// },
 			Left: "center",
 		}),
 		charts.WithLegendOpts(opts.Legend{
@@ -163,24 +169,6 @@ func WeekStatBarChart(data BarChartData) template.HTML {
 			Data: data.Keys,
 			Icon: "triangle",
 		}),
-
-		// charts.WithToolboxOpts(opts.Toolbox{
-		// 	Feature: &opts.ToolBoxFeature{
-		// 		SaveAsImage: &opts.ToolBoxFeatureSaveAsImage{
-		// 			Show:  opts.Bool(true),
-		// 			Title: "Download chart as Image",
-		// 			Name:  fmt.Sprintf("weekly-screentime-%s-%s-%s-%s", data.XAxis[0], data.XAxis[3], data.Month, data.Year),
-		// 		},
-		// 	},
-		// }),
-		// charts.WithTooltipOpts(opts.Tooltip{
-		// 	Show:      opts.Bool(true),
-		// 	Trigger:   "axis",
-		// 	TriggerOn: "mousemove",
-		// 	AxisPointer: &opts.AxisPointer{
-		// 		Type: "cross",
-		// 	},
-		// }),
 	)
 	bar.SetXAxis(data.XAxis).
 		AddSeries("Waste", barItems(data.YAxis, data.XAxis)).SetSeriesOptions()

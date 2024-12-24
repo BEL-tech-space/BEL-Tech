@@ -3,15 +3,16 @@ package frontend
 templ Profile(acc Account) {
 	<!DOCTYPE html>
 	<html lang="en">
-		@headTag("Profile")
+		@HeadTag("Profile")
 		<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
 			<div class="Page w-full h-full flex flex-col font-montserrat text-[#2E2E2E]">
-				@CommonHeaderOne(acc, templ.NopComponent, templ.NopComponent)
+				@CommonHeaderOne(acc)
 				@ProfileMain(acc)
-				@Footer("dashboard", templ.NopComponent, templ.NopComponent)
+				@Footer("dashboard", templ.NopComponent)
 			</div>
 		</body>
 		<script src="/public/assets/scripts/hyperscript.min.js"></script>
+		<script src="/public/assets/scripts/htmx.min.js"></script>
 		@createNewPinDialog()
 		@enterSPLWalletAddrDialog()
 		@successDialog(true)
@@ -21,17 +22,17 @@ templ Profile(acc Account) {
 
 templ ProfileMain(acc Account) {
 	<main class="grow overflow-y-auto w-full pl-[1.5rem] pr-[1.56rem] pt-[1.875rem]">
-		@LetRecycleAndProfileComp("My Profile")
-		@ProfileChangeDisplayIconComp(acc.AvatarUrl)
-		@ProfileUpdataAccountInfoPartialComp(acc)
+		@LetRecycleAndProfile("My Profile")
+		@ProfileChangeDisplayIcon(acc.AvatarUrl)
+		@ProfileUpdataAccountInfoPartial(acc)
 	</main>
 }
 
-templ ProfileMainOpeningTagComp() {
+templ ProfileMainOpeningTag() {
 	@templ.Raw(`<main class="grow overflow-y-auto w-full pl-[1.5rem] pr-[1.56rem] pt-[1.875rem]">`)
 }
 
-templ ProfileChangeDisplayIconComp(avatarURL string) {
+templ ProfileChangeDisplayIcon(avatarURL string) {
 	<section class="my-[3.25rem] flex relative w-[7.75rem] aspect-square mx-auto items-end justify-end">
 		<img src={ avatarURL } alt="" class="absolute rounded-full w-full aspect-square"/>
 		<button class="z-40">
@@ -40,8 +41,8 @@ templ ProfileChangeDisplayIconComp(avatarURL string) {
 	</section>
 }
 
-templ ProfileUpdataAccountInfoPartialComp(acc Account) {
-	<form action="/account/profile/displayName" method="post" class="flex flex-col gap-3 justify-center items-center">
+templ ProfileUpdataAccountInfoPartial(acc Account) {
+	<form hx-post="/account/profile/displayName" hx-trigger="submit" hx-target="#header" hx-swap="outerHTML" class="flex flex-col gap-3 justify-center items-center">
 		<div class="w-full flex flex-col justify-start items-start gap-1">
 			<label for="" class="font-semibold text-xs">Display Name:</label>
 			<input type="text" name="nickname" id="nickname" min="2" max="20" placeholder={ acc.DisplayName } class="outline-none border-solid border-[#569B78] border-[0.0313rem] rounded p-2 w-full"/>
