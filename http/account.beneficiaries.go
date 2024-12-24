@@ -25,8 +25,6 @@ func (a *App) beneficiariesPageHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-
 	if r.Header.Get("X-Content-Mode") == "partials" {
 		if err := accPages.BeneficiariesMain(result).Render(context.TODO(), w); err != nil {
 			a.serverError(w, err)
@@ -49,7 +47,7 @@ func (a *App) beneficiariesPageHeaderPartial(w http.ResponseWriter, r *http.Requ
 		a.serverError(w, err)
 		return
 	}
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+
 	if err := accPages.BeneficiariesHeaderPartial(
 		account(user).AvatarUrl,
 		accPages.BeforeHeaderTagPartial(
@@ -70,7 +68,6 @@ func (a *App) beneficiariesMain(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := accPages.BeneficiariesMain(result).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return

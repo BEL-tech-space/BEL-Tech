@@ -18,8 +18,6 @@ func (a *App) dashboardPageHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-
 	if r.Header.Get("X-Content-Mode") == "partials" {
 		if err := accPages.DashboardMain(produceChartHTML([4]float64{9, 5, 7, 15}, deduceTime(0))).
 			Render(context.TODO(), w); err != nil {
@@ -44,10 +42,9 @@ func (a *App) dashboardHeaderPartial(w http.ResponseWriter, r *http.Request) {
 		a.serverError(w, err)
 		return
 	}
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 
 	if err := accPages.CommonHeaderOne(
-		account(user), accPages.DashboardMainOpeningTag()).Render(context.TODO(), w); err != nil {
+		account(user)).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}
@@ -55,7 +52,6 @@ func (a *App) dashboardHeaderPartial(w http.ResponseWriter, r *http.Request) {
 
 func (a *App) dashboardLetRecyclePartial(w http.ResponseWriter, r *http.Request) {
 
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := accPages.LetRecycleAndProfile("Let's Recycle!").Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
@@ -64,7 +60,6 @@ func (a *App) dashboardLetRecyclePartial(w http.ResponseWriter, r *http.Request)
 
 func (a *App) dashboardSwiperOne(w http.ResponseWriter, r *http.Request) {
 
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := accPages.DashboardSwiperOne().Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
@@ -73,7 +68,6 @@ func (a *App) dashboardSwiperOne(w http.ResponseWriter, r *http.Request) {
 
 func (a *App) dashboardRecycledAndSeeAllPartial(w http.ResponseWriter, r *http.Request) {
 
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := accPages.DashboardRecycledAndSeeAll().Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
@@ -82,7 +76,6 @@ func (a *App) dashboardRecycledAndSeeAllPartial(w http.ResponseWriter, r *http.R
 
 func (a *App) dashboardDataViz(w http.ResponseWriter, r *http.Request) {
 
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := accPages.DashboardDataViz(
 		produceChartHTML([4]float64{9, 5, 7, 15}, deduceTime(4))).
 		Render(context.TODO(), w); err != nil {
@@ -93,7 +86,6 @@ func (a *App) dashboardDataViz(w http.ResponseWriter, r *http.Request) {
 
 func (a *App) dashboardTipsParagraph(w http.ResponseWriter, r *http.Request) {
 
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := accPages.DashboardTipsParagraph().Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
@@ -102,7 +94,6 @@ func (a *App) dashboardTipsParagraph(w http.ResponseWriter, r *http.Request) {
 
 func (a *App) dashboardSwiperTwo(w http.ResponseWriter, r *http.Request) {
 
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := accPages.DashboardSwiperTwo().Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
@@ -118,8 +109,6 @@ func (a *App) dashboardEchart(w http.ResponseWriter, r *http.Request) {
 		a.clientError(w, http.StatusBadRequest, fmt.Errorf("invalid query parameter for month: %s", err.Error()))
 		return
 	}
-
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 
 	arr := [4]float64{9, 5, 7, 15}
 	switch num {

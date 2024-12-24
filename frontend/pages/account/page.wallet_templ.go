@@ -38,7 +38,7 @@ func WalletPage(acc Account, data []types.TokenData) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = HeadTag("Wallet").Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = HeadTag("wallet").Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -46,7 +46,7 @@ func WalletPage(acc Account, data []types.TokenData) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = CommonHeaderOne(acc, templ.NopComponent).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = CommonHeaderOne(acc).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

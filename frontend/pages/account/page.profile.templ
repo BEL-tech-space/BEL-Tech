@@ -6,12 +6,13 @@ templ Profile(acc Account) {
 		@HeadTag("Profile")
 		<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
 			<div class="Page w-full h-full flex flex-col font-montserrat text-[#2E2E2E]">
-				@CommonHeaderOne(acc, templ.NopComponent)
+				@CommonHeaderOne(acc)
 				@ProfileMain(acc)
 				@Footer("dashboard", templ.NopComponent)
 			</div>
 		</body>
 		<script src="/public/assets/scripts/hyperscript.min.js"></script>
+		<script src="/public/assets/scripts/htmx.min.js"></script>
 		@createNewPinDialog()
 		@enterSPLWalletAddrDialog()
 		@successDialog(true)
@@ -41,7 +42,7 @@ templ ProfileChangeDisplayIcon(avatarURL string) {
 }
 
 templ ProfileUpdataAccountInfoPartial(acc Account) {
-	<form action="/account/profile/displayName" method="post" class="flex flex-col gap-3 justify-center items-center">
+	<form hx-post="/account/profile/displayName" hx-trigger="submit" hx-target="#header" hx-swap="outerHTML" class="flex flex-col gap-3 justify-center items-center">
 		<div class="w-full flex flex-col justify-start items-start gap-1">
 			<label for="" class="font-semibold text-xs">Display Name:</label>
 			<input type="text" name="nickname" id="nickname" min="2" max="20" placeholder={ acc.DisplayName } class="outline-none border-solid border-[#569B78] border-[0.0313rem] rounded p-2 w-full"/>

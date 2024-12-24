@@ -24,7 +24,6 @@ func (a *App) historyPageHandler(w http.ResponseWriter, r *http.Request) {
 
 func (a *App) historyPageHeaderPartial(w http.ResponseWriter, r *http.Request) {
 
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := accPages.HistoryHeaderPartial(
 		accPages.BeforeHeaderTagPartial(
 			"History"),

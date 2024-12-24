@@ -131,7 +131,7 @@ func LocationMain() templ.Component {
 	})
 }
 
-func scriptForLocationPage() templ.Component {
+func LocationMainOpeningTag() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -150,6 +150,35 @@ func scriptForLocationPage() templ.Component {
 		templ_7745c5c3_Var4 := templ.GetChildren(ctx)
 		if templ_7745c5c3_Var4 == nil {
 			templ_7745c5c3_Var4 = templ.NopComponent
+		}
+		ctx = templ.ClearChildren(ctx)
+		templ_7745c5c3_Err = templ.Raw(`<main class="grow mt-[1.75rem] relative overflow-y-scroll w-full h-full">`).Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		return templ_7745c5c3_Err
+	})
+}
+
+func scriptForLocationPage() templ.Component {
+	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
+		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
+		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
+			return templ_7745c5c3_CtxErr
+		}
+		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
+		if !templ_7745c5c3_IsBuffer {
+			defer func() {
+				templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
+				if templ_7745c5c3_Err == nil {
+					templ_7745c5c3_Err = templ_7745c5c3_BufErr
+				}
+			}()
+		}
+		ctx = templ.InitializeContext(ctx)
+		templ_7745c5c3_Var5 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var5 == nil {
+			templ_7745c5c3_Var5 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<script>\n            ( g => { var h, a, k, p = \"The Google Maps JavaScript API\", c = \"google\", l = \"importLibrary\", q = \"__ib__\", m = document, b = window; b = b[ c ] || ( b[ c ] = {} ); var d = b.maps || ( b.maps = {} ), r = new Set, e = new URLSearchParams, u = () => h || ( h = new Promise( async ( f, n ) => { await ( a = m.createElement( \"script\" ) ); e.set( \"libraries\", [ ...r ] + \"\" ); for ( k in g ) e.set( k.replace( /[A-Z]/g, t => \"_\" + t[ 0 ].toLowerCase() ), g[ k ] ); e.set( \"callback\", c + \".maps.\" + q ); a.src = `https://maps.${c}apis.com/maps/api/js?` + e; d[ q ] = f; a.onerror = () => h = n( Error( p + \" could not load.\" ) ); a.nonce = m.querySelector( \"script[nonce]\" )?.nonce || \"\"; m.head.append( a ); } ) ); d[ l ] ? console.warn( p + \" only loads once. Ignoring:\", g ) : d[ l ] = ( f, ...n ) => r.add( f ) && u().then( () => d[ l ]( f, ...n ) ); } )( {\n                key: \"AIzaSyAqjo9EnrHgTK2-TeBIrUCq1GywYk7wlvw\",\n                v: \"weekly\",\n            } );\n        </script><script>\n           let map;\n            var options = {\n                zoom: 14,\n                center: { lat: 7.405385919885895, lng: 3.889942027649539 },\n                mapId: \"DEMO_MAP_ID\"\n            };\n\n            async function initMap () {\n                const position = { lat: -25.344, lng: 131.031 };\n\n                //@ts-ignore\n                const { Map } = await google.maps.importLibrary( \"maps\" );\n                const { AdvancedMarkerElement } = await google.maps.importLibrary( \"marker\" );\n\n                map = new Map( document.getElementById( \"map\" ), options );\n\n                const marker1 = new AdvancedMarkerElement( {\n                    map: map,\n                    position: options.center,\n                    title: \"Apata\",\n                } );\n            }\n\n            initMap();\n        </script>")

@@ -7,13 +7,13 @@ import (
 
 	accPages "beltech/frontend/pages/account"
 
+	"github.com/a-h/templ"
 	"github.com/go-chi/chi/v5"
 )
 
 func (a *App) openingHThmlTagPartial(w http.ResponseWriter, r *http.Request) {
 	pageTitle := strings.Split(r.URL.Path, "/")[2]
 
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := accPages.HtmlAndBodyOpeningTagPartial(pageTitle).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
@@ -23,7 +23,6 @@ func (a *App) openingHThmlTagPartial(w http.ResponseWriter, r *http.Request) {
 func (a *App) closingHtmlTagPartial(w http.ResponseWriter, r *http.Request) {
 	pageTitle := strings.Split(r.URL.Path, "/")[2]
 
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := accPages.HtmlAndBodyClosingTagPartial(pageTitle).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
@@ -33,11 +32,33 @@ func (a *App) closingHtmlTagPartial(w http.ResponseWriter, r *http.Request) {
 func (a *App) footerPartial(w http.ResponseWriter, r *http.Request) {
 	pageTitle := strings.Split(r.URL.Path, "/")[2]
 
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := accPages.Footer(
 		pageTitle,
 		accPages.MainClosingTag(),
 	).Render(context.TODO(), w); err != nil {
+		a.serverError(w, err)
+		return
+	}
+}
+
+func (a *App) mainOpeningTagPartial(w http.ResponseWriter, r *http.Request) {
+	pageTitle := strings.Split(r.URL.Path, "/")[2]
+
+	var openingMainTagComp templ.Component
+	switch pageTitle {
+	case "dashboard":
+		openingMainTagComp = accPages.DashboardMainOpeningTag()
+	case "wallet":
+		openingMainTagComp = accPages.WalletMainOpeningTag()
+	case "spend":
+		openingMainTagComp = accPages.SpendMainOpeningTag()
+	case "profile":
+		openingMainTagComp = accPages.ProfileMainOpeningTag()
+	case "waste":
+		// openingMainTagComp = accPages.WasteMainOpeningTag()
+	}
+
+	if err := openingMainTagComp.Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}

@@ -217,7 +217,8 @@ func HeadTag(pageTitle string) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		if pageTitle == "dashboard" || pageTitle == "wallet" {
+		if pageTitle == "dashboard" ||
+			pageTitle == "wallet" {
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<link rel=\"stylesheet\" href=\"/public/assets/styles/swiper-bundle.min.css\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
@@ -234,7 +235,7 @@ func HeadTag(pageTitle string) templ.Component {
 		var templ_7745c5c3_Var5 string
 		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(pageTitle)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 93, Col: 20}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 94, Col: 20}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 		if templ_7745c5c3_Err != nil {
@@ -369,7 +370,7 @@ func Footer(active string, mainClosingTag templ.Component) templ.Component {
 	})
 }
 
-func CommonHeaderOne(user Account, mainOpenTag templ.Component) templ.Component {
+func CommonHeaderOne(user Account) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -390,14 +391,14 @@ func CommonHeaderOne(user Account, mainOpenTag templ.Component) templ.Component 
 			templ_7745c5c3_Var8 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<header class=\"pt-[1.5rem] pl-[1.5rem] pr-[1.56rem] flex w-full justify-start items-center\"><a href=\"/account/profile\"><img src=\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<header id=\"header\" class=\"pt-[1.5rem] pl-[1.5rem] pr-[1.56rem] flex w-full justify-start items-center\"><a href=\"/account/profile\"><img src=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var9 string
 		templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(user.AvatarUrl)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 226, Col: 24}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 227, Col: 24}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 		if templ_7745c5c3_Err != nil {
@@ -415,7 +416,7 @@ func CommonHeaderOne(user Account, mainOpenTag templ.Component) templ.Component 
 			var templ_7745c5c3_Var10 string
 			templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(user.DisplayName)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 233, Col: 47}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 234, Col: 47}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 			if templ_7745c5c3_Err != nil {
@@ -433,7 +434,7 @@ func CommonHeaderOne(user Account, mainOpenTag templ.Component) templ.Component 
 			var templ_7745c5c3_Var11 string
 			templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(user.FirstName)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 238, Col: 45}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 239, Col: 45}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
 			if templ_7745c5c3_Err != nil {
@@ -451,7 +452,7 @@ func CommonHeaderOne(user Account, mainOpenTag templ.Component) templ.Component 
 			var templ_7745c5c3_Var12 string
 			templ_7745c5c3_Var12, templ_7745c5c3_Err = templ.JoinStringErrs(user.LastName)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 243, Col: 44}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 244, Col: 44}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var12))
 			if templ_7745c5c3_Err != nil {
@@ -468,10 +469,6 @@ func CommonHeaderOne(user Account, mainOpenTag templ.Component) templ.Component 
 			}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button class=\"bg-[#CCE1D699] p-[0.5rem] ml-auto rounded-md flex justify-center items-center\"><img src=\"/public/assets/svg/notification.svg\" class=\"w-6 aspect-square\"></button></header>")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = mainOpenTag.Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

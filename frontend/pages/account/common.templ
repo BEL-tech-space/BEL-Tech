@@ -83,7 +83,8 @@ templ HeadTag(pageTitle string) {
 			// <link rel="shortcut icon" href="/public/assets/images/beltech_logo_2.ico"/>
 			<link rel="apple-touch-icon" href="/pubic/assets/icons/ios/32.png"/>
 		}
-		if pageTitle == "dashboard" || pageTitle == "wallet" {
+		if pageTitle == "dashboard" || 
+			pageTitle == "wallet" {
 			<link
 				rel="stylesheet"
 				href="/public/assets/styles/swiper-bundle.min.css"
@@ -219,8 +220,8 @@ templ Footer(active string, mainClosingTag templ.Component) {
 	</footer>
 }
 
-templ CommonHeaderOne(user Account, mainOpenTag templ.Component) {
-	<header class="pt-[1.5rem] pl-[1.5rem] pr-[1.56rem] flex w-full justify-start items-center">
+templ CommonHeaderOne(user Account) {
+	<header id="header" class="pt-[1.5rem] pl-[1.5rem] pr-[1.56rem] flex w-full justify-start items-center">
 		<a href="/account/profile">
 			<img
 				src={ user.AvatarUrl }
@@ -254,7 +255,6 @@ templ CommonHeaderOne(user Account, mainOpenTag templ.Component) {
 			/>
 		</button>
 	</header>
-	@mainOpenTag
 }
 
 templ commonHeaderTwo(text, avatarURL, imagePath, btnBehaviour string, beforeHeaderTagPartial, afterHeaderTagPartial templ.Component) {

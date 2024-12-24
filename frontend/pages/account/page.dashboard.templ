@@ -12,7 +12,7 @@ templ DashboardPage(acc Account, chart template.HTML) {
 		@HeadTag("dashboard")
 		<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
 			<div class="Page w-full h-full flex flex-col font-montserrat text-[#2E2E2E]">
-				@CommonHeaderOne(acc, templ.NopComponent)
+				@CommonHeaderOne(acc)
 				@DashboardMain(chart)
 				@Footer("dashboard", templ.NopComponent)
 			</div>
@@ -72,16 +72,16 @@ templ scriptForDashboardPage() {
 			});
 		});
 
-		 window.addEventListener('load', () => {
-			if ('serviceWorker' in navigator) {
-				navigator.serviceWorker.register('/public/sw.js', {scope: "/"}).then((sw) => {
-					console.log('Service worker registered!');
-				}).catch((error) => {
-					console.warn('Error registering service worker:');
-					console.warn(error);
-				});
-			}
-		});
+		//  window.addEventListener('load', () => {
+		// 	if ('serviceWorker' in navigator) {
+		// 		navigator.serviceWorker.register('/public/sw.js', {scope: "/"}).then((sw) => {
+		// 			console.log('Service worker registered!');
+		// 		}).catch((error) => {
+		// 			console.warn('Error registering service worker:');
+		// 			console.warn(error);
+		// 		});
+		// 	}
+		// });
     </script>
 }
 
