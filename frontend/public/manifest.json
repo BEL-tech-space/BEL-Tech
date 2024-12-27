@@ -19,7 +19,83 @@
       "url": "/account/scan?utm_source=homescreen",
       "icons": [
         {
-          "src": "/icons/play-later.png",
+          "src": "/public/assets/app_shortcut/scan/32.png",
+          "sizes": "32x32"
+        },
+        {
+          "src": "/public/assets/app_shortcut/scan/40.png",
+          "sizes": "40x40"
+        },
+        {
+          "src": "/public/assets/app_shortcut/scan/50.png",
+          "sizes": "50x50"
+        },
+        {
+          "src": "/public/assets/app_shortcut/scan/57.png",
+          "sizes": "57x57"
+        },
+        {
+          "src": "/public/assets/app_shortcut/scan/58.png",
+          "sizes": "58x58"
+        },
+        {
+          "src": "/public/assets/app_shortcut/scan/60.png",
+          "sizes": "60x60"
+        },
+        {
+          "src": "/public/assets/app_shortcut/scan/64.png",
+          "sizes": "64x64"
+        },
+        {
+          "src": "/public/assets/app_shortcut/scan/72.png",
+          "sizes": "72x72"
+        },
+        {
+          "src": "/public/assets/app_shortcut/scan/76.png",
+          "sizes": "76x76"
+        },
+        {
+          "src": "/public/assets/app_shortcut/scan/80.png",
+          "sizes": "80x80"
+        },
+        {
+          "src": "/public/assets/app_shortcut/scan/87.png",
+          "sizes": "87x87"
+        },
+        {
+          "src": "/public/assets/app_shortcut/scan/100.png",
+          "sizes": "100x100"
+        },
+        {
+          "src": "/public/assets/app_shortcut/scan/114.png",
+          "sizes": "114x114"
+        },
+        {
+          "src": "/public/assets/app_shortcut/scan/120.png",
+          "sizes": "120x120"
+        },
+        {
+          "src": "/public/assets/app_shortcut/scan/128.png",
+          "sizes": "128x128"
+        },
+        {
+          "src": "/public/assets/app_shortcut/scan/144.png",
+          "sizes": "144x144"
+        },
+        {
+          "src": "/public/assets/app_shortcut/scan/152.png",
+          "sizes": "152x152"
+        },
+        {
+          "src": "/public/assets/app_shortcut/scan/167.png",
+          "sizes": "167x167"
+        },
+        {
+          "src": "/public/assets/app_shortcut/scan/180.png",
+          "sizes": "180x180"
+        },
+        {
+          "src": "/public/assets/app_shortcut/scan/192.png",
           "sizes": "192x192"
         }
       ]
@@ -31,7 +107,83 @@
       "url": "/account/location?utm_source=homescreen",
       "icons": [
         {
-          "src": "/icons/play-later.png",
+          "src": "/public/assets/app_shortcut/collector/32.png",
+          "sizes": "32x32"
+        },
+        {
+          "src": "/public/assets/app_shortcut/collector/40.png",
+          "sizes": "40x40"
+        },
+        {
+          "src": "/public/assets/app_shortcut/collector/50.png",
+          "sizes": "50x50"
+        },
+        {
+          "src": "/public/assets/app_shortcut/collector/57.png",
+          "sizes": "57x57"
+        },
+        {
+          "src": "/public/assets/app_shortcut/collector/58.png",
+          "sizes": "58x58"
+        },
+        {
+          "src": "/public/assets/app_shortcut/collector/60.png",
+          "sizes": "60x60"
+        },
+        {
+          "src": "/public/assets/app_shortcut/collector/64.png",
+          "sizes": "64x64"
+        },
+        {
+          "src": "/public/assets/app_shortcut/collector/72.png",
+          "sizes": "72x72"
+        },
+        {
+          "src": "/public/assets/app_shortcut/collector/76.png",
+          "sizes": "76x76"
+        },
+        {
+          "src": "/public/assets/app_shortcut/collector/80.png",
+          "sizes": "80x80"
+        },
+        {
+          "src": "/public/assets/app_shortcut/collector/87.png",
+          "sizes": "87x87"
+        },
+        {
+          "src": "/public/assets/app_shortcut/collector/100.png",
+          "sizes": "100x100"
+        },
+        {
+          "src": "/public/assets/app_shortcut/collector/114.png",
+          "sizes": "114x114"
+        },
+        {
+          "src": "/public/assets/app_shortcut/collector/120.png",
+          "sizes": "120x120"
+        },
+        {
+          "src": "/public/assets/app_shortcut/collector/128.png",
+          "sizes": "128x128"
+        },
+        {
+          "src": "/public/assets/app_shortcut/collector/144.png",
+          "sizes": "144x144"
+        },
+        {
+          "src": "/public/assets/app_shortcut/collector/152.png",
+          "sizes": "152x152"
+        },
+        {
+          "src": "/public/assets/app_shortcut/collector/167.png",
+          "sizes": "167x167"
+        },
+        {
+          "src": "/public/assets/app_shortcut/collector/180.png",
+          "sizes": "180x180"
+        },
+        {
+          "src": "/public/assets/app_shortcut/collector/192.png",
           "sizes": "192x192"
         }
       ]
@@ -43,7 +195,83 @@
       "url": "/account/location?utm_source=homescreen",
       "icons": [
         {
-          "src": "/icons/play-later.png",
+          "src": "/public/assets/app_shortcut/bin/32.png",
+          "sizes": "32x32"
+        },
+        {
+          "src": "/public/assets/app_shortcut/bin/40.png",
+          "sizes": "40x40"
+        },
+        {
+          "src": "/public/assets/app_shortcut/bin/50.png",
+          "sizes": "50x50"
+        },
+        {
+          "src": "/public/assets/app_shortcut/bin/57.png",
+          "sizes": "57x57"
+        },
+        {
+          "src": "/public/assets/app_shortcut/bin/58.png",
+          "sizes": "58x58"
+        },
+        {
+          "src": "/public/assets/app_shortcut/bin/60.png",
+          "sizes": "60x60"
+        },
+        {
+          "src": "/public/assets/app_shortcut/bin/64.png",
+          "sizes": "64x64"
+        },
+        {
+          "src": "/public/assets/app_shortcut/bin/72.png",
+          "sizes": "72x72"
+        },
+        {
+          "src": "/public/assets/app_shortcut/bin/76.png",
+          "sizes": "76x76"
+        },
+        {
+          "src": "/public/assets/app_shortcut/bin/80.png",
+          "sizes": "80x80"
+        },
+        {
+          "src": "/public/assets/app_shortcut/bin/87.png",
+          "sizes": "87x87"
+        },
+        {
+          "src": "/public/assets/app_shortcut/bin/100.png",
+          "sizes": "100x100"
+        },
+        {
+          "src": "/public/assets/app_shortcut/bin/114.png",
+          "sizes": "114x114"
+        },
+        {
+          "src": "/public/assets/app_shortcut/bin/120.png",
+          "sizes": "120x120"
+        },
+        {
+          "src": "/public/assets/app_shortcut/bin/128.png",
+          "sizes": "128x128"
+        },
+        {
+          "src": "/public/assets/app_shortcut/bin/144.png",
+          "sizes": "144x144"
+        },
+        {
+          "src": "/public/assets/app_shortcut/bin/152.png",
+          "sizes": "152x152"
+        },
+        {
+          "src": "/public/assets/app_shortcut/bin/167.png",
+          "sizes": "167x167"
+        },
+        {
+          "src": "/public/assets/app_shortcut/bin/180.png",
+          "sizes": "180x180"
+        },
+        {
+          "src": "/public/assets/app_shortcut/bin/192.png",
           "sizes": "192x192"
         }
       ]

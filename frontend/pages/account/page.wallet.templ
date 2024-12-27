@@ -32,6 +32,7 @@ templ WalletMain(acc Account, data []types.TokenData) {
 
 templ scriptForWalletPage() {
 	<script src="/public/assets/scripts/htmx.min.js"></script>
+	<script src="/public/assets/scripts/hyperscript.min.js"></script>
 	<script src="/public/assets/scripts/swiper-bundle.min.js"></script>
 	<script>
 		const swiperThree = new Swiper( '.mySwiperThree', {
@@ -53,9 +54,20 @@ templ WalletMainOpeningTag() {
 templ WalletBalance(belTokenBalance float64) {
 	<section class="pt-[1.88rem] flex gap-2 items-center">
 		<p class="font-semibold text-xs leading-[0.914rem]">My Balance </p>
-		<img src="/public/assets/svg/eye.svg" class="w-[0.938rem] aspect-square"/>
+		<button
+			aria-label="Toggle Balance Visibility"
+			_="on click
+			if #balance.innerText == '*****'
+				then set #balance.innerText to #balance.getAttribute('data-value')
+				then set #eyeIcon.src to '/public/assets/svg/eye-off.svg'
+			else
+				set #balance.innerText to '*****'
+				then set #eyeIcon.src to '/public/assets/svg/eye.svg'"
+		>
+			<img id="eyeIcon" src="/public/assets/svg/eye.svg" class="w-[0.938rem] aspect-square"/>
+		</button>
 	</section>
-	<p class="mt-2 mb-8 font-bold text-xl leading-[1.524rem] text-[#016934]">{ fmt.Sprintf("%.4f BEL", belTokenBalance) }</p>
+	<p id="balance" data-value={ fmt.Sprintf("%.4f BEL", belTokenBalance) } class="mt-2 mb-8 font-bold text-xl leading-[1.524rem] text-[#016934]">*****</p>
 }
 
 templ WalletOptionsPartial() {
@@ -134,37 +146,6 @@ templ CoinData(data []types.TokenData) {
 			</li>
 		}
 	}
-	// for _, v := range data {
-	// <li class="w-full flex justify-between items-center gap-8 text-[#393737]">
-	// 	<div class="flex gap-1">
-	// 		<picture>
-	// 			<source srcset={ useWebp(v.TokenLogo) } type="image/webp"/>
-	// 			<img src={ v.TokenLogo } alt="" class="w-[2.788rem] aspect-square rounded-full"/>
-	// 		</picture>
-	// 		<div class="flex flex-col item-start gap-[0.446rem]">
-	// 			<p class="font-semibold leading-[0.838rem] text-[0.688rem] text-inherit">{ toTitle(v.TokenName) }</p>
-	// 			<p class="font-medium leading-[0.762rem] text-[0.625rem] text-inherit">{ v.TokenSymbol }</p>
-	// 		</div>
-	// 	</div>
-	// 	if v.UpOrDown == "icon-Caret-up" {
-	// 		@templ.Raw(chartUrlGreen(v.ChartUrl))
-	// 	} else {
-	// 		@templ.Raw(chartUrlRed(v.ChartUrl))
-	// 	}
-	// 	<div class="flex flex-col items-center">
-	// 		<p class="font-bold text-sm text-center text-inherit">{ v.TokenPrice }</p>
-	// 		if v.UpOrDown == "icon-Caret-up" {
-	// 			<p class="ml-auto font-semibold text-xs text-center text-[#34A853]">
-	// 				{ v.PercentUpOrDown }
-	// 			</p>
-	// 		} else {
-	// 			<p class="ml-auto font-semibold text-xs text-center text-[#EF0E0E]">
-	// 				{ v.PercentUpOrDown }
-	// 			</p>
-	// 		}
-	// 	</div>
-	// </li>
-	// }
 }
 
 templ WalletSwiper() {

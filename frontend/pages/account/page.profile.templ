@@ -34,10 +34,21 @@ templ ProfileMainOpeningTag() {
 
 templ ProfileChangeDisplayIcon(avatarURL string) {
 	<section class="my-[3.25rem] flex relative w-[7.75rem] aspect-square mx-auto items-end justify-end">
-		<img src={ avatarURL } alt="" class="absolute rounded-full w-full aspect-square"/>
-		<button class="z-40">
-			<img src="/public/assets/svg/editPFP.svg" alt="" class="w-[1.962rem] aspect-square"/>
-		</button>
+		<img src={ avatarURL } alt="Profile Avatar" class="absolute rounded-full w-full aspect-square"/>
+		<form method="POST" action="/account/profile/uploadAvatar" enctype="multipart/form-data" class="z-40">
+			<label for="avatarInput" class="cursor-pointer">
+				<img src="/public/assets/svg/editPFP.svg" alt="Edit Profile Picture" class="w-[1.962rem] aspect-square"/>
+			</label>
+			<input
+				type="file"
+				id="avatarInput"
+				name="avatar"
+				accept="image/*"
+				required
+				class="hidden"
+				_="on change submit this.closest('form')"
+			/>
+		</form>
 	</section>
 }
 

@@ -4,7 +4,9 @@ import (
 	accPages "beltech/frontend/pages/account"
 	"context"
 	"fmt"
+	"io"
 	"net/http"
+	"path/filepath"
 )
 
 func (a *App) ProfilePageHandler(w http.ResponseWriter, r *http.Request) {
@@ -111,4 +113,40 @@ func (a *App) changeProfileDisplayName(w http.ResponseWriter, r *http.Request) {
 		a.serverError(w, err)
 		return
 	}
+}
+
+func (a *App) changeDisplayIcon(w http.ResponseWriter, r *http.Request) {
+
+	fmt.Println("Changing display icon")
+
+	// Parse the multipart form
+	err := r.ParseMultipartForm(10 << 20) // Limit upload size to 10 MB
+	if err != nil {
+		http.Error(w, "Unable to parse form", http.StatusBadRequest)
+		return
+	}
+
+	// Retrieve the file from the form
+	file, handler, err := r.FormFile("avatar")
+	if err != nil {
+		http.Error(w, "Error retrieving the file", http.StatusInternalServerError)
+		return
+	}
+	defer file.Close()
+
+	// Get the file extension and validate it
+	fileExt := filepath.Ext(handler.Filename)
+	if fileExt != ".jpg" && fileExt != ".jpeg" && fileExt != ".png" {
+		http.Error(w, "Invalid file format. Only JPG and PNG are allowed", http.StatusBadRequest)
+		return
+	}
+
+	imageData, err := io.ReadAll(file)
+	if err != nil {
+		http.Error(w, "Failed to read file content", http.StatusInternalServerError)
+		return
+	}
+
+	fmt.Println("File size:", len(imageData), imageData)
+
 }

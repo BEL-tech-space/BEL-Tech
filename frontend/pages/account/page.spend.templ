@@ -50,6 +50,7 @@ templ scriptForSpendPage() {
 			border-radius: 6px;
 		}
 	</style>
+	<script src="/public/assets/scripts/hyperscript.min.js"></script>
 	<script>
 			const airtimeFrom = document.getElementById('airtimeForm');
 			const airttimeFormSubmitBtn =  document.getElementById("submitBtn")
@@ -101,9 +102,18 @@ templ SpendBalance(acc Account) {
 		<p class="text-[0.938rem] leading-[1.406rem] font-medium text-left text-[#000000] font-poppins">Spending: 0.00 BEL</p>
 		<div class="flex flex-col items-center justify-center gap-2">
 			<div class="flex gap-2 justify-center items-center">
-				<p class="font-medium text-xs text-black font-poppins">{ fmt.Sprintf("Balance %.4f", acc.CurrBalance) }</p>
-				<button>
-					<img src="/public/assets/svg/greenEye.svg" class="w-3 aspect-square"/>
+				<p id="balance" data-value={ fmt.Sprintf("%.4f BEL", acc.CurrBalance) } class=" align-middle font-medium text-xs text-black font-poppins">*****</p>
+				<button
+					aria-label="Toggle Balance Visibility"
+					_="on click
+					if #balance.innerText == '*****'
+						then set #balance.innerText to #balance.getAttribute('data-value')
+						then set #eyeIcon.src to '/public/assets/svg/eye-off.svg'
+					else
+						set #balance.innerText to '*****'
+						then set #eyeIcon.src to '/public/assets/svg/eye.svg'"
+				>
+					<img id="eyeIcon" src="/public/assets/svg/greenEye.svg" class="w-3 aspect-square"/>
 				</button>
 			</div>
 			<button class="rounded-[0.625rem] border-[0.063rem] p-2 border-solid border-[#0169344D]">

@@ -220,7 +220,7 @@ func scriptForSpendPage() templ.Component {
 			templ_7745c5c3_Var6 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<style>\n\t\t.selected {\n\t\t\tbackground-color: #b1ddc8;\n\t\t\tborder-radius: 6px;\n\t\t}\n\t</style><script>\n\t\t\tconst airtimeFrom = document.getElementById('airtimeForm');\n\t\t\tconst airttimeFormSubmitBtn =  document.getElementById(\"submitBtn\")\n\n\t\t\tairtimeFrom.addEventListener('input', () => {\n\t\t\t\tif (!airtimeFrom.checkValidity()) {\n\t\t\t\t\tairttimeFormSubmitBtn.disabled = true\n\t\t\t\t\tairttimeFormSubmitBtn.classList.remove('bg-[#016934]')\n\t\t\t\t\tairttimeFormSubmitBtn.classList.add('opacity-45', 'bg-green-400')\n\t\t\t\t\treturn\n\t\t\t\t}\n\t\t\t\tairttimeFormSubmitBtn.disabled = false\n\t\t\t\tairttimeFormSubmitBtn.classList.add('bg-[#016934]')\n\t\t\t\tairttimeFormSubmitBtn.classList.remove('opacity-45', 'bg-green-400')\n\t\t\t});\n\n\t\t\tconst radioInputs = document.querySelectorAll('input[type=\"radio\"][name=\"network\"]');\n\t\t\tradioInputs.forEach((radio) => {\n\t\t\t\tradio.addEventListener('change', () => {\t\n\t\t\t\t\tconst labels = document.querySelectorAll('label');\n\t\t\t\t\tlabels.forEach((label) => {\n\t\t\t\t\t\tlabel.classList.remove('selected');\n\t\t\t\t\t});\n\n\t\t\t\t\tconst checkedRadio = document.querySelector('input[type=\"radio\"][name=\"network\"]:checked');\n\t\t\t\t\tif (checkedRadio) {\n\t\t\t\t\t\tconst label = document.querySelector(`label[for=\"${checkedRadio.id}\"]`);\n\t\t\t\t\t\tlabel.classList.add('selected');\n\t\t\t\t\t\tconsole.log(checkedRadio.value);\n\t\t\t\t\t}\n\t\t\t\t});\n\t\t\t});\n\t\t</script>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<style>\n\t\t.selected {\n\t\t\tbackground-color: #b1ddc8;\n\t\t\tborder-radius: 6px;\n\t\t}\n\t</style><script src=\"/public/assets/scripts/hyperscript.min.js\"></script><script>\n\t\t\tconst airtimeFrom = document.getElementById('airtimeForm');\n\t\t\tconst airttimeFormSubmitBtn =  document.getElementById(\"submitBtn\")\n\n\t\t\tairtimeFrom.addEventListener('input', () => {\n\t\t\t\tif (!airtimeFrom.checkValidity()) {\n\t\t\t\t\tairttimeFormSubmitBtn.disabled = true\n\t\t\t\t\tairttimeFormSubmitBtn.classList.remove('bg-[#016934]')\n\t\t\t\t\tairttimeFormSubmitBtn.classList.add('opacity-45', 'bg-green-400')\n\t\t\t\t\treturn\n\t\t\t\t}\n\t\t\t\tairttimeFormSubmitBtn.disabled = false\n\t\t\t\tairttimeFormSubmitBtn.classList.add('bg-[#016934]')\n\t\t\t\tairttimeFormSubmitBtn.classList.remove('opacity-45', 'bg-green-400')\n\t\t\t});\n\n\t\t\tconst radioInputs = document.querySelectorAll('input[type=\"radio\"][name=\"network\"]');\n\t\t\tradioInputs.forEach((radio) => {\n\t\t\t\tradio.addEventListener('change', () => {\t\n\t\t\t\t\tconst labels = document.querySelectorAll('label');\n\t\t\t\t\tlabels.forEach((label) => {\n\t\t\t\t\t\tlabel.classList.remove('selected');\n\t\t\t\t\t});\n\n\t\t\t\t\tconst checkedRadio = document.querySelector('input[type=\"radio\"][name=\"network\"]:checked');\n\t\t\t\t\tif (checkedRadio) {\n\t\t\t\t\t\tconst label = document.querySelector(`label[for=\"${checkedRadio.id}\"]`);\n\t\t\t\t\t\tlabel.classList.add('selected');\n\t\t\t\t\t\tconsole.log(checkedRadio.value);\n\t\t\t\t\t}\n\t\t\t\t});\n\t\t\t});\n\t\t</script>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -256,7 +256,7 @@ func SpendBalance(acc Account) templ.Component {
 		var templ_7745c5c3_Var8 string
 		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(acc.AvatarUrl)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.spend.templ`, Line: 92, Col: 27}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.spend.templ`, Line: 93, Col: 27}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 		if templ_7745c5c3_Err != nil {
@@ -277,20 +277,20 @@ func SpendBalance(acc Account) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</section><section class=\"p-2 rounded-[0.625rem] border-solid border-[#0169344D] border-[0.063rem] w-full flex justify-between items-center\"><p class=\"text-[0.938rem] leading-[1.406rem] font-medium text-left text-[#000000] font-poppins\">Spending: 0.00 BEL</p><div class=\"flex flex-col items-center justify-center gap-2\"><div class=\"flex gap-2 justify-center items-center\"><p class=\"font-medium text-xs text-black font-poppins\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</section><section class=\"p-2 rounded-[0.625rem] border-solid border-[#0169344D] border-[0.063rem] w-full flex justify-between items-center\"><p class=\"text-[0.938rem] leading-[1.406rem] font-medium text-left text-[#000000] font-poppins\">Spending: 0.00 BEL</p><div class=\"flex flex-col items-center justify-center gap-2\"><div class=\"flex gap-2 justify-center items-center\"><p id=\"balance\" data-value=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var9 string
-		templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("Balance %.4f", acc.CurrBalance))
+		templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%.4f BEL", acc.CurrBalance))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.spend.templ`, Line: 104, Col: 105}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.spend.templ`, Line: 105, Col: 73}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p><button><img src=\"/public/assets/svg/greenEye.svg\" class=\"w-3 aspect-square\"></button></div><button class=\"rounded-[0.625rem] border-[0.063rem] p-2 border-solid border-[#0169344D]\"><p class=\"font-medium leading-4 text-[0.688rem] text-left text-[#016934]\">MAX</p></button></div></section>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\" align-middle font-medium text-xs text-black font-poppins\">*****</p><button aria-label=\"Toggle Balance Visibility\" _=\"on click\n\t\t\t\t\tif #balance.innerText == &#39;*****&#39;\n\t\t\t\t\t\tthen set #balance.innerText to #balance.getAttribute(&#39;data-value&#39;)\n\t\t\t\t\t\tthen set #eyeIcon.src to &#39;/public/assets/svg/eye-off.svg&#39;\n\t\t\t\t\telse\n\t\t\t\t\t\tset #balance.innerText to &#39;*****&#39;\n\t\t\t\t\t\tthen set #eyeIcon.src to &#39;/public/assets/svg/eye.svg&#39;\"><img id=\"eyeIcon\" src=\"/public/assets/svg/greenEye.svg\" class=\"w-3 aspect-square\"></button></div><button class=\"rounded-[0.625rem] border-[0.063rem] p-2 border-solid border-[#0169344D]\"><p class=\"font-medium leading-4 text-[0.688rem] text-left text-[#016934]\">MAX</p></button></div></section>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

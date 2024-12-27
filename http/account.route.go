@@ -50,6 +50,7 @@ func (a *App) accountRouter() http.Handler {
 
 		r.Get("/profile", a.ProfilePageHandler)
 		r.Post("/profile/displayName", a.changeProfileDisplayName)
+		r.Post("/profile/uploadAvatar", a.changeDisplayIcon)
 
 		r.Post("/airtime", a.airtimePageHandler)
 
