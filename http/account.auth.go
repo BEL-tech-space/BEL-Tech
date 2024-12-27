@@ -23,7 +23,7 @@ var (
 
 	devServiceUser = service.Account{
 		AccountID:   "1234567890",
-		Email:       "giwaoluatobi@gmail.com",
+		Email:       "giwaoluwatobi@gmail.com",
 		AvatarUrl:   "https://lh3.googleusercontent.com/a-/ALV-UjWhunlRgNtwAAdFNTue7WN3k01azp8GY0qJHQqsdfXBB26X40qIIw=s96-c",
 		DisplayName: "Tobias",
 	}

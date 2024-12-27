@@ -1760,6 +1760,10 @@ video {
   padding-bottom: 4rem;
 }
 
+.pb-2 {
+  padding-bottom: 0.5rem;
+}
+
 .pb-2\.5 {
   padding-bottom: 0.625rem;
 }
@@ -1934,6 +1938,10 @@ video {
 
 .font-poppins {
   font-family: Poppins, sans-serif;
+}
+
+.font-tt_chocolate {
+  font-family: TT Chocolates, sans-serif;
 }
 
 .text-2xl {

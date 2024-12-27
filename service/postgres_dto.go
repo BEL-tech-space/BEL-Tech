@@ -276,7 +276,7 @@ func googleUUIDToPgtypeUUID(googleUUID uuid.UUID) (pgtype.UUID, error) {
 	return pgUUID, nil
 }
 
-func pgBeneficiaryToServiceBeneficiary(pgBen postgres.GetBeneficiariesByEmailRow) types.Beneficiary {
+func pgBeneficiaryToServiceBeneficiary(pgBen postgres.Beneficiary) types.Beneficiary {
 	return types.Beneficiary{
 		BPhoneNo:        pgBen.BPhoneNo,
 		BName:           pgBen.BName,

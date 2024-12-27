@@ -88,6 +88,7 @@ func (a *App) changeProfileDisplayName(w http.ResponseWriter, r *http.Request) {
 
 	if err := r.ParseForm(); err != nil {
 		a.clientError(w, http.StatusBadRequest, fmt.Errorf("err parsing form data; %s", err.Error()))
+		return
 	}
 
 	name := r.Form.Get("nickname")
@@ -105,7 +106,7 @@ func (a *App) changeProfileDisplayName(w http.ResponseWriter, r *http.Request) {
 	}
 
 	a.updateAccountCache(context.Background(), acc)
-	
+
 	if err := accPages.CommonHeaderOne(account(acc)).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return

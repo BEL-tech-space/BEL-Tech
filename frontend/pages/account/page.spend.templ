@@ -18,7 +18,18 @@ templ SpendPage(acc Account) {
 }
 
 templ SpendHeaderPartial(avatarURL string, beforeHeaderTagPartial, afterHeaderTagPartial templ.Component) {
-	@commonHeaderTwo("Spend BEL Token", avatarURL, "/public/assets/svg/notification.svg", "", beforeHeaderTagPartial, afterHeaderTagPartial)
+	@commonHeaderTwo("Spend BEL Token", avatarURL, SpendHeaderBtnComp())
+}
+
+templ SpendHeaderBtnComp() {
+	<button
+		class="bg-[#CCE1D699] p-2 rounded-md flex justify-center items-center"
+	>
+		<img
+			src="/public/assets/svg/notification.svg"
+			class="w-[1.5rem] aspect-square"
+		/>
+	</button>
 }
 
 templ SpendMain(acc Account) {

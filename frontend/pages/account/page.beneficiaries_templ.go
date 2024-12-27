@@ -43,7 +43,7 @@ func BeneficiariesPage(avatarURL string, ben []types.Beneficiary) templ.Componen
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = commonHeaderTwo("Beneficiaries", avatarURL, "/public/assets/svg/+.svg", "on click call #addNewBeneficiairyDialog.showModal() then halt", templ.NopComponent, templ.NopComponent).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = commonHeaderTwo("Beneficiaries", avatarURL, BeneficiariesHeaderBtnComp()).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -96,7 +96,65 @@ func BeneficiariesHeaderPartial(avatarURL string, beforeHeaderTagPartial, afterH
 			templ_7745c5c3_Var2 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = commonHeaderTwo("Beneficiaries", avatarURL, "/public/assets/svg/+.svg", "on click call #addNewBeneficiairyDialog.showModal() then halt", templ.NopComponent, templ.NopComponent).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = commonHeaderTwo("Beneficiaries", avatarURL, BeneficiariesHeaderBtnComp()).Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		return templ_7745c5c3_Err
+	})
+}
+
+func scriptForBeneficiariesPage() templ.Component {
+	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
+		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
+		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
+			return templ_7745c5c3_CtxErr
+		}
+		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
+		if !templ_7745c5c3_IsBuffer {
+			defer func() {
+				templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
+				if templ_7745c5c3_Err == nil {
+					templ_7745c5c3_Err = templ_7745c5c3_BufErr
+				}
+			}()
+		}
+		ctx = templ.InitializeContext(ctx)
+		templ_7745c5c3_Var3 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var3 == nil {
+			templ_7745c5c3_Var3 = templ.NopComponent
+		}
+		ctx = templ.ClearChildren(ctx)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<script src=\"/public/assets/scripts/hyperscript.min.js\"></script><script src=\"/public/assets/scripts/htmx.min.js\"></script>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		return templ_7745c5c3_Err
+	})
+}
+
+func BeneficiariesHeaderBtnComp() templ.Component {
+	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
+		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
+		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
+			return templ_7745c5c3_CtxErr
+		}
+		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
+		if !templ_7745c5c3_IsBuffer {
+			defer func() {
+				templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
+				if templ_7745c5c3_Err == nil {
+					templ_7745c5c3_Err = templ_7745c5c3_BufErr
+				}
+			}()
+		}
+		ctx = templ.InitializeContext(ctx)
+		templ_7745c5c3_Var4 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var4 == nil {
+			templ_7745c5c3_Var4 = templ.NopComponent
+		}
+		ctx = templ.ClearChildren(ctx)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button class=\"bg-[#CCE1D699] p-2 rounded-md flex justify-center items-center\" _=\"on click call #addNewBeneficiairyDialog.showModal()\"><img src=\"/public/assets/svg/+.svg\" class=\"w-[1.5rem] aspect-square\"></button>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -120,17 +178,17 @@ func BeneficiariesMain(ben []types.Beneficiary) templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var3 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var3 == nil {
-			templ_7745c5c3_Var3 = templ.NopComponent
+		templ_7745c5c3_Var5 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var5 == nil {
+			templ_7745c5c3_Var5 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<main class=\"overflow-y-auto pl-[1.5rem] pr-[1.56rem] pt-12\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<main id=\"beneficiariesList\" class=\"overflow-y-auto pl-[1.5rem] pr-[1.56rem] pt-12\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		if len(ben) == 0 {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex justify-center items-center\"><p class=\"text-center\">No beneficiary, click the + to add new beneficiary.</p></div>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"h-full flex justify-center items-center\"><p class=\"text-center font-tt_chocolate\">No beneficiary, click the + to add new beneficiary.</p></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -170,12 +228,12 @@ func BeneficiariesMain(ben []types.Beneficiary) templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				var templ_7745c5c3_Var4 string
-				templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(v.BName)
+				var templ_7745c5c3_Var6 string
+				templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(v.BName)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.beneficiaries.templ`, Line: 56, Col: 95}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.beneficiaries.templ`, Line: 76, Col: 95}
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -183,16 +241,16 @@ func BeneficiariesMain(ben []types.Beneficiary) templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				var templ_7745c5c3_Var5 string
-				templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(v.BPhoneNo)
+				var templ_7745c5c3_Var7 string
+				templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(v.BPhoneNo)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.beneficiaries.templ`, Line: 57, Col: 107}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.beneficiaries.templ`, Line: 77, Col: 107}
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p></div></div><img src=\"/public/assets/svg/greenEdit.svg\" alt=\"\" class=\"w-5 aspect-square\"></li>                   ")
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p></div></div><img src=\"/public/assets/svg/greenEdit.svg\" alt=\"\" class=\"w-5 aspect-square\"></li>")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -210,7 +268,7 @@ func BeneficiariesMain(ben []types.Beneficiary) templ.Component {
 	})
 }
 
-func scriptForBeneficiariesPage() templ.Component {
+func addNewBeneficiairyDialog() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -226,12 +284,12 @@ func scriptForBeneficiariesPage() templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var6 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var6 == nil {
-			templ_7745c5c3_Var6 = templ.NopComponent
+		templ_7745c5c3_Var8 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var8 == nil {
+			templ_7745c5c3_Var8 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<script src=\"/public/assets/scripts/hyperscript.min.js\"></script>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<dialog id=\"addNewBeneficiairyDialog\" class=\"backdrop:backdrop-blur-sm rounded-2xl py-8 pl-7 pr-9 font-montserrat text-[#2E2E2E]\"><p class=\"font-bold text-sm leading-[1.067rem] text-center mb-2 mt-6\">Add new number to your Beneficiary</p><form id=\"newBeneficiary\" hx-post=\"/account/beneficiaries/addNew\" hx-target=\"#beneficiariesList\" hx-swap=\"outerHTML\" hx-vals=\"{&#34;from&#34;: &#34;beneficiariesPage&#34;}\" hx-trigger=\"submit\" _=\"on htmx:beforeRequest call #addNewBeneficiairyDialog.close() then call restoreState()\" class=\"mt-8 w-full flex flex-col items-center justify-start gap-[1.141rem]\"><div class=\"w-full\"><label for=\"name\" class=\"font-semibold text-xs\">Name</label> <input required type=\"text\" autocomplete=\"off\" name=\"name\" id=\"name\" minlength=\"2\" maxlength=\"20\" placeholder=\"min. 2 - max. 20\" class=\"min-h-[2.071rem] pl-2 w-full border-solid border-[#569B78] border-[0.0256rem] rounded outline-none placeholder:text-xs\"></div><div class=\"w-full\"><label for=\"number\" class=\"font-semibold text-xs\">Phone Number</label> <input required type=\"tel\" name=\"number\" id=\"number\" inputmode=\"numeric\" autocomplete=\"off\" maxlength=\"11\" minlength=\"11\" title=\"number must be 11 in length\" pattern=\"^0[1-9][0-1]\\d{8}\" placeholder=\"length of 11 numbers e.g 090xxxxxxxx\" class=\"min-h-[2.071rem] pl-2 w-full border-solid border-[#569B78] border-[0.0256rem] rounded outline-none placeholder:text-xs\"></div><section class=\"grid grid-cols-4 justify-between items-center gap-[2.125rem] mb-8\"><label for=\"mtn\" class=\"label shadow-[0px_0.053rem_0.105rem_0.053rem_#00000014] py-[0.869rem] px-[1.25rem] flex flex-col justify-center items-center\"><img src=\"/public/assets/svg/mtn.svg\" alt=\"\" class=\"w-9 rounded-full\"><p class=\"font-poppins font-bold text-[0.524rem] leading-[0.787rem] mt-[0.482rem]\">MTN</p></label> <input required type=\"radio\" id=\"mtn\" name=\"sp\" autocomplete=\"off\" value=\"mtn\" class=\"hidden\"> <label for=\"airtel\" class=\"label shadow-[0px_0.053rem_0.105rem_0.053rem_#00000014] py-[0.869rem] px-[1.25rem] flex flex-col justify-center items-center\"><img src=\"/public/assets/svg/airtel.svg\" alt=\"\" class=\"w-9 rounded-full\"><p class=\"font-poppins font-bold text-[0.524rem] leading-[0.787rem] mt-[0.482rem]\">AIRTEL</p></label> <input type=\"radio\" id=\"airtel\" name=\"sp\" autocomplete=\"off\" value=\"airtel\" class=\"hidden\"> <label for=\"glo\" class=\"label shadow-[0px_0.053rem_0.105rem_0.053rem_#00000014] py-[0.869rem] px-[1.25rem] flex flex-col justify-center items-center\"><img src=\"/public/assets/svg/glo.svg\" alt=\"\" class=\"w-9 rounded-full\"><p class=\"font-poppins font-bold text-[0.524rem] leading-[0.787rem] mt-[0.482rem]\">GLO</p></label> <input type=\"radio\" id=\"glo\" name=\"sp\" autocomplete=\"off\" value=\"glo\" class=\"hidden\"> <label for=\"9mobile\" class=\"label shadow-[0px_0.053rem_0.105rem_0.053rem_#00000014] py-[0.869rem] px-[1.25rem] flex flex-col justify-center items-center\"><img src=\"/public/assets/svg/9mobile.svg\" alt=\"\" class=\"w-9 rounded-full\"><p class=\"font-poppins font-bold text-[0.524rem] leading-[0.787rem] mt-[0.482rem]\">9MOBILE</p></label> <input type=\"radio\" id=\"9mobile\" name=\"sp\" autocomplete=\"off\" value=\"9mobile\" class=\"hidden\"></section><section class=\"w-full flex justify-between items-center gap-3\"><button disabled id=\"submitBtn\" type=\"submit\" class=\"w-full opacity-45 bg-green-400 text-sm font-medium text-white py-[0.625rem] text-center tracking-[0.00625rem] rounded-md\">Save Beneficiary</button> <button type=\"reset\" _=\"on click call #addNewBeneficiairyDialog.close() then call restoreState()\" class=\"outline-none rounded-md mb-2 font-medium bg-black text-[0.813rem] leading-5 tracking-[0.00625em] py-[0.625rem] px-8 text-center text-white\">Close</button></section></form><style>\n\t\t\t.selected {\n\t\t\t\tbackground-color: #b1ddc8;\n\t\t\t\tborder-radius: 6px;\n\t\t\t}\n\t\t</style><script>\n\t\t\tconst newBeneficiaryForm = document.getElementById('newBeneficiary');\n\t\t\tconst newBeneficiaryFormSubmitBtn =  document.getElementById(\"submitBtn\")\n\n\t\t\tnewBeneficiaryForm.addEventListener('input', () => {\n\t\t\t\tif (!newBeneficiaryForm.checkValidity()) {\n\t\t\t\t\tnewBeneficiaryFormSubmitBtn.disabled = true\n\t\t\t\t\tnewBeneficiaryFormSubmitBtn.classList.remove('bg-[#016934]')\n\t\t\t\t\tnewBeneficiaryFormSubmitBtn.classList.add('opacity-45', 'bg-green-400')\n\t\t\t\t\treturn\n\t\t\t\t}\n\t\t\t\tnewBeneficiaryFormSubmitBtn.disabled = false\n\t\t\t\tnewBeneficiaryFormSubmitBtn.classList.add('bg-[#016934]')\n\t\t\t\tnewBeneficiaryFormSubmitBtn.classList.remove('opacity-45', 'bg-green-400')\n\t\t\t});\n\n\t\t\tconst radioInputs = document.querySelectorAll('input[type=\"radio\"][name=\"sp\"]');\n\t\t\tradioInputs.forEach((radio) => {\n\t\t\t\tradio.addEventListener('change', () => {\t\n\t\t\t\t\tconst labels = document.querySelectorAll('label');\n\t\t\t\t\tlabels.forEach((label) => {\n\t\t\t\t\t\tlabel.classList.remove('selected');\n\t\t\t\t\t});\n\n\t\t\t\t\tconst checkedRadio = document.querySelector('input[type=\"radio\"][name=\"sp\"]:checked');\n\t\t\t\t\tif (checkedRadio) {\n\t\t\t\t\t\tconst label = document.querySelector(`label[for=\"${checkedRadio.id}\"]`);\n\t\t\t\t\t\tlabel.classList.add('selected');\n\t\t\t\t\t}\n\t\t\t\t});\n\t\t\t});\n\n\t\t\tfunction restoreState() {\n\t\t\t\t// Uncheck the radio buttons\n\t\t\t\tradioInputs.forEach((radio) => {\n\t\t\t\t\tradio.checked = false;\n\t\t\t\t});\n\n    \n\t\t\t\tconst labels = document.querySelectorAll('label');\n\t\t\t\tlabels.forEach((label) => {\n\t\t\t\t\tlabel.classList.remove('selected');\n\t\t\t\t});\n\n\t\t\t\t // Reset the form\n\t\t\t\tnewBeneficiaryForm.reset();\n\n\t\t\t\t// Add the disabled attribute to the submit button\n\t\t\t\tnewBeneficiaryFormSubmitBtn.disabled = true;\n\t\t\t\tnewBeneficiaryFormSubmitBtn.classList.remove('bg-[#016934]');\n\t\t\t\tnewBeneficiaryFormSubmitBtn.classList.add('opacity-45', 'bg-green-400');\n\t\t\t};\n\t\t</script></dialog>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
