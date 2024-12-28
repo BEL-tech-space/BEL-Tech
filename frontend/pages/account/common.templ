@@ -50,6 +50,43 @@ templ HtmlAndBodyClosingTagPartial(pageTitle string, others ...templ.Component) 
 	@templ.Raw(`</html>`)
 }
 
+templ ToastMessage(toastType ToastType, message string, templComp ...templ.Component) {
+	for _, comp := range templComp {
+		@comp
+	}
+	@templ.JSONScript("toast-type", toastType.String())
+	@templ.JSONScript("toast-message", message)
+	<script src="/public/assets/scripts/jquery.min.js"></script>
+	<script src="/public/assets/scripts/toastr.min.js"></script>
+	<style>
+		#toast-container {
+			margin-top: 0.25rem; 
+		}
+	</style>
+	<script>
+	const toastType = JSON.parse(document.getElementById('toast-type').textContent);
+	const toastMessage = JSON.parse(document.getElementById('toast-message').textContent);
+		toastr.options = {
+              	"closeButton": true,
+				"debug": false,
+				"newestOnTop": false,
+				"progressBar": true,
+				"positionClass": "toast-top-center",
+				"preventDuplicates": true,
+				"onclick": null,
+				"showDuration": "100",
+				"hideDuration": "1000",
+				"timeOut": "2500",
+				"extendedTimeOut": "1000",
+				"showEasing": "swing",
+				"hideEasing": "linear",
+				"showMethod": "slideDown",
+				"hideMethod": "slideUp"
+            };
+        toastr[ toastType ](toastMessage)
+	</script>
+}
+
 templ HeadTag(pageTitle string) {
 	<head>
 		<meta charset="UTF-8"/>
@@ -60,6 +97,10 @@ templ HeadTag(pageTitle string) {
 		<link
 			rel="stylesheet"
 			href="/public/assets/styles/output.css"
+		/>
+		<link
+			rel="stylesheet"
+			href="/public/assets/styles/toastr.min.css"
 		/>
 		if pageTitle == "dashboard" || 
 			pageTitle == "scan" ||
