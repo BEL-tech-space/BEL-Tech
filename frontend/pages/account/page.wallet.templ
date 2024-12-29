@@ -21,7 +21,7 @@ templ WalletPage(acc Account, data []types.TokenData) {
 }
 
 templ WalletMain(acc Account, data []types.TokenData) {
-	<main class="grow overflow-y-auto pl-6 pr-[1.56rem] flex flex-col">
+	<main class="grow overflow-y-auto pl-6 pr-[1.56rem] flex flex-col pb-2">
 		@WalletBalance(acc.CurrBalance)
 		@WalletOptionsPartial()
 		// @WalletWatchlistPartial()
@@ -48,7 +48,7 @@ templ scriptForWalletPage() {
 }
 
 templ WalletMainOpeningTag() {
-	@templ.Raw(`<main class="grow overflow-y-auto pl-6 pr-[1.56rem] flex flex-col">`)
+	@templ.Raw(`<main class="grow overflow-y-auto pl-6 pr-[1.56rem] flex flex-col pb-2">`)
 }
 
 templ WalletBalance(belTokenBalance float64) {

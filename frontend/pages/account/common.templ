@@ -172,7 +172,7 @@ templ splashScreenForiOS() {
 
 templ Footer(active string, mainClosingTag templ.Component) {
 	@mainClosingTag
-	<footer class="bg-white flex w-full justify-around px-4 pt-2 pb-3 gap-[2.375rem]" hx-boost="false">
+	<footer class="bg-white flex w-full justify-around px-4 pt-4 pb-6 gap-[2.375rem]" hx-boost="false">
 		if active == "dashboard" {
 			<a
 				href="/account/dashboard"
