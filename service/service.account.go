@@ -29,8 +29,8 @@ func (s *Service) GetUserByEmail(ctx context.Context, email string) (Account, er
 	return pgAccountToserviceAccount(user), nil
 }
 
-func (s *Service) AddNewBeneficiary(ctx context.Context, bPhoneNo, bName, bSP, email string) error {
-	err := s.dbQuery.AddNewBeneficiary(ctx,
+func (s *Service) AddNewBeneficiary(ctx context.Context, bPhoneNo, bName, bSP, email string) ([]types.Beneficiary, error) {
+	bens, err := s.dbQuery.AddNewBeneficiary(ctx,
 		postgres.AddNewBeneficiaryParams{
 			BPhoneNo:        bPhoneNo,
 			BName:           bName,
@@ -44,18 +44,23 @@ func (s *Service) AddNewBeneficiary(ctx context.Context, bPhoneNo, bName, bSP, e
 		if ok := errors.As(err, &pgErr); ok {
 			switch pgErr.Code {
 			case "23505":
-				return fmt.Errorf("%s: %w", pgErr.Message, ErrUniqueConstraintViolation)
+				return nil, fmt.Errorf("%s: %w", pgErr.Message, ErrUniqueConstraintViolation)
 			case "23503":
-				return fmt.Errorf("%s: %w", pgErr.Message, ErrForeigKeyViolationt)
+				return nil, fmt.Errorf("%s: %w", pgErr.Message, ErrForeigKeyViolationt)
 			default:
-				return fmt.Errorf("%s: %w", pgErr.Message, ErrUnaccountedDBError)
+				return nil, fmt.Errorf("%s: %w", pgErr.Message, ErrUnaccountedDBError)
 			}
 		}
 		// Handle non-PostgreSQL errors
-		return err
+		return nil, err
 	}
 
-	return nil
+	beneficiaries := make([]types.Beneficiary, 0, len(bens))
+	for _, ben := range bens {
+		beneficiaries = append(beneficiaries, pgBeneficiaryToServiceBeneficiary(ben))
+	}
+
+	return beneficiaries, nil
 }
 
 func (s *Service) DeleteBeneficiary(ctx context.Context, bPhoneNo, bSP, email string) error {
@@ -94,6 +99,7 @@ func (s *Service) GetBeneficiaries(ctx context.Context, email string) ([]types.B
 
 	beneficiaries := make([]types.Beneficiary, 0, len(bens))
 	for _, ben := range bens {
+		// arr := []string{}
 		beneficiaries = append(beneficiaries, pgBeneficiaryToServiceBeneficiary(ben))
 	}
 

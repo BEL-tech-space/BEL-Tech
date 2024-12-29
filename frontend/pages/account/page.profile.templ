@@ -6,13 +6,12 @@ templ Profile(acc Account) {
 		@HeadTag("Profile")
 		<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
 			<div class="Page w-full h-full flex flex-col font-montserrat text-[#2E2E2E]">
-				@CommonHeaderOne(acc)
+				@CommonHeader(acc)
 				@ProfileMain(acc)
 				@Footer("dashboard", templ.NopComponent)
 			</div>
 		</body>
-		<script src="/public/assets/scripts/hyperscript.min.js"></script>
-		<script src="/public/assets/scripts/htmx.min.js"></script>
+		@scriptForProfilePage()
 		@createNewPinDialog()
 		@enterSPLWalletAddrDialog()
 		@successDialog(true)
@@ -22,27 +21,61 @@ templ Profile(acc Account) {
 
 templ ProfileMain(acc Account) {
 	<main class="grow overflow-y-auto w-full pl-[1.5rem] pr-[1.56rem] pt-[1.875rem]">
-		@LetRecycleAndProfile("My Profile")
+		<section class="flex items-center gap-1">
+			<p class="leading-[1.143rem] font-semibold text-[0.938rem]">My Profile</p>
+			<picture>
+				<source type="image/webp" srcset="/public/assets/images/Recycle_small.webp"/>
+				<img
+					src="/public/assets/images/Recycle_small.png"
+					class="w-5 aspect-square"
+				/>
+			</picture>
+		</section>
 		@ProfileChangeDisplayIcon(acc.AvatarUrl)
 		@ProfileUpdataAccountInfoPartial(acc)
 	</main>
 }
 
+templ scriptForProfilePage() {
+	<script src="/public/assets/scripts/hyperscript.min.js"></script>
+	<script src="/public/assets/scripts/htmx.min.js"></script>
+}
+
 templ ProfileMainOpeningTag() {
-	@templ.Raw(`<main class="grow overflow-y-auto w-full pl-[1.5rem] pr-[1.56rem] pt-[1.875rem]">`)
+	@templ.Raw(`<main class="grow overflow-y-auto w-full pl-[1.5rem] pr-[1.56rem] pt-[1.875rem]">
+		<section class="flex items-center gap-1">
+			<p class="leading-[1.143rem] font-semibold text-[0.938rem]">My Profile</p>
+			<picture>
+				<source type="image/webp" srcset="/public/assets/images/Recycle_small.webp"/>
+				<img
+					src="/public/assets/images/Recycle_small.png"
+					class="w-5 aspect-square"
+				/>
+			</picture>
+		</section>`)
 }
 
 templ ProfileChangeDisplayIcon(avatarURL string) {
 	<section class="my-[3.25rem] flex relative w-[7.75rem] aspect-square mx-auto items-end justify-end">
-		<img src={ avatarURL } alt="" class="absolute rounded-full w-full aspect-square"/>
-		<button class="z-40">
-			<img src="/public/assets/svg/editPFP.svg" alt="" class="w-[1.962rem] aspect-square"/>
-		</button>
+		<img src={ avatarURL } alt="Profile Avatar" class="absolute rounded-full w-full aspect-square"/>
+		<form method="POST" action="/account/profile/uploadAvatar" enctype="multipart/form-data" class="z-40">
+			<label for="avatarInput" class="cursor-pointer">
+				<img src="/public/assets/svg/editPFP.svg" alt="Edit Profile Picture" class="w-[1.962rem] aspect-square"/>
+			</label>
+			<input
+				type="file"
+				id="avatarInput"
+				name="avatar"
+				accept="image/*"
+				required
+				class="hidden"
+			/>
+		</form>
 	</section>
 }
 
 templ ProfileUpdataAccountInfoPartial(acc Account) {
-	<form hx-post="/account/profile/displayName" hx-trigger="submit" hx-target="#header" hx-swap="outerHTML" class="flex flex-col gap-3 justify-center items-center">
+	<form hx-post="/account/profile/changeDisplayName" hx-trigger="submit" hx-target="#header" hx-swap="outerHTML" class="flex flex-col gap-3 justify-center items-center">
 		<div class="w-full flex flex-col justify-start items-start gap-1">
 			<label for="" class="font-semibold text-xs">Display Name:</label>
 			<input type="text" name="nickname" id="nickname" min="2" max="20" placeholder={ acc.DisplayName } class="outline-none border-solid border-[#569B78] border-[0.0313rem] rounded p-2 w-full"/>

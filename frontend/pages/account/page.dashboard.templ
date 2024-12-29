@@ -12,7 +12,7 @@ templ DashboardPage(acc Account, chart template.HTML) {
 		@HeadTag("dashboard")
 		<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
 			<div class="Page w-full h-full flex flex-col font-montserrat text-[#2E2E2E]">
-				@CommonHeaderOne(acc)
+				@CommonHeader(acc)
 				@DashboardMain(chart)
 				@Footer("dashboard", templ.NopComponent)
 			</div>
@@ -23,11 +23,8 @@ templ DashboardPage(acc Account, chart template.HTML) {
 
 templ DashboardMain(chart template.HTML) {
 	<main class="grow overflow-y-scroll pl-6 pr-[1.56rem] pt-[1.875rem]">
-		@LetRecycleAndProfile("Let's Recycle!")
 		@DashboardSwiperOne()
-		@DashboardRecycledAndSeeAll()
 		@DashboardDataViz(chart)
-		@DashboardTipsParagraph()
 		@DashboardSwiperTwo()
 	</main>
 }
@@ -72,20 +69,30 @@ templ scriptForDashboardPage() {
 			});
 		});
 
-		//  window.addEventListener('load', () => {
-		// 	if ('serviceWorker' in navigator) {
-		// 		navigator.serviceWorker.register('/public/sw.js', {scope: "/"}).then((sw) => {
-		// 			console.log('Service worker registered!');
-		// 		}).catch((error) => {
-		// 			console.warn('Error registering service worker:');
-		// 			console.warn(error);
-		// 		});
-		// 	}
-		// });
+		 window.addEventListener('load', () => {
+			if ('serviceWorker' in navigator) {
+				navigator.serviceWorker.register('/public/sw.js', {scope: "/"}).then((sw) => {
+					console.log('Service worker registered!');
+				}).catch((error) => {
+					console.warn('Error registering service worker:');
+					console.warn(error);
+				});
+			}
+		});
     </script>
 }
 
 templ DashboardSwiperOne() {
+	<section class="flex items-center gap-1">
+		<p class="leading-[1.143rem] font-semibold text-[0.938rem]">Let's Recycle!</p>
+		<picture>
+			<source type="image/webp" srcset="/public/assets/images/Recycle_small.webp"/>
+			<img
+				src="/public/assets/images/Recycle_small.png"
+				class="w-5 aspect-square"
+			/>
+		</picture>
+	</section>
 	<section class="swiperOne mt-[0.86rem] mr-0">
 		<div class="swiper mySwiperOne w-full">
 			<div class="swiper-wrapper">
@@ -152,9 +159,6 @@ templ DashboardSwiperOne() {
 			</div>
 		</div>
 	</section>
-}
-
-templ DashboardRecycledAndSeeAll() {
 	<section class="mt-8 w-full flex items-center justify-between">
 		<p class="font-semibold text-[0.94rem] leading-[1.14rem]">Recycled</p>
 		<button
@@ -222,11 +226,8 @@ templ DashboardEchart(chart template.HTML) {
 	</div>
 }
 
-templ DashboardTipsParagraph() {
-	<p class="font-semibold text-[0.938rem] leading-[1.143rem] mt-4">Tips on Recycling</p>
-}
-
 templ DashboardSwiperTwo() {
+	<p class="font-semibold text-[0.938rem] leading-[1.143rem] mt-4">Tips on Recycling</p>
 	<section class="swiperTwo mt-4">
 		<div class="px-4 swiper mySwiperTwo w-full">
 			<div class="swiper-wrapper">

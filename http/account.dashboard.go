@@ -18,15 +18,6 @@ func (a *App) dashboardPageHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if r.Header.Get("X-Content-Mode") == "partials" {
-		if err := accPages.DashboardMain(produceChartHTML([4]float64{9, 5, 7, 15}, deduceTime(0))).
-			Render(context.TODO(), w); err != nil {
-			a.serverError(w, err)
-			return
-		}
-		return
-	}
-
 	if err := accPages.DashboardPage(account(user), produceChartHTML([4]float64{9, 5, 7, 15}, deduceTime(0))).
 		Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
@@ -34,25 +25,9 @@ func (a *App) dashboardPageHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (a *App) dashboardHeaderPartial(w http.ResponseWriter, r *http.Request) {
+func (a *App) dashboardMainTagPartial(w http.ResponseWriter, r *http.Request) {
 
-	accountEmail := r.Context().Value(contextKeyEmail).(string)
-	user, err := a.getAccountFromCache(context.Background(), accountEmail)
-	if err != nil {
-		a.serverError(w, err)
-		return
-	}
-
-	if err := accPages.CommonHeaderOne(
-		account(user)).Render(context.TODO(), w); err != nil {
-		a.serverError(w, err)
-		return
-	}
-}
-
-func (a *App) dashboardLetRecyclePartial(w http.ResponseWriter, r *http.Request) {
-
-	if err := accPages.LetRecycleAndProfile("Let's Recycle!").Render(context.TODO(), w); err != nil {
+	if err := accPages.DashboardMainOpeningTag().Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}
@@ -66,27 +41,11 @@ func (a *App) dashboardSwiperOne(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (a *App) dashboardRecycledAndSeeAllPartial(w http.ResponseWriter, r *http.Request) {
-
-	if err := accPages.DashboardRecycledAndSeeAll().Render(context.TODO(), w); err != nil {
-		a.serverError(w, err)
-		return
-	}
-}
-
 func (a *App) dashboardDataViz(w http.ResponseWriter, r *http.Request) {
 
 	if err := accPages.DashboardDataViz(
 		produceChartHTML([4]float64{9, 5, 7, 15}, deduceTime(4))).
 		Render(context.TODO(), w); err != nil {
-		a.serverError(w, err)
-		return
-	}
-}
-
-func (a *App) dashboardTipsParagraph(w http.ResponseWriter, r *http.Request) {
-
-	if err := accPages.DashboardTipsParagraph().Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}

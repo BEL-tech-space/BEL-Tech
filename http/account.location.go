@@ -4,7 +4,6 @@ import (
 	accPages "beltech/frontend/pages/account"
 	"context"
 	"net/http"
-	"strings"
 )
 
 func (a *App) locationPageHandler(w http.ResponseWriter, r *http.Request) {
@@ -25,7 +24,7 @@ func (a *App) locationPageHandler(w http.ResponseWriter, r *http.Request) {
 
 func (a *App) locationHeaderTagPartial(w http.ResponseWriter, r *http.Request) {
 
-	if err := accPages.LocationHeaderPartial(accPages.BeforeHeaderTagPartial(strings.Split(r.URL.Path, "/")[2])).Render(context.TODO(), w); err != nil {
+	if err := accPages.LocationHeaderPartial().Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}

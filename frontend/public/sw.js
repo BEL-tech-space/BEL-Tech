@@ -1261,6 +1261,80 @@
     }
   };
 
+  // node_modules/.pnpm/workbox-strategies@7.3.0/node_modules/workbox-strategies/StaleWhileRevalidate.js
+  var StaleWhileRevalidate = class extends Strategy {
+    /**
+     * @param {Object} [options]
+     * @param {string} [options.cacheName] Cache name to store and retrieve
+     * requests. Defaults to cache names provided by
+     * {@link workbox-core.cacheNames}.
+     * @param {Array<Object>} [options.plugins] [Plugins]{@link https://developers.google.com/web/tools/workbox/guides/using-plugins}
+     * to use in conjunction with this caching strategy.
+     * @param {Object} [options.fetchOptions] Values passed along to the
+     * [`init`](https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch#Parameters)
+     * of [non-navigation](https://github.com/GoogleChrome/workbox/issues/1796)
+     * `fetch()` requests made by this strategy.
+     * @param {Object} [options.matchOptions] [`CacheQueryOptions`](https://w3c.github.io/ServiceWorker/#dictdef-cachequeryoptions)
+     */
+    constructor(options = {}) {
+      super(options);
+      if (!this.plugins.some((p) => "cacheWillUpdate" in p)) {
+        this.plugins.unshift(cacheOkAndOpaquePlugin);
+      }
+    }
+    /**
+     * @private
+     * @param {Request|string} request A request to run this strategy for.
+     * @param {workbox-strategies.StrategyHandler} handler The event that
+     *     triggered the request.
+     * @return {Promise<Response>}
+     */
+    async _handle(request, handler) {
+      const logs = [];
+      if (true) {
+        finalAssertExports.isInstance(request, Request, {
+          moduleName: "workbox-strategies",
+          className: this.constructor.name,
+          funcName: "handle",
+          paramName: "request"
+        });
+      }
+      const fetchAndCachePromise = handler.fetchAndCachePut(request).catch(() => {
+      });
+      void handler.waitUntil(fetchAndCachePromise);
+      let response = await handler.cacheMatch(request);
+      let error;
+      if (response) {
+        if (true) {
+          logs.push(`Found a cached response in the '${this.cacheName}' cache. Will update with the network response in the background.`);
+        }
+      } else {
+        if (true) {
+          logs.push(`No response found in the '${this.cacheName}' cache. Will wait for the network response.`);
+        }
+        try {
+          response = await fetchAndCachePromise;
+        } catch (err) {
+          if (err instanceof Error) {
+            error = err;
+          }
+        }
+      }
+      if (true) {
+        logger.groupCollapsed(messages2.strategyStart(this.constructor.name, request));
+        for (const log of logs) {
+          logger.log(log);
+        }
+        messages2.printFinalResponse(response);
+        logger.groupEnd();
+      }
+      if (!response) {
+        throw new WorkboxError("no-response", { url: request.url, error });
+      }
+      return response;
+    }
+  };
+
   // node_modules/.pnpm/workbox-core@7.1.0/node_modules/workbox-core/_version.js
   try {
     self["workbox:core:7.0.0"] && _();
@@ -3924,6 +3998,26 @@ This is generally NOT safe. Learn more at https://bit.ly/wb-precache`;
     }
   };
 
+  // node_modules/.pnpm/workbox-core@7.3.0/node_modules/workbox-core/_private/canConstructReadableStream.js
+  var supportStatus2;
+  function canConstructReadableStream() {
+    if (supportStatus2 === void 0) {
+      try {
+        new ReadableStream({ start() {
+        } });
+        supportStatus2 = true;
+      } catch (error) {
+        supportStatus2 = false;
+      }
+    }
+    return supportStatus2;
+  }
+
+  // node_modules/.pnpm/workbox-core@7.3.0/node_modules/workbox-core/clientsClaim.js
+  function clientsClaim() {
+    self.addEventListener("activate", () => self.clients.claim());
+  }
+
   // node_modules/.pnpm/workbox-streams@7.3.0/node_modules/workbox-streams/_version.js
   try {
     self["workbox:streams:7.2.0"] && _();
@@ -4032,21 +4126,6 @@ This is generally NOT safe. Learn more at https://bit.ly/wb-precache`;
     return { done, response };
   }
 
-  // node_modules/.pnpm/workbox-core@7.3.0/node_modules/workbox-core/_private/canConstructReadableStream.js
-  var supportStatus2;
-  function canConstructReadableStream() {
-    if (supportStatus2 === void 0) {
-      try {
-        new ReadableStream({ start() {
-        } });
-        supportStatus2 = true;
-      } catch (error) {
-        supportStatus2 = false;
-      }
-    }
-    return supportStatus2;
-  }
-
   // node_modules/.pnpm/workbox-streams@7.3.0/node_modules/workbox-streams/isSupported.js
   function isSupported2() {
     return canConstructReadableStream();
@@ -4082,19 +4161,308 @@ This is generally NOT safe. Learn more at https://bit.ly/wb-precache`;
     };
   }
 
-  // node_modules/.pnpm/workbox-core@7.3.0/node_modules/workbox-core/clientsClaim.js
-  function clientsClaim() {
-    self.addEventListener("activate", () => self.clients.claim());
-  }
-
-  // src/sw/sw.ts
+  // src/sw/sw-strategies.ts
   var contentCache = "contents-cache";
   var partialsCache = "partials-cache";
   var imagesCache = "images-cache";
+  var cacheFirstStrategy = new CacheFirst({
+    cacheName: partialsCache,
+    plugins: [
+      new ExpirationPlugin({
+        maxEntries: 30,
+        maxAgeSeconds: 60 * 60 * 24 * 30
+        // about a month
+      })
+    ]
+  });
+  var networkFirstStrategy = new NetworkFirst({
+    cacheName: contentCache,
+    networkTimeoutSeconds: 5
+  });
+  var staleWhileRevalidateStrategy = new StaleWhileRevalidate({
+    cacheName: contentCache
+  });
+  var dashboardPageStream = strategy(
+    [
+      async ({ event }) => cacheFirstStrategy.handle({
+        request: new Request("/account/dashboard/openingHtmlTag-Partial.html"),
+        event
+      }),
+      async ({ event }) => cacheFirstStrategy.handle({
+        request: new Request("/account/dashboard/commonHeader-Partial.html"),
+        event
+      }),
+      async ({ event }) => cacheFirstStrategy.handle({
+        request: new Request("/account/dashboard/mainOpeningTag-Partial.html"),
+        event
+      }),
+      async ({ event }) => staleWhileRevalidateStrategy.handle({
+        request: new Request("/account/dashboard/swiperOne"),
+        event
+      }),
+      async ({ event }) => staleWhileRevalidateStrategy.handle({
+        request: new Request("/account/dashboard/echarts?month=0"),
+        event
+      }),
+      async ({ event }) => staleWhileRevalidateStrategy.handle({
+        request: new Request("/account/dashboard/swiperTwo"),
+        event
+      }),
+      async ({ event }) => cacheFirstStrategy.handle({
+        request: new Request("/account/dashboard/footer-Partial.html"),
+        event
+      }),
+      async ({ event }) => cacheFirstStrategy.handle({
+        request: new Request("/account/dashboard/closingHtmlTag-Partial.html"),
+        event
+      })
+    ],
+    {}
+  );
+  var locationPageStream = strategy(
+    [
+      async ({ event }) => cacheFirstStrategy.handle({
+        request: new Request("/account/location/openingHtmlTag-Partial.html"),
+        event
+      }),
+      async ({ event }) => cacheFirstStrategy.handle({
+        request: new Request("/account/location/header-Partial.html"),
+        event
+      }),
+      async ({ event }) => networkFirstStrategy.handle({
+        request: new Request("/account/location/main", {
+          headers: [["X-Content-Mode", "partials"]]
+        }),
+        event
+      }),
+      async ({ event }) => cacheFirstStrategy.handle({
+        request: new Request("/account/location/footer-Partial.html"),
+        event
+      }),
+      async ({ event }) => cacheFirstStrategy.handle({
+        request: new Request("/account/location/closingHtmlTag-Partial.html"),
+        event
+      })
+    ],
+    {}
+  );
+  var walletPageStream = strategy(
+    [
+      async ({ event }) => cacheFirstStrategy.handle({
+        request: new Request("/account/wallet/openingHtmlTag-Partial.html"),
+        event
+      }),
+      async ({ event }) => cacheFirstStrategy.handle({
+        request: new Request("/account/wallet/commonHeader-Partial.html"),
+        event
+      }),
+      async ({ event }) => cacheFirstStrategy.handle({
+        request: new Request("/account/wallet/mainOpeningTag-Partial.html"),
+        event
+      }),
+      async ({ event }) => staleWhileRevalidateStrategy.handle({
+        request: new Request("/account/wallet/balance"),
+        event
+      }),
+      async ({ event }) => cacheFirstStrategy.handle({
+        request: new Request("/account/wallet/options"),
+        event
+      }),
+      async ({ event }) => networkFirstStrategy.handle({
+        request: new Request("/account/wallet/coinData", {}),
+        event
+      }),
+      async ({ event }) => staleWhileRevalidateStrategy.handle({
+        request: new Request("/account/wallet/swiper"),
+        event
+      }),
+      async ({ event }) => cacheFirstStrategy.handle({
+        request: new Request("/account/wallet/footer-Partial.html"),
+        event
+      }),
+      async ({ event }) => cacheFirstStrategy.handle({
+        request: new Request("/account/wallet/closingHtmlTag-Partial.html"),
+        event
+      })
+    ],
+    {}
+  );
+  var spendPageStream = strategy(
+    [
+      async ({ event }) => cacheFirstStrategy.handle({
+        request: new Request("/account/spend/openingHtmlTag-Partial.html"),
+        event
+      }),
+      async ({ event }) => cacheFirstStrategy.handle({
+        request: new Request("/account/spend/header-Partial.html"),
+        event
+      }),
+      async ({ event }) => cacheFirstStrategy.handle({
+        request: new Request("/account/spend/mainOpeningTag-Partial.html"),
+        event
+      }),
+      async ({ event }) => networkFirstStrategy.handle({
+        request: new Request("/account/spend/balance"),
+        event
+      }),
+      async ({ event }) => cacheFirstStrategy.handle({
+        request: new Request("/account/spend/otherhalf"),
+        event
+      }),
+      async ({ event }) => cacheFirstStrategy.handle({
+        request: new Request("/account/spend/footer-Partial.html"),
+        event
+      }),
+      async ({ event }) => cacheFirstStrategy.handle({
+        request: new Request("/account/spend/closingHtmlTag-Partial.html"),
+        event
+      })
+    ],
+    {}
+  );
+  var profilePageStream = strategy(
+    [
+      async ({ event }) => cacheFirstStrategy.handle({
+        request: new Request("/account/profile/openingHtmlTag-Partial.html"),
+        event
+      }),
+      async ({ event }) => cacheFirstStrategy.handle({
+        request: new Request("/account/profile/commonHeader-Partial.html"),
+        event
+      }),
+      async ({ event }) => cacheFirstStrategy.handle({
+        request: new Request("/account/profile/mainOpeningTag-Partial.html"),
+        event
+      }),
+      async ({ event }) => staleWhileRevalidateStrategy.handle({
+        request: new Request("/account/profile/displayIcon"),
+        event
+      }),
+      async ({ event }) => staleWhileRevalidateStrategy.handle({
+        request: new Request("/account/profile/formPartial"),
+        event
+      }),
+      async ({ event }) => cacheFirstStrategy.handle({
+        request: new Request("/account/profile/footer-Partial.html"),
+        event
+      }),
+      async ({ event }) => cacheFirstStrategy.handle({
+        request: new Request("/account/profile/closingHtmlTag-Partial.html"),
+        event
+      })
+    ],
+    {}
+  );
+  var airtimePageStream = strategy(
+    [
+      async ({ event }) => cacheFirstStrategy.handle({
+        request: new Request("/account/airtime/openingHtmlTag-Partial.html"),
+        event
+      }),
+      async ({ event }) => cacheFirstStrategy.handle({
+        request: new Request("/account/airtime/header-Partial.html"),
+        event
+      }),
+      async ({ event }) => cacheFirstStrategy.handle({
+        request: new Request("/account/airtime/mainOpeningTag-Partial.html"),
+        event
+      }),
+      async ({ event }) => cacheFirstStrategy.handle({
+        request: new Request("/account/airtime/inputNumber"),
+        event
+      }),
+      async ({ event }) => networkFirstStrategy.handle({
+        request: new Request("/account/airtime/beneficiaries"),
+        event
+      }),
+      async ({ event }) => cacheFirstStrategy.handle({
+        request: new Request("/account/airtime/footer-Partial.html"),
+        event
+      }),
+      async ({ event }) => cacheFirstStrategy.handle({
+        request: new Request("/account/airtime/closingHtmlTag-Partial.html"),
+        event
+      })
+    ],
+    {}
+  );
+  var beneficiariesPageStream = strategy(
+    [
+      async ({ event }) => cacheFirstStrategy.handle({
+        request: new Request(
+          "/account/beneficiaries/openingHtmlTag-Partial.html"
+        ),
+        event
+      }),
+      async ({ event, url }) => cacheFirstStrategy.handle({
+        request: new Request("/account/beneficiaries/header-Partial.html"),
+        event
+      }),
+      async ({ event }) => networkFirstStrategy.handle({
+        request: new Request("/account/beneficiaries/main"),
+        event
+      }),
+      async ({ event }) => cacheFirstStrategy.handle({
+        request: new Request("/account/beneficiaries/footer-Partial.html"),
+        event
+      }),
+      async ({ event }) => cacheFirstStrategy.handle({
+        request: new Request(
+          "/account/beneficiaries/closingHtmlTag-Partial.html"
+        ),
+        event
+      })
+    ],
+    {}
+  );
+  var wastePageStream = strategy(
+    [
+      async ({ event }) => cacheFirstStrategy.handle({
+        request: new Request("/account/waste/openingHtmlTag-Partial.html"),
+        event
+      }),
+      async ({ event }) => cacheFirstStrategy.handle({
+        request: new Request("/account/waste/commonHeader-Partial.html"),
+        event
+      }),
+      async ({ event }) => cacheFirstStrategy.handle({
+        request: new Request("/account/waste/mainOpeningTag-Partial.html"),
+        event
+      }),
+      async ({ event, url }) => networkFirstStrategy.handle({
+        request: matchingPathVariableForWaste(url, "quickInfo"),
+        event
+      }),
+      async ({ event }) => cacheFirstStrategy.handle({
+        request: new Request("/account/waste/filter"),
+        event
+      }),
+      async ({ event, url }) => networkFirstStrategy.handle({
+        request: matchingPathVariableForWaste(url, "history"),
+        event
+      }),
+      async ({ event }) => cacheFirstStrategy.handle({
+        request: new Request("/account/waste/footer-Partial.html"),
+        event
+      }),
+      async ({ event }) => cacheFirstStrategy.handle({
+        request: new Request("/account/waste/closingHtmlTag-Partial.html"),
+        event
+      })
+    ],
+    {}
+  );
+  function matchingPathVariableForWaste(url, endpoint) {
+    const segments = url.pathname.split("/");
+    const lastSegment = segments[segments.length - 1];
+    return new Request(`/account/waste/${endpoint}/${lastSegment}`);
+  }
+
+  // src/sw/sw.ts
   clientsClaim();
   enable();
   registerRoute(
-    RegExp(/.*\.(?:png|jpg|jpeg|svg|webp)$/),
+    RegExp(/.*\.(?:png|jpg|jpeg|svg|webp|json)$/),
     new CacheFirst({
       cacheName: imagesCache,
       plugins: [
@@ -4106,63 +4474,52 @@ This is generally NOT safe. Learn more at https://bit.ly/wb-precache`;
       ]
     })
   );
-  var cacheFirstPartialStrategy = new CacheFirst({
-    cacheName: partialsCache,
-    plugins: [
-      new ExpirationPlugin({
-        maxEntries: 30,
-        maxAgeSeconds: 60 * 60 * 24 * 30
-        // about a month
-      })
-      // {
-      //   handlerDidError: async ({request}) => {
-      //     return await matchPrecache('/offline-header.php');
-      //   }
-      // }
-    ]
-  });
-  var networkFirstContentStrategy = new NetworkFirst({
-    cacheName: contentCache,
-    networkTimeoutSeconds: 5
-    // plugins: [
-    //   {
-    //     requestWillFetch: async ({request, event}) => {
-    //       const headers = new Headers();
-    //       headers.append('X-Content-Mode', 'partial');
-    //       console.log('requestWillFetch', request.url);
-    //       return Promise.resolve(new Request(request.url, {method: 'GET', headers }));
-    //     },
-    //     handlerDidError: async ({request}) => {
-    //       return await matchPrecache('/offline.html');
-    //     }
-    //   }
-    // ]
-  });
-  var dashboardPageStream = strategy(
-    [
-      async ({ event }) => cacheFirstPartialStrategy.handle({
-        request: new Request("/account/dashboard/header-Partial.html"),
-        event
-      }),
-      async ({ event }) => networkFirstContentStrategy.handle({
-        request: new Request("/account/dashboard", {
-          headers: [["X-Content-Mode", "partials"]]
-        }),
-        event
-      }),
-      async ({ event }) => cacheFirstPartialStrategy.handle({
-        request: new Request("/account/dashboard/footer-Partial.html"),
-        event
-      })
-    ],
-    {}
+  registerRoute(
+    ({ url }) => url.pathname === "/account/signin-Partial.html" || url.pathname === "/account/signup-Partial.html",
+    new CacheFirst({
+      cacheName: partialsCache,
+      plugins: [
+        new ExpirationPlugin({
+          maxEntries: 30,
+          maxAgeSeconds: 60 * 60 * 24 * 30
+          // about a month
+        })
+      ]
+    })
   );
   registerRoute(
-    ({ url }) => url.pathname == "/account/dashboard",
+    new RegExp("^.*/account/dashboard/chart\\?month=[1-4]$"),
+    new StaleWhileRevalidate({
+      cacheName: contentCache,
+      plugins: [
+        new ExpirationPlugin({
+          maxEntries: 30,
+          maxAgeSeconds: 60 * 60 * 24 * 30
+          // about a month
+        })
+      ]
+    })
+  );
+  registerRoute(
+    new RegExp("^.*/account/dashboard/chart\\?month=0$"),
+    new NetworkFirst({
+      networkTimeoutSeconds: 3,
+      cacheName: contentCache,
+      plugins: [
+        new ExpirationPlugin({
+          maxEntries: 30,
+          maxAgeSeconds: 60 * 60 * 24 * 30
+          // about a month
+        })
+      ]
+    })
+  );
+  registerRoute(
+    ({ url }) => url.pathname === "/account/dashboard",
     dashboardPageStream
   );
   registerRoute(
-    ({ url }) => url.pathname == "/account/scan",
+    ({ url }) => url.pathname === "/account/scan",
     new CacheFirst({
       cacheName: contentCache,
       plugins: [
@@ -4174,69 +4531,67 @@ This is generally NOT safe. Learn more at https://bit.ly/wb-precache`;
       ]
     })
   );
-  var locationPageStream = strategy(
-    [
-      async ({ event }) => cacheFirstPartialStrategy.handle({
-        request: new Request("/account/location/header-Partial.html"),
-        event
-      }),
-      async ({ event }) => networkFirstContentStrategy.handle({
-        request: new Request("/account/location", {
-          headers: [["X-Content-Mode", "partials"]]
-        }),
-        event
-      }),
-      async ({ event }) => cacheFirstPartialStrategy.handle({
-        request: new Request("/account/location/footer-Partial.html"),
-        event
-      })
-    ],
-    {}
-  );
   registerRoute(
-    ({ url }) => url.pathname == "/account/location",
+    ({ url }) => url.pathname === "/account/location",
     locationPageStream
   );
-  var walletPageStream = strategy(
-    [
-      async ({ event }) => cacheFirstPartialStrategy.handle({
-        request: new Request("/account/wallet/header-Partial.html"),
-        event
-      }),
-      async ({ event }) => networkFirstContentStrategy.handle({
-        request: new Request("/account/wallet", {
-          headers: [["X-Content-Mode", "partials"]]
-        }),
-        event
-      }),
-      async ({ event }) => cacheFirstPartialStrategy.handle({
-        request: new Request("/account/wallet/footer-Partial.html"),
-        event
-      })
-    ],
-    {}
+  registerRoute(
+    ({ url }) => url.pathname === "/account/wallet",
+    walletPageStream
   );
-  registerRoute(({ url }) => url.pathname == "/account/wallet", walletPageStream);
-  var spendPageStream = strategy(
-    [
-      async ({ event }) => cacheFirstPartialStrategy.handle({
-        request: new Request("/account/spend/header-Partial.html"),
-        event
-      }),
-      async ({ event }) => networkFirstContentStrategy.handle({
-        request: new Request("/account/spend", {
-          headers: [["X-Content-Mode", "partials"]]
-        }),
-        event
-      }),
-      async ({ event }) => cacheFirstPartialStrategy.handle({
-        request: new Request("/account/spend/footer-Partial.html"),
-        event
-      })
-    ],
-    {}
+  registerRoute(({ url }) => url.pathname === "/account/spend", spendPageStream);
+  registerRoute(
+    ({ url }) => url.pathname === "/account/profile/changeDisplayName",
+    async ({ request }) => {
+      const response = await fetch(request);
+      if (!response.ok) {
+        return response;
+      }
+      const cache = await caches.open(partialsCache);
+      const allCacheKeys = await cache.keys();
+      const matchingResponses = allCacheKeys.filter(
+        (request2) => request2.url.endsWith("commonHeader-Partial.html")
+      );
+      for (const req of matchingResponses) {
+        await cache.put(req, response.clone());
+      }
+      return response;
+    },
+    "POST"
   );
-  registerRoute(({ url }) => url.pathname == "/account/spend", spendPageStream);
-  precacheAndRoute([{"revision":"5e077c15f6e1d334dd4e9be62b28ac75","url":"assets/fonts/montserrat/static/Montserrat-Regular.ttf"},{"revision":"cc10461cb5e0a6f2621c7179f4d6de17","url":"assets/fonts/montserrat/static/Montserrat-SemiBold.ttf"},{"revision":"093ee89be9ede30383f39a899c485a82","url":"assets/fonts/poppins/Poppins-Regular.ttf"},{"revision":"adb55f7b6bd155aee484821913573808","url":"assets/scripts/beltech.js"},{"revision":"d88d3200cb547c9e86ee972975561dcd","url":"assets/scripts/html5-qrcode.min.js"},{"revision":"93063fe04ea37e3b3441590f9abf141a","url":"assets/scripts/htmx.min.js"},{"revision":"35467f89118bd098ed1030b77d78a032","url":"assets/scripts/hyperscript.min.js"},{"revision":"96760f90b96ce00be8e4a204dd3d4b98","url":"assets/scripts/swiper-bundle.min.js"},{"revision":"ca5d4d4e92856f1732110bca7cefba2b","url":"assets/styles/input.css"},{"revision":"5e27269763b7c008044577d7c2986f8a","url":"assets/styles/output.css"},{"revision":"766238d2d89efd82440dd641f2c569f5","url":"assets/styles/swiper-bundle.min.css"}] || []);
+  registerRoute(
+    ({ url }) => url.pathname === "/account/profile",
+    profilePageStream
+  );
+  registerRoute(
+    ({ url }) => url.pathname === "/account/airtime",
+    airtimePageStream,
+    "POST"
+  );
+  registerRoute(
+    ({ url }) => url.pathname === "/account/beneficiaries",
+    beneficiariesPageStream
+  );
+  registerRoute(({ url }) => {
+    const wastePathPattern = /.*\/account\/waste\/(paper|glass|plastics|metal)$/;
+    return wastePathPattern.test(url.href);
+  }, wastePageStream);
+  registerRoute(
+    ({ url }) => {
+      const tipsPathPattern = /.*\/account\/tips\/(paper|glass|plastics|metal)$/;
+      return tipsPathPattern.test(url.href);
+    },
+    new CacheFirst({
+      cacheName: contentCache,
+      plugins: [
+        new ExpirationPlugin({
+          maxEntries: 30,
+          maxAgeSeconds: 60 * 60 * 24 * 30
+          // about a month
+        })
+      ]
+    })
+  );
+  precacheAndRoute([{"revision":"5e077c15f6e1d334dd4e9be62b28ac75","url":"assets/fonts/montserrat/static/Montserrat-Regular.ttf"},{"revision":"cc10461cb5e0a6f2621c7179f4d6de17","url":"assets/fonts/montserrat/static/Montserrat-SemiBold.ttf"},{"revision":"093ee89be9ede30383f39a899c485a82","url":"assets/fonts/poppins/Poppins-Regular.ttf"},{"revision":"adb55f7b6bd155aee484821913573808","url":"assets/scripts/beltech.js"},{"revision":"710c7b9eee37884740dcd5a97f5b3a7b","url":"assets/scripts/echarts.min.js"},{"revision":"d88d3200cb547c9e86ee972975561dcd","url":"assets/scripts/html5-qrcode.min.js"},{"revision":"93063fe04ea37e3b3441590f9abf141a","url":"assets/scripts/htmx.min.js"},{"revision":"35467f89118bd098ed1030b77d78a032","url":"assets/scripts/hyperscript.min.js"},{"revision":"8fb8fee4fcc3cc86ff6c724154c49c42","url":"assets/scripts/jquery.min.js"},{"revision":"96760f90b96ce00be8e4a204dd3d4b98","url":"assets/scripts/swiper-bundle.min.js"},{"revision":"b36f28de584845317de40a7219c82b1c","url":"assets/scripts/toastr.min.js"},{"revision":"d2ab616d25025a807cf23f1716037762","url":"assets/styles/input.css"},{"revision":"7f9dee02546772fb6fd997f33f5034e6","url":"assets/styles/output.css"},{"revision":"766238d2d89efd82440dd641f2c569f5","url":"assets/styles/swiper-bundle.min.css"},{"revision":"bc96861d9899e4e68fb2e59c363d8c60","url":"assets/styles/toastr.min.css"}] || []);
 })();
 //# sourceMappingURL=sw.js.map

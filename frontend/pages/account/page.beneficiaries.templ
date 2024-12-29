@@ -8,7 +8,7 @@ templ BeneficiariesPage(avatarURL string, ben []types.Beneficiary) {
 		@HeadTag("Airtime Beneficiaries")
 		<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
 			<div class="w-full h-full grid grid-rows-agentCollectPage font-montserrat text-[#2E2E2E]">
-				@commonHeaderTwo("Beneficiaries", avatarURL, "/public/assets/svg/+.svg", "on click call #addNewBeneficiairyDialog.showModal() then halt", templ.NopComponent, templ.NopComponent)
+				@BeneficiariesHeaderPartial(avatarURL)
 				@BeneficiariesMain(ben)
 				@Footer("spend", templ.NopComponent)
 			</div>
@@ -18,15 +18,37 @@ templ BeneficiariesPage(avatarURL string, ben []types.Beneficiary) {
 	</html>
 }
 
-templ BeneficiariesHeaderPartial(avatarURL string, beforeHeaderTagPartial, afterHeaderTagPartial templ.Component) {
-	@commonHeaderTwo("Beneficiaries", avatarURL, "/public/assets/svg/+.svg", "on click call #addNewBeneficiairyDialog.showModal() then halt", templ.NopComponent, templ.NopComponent)
+templ BeneficiariesHeaderPartial(avatarURL string) {
+	<header class="pt-[1.5rem] pl-[1.5rem] pr-[1.56rem] flex w-full justify-between items-center">
+		<a href="/account/profile">
+			<img
+				src={ avatarURL }
+				class="rounded-full w-[1.86rem] aspect-square mr-[0.5rem]"
+			/>
+		</a>
+		<p class="font-semibold text-[0.938rem] leading-[1.143rem]">Beneficiaries</p>
+		<button
+			class="bg-[#CCE1D699] p-2 rounded-md flex justify-center items-center"
+			_="on click call #addNewBeneficiairyDialog.showModal()"
+		>
+			<img
+				src="/public/assets/svg/+.svg"
+				class="w-[1.5rem] aspect-square"
+			/>
+		</button>
+	</header>
+}
+
+templ scriptForBeneficiariesPage() {
+	<script src="/public/assets/scripts/hyperscript.min.js"></script>
+	<script src="/public/assets/scripts/htmx.min.js"></script>
 }
 
 templ BeneficiariesMain(ben []types.Beneficiary) {
-	<main class="overflow-y-auto pl-[1.5rem] pr-[1.56rem] pt-12">
+	<main id="beneficiariesList" class="overflow-y-auto pl-[1.5rem] pr-[1.56rem] pt-12">
 		if len(ben) == 0 {
-			<div class="flex justify-center items-center">
-				<p class="text-center">No beneficiary, click the + to add new beneficiary.</p>
+			<div class="h-full flex justify-center items-center">
+				<p class="text-center font-tt_chocolate">No beneficiary, click the + to add new beneficiary.</p>
 			</div>
 		} else {
 			<ul class="w-full flex flex-col justify-center items-center gap-6">
@@ -59,32 +81,123 @@ templ BeneficiariesMain(ben []types.Beneficiary) {
 						</div>
 						<img src="/public/assets/svg/greenEdit.svg" alt="" class="w-5 aspect-square"/>
 					</li>
-					// <li class="w-full bg-[#FEF7FF] shadow-[0px_1px_2px_1px_#00000014] pl-2 pr-7 py-3 flex justify-between items-center rounded-lg">
-					// 	<div class="flex gap-6 items-center justify-start">
-					// 		<img src="/public/assets/images/airtel.png" alt="" class="w-[3.5rem] aspect-square rounded-full"/>
-					// 		<div class="flex flex-col gap-2 justify-start items-start">
-					// 			<p class="font-poppins font-medium text-xs leading-[1.125rem] text-[#2E2E2E]">Tobias</p>
-					// 			<p class="font-montserrat font-bold text-[0.625rem] leading-[0.762rem] text-[#016934]">09034097398</p>
-					// 		</div>
-					// 	</div>
-					// 	<img src="/public/assets/svg/greenEdit.svg" alt="" class="w-5 aspect-square"/>
-					// </li>
-					// <li class="w-full bg-[#FEF7FF] shadow-[0px_1px_2px_1px_#00000014] pl-2 pr-7 py-3 flex justify-between items-center rounded-lg">
-					// 	<div class="flex gap-6 items-center justify-start">
-					// 		<img src="/public/assets/images/glo.png" alt="" class="w-[3.5rem] aspect-square rounded-full"/>
-					// 		<div class="flex flex-col gap-2 justify-start items-start">
-					// 			<p class="font-poppins font-medium text-xs leading-[1.125rem] text-[#2E2E2E]">Tobias</p>
-					// 			<p class="font-montserrat font-bold text-[0.625rem] leading-[0.762rem] text-[#016934]">09034097398</p>
-					// 		</div>
-					// 	</div>
-					// 	<img src="/public/assets/svg/greenEdit.svg" alt="" class="w-5 aspect-square"/>
-					// </li>
 				}
 			</ul>
 		}
 	</main>
 }
 
-templ scriptForBeneficiariesPage() {
-	<script src="/public/assets/scripts/hyperscript.min.js"></script>
+templ addNewBeneficiairyDialog() {
+	<dialog id="addNewBeneficiairyDialog" class="backdrop:backdrop-blur-sm rounded-2xl py-8 pl-7 pr-9 font-montserrat text-[#2E2E2E]">
+		<p class="font-bold text-sm leading-[1.067rem] text-center mb-2 mt-6">Add new number to your Beneficiary</p>
+		<form
+			id="newBeneficiary"
+			hx-post="/account/beneficiaries/addNew"
+			hx-target="#beneficiariesList"
+			hx-swap="outerHTML"
+			hx-vals='{"from": "beneficiariesPage"}'
+			hx-trigger="submit"
+			_="on htmx:beforeRequest call #addNewBeneficiairyDialog.close() then call restoreState()"
+			class="mt-8 w-full flex flex-col items-center justify-start gap-[1.141rem]"
+		>
+			<div class="w-full">
+				<label for="name" class="font-semibold text-xs">Name</label>
+				<input required type="text" autocomplete="off" name="name" id="name" minlength="2" maxlength="20" placeholder="min. 2 - max. 20" class="min-h-[2.071rem] pl-2 w-full border-solid border-[#569B78] border-[0.0256rem] rounded outline-none placeholder:text-xs"/>
+			</div>
+			<div class="w-full">
+				<label for="number" class="font-semibold text-xs">Phone Number</label>
+				<input required type="tel" name="number" id="number" inputmode="numeric" autocomplete="off" maxlength="11" minlength="11" title="number must be 11 in length" pattern="^0[1-9][0-1]\d{8}" placeholder="length of 11 numbers e.g 090xxxxxxxx" class="min-h-[2.071rem] pl-2 w-full border-solid border-[#569B78] border-[0.0256rem] rounded outline-none placeholder:text-xs"/>
+			</div>
+			<section class="grid grid-cols-4 justify-between items-center gap-[2.125rem] mb-8">
+				<label for="mtn" class="label shadow-[0px_0.053rem_0.105rem_0.053rem_#00000014] py-[0.869rem] px-[1.25rem] flex flex-col justify-center items-center">
+					<img src="/public/assets/svg/mtn.svg" alt="" class="w-9 rounded-full"/>
+					<p class="font-poppins font-bold text-[0.524rem] leading-[0.787rem] mt-[0.482rem]">MTN</p>
+				</label>
+				<input required type="radio" id="mtn" name="sp" autocomplete="off" value="mtn" class="hidden"/>
+				<label for="airtel" class="label shadow-[0px_0.053rem_0.105rem_0.053rem_#00000014] py-[0.869rem] px-[1.25rem] flex flex-col justify-center items-center">
+					<img src="/public/assets/svg/airtel.svg" alt="" class="w-9 rounded-full"/>
+					<p class="font-poppins font-bold text-[0.524rem] leading-[0.787rem] mt-[0.482rem]">AIRTEL</p>
+				</label>
+				<input type="radio" id="airtel" name="sp" autocomplete="off" value="airtel" class="hidden"/>
+				<label for="glo" class="label shadow-[0px_0.053rem_0.105rem_0.053rem_#00000014] py-[0.869rem] px-[1.25rem] flex flex-col justify-center items-center">
+					<img src="/public/assets/svg/glo.svg" alt="" class="w-9 rounded-full"/>
+					<p class="font-poppins font-bold text-[0.524rem] leading-[0.787rem] mt-[0.482rem]">GLO</p>
+				</label>
+				<input type="radio" id="glo" name="sp" autocomplete="off" value="glo" class="hidden"/>
+				<label for="9mobile" class="label shadow-[0px_0.053rem_0.105rem_0.053rem_#00000014] py-[0.869rem] px-[1.25rem] flex flex-col justify-center items-center">
+					<img src="/public/assets/svg/9mobile.svg" alt="" class="w-9 rounded-full"/>
+					<p class="font-poppins font-bold text-[0.524rem] leading-[0.787rem] mt-[0.482rem]">9MOBILE</p>
+				</label>
+				<input type="radio" id="9mobile" name="sp" autocomplete="off" value="9mobile" class="hidden"/>
+			</section>
+			<section class="w-full flex justify-between items-center gap-3">
+				<button
+					disabled
+					id="submitBtn"
+					type="submit"
+					class="w-full opacity-45 bg-green-400 text-sm font-medium text-white py-[0.625rem] text-center tracking-[0.00625rem] rounded-md"
+				>Save Beneficiary</button>
+				<button type="reset" _="on click call #addNewBeneficiairyDialog.close() then call restoreState()" class="outline-none rounded-md mb-2 font-medium bg-black text-[0.813rem] leading-5 tracking-[0.00625em] py-[0.625rem] px-8 text-center text-white">Close</button>
+			</section>
+		</form>
+		<style>
+			.selected {
+				background-color: #b1ddc8;
+				border-radius: 6px;
+			}
+		</style>
+		<script>
+			const newBeneficiaryForm = document.getElementById('newBeneficiary');
+			const newBeneficiaryFormSubmitBtn =  document.getElementById("submitBtn")
+
+			newBeneficiaryForm.addEventListener('input', () => {
+				if (!newBeneficiaryForm.checkValidity()) {
+					newBeneficiaryFormSubmitBtn.disabled = true
+					newBeneficiaryFormSubmitBtn.classList.remove('bg-[#016934]')
+					newBeneficiaryFormSubmitBtn.classList.add('opacity-45', 'bg-green-400')
+					return
+				}
+				newBeneficiaryFormSubmitBtn.disabled = false
+				newBeneficiaryFormSubmitBtn.classList.add('bg-[#016934]')
+				newBeneficiaryFormSubmitBtn.classList.remove('opacity-45', 'bg-green-400')
+			});
+
+			const radioInputs = document.querySelectorAll('input[type="radio"][name="sp"]');
+			radioInputs.forEach((radio) => {
+				radio.addEventListener('change', () => {	
+					const labels = document.querySelectorAll('label');
+					labels.forEach((label) => {
+						label.classList.remove('selected');
+					});
+
+					const checkedRadio = document.querySelector('input[type="radio"][name="sp"]:checked');
+					if (checkedRadio) {
+						const label = document.querySelector(`label[for="${checkedRadio.id}"]`);
+						label.classList.add('selected');
+					}
+				});
+			});
+
+			function restoreState() {
+				// Uncheck the radio buttons
+				radioInputs.forEach((radio) => {
+					radio.checked = false;
+				});
+
+    
+				const labels = document.querySelectorAll('label');
+				labels.forEach((label) => {
+					label.classList.remove('selected');
+				});
+
+				 // Reset the form
+				newBeneficiaryForm.reset();
+
+				// Add the disabled attribute to the submit button
+				newBeneficiaryFormSubmitBtn.disabled = true;
+				newBeneficiaryFormSubmitBtn.classList.remove('bg-[#016934]');
+				newBeneficiaryFormSubmitBtn.classList.add('opacity-45', 'bg-green-400');
+			};
+		</script>
+	</dialog>
 }

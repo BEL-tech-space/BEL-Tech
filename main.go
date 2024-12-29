@@ -24,7 +24,13 @@ func main() {
 	}
 
 	// connect to database
-	conn, err := pgxpool.New(context.Background(), environmentalVariables.Database.Url)
+	var databaseUrl string
+	if environmentalVariables.Build == "production" {
+		databaseUrl = environmentalVariables.Database.Prod
+	} else {
+		databaseUrl = environmentalVariables.Database.Dev
+	}
+	conn, err := pgxpool.New(context.Background(), databaseUrl)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Unable to create db connection pool: %v\n", err)
 		os.Exit(1)

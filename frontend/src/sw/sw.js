@@ -48,17 +48,14 @@ const workbox_strategies_1 = require("workbox-strategies");
 const workbox_routing_1 = require("workbox-routing");
 const workbox_precaching_1 = require("workbox-precaching");
 const workbox_expiration_1 = require("workbox-expiration");
-const workbox_streams_1 = require("workbox-streams");
 const workbox_core_1 = require("workbox-core");
-const contentCache = 'contents-cache';
-const partialsCache = 'partials-cache';
-const imagesCache = 'images-cache';
+const sw_strategies_1 = require("./sw-strategies");
 (0, workbox_core_1.clientsClaim)();
 // Enable navigation preload
 navigationPreload.enable();
 // RuntimeCaching
-(0, workbox_routing_1.registerRoute)(RegExp(/.*\.(?:png|jpg|jpeg|svg)$/), new workbox_strategies_1.CacheFirst({
-    cacheName: imagesCache,
+(0, workbox_routing_1.registerRoute)(RegExp(/.*\.(?:png|jpg|jpeg|svg|webp|json)$/), new workbox_strategies_1.CacheFirst({
+    cacheName: sw_strategies_1.imagesCache,
     plugins: [
         new workbox_expiration_1.ExpirationPlugin({
             maxEntries: 300,
@@ -66,85 +63,89 @@ navigationPreload.enable();
         }),
     ],
 }));
-const cacheFirstPartialStrategy = new workbox_strategies_1.CacheFirst({
-    cacheName: partialsCache,
+// account/dashboard
+(0, workbox_routing_1.registerRoute)(({ url }) => url.pathname === "/account/signin-Partial.html" ||
+    url.pathname === "/account/signup-Partial.html", new workbox_strategies_1.CacheFirst({
+    cacheName: sw_strategies_1.partialsCache,
     plugins: [
         new workbox_expiration_1.ExpirationPlugin({
             maxEntries: 30,
             maxAgeSeconds: 60 * 60 * 24 * 30, // about a month
         }),
-        // {
-        //   handlerDidError: async ({request}) => {
-        //     return await matchPrecache('/offline-header.php');
-        //   }
-        // }
-    ]
-});
-const networkFirstContentStrategy = new workbox_strategies_1.NetworkFirst({
-    cacheName: contentCache,
-    networkTimeoutSeconds: 5,
-    // plugins: [
-    //   {
-    //     requestWillFetch: async ({request, event}) => {
-    //       const headers = new Headers();
-    //       headers.append('X-Content-Mode', 'partial');
-    //       console.log('requestWillFetch', request.url);
-    //       return Promise.resolve(new Request(request.url, {method: 'GET', headers }));
-    //     },
-    //     handlerDidError: async ({request}) => {
-    //       return await matchPrecache('/offline.html');
-    //     }
-    //   }
-    // ]
-});
-const accountDashboardNavigation = (0, workbox_streams_1.strategy)([
-    (_a) => __awaiter(void 0, [_a], void 0, function* ({ event }) {
-        return cacheFirstPartialStrategy.handle({ request: new Request('/account/htmlAndHeaderTag-Partial.html'), event });
-    }),
-    (_a) => __awaiter(void 0, [_a], void 0, function* ({ event }) {
-        return cacheFirstPartialStrategy.handle({ request: new Request('/account/dashboard/bodyTag-Partial.html'), event });
-    }),
-    (_a) => __awaiter(void 0, [_a], void 0, function* ({ event }) {
-        return cacheFirstPartialStrategy.handle({ request: new Request('/account/dashboard/headerTypeOne-Partial.html'), event });
-    }),
-    (_a) => __awaiter(void 0, [_a], void 0, function* ({ event }) {
-        return networkFirstContentStrategy.handle({ request: new Request('/account/dashboard', { headers: [['X-Content-Mode', 'partials']] }), event });
-    }),
-    (_a) => __awaiter(void 0, [_a], void 0, function* ({ event }) {
-        return cacheFirstPartialStrategy.handle({ request: new Request('/account/dashboard/footer-Partial.html'), event });
-    }),
-    (_a) => __awaiter(void 0, [_a], void 0, function* ({ event }) {
-        return cacheFirstPartialStrategy.handle({ request: new Request('/account/dashboard/scriptAndClosing-Partial.html'), event });
-    }),
-], {});
-(0, workbox_routing_1.registerRoute)(({ url }) => url.pathname == '/account/dashboard', accountDashboardNavigation);
-(0, workbox_routing_1.registerRoute)(({ url }) => url.pathname == '/account/scan', new workbox_strategies_1.CacheFirst({
-    cacheName: contentCache,
-    plugins: [
-        new workbox_expiration_1.ExpirationPlugin({
-            maxEntries: 30,
-            maxAgeSeconds: 60 * 60 * 24 * 30, // about a month
-        }),
-    ]
+    ],
 }));
-const locationPageStream = (0, workbox_streams_1.strategy)([
-    (_a) => __awaiter(void 0, [_a], void 0, function* ({ event }) {
-        return cacheFirstPartialStrategy.handle({ request: new Request('/account/htmlAndHeaderTag-Partial.html'), event });
-    }),
-    (_a) => __awaiter(void 0, [_a], void 0, function* ({ event }) {
-        return cacheFirstPartialStrategy.handle({ request: new Request('/location/bodyTag-Partial.html'), event });
-    }),
-    (_a) => __awaiter(void 0, [_a], void 0, function* ({ event }) {
-        return cacheFirstPartialStrategy.handle({ request: new Request('/location/headerTag-Partial.html'), event });
-    }),
-    (_a) => __awaiter(void 0, [_a], void 0, function* ({ event }) {
-        return networkFirstContentStrategy.handle({ request: new Request('/account/dashboard', { headers: [['X-Content-Mode', 'partials']] }), event });
-    }),
-    (_a) => __awaiter(void 0, [_a], void 0, function* ({ event }) {
-        return cacheFirstPartialStrategy.handle({ request: new Request('/location/footer-Partial.html'), event });
-    }),
-    (_a) => __awaiter(void 0, [_a], void 0, function* ({ event }) {
-        return cacheFirstPartialStrategy.handle({ request: new Request('/location/scriptAndClosing-Partial.html'), event });
-    }),
-], {});
+// account/dashboard
+(0, workbox_routing_1.registerRoute)(new RegExp("^.*/account/dashboard/chart\\?month=[1-4]$"), new workbox_strategies_1.StaleWhileRevalidate({
+    cacheName: sw_strategies_1.contentCache,
+    plugins: [
+        new workbox_expiration_1.ExpirationPlugin({
+            maxEntries: 30,
+            maxAgeSeconds: 60 * 60 * 24 * 30, // about a month
+        }),
+    ],
+}));
+(0, workbox_routing_1.registerRoute)(new RegExp("^.*/account/dashboard/chart\\?month=0$"), new workbox_strategies_1.NetworkFirst({
+    networkTimeoutSeconds: 3,
+    cacheName: sw_strategies_1.contentCache,
+    plugins: [
+        new workbox_expiration_1.ExpirationPlugin({
+            maxEntries: 30,
+            maxAgeSeconds: 60 * 60 * 24 * 30, // about a month
+        }),
+    ],
+}));
+(0, workbox_routing_1.registerRoute)(({ url }) => url.pathname === "/account/dashboard", sw_strategies_1.dashboardPageStream);
+// account/scan
+(0, workbox_routing_1.registerRoute)(({ url }) => url.pathname === "/account/scan", new workbox_strategies_1.CacheFirst({
+    cacheName: sw_strategies_1.contentCache,
+    plugins: [
+        new workbox_expiration_1.ExpirationPlugin({
+            maxEntries: 30,
+            maxAgeSeconds: 60 * 60 * 24 * 30, // about a month
+        }),
+    ],
+}));
+// account/location
+(0, workbox_routing_1.registerRoute)(({ url }) => url.pathname === "/account/location", sw_strategies_1.locationPageStream);
+// account/wallet
+(0, workbox_routing_1.registerRoute)(({ url }) => url.pathname === "/account/wallet", sw_strategies_1.walletPageStream);
+// account/wallet
+(0, workbox_routing_1.registerRoute)(({ url }) => url.pathname === "/account/spend", sw_strategies_1.spendPageStream);
+// account/profile
+(0, workbox_routing_1.registerRoute)(({ url }) => url.pathname === "/account/profile/changeDisplayName", (_a) => __awaiter(void 0, [_a], void 0, function* ({ request }) {
+    const response = yield fetch(request);
+    if (!response.ok) {
+        return response;
+    }
+    const cache = yield caches.open(sw_strategies_1.partialsCache);
+    const allCacheKeys = yield cache.keys();
+    const matchingResponses = allCacheKeys.filter((request) => request.url.endsWith("commonHeader-Partial.html"));
+    for (const req of matchingResponses) {
+        yield cache.put(req, response.clone());
+    }
+    return response;
+}), "POST");
+(0, workbox_routing_1.registerRoute)(({ url }) => url.pathname === "/account/profile", sw_strategies_1.profilePageStream);
+// account/airtime
+(0, workbox_routing_1.registerRoute)(({ url }) => url.pathname === "/account/airtime", sw_strategies_1.airtimePageStream, "POST");
+// account/beneficiaries
+(0, workbox_routing_1.registerRoute)(({ url }) => url.pathname === "/account/beneficiaries", sw_strategies_1.beneficiariesPageStream);
+// account/waste
+(0, workbox_routing_1.registerRoute)(({ url }) => {
+    const wastePathPattern = /.*\/account\/waste\/(paper|glass|plastics|metal)$/;
+    return wastePathPattern.test(url.href);
+}, sw_strategies_1.wastePageStream);
+// account/tips
+(0, workbox_routing_1.registerRoute)(({ url }) => {
+    const tipsPathPattern = /.*\/account\/tips\/(paper|glass|plastics|metal)$/;
+    return tipsPathPattern.test(url.href);
+}, new workbox_strategies_1.CacheFirst({
+    cacheName: sw_strategies_1.contentCache,
+    plugins: [
+        new workbox_expiration_1.ExpirationPlugin({
+            maxEntries: 30,
+            maxAgeSeconds: 60 * 60 * 24 * 30, // about a month
+        }),
+    ],
+}));
 (0, workbox_precaching_1.precacheAndRoute)(self.__WB_MANIFEST || []);

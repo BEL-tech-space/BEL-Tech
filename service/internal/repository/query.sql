@@ -92,17 +92,27 @@ RETURNING *;
 -- FROM 
 --     collectors;
 
+-- name: AddNewBeneficiary :many
+WITH inserted_row AS (
+  INSERT INTO beneficiaries (b_name, b_phone_no, service_provider, email)
+  VALUES ($1, $2, $3, $4)
+  RETURNING *
+)
+SELECT * 
+FROM beneficiaries
+WHERE email = $4
+UNION
+SELECT * 
+FROM inserted_row
+ORDER BY created_at DESC;
 
--- name: AddNewBeneficiary :exec
-INSERT INTO beneficiaries (b_name, b_phone_no, service_provider, email)
-VALUES ($1, $2, $3, $4);
 
 -- name: DeleteBeneficiary :exec
 DELETE FROM beneficiaries
 WHERE email = $1 AND b_phone_no = $2 AND service_provider = $3;
 
 -- name: GetBeneficiariesByEmail :many
-SELECT b_name, b_phone_no, service_provider
+SELECT *
 FROM beneficiaries
 WHERE email = $1
 ORDER BY created_at DESC;

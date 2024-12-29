@@ -6,8 +6,6 @@ import (
 	"fmt"
 	"net/http"
 	"regexp"
-
-	"github.com/a-h/templ"
 )
 
 func (a *App) beneficiariesPageHandler(w http.ResponseWriter, r *http.Request) {
@@ -22,14 +20,6 @@ func (a *App) beneficiariesPageHandler(w http.ResponseWriter, r *http.Request) {
 	result, err := a.service.GetBeneficiaries(context.Background(), accountEmail)
 	if err != nil {
 		a.serverError(w, err)
-		return
-	}
-
-	if r.Header.Get("X-Content-Mode") == "partials" {
-		if err := accPages.BeneficiariesMain(result).Render(context.TODO(), w); err != nil {
-			a.serverError(w, err)
-			return
-		}
 		return
 	}
 
@@ -49,10 +39,7 @@ func (a *App) beneficiariesPageHeaderPartial(w http.ResponseWriter, r *http.Requ
 	}
 
 	if err := accPages.BeneficiariesHeaderPartial(
-		account(user).AvatarUrl,
-		accPages.BeforeHeaderTagPartial(
-			"Spend"),
-		templ.NopComponent).Render(context.TODO(), w); err != nil {
+		account(user).AvatarUrl).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}
@@ -93,17 +80,35 @@ func (a *App) addNewBeneficiary(w http.ResponseWriter, r *http.Request) {
 		name = name[:19]
 	}
 
-	if err := a.service.AddNewBeneficiary(context.Background(),
+	result, err := a.service.AddNewBeneficiary(context.Background(),
 		r.Form.Get("number"),
 		name,
 		r.Form.Get("sp"),
 		accountEmail,
-	); err != nil {
-		a.serverError(w, err)
+	)
 
+	if err != nil {
+		a.serverError(w, err)
+		return
 	}
 
-	http.Redirect(w, r, "/account/beneficiaries", http.StatusSeeOther)
+	if r.Form.Get("from") == "beneficiariesPage" {
+		if err := accPages.BeneficiariesMain(result).Render(context.TODO(), w); err != nil {
+			a.serverError(w, err)
+			return
+		}
+
+		return
+	}
+
+	if r.Form.Get("from") == "airtimePage" {
+		if err := accPages.AirtimeBeneficiaries(result).Render(context.TODO(), w); err != nil {
+			a.serverError(w, err)
+			return
+		}
+
+		return
+	}
 }
 
 func validateNewBeneficiary(r *http.Request) error {
@@ -115,8 +120,6 @@ func validateNewBeneficiary(r *http.Request) error {
 	if bName == "" || bPhoneNo == "" || ServiceProvider == "" {
 		return fmt.Errorf("all fields are required")
 	}
-
-	fmt.Println(bName, bPhoneNo, ServiceProvider)
 
 	if !validPhoneNoRegexp.MatchString(bPhoneNo) {
 		return fmt.Errorf("invalid phone number")

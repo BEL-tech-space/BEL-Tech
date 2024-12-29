@@ -23,7 +23,7 @@ var (
 
 	devServiceUser = service.Account{
 		AccountID:   "1234567890",
-		Email:       "giwaoluatobi@gmail.com",
+		Email:       "giwaoluwatobi@gmail.com",
 		AvatarUrl:   "https://lh3.googleusercontent.com/a-/ALV-UjWhunlRgNtwAAdFNTue7WN3k01azp8GY0qJHQqsdfXBB26X40qIIw=s96-c",
 		DisplayName: "Tobias",
 	}
@@ -96,7 +96,7 @@ func (a *App) logoutAccount(w http.ResponseWriter, r *http.Request) {
 	session, err := a.accountSessionStore.Get(r, "beltech-account")
 	if err != nil {
 		fmt.Println("error in get, logoutAccount", err.Error())
-		http.Redirect(w, r, "/account/signin", http.StatusTemporaryRedirect)
+		http.Redirect(w, r, "/account/signin-Partial.html", http.StatusTemporaryRedirect)
 		return
 	}
 
@@ -104,11 +104,11 @@ func (a *App) logoutAccount(w http.ResponseWriter, r *http.Request) {
 	session.Values = nil
 	if err := session.Save(r, w); err != nil {
 		fmt.Println("error in saving session, logOut", err.Error())
-		http.Redirect(w, r, "/account/signin", http.StatusTemporaryRedirect)
+		http.Redirect(w, r, "/account/signin-Partial.html", http.StatusTemporaryRedirect)
 		return
 	}
 
-	http.Redirect(w, r, "/account/signin", http.StatusTemporaryRedirect)
+	http.Redirect(w, r, "/account/signin-Partial.html", http.StatusTemporaryRedirect)
 }
 
 func (a *App) logInUser(w http.ResponseWriter, r *http.Request, u goth.User) error {

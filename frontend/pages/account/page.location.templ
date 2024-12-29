@@ -6,7 +6,7 @@ templ LocationPage() {
 		@HeadTag("Location")
 		<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
 			<div class="flex flex-col h-full gap-2 font-montserrat text-[#2E2E2E]">
-				@LocationHeaderPartial(templ.NopComponent)
+				@LocationHeaderPartial()
 				@LocationMain()
 				@Footer("location", templ.NopComponent)
 			</div>
@@ -15,8 +15,7 @@ templ LocationPage() {
 	</html>
 }
 
-templ LocationHeaderPartial(beforeHeaderTagPartial templ.Component) {
-	@beforeHeaderTagPartial
+templ LocationHeaderPartial() {
 	<header class="mt-6 mx-6">
 		<div class="flex flex-col justify-between items-start gap-6 px-3">
 			<p class="font-semibold text-left text-[0.938rem] leading-[1.143rem]">

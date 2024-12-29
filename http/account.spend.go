@@ -15,13 +15,13 @@ func (a *App) spendPageHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if r.Header.Get("X-Content-Mode") == "partials" {
-		if err := accPages.SpendMain(account(user)).Render(context.TODO(), w); err != nil {
-			a.serverError(w, err)
-			return
-		}
-		return
-	}
+	// if r.Header.Get("X-Content-Mode") == "partials" {
+	// 	if err := accPages.SpendMain(account(user)).Render(context.TODO(), w); err != nil {
+	// 		a.serverError(w, err)
+	// 		return
+	// 	}
+	// 	return
+	// }
 
 	if err := accPages.SpendPage(account(user)).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
@@ -38,11 +38,15 @@ func (a *App) spendPageHeaderPartial(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := accPages.SpendHeaderPartial(
-		account(user).AvatarUrl,
-		accPages.BeforeHeaderTagPartial(
-			"Spend BEL Token"),
-		accPages.SpendMainOpeningTag()).Render(context.TODO(), w); err != nil {
+	if err := accPages.SpendHeaderPartial(account(user).AvatarUrl).Render(context.TODO(), w); err != nil {
+		a.serverError(w, err)
+		return
+	}
+}
+
+func (a *App) spendMainTagPartial(w http.ResponseWriter, r *http.Request) {
+
+	if err := accPages.SpendMainOpeningTag().Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}

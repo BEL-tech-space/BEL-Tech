@@ -100,13 +100,22 @@ func (q *Queries) AddNewAccount(ctx context.Context, arg AddNewAccountParams) er
 	return err
 }
 
-const addNewBeneficiary = `-- name: AddNewBeneficiary :exec
+const addNewBeneficiary = `-- name: AddNewBeneficiary :many
 
 
 
-
-INSERT INTO beneficiaries (b_name, b_phone_no, service_provider, email)
-VALUES ($1, $2, $3, $4)
+WITH inserted_row AS (
+  INSERT INTO beneficiaries (b_name, b_phone_no, service_provider, email)
+  VALUES ($1, $2, $3, $4)
+  RETURNING b_name, b_phone_no, service_provider, created_at, email
+)
+SELECT b_name, b_phone_no, service_provider, created_at, email 
+FROM beneficiaries
+WHERE email = $4
+UNION
+SELECT b_name, b_phone_no, service_provider, created_at, email 
+FROM inserted_row
+ORDER BY created_at DESC
 `
 
 type AddNewBeneficiaryParams struct {
@@ -156,14 +165,35 @@ type AddNewBeneficiaryParams struct {
 // FROM
 //
 //	collectors;
-func (q *Queries) AddNewBeneficiary(ctx context.Context, arg AddNewBeneficiaryParams) error {
-	_, err := q.db.Exec(ctx, addNewBeneficiary,
+func (q *Queries) AddNewBeneficiary(ctx context.Context, arg AddNewBeneficiaryParams) ([]Beneficiary, error) {
+	rows, err := q.db.Query(ctx, addNewBeneficiary,
 		arg.BName,
 		arg.BPhoneNo,
 		arg.ServiceProvider,
 		arg.Email,
 	)
-	return err
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Beneficiary
+	for rows.Next() {
+		var i Beneficiary
+		if err := rows.Scan(
+			&i.BName,
+			&i.BPhoneNo,
+			&i.ServiceProvider,
+			&i.CreatedAt,
+			&i.Email,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
 }
 
 const deleteBeneficiary = `-- name: DeleteBeneficiary :exec
@@ -219,28 +249,28 @@ func (q *Queries) GetAccount(ctx context.Context, email string) (Account, error)
 }
 
 const getBeneficiariesByEmail = `-- name: GetBeneficiariesByEmail :many
-SELECT b_name, b_phone_no, service_provider
+SELECT b_name, b_phone_no, service_provider, created_at, email
 FROM beneficiaries
 WHERE email = $1
 ORDER BY created_at DESC
 `
 
-type GetBeneficiariesByEmailRow struct {
-	BName           string `json:"b_name"`
-	BPhoneNo        string `json:"b_phone_no"`
-	ServiceProvider string `json:"service_provider"`
-}
-
-func (q *Queries) GetBeneficiariesByEmail(ctx context.Context, email pgtype.Text) ([]GetBeneficiariesByEmailRow, error) {
+func (q *Queries) GetBeneficiariesByEmail(ctx context.Context, email pgtype.Text) ([]Beneficiary, error) {
 	rows, err := q.db.Query(ctx, getBeneficiariesByEmail, email)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []GetBeneficiariesByEmailRow
+	var items []Beneficiary
 	for rows.Next() {
-		var i GetBeneficiariesByEmailRow
-		if err := rows.Scan(&i.BName, &i.BPhoneNo, &i.ServiceProvider); err != nil {
+		var i Beneficiary
+		if err := rows.Scan(
+			&i.BName,
+			&i.BPhoneNo,
+			&i.ServiceProvider,
+			&i.CreatedAt,
+			&i.Email,
+		); err != nil {
 			return nil, err
 		}
 		items = append(items, i)
