@@ -45,7 +45,7 @@ templ scriptForBeneficiariesPage() {
 }
 
 templ BeneficiariesMain(ben []types.Beneficiary) {
-	<main id="beneficiariesList" class="overflow-y-auto pl-[1.5rem] pr-[1.56rem] pt-12">
+	<main id="beneficiariesList" class="overflow-y-auto grow pl-[1.5rem] pr-[1.56rem] pt-12">
 		if len(ben) == 0 {
 			<div class="h-full flex justify-center items-center">
 				<p class="text-center font-tt_chocolate">No beneficiary, click the + to add new beneficiary.</p>
