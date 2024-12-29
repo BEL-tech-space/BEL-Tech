@@ -56,10 +56,15 @@ func (a *App) airtimePageHeaderPartial(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err := accPages.AirtimeHeaderPartial(
-		account(user).AvatarUrl,
-		accPages.BeforeHeaderTagPartial(
-			"Airtime"),
-		accPages.AirtimeMainOpeningTag()).Render(context.TODO(), w); err != nil {
+		account(user).AvatarUrl).Render(context.TODO(), w); err != nil {
+		a.serverError(w, err)
+		return
+	}
+}
+
+func (a *App) airtimeMainTagPartial(w http.ResponseWriter, r *http.Request) {
+
+	if err := accPages.AirtimeMainOpeningTag().Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}

@@ -6,8 +6,6 @@ import (
 	"fmt"
 	"net/http"
 	"regexp"
-
-	"github.com/a-h/templ"
 )
 
 func (a *App) beneficiariesPageHandler(w http.ResponseWriter, r *http.Request) {
@@ -22,14 +20,6 @@ func (a *App) beneficiariesPageHandler(w http.ResponseWriter, r *http.Request) {
 	result, err := a.service.GetBeneficiaries(context.Background(), accountEmail)
 	if err != nil {
 		a.serverError(w, err)
-		return
-	}
-
-	if r.Header.Get("X-Content-Mode") == "partials" {
-		if err := accPages.BeneficiariesMain(result).Render(context.TODO(), w); err != nil {
-			a.serverError(w, err)
-			return
-		}
 		return
 	}
 
@@ -49,10 +39,7 @@ func (a *App) beneficiariesPageHeaderPartial(w http.ResponseWriter, r *http.Requ
 	}
 
 	if err := accPages.BeneficiariesHeaderPartial(
-		account(user).AvatarUrl,
-		accPages.BeforeHeaderTagPartial(
-			"Spend"),
-		templ.NopComponent).Render(context.TODO(), w); err != nil {
+		account(user).AvatarUrl).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}

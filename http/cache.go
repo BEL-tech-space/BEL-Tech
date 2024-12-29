@@ -31,5 +31,5 @@ func (a *App) addUserToCache(ctx context.Context, email string) (service.Account
 }
 
 func (a *App) updateAccountCache(ctx context.Context, acc service.Account) bool {
-	return a.accountCache.Set(acc.Email, acc, 1)
+	return a.accountCache.SetWithTTL(acc.Email, acc, 1, time.Hour)
 }

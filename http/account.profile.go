@@ -18,45 +18,21 @@ func (a *App) ProfilePageHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if r.Header.Get("X-Content-Mode") == "partials" {
-		if err := accPages.ProfileMain(account(user)).Render(context.TODO(), w); err != nil {
-			a.serverError(w, err)
-			return
-		}
-		return
-	}
-
 	if err := accPages.Profile(account(user)).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}
 }
 
-func (a *App) profileHeaderPartial(w http.ResponseWriter, r *http.Request) {
+func (a *App) profileMainTagPartial(w http.ResponseWriter, r *http.Request) {
 
-	accountEmail := r.Context().Value(contextKeyEmail).(string)
-	user, err := a.getAccountFromCache(context.Background(), accountEmail)
-	if err != nil {
-		a.serverError(w, err)
-		return
-	}
-
-	if err := accPages.CommonHeader(
-		account(user)).Render(context.TODO(), w); err != nil {
+	if err := accPages.ProfileMainOpeningTag().Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}
 }
 
-func (a *App) profileLetRecyclePartial(w http.ResponseWriter, r *http.Request) {
-
-	if err := accPages.LetRecycleAndProfile("My Profile").Render(context.TODO(), w); err != nil {
-		a.serverError(w, err)
-		return
-	}
-}
-
-func (a *App) profileChangeDisplayIcon(w http.ResponseWriter, r *http.Request) {
+func (a *App) profileDisplayIcon(w http.ResponseWriter, r *http.Request) {
 
 	accountEmail := r.Context().Value(contextKeyEmail).(string)
 	user, err := a.getAccountFromCache(context.Background(), accountEmail)
@@ -71,7 +47,7 @@ func (a *App) profileChangeDisplayIcon(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (a *App) profileUpdateProfilePartial(w http.ResponseWriter, r *http.Request) {
+func (a *App) profileFormPartial(w http.ResponseWriter, r *http.Request) {
 
 	accountEmail := r.Context().Value(contextKeyEmail).(string)
 	user, err := a.getAccountFromCache(context.Background(), accountEmail)
@@ -107,7 +83,8 @@ func (a *App) changeProfileDisplayName(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	a.updateAccountCache(context.Background(), acc)
+	val := a.updateAccountCache(context.Background(), acc)
+	fmt.Println("Updated cache:", val)
 
 	if err := accPages.CommonHeader(account(acc)).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
