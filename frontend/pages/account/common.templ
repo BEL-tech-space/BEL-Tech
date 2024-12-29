@@ -34,6 +34,8 @@ templ HtmlAndBodyClosingTagPartial(pageTitle string) {
 		case "spend":
 			@scriptForSpendPage()
 		case "airtime":
+			@airtimeRechargeSuccessDialog()
+			@addNewBeneficiairyAirtimePageDialog()
 			@scriptForAirtimePage()
 		case "beneficiaries":
 			@scriptForBeneficiariesPage()
