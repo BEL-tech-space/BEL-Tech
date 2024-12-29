@@ -41,7 +41,7 @@ func LocationPage() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = LocationHeaderPartial(templ.NopComponent).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = LocationHeaderPartial().Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -69,7 +69,7 @@ func LocationPage() templ.Component {
 	})
 }
 
-func LocationHeaderPartial(beforeHeaderTagPartial templ.Component) templ.Component {
+func LocationHeaderPartial() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -90,10 +90,6 @@ func LocationHeaderPartial(beforeHeaderTagPartial templ.Component) templ.Compone
 			templ_7745c5c3_Var2 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = beforeHeaderTagPartial.Render(ctx, templ_7745c5c3_Buffer)
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<header class=\"mt-6 mx-6\"><div class=\"flex flex-col justify-between items-start gap-6 px-3\"><p class=\"font-semibold text-left text-[0.938rem] leading-[1.143rem]\">Find the closest smart bin to you! 😄</p><div class=\"bg-[#CCE1D699] rounded-xl w-full flex justify-between items-center gap-[0.234] px-2\"><input type=\"text\" placeholder=\"Search location\" class=\"bg-transparent outline-none w-full\"><div class=\"m-[0.646rem]\"><img src=\"/public/assets/svg/search.svg\" class=\"w-[1.056rem] aspect-square\"></div></div></div></header>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err

@@ -41,6 +41,22 @@ func (a *App) footerPartial(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func (a *App) commonHeader(w http.ResponseWriter, r *http.Request) {
+
+	accountEmail := r.Context().Value(contextKeyEmail).(string)
+	user, err := a.getAccountFromCache(context.Background(), accountEmail)
+	if err != nil {
+		a.serverError(w, err)
+		return
+	}
+
+	if err := accPages.CommonHeader(
+		account(user)).Render(context.TODO(), w); err != nil {
+		a.serverError(w, err)
+		return
+	}
+}
+
 func (a *App) mainOpeningTagPartial(w http.ResponseWriter, r *http.Request) {
 	pageTitle := strings.Split(r.URL.Path, "/")[2]
 

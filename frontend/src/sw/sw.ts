@@ -1,6 +1,10 @@
 // sw.js
 import * as navigationPreload from "workbox-navigation-preload";
-import { CacheFirst, NetworkFirst } from "workbox-strategies";
+import {
+  CacheFirst,
+  NetworkFirst,
+  StaleWhileRevalidate,
+} from "workbox-strategies";
 import { registerRoute } from "workbox-routing";
 import { precacheAndRoute } from "workbox-precaching";
 import { ExpirationPlugin } from "workbox-expiration";
@@ -13,6 +17,7 @@ import {
   locationPageStream,
   walletPageStream,
   spendPageStream,
+  staleWhileRevalidateStrategy,
 } from "./sw-strategies";
 
 declare const self: ServiceWorkerGlobalScope & { __WB_MANIFEST: any[] };
@@ -24,7 +29,7 @@ navigationPreload.enable();
 
 // RuntimeCaching
 registerRoute(
-  RegExp(/.*\.(?:png|jpg|jpeg|svg|webp)$/),
+  RegExp(/.*\.(?:png|jpg|jpeg|svg|webp|json)$/),
   new CacheFirst({
     cacheName: imagesCache,
     plugins: [
@@ -33,13 +38,40 @@ registerRoute(
         maxAgeSeconds: 60 * 60 * 24 * 30, // about a month
       }),
     ],
-  })
+  }),
 );
 
 // account/dashboard
 registerRoute(
+  new RegExp("^.*/account/dashboard/chart\\?month=[1-4]$"),
+  new StaleWhileRevalidate({
+    cacheName: contentCache,
+    plugins: [
+      new ExpirationPlugin({
+        maxEntries: 30,
+        maxAgeSeconds: 60 * 60 * 24 * 30, // about a month
+      }),
+    ],
+  }),
+);
+
+registerRoute(
+  new RegExp("^.*/account/dashboard/chart\\?month=0$"),
+  new NetworkFirst({
+    networkTimeoutSeconds: 3,
+    cacheName: contentCache,
+    plugins: [
+      new ExpirationPlugin({
+        maxEntries: 30,
+        maxAgeSeconds: 60 * 60 * 24 * 30, // about a month
+      }),
+    ],
+  }),
+);
+
+registerRoute(
   ({ url }) => url.pathname == "/account/dashboard",
-  dashboardPageStream
+  dashboardPageStream,
 );
 
 // account/scan
@@ -53,13 +85,13 @@ registerRoute(
         maxAgeSeconds: 60 * 60 * 24 * 30, // about a month
       }),
     ],
-  })
+  }),
 );
 
 // account/location
 registerRoute(
   ({ url }) => url.pathname == "/account/location",
-  locationPageStream
+  locationPageStream,
 );
 
 // account/wallet
@@ -79,7 +111,7 @@ registerRoute(
         maxAgeSeconds: 60 * 60 * 24 * 30, // about a month
       }),
     ],
-  })
+  }),
 );
 
 precacheAndRoute(self.__WB_MANIFEST || []);

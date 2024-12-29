@@ -8,7 +8,7 @@ templ SpendPage(acc Account) {
 		@HeadTag("Spend BEL Token")
 		<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh font-montserrat text-[#2E2E2E] overflow-hidden">
 			<div class="w-full h-full flex flex-col font-montserrat text-[#2E2E2E]">
-				@SpendHeaderPartial(acc.AvatarUrl, templ.NopComponent, templ.NopComponent)
+				@SpendHeaderPartial(acc.AvatarUrl)
 				@SpendMain(acc)
 				@Footer("spend", templ.NopComponent)
 			</div>
@@ -17,19 +17,24 @@ templ SpendPage(acc Account) {
 	</html>
 }
 
-templ SpendHeaderPartial(avatarURL string, beforeHeaderTagPartial, afterHeaderTagPartial templ.Component) {
-	@commonHeaderTwo("Spend BEL Token", avatarURL, SpendHeaderBtnComp())
-}
-
-templ SpendHeaderBtnComp() {
-	<button
-		class="bg-[#CCE1D699] p-2 rounded-md flex justify-center items-center"
-	>
-		<img
-			src="/public/assets/svg/notification.svg"
-			class="w-[1.5rem] aspect-square"
-		/>
-	</button>
+templ SpendHeaderPartial(avatarURL string) {
+	<header class="pt-[1.5rem] pl-[1.5rem] pr-[1.56rem] flex w-full justify-between items-center">
+		<a href="/account/profile">
+			<img
+				src={ avatarURL }
+				class="rounded-full w-[1.86rem] aspect-square mr-[0.5rem]"
+			/>
+		</a>
+		<p class="font-semibold text-[0.938rem] leading-[1.143rem]">Spend BEL Token</p>
+		<button
+			class="bg-[#CCE1D699] p-2 rounded-md flex justify-center items-center"
+		>
+			<img
+				src="/public/assets/svg/notification.svg"
+				class="w-[1.5rem] aspect-square"
+			/>
+		</button>
+	</header>
 }
 
 templ SpendMain(acc Account) {

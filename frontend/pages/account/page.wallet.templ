@@ -11,7 +11,7 @@ templ WalletPage(acc Account, data []types.TokenData) {
 		@HeadTag("wallet")
 		<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
 			<div class="w-full h-full flex flex-col font-montserrat text-[#2E2E2E]">
-				@CommonHeaderOne(acc)
+				@CommonHeader(acc)
 				@WalletMain(acc, data)
 				@Footer("wallet", templ.NopComponent)
 			</div>
@@ -24,7 +24,7 @@ templ WalletMain(acc Account, data []types.TokenData) {
 	<main class="grow overflow-y-auto pl-6 pr-[1.56rem] flex flex-col">
 		@WalletBalance(acc.CurrBalance)
 		@WalletOptionsPartial()
-		@WalletWatchlistPartial()
+		// @WalletWatchlistPartial()
 		@WalletCoinData(data)
 		@WalletSwiper()
 	</main>
@@ -89,6 +89,12 @@ templ WalletOptionsPartial() {
 			<p class="font-poppins font-normal text-xs text-center">Learn</p>
 		</a>
 	</section>
+	<section class="mt-10 mb-4 w-full flex justify-between items-center">
+		<p class="font-semibold text-[0.94rem] leading-[1.14rem]">Watchlist</p>
+		<button>
+			<p class="font-medium text-[0.63rem] leading-[0.76rem] text-[#016934]">Past 7d</p>
+		</button>
+	</section>
 }
 
 templ WalletWatchlistPartial() {
@@ -102,13 +108,13 @@ templ WalletWatchlistPartial() {
 
 templ WalletCoinData(data []types.TokenData) {
 	<section>
-		<ul hx-get="/account/coinData" hx-trigger="every 11s" hx-swap="innerHTML" class="w-full flex flex-col gap-3 justify-around items-center h-full">
-			@CoinData(data)
+		<ul hx-get="/account/wallet/livedata" hx-trigger="every 11s" hx-swap="innerHTML" class="w-full flex flex-col gap-3 justify-around items-center h-full">
+			@WalletLiveCoinData(data)
 		</ul>
 	</section>
 }
 
-templ CoinData(data []types.TokenData) {
+templ WalletLiveCoinData(data []types.TokenData) {
 	if isAllElementZero(data) {
 		<div class="w-full h-full flex justify-center items-center">
 			<p class="text-center font-poppins font-light">No live crypto data, maybe offline ☹️</p>

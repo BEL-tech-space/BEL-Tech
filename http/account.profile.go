@@ -41,7 +41,7 @@ func (a *App) profileHeaderPartial(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := accPages.CommonHeaderOne(
+	if err := accPages.CommonHeader(
 		account(user)).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
@@ -109,7 +109,7 @@ func (a *App) changeProfileDisplayName(w http.ResponseWriter, r *http.Request) {
 
 	a.updateAccountCache(context.Background(), acc)
 
-	if err := accPages.CommonHeaderOne(account(acc)).Render(context.TODO(), w); err != nil {
+	if err := accPages.CommonHeader(account(acc)).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}

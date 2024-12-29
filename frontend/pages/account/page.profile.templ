@@ -6,13 +6,12 @@ templ Profile(acc Account) {
 		@HeadTag("Profile")
 		<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
 			<div class="Page w-full h-full flex flex-col font-montserrat text-[#2E2E2E]">
-				@CommonHeaderOne(acc)
+				@CommonHeader(acc)
 				@ProfileMain(acc)
 				@Footer("dashboard", templ.NopComponent)
 			</div>
 		</body>
-		<script src="/public/assets/scripts/hyperscript.min.js"></script>
-		<script src="/public/assets/scripts/htmx.min.js"></script>
+		@scriptForProfilePage()
 		@createNewPinDialog()
 		@enterSPLWalletAddrDialog()
 		@successDialog(true)
@@ -26,6 +25,11 @@ templ ProfileMain(acc Account) {
 		@ProfileChangeDisplayIcon(acc.AvatarUrl)
 		@ProfileUpdataAccountInfoPartial(acc)
 	</main>
+}
+
+templ scriptForProfilePage() {
+	<script src="/public/assets/scripts/hyperscript.min.js"></script>
+	<script src="/public/assets/scripts/htmx.min.js"></script>
 }
 
 templ ProfileMainOpeningTag() {
