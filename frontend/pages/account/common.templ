@@ -106,7 +106,7 @@ templ HeadTag(pageTitle string) {
 		   	pageTitle == "wallet" ||
 		    pageTitle == "spend" {
 			<link rel="manifest" href="/public/manifest.json"/>
-			<meta name="theme-color" content="#fff"/>
+			<meta name="theme-color" content="#CCE1D699"/>
 			@splashScreenForiOS()
 		}
 		if pageTitle == "dashboard" || 
@@ -342,7 +342,7 @@ templ commonHeaderTwo(text, avatarURL string, btnComp templ.Component) {
 }
 
 templ LetRecycleAndProfile(text string) {
-	<article class="flex items-center gap-1">
+	<section class="flex items-center gap-1">
 		<p class="leading-[1.143rem] font-semibold text-[0.938rem]">{ text }</p>
 		<picture>
 			<source type="image/webp" srcset="/public/assets/images/Recycle_small.webp"/>
@@ -351,7 +351,7 @@ templ LetRecycleAndProfile(text string) {
 				class="w-5 aspect-square"
 			/>
 		</picture>
-	</article>
+	</section>
 }
 
 templ removeScrollBar() {

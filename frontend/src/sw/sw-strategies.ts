@@ -17,46 +17,15 @@ export const cacheFirstStrategy = new CacheFirst({
       maxEntries: 30,
       maxAgeSeconds: 60 * 60 * 24 * 30, // about a month
     }),
-    // {
-    //   handlerDidError: async ({request}) => {
-    //     return await matchPrecache('/offline-header.php');
-    //   }
-    // }
   ],
 });
 
 export const networkFirstStrategy = new NetworkFirst({
   cacheName: contentCache,
   networkTimeoutSeconds: 5,
-  // plugins: [
-  //   {
-  //     requestWillFetch: async ({request, event}) => {
-  //       const headers = new Headers();
-  //       headers.append('X-Content-Mode', 'partial');
-  //       console.log('requestWillFetch', request.url);
-  //       return Promise.resolve(new Request(request.url, {method: 'GET', headers }));
-  //     },
-  //     handlerDidError: async ({request}) => {
-  //       return await matchPrecache('/offline.html');
-  //     }
-  //   }
-  // ]
 });
 export const staleWhileRevalidateStrategy = new StaleWhileRevalidate({
   cacheName: contentCache,
-  // plugins: [
-  //   {
-  //     requestWillFetch: async ({request, event}) => {
-  //       const headers = new Headers();
-  //       headers.append('X-Content-Mode', 'partial');
-  //       console.log('requestWillFetch', request.url);
-  //       return Promise.resolve(new Request(request.url, {method: 'GET', headers }));
-  //     },
-  //     handlerDidError: async ({request}) => {
-  //       return await matchPrecache('/offline.html');
-  //     }
-  //   }
-  // ]
 });
 
 export const dashboardPageStream = composeStrategies(
@@ -68,7 +37,7 @@ export const dashboardPageStream = composeStrategies(
       }),
     async ({ event }) =>
       cacheFirstStrategy.handle({
-        request: new Request("/account/dashboard/header-Partial.html"),
+        request: new Request("/account/dashboard/commonHeader-Partial.html"),
         event,
       }),
     async ({ event }) =>
@@ -91,13 +60,6 @@ export const dashboardPageStream = composeStrategies(
         request: new Request("/account/dashboard/swiperTwo"),
         event,
       }),
-    // async ({ event }) =>
-    //   networkFirstStrategy.handle({
-    //     request: new Request("/account/dashboard", {
-    //       headers: [["X-Content-Mode", "partials"]],
-    //     }),
-    //     event,
-    //   }),
     async ({ event }) =>
       cacheFirstStrategy.handle({
         request: new Request("/account/dashboard/footer-Partial.html"),
@@ -154,7 +116,7 @@ export const walletPageStream = composeStrategies(
       }),
     async ({ event }) =>
       cacheFirstStrategy.handle({
-        request: new Request("/account/wallet/header-Partial.html"),
+        request: new Request("/account/wallet/commonHeader-Partial.html"),
         event,
       }),
     async ({ event }) =>
@@ -177,13 +139,6 @@ export const walletPageStream = composeStrategies(
         request: new Request("/account/wallet/coinData", {}),
         event,
       }),
-    // async ({ event }) =>
-    //   networkFirstStrategy.handle({
-    //     request: new Request("/account/wallet", {
-    //       headers: [["X-Content-Mode", "partials"]],
-    //     }),
-    //     event,
-    //   }),
     async ({ event }) =>
       staleWhileRevalidateStrategy.handle({
         request: new Request("/account/wallet/swiper"),
@@ -230,13 +185,6 @@ export const spendPageStream = composeStrategies(
         request: new Request("/account/spend/otherhalf"),
         event,
       }),
-    // async ({ event }) =>
-    //   networkFirstStrategy.handle({
-    //     request: new Request("/account/spend", {
-    //       headers: [["X-Content-Mode", "partials"]],
-    //     }),
-    //     event,
-    //   }),
     async ({ event }) =>
       cacheFirstStrategy.handle({
         request: new Request("/account/spend/footer-Partial.html"),
@@ -250,3 +198,172 @@ export const spendPageStream = composeStrategies(
   ],
   {},
 );
+
+export const profilePageStream = composeStrategies(
+  [
+    async ({ event }) =>
+      cacheFirstStrategy.handle({
+        request: new Request("/account/profile/openingHtmlTag-Partial.html"),
+        event,
+      }),
+    async ({ event }) =>
+      cacheFirstStrategy.handle({
+        request: new Request("/account/profile/commonHeader-Partial.html"),
+        event,
+      }),
+    async ({ event }) =>
+      cacheFirstStrategy.handle({
+        request: new Request("/account/profile/mainOpeningTag-Partial.html"),
+        event,
+      }),
+    async ({ event }) =>
+      staleWhileRevalidateStrategy.handle({
+        request: new Request("/account/profile/displayIcon"),
+        event,
+      }),
+    async ({ event }) =>
+      staleWhileRevalidateStrategy.handle({
+        request: new Request("/account/profile/formPartial"),
+        event,
+      }),
+    async ({ event }) =>
+      cacheFirstStrategy.handle({
+        request: new Request("/account/profile/footer-Partial.html"),
+        event,
+      }),
+    async ({ event }) =>
+      cacheFirstStrategy.handle({
+        request: new Request("/account/profile/closingHtmlTag-Partial.html"),
+        event,
+      }),
+  ],
+  {},
+);
+
+export const airtimePageStream = composeStrategies(
+  [
+    async ({ event }) =>
+      cacheFirstStrategy.handle({
+        request: new Request("/account/airtime/openingHtmlTag-Partial.html"),
+        event,
+      }),
+    async ({ event }) =>
+      cacheFirstStrategy.handle({
+        request: new Request("/account/airtime/header-Partial.html"),
+        event,
+      }),
+    async ({ event }) =>
+      cacheFirstStrategy.handle({
+        request: new Request("/account/airtime/mainOpeningTag-Partial.html"),
+        event,
+      }),
+    async ({ event }) =>
+      cacheFirstStrategy.handle({
+        request: new Request("/account/airtime/inputNumber"),
+        event,
+      }),
+    async ({ event }) =>
+      networkFirstStrategy.handle({
+        request: new Request("/account/airtime/beneficiaries"),
+        event,
+      }),
+    async ({ event }) =>
+      cacheFirstStrategy.handle({
+        request: new Request("/account/airtime/footer-Partial.html"),
+        event,
+      }),
+    async ({ event }) =>
+      cacheFirstStrategy.handle({
+        request: new Request("/account/airtime/closingHtmlTag-Partial.html"),
+        event,
+      }),
+  ],
+  {},
+);
+
+export const beneficiariesPageStream = composeStrategies(
+  [
+    async ({ event }) =>
+      cacheFirstStrategy.handle({
+        request: new Request(
+          "/account/beneficiaries/openingHtmlTag-Partial.html",
+        ),
+        event,
+      }),
+    async ({ event, url }) =>
+      cacheFirstStrategy.handle({
+        request: new Request("/account/beneficiaries/header-Partial.html"),
+        event,
+      }),
+    async ({ event }) =>
+      networkFirstStrategy.handle({
+        request: new Request("/account/beneficiaries/main"),
+        event,
+      }),
+    async ({ event }) =>
+      cacheFirstStrategy.handle({
+        request: new Request("/account/beneficiaries/footer-Partial.html"),
+        event,
+      }),
+    async ({ event }) =>
+      cacheFirstStrategy.handle({
+        request: new Request(
+          "/account/beneficiaries/closingHtmlTag-Partial.html",
+        ),
+        event,
+      }),
+  ],
+  {},
+);
+
+export const wastePageStream = composeStrategies(
+  [
+    async ({ event }) =>
+      cacheFirstStrategy.handle({
+        request: new Request("/account/waste/openingHtmlTag-Partial.html"),
+        event,
+      }),
+    async ({ event }) =>
+      cacheFirstStrategy.handle({
+        request: new Request("/account/waste/commonHeader-Partial.html"),
+        event,
+      }),
+    async ({ event }) =>
+      cacheFirstStrategy.handle({
+        request: new Request("/account/waste/mainOpeningTag-Partial.html"),
+        event,
+      }),
+    async ({ event, url }) =>
+      networkFirstStrategy.handle({
+        request: matchingPathVariableForWaste(url, "quickInfo"),
+        event,
+      }),
+    async ({ event }) =>
+      cacheFirstStrategy.handle({
+        request: new Request("/account/waste/filter"),
+        event,
+      }),
+    async ({ event, url }) =>
+      networkFirstStrategy.handle({
+        request: matchingPathVariableForWaste(url, "history"),
+        event,
+      }),
+    async ({ event }) =>
+      cacheFirstStrategy.handle({
+        request: new Request("/account/waste/footer-Partial.html"),
+        event,
+      }),
+    async ({ event }) =>
+      cacheFirstStrategy.handle({
+        request: new Request("/account/waste/closingHtmlTag-Partial.html"),
+        event,
+      }),
+  ],
+  {},
+);
+
+function matchingPathVariableForWaste(url: URL, endpoint: string) {
+  const segments = url.pathname.split("/");
+  const lastSegment = segments[segments.length - 1];
+  return new Request(`/account/waste/${endpoint}/${lastSegment}`);
+}

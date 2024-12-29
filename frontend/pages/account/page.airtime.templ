@@ -8,7 +8,7 @@ templ AirtimePage(avatarURL string, ben []types.Beneficiary) {
 		@HeadTag("Airtime")
 		<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
 			<div class="w-full h-full grid grid-rows-agentCollectPage font-montserrat text-[#2E2E2E]">
-				@commonHeaderTwo("Spend BEL Token", avatarURL, AirtimeHeaderBtnComp())
+				@AirtimeHeaderPartial(avatarURL)
 				@AirtimeMain(ben)
 				@Footer("spend", templ.NopComponent)
 			</div>
@@ -21,15 +21,6 @@ templ AirtimePage(avatarURL string, ben []types.Beneficiary) {
 	</html>
 }
 
-templ AirtimeHeaderBtnComp() {
-	<button class="bg-[#CCE1D699] p-2 rounded-md flex justify-center items-center">
-		<img
-			src="/public/assets/svg/notification.svg"
-			class="w-[1.5rem] aspect-square"
-		/>
-	</button>
-}
-
 templ AirtimeMain(ben []types.Beneficiary) {
 	<main class="overflow-y-auto pl-[1.5rem] pr-[1.56rem] pt-12 grid grid-rows-wastePage">
 		@AirtimeInputNumberPartial()
@@ -38,11 +29,25 @@ templ AirtimeMain(ben []types.Beneficiary) {
 }
 
 templ AirtimeMainOpeningTag() {
-	@templ.Raw(`<main class="overflow-y-auto pl-[1.5rem] pr-[1.56rem] pt-12">`)
+	@templ.Raw(`<main class="overflow-y-auto pl-[1.5rem] pr-[1.56rem] pt-12 grid grid-rows-wastePage">`)
 }
 
-templ AirtimeHeaderPartial(avatarURL string, beforeHeaderTagPartial, afterHeaderTagPartial templ.Component) {
-	@commonHeaderTwo("Spend BEL Token", avatarURL, AirtimeHeaderBtnComp())
+templ AirtimeHeaderPartial(avatarURL string) {
+	<header class="pt-[1.5rem] pl-[1.5rem] pr-[1.56rem] flex w-full justify-between items-center">
+		<a href="/account/profile">
+			<img
+				src={ avatarURL }
+				class="rounded-full w-[1.86rem] aspect-square mr-[0.5rem]"
+			/>
+		</a>
+		<p class="font-semibold text-[0.938rem] leading-[1.143rem]">Spend BEL Token</p>
+		<button class="bg-[#CCE1D699] p-2 rounded-md flex justify-center items-center">
+			<img
+				src="/public/assets/svg/notification.svg"
+				class="w-[1.5rem] aspect-square"
+			/>
+		</button>
+	</header>
 }
 
 templ AirtimeInputNumberPartial() {

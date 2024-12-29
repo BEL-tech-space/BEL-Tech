@@ -18,6 +18,11 @@ import {
   walletPageStream,
   spendPageStream,
   staleWhileRevalidateStrategy,
+  profilePageStream,
+  airtimePageStream,
+  beneficiariesPageStream,
+  wastePageStream,
+  cacheFirstStrategy,
 } from "./sw-strategies";
 
 declare const self: ServiceWorkerGlobalScope & { __WB_MANIFEST: any[] };
@@ -35,6 +40,22 @@ registerRoute(
     plugins: [
       new ExpirationPlugin({
         maxEntries: 300,
+        maxAgeSeconds: 60 * 60 * 24 * 30, // about a month
+      }),
+    ],
+  }),
+);
+
+// account/dashboard
+registerRoute(
+  ({ url }) =>
+    url.pathname === "/account/signin-Partial.html" ||
+    url.pathname === "/account/signup-Partial.html",
+  new CacheFirst({
+    cacheName: partialsCache,
+    plugins: [
+      new ExpirationPlugin({
+        maxEntries: 30,
         maxAgeSeconds: 60 * 60 * 24 * 30, // about a month
       }),
     ],
@@ -70,13 +91,13 @@ registerRoute(
 );
 
 registerRoute(
-  ({ url }) => url.pathname == "/account/dashboard",
+  ({ url }) => url.pathname === "/account/dashboard",
   dashboardPageStream,
 );
 
 // account/scan
 registerRoute(
-  ({ url }) => url.pathname == "/account/scan",
+  ({ url }) => url.pathname === "/account/scan",
   new CacheFirst({
     cacheName: contentCache,
     plugins: [
@@ -90,21 +111,77 @@ registerRoute(
 
 // account/location
 registerRoute(
-  ({ url }) => url.pathname == "/account/location",
+  ({ url }) => url.pathname === "/account/location",
   locationPageStream,
 );
 
 // account/wallet
-registerRoute(({ url }) => url.pathname == "/account/wallet", walletPageStream);
+registerRoute(
+  ({ url }) => url.pathname === "/account/wallet",
+  walletPageStream,
+);
 
 // account/wallet
-registerRoute(({ url }) => url.pathname == "/account/spend", spendPageStream);
+registerRoute(({ url }) => url.pathname === "/account/spend", spendPageStream);
 
-// account/profile/displayName
+// account/profile
 registerRoute(
-  ({ url }) => url.pathname == "/account/profile/displayName",
-  new NetworkFirst({
-    cacheName: partialsCache,
+  ({ url }) => url.pathname === "/account/profile/changeDisplayName",
+  async ({ request }) => {
+    const response = await fetch(request);
+
+    if (!response.ok) {
+      return response;
+    }
+
+    const cache = await caches.open(partialsCache);
+    const allCacheKeys = await cache.keys();
+
+    const matchingResponses = allCacheKeys.filter((request) =>
+      request.url.endsWith("commonHeader-Partial.html"),
+    );
+
+    for (const req of matchingResponses) {
+      await cache.put(req, response.clone());
+    }
+
+    return response;
+  },
+  "POST",
+);
+
+registerRoute(
+  ({ url }) => url.pathname === "/account/profile",
+  profilePageStream,
+);
+
+// account/airtime
+registerRoute(
+  ({ url }) => url.pathname === "/account/airtime",
+  airtimePageStream,
+  "POST",
+);
+
+// account/beneficiaries
+registerRoute(
+  ({ url }) => url.pathname === "/account/beneficiaries",
+  beneficiariesPageStream,
+);
+
+// account/waste
+registerRoute(({ url }) => {
+  const wastePathPattern = /.*\/account\/waste\/(paper|glass|plastics|metal)$/;
+  return wastePathPattern.test(url.href);
+}, wastePageStream);
+
+// account/tips
+registerRoute(
+  ({ url }) => {
+    const tipsPathPattern = /.*\/account\/tips\/(paper|glass|plastics|metal)$/;
+    return tipsPathPattern.test(url.href);
+  },
+  new CacheFirst({
+    cacheName: contentCache,
     plugins: [
       new ExpirationPlugin({
         maxEntries: 30,

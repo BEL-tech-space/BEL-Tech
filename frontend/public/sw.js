@@ -4173,45 +4173,14 @@ This is generally NOT safe. Learn more at https://bit.ly/wb-precache`;
         maxAgeSeconds: 60 * 60 * 24 * 30
         // about a month
       })
-      // {
-      //   handlerDidError: async ({request}) => {
-      //     return await matchPrecache('/offline-header.php');
-      //   }
-      // }
     ]
   });
   var networkFirstStrategy = new NetworkFirst({
     cacheName: contentCache,
     networkTimeoutSeconds: 5
-    // plugins: [
-    //   {
-    //     requestWillFetch: async ({request, event}) => {
-    //       const headers = new Headers();
-    //       headers.append('X-Content-Mode', 'partial');
-    //       console.log('requestWillFetch', request.url);
-    //       return Promise.resolve(new Request(request.url, {method: 'GET', headers }));
-    //     },
-    //     handlerDidError: async ({request}) => {
-    //       return await matchPrecache('/offline.html');
-    //     }
-    //   }
-    // ]
   });
   var staleWhileRevalidateStrategy = new StaleWhileRevalidate({
     cacheName: contentCache
-    // plugins: [
-    //   {
-    //     requestWillFetch: async ({request, event}) => {
-    //       const headers = new Headers();
-    //       headers.append('X-Content-Mode', 'partial');
-    //       console.log('requestWillFetch', request.url);
-    //       return Promise.resolve(new Request(request.url, {method: 'GET', headers }));
-    //     },
-    //     handlerDidError: async ({request}) => {
-    //       return await matchPrecache('/offline.html');
-    //     }
-    //   }
-    // ]
   });
   var dashboardPageStream = strategy(
     [
@@ -4220,7 +4189,7 @@ This is generally NOT safe. Learn more at https://bit.ly/wb-precache`;
         event
       }),
       async ({ event }) => cacheFirstStrategy.handle({
-        request: new Request("/account/dashboard/header-Partial.html"),
+        request: new Request("/account/dashboard/commonHeader-Partial.html"),
         event
       }),
       async ({ event }) => cacheFirstStrategy.handle({
@@ -4239,13 +4208,6 @@ This is generally NOT safe. Learn more at https://bit.ly/wb-precache`;
         request: new Request("/account/dashboard/swiperTwo"),
         event
       }),
-      // async ({ event }) =>
-      //   networkFirstStrategy.handle({
-      //     request: new Request("/account/dashboard", {
-      //       headers: [["X-Content-Mode", "partials"]],
-      //     }),
-      //     event,
-      //   }),
       async ({ event }) => cacheFirstStrategy.handle({
         request: new Request("/account/dashboard/footer-Partial.html"),
         event
@@ -4291,7 +4253,7 @@ This is generally NOT safe. Learn more at https://bit.ly/wb-precache`;
         event
       }),
       async ({ event }) => cacheFirstStrategy.handle({
-        request: new Request("/account/wallet/header-Partial.html"),
+        request: new Request("/account/wallet/commonHeader-Partial.html"),
         event
       }),
       async ({ event }) => cacheFirstStrategy.handle({
@@ -4310,13 +4272,6 @@ This is generally NOT safe. Learn more at https://bit.ly/wb-precache`;
         request: new Request("/account/wallet/coinData", {}),
         event
       }),
-      // async ({ event }) =>
-      //   networkFirstStrategy.handle({
-      //     request: new Request("/account/wallet", {
-      //       headers: [["X-Content-Mode", "partials"]],
-      //     }),
-      //     event,
-      //   }),
       async ({ event }) => staleWhileRevalidateStrategy.handle({
         request: new Request("/account/wallet/swiper"),
         event
@@ -4354,13 +4309,6 @@ This is generally NOT safe. Learn more at https://bit.ly/wb-precache`;
         request: new Request("/account/spend/otherhalf"),
         event
       }),
-      // async ({ event }) =>
-      //   networkFirstStrategy.handle({
-      //     request: new Request("/account/spend", {
-      //       headers: [["X-Content-Mode", "partials"]],
-      //     }),
-      //     event,
-      //   }),
       async ({ event }) => cacheFirstStrategy.handle({
         request: new Request("/account/spend/footer-Partial.html"),
         event
@@ -4372,6 +4320,143 @@ This is generally NOT safe. Learn more at https://bit.ly/wb-precache`;
     ],
     {}
   );
+  var profilePageStream = strategy(
+    [
+      async ({ event }) => cacheFirstStrategy.handle({
+        request: new Request("/account/profile/openingHtmlTag-Partial.html"),
+        event
+      }),
+      async ({ event }) => cacheFirstStrategy.handle({
+        request: new Request("/account/profile/commonHeader-Partial.html"),
+        event
+      }),
+      async ({ event }) => cacheFirstStrategy.handle({
+        request: new Request("/account/profile/mainOpeningTag-Partial.html"),
+        event
+      }),
+      async ({ event }) => staleWhileRevalidateStrategy.handle({
+        request: new Request("/account/profile/displayIcon"),
+        event
+      }),
+      async ({ event }) => staleWhileRevalidateStrategy.handle({
+        request: new Request("/account/profile/formPartial"),
+        event
+      }),
+      async ({ event }) => cacheFirstStrategy.handle({
+        request: new Request("/account/profile/footer-Partial.html"),
+        event
+      }),
+      async ({ event }) => cacheFirstStrategy.handle({
+        request: new Request("/account/profile/closingHtmlTag-Partial.html"),
+        event
+      })
+    ],
+    {}
+  );
+  var airtimePageStream = strategy(
+    [
+      async ({ event }) => cacheFirstStrategy.handle({
+        request: new Request("/account/airtime/openingHtmlTag-Partial.html"),
+        event
+      }),
+      async ({ event }) => cacheFirstStrategy.handle({
+        request: new Request("/account/airtime/header-Partial.html"),
+        event
+      }),
+      async ({ event }) => cacheFirstStrategy.handle({
+        request: new Request("/account/airtime/mainOpeningTag-Partial.html"),
+        event
+      }),
+      async ({ event }) => cacheFirstStrategy.handle({
+        request: new Request("/account/airtime/inputNumber"),
+        event
+      }),
+      async ({ event }) => networkFirstStrategy.handle({
+        request: new Request("/account/airtime/beneficiaries"),
+        event
+      }),
+      async ({ event }) => cacheFirstStrategy.handle({
+        request: new Request("/account/airtime/footer-Partial.html"),
+        event
+      }),
+      async ({ event }) => cacheFirstStrategy.handle({
+        request: new Request("/account/airtime/closingHtmlTag-Partial.html"),
+        event
+      })
+    ],
+    {}
+  );
+  var beneficiariesPageStream = strategy(
+    [
+      async ({ event }) => cacheFirstStrategy.handle({
+        request: new Request(
+          "/account/beneficiaries/openingHtmlTag-Partial.html"
+        ),
+        event
+      }),
+      async ({ event, url }) => cacheFirstStrategy.handle({
+        request: new Request("/account/beneficiaries/header-Partial.html"),
+        event
+      }),
+      async ({ event }) => networkFirstStrategy.handle({
+        request: new Request("/account/beneficiaries/main"),
+        event
+      }),
+      async ({ event }) => cacheFirstStrategy.handle({
+        request: new Request("/account/beneficiaries/footer-Partial.html"),
+        event
+      }),
+      async ({ event }) => cacheFirstStrategy.handle({
+        request: new Request(
+          "/account/beneficiaries/closingHtmlTag-Partial.html"
+        ),
+        event
+      })
+    ],
+    {}
+  );
+  var wastePageStream = strategy(
+    [
+      async ({ event }) => cacheFirstStrategy.handle({
+        request: new Request("/account/waste/openingHtmlTag-Partial.html"),
+        event
+      }),
+      async ({ event }) => cacheFirstStrategy.handle({
+        request: new Request("/account/waste/commonHeader-Partial.html"),
+        event
+      }),
+      async ({ event }) => cacheFirstStrategy.handle({
+        request: new Request("/account/waste/mainOpeningTag-Partial.html"),
+        event
+      }),
+      async ({ event, url }) => networkFirstStrategy.handle({
+        request: matchingPathVariableForWaste(url, "quickInfo"),
+        event
+      }),
+      async ({ event }) => cacheFirstStrategy.handle({
+        request: new Request("/account/waste/filter"),
+        event
+      }),
+      async ({ event, url }) => networkFirstStrategy.handle({
+        request: matchingPathVariableForWaste(url, "history"),
+        event
+      }),
+      async ({ event }) => cacheFirstStrategy.handle({
+        request: new Request("/account/waste/footer-Partial.html"),
+        event
+      }),
+      async ({ event }) => cacheFirstStrategy.handle({
+        request: new Request("/account/waste/closingHtmlTag-Partial.html"),
+        event
+      })
+    ],
+    {}
+  );
+  function matchingPathVariableForWaste(url, endpoint) {
+    const segments = url.pathname.split("/");
+    const lastSegment = segments[segments.length - 1];
+    return new Request(`/account/waste/${endpoint}/${lastSegment}`);
+  }
 
   // src/sw/sw.ts
   clientsClaim();
@@ -4383,6 +4468,19 @@ This is generally NOT safe. Learn more at https://bit.ly/wb-precache`;
       plugins: [
         new ExpirationPlugin({
           maxEntries: 300,
+          maxAgeSeconds: 60 * 60 * 24 * 30
+          // about a month
+        })
+      ]
+    })
+  );
+  registerRoute(
+    ({ url }) => url.pathname === "/account/signin-Partial.html" || url.pathname === "/account/signup-Partial.html",
+    new CacheFirst({
+      cacheName: partialsCache,
+      plugins: [
+        new ExpirationPlugin({
+          maxEntries: 30,
           maxAgeSeconds: 60 * 60 * 24 * 30
           // about a month
         })
@@ -4417,11 +4515,11 @@ This is generally NOT safe. Learn more at https://bit.ly/wb-precache`;
     })
   );
   registerRoute(
-    ({ url }) => url.pathname == "/account/dashboard",
+    ({ url }) => url.pathname === "/account/dashboard",
     dashboardPageStream
   );
   registerRoute(
-    ({ url }) => url.pathname == "/account/scan",
+    ({ url }) => url.pathname === "/account/scan",
     new CacheFirst({
       cacheName: contentCache,
       plugins: [
@@ -4434,15 +4532,57 @@ This is generally NOT safe. Learn more at https://bit.ly/wb-precache`;
     })
   );
   registerRoute(
-    ({ url }) => url.pathname == "/account/location",
+    ({ url }) => url.pathname === "/account/location",
     locationPageStream
   );
-  registerRoute(({ url }) => url.pathname == "/account/wallet", walletPageStream);
-  registerRoute(({ url }) => url.pathname == "/account/spend", spendPageStream);
   registerRoute(
-    ({ url }) => url.pathname == "/account/profile/displayName",
-    new NetworkFirst({
-      cacheName: partialsCache,
+    ({ url }) => url.pathname === "/account/wallet",
+    walletPageStream
+  );
+  registerRoute(({ url }) => url.pathname === "/account/spend", spendPageStream);
+  registerRoute(
+    ({ url }) => url.pathname === "/account/profile/changeDisplayName",
+    async ({ request }) => {
+      const response = await fetch(request);
+      if (!response.ok) {
+        return response;
+      }
+      const cache = await caches.open(partialsCache);
+      const allCacheKeys = await cache.keys();
+      const matchingResponses = allCacheKeys.filter(
+        (request2) => request2.url.endsWith("commonHeader-Partial.html")
+      );
+      for (const req of matchingResponses) {
+        await cache.put(req, response.clone());
+      }
+      return response;
+    },
+    "POST"
+  );
+  registerRoute(
+    ({ url }) => url.pathname === "/account/profile",
+    profilePageStream
+  );
+  registerRoute(
+    ({ url }) => url.pathname === "/account/airtime",
+    airtimePageStream,
+    "POST"
+  );
+  registerRoute(
+    ({ url }) => url.pathname === "/account/beneficiaries",
+    beneficiariesPageStream
+  );
+  registerRoute(({ url }) => {
+    const wastePathPattern = /.*\/account\/waste\/(paper|glass|plastics|metal)$/;
+    return wastePathPattern.test(url.href);
+  }, wastePageStream);
+  registerRoute(
+    ({ url }) => {
+      const tipsPathPattern = /.*\/account\/tips\/(paper|glass|plastics|metal)$/;
+      return tipsPathPattern.test(url.href);
+    },
+    new CacheFirst({
+      cacheName: contentCache,
       plugins: [
         new ExpirationPlugin({
           maxEntries: 30,

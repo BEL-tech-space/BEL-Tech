@@ -17,6 +17,9 @@ importers:
       workbox-build:
         specifier: ^7.1.0
         version: 7.1.0
+      workbox-cacheable-response:
+        specifier: ^7.3.0
+        version: 7.3.0
       workbox-core:
         specifier: ^7.3.0
         version: 7.3.0
@@ -2499,6 +2502,9 @@ packages:
 
   workbox-cacheable-response@7.1.0:
     resolution: {integrity: sha512-iwsLBll8Hvua3xCuBB9h92+/e0wdsmSVgR2ZlvcfjepZWwhd3osumQB3x9o7flj+FehtWM2VHbZn8UJeBXXo6Q==}
+
+  workbox-cacheable-response@7.3.0:
+    resolution: {integrity: sha512-eAFERIg6J2LuyELhLlmeRcJFa5e16Mj8kL2yCDbhWE+HUun9skRQrGIFVUagqWj4DMaaPSMWfAolM7XZZxNmxA==}
 
   workbox-cli@7.1.0:
     resolution: {integrity: sha512-/2PUBPOrXjuyo7AqnFem+WW+cMF3EQ4Tt0tUkJL4eZlnsePUkc6QQ7d4U3v4Hn65DsMrAT++YxM2BPIxPuJGkA==}
@@ -5240,6 +5246,10 @@ snapshots:
   workbox-cacheable-response@7.1.0:
     dependencies:
       workbox-core: 7.1.0
+
+  workbox-cacheable-response@7.3.0:
+    dependencies:
+      workbox-core: 7.3.0
 
   workbox-cli@7.1.0:
     dependencies:
