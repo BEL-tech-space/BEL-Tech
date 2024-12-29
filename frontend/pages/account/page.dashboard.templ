@@ -22,7 +22,7 @@ templ DashboardPage(acc Account, chart template.HTML) {
 }
 
 templ DashboardMain(chart template.HTML) {
-	<main class="grow overflow-y-scroll pl-6 pr-[1.56rem] pt-[1.875rem]">
+	<main class="grow overflow-y-scroll pl-6 pr-[1.56rem] pt-[1.875rem] pb-2">
 		@DashboardSwiperOne()
 		@DashboardDataViz(chart)
 		@DashboardSwiperTwo()
@@ -30,7 +30,7 @@ templ DashboardMain(chart template.HTML) {
 }
 
 templ DashboardMainOpeningTag() {
-	@templ.Raw(`<main class="grow overflow-y-scroll pl-6 pr-[1.56rem] pt-[1.875rem]">`)
+	@templ.Raw(`<main class="grow overflow-y-scroll pl-6 pr-[1.56rem] pt-[1.875rem] pb-2">`)
 }
 
 templ scriptForDashboardPage() {
@@ -227,7 +227,7 @@ templ DashboardEchart(chart template.HTML) {
 }
 
 templ DashboardSwiperTwo() {
-	<p class="font-semibold text-[0.938rem] leading-[1.143rem] mt-4">Tips on Recycling</p>
+	<p class="font-semibold text-[0.938rem] leading-[1.143rem] mt-6">Tips on Recycling</p>
 	<section class="swiperTwo mt-4">
 		<div class="px-4 swiper mySwiperTwo w-full">
 			<div class="swiper-wrapper">

@@ -14,7 +14,7 @@ module.exports = {
         profileButton: "1fr auto",
       },
       gridTemplateRows: {
-        agentCollectPage: "auto 1fr minmax(2.563rem, auto)",
+        agentCollectPage: "auto 1fr auto",
         agentDashboardPage: "1fr minmax(2.563rem, auto)",
         loginPage: "1fr minmax(2.563rem, auto)",
         spendPage: "repeat(4, auto) 1fr auto",

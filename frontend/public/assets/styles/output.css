@@ -1194,7 +1194,7 @@ video {
 }
 
 .grid-rows-agentCollectPage {
-  grid-template-rows: auto 1fr minmax(2.563rem, auto);
+  grid-template-rows: auto 1fr auto;
 }
 
 .grid-rows-agentDashboardPage {
