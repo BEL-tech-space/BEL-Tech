@@ -55,7 +55,7 @@ func AirtimePage(avatarURL string, ben []types.Beneficiary) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></body><script src=\"/public/assets/scripts/htmx.min.js\"></script><script src=\"/public/assets/scripts/hyperscript.min.js\"></script>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></body>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -177,7 +177,7 @@ func AirtimeHeaderPartial(avatarURL string) templ.Component {
 		var templ_7745c5c3_Var5 string
 		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(avatarURL)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.airtime.templ`, Line: 39, Col: 19}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.airtime.templ`, Line: 37, Col: 19}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 		if templ_7745c5c3_Err != nil {
@@ -289,7 +289,7 @@ func AirtimeBeneficiaries(ben []types.Beneficiary) templ.Component {
 				var templ_7745c5c3_Var8 string
 				templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(v.BName)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.airtime.templ`, Line: 107, Col: 95}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.airtime.templ`, Line: 105, Col: 95}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 				if templ_7745c5c3_Err != nil {
@@ -302,7 +302,7 @@ func AirtimeBeneficiaries(ben []types.Beneficiary) templ.Component {
 				var templ_7745c5c3_Var9 string
 				templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(v.BPhoneNo)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.airtime.templ`, Line: 108, Col: 120}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.airtime.templ`, Line: 106, Col: 120}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 				if templ_7745c5c3_Err != nil {
@@ -347,7 +347,7 @@ func scriptForAirtimePage() templ.Component {
 			templ_7745c5c3_Var10 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<script>\n\t\t\tconst beneficiaryNumberForm = document.getElementById('beneficiaryNumber');\n\t\t\tconst beneficiaryNumberSubmitBtn = document.getElementById('submitButton');\n\n\t\t\tbeneficiaryNumberForm.addEventListener('input', (e) => {\n\t\t\t\tchangeSubmitBtnState();\n\t\t\t});\n\n\t\t\tfunction changeSubmitBtnState() {\n\t\t\t\tif (!beneficiaryNumberForm.checkValidity()) {\n\t\t\t\t\tbeneficiaryNumberSubmitBtn.disabled = true\n\t\t\t\t\tbeneficiaryNumberSubmitBtn.classList.remove('bg-[#016934]')\n\t\t\t\t\tbeneficiaryNumberSubmitBtn.classList.add('opacity-45', 'bg-green-400')\n\t\t\t\t\treturn\n\t\t\t\t}\n\t\t\t\tbeneficiaryNumberSubmitBtn.disabled = false\n\t\t\t\tbeneficiaryNumberSubmitBtn.classList.add('bg-[#016934]')\n\t\t\t\tbeneficiaryNumberSubmitBtn.classList.remove('opacity-45', 'bg-green-400')\n\t\t\t}\n\t\t</script>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<script src=\"/public/assets/scripts/htmx.min.js\"></script><script src=\"/public/assets/scripts/hyperscript.min.js\"></script><script>\n\t\t\tconst beneficiaryNumberForm = document.getElementById('beneficiaryNumber');\n\t\t\tconst beneficiaryNumberSubmitBtn = document.getElementById('submitButton');\n\n\t\t\tbeneficiaryNumberForm.addEventListener('input', (e) => {\n\t\t\t\tchangeSubmitBtnState();\n\t\t\t});\n\n\t\t\tfunction changeSubmitBtnState() {\n\t\t\t\tif (!beneficiaryNumberForm.checkValidity()) {\n\t\t\t\t\tbeneficiaryNumberSubmitBtn.disabled = true\n\t\t\t\t\tbeneficiaryNumberSubmitBtn.classList.remove('bg-[#016934]')\n\t\t\t\t\tbeneficiaryNumberSubmitBtn.classList.add('opacity-45', 'bg-green-400')\n\t\t\t\t\treturn\n\t\t\t\t}\n\t\t\t\tbeneficiaryNumberSubmitBtn.disabled = false\n\t\t\t\tbeneficiaryNumberSubmitBtn.classList.add('bg-[#016934]')\n\t\t\t\tbeneficiaryNumberSubmitBtn.classList.remove('opacity-45', 'bg-green-400')\n\t\t\t}\n\t\t</script>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

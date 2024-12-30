@@ -13,8 +13,6 @@ templ AirtimePage(avatarURL string, ben []types.Beneficiary) {
 				@Footer("spend", templ.NopComponent)
 			</div>
 		</body>
-		<script src="/public/assets/scripts/htmx.min.js"></script>
-		<script src="/public/assets/scripts/hyperscript.min.js"></script>
 		@airtimeRechargeSuccessDialog()
 		@addNewBeneficiairyAirtimePageDialog()
 		@scriptForAirtimePage()
@@ -116,6 +114,8 @@ templ AirtimeBeneficiaries(ben []types.Beneficiary) {
 }
 
 templ scriptForAirtimePage() {
+	<script src="/public/assets/scripts/htmx.min.js"></script>
+	<script src="/public/assets/scripts/hyperscript.min.js"></script>
 	<script>
 			const beneficiaryNumberForm = document.getElementById('beneficiaryNumber');
 			const beneficiaryNumberSubmitBtn = document.getElementById('submitButton');
