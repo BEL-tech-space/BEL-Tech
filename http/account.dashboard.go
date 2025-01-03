@@ -17,7 +17,8 @@ func (a *App) dashboardPageHandler(w http.ResponseWriter, r *http.Request) {
 		a.serverError(w, err)
 		return
 	}
-
+	
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := accPages.DashboardPage(account(user), produceChartHTML([4]float64{9, 5, 7, 15}, deduceTime(0))).
 		Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
@@ -26,7 +27,7 @@ func (a *App) dashboardPageHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func (a *App) dashboardMainTagPartial(w http.ResponseWriter, r *http.Request) {
-
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := accPages.DashboardMainOpeningTag().Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
@@ -34,7 +35,7 @@ func (a *App) dashboardMainTagPartial(w http.ResponseWriter, r *http.Request) {
 }
 
 func (a *App) dashboardSwiperOne(w http.ResponseWriter, r *http.Request) {
-
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := accPages.DashboardSwiperOne().Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
@@ -42,7 +43,7 @@ func (a *App) dashboardSwiperOne(w http.ResponseWriter, r *http.Request) {
 }
 
 func (a *App) dashboardDataViz(w http.ResponseWriter, r *http.Request) {
-
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := accPages.DashboardDataViz(
 		produceChartHTML([4]float64{9, 5, 7, 15}, deduceTime(4))).
 		Render(context.TODO(), w); err != nil {
@@ -52,7 +53,7 @@ func (a *App) dashboardDataViz(w http.ResponseWriter, r *http.Request) {
 }
 
 func (a *App) dashboardSwiperTwo(w http.ResponseWriter, r *http.Request) {
-
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := accPages.DashboardSwiperTwo().Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return

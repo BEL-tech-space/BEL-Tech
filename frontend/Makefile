@@ -9,7 +9,7 @@ templ:
 	@templ generate --watch --proxy="http://localhost:8090" --open-browser=false -v
 
 generate:
-	@tailwindcss -i public/assets/styles/input.css  -o public/assets/styles/output.css
+	@tailwindcss -i public/assets/styles/input.css  -o public/assets/styles/output.css --minify
 	@templ generate && templ fmt . 
 
 dev: scripts templ

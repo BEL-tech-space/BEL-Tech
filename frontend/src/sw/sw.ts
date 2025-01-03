@@ -33,33 +33,61 @@ clientsClaim();
 navigationPreload.enable();
 
 // RuntimeCaching
-registerRoute(
-  RegExp(/.*\.(?:png|jpg|jpeg|svg|webp|json)$/),
-  new CacheFirst({
-    cacheName: imagesCache,
-    plugins: [
-      new ExpirationPlugin({
-        maxEntries: 300,
-        maxAgeSeconds: 60 * 60 * 24 * 30, // about a month
-      }),
-    ],
-  }),
-);
+// registerRoute(
+//   RegExp(/.*\.(?:png|jpg|jpeg|svg|webp)$/),
+//   new CacheFirst({
+//     cacheName: imagesCache,
+//     plugins: [
+//       new ExpirationPlugin({
+//         maxEntries: 300,
+//         maxAgeSeconds: 60 * 60 * 24 * 30, // about a month
+//       }),
+//     ],
+//   }),
+// );
 
-// account/dashboard
+// account/auth
+// registerRoute(
+//   ({ url }) =>
+//     url.pathname === "/account/signin-Partial.html" ||
+//     url.pathname === "/account/signup-Partial.html",
+//   new CacheFirst({
+//     cacheName: partialsCache,
+//     plugins: [
+//       new ExpirationPlugin({
+//         maxEntries: 30,
+//         maxAgeSeconds: 60 * 60 * 24 * 30, // about a month
+//       }),
+//     ],
+//   }),
+// );
+
 registerRoute(
   ({ url }) =>
     url.pathname === "/account/signin-Partial.html" ||
     url.pathname === "/account/signup-Partial.html",
-  new CacheFirst({
-    cacheName: partialsCache,
-    plugins: [
-      new ExpirationPlugin({
-        maxEntries: 30,
-        maxAgeSeconds: 60 * 60 * 24 * 30, // about a month
-      }),
-    ],
-  }),
+  async ({ request, event }) => {
+    const cache = await caches.open(partialsCache);
+    let response = await cache.match(request);
+
+    // If there's no cached response, fetch it and cache it
+    if (!response) {
+      response = await fetch(request);
+      await cache.put(request, response.clone());
+    }
+
+    // Modify the response headers
+    const modifiedResponse = new Response(response.body, {
+      status: response.status,
+      statusText: response.statusText,
+      headers: {
+        ...Object.fromEntries(response.headers.entries()),
+        "HX-Reswap": "none",
+      },
+    });
+
+    return modifiedResponse;
+  },
 );
 
 // account/dashboard

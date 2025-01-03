@@ -23,6 +23,7 @@ func (a *App) beneficiariesPageHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := accPages.BeneficiariesPage(account(user).AvatarUrl, result).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
@@ -38,6 +39,7 @@ func (a *App) beneficiariesPageHeaderPartial(w http.ResponseWriter, r *http.Requ
 		return
 	}
 
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := accPages.BeneficiariesHeaderPartial(
 		account(user).AvatarUrl).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
@@ -55,6 +57,7 @@ func (a *App) beneficiariesMain(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := accPages.BeneficiariesMain(result).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
@@ -93,6 +96,7 @@ func (a *App) addNewBeneficiary(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if r.Form.Get("from") == "beneficiariesPage" {
+		w.Header().Set("Content-Type", "text/html; charset=utf-8")
 		if err := accPages.BeneficiariesMain(result).Render(context.TODO(), w); err != nil {
 			a.serverError(w, err)
 			return
@@ -102,6 +106,7 @@ func (a *App) addNewBeneficiary(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if r.Form.Get("from") == "airtimePage" {
+		w.Header().Set("Content-Type", "text/html; charset=utf-8")
 		if err := accPages.AirtimeBeneficiaries(result).Render(context.TODO(), w); err != nil {
 			a.serverError(w, err)
 			return

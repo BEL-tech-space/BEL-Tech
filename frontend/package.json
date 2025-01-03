@@ -7,7 +7,7 @@
     "lint": "tsc",
     "build": "esbuild src/index.ts --bundle --sourcemap --outfile=public/assets/scripts/beltech.js",
     "build-sw": "esbuild src/sw/sw.ts --bundle --sourcemap --outfile=public/sw.js",
-    "injectManifest": "esbuild src/sw/injectManifest-sw.ts --bundle --platform=node --packages=external --outfile=injectManifest.js && node injectManifest.js && rm injectManifest.js",
+    "injectManifest": "esbuild src/sw/injectManifest-sw.ts --bundle --platform=node --packages=external --outfile=injectManifest.js && NODE_ENV=production node injectManifest.js && rm injectManifest.js",
     "sw": "pnpm build-sw && pnpm injectManifest",
     "dev:tsc": "tsc --watch --preserveWatchOutput",
     "dev:build": "pnpm run sw --watch=forever",
