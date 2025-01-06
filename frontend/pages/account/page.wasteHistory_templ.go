@@ -220,7 +220,7 @@ func WasteQuickInfo(wasteType string, acc Account) templ.Component {
 			var templ_7745c5c3_Var6 string
 			templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%.4f BEL", acc.TotalPaperWaste))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wasteHistory.templ`, Line: 72, Col: 160}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `frontend/pages/account/page.wasteHistory.templ`, Line: 72, Col: 160}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 			if templ_7745c5c3_Err != nil {
@@ -238,7 +238,7 @@ func WasteQuickInfo(wasteType string, acc Account) templ.Component {
 			var templ_7745c5c3_Var7 string
 			templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%.4f BEL", acc.TotalGlassWaste))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wasteHistory.templ`, Line: 81, Col: 160}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `frontend/pages/account/page.wasteHistory.templ`, Line: 81, Col: 160}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 			if templ_7745c5c3_Err != nil {
@@ -256,7 +256,7 @@ func WasteQuickInfo(wasteType string, acc Account) templ.Component {
 			var templ_7745c5c3_Var8 string
 			templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%.4f BEL", acc.TotalMetalWaste))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wasteHistory.templ`, Line: 90, Col: 160}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `frontend/pages/account/page.wasteHistory.templ`, Line: 90, Col: 160}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 			if templ_7745c5c3_Err != nil {
@@ -274,7 +274,7 @@ func WasteQuickInfo(wasteType string, acc Account) templ.Component {
 			var templ_7745c5c3_Var9 string
 			templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%.4f BEL", acc.TotalPlasticsWaste))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wasteHistory.templ`, Line: 99, Col: 163}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `frontend/pages/account/page.wasteHistory.templ`, Line: 99, Col: 163}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 			if templ_7745c5c3_Err != nil {
@@ -355,7 +355,7 @@ func wasteNotEmptyHistory(wasteType string) templ.Component {
 			var templ_7745c5c3_Var12 string
 			templ_7745c5c3_Var12, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%s: %.2fkg", strings.ToUpper(wasteType), 23.45))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wasteHistory.templ`, Line: 143, Col: 138}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `frontend/pages/account/page.wasteHistory.templ`, Line: 143, Col: 138}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var12))
 			if templ_7745c5c3_Err != nil {
@@ -402,7 +402,7 @@ func wasteEmptyHistory(wasteType string) templ.Component {
 		var templ_7745c5c3_Var14 string
 		templ_7745c5c3_Var14, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("No history yet for %s", strings.ToUpper(wasteType)))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wasteHistory.templ`, Line: 167, Col: 131}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `frontend/pages/account/page.wasteHistory.templ`, Line: 167, Col: 131}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var14))
 		if templ_7745c5c3_Err != nil {

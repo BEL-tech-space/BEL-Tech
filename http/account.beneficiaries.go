@@ -57,6 +57,8 @@ func (a *App) beneficiariesMain(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	fmt.Printf("result: %v --- %d\n\n", result, len(result))
+
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := accPages.BeneficiariesMain(result).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)

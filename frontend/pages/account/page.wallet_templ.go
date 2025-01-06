@@ -209,7 +209,7 @@ func WalletBalance(belTokenBalance float64) templ.Component {
 		var templ_7745c5c3_Var6 string
 		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%.4f BEL", belTokenBalance))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wallet.templ`, Line: 70, Col: 70}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `frontend/pages/account/page.wallet.templ`, Line: 70, Col: 70}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 		if templ_7745c5c3_Err != nil {
@@ -353,7 +353,7 @@ func WalletLiveCoinData(data []types.TokenData) templ.Component {
 				var templ_7745c5c3_Var11 string
 				templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(useWebp(v.TokenLogo))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wallet.templ`, Line: 127, Col: 43}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `frontend/pages/account/page.wallet.templ`, Line: 127, Col: 43}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
 				if templ_7745c5c3_Err != nil {
@@ -366,7 +366,7 @@ func WalletLiveCoinData(data []types.TokenData) templ.Component {
 				var templ_7745c5c3_Var12 string
 				templ_7745c5c3_Var12, templ_7745c5c3_Err = templ.JoinStringErrs(v.TokenLogo)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wallet.templ`, Line: 128, Col: 28}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `frontend/pages/account/page.wallet.templ`, Line: 128, Col: 28}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var12))
 				if templ_7745c5c3_Err != nil {
@@ -379,7 +379,7 @@ func WalletLiveCoinData(data []types.TokenData) templ.Component {
 				var templ_7745c5c3_Var13 string
 				templ_7745c5c3_Var13, templ_7745c5c3_Err = templ.JoinStringErrs(toTitle(v.TokenName))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wallet.templ`, Line: 131, Col: 101}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `frontend/pages/account/page.wallet.templ`, Line: 131, Col: 101}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var13))
 				if templ_7745c5c3_Err != nil {
@@ -392,7 +392,7 @@ func WalletLiveCoinData(data []types.TokenData) templ.Component {
 				var templ_7745c5c3_Var14 string
 				templ_7745c5c3_Var14, templ_7745c5c3_Err = templ.JoinStringErrs(v.TokenSymbol)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wallet.templ`, Line: 132, Col: 92}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `frontend/pages/account/page.wallet.templ`, Line: 132, Col: 92}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var14))
 				if templ_7745c5c3_Err != nil {
@@ -420,7 +420,7 @@ func WalletLiveCoinData(data []types.TokenData) templ.Component {
 				var templ_7745c5c3_Var15 string
 				templ_7745c5c3_Var15, templ_7745c5c3_Err = templ.JoinStringErrs(v.TokenPrice)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wallet.templ`, Line: 141, Col: 73}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `frontend/pages/account/page.wallet.templ`, Line: 141, Col: 73}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var15))
 				if templ_7745c5c3_Err != nil {
@@ -438,7 +438,7 @@ func WalletLiveCoinData(data []types.TokenData) templ.Component {
 					var templ_7745c5c3_Var16 string
 					templ_7745c5c3_Var16, templ_7745c5c3_Err = templ.JoinStringErrs(v.PercentUpOrDown)
 					if templ_7745c5c3_Err != nil {
-						return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wallet.templ`, Line: 144, Col: 26}
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `frontend/pages/account/page.wallet.templ`, Line: 144, Col: 26}
 					}
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var16))
 					if templ_7745c5c3_Err != nil {
@@ -456,7 +456,7 @@ func WalletLiveCoinData(data []types.TokenData) templ.Component {
 					var templ_7745c5c3_Var17 string
 					templ_7745c5c3_Var17, templ_7745c5c3_Err = templ.JoinStringErrs(v.PercentUpOrDown)
 					if templ_7745c5c3_Err != nil {
-						return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wallet.templ`, Line: 148, Col: 26}
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `frontend/pages/account/page.wallet.templ`, Line: 148, Col: 26}
 					}
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var17))
 					if templ_7745c5c3_Err != nil {

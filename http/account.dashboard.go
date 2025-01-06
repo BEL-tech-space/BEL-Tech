@@ -17,7 +17,7 @@ func (a *App) dashboardPageHandler(w http.ResponseWriter, r *http.Request) {
 		a.serverError(w, err)
 		return
 	}
-	
+
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := accPages.DashboardPage(account(user), produceChartHTML([4]float64{9, 5, 7, 15}, deduceTime(0))).
 		Render(context.TODO(), w); err != nil {

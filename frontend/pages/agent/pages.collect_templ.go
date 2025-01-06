@@ -86,7 +86,7 @@ func RenderQRCode(qrcodeByteImage []byte) templ.Component {
 		var templ_7745c5c3_Var3 string
 		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs("data:image/png;base64," + base64.StdEncoding.EncodeToString(qrcodeByteImage))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/agent/pages.collect.templ`, Line: 61, Col: 90}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `frontend/pages/agent/pages.collect.templ`, Line: 61, Col: 90}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 		if templ_7745c5c3_Err != nil {
@@ -130,7 +130,7 @@ func WasteForm(agentID string) templ.Component {
 		var templ_7745c5c3_Var5 string
 		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("/agent/qrcode/%s", agentID))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/agent/pages.collect.templ`, Line: 77, Col: 52}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `frontend/pages/agent/pages.collect.templ`, Line: 77, Col: 52}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 		if templ_7745c5c3_Err != nil {

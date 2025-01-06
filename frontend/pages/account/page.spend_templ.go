@@ -99,7 +99,7 @@ func SpendHeaderPartial(avatarURL string) templ.Component {
 		var templ_7745c5c3_Var3 string
 		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(avatarURL)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.spend.templ`, Line: 24, Col: 19}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `frontend/pages/account/page.spend.templ`, Line: 24, Col: 19}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 		if templ_7745c5c3_Err != nil {
@@ -240,7 +240,7 @@ func SpendBalance(acc Account) templ.Component {
 		var templ_7745c5c3_Var8 string
 		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(acc.AvatarUrl)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.spend.templ`, Line: 98, Col: 27}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `frontend/pages/account/page.spend.templ`, Line: 98, Col: 27}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 		if templ_7745c5c3_Err != nil {
@@ -268,7 +268,7 @@ func SpendBalance(acc Account) templ.Component {
 		var templ_7745c5c3_Var9 string
 		templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%.4f BEL", acc.CurrBalance))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.spend.templ`, Line: 110, Col: 73}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `frontend/pages/account/page.spend.templ`, Line: 110, Col: 73}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 		if templ_7745c5c3_Err != nil {

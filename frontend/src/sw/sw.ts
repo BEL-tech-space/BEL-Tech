@@ -24,29 +24,18 @@ import {
   wastePageStream,
   cacheFirstStrategy,
 } from "./sw-strategies";
+// import process from "process";
 
+// console.log("Service Worker running in", process.env.BUILD, "mode");
 // debugger;
-console.log("Service Worker running in", process.env.NODE_ENV, "mode");
+// console.log("Service Worker running in", process.env.NODE_ENV, "mode for Node");
 
 declare const self: ServiceWorkerGlobalScope & { __WB_MANIFEST: any[] };
+
 // (self as any).__WB_DISABLE_DEV_LOGS = true;
 
 clientsClaim();
 navigationPreload.enable();
-
-// RuntimeCaching
-// registerRoute(
-//   RegExp(/.*\.(?:png|jpg|jpeg|svg|webp)$/),
-//   new CacheFirst({
-//     cacheName: imagesCache,
-//     plugins: [
-//       new ExpirationPlugin({
-//         maxEntries: 300,
-//         maxAgeSeconds: 60 * 60 * 24 * 30, // about a month
-//       }),
-//     ],
-//   }),
-// );
 
 // account/auth
 registerRoute(
@@ -63,7 +52,6 @@ registerRoute(
     ],
   }),
 );
-
 
 // account/dashboard
 registerRoute(

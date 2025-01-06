@@ -4458,7 +4458,6 @@ This is generally NOT safe. Learn more at https://bit.ly/wb-precache`;
   }
 
   // src/sw/sw.ts
-  console.log("Service Worker running in", "development", "mode");
   clientsClaim();
   enable();
   registerRoute(

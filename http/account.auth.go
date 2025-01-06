@@ -132,6 +132,11 @@ func (a *App) createNewUserSession(w http.ResponseWriter, r *http.Request, acc s
 
 	a.accountCache.SetWithTTL(acc.Email, acc, 1, 86_400*14*time.Second)
 
+	if a.config.Build != productionEnv {
+		session.Options.MaxAge = 60 * 2
+		a.accountCache.SetWithTTL(acc.Email, acc, 1, 60*2*time.Second)
+	}
+
 	return session.Save(r, w)
 }
 
