@@ -32,14 +32,7 @@ func (a *App) airtimePageHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if r.Header.Get("X-Content-Mode") == "partials" {
-		if err := accPages.AirtimeMain(result).Render(context.TODO(), w); err != nil {
-			a.serverError(w, err)
-			return
-		}
-		return
-	}
-
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := accPages.AirtimePage(user.AvatarUrl, result).Render(context.Background(), w); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -55,6 +48,7 @@ func (a *App) airtimePageHeaderPartial(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := accPages.AirtimeHeaderPartial(
 		account(user).AvatarUrl).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
@@ -63,7 +57,8 @@ func (a *App) airtimePageHeaderPartial(w http.ResponseWriter, r *http.Request) {
 }
 
 func (a *App) airtimeMainTagPartial(w http.ResponseWriter, r *http.Request) {
-
+	
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := accPages.AirtimeMainOpeningTag().Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
@@ -71,7 +66,8 @@ func (a *App) airtimeMainTagPartial(w http.ResponseWriter, r *http.Request) {
 }
 
 func (a *App) airtimeInputNumberPartial(w http.ResponseWriter, r *http.Request) {
-
+	
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := accPages.AirtimeInputNumberPartial().Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
@@ -87,6 +83,8 @@ func (a *App) airtimeBeneficiaries(w http.ResponseWriter, r *http.Request) {
 		a.serverError(w, err)
 		return
 	}
+	
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := accPages.AirtimeBeneficiaries(result).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return

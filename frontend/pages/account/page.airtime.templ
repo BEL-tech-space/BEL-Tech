@@ -50,7 +50,7 @@ templ AirtimeHeaderPartial(avatarURL string) {
 
 templ AirtimeInputNumberPartial() {
 	<p class="font-bold text-xs leading-5 tracking-[0.00625em] text-center text-black">Which number do you want to receive <br/>your airtime to?</p>
-	<form class="mt-10" id="beneficiaryNumber">
+	<form class="mt-10" id="beneficiaryNumber" action="#" method="POST">
 		<div class="flex flex-col justify-start items-start gap-3 relative">
 			<label for="airtime" class="font-semibold text-xs text-black text-left">Input Your Phone Number</label>
 			<input type="tel" maxlength="11" minlength="11" enterkeyhint="send" inputmode="numeric" name="airtime" id="airtime" placeholder="09034097398" class="outline-none w-full min-h-[3.326rem] rounded-[0.652rem] pl-3 font-poppins font-semibold text-black border-solid border-[#0169344D] border-[0.065rem] placeholder:font-extralight placeholder:text-[0.625rem] placeholder:text-gray-500"/>

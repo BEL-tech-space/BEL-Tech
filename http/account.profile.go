@@ -18,6 +18,7 @@ func (a *App) ProfilePageHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := accPages.Profile(account(user)).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
@@ -26,6 +27,7 @@ func (a *App) ProfilePageHandler(w http.ResponseWriter, r *http.Request) {
 
 func (a *App) profileMainTagPartial(w http.ResponseWriter, r *http.Request) {
 
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := accPages.ProfileMainOpeningTag().Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
@@ -41,6 +43,7 @@ func (a *App) profileDisplayIcon(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := accPages.ProfileChangeDisplayIcon(user.AvatarUrl).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
@@ -56,6 +59,7 @@ func (a *App) profileFormPartial(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := accPages.ProfileUpdataAccountInfoPartial(account(user)).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
@@ -83,9 +87,9 @@ func (a *App) changeProfileDisplayName(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	val := a.updateAccountCache(context.Background(), acc)
-	fmt.Println("Updated cache:", val)
+	a.updateAccountCache(context.Background(), acc)
 
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := accPages.CommonHeader(account(acc)).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return

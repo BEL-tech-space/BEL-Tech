@@ -29,7 +29,8 @@ body {
   padding-bottom: env(safe-area-inset-bottom, 1em);
 }
 
-/* input:not(:placeholder-shown):valid {
+/*
+ input:not(:placeholder-shown):valid {
   outline-color: green;
 }
 

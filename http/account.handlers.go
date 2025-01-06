@@ -14,6 +14,7 @@ import (
 func (a *App) openingHThmlTagPartial(w http.ResponseWriter, r *http.Request) {
 	pageTitle := strings.Split(r.URL.Path, "/")[2]
 
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := accPages.HtmlAndBodyOpeningTagPartial(pageTitle).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
@@ -23,6 +24,7 @@ func (a *App) openingHThmlTagPartial(w http.ResponseWriter, r *http.Request) {
 func (a *App) closingHtmlTagPartial(w http.ResponseWriter, r *http.Request) {
 	pageTitle := strings.Split(r.URL.Path, "/")[2]
 
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := accPages.HtmlAndBodyClosingTagPartial(pageTitle).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
@@ -32,10 +34,8 @@ func (a *App) closingHtmlTagPartial(w http.ResponseWriter, r *http.Request) {
 func (a *App) footerPartial(w http.ResponseWriter, r *http.Request) {
 	pageTitle := strings.Split(r.URL.Path, "/")[2]
 
-	if err := accPages.Footer(
-		pageTitle,
-		accPages.MainClosingTag(),
-	).Render(context.TODO(), w); err != nil {
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	if err := accPages.Footer(pageTitle, accPages.MainClosingTag()).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}
@@ -50,6 +50,7 @@ func (a *App) commonHeader(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := accPages.CommonHeader(
 		account(user)).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
@@ -93,6 +94,7 @@ func (a *App) wasteTipsHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := accPages.TipsOnRecyclingPage(wasteType).Render(context.Background(), w); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return

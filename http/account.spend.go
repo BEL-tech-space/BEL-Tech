@@ -15,14 +15,6 @@ func (a *App) spendPageHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// if r.Header.Get("X-Content-Mode") == "partials" {
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	// 	if err := accPages.SpendMain(account(user)).Render(context.TODO(), w); err != nil {
-	// 		a.serverError(w, err)
-	// 		return
-	// 	}
-	// 	return
-	// }
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := accPages.SpendPage(account(user)).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)

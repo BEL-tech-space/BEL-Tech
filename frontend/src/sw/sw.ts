@@ -25,11 +25,13 @@ import {
   cacheFirstStrategy,
 } from "./sw-strategies";
 
+// debugger;
+console.log("Service Worker running in", process.env.NODE_ENV, "mode");
+
 declare const self: ServiceWorkerGlobalScope & { __WB_MANIFEST: any[] };
+// (self as any).__WB_DISABLE_DEV_LOGS = true;
 
 clientsClaim();
-
-// Enable navigation preload
 navigationPreload.enable();
 
 // RuntimeCaching
@@ -47,48 +49,21 @@ navigationPreload.enable();
 // );
 
 // account/auth
-// registerRoute(
-//   ({ url }) =>
-//     url.pathname === "/account/signin-Partial.html" ||
-//     url.pathname === "/account/signup-Partial.html",
-//   new CacheFirst({
-//     cacheName: partialsCache,
-//     plugins: [
-//       new ExpirationPlugin({
-//         maxEntries: 30,
-//         maxAgeSeconds: 60 * 60 * 24 * 30, // about a month
-//       }),
-//     ],
-//   }),
-// );
-
 registerRoute(
   ({ url }) =>
     url.pathname === "/account/signin-Partial.html" ||
     url.pathname === "/account/signup-Partial.html",
-  async ({ request, event }) => {
-    const cache = await caches.open(partialsCache);
-    let response = await cache.match(request);
-
-    // If there's no cached response, fetch it and cache it
-    if (!response) {
-      response = await fetch(request);
-      await cache.put(request, response.clone());
-    }
-
-    // Modify the response headers
-    const modifiedResponse = new Response(response.body, {
-      status: response.status,
-      statusText: response.statusText,
-      headers: {
-        ...Object.fromEntries(response.headers.entries()),
-        "HX-Reswap": "none",
-      },
-    });
-
-    return modifiedResponse;
-  },
+  new CacheFirst({
+    cacheName: partialsCache,
+    plugins: [
+      new ExpirationPlugin({
+        maxEntries: 30,
+        maxAgeSeconds: 60 * 60 * 24 * 30, // about a month
+      }),
+    ],
+  }),
 );
+
 
 // account/dashboard
 registerRoute(
@@ -152,7 +127,7 @@ registerRoute(
 // account/wallet
 registerRoute(({ url }) => url.pathname === "/account/spend", spendPageStream);
 
-// account/profile
+// account/profile/changeDisplayName
 registerRoute(
   ({ url }) => url.pathname === "/account/profile/changeDisplayName",
   async ({ request }) => {

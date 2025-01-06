@@ -20,19 +20,21 @@ const baseTpl = `
    <script src="{{ . }}"></script>
 {{- end }}
 <script type="text/javascript">
-    "use strict";
-    let goecharts_{{ .ChartID | safeJS }} = echarts.init(document.getElementById('{{ .ChartID | safeJS }}'), "{{ .Theme }}");
-    let option_{{ .ChartID | safeJS }} = {{ .JSON }};
-    goecharts_{{ .ChartID | safeJS }}.setOption(option_{{ .ChartID | safeJS }});
-    {{- range .JSFunctions.Fns }}
-    {{ . | safeJS }}
-    {{- end }}
-
-	window.addEventListener('resize', function() {
-		goecharts_{{ .ChartID | safeJS }}.resize();
-	});
-
-	goecharts_{{ .ChartID | safeJS }}.setOption(%s);
+	(function() {
+		"use strict";
+		let goecharts_{{ .ChartID | safeJS }} = echarts.init(document.getElementById('{{ .ChartID | safeJS }}'), "{{ .Theme }}");
+		let option_{{ .ChartID | safeJS }} = {{ .JSON }};
+		goecharts_{{ .ChartID | safeJS }}.setOption(option_{{ .ChartID | safeJS }});
+		{{- range .JSFunctions.Fns }}
+		{{ . | safeJS }}
+		{{- end }}
+		
+		window.addEventListener('resize', function() {
+			goecharts_{{ .ChartID | safeJS }}.resize();
+			});
+			
+			goecharts_{{ .ChartID | safeJS }}.setOption(%s);
+		})();
 	
 </script>`
 

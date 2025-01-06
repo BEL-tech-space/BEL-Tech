@@ -125,7 +125,7 @@ export const walletPageStream = composeStrategies(
         event,
       }),
     async ({ event }) =>
-      staleWhileRevalidateStrategy.handle({
+      networkFirstStrategy.handle({
         request: new Request("/account/wallet/balance"),
         event,
       }),

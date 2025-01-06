@@ -120,7 +120,6 @@ func (a *App) accountAuthorization(next http.Handler) http.Handler {
 		session, err := a.accountSessionStore.Get(r, "beltech-account")
 		if err != nil {
 			fmt.Println("get err in auth", err.Error())
-			w.Header().Set("HX-Reswap", "none")
 			http.Redirect(w, r, "/account/signin-Partial.html", http.StatusTemporaryRedirect)
 			return
 		}
@@ -129,7 +128,6 @@ func (a *App) accountAuthorization(next http.Handler) http.Handler {
 		email, exist := session.Values["email"]
 		if !exist {
 			fmt.Println("email not in session, weird")
-			w.Header().Set("HX-Reswap", "none")
 			http.Redirect(w, r, "/account/signin-Partial.html", http.StatusTemporaryRedirect)
 			return
 		}
