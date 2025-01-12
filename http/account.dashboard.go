@@ -19,7 +19,8 @@ func (a *App) dashboardPageHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if err := accPages.DashboardPage(account(user), produceChartHTML([4]float64{9, 5, 7, 15}, deduceTime(0))).
+	chart, isEmpty := produceChartHTML([4]float64{9, 5, 7, 15}, deduceTime(0))
+	if err := accPages.DashboardPage(account(user), chart, isEmpty).
 		Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
@@ -75,7 +76,7 @@ func (a *App) dashboardEchart(w http.ResponseWriter, r *http.Request) {
 	case 1:
 		arr = [4]float64{23, 15, 20, 9}
 	case 2:
-		arr = [4]float64{10, 51, 67, 80}
+		arr = [4]float64{0, 0, 0, 0}
 	case 3:
 		arr = [4]float64{100, 25, 37, 215}
 	}

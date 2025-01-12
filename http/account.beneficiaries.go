@@ -118,6 +118,46 @@ func (a *App) addNewBeneficiary(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func (a *App) deleteBeneficiary(w http.ResponseWriter, r *http.Request) {
+
+	if err := r.ParseForm(); err != nil {
+		a.clientError(w, http.StatusBadRequest, fmt.Errorf("err parsing form data; %s", err.Error()))
+		return
+	}
+
+	if r.Form.Get("name") == "" {
+		a.clientError(w, http.StatusBadRequest, fmt.Errorf("name is required"))
+		return
+	}
+	if r.Form.Get("phone") == "" {
+		a.clientError(w, http.StatusBadRequest, fmt.Errorf("phone is required"))
+		return
+	}
+	if r.Form.Get("network") == "" {
+		a.clientError(w, http.StatusBadRequest, fmt.Errorf("network is required"))
+		return
+	}
+
+	accountEmail := r.Context().Value(contextKeyEmail).(string)
+	res, err := a.service.DeleteBeneficiary(context.Background(), r.Form.Get("phone"), r.Form.Get("network"), accountEmail)
+	if err != nil {
+		a.serverError(w, err)
+		return
+	}
+
+	// result, err := a.service.GetBeneficiaries(context.Background(), accountEmail)
+	// if err != nil {
+	// 	a.serverError(w, err)
+	// 	return
+	// }
+
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	if err := accPages.BeneficiariesMain(res).Render(context.TODO(), w); err != nil {
+		a.serverError(w, err)
+		return
+	}
+}
+
 func validateNewBeneficiary(r *http.Request) error {
 
 	bName := r.Form.Get("name")

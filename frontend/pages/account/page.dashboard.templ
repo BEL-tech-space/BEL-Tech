@@ -6,14 +6,14 @@ import (
 	"time"
 )
 
-templ DashboardPage(acc Account, chart template.HTML) {
+templ DashboardPage(acc Account, chart template.HTML, isEmpty bool) {
 	<!DOCTYPE html>
 	<html lang="en">
 		@HeadTag("dashboard")
 		<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
 			<div class="Page w-full h-full flex flex-col font-montserrat text-[#2E2E2E]">
 				@CommonHeader(acc)
-				@DashboardMain(chart)
+				@DashboardMain(chart, isEmpty)
 				@Footer("dashboard", templ.NopComponent)
 			</div>
 		</body>
@@ -21,10 +21,10 @@ templ DashboardPage(acc Account, chart template.HTML) {
 	</html>
 }
 
-templ DashboardMain(chart template.HTML) {
+templ DashboardMain(chart template.HTML, isEmpty bool) {
 	<main class="grow overflow-y-scroll pl-6 pr-[1.56rem] pt-[1.875rem] pb-2">
 		@DashboardSwiperOne()
-		@DashboardDataViz(chart)
+		@DashboardDataViz(chart, isEmpty)
 		@DashboardSwiperTwo()
 	</main>
 }
@@ -80,50 +80,11 @@ templ scriptForDashboardPage() {
 			}
 		});
     </script>
-	<!-- This script tag uses JavaScript modules, so the proper `type` attribute value is required -->
-	// <script type="module">
-	// 	// This code sample uses features introduced in Workbox v6.
-	// 	import {Workbox} from 'public/assets/scripts/workbox-window.prod.mjs';
-	// 	if ('serviceWorker' in navigator) {
-	// 		const wb = new Workbox('/public/sw.js');
-	// 		let registration;
-	// 		const showSkipWaitingPrompt = async (event) => {
-	// 		// Assuming the user accepted the update, set up a listener
-	// 		// that will reload the page as soon as the previously waiting
-	// 		// service worker has taken control.
-	// 		wb.addEventListener('controlling', () => {
-	// 			// At this point, reloading will ensure that the current
-	// 			// tab is loaded under the control of the new service worker.
-	// 			// Depending on your web app, you may want to auto-save or
-	// 			// persist transient state before triggering the reload.
-	// 			window.location.reload();
-	// 		});
-	// 		// When `event.wasWaitingBeforeRegister` is true, a previously
-	// 		// updated service worker is still waiting.
-	// 		// You may want to customize the UI prompt accordingly.
-	// 		// This code assumes your app has a promptForUpdate() method,
-	// 		// which returns true if the user wants to update.
-	// 		// Implementing this is app-specific; some examples are:
-	// 		// https://open-ui.org/components/alert.research or
-	// 		// https://open-ui.org/components/toast.research
-	// 		const updateAccepted = await promptForUpdate();
-	// 		if (updateAccepted) {
-	// 			wb.messageSkipWaiting();
-	// 		}
-	// 		};
-	// 		// Add an event listener to detect when the registered
-	// 		// service worker has installed but is waiting to activate.
-	// 		wb.addEventListener('waiting', (event) => {
-	// 		showSkipWaitingPrompt(event);
-	// 		});
-	// 		wb.register();
-	// 	}
-	// </script>
 }
 
 templ DashboardSwiperOne() {
 	<section class="flex items-center gap-1">
-		<p class="leading-[1.143rem] font-semibold text-[0.938rem]">Let's Recycle!</p>
+		<p class="leading-[1.143rem] font-semibold text-[0.938rem]">Let's Recycle</p>
 		<picture>
 			<source type="image/webp" srcset="/public/assets/images/Recycle_small.webp"/>
 			<img
@@ -202,22 +163,22 @@ templ DashboardSwiperOne() {
 			</div>
 		</div>
 	</section>
-	<section class="mt-8 w-full flex items-center justify-between">
+	<section class="mt-8 w-full flex items-start justify-between">
 		<p class="font-semibold text-[0.94rem] leading-[1.14rem]">Recycled</p>
-		<button
-			hx-get="/account/dashboard/chart/0"
-			hx-trigger="click"
-			hx-swap="outerHTML"
-			hx-target="#echart"
-		>
-			<p class="font-[500] text-[0.63rem] leading-[0.76rem] text-[#016934]">see all</p>
-		</button>
+		// <button
+		// 	hx-get="/account/dashboard/chart/0"
+		// 	hx-trigger="click"
+		// 	hx-swap="outerHTML"
+		// 	hx-target="#echart"
+		// >
+		// <p class="font-[500] text-[0.63rem] leading-[0.76rem] text-[#016934]">see all</p>
+		// </button>
 	</section>
 }
 
-templ DashboardDataViz(chart template.HTML) {
+templ DashboardDataViz(chart template.HTML, isEmpty bool) {
 	<section class="mt-5">
-		@DashboardEchart(chart)
+		@DashboardEchart(chart, isEmpty)
 		<div class="flex justify-between items-center gap-8  px-2">
 			<button
 				hx-get="/account/dashboard/chart?month=4"
@@ -263,9 +224,12 @@ templ DashboardDataViz(chart template.HTML) {
 	</section>
 }
 
-templ DashboardEchart(chart template.HTML) {
-	<div id="echart" class="bg-transparent">
+templ DashboardEchart(chart template.HTML, isEmpty bool) {
+	<div id="echart" class="bg-transparent relative">
 		@templ.Raw(chart)
+		if isEmpty {
+			<div class="absolute top-2/4 left-[30%] text-xs font-tt_chocolate font-light">No data for this month</div>
+		}
 	</div>
 }
 

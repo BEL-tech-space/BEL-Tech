@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"html/template"
 	"io"
+	"reflect"
 	"time"
 
 	"github.com/go-echarts/go-echarts/v2/charts"
@@ -128,7 +129,12 @@ var barChartColorsBackGround [7]string = [7]string{
 
 const chartName = "beltech"
 
-func produceChartHTML(values [4]float64, t time.Time) template.HTML {
+func produceChartHTML(values [4]float64, t time.Time) (template.HTML, bool) {
+	isEMpty := false
+
+	if reflect.ValueOf(values).IsZero() {
+		isEMpty = true
+	}
 	return WeekStatBarChart(
 		BarChartData{
 			XAxis: []string{"Plastic", "Glass", "Metal", "Paper"},
@@ -137,7 +143,7 @@ func produceChartHTML(values [4]float64, t time.Time) template.HTML {
 			Year:  fmt.Sprintf("%d", t.Year()),
 			Keys:  []string{},
 		},
-	)
+	), isEMpty
 }
 
 func WeekStatBarChart(data BarChartData) template.HTML {

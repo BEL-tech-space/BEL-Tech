@@ -89,7 +89,7 @@ func (a *App) logoutAccount(w http.ResponseWriter, r *http.Request) {
 	session, err := a.accountSessionStore.Get(r, "beltech-account")
 	if err != nil {
 		fmt.Println("error in get, logoutAccount", err.Error())
-		http.Redirect(w, r, "/account/signin-Partial.html", http.StatusTemporaryRedirect)
+		http.Redirect(w, r, "/account/login.html", http.StatusTemporaryRedirect)
 		return
 	}
 
@@ -97,11 +97,11 @@ func (a *App) logoutAccount(w http.ResponseWriter, r *http.Request) {
 	session.Values = nil
 	if err := session.Save(r, w); err != nil {
 		fmt.Println("error in saving session, logOut", err.Error())
-		http.Redirect(w, r, "/account/signin-Partial.html", http.StatusTemporaryRedirect)
+		http.Redirect(w, r, "/account/login.html", http.StatusTemporaryRedirect)
 		return
 	}
 
-	http.Redirect(w, r, "/account/signin-Partial.html", http.StatusTemporaryRedirect)
+	http.Redirect(w, r, "/account/login.html", http.StatusTemporaryRedirect)
 }
 
 func (a *App) logInUser(w http.ResponseWriter, r *http.Request, u goth.User) error {
@@ -133,8 +133,8 @@ func (a *App) createNewUserSession(w http.ResponseWriter, r *http.Request, acc s
 	a.accountCache.SetWithTTL(acc.Email, acc, 1, 86_400*14*time.Second)
 
 	if a.config.Build != productionEnv {
-		session.Options.MaxAge = 60 * 2
-		a.accountCache.SetWithTTL(acc.Email, acc, 1, 60*2*time.Second)
+		session.Options.MaxAge = 86_400
+		a.accountCache.SetWithTTL(acc.Email, acc, 1, 86_400*time.Second)
 	}
 
 	return session.Save(r, w)

@@ -88,6 +88,7 @@ func (a *App) accountRouter() http.Handler {
 		r.Get("/beneficiaries/closingHtmlTag-Partial.html", a.closingHtmlTagPartial)
 		r.Get("/beneficiaries", a.beneficiariesPageHandler)
 		r.Post("/beneficiaries/addNew", a.addNewBeneficiary)
+		r.Post("/beneficiaries/delete", a.deleteBeneficiary)
 
 		r.Get("/waste/openingHtmlTag-Partial.html", a.openingHThmlTagPartial)
 		r.Get("/waste/commonHeader-Partial.html", a.commonHeader)
@@ -103,8 +104,8 @@ func (a *App) accountRouter() http.Handler {
 		r.Get("/tips/{wasteType}", a.wasteTipsHandler)
 	})
 
-	r.Get("/signup-Partial.html", a.signupPageHandler)
-	r.Get("/signin-Partial.html", a.signinPageHandler)
+	r.Get("/signup.html", a.signupPageHandler)
+	r.Get("/login.html", a.signinPageHandler)
 
 	r.Get("/verify", a.verifyPageHandler)
 	r.Get("/reset", a.resetPageHandler)
@@ -120,15 +121,16 @@ func (a *App) accountAuthorization(next http.Handler) http.Handler {
 		session, err := a.accountSessionStore.Get(r, "beltech-account")
 		if err != nil {
 			fmt.Println("get err in auth", err.Error())
-			http.Redirect(w, r, "/account/signin-Partial.html", http.StatusTemporaryRedirect)
+			http.Redirect(w, r, "/account/login.html", http.StatusTemporaryRedirect)
 			return
 		}
 
 		// Check if the session lacks user information
 		email, exist := session.Values["email"]
 		if !exist {
-			fmt.Println("email not in session, weird")
-			http.Redirect(w, r, "/account/signin-Partial.html", http.StatusTemporaryRedirect)
+			fmt.Println("SESSION EXPIRED")
+			w.Header().Set("X-Session-Expired", "true")
+			http.Redirect(w, r, "/account/login.html", http.StatusTemporaryRedirect)
 			return
 		}
 

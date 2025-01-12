@@ -96,8 +96,8 @@ templ scriptForScanPage() {
                     return;
                 }
 
-                readerContainer.style.width = `${( 2 / 3 ) * width}px`;
-                readerContainer.style.height = `${( 2 / 3 ) * height}px`;
+                readerContainer.style.width = `${( 1 / 2 ) * width}rem`;
+                readerContainer.style.height = `${( 1 / 3 ) * height}rem`;
                 const config = { fps: 10, qrbox: { width: width, height: height } };
 
                 html5QrCode.start( { facingMode: "environment" }, config, qrCodeSuccessCallback, qrCodeErrorCallback )

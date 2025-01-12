@@ -14,7 +14,7 @@ import (
 	"time"
 )
 
-func DashboardPage(acc Account, chart template.HTML) templ.Component {
+func DashboardPage(acc Account, chart template.HTML, isEmpty bool) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -51,7 +51,7 @@ func DashboardPage(acc Account, chart template.HTML) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = DashboardMain(chart).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = DashboardMain(chart, isEmpty).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -75,7 +75,7 @@ func DashboardPage(acc Account, chart template.HTML) templ.Component {
 	})
 }
 
-func DashboardMain(chart template.HTML) templ.Component {
+func DashboardMain(chart template.HTML, isEmpty bool) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -104,7 +104,7 @@ func DashboardMain(chart template.HTML) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = DashboardDataViz(chart).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = DashboardDataViz(chart, isEmpty).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -170,7 +170,7 @@ func scriptForDashboardPage() templ.Component {
 			templ_7745c5c3_Var4 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "<script src=\"/public/assets/scripts/swiper-bundle.min.js\"></script><script src=\"/public/assets/scripts/htmx.min.js\"></script><script>\n        const swiperOne = new Swiper( '.mySwiperOne', {\n            direction: \"horizontal\",\n            slidesPerView: 2,\n            mousewheel: true,\n            spaceBetween: 8,\n            autoplay: {\n                delay: 3000,\n                disableOnInteraction: true,\n            },\n        } );\n\n        const swiperTwo = new Swiper( '.mySwiperTwo', {\n            mousewheel: true,\n            keyboard: true,\n\t\t\tspaceBetween: 8,\n            autoplay: {\n                delay: 1500,\n                disableOnInteraction: true,\n            },\n        } );\n\n\t\tdocument.querySelectorAll('.graph-select').forEach(button => {\n\t\t\tbutton.addEventListener('click', () => {\n\t\t\t\tdocument.querySelectorAll('.graph-select').forEach(btn => {\n\t\t\t\t\tbtn.classList.remove('bg-[#016934]', 'text-[#FFFFFF]');\n\t\t\t\t\tbtn.classList.add('bg-[#FFFFFF]', 'text-[#000000]');\n\t\t\t\t});\n\t\t\t\tbutton.classList.remove('bg-[#FFFFFF]', 'text-[#000000]');\n\t\t\t\tbutton.classList.add('bg-[#016934]', 'text-[#FFFFFF]');\n\t\t\t});\n\t\t});\n\n\t\t window.addEventListener('load', () => {\n\t\t\tif ('serviceWorker' in navigator) {\n\t\t\t\tnavigator.serviceWorker.register('/public/sw.js', {scope: \"/\"}).then((sw) => {\n\t\t\t\t\tconsole.log('Service worker registered!');\n\t\t\t\t}).catch((error) => {\n\t\t\t\t\tconsole.warn('Error registering service worker:');\n\t\t\t\t\tconsole.warn(error);\n\t\t\t\t});\n\t\t\t}\n\t\t});\n    </script><!-- This script tag uses JavaScript modules, so the proper `type` attribute value is required -->")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "<script src=\"/public/assets/scripts/swiper-bundle.min.js\"></script><script src=\"/public/assets/scripts/htmx.min.js\"></script><script>\n        const swiperOne = new Swiper( '.mySwiperOne', {\n            direction: \"horizontal\",\n            slidesPerView: 2,\n            mousewheel: true,\n            spaceBetween: 8,\n            autoplay: {\n                delay: 3000,\n                disableOnInteraction: true,\n            },\n        } );\n\n        const swiperTwo = new Swiper( '.mySwiperTwo', {\n            mousewheel: true,\n            keyboard: true,\n\t\t\tspaceBetween: 8,\n            autoplay: {\n                delay: 1500,\n                disableOnInteraction: true,\n            },\n        } );\n\n\t\tdocument.querySelectorAll('.graph-select').forEach(button => {\n\t\t\tbutton.addEventListener('click', () => {\n\t\t\t\tdocument.querySelectorAll('.graph-select').forEach(btn => {\n\t\t\t\t\tbtn.classList.remove('bg-[#016934]', 'text-[#FFFFFF]');\n\t\t\t\t\tbtn.classList.add('bg-[#FFFFFF]', 'text-[#000000]');\n\t\t\t\t});\n\t\t\t\tbutton.classList.remove('bg-[#FFFFFF]', 'text-[#000000]');\n\t\t\t\tbutton.classList.add('bg-[#016934]', 'text-[#FFFFFF]');\n\t\t\t});\n\t\t});\n\n\t\t window.addEventListener('load', () => {\n\t\t\tif ('serviceWorker' in navigator) {\n\t\t\t\tnavigator.serviceWorker.register('/public/sw.js', {scope: \"/\"}).then((sw) => {\n\t\t\t\t\tconsole.log('Service worker registered!');\n\t\t\t\t}).catch((error) => {\n\t\t\t\t\tconsole.warn('Error registering service worker:');\n\t\t\t\t\tconsole.warn(error);\n\t\t\t\t});\n\t\t\t}\n\t\t});\n    </script>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -199,7 +199,7 @@ func DashboardSwiperOne() templ.Component {
 			templ_7745c5c3_Var5 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "<section class=\"flex items-center gap-1\"><p class=\"leading-[1.143rem] font-semibold text-[0.938rem]\">Let's Recycle!</p><picture><source type=\"image/webp\" srcset=\"/public/assets/images/Recycle_small.webp\"> <img src=\"/public/assets/images/Recycle_small.png\" class=\"w-5 aspect-square\"></picture></section><section class=\"swiperOne mt-[0.86rem] mr-0\"><div class=\"swiper mySwiperOne w-full\"><div class=\"swiper-wrapper\"><div class=\"swiper-slide\"><a href=\"/account/waste/paper\" class=\"relative block\"><picture><source type=\"image/webp\" srcset=\"/public/assets/images/book.webp\"> <img fetchpriorty=\"high\" src=\"/public/assets/images/book.jpg\" class=\"w-[10rem] aspect-square rounded-xl \"></picture><div class=\"absolute bottom-4 left-4 text-white text-left\"><p class=\"font-semibold text-xs leading-[0.838rem]\">PAPER</p><p class=\"font-bold text-[0.625rem] leading-[0.762rem]\">50 BEL</p></div></a></div><div class=\"swiper-slide\"><a href=\"/account/waste/glass\" class=\"relative block\"><picture><source type=\"image/webp\" srcset=\"/public/assets/images/glass.webp\"> <img fetchpriorty=\"high\" src=\"/public/assets/images/glass.jpg\" class=\"w-[10rem] aspect-square rounded-xl\"></picture><div class=\"absolute bottom-4 left-4 text-white text-left\"><p class=\"font-semibold text-xs leading-[0.838rem]\">GLASS</p><p class=\"font-bold text-[0.625rem] leading-[0.762rem]\">50 BEL</p></div></a></div><div class=\"swiper-slide\"><a href=\"/account/waste/metal\" class=\"relative block\"><picture><source type=\"image/webp\" srcset=\"/public/assets/images/metal2.webp\"> <img fetchpriorty=\"high\" src=\"/public/assets/images/metal2.jpg\" class=\"w-[10rem] aspect-square rounded-xl\"></picture><div class=\"absolute bottom-4 left-4 text-white text-left\"><p class=\"font-semibold text-xs leading-[0.838rem]\">METAL</p><p class=\"font-bold text-[0.625rem] leading-[0.762rem]\">50 BEL</p></div></a></div><div class=\"swiper-slide\"><a href=\"/account/waste/plastics\" class=\"relative block\"><picture><source type=\"image/webp\" srcset=\"/public/assets/images/plastic_2.webp\"> <img fetchpriorty=\"high\" src=\"/public/assets/images/plastic_2.jpg\" class=\"w-[10rem] aspect-square rounded-xl \"></picture><div class=\"absolute bottom-4 left-4 text-white text-left\"><p class=\"font-semibold text-xs leading-[0.838rem]\">PLASTICS</p><p class=\"font-bold text-[0.625rem] leading-[0.762rem]\">50 BEL</p></div></a></div></div></div></section><section class=\"mt-8 w-full flex items-center justify-between\"><p class=\"font-semibold text-[0.94rem] leading-[1.14rem]\">Recycled</p><button hx-get=\"/account/dashboard/chart/0\" hx-trigger=\"click\" hx-swap=\"outerHTML\" hx-target=\"#echart\"><p class=\"font-[500] text-[0.63rem] leading-[0.76rem] text-[#016934]\">see all</p></button></section>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "<section class=\"flex items-center gap-1\"><p class=\"leading-[1.143rem] font-semibold text-[0.938rem]\">Let's Recycle</p><picture><source type=\"image/webp\" srcset=\"/public/assets/images/Recycle_small.webp\"> <img src=\"/public/assets/images/Recycle_small.png\" class=\"w-5 aspect-square\"></picture></section><section class=\"swiperOne mt-[0.86rem] mr-0\"><div class=\"swiper mySwiperOne w-full\"><div class=\"swiper-wrapper\"><div class=\"swiper-slide\"><a href=\"/account/waste/paper\" class=\"relative block\"><picture><source type=\"image/webp\" srcset=\"/public/assets/images/book.webp\"> <img fetchpriorty=\"high\" src=\"/public/assets/images/book.jpg\" class=\"w-[10rem] aspect-square rounded-xl \"></picture><div class=\"absolute bottom-4 left-4 text-white text-left\"><p class=\"font-semibold text-xs leading-[0.838rem]\">PAPER</p><p class=\"font-bold text-[0.625rem] leading-[0.762rem]\">50 BEL</p></div></a></div><div class=\"swiper-slide\"><a href=\"/account/waste/glass\" class=\"relative block\"><picture><source type=\"image/webp\" srcset=\"/public/assets/images/glass.webp\"> <img fetchpriorty=\"high\" src=\"/public/assets/images/glass.jpg\" class=\"w-[10rem] aspect-square rounded-xl\"></picture><div class=\"absolute bottom-4 left-4 text-white text-left\"><p class=\"font-semibold text-xs leading-[0.838rem]\">GLASS</p><p class=\"font-bold text-[0.625rem] leading-[0.762rem]\">50 BEL</p></div></a></div><div class=\"swiper-slide\"><a href=\"/account/waste/metal\" class=\"relative block\"><picture><source type=\"image/webp\" srcset=\"/public/assets/images/metal2.webp\"> <img fetchpriorty=\"high\" src=\"/public/assets/images/metal2.jpg\" class=\"w-[10rem] aspect-square rounded-xl\"></picture><div class=\"absolute bottom-4 left-4 text-white text-left\"><p class=\"font-semibold text-xs leading-[0.838rem]\">METAL</p><p class=\"font-bold text-[0.625rem] leading-[0.762rem]\">50 BEL</p></div></a></div><div class=\"swiper-slide\"><a href=\"/account/waste/plastics\" class=\"relative block\"><picture><source type=\"image/webp\" srcset=\"/public/assets/images/plastic_2.webp\"> <img fetchpriorty=\"high\" src=\"/public/assets/images/plastic_2.jpg\" class=\"w-[10rem] aspect-square rounded-xl \"></picture><div class=\"absolute bottom-4 left-4 text-white text-left\"><p class=\"font-semibold text-xs leading-[0.838rem]\">PLASTICS</p><p class=\"font-bold text-[0.625rem] leading-[0.762rem]\">50 BEL</p></div></a></div></div></div></section><section class=\"mt-8 w-full flex items-start justify-between\"><p class=\"font-semibold text-[0.94rem] leading-[1.14rem]\">Recycled</p></section>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -207,7 +207,7 @@ func DashboardSwiperOne() templ.Component {
 	})
 }
 
-func DashboardDataViz(chart template.HTML) templ.Component {
+func DashboardDataViz(chart template.HTML, isEmpty bool) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -232,7 +232,7 @@ func DashboardDataViz(chart template.HTML) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = DashboardEchart(chart).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = DashboardEchart(chart, isEmpty).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -243,7 +243,7 @@ func DashboardDataViz(chart template.HTML) templ.Component {
 		var templ_7745c5c3_Var7 string
 		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%s", time.Now().AddDate(0, -4, 0).Format("Jan")))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `frontend/pages/account/page.dashboard.templ`, Line: 229, Col: 67}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `frontend/pages/account/page.dashboard.templ`, Line: 190, Col: 67}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 		if templ_7745c5c3_Err != nil {
@@ -256,7 +256,7 @@ func DashboardDataViz(chart template.HTML) templ.Component {
 		var templ_7745c5c3_Var8 string
 		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%s", time.Now().AddDate(0, -3, 0).Format("Jan")))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `frontend/pages/account/page.dashboard.templ`, Line: 237, Col: 67}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `frontend/pages/account/page.dashboard.templ`, Line: 198, Col: 67}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 		if templ_7745c5c3_Err != nil {
@@ -269,7 +269,7 @@ func DashboardDataViz(chart template.HTML) templ.Component {
 		var templ_7745c5c3_Var9 string
 		templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%s", time.Now().AddDate(0, -2, 0).Format("Jan")))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `frontend/pages/account/page.dashboard.templ`, Line: 245, Col: 67}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `frontend/pages/account/page.dashboard.templ`, Line: 206, Col: 67}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 		if templ_7745c5c3_Err != nil {
@@ -282,7 +282,7 @@ func DashboardDataViz(chart template.HTML) templ.Component {
 		var templ_7745c5c3_Var10 string
 		templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%s", time.Now().AddDate(0, -1, 0).Format("Jan")))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `frontend/pages/account/page.dashboard.templ`, Line: 253, Col: 67}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `frontend/pages/account/page.dashboard.templ`, Line: 214, Col: 67}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 		if templ_7745c5c3_Err != nil {
@@ -295,7 +295,7 @@ func DashboardDataViz(chart template.HTML) templ.Component {
 		var templ_7745c5c3_Var11 string
 		templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%s.", time.Now().AddDate(0, -0, 0).Format("Jan")))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `frontend/pages/account/page.dashboard.templ`, Line: 261, Col: 68}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `frontend/pages/account/page.dashboard.templ`, Line: 222, Col: 68}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
 		if templ_7745c5c3_Err != nil {
@@ -309,7 +309,7 @@ func DashboardDataViz(chart template.HTML) templ.Component {
 	})
 }
 
-func DashboardEchart(chart template.HTML) templ.Component {
+func DashboardEchart(chart template.HTML, isEmpty bool) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -330,7 +330,7 @@ func DashboardEchart(chart template.HTML) templ.Component {
 			templ_7745c5c3_Var12 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 16, "<div id=\"echart\" class=\"bg-transparent\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 16, "<div id=\"echart\" class=\"bg-transparent relative\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -338,7 +338,13 @@ func DashboardEchart(chart template.HTML) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 17, "</div>")
+		if isEmpty {
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 17, "<div class=\"absolute top-2/4 left-[30%] text-xs font-tt_chocolate font-light\">No data for this month</div>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 18, "</div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -367,7 +373,7 @@ func DashboardSwiperTwo() templ.Component {
 			templ_7745c5c3_Var13 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 18, "<p class=\"font-semibold text-[0.938rem] leading-[1.143rem] mt-6\">Tips on Recycling</p><section class=\"swiperTwo mt-4\"><div class=\"px-4 swiper mySwiperTwo w-full\"><div class=\"swiper-wrapper\"><a href=\"/account/tips/plastics\" class=\"swiper-slide block\"><div class=\"bg-[#FEF7FF] rounded-lg flex items-center justify-center p-[0.313rem]\"><img src=\"/public/assets/svg/manWithPlastics.svg\" class=\"w-[6.875rem] aspect-[110/101] mx-[0.313rem] mr-[0.313rem] rounded-lg\"><div class=\"flex flex-col gap-2\"><div class=\"flex items-center gap-[0.313rem]\"><p class=\"font-semibold text-[0.688rem] leading-[0.838rem]\">PLASTICS:</p><picture><source type=\"image/webp\" srcset=\"/public/assets/images/Recycle_small.webp\"> <img src=\"/public/assets/images/Recycle_small.png\" alt=\"\" class=\"w-[0.813rem] aspect-square\"></picture></div><p class=\"font-[500] text-[0.625rem] leading-[0.875rem] text-left\">Twist on the bottle caps before tossing them in the bin to make it easier for recyclers.</p></div></div></a> <a href=\"/account/tips/glass\" class=\"swiper-slide block\"><div class=\"bg-[#FEF7FF] rounded-lg flex items-center justify-center p-[0.313rem]\"><img src=\"/public/assets/svg/glassSwipper.svg\" class=\"w-[6.875rem] aspect-[110/101] mx-[0.313rem] mr-[0.313rem] rounded-lg\"><div class=\"flex flex-col gap-2\"><div class=\"flex items-center gap-[0.313rem]\"><p class=\"font-semibold text-[0.688rem] leading-[0.838rem]\">GLASS:</p><picture><source type=\"image/webp\" srcset=\"/public/assets/images/Recycle_small.webp\"> <img src=\"/public/assets/images/Recycle_small.png\" alt=\"\" class=\"w-[0.813rem] aspect-square\"></picture></div><p class=\"font-[500] text-[0.625rem] leading-[0.875rem] text-left\">Remove food or drink residues from the glass as it can contaminate recycling process.</p></div></div></a> <a href=\"/account/tips/metal\" class=\"swiper-slide block\"><div class=\"bg-[#FEF7FF] rounded-lg flex items-center justify-center p-[0.313rem]\"><img src=\"/public/assets/svg/metalSwipper.svg\" class=\"w-[6.875rem] aspect-[110/101] mx-[0.313rem] mr-[0.313rem] rounded-lg\"><div class=\"flex flex-col gap-2\"><div class=\"flex items-center gap-[0.313rem]\"><p class=\"font-semibold text-[0.688rem] leading-[0.838rem]\">METAL:</p><picture><source type=\"image/webp\" srcset=\"/public/assets/images/Recycle_small.webp\"> <img src=\"/public/assets/images/Recycle_small.png\" alt=\"\" class=\"w-[0.813rem] aspect-square\"></picture></div><p class=\"font-[500] text-[0.625rem] leading-[0.875rem] text-left\">Be careful not to crush metals like cans, as it makes sorting easier before recycling.</p></div></div></a> <a href=\"/account/tips/paper\" class=\"swiper-slide block\"><div class=\"bg-[#FEF7FF] rounded-lg flex items-center justify-center p-[0.313rem]\"><img src=\"/public/assets/svg/paperSwipper.svg\" class=\"w-[6.875rem] aspect-[110/101] mx-[0.313rem] mr-[0.313rem] rounded-lg\"><div class=\"flex flex-col gap-2\"><div class=\"flex items-center gap-[0.313rem]\"><p class=\"font-semibold text-[0.688rem] leading-[0.838rem]\">PAPER:</p><img src=\"/public/assets/images/Recycle_small.png\" alt=\"\" class=\"w-[0.813rem] aspect-square\"></div><p class=\"font-[500] text-[0.625rem] leading-[0.875rem] text-left\">Wet paper can become too damaged to recycle, as paper weakens fibers. So keep paper dry!\t\t\t\t\t\t\t\t\t\t\t</p></div></div></a></div></div></section>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 19, "<p class=\"font-semibold text-[0.938rem] leading-[1.143rem] mt-6\">Tips on Recycling</p><section class=\"swiperTwo mt-4\"><div class=\"px-4 swiper mySwiperTwo w-full\"><div class=\"swiper-wrapper\"><a href=\"/account/tips/plastics\" class=\"swiper-slide block\"><div class=\"bg-[#FEF7FF] rounded-lg flex items-center justify-center p-[0.313rem]\"><img src=\"/public/assets/svg/manWithPlastics.svg\" class=\"w-[6.875rem] aspect-[110/101] mx-[0.313rem] mr-[0.313rem] rounded-lg\"><div class=\"flex flex-col gap-2\"><div class=\"flex items-center gap-[0.313rem]\"><p class=\"font-semibold text-[0.688rem] leading-[0.838rem]\">PLASTICS:</p><picture><source type=\"image/webp\" srcset=\"/public/assets/images/Recycle_small.webp\"> <img src=\"/public/assets/images/Recycle_small.png\" alt=\"\" class=\"w-[0.813rem] aspect-square\"></picture></div><p class=\"font-[500] text-[0.625rem] leading-[0.875rem] text-left\">Twist on the bottle caps before tossing them in the bin to make it easier for recyclers.</p></div></div></a> <a href=\"/account/tips/glass\" class=\"swiper-slide block\"><div class=\"bg-[#FEF7FF] rounded-lg flex items-center justify-center p-[0.313rem]\"><img src=\"/public/assets/svg/glassSwipper.svg\" class=\"w-[6.875rem] aspect-[110/101] mx-[0.313rem] mr-[0.313rem] rounded-lg\"><div class=\"flex flex-col gap-2\"><div class=\"flex items-center gap-[0.313rem]\"><p class=\"font-semibold text-[0.688rem] leading-[0.838rem]\">GLASS:</p><picture><source type=\"image/webp\" srcset=\"/public/assets/images/Recycle_small.webp\"> <img src=\"/public/assets/images/Recycle_small.png\" alt=\"\" class=\"w-[0.813rem] aspect-square\"></picture></div><p class=\"font-[500] text-[0.625rem] leading-[0.875rem] text-left\">Remove food or drink residues from the glass as it can contaminate recycling process.</p></div></div></a> <a href=\"/account/tips/metal\" class=\"swiper-slide block\"><div class=\"bg-[#FEF7FF] rounded-lg flex items-center justify-center p-[0.313rem]\"><img src=\"/public/assets/svg/metalSwipper.svg\" class=\"w-[6.875rem] aspect-[110/101] mx-[0.313rem] mr-[0.313rem] rounded-lg\"><div class=\"flex flex-col gap-2\"><div class=\"flex items-center gap-[0.313rem]\"><p class=\"font-semibold text-[0.688rem] leading-[0.838rem]\">METAL:</p><picture><source type=\"image/webp\" srcset=\"/public/assets/images/Recycle_small.webp\"> <img src=\"/public/assets/images/Recycle_small.png\" alt=\"\" class=\"w-[0.813rem] aspect-square\"></picture></div><p class=\"font-[500] text-[0.625rem] leading-[0.875rem] text-left\">Be careful not to crush metals like cans, as it makes sorting easier before recycling.</p></div></div></a> <a href=\"/account/tips/paper\" class=\"swiper-slide block\"><div class=\"bg-[#FEF7FF] rounded-lg flex items-center justify-center p-[0.313rem]\"><img src=\"/public/assets/svg/paperSwipper.svg\" class=\"w-[6.875rem] aspect-[110/101] mx-[0.313rem] mr-[0.313rem] rounded-lg\"><div class=\"flex flex-col gap-2\"><div class=\"flex items-center gap-[0.313rem]\"><p class=\"font-semibold text-[0.688rem] leading-[0.838rem]\">PAPER:</p><img src=\"/public/assets/images/Recycle_small.png\" alt=\"\" class=\"w-[0.813rem] aspect-square\"></div><p class=\"font-[500] text-[0.625rem] leading-[0.875rem] text-left\">Wet paper can become too damaged to recycle, as paper weakens fibers. So keep paper dry!\t\t\t\t\t\t\t\t\t\t\t</p></div></div></a></div></div></section>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

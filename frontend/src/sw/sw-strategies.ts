@@ -14,8 +14,8 @@ export const cacheFirstStrategy = new CacheFirst({
   cacheName: partialsCache,
   plugins: [
     new ExpirationPlugin({
-      maxEntries: 30,
-      maxAgeSeconds: 60 * 60 * 24 * 30, // about a month
+      maxEntries: 5,
+      maxAgeSeconds: 60 * 60 * 24 * 30 * 3, // about 3 months
     }),
   ],
 });
@@ -23,9 +23,47 @@ export const cacheFirstStrategy = new CacheFirst({
 export const networkFirstStrategy = new NetworkFirst({
   cacheName: contentCache,
   networkTimeoutSeconds: 5,
+  plugins: [
+    new ExpirationPlugin({
+      maxEntries: 5,
+      maxAgeSeconds: 60 * 60 * 24 * 30 * 3, // about 3 months
+    }),
+    // {
+    //   fetchDidSucceed: async ({ request, response, event, state }) => {
+    //     const clonedResponse = response.clone();
+
+    //     if (clonedResponse.headers.get("X-Session-Expired")) {
+    //       console.warn("Session expired. Redirecting to signup page.");
+
+    //       return Response.redirect("/account/login.html", 302);
+    //     }
+
+    //     return response;
+    //   },
+    // },
+  ],
 });
 export const staleWhileRevalidateStrategy = new StaleWhileRevalidate({
   cacheName: contentCache,
+  plugins: [
+    new ExpirationPlugin({
+      maxEntries: 5,
+      maxAgeSeconds: 60 * 60 * 24 * 30 * 3, // about 3 months
+    }),
+    // {
+    //   fetchDidSucceed: async ({ request, response, event, state }) => {
+    //     const clonedResponse = response.clone();
+
+    //     if (clonedResponse.headers.get("X-Session-Expired")) {
+    //       console.warn("Session expired. Redirecting to signup page.");
+
+    //       return Response.redirect("/account/login.html", 302);
+    //     }
+
+    //     return response;
+    //   },
+    // },
+  ],
 });
 
 export const dashboardPageStream = composeStrategies(
@@ -71,7 +109,7 @@ export const dashboardPageStream = composeStrategies(
         event,
       }),
   ],
-  {},
+  {}
 );
 
 export const locationPageStream = composeStrategies(
@@ -104,7 +142,7 @@ export const locationPageStream = composeStrategies(
         event,
       }),
   ],
-  {},
+  {}
 );
 
 export const walletPageStream = composeStrategies(
@@ -155,7 +193,7 @@ export const walletPageStream = composeStrategies(
         event,
       }),
   ],
-  {},
+  {}
 );
 
 export const spendPageStream = composeStrategies(
@@ -196,7 +234,7 @@ export const spendPageStream = composeStrategies(
         event,
       }),
   ],
-  {},
+  {}
 );
 
 export const profilePageStream = composeStrategies(
@@ -237,7 +275,7 @@ export const profilePageStream = composeStrategies(
         event,
       }),
   ],
-  {},
+  {}
 );
 
 export const airtimePageStream = composeStrategies(
@@ -278,7 +316,7 @@ export const airtimePageStream = composeStrategies(
         event,
       }),
   ],
-  {},
+  {}
 );
 
 export const beneficiariesPageStream = composeStrategies(
@@ -286,7 +324,7 @@ export const beneficiariesPageStream = composeStrategies(
     async ({ event }) =>
       cacheFirstStrategy.handle({
         request: new Request(
-          "/account/beneficiaries/openingHtmlTag-Partial.html",
+          "/account/beneficiaries/openingHtmlTag-Partial.html"
         ),
         event,
       }),
@@ -308,12 +346,12 @@ export const beneficiariesPageStream = composeStrategies(
     async ({ event }) =>
       cacheFirstStrategy.handle({
         request: new Request(
-          "/account/beneficiaries/closingHtmlTag-Partial.html",
+          "/account/beneficiaries/closingHtmlTag-Partial.html"
         ),
         event,
       }),
   ],
-  {},
+  {}
 );
 
 export const wastePageStream = composeStrategies(
@@ -359,7 +397,7 @@ export const wastePageStream = composeStrategies(
         event,
       }),
   ],
-  {},
+  {}
 );
 
 function matchingPathVariableForWaste(url: URL, endpoint: string) {

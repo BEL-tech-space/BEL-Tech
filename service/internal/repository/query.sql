@@ -106,10 +106,22 @@ SELECT *
 FROM inserted_row
 ORDER BY created_at DESC;
 
+-- name: DeleteBeneficiary :many
+WITH deleted_row AS (
+    DELETE FROM beneficiaries
+    WHERE email = $1
+      AND b_phone_no = $2
+      AND service_provider = $3
+    RETURNING *
+)
+SELECT b_name, b_phone_no, service_provider
+FROM beneficiaries
+WHERE NOT (
+    beneficiaries.email = $1
+    AND beneficiaries.b_phone_no = $2
+    AND beneficiaries.service_provider = $3
+);
 
--- name: DeleteBeneficiary :exec
-DELETE FROM beneficiaries
-WHERE email = $1 AND b_phone_no = $2 AND service_provider = $3;
 
 -- name: GetBeneficiariesByEmail :many
 SELECT *

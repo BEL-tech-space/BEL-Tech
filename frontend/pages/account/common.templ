@@ -176,7 +176,7 @@ templ splashScreenForiOS() {
 
 templ Footer(active string, mainClosingTag templ.Component) {
 	@mainClosingTag
-	<footer class="bg-white flex w-full justify-around px-4 pt-4 pb-6 gap-[2.375rem]" hx-boost="false">
+	<footer class="bg-white flex w-full justify-around px-4 pt-3 pb-6 gap-[2.375rem]" hx-boost="false">
 		if active == "dashboard" {
 			<a
 				href="/account/dashboard"
@@ -323,12 +323,14 @@ templ CommonHeader(user Account) {
 				Gm
 			</p>
 		}
+		// if includeBtn {
 		<button class="bg-[#CCE1D699] p-[0.5rem] ml-auto rounded-md flex justify-center items-center">
 			<img
 				src="/public/assets/svg/notification.svg"
 				class="w-6 aspect-square"
 			/>
 		</button>
+		// }
 	</header>
 }
 

@@ -10,19 +10,16 @@ import { precacheAndRoute } from "workbox-precaching";
 import { ExpirationPlugin } from "workbox-expiration";
 import { clientsClaim } from "workbox-core";
 import {
-  imagesCache,
   contentCache,
   partialsCache,
   dashboardPageStream,
   locationPageStream,
   walletPageStream,
   spendPageStream,
-  staleWhileRevalidateStrategy,
   profilePageStream,
   airtimePageStream,
   beneficiariesPageStream,
   wastePageStream,
-  cacheFirstStrategy,
 } from "./sw-strategies";
 // import process from "process";
 
@@ -40,17 +37,17 @@ navigationPreload.enable();
 // account/auth
 registerRoute(
   ({ url }) =>
-    url.pathname === "/account/signin-Partial.html" ||
-    url.pathname === "/account/signup-Partial.html",
+    url.pathname === "/account/login.html" ||
+    url.pathname === "/account/signup.html",
   new CacheFirst({
     cacheName: partialsCache,
     plugins: [
       new ExpirationPlugin({
-        maxEntries: 30,
-        maxAgeSeconds: 60 * 60 * 24 * 30, // about a month
+        maxEntries: 5,
+        maxAgeSeconds: 60 * 60 * 24 * 30 * 3, // about 3 month
       }),
     ],
-  }),
+  })
 );
 
 // account/dashboard
@@ -60,11 +57,11 @@ registerRoute(
     cacheName: contentCache,
     plugins: [
       new ExpirationPlugin({
-        maxEntries: 30,
-        maxAgeSeconds: 60 * 60 * 24 * 30, // about a month
+        maxEntries: 5,
+        maxAgeSeconds: 60 * 60 * 24 * 30 * 3, // about 3 month
       }),
     ],
-  }),
+  })
 );
 
 registerRoute(
@@ -74,16 +71,16 @@ registerRoute(
     cacheName: contentCache,
     plugins: [
       new ExpirationPlugin({
-        maxEntries: 30,
-        maxAgeSeconds: 60 * 60 * 24 * 30, // about a month
+        maxEntries: 5,
+        maxAgeSeconds: 60 * 60 * 24 * 30 * 3, // about 3 month
       }),
     ],
-  }),
+  })
 );
 
 registerRoute(
   ({ url }) => url.pathname === "/account/dashboard",
-  dashboardPageStream,
+  dashboardPageStream
 );
 
 // account/scan
@@ -93,23 +90,23 @@ registerRoute(
     cacheName: contentCache,
     plugins: [
       new ExpirationPlugin({
-        maxEntries: 30,
-        maxAgeSeconds: 60 * 60 * 24 * 30, // about a month
+        maxEntries: 5,
+        maxAgeSeconds: 60 * 60 * 24 * 30 * 3, // about 3 month
       }),
     ],
-  }),
+  })
 );
 
 // account/location
 registerRoute(
   ({ url }) => url.pathname === "/account/location",
-  locationPageStream,
+  locationPageStream
 );
 
 // account/wallet
 registerRoute(
   ({ url }) => url.pathname === "/account/wallet",
-  walletPageStream,
+  walletPageStream
 );
 
 // account/wallet
@@ -129,7 +126,7 @@ registerRoute(
     const allCacheKeys = await cache.keys();
 
     const matchingResponses = allCacheKeys.filter((request) =>
-      request.url.endsWith("commonHeader-Partial.html"),
+      request.url.endsWith("commonHeader-Partial.html")
     );
 
     for (const req of matchingResponses) {
@@ -138,25 +135,25 @@ registerRoute(
 
     return response;
   },
-  "POST",
+  "POST"
 );
 
 registerRoute(
   ({ url }) => url.pathname === "/account/profile",
-  profilePageStream,
+  profilePageStream
 );
 
 // account/airtime
 registerRoute(
   ({ url }) => url.pathname === "/account/airtime",
   airtimePageStream,
-  "POST",
+  "POST"
 );
 
 // account/beneficiaries
 registerRoute(
   ({ url }) => url.pathname === "/account/beneficiaries",
-  beneficiariesPageStream,
+  beneficiariesPageStream
 );
 
 // account/waste
@@ -175,11 +172,11 @@ registerRoute(
     cacheName: contentCache,
     plugins: [
       new ExpirationPlugin({
-        maxEntries: 30,
-        maxAgeSeconds: 60 * 60 * 24 * 30, // about a month
+        maxEntries: 5,
+        maxAgeSeconds: 60 * 60 * 24 * 30 * 3, // about 3 month
       }),
     ],
-  }),
+  })
 );
 
 precacheAndRoute(self.__WB_MANIFEST || []);
