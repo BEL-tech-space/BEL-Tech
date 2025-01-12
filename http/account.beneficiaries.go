@@ -23,6 +23,7 @@ func (a *App) beneficiariesPageHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := accPages.BeneficiariesPage(account(user).AvatarUrl, result).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
@@ -38,6 +39,7 @@ func (a *App) beneficiariesPageHeaderPartial(w http.ResponseWriter, r *http.Requ
 		return
 	}
 
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := accPages.BeneficiariesHeaderPartial(
 		account(user).AvatarUrl).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
@@ -55,6 +57,9 @@ func (a *App) beneficiariesMain(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	fmt.Printf("result: %v --- %d\n\n", result, len(result))
+
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := accPages.BeneficiariesMain(result).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
@@ -93,6 +98,7 @@ func (a *App) addNewBeneficiary(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if r.Form.Get("from") == "beneficiariesPage" {
+		w.Header().Set("Content-Type", "text/html; charset=utf-8")
 		if err := accPages.BeneficiariesMain(result).Render(context.TODO(), w); err != nil {
 			a.serverError(w, err)
 			return
@@ -102,11 +108,52 @@ func (a *App) addNewBeneficiary(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if r.Form.Get("from") == "airtimePage" {
+		w.Header().Set("Content-Type", "text/html; charset=utf-8")
 		if err := accPages.AirtimeBeneficiaries(result).Render(context.TODO(), w); err != nil {
 			a.serverError(w, err)
 			return
 		}
 
+		return
+	}
+}
+
+func (a *App) deleteBeneficiary(w http.ResponseWriter, r *http.Request) {
+
+	if err := r.ParseForm(); err != nil {
+		a.clientError(w, http.StatusBadRequest, fmt.Errorf("err parsing form data; %s", err.Error()))
+		return
+	}
+
+	if r.Form.Get("name") == "" {
+		a.clientError(w, http.StatusBadRequest, fmt.Errorf("name is required"))
+		return
+	}
+	if r.Form.Get("phone") == "" {
+		a.clientError(w, http.StatusBadRequest, fmt.Errorf("phone is required"))
+		return
+	}
+	if r.Form.Get("network") == "" {
+		a.clientError(w, http.StatusBadRequest, fmt.Errorf("network is required"))
+		return
+	}
+
+	accountEmail := r.Context().Value(contextKeyEmail).(string)
+	res, err := a.service.DeleteBeneficiary(context.Background(), r.Form.Get("phone"), r.Form.Get("network"), accountEmail)
+	if err != nil {
+		a.serverError(w, err)
+		return
+	}
+
+	// result, err := a.service.GetBeneficiaries(context.Background(), accountEmail)
+	// if err != nil {
+	// 	a.serverError(w, err)
+	// 	return
+	// }
+
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	if err := accPages.BeneficiariesMain(res).Render(context.TODO(), w); err != nil {
+		a.serverError(w, err)
 		return
 	}
 }

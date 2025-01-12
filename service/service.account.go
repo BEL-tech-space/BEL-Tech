@@ -63,8 +63,8 @@ func (s *Service) AddNewBeneficiary(ctx context.Context, bPhoneNo, bName, bSP, e
 	return beneficiaries, nil
 }
 
-func (s *Service) DeleteBeneficiary(ctx context.Context, bPhoneNo, bSP, email string) error {
-	err := s.dbQuery.DeleteBeneficiary(
+func (s *Service) DeleteBeneficiary(ctx context.Context, bPhoneNo, bSP, email string) ([]types.Beneficiary, error) {
+	res, err := s.dbQuery.DeleteBeneficiary(
 		ctx,
 		postgres.DeleteBeneficiaryParams{
 			BPhoneNo:        bPhoneNo,
@@ -78,17 +78,29 @@ func (s *Service) DeleteBeneficiary(ctx context.Context, bPhoneNo, bSP, email st
 		if ok := errors.As(err, &pgErr); ok {
 			switch pgErr.Code {
 			case "23503":
-				return errors.New("foreign key violation: The email does not exist in the users table")
+				return nil, errors.New("foreign key violation: The email does not exist in the users table")
 			default:
-				return fmt.Errorf("other PostgreSQL error: %s", pgErr.Message)
+				return nil, fmt.Errorf("other PostgreSQL error: %s", pgErr.Message)
 			}
 		}
 
 		// Handle non-PostgreSQL errors
-		return fmt.Errorf("other error: %v", err)
+		return nil, fmt.Errorf("other error: %v", err)
+	}
+	
+	dto := func(param []postgres.DeleteBeneficiaryRow) []types.Beneficiary {
+		r := make([]types.Beneficiary, 0, len(param))
+		for i := 0; i < len(param); i++ {
+			r = append(r, types.Beneficiary{
+				BPhoneNo:        param[i].BPhoneNo,
+				BName:           param[i].BName,
+				ServiceProvider: param[i].ServiceProvider,
+			})
+		}
+		return r
 	}
 
-	return nil
+	return dto(res), nil
 }
 
 func (s *Service) GetBeneficiaries(ctx context.Context, email string) ([]types.Beneficiary, error) {

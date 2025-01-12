@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"html/template"
 	"io"
+	"reflect"
 	"time"
 
 	"github.com/go-echarts/go-echarts/v2/charts"
@@ -20,19 +21,21 @@ const baseTpl = `
    <script src="{{ . }}"></script>
 {{- end }}
 <script type="text/javascript">
-    "use strict";
-    let goecharts_{{ .ChartID | safeJS }} = echarts.init(document.getElementById('{{ .ChartID | safeJS }}'), "{{ .Theme }}");
-    let option_{{ .ChartID | safeJS }} = {{ .JSON }};
-    goecharts_{{ .ChartID | safeJS }}.setOption(option_{{ .ChartID | safeJS }});
-    {{- range .JSFunctions.Fns }}
-    {{ . | safeJS }}
-    {{- end }}
-
-	window.addEventListener('resize', function() {
-		goecharts_{{ .ChartID | safeJS }}.resize();
-	});
-
-	goecharts_{{ .ChartID | safeJS }}.setOption(%s);
+	(function() {
+		"use strict";
+		let goecharts_{{ .ChartID | safeJS }} = echarts.init(document.getElementById('{{ .ChartID | safeJS }}'), "{{ .Theme }}");
+		let option_{{ .ChartID | safeJS }} = {{ .JSON }};
+		goecharts_{{ .ChartID | safeJS }}.setOption(option_{{ .ChartID | safeJS }});
+		{{- range .JSFunctions.Fns }}
+		{{ . | safeJS }}
+		{{- end }}
+		
+		window.addEventListener('resize', function() {
+			goecharts_{{ .ChartID | safeJS }}.resize();
+			});
+			
+			goecharts_{{ .ChartID | safeJS }}.setOption(%s);
+		})();
 	
 </script>`
 
@@ -126,7 +129,12 @@ var barChartColorsBackGround [7]string = [7]string{
 
 const chartName = "beltech"
 
-func produceChartHTML(values [4]float64, t time.Time) template.HTML {
+func produceChartHTML(values [4]float64, t time.Time) (template.HTML, bool) {
+	isEMpty := false
+
+	if reflect.ValueOf(values).IsZero() {
+		isEMpty = true
+	}
 	return WeekStatBarChart(
 		BarChartData{
 			XAxis: []string{"Plastic", "Glass", "Metal", "Paper"},
@@ -135,7 +143,7 @@ func produceChartHTML(values [4]float64, t time.Time) template.HTML {
 			Year:  fmt.Sprintf("%d", t.Year()),
 			Keys:  []string{},
 		},
-	)
+	), isEMpty
 }
 
 func WeekStatBarChart(data BarChartData) template.HTML {

@@ -7,7 +7,7 @@
     "lint": "tsc",
     "build": "esbuild src/index.ts --bundle --sourcemap --outfile=public/assets/scripts/beltech.js",
     "build-sw": "esbuild src/sw/sw.ts --bundle --sourcemap --outfile=public/sw.js",
-    "injectManifest": "esbuild src/sw/injectManifest-sw.ts --bundle --platform=node --packages=external --outfile=injectManifest.js && node injectManifest.js && rm injectManifest.js",
+    "injectManifest": "esbuild src/sw/injectManifest-sw.ts --bundle --platform=node --packages=external --outfile=injectManifest.js && NODE_ENV=production node injectManifest.js && rm injectManifest.js",
     "sw": "pnpm build-sw && pnpm injectManifest",
     "dev:tsc": "tsc --watch --preserveWatchOutput",
     "dev:build": "pnpm run sw --watch=forever",
@@ -18,12 +18,14 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@types/node": "^22.10.5",
     "esbuild": "^0.24.0",
     "prettier": "^3.4.2",
     "prettier-plugin-tailwindcss": "^0.6.9",
     "workbox-cli": "^7.1.0"
   },
   "dependencies": {
+    "dotenv": "^16.4.7",
     "npm-run-all": "^4.1.5",
     "tailwindcss": "3",
     "workbox-build": "^7.1.0",

@@ -15,13 +15,13 @@ import (
 )
 
 type App struct {
-	config               *EnvConfig
-	service              *service.Service
-	accountSessionStore  sessions.Store
-	agentSessionStore    sessions.Store
-	collectors           []collector
-	beltechWatermarkLogo []byte
-	accountCache         *ristretto.Cache[string, service.Account]
+	config              *EnvConfig
+	service             *service.Service
+	accountSessionStore sessions.Store
+	agentSessionStore   sessions.Store
+	collectors          []collector
+	// beltechWatermarkLogo []byte
+	accountCache *ristretto.Cache[string, service.Account]
 }
 
 type collector struct {
@@ -32,11 +32,9 @@ type collector struct {
 type contextKey string
 
 const (
-	contextKeyEmail      contextKey = "email"
-	contextUserAvatarURL contextKey = "avatarURL"
-	contextKeyAgentID    contextKey = "agentID"
-	contextKeyUserID     contextKey = "userID"
-	contextKeyRole       contextKey = "role"
+	contextKeyEmail   contextKey = "email"
+	contextKeyAgentID contextKey = "agentID"
+	contextKeyRole    contextKey = "role"
 )
 
 const productionEnv string = "production"
@@ -44,7 +42,7 @@ const productionEnv string = "production"
 func NewApp(cfg *EnvConfig, db *pgxpool.Pool, rCache *ristretto.Cache[string, service.Account]) *App {
 
 	store := sessions.NewCookieStore([]byte(cfg.CookieSecret))
-	store.MaxAge(86_400 * 30) // 30 days
+	store.MaxAge(86_400 * 15) // 30 days
 	store.Options.Path = "/"
 	store.Options.HttpOnly = true
 	store.Options.Secure = true
@@ -68,7 +66,7 @@ func NewApp(cfg *EnvConfig, db *pgxpool.Pool, rCache *ristretto.Cache[string, se
 	app.agentSessionStore = sessions.NewCookieStore([]byte(GenerateRandomKey(cfg.SessionSecret, cfg.Build)))
 	app.service = service.NewService(db)
 
-	if cfg.Build != productionEnv {
+	if cfg.Build == productionEnv {
 		app.collectors = append(app.collectors, collector{Email: devGothUser.Email})
 	}
 
@@ -87,5 +85,3 @@ func GenerateRandomKey(d, buildMode string) string {
 
 	return hex.EncodeToString(key)
 }
-
-

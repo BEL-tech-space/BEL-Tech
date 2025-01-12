@@ -196,9 +196,21 @@ func (q *Queries) AddNewBeneficiary(ctx context.Context, arg AddNewBeneficiaryPa
 	return items, nil
 }
 
-const deleteBeneficiary = `-- name: DeleteBeneficiary :exec
-DELETE FROM beneficiaries
-WHERE email = $1 AND b_phone_no = $2 AND service_provider = $3
+const deleteBeneficiary = `-- name: DeleteBeneficiary :many
+WITH deleted_row AS (
+    DELETE FROM beneficiaries
+    WHERE email = $1
+      AND b_phone_no = $2
+      AND service_provider = $3
+    RETURNING b_name, b_phone_no, service_provider, created_at, email
+)
+SELECT b_name, b_phone_no, service_provider
+FROM beneficiaries
+WHERE NOT (
+    beneficiaries.email = $1
+    AND beneficiaries.b_phone_no = $2
+    AND beneficiaries.service_provider = $3
+)
 `
 
 type DeleteBeneficiaryParams struct {
@@ -207,9 +219,30 @@ type DeleteBeneficiaryParams struct {
 	ServiceProvider string      `json:"service_provider"`
 }
 
-func (q *Queries) DeleteBeneficiary(ctx context.Context, arg DeleteBeneficiaryParams) error {
-	_, err := q.db.Exec(ctx, deleteBeneficiary, arg.Email, arg.BPhoneNo, arg.ServiceProvider)
-	return err
+type DeleteBeneficiaryRow struct {
+	BName           string `json:"b_name"`
+	BPhoneNo        string `json:"b_phone_no"`
+	ServiceProvider string `json:"service_provider"`
+}
+
+func (q *Queries) DeleteBeneficiary(ctx context.Context, arg DeleteBeneficiaryParams) ([]DeleteBeneficiaryRow, error) {
+	rows, err := q.db.Query(ctx, deleteBeneficiary, arg.Email, arg.BPhoneNo, arg.ServiceProvider)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []DeleteBeneficiaryRow
+	for rows.Next() {
+		var i DeleteBeneficiaryRow
+		if err := rows.Scan(&i.BName, &i.BPhoneNo, &i.ServiceProvider); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
 }
 
 const getAccount = `-- name: GetAccount :one

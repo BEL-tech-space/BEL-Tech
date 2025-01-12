@@ -20,10 +20,17 @@
 
 @font-face {
   font-family: "TT Chocolates";
-  src: local("TT Chocolates"), url("/public/assets/fonts/tt_chocolates/TT Chocolates Trial Regular.otf");
+  src: local("TT Chocolates"),
+    url("/public/assets/fonts/tt_chocolates/TT Chocolates Trial Regular.otf");
 }
 
-/* input:not(:placeholder-shown):valid {
+body {
+  padding-top: env(safe-area-inset-top, 1em);
+  padding-bottom: env(safe-area-inset-bottom, 1em);
+}
+
+/*
+ input:not(:placeholder-shown):valid {
   outline-color: green;
 }
 

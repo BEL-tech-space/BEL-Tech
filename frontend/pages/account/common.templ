@@ -92,15 +92,17 @@ templ HeadTag(pageTitle string) {
 		<meta charset="UTF-8"/>
 		<meta
 			name="viewport"
-			content="width=device-width, initial-scale=1.0, maximum-scale=5.0"
+			content="width=device-width, initial-scale=1.0, viewport-fit=cover"
 		/>
 		<link
 			rel="stylesheet"
 			href="/public/assets/styles/output.css"
 		/>
 		<link
-			rel="stylesheet"
+			rel="reload"
+			fetchpriority="low"
 			href="/public/assets/styles/toastr.min.css"
+			as="style"
 		/>
 		if pageTitle == "dashboard" || 
 			pageTitle == "scan" ||
@@ -174,7 +176,7 @@ templ splashScreenForiOS() {
 
 templ Footer(active string, mainClosingTag templ.Component) {
 	@mainClosingTag
-	<footer class="bg-white flex w-full justify-around px-4 pt-4 pb-6 gap-[2.375rem]" hx-boost="false">
+	<footer class="bg-white flex w-full justify-around px-4 pt-3 pb-6 gap-[2.375rem]" hx-boost="false">
 		if active == "dashboard" {
 			<a
 				href="/account/dashboard"
@@ -321,12 +323,14 @@ templ CommonHeader(user Account) {
 				Gm
 			</p>
 		}
+		// if includeBtn {
 		<button class="bg-[#CCE1D699] p-[0.5rem] ml-auto rounded-md flex justify-center items-center">
 			<img
 				src="/public/assets/svg/notification.svg"
 				class="w-6 aspect-square"
 			/>
 		</button>
+		// }
 	</header>
 }
 

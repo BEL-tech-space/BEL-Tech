@@ -6,14 +6,14 @@ import (
 	"time"
 )
 
-templ DashboardPage(acc Account, chart template.HTML) {
+templ DashboardPage(acc Account, chart template.HTML, isEmpty bool) {
 	<!DOCTYPE html>
 	<html lang="en">
 		@HeadTag("dashboard")
 		<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
 			<div class="Page w-full h-full flex flex-col font-montserrat text-[#2E2E2E]">
 				@CommonHeader(acc)
-				@DashboardMain(chart)
+				@DashboardMain(chart, isEmpty)
 				@Footer("dashboard", templ.NopComponent)
 			</div>
 		</body>
@@ -21,10 +21,10 @@ templ DashboardPage(acc Account, chart template.HTML) {
 	</html>
 }
 
-templ DashboardMain(chart template.HTML) {
+templ DashboardMain(chart template.HTML, isEmpty bool) {
 	<main class="grow overflow-y-scroll pl-6 pr-[1.56rem] pt-[1.875rem] pb-2">
 		@DashboardSwiperOne()
-		@DashboardDataViz(chart)
+		@DashboardDataViz(chart, isEmpty)
 		@DashboardSwiperTwo()
 	</main>
 }
@@ -84,7 +84,7 @@ templ scriptForDashboardPage() {
 
 templ DashboardSwiperOne() {
 	<section class="flex items-center gap-1">
-		<p class="leading-[1.143rem] font-semibold text-[0.938rem]">Let's Recycle!</p>
+		<p class="leading-[1.143rem] font-semibold text-[0.938rem]">Let's Recycle</p>
 		<picture>
 			<source type="image/webp" srcset="/public/assets/images/Recycle_small.webp"/>
 			<img
@@ -101,6 +101,7 @@ templ DashboardSwiperOne() {
 						<picture>
 							<source type="image/webp" srcset="/public/assets/images/book.webp"/>
 							<img
+								fetchpriorty="high"
 								src="/public/assets/images/book.jpg"
 								class="w-[10rem] aspect-square rounded-xl "
 							/>
@@ -116,6 +117,7 @@ templ DashboardSwiperOne() {
 						<picture>
 							<source type="image/webp" srcset="/public/assets/images/glass.webp"/>
 							<img
+								fetchpriorty="high"
 								src="/public/assets/images/glass.jpg"
 								class="w-[10rem] aspect-square rounded-xl"
 							/>
@@ -131,6 +133,7 @@ templ DashboardSwiperOne() {
 						<picture>
 							<source type="image/webp" srcset="/public/assets/images/metal2.webp"/>
 							<img
+								fetchpriorty="high"
 								src="/public/assets/images/metal2.jpg"
 								class="w-[10rem] aspect-square rounded-xl"
 							/>
@@ -146,6 +149,7 @@ templ DashboardSwiperOne() {
 						<picture>
 							<source type="image/webp" srcset="/public/assets/images/plastic_2.webp"/>
 							<img
+								fetchpriorty="high"
 								src="/public/assets/images/plastic_2.jpg"
 								class="w-[10rem] aspect-square rounded-xl "
 							/>
@@ -159,22 +163,22 @@ templ DashboardSwiperOne() {
 			</div>
 		</div>
 	</section>
-	<section class="mt-8 w-full flex items-center justify-between">
+	<section class="mt-8 w-full flex items-start justify-between">
 		<p class="font-semibold text-[0.94rem] leading-[1.14rem]">Recycled</p>
-		<button
-			hx-get="/account/dashboard/chart/0"
-			hx-trigger="click"
-			hx-swap="outerHTML"
-			hx-target="#echart"
-		>
-			<p class="font-[500] text-[0.63rem] leading-[0.76rem] text-[#016934]">see all</p>
-		</button>
+		// <button
+		// 	hx-get="/account/dashboard/chart/0"
+		// 	hx-trigger="click"
+		// 	hx-swap="outerHTML"
+		// 	hx-target="#echart"
+		// >
+		// <p class="font-[500] text-[0.63rem] leading-[0.76rem] text-[#016934]">see all</p>
+		// </button>
 	</section>
 }
 
-templ DashboardDataViz(chart template.HTML) {
+templ DashboardDataViz(chart template.HTML, isEmpty bool) {
 	<section class="mt-5">
-		@DashboardEchart(chart)
+		@DashboardEchart(chart, isEmpty)
 		<div class="flex justify-between items-center gap-8  px-2">
 			<button
 				hx-get="/account/dashboard/chart?month=4"
@@ -220,9 +224,12 @@ templ DashboardDataViz(chart template.HTML) {
 	</section>
 }
 
-templ DashboardEchart(chart template.HTML) {
-	<div id="echart" class="bg-transparent">
+templ DashboardEchart(chart template.HTML, isEmpty bool) {
+	<div id="echart" class="bg-transparent relative">
 		@templ.Raw(chart)
+		if isEmpty {
+			<div class="absolute top-2/4 left-[30%] text-xs font-tt_chocolate font-light">No data for this month</div>
+		}
 	</div>
 }
 

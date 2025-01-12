@@ -632,6 +632,10 @@ video {
   left: 1.5rem;
 }
 
+.left-\[30\%\] {
+  left: 30%;
+}
+
 .right-4 {
   right: 1rem;
 }
@@ -1020,6 +1024,10 @@ video {
 
 .w-6 {
   width: 1.5rem;
+}
+
+.w-8 {
+  width: 2rem;
 }
 
 .w-9 {
@@ -1576,6 +1584,11 @@ video {
   background-color: rgb(21 128 61 / var(--tw-bg-opacity, 1));
 }
 
+.bg-red-400 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(248 113 113 / var(--tw-bg-opacity, 1));
+}
+
 .bg-transparent {
   background-color: transparent;
 }
@@ -1914,6 +1927,10 @@ video {
 
 .pt-\[1\.88rem\] {
   padding-top: 1.88rem;
+}
+
+.pt-3 {
+  padding-top: 0.75rem;
 }
 
 .text-left {
@@ -2417,10 +2434,17 @@ video {
 @font-face {
   font-family: "TT Chocolates";
 
-  src: local("TT Chocolates"), url("/public/assets/fonts/tt_chocolates/TT Chocolates Trial Regular.otf");
+  src: local("TT Chocolates"),
+    url("/public/assets/fonts/tt_chocolates/TT Chocolates Trial Regular.otf");
 }
 
-/* input:not(:placeholder-shown):valid {
+body {
+  padding-top: env(safe-area-inset-top, 1em);
+  padding-bottom: env(safe-area-inset-bottom, 1em);
+}
+
+/*
+ input:not(:placeholder-shown):valid {
   outline-color: green;
 }
 
