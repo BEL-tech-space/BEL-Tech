@@ -24,7 +24,6 @@ templ WalletMain(acc Account, data []types.TokenData) {
 	<main class="grow overflow-y-auto pl-6 pr-[1.56rem] flex flex-col pb-2">
 		@WalletBalance(acc.CurrBalance)
 		@WalletOptionsPartial()
-		// @WalletWatchlistPartial()
 		@WalletCoinData(data)
 		@WalletSwiper()
 	</main>
@@ -45,6 +44,7 @@ templ scriptForWalletPage() {
             },
         } );
 	</script>
+	@commingSoonTooltip()
 }
 
 templ WalletMainOpeningTag() {
@@ -72,32 +72,23 @@ templ WalletBalance(belTokenBalance float64) {
 
 templ WalletOptionsPartial() {
 	<section class="flex w-full justify-between items-start gap-2">
-		<a class="flex flex-col gap-2 items-center">
+		<a class="flex flex-col gap-2 items-center" data-tippy-content="Coming Soon">
 			<button class="bg-[#CCE1D6] rounded-full p-[0.938rem]"><img src="/public/assets/svg/+.svg" class="w-5 aspect-square"/></button>
 			<p class="font-poppins font-normal text-xs text-center">Send</p>
 		</a>
-		<a class="flex flex-col gap-2 items-center">
+		<a class="flex flex-col gap-2 items-center" data-tippy-content="Coming Soon">
 			<button class="bg-[#CCE1D6] rounded-full p-[0.938rem]"><img src="/public/assets/svg/-.svg" class="w-5 aspect-square"/></button>
 			<p class="font-poppins font-normal text-xs text-center">Receive</p>
 		</a>
-		<a class="flex flex-col gap-2 items-center">
+		<a class="flex flex-col gap-2 items-center" data-tippy-content="Coming Soon">
 			<button class="bg-[#CCE1D6] rounded-full p-[0.938rem]"><img src="/public/assets/svg/cash out.svg" class="w-5 aspect-square"/></button>
 			<p class="font-poppins font-normal text-xs text-center">Cash out</p>
 		</a>
-		<a class="flex flex-col gap-2 items-center">
+		<a class="flex flex-col gap-2 items-center" data-tippy-content="Coming Soon">
 			<button class="bg-[#CCE1D6] rounded-full p-[0.938rem]"><img src="/public/assets/svg/learn.svg" class="w-5 aspect-square"/></button>
 			<p class="font-poppins font-normal text-xs text-center">Learn</p>
 		</a>
 	</section>
-	<section class="mt-10 mb-4 w-full flex justify-between items-center">
-		<p class="font-semibold text-[0.94rem] leading-[1.14rem]">Watchlist</p>
-		<button>
-			<p class="font-medium text-[0.63rem] leading-[0.76rem] text-[#016934]">Past 7d</p>
-		</button>
-	</section>
-}
-
-templ WalletWatchlistPartial() {
 	<section class="mt-10 mb-4 w-full flex justify-between items-center">
 		<p class="font-semibold text-[0.94rem] leading-[1.14rem]">Watchlist</p>
 		<button>

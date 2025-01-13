@@ -267,7 +267,7 @@ func ToastMessage(toastType ToastType, message string, templComp ...templ.Compon
 	})
 }
 
-func HeadTag(pageTitle string) templ.Component {
+func commingSoonTooltip() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -288,49 +288,7 @@ func HeadTag(pageTitle string) templ.Component {
 			templ_7745c5c3_Var5 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "<head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, viewport-fit=cover\"><link rel=\"stylesheet\" href=\"/public/assets/styles/output.css\"><link rel=\"reload\" fetchpriority=\"low\" href=\"/public/assets/styles/toastr.min.css\" as=\"style\">")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		if pageTitle == "dashboard" ||
-			pageTitle == "scan" ||
-			pageTitle == "location" ||
-			pageTitle == "wallet" ||
-			pageTitle == "spend" {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "<link rel=\"manifest\" href=\"/public/manifest.json\"><meta name=\"theme-color\" content=\"#CCE1D699\">")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = splashScreenForiOS().Render(ctx, templ_7745c5c3_Buffer)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-		}
-		if pageTitle == "dashboard" ||
-			pageTitle == "wallet" {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "<link rel=\"stylesheet\" href=\"/public/assets/styles/swiper-bundle.min.css\">")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-		}
-		templ_7745c5c3_Err = removeScrollBar().Render(ctx, templ_7745c5c3_Buffer)
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, "<title>")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		var templ_7745c5c3_Var6 string
-		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(pageTitle)
-		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `frontend/pages/account/common.templ`, Line: 124, Col: 20}
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, "</title></head>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "<script src=\"/public/assets/scripts/popper.min.js\"></script><script src=\"/public/assets/scripts/tippy-bundle.umd.js\"></script><style>\n\t\t.tippy-box[data-theme~='tomato'] {\n\t\t\tbackground-color: #CCE1D6;\n\t\t\tcolor:black;\n\t\t\tfont-family: 'TT Chocolates';\n\t\t\tborder-radius: 0.625rem;\n\t\t\tbox-shadow: 0rem 0.25rem 0.625rem rgba(0, 0, 0, 0.25);\n\t\t\tpadding: 0.15rem;\n\t\t\ttext-align: start;\n\t\t}\n\t</style><script>\n\t\ttippy('[data-tippy-content]', {\n\t\t\t\ttrigger: 'click',\n\t\t\t\t// allowHTML: true,\n\t\t\t\ttheme: 'tomato',\n\t\t\t\tanimation: 'perspective-extreme',\n\t\t\t\tinteractive: true,\n\t\t\t\tarrow: false,\n\t\t\t\tonShow(instance) {\n\t\t\t\tsetTimeout(() => {\n\t\t\t\t\tinstance.hide();\n\t\t\t\t}, 1500);\n\t\t\t},\n\t\t});\n\t</script>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -354,133 +312,12 @@ func MainClosingTag() templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var7 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var7 == nil {
-			templ_7745c5c3_Var7 = templ.NopComponent
+		templ_7745c5c3_Var6 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var6 == nil {
+			templ_7745c5c3_Var6 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
 		templ_7745c5c3_Err = templ.Raw(`</main>`).Render(ctx, templ_7745c5c3_Buffer)
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		return nil
-	})
-}
-
-func splashScreenForiOS() templ.Component {
-	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
-		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
-		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
-			return templ_7745c5c3_CtxErr
-		}
-		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
-		if !templ_7745c5c3_IsBuffer {
-			defer func() {
-				templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
-				if templ_7745c5c3_Err == nil {
-					templ_7745c5c3_Err = templ_7745c5c3_BufErr
-				}
-			}()
-		}
-		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var8 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var8 == nil {
-			templ_7745c5c3_Var8 = templ.NopComponent
-		}
-		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 14, "<link rel=\"apple-touch-startup-image\" media=\"screen and (device-width: 440px) and (device-height: 956px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)\" href=\"/public/assets/screens/iPhone_16_Pro_Max_landscape.png\"><link rel=\"apple-touch-startup-image\" media=\"screen and (device-width: 402px) and (device-height: 874px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)\" href=\"/public/assets/screens/iPhone_16_Pro_landscape.png\"><link rel=\"apple-touch-startup-image\" media=\"screen and (device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)\" href=\"/public/assets/screens/iPhone_16_Plus__iPhone_15_Pro_Max__iPhone_15_Plus__iPhone_14_Pro_Max_landscape.png\"><link rel=\"apple-touch-startup-image\" media=\"screen and (device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)\" href=\"/public/assets/screens/iPhone_16__iPhone_15_Pro__iPhone_15__iPhone_14_Pro_landscape.png\"><link rel=\"apple-touch-startup-image\" media=\"screen and (device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)\" href=\"/public/assets/screens/iPhone_14_Plus__iPhone_13_Pro_Max__iPhone_12_Pro_Max_landscape.png\"><link rel=\"apple-touch-startup-image\" media=\"screen and (device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)\" href=\"/public/assets/screens/iPhone_14__iPhone_13_Pro__iPhone_13__iPhone_12_Pro__iPhone_12_landscape.png\"><link rel=\"apple-touch-startup-image\" media=\"screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)\" href=\"/public/assets/screens/iPhone_13_mini__iPhone_12_mini__iPhone_11_Pro__iPhone_XS__iPhone_X_landscape.png\"><link rel=\"apple-touch-startup-image\" media=\"screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)\" href=\"/public/assets/screens/iPhone_11_Pro_Max__iPhone_XS_Max_landscape.png\"><link rel=\"apple-touch-startup-image\" media=\"screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)\" href=\"/public/assets/screens/iPhone_11__iPhone_XR_landscape.png\"><link rel=\"apple-touch-startup-image\" media=\"screen and (device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)\" href=\"/public/assets/screens/iPhone_8_Plus__iPhone_7_Plus__iPhone_6s_Plus__iPhone_6_Plus_landscape.png\"><link rel=\"apple-touch-startup-image\" media=\"screen and (device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)\" href=\"/public/assets/screens/iPhone_8__iPhone_7__iPhone_6s__iPhone_6__4.7__iPhone_SE_landscape.png\"><link rel=\"apple-touch-startup-image\" media=\"screen and (device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)\" href=\"/public/assets/screens/4__iPhone_SE__iPod_touch_5th_generation_and_later_landscape.png\"><link rel=\"apple-touch-startup-image\" media=\"screen and (device-width: 1032px) and (device-height: 1376px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)\" href=\"/public/assets/screens/13__iPad_Pro_M4_landscape.png\"><link rel=\"apple-touch-startup-image\" media=\"screen and (device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)\" href=\"/public/assets/screens/12.9__iPad_Pro_landscape.png\"><link rel=\"apple-touch-startup-image\" media=\"screen and (device-width: 834px) and (device-height: 1210px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)\" href=\"/public/assets/screens/11__iPad_Pro_M4_landscape.png\"><link rel=\"apple-touch-startup-image\" media=\"screen and (device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)\" href=\"/public/assets/screens/11__iPad_Pro__10.5__iPad_Pro_landscape.png\"><link rel=\"apple-touch-startup-image\" media=\"screen and (device-width: 820px) and (device-height: 1180px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)\" href=\"/public/assets/screens/10.9__iPad_Air_landscape.png\"><link rel=\"apple-touch-startup-image\" media=\"screen and (device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)\" href=\"/public/assets/screens/10.5__iPad_Air_landscape.png\"><link rel=\"apple-touch-startup-image\" media=\"screen and (device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)\" href=\"/public/assets/screens/10.2__iPad_landscape.png\"><link rel=\"apple-touch-startup-image\" media=\"screen and (device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)\" href=\"/public/assets/screens/9.7__iPad_Pro__7.9__iPad_mini__9.7__iPad_Air__9.7__iPad_landscape.png\"><link rel=\"apple-touch-startup-image\" media=\"screen and (device-width: 744px) and (device-height: 1133px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)\" href=\"/public/assets/screens/8.3__iPad_Mini_landscape.png\"><link rel=\"apple-touch-startup-image\" media=\"screen and (device-width: 440px) and (device-height: 956px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)\" href=\"/public/assets/screens/iPhone_16_Pro_Max_portrait.png\"><link rel=\"apple-touch-startup-image\" media=\"screen and (device-width: 402px) and (device-height: 874px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)\" href=\"/public/assets/screens/iPhone_16_Pro_portrait.png\"><link rel=\"apple-touch-startup-image\" media=\"screen and (device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)\" href=\"/public/assets/screens/iPhone_16_Plus__iPhone_15_Pro_Max__iPhone_15_Plus__iPhone_14_Pro_Max_portrait.png\"><link rel=\"apple-touch-startup-image\" media=\"screen and (device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)\" href=\"/public/assets/screens/iPhone_16__iPhone_15_Pro__iPhone_15__iPhone_14_Pro_portrait.png\"><link rel=\"apple-touch-startup-image\" media=\"screen and (device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)\" href=\"/public/assets/screens/iPhone_14_Plus__iPhone_13_Pro_Max__iPhone_12_Pro_Max_portrait.png\"><link rel=\"apple-touch-startup-image\" media=\"screen and (device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)\" href=\"/public/assets/screens/iPhone_14__iPhone_13_Pro__iPhone_13__iPhone_12_Pro__iPhone_12_portrait.png\"><link rel=\"apple-touch-startup-image\" media=\"screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)\" href=\"/public/assets/screens/iPhone_13_mini__iPhone_12_mini__iPhone_11_Pro__iPhone_XS__iPhone_X_portrait.png\"><link rel=\"apple-touch-startup-image\" media=\"screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)\" href=\"/public/assets/screens/iPhone_11_Pro_Max__iPhone_XS_Max_portrait.png\"><link rel=\"apple-touch-startup-image\" media=\"screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)\" href=\"/public/assets/screens/iPhone_11__iPhone_XR_portrait.png\"><link rel=\"apple-touch-startup-image\" media=\"screen and (device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)\" href=\"/public/assets/screens/iPhone_8_Plus__iPhone_7_Plus__iPhone_6s_Plus__iPhone_6_Plus_portrait.png\"><link rel=\"apple-touch-startup-image\" media=\"screen and (device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)\" href=\"/public/assets/screens/iPhone_8__iPhone_7__iPhone_6s__iPhone_6__4.7__iPhone_SE_portrait.png\"><link rel=\"apple-touch-startup-image\" media=\"screen and (device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)\" href=\"/public/assets/screens/4__iPhone_SE__iPod_touch_5th_generation_and_later_portrait.png\"><link rel=\"apple-touch-startup-image\" media=\"screen and (device-width: 1032px) and (device-height: 1376px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)\" href=\"/public/assets/screens/13__iPad_Pro_M4_portrait.png\"><link rel=\"apple-touch-startup-image\" media=\"screen and (device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)\" href=\"/public/assets/screens/12.9__iPad_Pro_portrait.png\"><link rel=\"apple-touch-startup-image\" media=\"screen and (device-width: 834px) and (device-height: 1210px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)\" href=\"/public/assets/screens/11__iPad_Pro_M4_portrait.png\"><link rel=\"apple-touch-startup-image\" media=\"screen and (device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)\" href=\"/public/assets/screens/11__iPad_Pro__10.5__iPad_Pro_portrait.png\"><link rel=\"apple-touch-startup-image\" media=\"screen and (device-width: 820px) and (device-height: 1180px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)\" href=\"/public/assets/screens/10.9__iPad_Air_portrait.png\"><link rel=\"apple-touch-startup-image\" media=\"screen and (device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)\" href=\"/public/assets/screens/10.5__iPad_Air_portrait.png\"><link rel=\"apple-touch-startup-image\" media=\"screen and (device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)\" href=\"/public/assets/screens/10.2__iPad_portrait.png\"><link rel=\"apple-touch-startup-image\" media=\"screen and (device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)\" href=\"/public/assets/screens/9.7__iPad_Pro__7.9__iPad_mini__9.7__iPad_Air__9.7__iPad_portrait.png\"><link rel=\"apple-touch-startup-image\" media=\"screen and (device-width: 744px) and (device-height: 1133px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)\" href=\"/public/assets/screens/8.3__iPad_Mini_portrait.png\">")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		return nil
-	})
-}
-
-func Footer(active string, mainClosingTag templ.Component) templ.Component {
-	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
-		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
-		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
-			return templ_7745c5c3_CtxErr
-		}
-		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
-		if !templ_7745c5c3_IsBuffer {
-			defer func() {
-				templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
-				if templ_7745c5c3_Err == nil {
-					templ_7745c5c3_Err = templ_7745c5c3_BufErr
-				}
-			}()
-		}
-		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var9 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var9 == nil {
-			templ_7745c5c3_Var9 = templ.NopComponent
-		}
-		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = mainClosingTag.Render(ctx, templ_7745c5c3_Buffer)
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, "<footer class=\"bg-white flex w-full justify-around px-4 pt-3 pb-6 gap-[2.375rem]\" hx-boost=\"false\">")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		if active == "dashboard" {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 16, "<a href=\"/account/dashboard\" class=\"flex flex-col justify-center items-center gap-[0.25rem]\"><img src=\"/public/assets/svg/home bold.svg\" class=\"w-6 aspect-square\"><p class=\"font-[700] text-[0.5rem] leading-[1.25rem] text-[#016934]\">Home</p></a> ")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-		} else {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 17, "<a href=\"/account/dashboard\" class=\"flex flex-col justify-center items-center gap-[0.25rem]\"><img src=\"/public/assets/svg/home linear.svg\" class=\"w-6 aspect-square\"><p class=\"font-[700] text-[0.5rem] leading-[1.25rem] text-[#016934]\">Home</p></a> ")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-		}
-		if active == "scan" {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 18, "<a href=\"/account/scan\" class=\"flex flex-col justify-center items-center gap-[0.25rem]\"><img src=\"/public/assets/svg/scan bold.svg\" class=\"w-6 aspect-square\"><p class=\"font-[700] text-[0.5rem] leading-[1.25rem] text-[#016934]\">Scan</p></a> ")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-		} else {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 19, "<a href=\"/account/scan\" class=\"flex flex-col justify-center items-center gap-[0.25rem]\"><img src=\"/public/assets/svg/scan linear.svg\" class=\"w-6 aspect-square\"><p class=\"font-[700] text-[0.5rem] leading-[1.25rem] text-[#016934]\">Scan</p></a> ")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-		}
-		if active == "location" {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 20, "<a href=\"/account/location\" class=\"flex flex-col justify-center items-center gap-[0.25rem]\"><img src=\"/public/assets/svg/location bold.svg\" class=\"w-6 aspect-square\"><p class=\"font-[700] text-[0.5rem] leading-[1.25rem] text-[#016934]\">Location</p></a> ")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-		} else {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 21, "<a href=\"/account/location\" class=\"flex flex-col justify-center items-center gap-[0.25rem]\"><img src=\"/public/assets/svg/location linear.svg\" class=\"w-6 aspect-square\"><p class=\"font-[700] text-[0.5rem] leading-[1.25rem] text-[#016934]\">Location</p></a> ")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-		}
-		if active == "wallet" {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 22, "<a href=\"/account/wallet\" class=\"flex flex-col justify-center items-center gap-[0.25rem]\"><img src=\"/public/assets/svg/wallet bold.svg\" class=\"w-6 aspect-square\"><p class=\"font-[700] text-[0.5rem] leading-[1.25rem] text-[#016934]\">Wallet</p></a> ")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-		} else {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 23, "<a href=\"/account/wallet\" class=\"flex flex-col justify-center items-center gap-[0.25rem]\"><img src=\"/public/assets/svg/wallet linear.svg\" class=\"w-6 aspect-square\"><p class=\"font-[700] text-[0.5rem] leading-[1.25rem] text-[#016934]\">Wallet</p></a> ")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-		}
-		if active == "spend" {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 24, "<a href=\"/account/spend\" class=\"flex flex-col justify-center items-center gap-[0.25rem]\"><img src=\"/public/assets/svg/new_exchange_bold.svg\" class=\"w-6 aspect-square\"><p class=\"font-[700] text-[0.5rem] leading-[1.25rem] text-[#016934]\">Spend</p></a>")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-		} else {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 25, "<a href=\"/account/spend\" class=\"flex flex-col justify-center items-center gap-[0.25rem]\"><img src=\"/public/assets/svg/new_exchange_linear.svg\" class=\"w-6 aspect-square\"><p class=\"font-[700] text-[0.5rem] leading-[1.25rem] text-[#016934]\">Spend</p></a>")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 26, "</footer>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -504,89 +341,89 @@ func CommonHeader(user Account) templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var10 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var10 == nil {
-			templ_7745c5c3_Var10 = templ.NopComponent
+		templ_7745c5c3_Var7 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var7 == nil {
+			templ_7745c5c3_Var7 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 27, "<header id=\"header\" class=\"pt-[1.5rem] pl-[1.5rem] pr-[1.56rem] flex w-full justify-start items-center\"><a href=\"/account/profile\"><img src=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "<header id=\"header\" class=\"pt-[1.5rem] pl-[1.5rem] pr-[1.56rem] flex w-full justify-start items-center\"><a href=\"/account/profile\"><img src=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var11 string
-		templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(user.AvatarUrl)
+		var templ_7745c5c3_Var8 string
+		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(user.AvatarUrl)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `frontend/pages/account/common.templ`, Line: 302, Col: 24}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 129, Col: 24}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 28, "\" class=\"rounded-full w-[1.86rem] aspect-square mr-[0.5rem]\"></a> ")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "\" class=\"rounded-full w-[1.86rem] aspect-square mr-[0.5rem]\"></a> ")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		if user.DisplayName != "" {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 29, "<p class=\"leading-[0.91rem] font-[500] text-[0.75rem]\">Gm, <span class=\"font-[600]\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, "<p class=\"leading-[0.91rem] font-[500] text-[0.75rem]\">Gm, <span class=\"font-[600]\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var12 string
-			templ_7745c5c3_Var12, templ_7745c5c3_Err = templ.JoinStringErrs(user.DisplayName)
+			var templ_7745c5c3_Var9 string
+			templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(user.DisplayName)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `frontend/pages/account/common.templ`, Line: 309, Col: 47}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 136, Col: 47}
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var12))
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 30, "</span></p>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, "</span></p>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		} else if user.FirstName != "" {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 31, "<p class=\"leading-[0.91rem] font-[500] text-[0.75rem]\">Gm, <span class=\"font-[600]\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 14, "<p class=\"leading-[0.91rem] font-[500] text-[0.75rem]\">Gm, <span class=\"font-[600]\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var13 string
-			templ_7745c5c3_Var13, templ_7745c5c3_Err = templ.JoinStringErrs(user.FirstName)
+			var templ_7745c5c3_Var10 string
+			templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(user.FirstName)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `frontend/pages/account/common.templ`, Line: 314, Col: 45}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 141, Col: 45}
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var13))
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 32, "</span></p>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, "</span></p>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		} else if user.LastName != "" {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 33, "<p class=\"leading-[0.91rem] font-[500] text-[0.75rem]\">Gm, <span class=\"font-[600]\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 16, "<p class=\"leading-[0.91rem] font-[500] text-[0.75rem]\">Gm, <span class=\"font-[600]\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var14 string
-			templ_7745c5c3_Var14, templ_7745c5c3_Err = templ.JoinStringErrs(user.LastName)
+			var templ_7745c5c3_Var11 string
+			templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(user.LastName)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `frontend/pages/account/common.templ`, Line: 319, Col: 44}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 146, Col: 44}
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var14))
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 34, "</span></p>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 17, "</span></p>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		} else {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 35, "<p class=\"leading-[0.91rem] font-[500] text-[0.75rem]\">Gm</p>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 18, "<p class=\"leading-[0.91rem] font-[500] text-[0.75rem]\">Gm</p>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 36, "<button class=\"bg-[#CCE1D699] p-[0.5rem] ml-auto rounded-md flex justify-center items-center\"><img src=\"/public/assets/svg/notification.svg\" class=\"w-6 aspect-square\"></button></header>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 19, "<button class=\"bg-[#CCE1D699] p-[0.5rem] ml-auto rounded-md flex justify-center items-center\"><img src=\"/public/assets/svg/notification.svg\" class=\"w-6 aspect-square\"></button></header>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -610,38 +447,38 @@ func commonHeaderTwo(text, avatarURL string, btnComp templ.Component) templ.Comp
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var15 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var15 == nil {
-			templ_7745c5c3_Var15 = templ.NopComponent
+		templ_7745c5c3_Var12 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var12 == nil {
+			templ_7745c5c3_Var12 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 37, "<header class=\"pt-[1.5rem] pl-[1.5rem] pr-[1.56rem] flex w-full justify-between items-center\"><a href=\"/account/profile\"><img src=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 20, "<header class=\"pt-[1.5rem] pl-[1.5rem] pr-[1.56rem] flex w-full justify-between items-center\"><a href=\"/account/profile\"><img src=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var16 string
-		templ_7745c5c3_Var16, templ_7745c5c3_Err = templ.JoinStringErrs(avatarURL)
+		var templ_7745c5c3_Var13 string
+		templ_7745c5c3_Var13, templ_7745c5c3_Err = templ.JoinStringErrs(avatarURL)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `frontend/pages/account/common.templ`, Line: 341, Col: 19}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 168, Col: 19}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var16))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 38, "\" class=\"rounded-full w-[1.86rem] aspect-square mr-[0.5rem]\"></a><p class=\"font-semibold text-[0.938rem] leading-[1.143rem]\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var13))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var17 string
-		templ_7745c5c3_Var17, templ_7745c5c3_Err = templ.JoinStringErrs(text)
-		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `frontend/pages/account/common.templ`, Line: 345, Col: 68}
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var17))
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 21, "\" class=\"rounded-full w-[1.86rem] aspect-square mr-[0.5rem]\"></a><p class=\"font-semibold text-[0.938rem] leading-[1.143rem]\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 39, "</p>")
+		var templ_7745c5c3_Var14 string
+		templ_7745c5c3_Var14, templ_7745c5c3_Err = templ.JoinStringErrs(text)
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 172, Col: 68}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var14))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 22, "</p>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -649,7 +486,7 @@ func commonHeaderTwo(text, avatarURL string, btnComp templ.Component) templ.Comp
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 40, "</header>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 23, "</header>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -673,25 +510,25 @@ func LetRecycleAndProfile(text string) templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var18 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var18 == nil {
-			templ_7745c5c3_Var18 = templ.NopComponent
+		templ_7745c5c3_Var15 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var15 == nil {
+			templ_7745c5c3_Var15 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 41, "<section class=\"flex items-center gap-1\"><p class=\"leading-[1.143rem] font-semibold text-[0.938rem]\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 24, "<section class=\"flex items-center gap-1\"><p class=\"leading-[1.143rem] font-semibold text-[0.938rem]\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var19 string
-		templ_7745c5c3_Var19, templ_7745c5c3_Err = templ.JoinStringErrs(text)
+		var templ_7745c5c3_Var16 string
+		templ_7745c5c3_Var16, templ_7745c5c3_Err = templ.JoinStringErrs(text)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `frontend/pages/account/common.templ`, Line: 352, Col: 68}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 179, Col: 68}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var19))
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var16))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 42, "</p><picture><source type=\"image/webp\" srcset=\"/public/assets/images/Recycle_small.webp\"> <img src=\"/public/assets/images/Recycle_small.png\" class=\"w-5 aspect-square\"></picture></section>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 25, "</p><picture><source type=\"image/webp\" srcset=\"/public/assets/images/Recycle_small.webp\"> <img src=\"/public/assets/images/Recycle_small.png\" class=\"w-5 aspect-square\"></picture></section>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -715,12 +552,12 @@ func removeScrollBar() templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var20 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var20 == nil {
-			templ_7745c5c3_Var20 = templ.NopComponent
+		templ_7745c5c3_Var17 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var17 == nil {
+			templ_7745c5c3_Var17 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 43, "<style>\n\t\t.overflow-y-auto::-webkit-scrollbar {\n\t\t\twidth: 0 !important;\n\t\t\tdisplay: none;\n\t\t\toverflow: -moz-scrollbars-none;\n\t\t\tscrollbar-width: none;\n\t\t}\n\t</style>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 26, "<style>\n\t\t.overflow-y-auto::-webkit-scrollbar {\n\t\t\twidth: 0 !important;\n\t\t\tdisplay: none;\n\t\t\toverflow: -moz-scrollbars-none;\n\t\t\tscrollbar-width: none;\n\t\t}\n\t</style>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

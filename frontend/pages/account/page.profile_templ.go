@@ -222,7 +222,7 @@ func ProfileChangeDisplayIcon(avatarURL string) templ.Component {
 		var templ_7745c5c3_Var6 string
 		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(avatarURL)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `frontend/pages/account/page.profile.templ`, Line: 60, Col: 22}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.profile.templ`, Line: 60, Col: 22}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 		if templ_7745c5c3_Err != nil {
@@ -264,7 +264,7 @@ func ProfileUpdataAccountInfoPartial(acc Account) templ.Component {
 		var templ_7745c5c3_Var8 string
 		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(acc.DisplayName)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `frontend/pages/account/page.profile.templ`, Line: 81, Col: 98}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.profile.templ`, Line: 81, Col: 98}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 		if templ_7745c5c3_Err != nil {
@@ -277,7 +277,7 @@ func ProfileUpdataAccountInfoPartial(acc Account) templ.Component {
 		var templ_7745c5c3_Var9 string
 		templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(acc.Email)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `frontend/pages/account/page.profile.templ`, Line: 85, Col: 81}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.profile.templ`, Line: 85, Col: 81}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 		if templ_7745c5c3_Err != nil {
@@ -290,7 +290,7 @@ func ProfileUpdataAccountInfoPartial(acc Account) templ.Component {
 		var templ_7745c5c3_Var10 string
 		templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(acc.SplWallet)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `frontend/pages/account/page.profile.templ`, Line: 89, Col: 86}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.profile.templ`, Line: 89, Col: 86}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 		if templ_7745c5c3_Err != nil {

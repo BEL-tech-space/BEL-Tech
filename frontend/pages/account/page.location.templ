@@ -3,7 +3,7 @@ package frontend
 templ LocationPage() {
 	<!DOCTYPE html>
 	<html lang="en">
-		@HeadTag("Location")
+		@HeadTag("location")
 		<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
 			<div class="flex flex-col h-full gap-2 font-montserrat text-[#2E2E2E]">
 				@LocationHeaderPartial()
@@ -47,8 +47,8 @@ templ LocationMain() {
 			class="w-full h-full"
 		></div>
 		<div class="absolute flex flex-col justify-center items-center gap-8 bottom-2/4 left-6">
-			<button title="bin" class="bg-[#016934] rounded-md p-2 shadow-[0px_1px_2px_0px_#00000026]"><img src="/public/assets/svg/binAgent.svg" alt="" class="w-5 aspect-square"/></button>
-			<button title="collector" class="bg-white rounded-md p-2 shadow-[0px_1px_2px_0px_#00000026]"><img src="/public/assets/svg/collectorAgent.svg" alt="" class="w-5 aspect-square"/></button>
+			<button title="bin" class="bg-[#016934] rounded-md p-2 shadow-[0px_1px_2px_0px_#00000026]" data-tippy-content="Coming Soon"><img src="/public/assets/svg/binAgent.svg" alt="" class="w-5 aspect-square"/></button>
+			<button title="collector" class="bg-white rounded-md p-2 shadow-[0px_1px_2px_0px_#00000026]" data-tippy-content="Coming Soon"><img src="/public/assets/svg/collectorAgent.svg" alt="" class="w-5 aspect-square"/></button>
 		</div>
 	</main>
 }
@@ -58,6 +58,7 @@ templ LocationMainOpeningTag() {
 }
 
 templ scriptForLocationPage() {
+	@commingSoonTooltip()
 	<script>
             ( g => { var h, a, k, p = "The Google Maps JavaScript API", c = "google", l = "importLibrary", q = "__ib__", m = document, b = window; b = b[ c ] || ( b[ c ] = {} ); var d = b.maps || ( b.maps = {} ), r = new Set, e = new URLSearchParams, u = () => h || ( h = new Promise( async ( f, n ) => { await ( a = m.createElement( "script" ) ); e.set( "libraries", [ ...r ] + "" ); for ( k in g ) e.set( k.replace( /[A-Z]/g, t => "_" + t[ 0 ].toLowerCase() ), g[ k ] ); e.set( "callback", c + ".maps." + q ); a.src = `https://maps.${c}apis.com/maps/api/js?` + e; d[ q ] = f; a.onerror = () => h = n( Error( p + " could not load." ) ); a.nonce = m.querySelector( "script[nonce]" )?.nonce || ""; m.head.append( a ); } ) ); d[ l ] ? console.warn( p + " only loads once. Ignoring:", g ) : d[ l ] = ( f, ...n ) => r.add( f ) && u().then( () => d[ l ]( f, ...n ) ); } )( {
                 key: "AIzaSyAqjo9EnrHgTK2-TeBIrUCq1GywYk7wlvw",

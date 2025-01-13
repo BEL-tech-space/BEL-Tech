@@ -243,7 +243,7 @@ func DashboardDataViz(chart template.HTML, isEmpty bool) templ.Component {
 		var templ_7745c5c3_Var7 string
 		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%s", time.Now().AddDate(0, -4, 0).Format("Jan")))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `frontend/pages/account/page.dashboard.templ`, Line: 190, Col: 67}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.dashboard.templ`, Line: 190, Col: 67}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 		if templ_7745c5c3_Err != nil {
@@ -256,7 +256,7 @@ func DashboardDataViz(chart template.HTML, isEmpty bool) templ.Component {
 		var templ_7745c5c3_Var8 string
 		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%s", time.Now().AddDate(0, -3, 0).Format("Jan")))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `frontend/pages/account/page.dashboard.templ`, Line: 198, Col: 67}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.dashboard.templ`, Line: 198, Col: 67}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 		if templ_7745c5c3_Err != nil {
@@ -269,7 +269,7 @@ func DashboardDataViz(chart template.HTML, isEmpty bool) templ.Component {
 		var templ_7745c5c3_Var9 string
 		templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%s", time.Now().AddDate(0, -2, 0).Format("Jan")))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `frontend/pages/account/page.dashboard.templ`, Line: 206, Col: 67}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.dashboard.templ`, Line: 206, Col: 67}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 		if templ_7745c5c3_Err != nil {
@@ -282,7 +282,7 @@ func DashboardDataViz(chart template.HTML, isEmpty bool) templ.Component {
 		var templ_7745c5c3_Var10 string
 		templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%s", time.Now().AddDate(0, -1, 0).Format("Jan")))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `frontend/pages/account/page.dashboard.templ`, Line: 214, Col: 67}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.dashboard.templ`, Line: 214, Col: 67}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 		if templ_7745c5c3_Err != nil {
@@ -295,7 +295,7 @@ func DashboardDataViz(chart template.HTML, isEmpty bool) templ.Component {
 		var templ_7745c5c3_Var11 string
 		templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%s.", time.Now().AddDate(0, -0, 0).Format("Jan")))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `frontend/pages/account/page.dashboard.templ`, Line: 222, Col: 68}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.dashboard.templ`, Line: 222, Col: 68}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
 		if templ_7745c5c3_Err != nil {
