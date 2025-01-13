@@ -1897,6 +1897,10 @@ video {
   padding-top: 3rem;
 }
 
+.pt-3 {
+  padding-top: 0.75rem;
+}
+
 .pt-4 {
   padding-top: 1rem;
 }
@@ -1929,8 +1933,8 @@ video {
   padding-top: 1.88rem;
 }
 
-.pt-3 {
-  padding-top: 0.75rem;
+.pb-3 {
+  padding-bottom: 0.75rem;
 }
 
 .text-left {
@@ -2439,8 +2443,8 @@ video {
 }
 
 body {
-  padding-top: env(safe-area-inset-top, 1em);
-  padding-bottom: env(safe-area-inset-bottom, 1em);
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
 /*

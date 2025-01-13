@@ -6,7 +6,7 @@ scripts:
 	@pnpm build
 
 templ:
-	@templ generate --watch -watch-pattern .+\.templ$ --proxy="http://localhost:8090" --open-browser=false
+	@templ generate --watch --proxy="http://localhost:8090" --open-browser=false -v
 
 generate:
 	@tailwindcss -i public/assets/styles/input.css  -o public/assets/styles/output.css --minify

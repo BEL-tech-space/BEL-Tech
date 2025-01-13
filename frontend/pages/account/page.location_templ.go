@@ -33,7 +33,7 @@ func LocationPage() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = HeadTag("Location").Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = HeadTag("location").Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -119,7 +119,7 @@ func LocationMain() templ.Component {
 			templ_7745c5c3_Var3 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "<main class=\"grow mt-[1.75rem] relative overflow-y-scroll w-full h-full\"><div id=\"map\" class=\"w-full h-full\"></div><div class=\"absolute flex flex-col justify-center items-center gap-8 bottom-2/4 left-6\"><button title=\"bin\" class=\"bg-[#016934] rounded-md p-2 shadow-[0px_1px_2px_0px_#00000026]\"><img src=\"/public/assets/svg/binAgent.svg\" alt=\"\" class=\"w-5 aspect-square\"></button> <button title=\"collector\" class=\"bg-white rounded-md p-2 shadow-[0px_1px_2px_0px_#00000026]\"><img src=\"/public/assets/svg/collectorAgent.svg\" alt=\"\" class=\"w-5 aspect-square\"></button></div></main>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "<main class=\"grow mt-[1.75rem] relative overflow-y-scroll w-full h-full\"><div id=\"map\" class=\"w-full h-full\"></div><div class=\"absolute flex flex-col justify-center items-center gap-8 bottom-2/4 left-6\"><button title=\"bin\" class=\"bg-[#016934] rounded-md p-2 shadow-[0px_1px_2px_0px_#00000026]\" data-tippy-content=\"Coming Soon\"><img src=\"/public/assets/svg/binAgent.svg\" alt=\"\" class=\"w-5 aspect-square\"></button> <button title=\"collector\" class=\"bg-white rounded-md p-2 shadow-[0px_1px_2px_0px_#00000026]\" data-tippy-content=\"Coming Soon\"><img src=\"/public/assets/svg/collectorAgent.svg\" alt=\"\" class=\"w-5 aspect-square\"></button></div></main>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -177,6 +177,10 @@ func scriptForLocationPage() templ.Component {
 			templ_7745c5c3_Var5 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
+		templ_7745c5c3_Err = commingSoonTooltip().Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
 		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "<script>\n            ( g => { var h, a, k, p = \"The Google Maps JavaScript API\", c = \"google\", l = \"importLibrary\", q = \"__ib__\", m = document, b = window; b = b[ c ] || ( b[ c ] = {} ); var d = b.maps || ( b.maps = {} ), r = new Set, e = new URLSearchParams, u = () => h || ( h = new Promise( async ( f, n ) => { await ( a = m.createElement( \"script\" ) ); e.set( \"libraries\", [ ...r ] + \"\" ); for ( k in g ) e.set( k.replace( /[A-Z]/g, t => \"_\" + t[ 0 ].toLowerCase() ), g[ k ] ); e.set( \"callback\", c + \".maps.\" + q ); a.src = `https://maps.${c}apis.com/maps/api/js?` + e; d[ q ] = f; a.onerror = () => h = n( Error( p + \" could not load.\" ) ); a.nonce = m.querySelector( \"script[nonce]\" )?.nonce || \"\"; m.head.append( a ); } ) ); d[ l ] ? console.warn( p + \" only loads once. Ignoring:\", g ) : d[ l ] = ( f, ...n ) => r.add( f ) && u().then( () => d[ l ]( f, ...n ) ); } )( {\n                key: \"AIzaSyAqjo9EnrHgTK2-TeBIrUCq1GywYk7wlvw\",\n                v: \"weekly\",\n            } );\n        </script><script>\n           let map;\n            var options = {\n                zoom: 14,\n                center: { lat: 7.405385919885895, lng: 3.889942027649539 },\n                mapId: \"DEMO_MAP_ID\"\n            };\n\n            async function initMap () {\n                const position = { lat: -25.344, lng: 131.031 };\n\n                //@ts-ignore\n                const { Map } = await google.maps.importLibrary( \"maps\" );\n                const { AdvancedMarkerElement } = await google.maps.importLibrary( \"marker\" );\n\n                map = new Map( document.getElementById( \"map\" ), options );\n\n                const marker1 = new AdvancedMarkerElement( {\n                    map: map,\n                    position: options.center,\n                    title: \"Apata\",\n                } );\n            }\n\n            initMap();\n        </script>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err

@@ -49,6 +49,7 @@ templ SpendMainOpeningTag() {
 }
 
 templ scriptForSpendPage() {
+	@commingSoonTooltip()
 	<style>
 		.selected {
 			background-color: #b1ddc8;
@@ -171,7 +172,7 @@ templ SpendOtherHalfPartial() {
 				<button class="block font-bold text-[#016934] text-[0.5rem] leading-[0.609rem]">View beneficiary</button>
 			</div>
 		</a>
-		<a href="#" class="flex w-full gap-4 bg-[#FEF7FF] rounded-lg p-[0.313rem]">
+		<a href="#" class="flex w-full gap-4 bg-[#FEF7FF] rounded-lg p-[0.313rem]" data-tippy-content="Coming Soon">
 			<img src="/public/assets/svg/spendVoucher.svg" alt="" class="w-[4.688rem] aspect-[75/70] rounded-lg"/>
 			<div class="flex flex-col justify-center items-start gap-1">
 				<p class="font-medium text-[0.625rem] leading-4">Get Vouchers for purchase of <br/> goods and services </p>
