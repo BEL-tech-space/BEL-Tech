@@ -112,6 +112,14 @@ func (a *App) logInUser(w http.ResponseWriter, r *http.Request, u goth.User) err
 		return err
 	}
 
+	if user.IsNew {
+		http.SetCookie(w, &http.Cookie{
+			Name:  "isNewAccount",
+			Value: "true",
+			Path:  "/",
+		})
+	}
+
 	return a.createNewUserSession(w, r, user)
 }
 

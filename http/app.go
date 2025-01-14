@@ -35,6 +35,8 @@ const (
 	contextKeyEmail   contextKey = "email"
 	contextKeyAgentID contextKey = "agentID"
 	contextKeyRole    contextKey = "role"
+
+	contextKeyIsNewAccount contextKey = "isNewAccount"
 )
 
 const productionEnv string = "production"

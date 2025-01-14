@@ -14,10 +14,8 @@ templ HeadTag(pageTitle string) {
 			href="/public/assets/styles/output.css"
 		/>
 		<link
-			rel="reload"
-			fetchpriority="low"
+			rel="stylesheet"
 			href="/public/assets/styles/toastr.min.css"
-			as="style"
 		/>
 		if strings.Contains(strings.ToLower(pageTitle), "dashboard") ||
 			strings.Contains(strings.ToLower(pageTitle), "scan") || 

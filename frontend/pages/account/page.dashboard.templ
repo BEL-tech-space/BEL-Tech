@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-templ DashboardPage(acc Account, chart template.HTML, isEmpty bool) {
+templ DashboardPage(acc Account, chart template.HTML, isEmpty, isNewAccount bool) {
 	<!DOCTYPE html>
 	<html lang="en">
 		@HeadTag("dashboard")
@@ -17,6 +17,10 @@ templ DashboardPage(acc Account, chart template.HTML, isEmpty bool) {
 				@Footer("dashboard", templ.NopComponent)
 			</div>
 		</body>
+		if isNewAccount {
+			@ToastMessage(SuccessToast, "Welcome to Beltech!")
+			@confetti()
+		}
 		@scriptForDashboardPage()
 	</html>
 }
@@ -53,7 +57,7 @@ templ scriptForDashboardPage() {
             keyboard: true,
 			spaceBetween: 8,
             autoplay: {
-                delay: 1500,
+                delay: 3000,
                 disableOnInteraction: true,
             },
         } );
@@ -228,7 +232,7 @@ templ DashboardEchart(chart template.HTML, isEmpty bool) {
 	<div id="echart" class="bg-transparent relative">
 		@templ.Raw(chart)
 		if isEmpty {
-			<div class="absolute top-2/4 left-[30%] text-xs font-tt_chocolate font-light">No data for this month</div>
+			<div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-xs font-tt_chocolate font-light text-nowrap">No colletion waste data for this month</div>
 		}
 	</div>
 }
@@ -337,4 +341,31 @@ templ DashboardSwiperTwo() {
 			</div>
 		</div>
 	</section>
+}
+
+templ confetti() {
+	<script src="/public/assets/scripts/confetti.browser.min.js"></script>
+	<script type="module">
+		await new Promise(resolve => setTimeout(resolve, 400));
+		var duration = 5000;
+		var animationEnd = Date.now() + duration;
+		var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+		function randomInRange(min, max) {
+		return Math.random() * (max - min) + min;
+		}
+
+		var interval = setInterval(function() {
+		var timeLeft = animationEnd - Date.now();
+
+		if (timeLeft <= 0) {
+			return clearInterval(interval);
+		}
+
+		var particleCount = 50 * (timeLeft / duration);
+		// since particles fall down, start a bit higher than random
+		confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } });
+		confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } });
+		}, 250);
+	</script>
 }

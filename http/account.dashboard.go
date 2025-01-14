@@ -18,9 +18,22 @@ func (a *App) dashboardPageHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	isNewAccount := false
+	cookie, err := r.Cookie("isNewAccount")
+	if err == nil && cookie.Value == "true" {
+		http.SetCookie(w, &http.Cookie{
+			Name:   "isNewAccount",
+			Value:  "",
+			Path:   "/",
+			MaxAge: -1,
+		})
+
+		isNewAccount = true
+	}
+
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	chart, isEmpty := produceChartHTML([4]float64{9, 5, 7, 15}, deduceTime(0))
-	if err := accPages.DashboardPage(account(user), chart, isEmpty).
+	chart, isEmpty := produceChartHTML([4]float64{0, 0, 0, 0}, deduceTime(0))
+	if err := accPages.DashboardPage(account(user), chart, isEmpty, isNewAccount).
 		Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
@@ -71,14 +84,14 @@ func (a *App) dashboardEchart(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	arr := [4]float64{9, 5, 7, 15}
+	arr := [4]float64{0, 0, 0, 0}
 	switch num {
 	case 1:
-		arr = [4]float64{23, 15, 20, 9}
+		arr = [4]float64{0, 0, 0, 0}
 	case 2:
 		arr = [4]float64{0, 0, 0, 0}
 	case 3:
-		arr = [4]float64{100, 25, 37, 215}
+		arr = [4]float64{0, 0, 0, 0}
 	}
 
 	if err := accPages.DashboardEchart(
