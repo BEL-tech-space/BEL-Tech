@@ -259,7 +259,7 @@ func ToastMessage(toastType ToastType, message string, templComp ...templ.Compon
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "<script src=\"/public/assets/scripts/jquery.min.js\"></script><script src=\"/public/assets/scripts/toastr.min.js\"></script><style>\n\t\t#toast-container {\n\t\t\tmargin-top: 0.25rem; \n\t\t}\n\t</style><script>\n\tconst toastType = JSON.parse(document.getElementById('toast-type').textContent);\n\tconst toastMessage = JSON.parse(document.getElementById('toast-message').textContent);\n\t\ttoastr.options = {\n              \t\"closeButton\": true,\n\t\t\t\t\"debug\": false,\n\t\t\t\t\"newestOnTop\": false,\n\t\t\t\t\"progressBar\": true,\n\t\t\t\t\"positionClass\": \"toast-top-center\",\n\t\t\t\t\"preventDuplicates\": true,\n\t\t\t\t\"onclick\": null,\n\t\t\t\t\"showDuration\": \"100\",\n\t\t\t\t\"hideDuration\": \"1000\",\n\t\t\t\t\"timeOut\": \"2500\",\n\t\t\t\t\"extendedTimeOut\": \"1000\",\n\t\t\t\t\"showEasing\": \"swing\",\n\t\t\t\t\"hideEasing\": \"linear\",\n\t\t\t\t\"showMethod\": \"slideDown\",\n\t\t\t\t\"hideMethod\": \"slideUp\"\n            };\n        toastr[ toastType ](toastMessage)\n\t</script>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "<script src=\"/public/assets/scripts/jquery.min.js\"></script><script src=\"/public/assets/scripts/toastr.min.js\"></script><style>\n\t\t#toast-container {\n\t\t\tmargin-top: 0.25rem; \n\t\t}\n\t</style><script>\n\t(function(){\n\t\tconst toastType = JSON.parse(document.getElementById('toast-type').textContent);\n\t\tconst toastMessage = JSON.parse(document.getElementById('toast-message').textContent);\n\t\ttoastr.options = {\n              \t\"closeButton\": true,\n\t\t\t\t\"debug\": false,\n\t\t\t\t\"newestOnTop\": false,\n\t\t\t\t\"progressBar\": true,\n\t\t\t\t\"positionClass\": \"toast-top-center\",\n\t\t\t\t\"preventDuplicates\": true,\n\t\t\t\t\"onclick\": null,\n\t\t\t\t\"showDuration\": \"100\",\n\t\t\t\t\"hideDuration\": \"1000\",\n\t\t\t\t\"timeOut\": \"2500\",\n\t\t\t\t\"extendedTimeOut\": \"1000\",\n\t\t\t\t\"showEasing\": \"swing\",\n\t\t\t\t\"hideEasing\": \"linear\",\n\t\t\t\t\"showMethod\": \"slideDown\",\n\t\t\t\t\"hideMethod\": \"slideUp\"\n            };\n        toastr[ toastType ](toastMessage)\n\t})()\n\t</script>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -288,7 +288,7 @@ func commingSoonTooltip() templ.Component {
 			templ_7745c5c3_Var5 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "<script src=\"/public/assets/scripts/popper.min.js\"></script><script src=\"/public/assets/scripts/tippy-bundle.umd.js\"></script><style>\n\t\t.tippy-box[data-theme~='tomato'] {\n\t\t\tbackground-color: #CCE1D6;\n\t\t\tcolor:black;\n\t\t\tfont-family: 'TT Chocolates';\n\t\t\tborder-radius: 0.625rem;\n\t\t\tbox-shadow: 0rem 0.25rem 0.625rem rgba(0, 0, 0, 0.25);\n\t\t\tpadding: 0.15rem;\n\t\t\ttext-align: start;\n\t\t}\n\t</style><script>\n\t\ttippy('[data-tippy-content]', {\n\t\t\t\ttrigger: 'click',\n\t\t\t\t// allowHTML: true,\n\t\t\t\ttheme: 'tomato',\n\t\t\t\tanimation: 'perspective-extreme',\n\t\t\t\tinteractive: true,\n\t\t\t\tarrow: false,\n\t\t\t\tonShow(instance) {\n\t\t\t\tsetTimeout(() => {\n\t\t\t\t\tinstance.hide();\n\t\t\t\t}, 1500);\n\t\t\t},\n\t\t});\n\t</script>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "<script src=\"/public/assets/scripts/popper.min.js\"></script><script src=\"/public/assets/scripts/tippy-bundle.umd.js\"></script><style>\n\t\t.tippy-box[data-theme~='tomato'] {\n\t\t\tbackground-color: #CCE1D6;\n\t\t\tcolor:black;\n\t\t\tfont-family: 'TT Chocolates';\n\t\t\tborder-radius: 0.625rem;\n\t\t\tbox-shadow: 0rem 0.25rem 0.625rem rgba(0, 0, 0, 0.25);\n\t\t\tpadding: 0.15rem;\n\t\t\ttext-align: start;\n\t\t}\n\t</style><script>\n\t\ttippy('[data-tippy-content]', {\n\t\t\t\ttrigger: 'click',\n\t\t\t\t// allowHTML: true,\n\t\t\t\ttheme: 'tomato',\n\t\t\t\tanimation: 'perspective-extreme',\n\t\t\t\t// interactive: true,\n\t\t\t\tarrow: false,\n\t\t\t\tonShow(instance) {\n\t\t\t\tsetTimeout(() => {\n\t\t\t\t\tinstance.hide();\n\t\t\t\t}, 1500);\n\t\t\t},\n\t\t});\n\t</script>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -353,7 +353,7 @@ func CommonHeader(user Account) templ.Component {
 		var templ_7745c5c3_Var8 string
 		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(user.AvatarUrl)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 129, Col: 24}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 131, Col: 24}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 		if templ_7745c5c3_Err != nil {
@@ -371,7 +371,7 @@ func CommonHeader(user Account) templ.Component {
 			var templ_7745c5c3_Var9 string
 			templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(user.DisplayName)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 136, Col: 47}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 138, Col: 47}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 			if templ_7745c5c3_Err != nil {
@@ -389,7 +389,7 @@ func CommonHeader(user Account) templ.Component {
 			var templ_7745c5c3_Var10 string
 			templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(user.FirstName)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 141, Col: 45}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 143, Col: 45}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 			if templ_7745c5c3_Err != nil {
@@ -407,7 +407,7 @@ func CommonHeader(user Account) templ.Component {
 			var templ_7745c5c3_Var11 string
 			templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(user.LastName)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 146, Col: 44}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 148, Col: 44}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
 			if templ_7745c5c3_Err != nil {
@@ -459,7 +459,7 @@ func commonHeaderTwo(text, avatarURL string, btnComp templ.Component) templ.Comp
 		var templ_7745c5c3_Var13 string
 		templ_7745c5c3_Var13, templ_7745c5c3_Err = templ.JoinStringErrs(avatarURL)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 168, Col: 19}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 170, Col: 19}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var13))
 		if templ_7745c5c3_Err != nil {
@@ -472,7 +472,7 @@ func commonHeaderTwo(text, avatarURL string, btnComp templ.Component) templ.Comp
 		var templ_7745c5c3_Var14 string
 		templ_7745c5c3_Var14, templ_7745c5c3_Err = templ.JoinStringErrs(text)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 172, Col: 68}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 174, Col: 68}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var14))
 		if templ_7745c5c3_Err != nil {
@@ -522,7 +522,7 @@ func LetRecycleAndProfile(text string) templ.Component {
 		var templ_7745c5c3_Var16 string
 		templ_7745c5c3_Var16, templ_7745c5c3_Err = templ.JoinStringErrs(text)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 179, Col: 68}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 181, Col: 68}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var16))
 		if templ_7745c5c3_Err != nil {

@@ -48,7 +48,8 @@ INSERT INTO accounts (
     avatar_URL = CASE WHEN EXCLUDED.avatar_URL = '' THEN accounts.avatar_URL ELSE EXCLUDED.avatar_URL END,
     access_Token = CASE WHEN EXCLUDED.access_Token = '' THEN accounts.access_Token ELSE EXCLUDED.access_Token END,
     access_Token_Expires = COALESCE(EXCLUDED.access_Token_Expires, accounts.access_Token_Expires),
-    id_Token = CASE WHEN EXCLUDED.id_Token = '' THEN accounts.id_Token ELSE EXCLUDED.id_Token END
+    id_Token = CASE WHEN EXCLUDED.id_Token = '' THEN accounts.id_Token ELSE EXCLUDED.id_Token END,
+    is_new = FALSE
 RETURNING *;
 
 -- name: GetAccount :one

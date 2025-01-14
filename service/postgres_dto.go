@@ -46,6 +46,7 @@ type Account struct {
 	Role               string    `json:"role"`
 	Joined             time.Time `json:"joined"`
 	IsDeleted          bool      `json:"is_deleted"`
+	IsNew              bool      `json:"is_new"`
 }
 
 func pgAccountToserviceAccount(pgAcc postgres.Account) Account {
@@ -71,6 +72,7 @@ func pgAccountToserviceAccount(pgAcc postgres.Account) Account {
 		Role:               pgAcc.Role,
 		Joined:             pgAcc.Joined.Time,
 		IsDeleted:          pgAcc.IsDeleted,
+		IsNew:              pgAcc.IsNew,
 	}
 }
 

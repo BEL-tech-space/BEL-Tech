@@ -64,8 +64,9 @@ templ ToastMessage(toastType ToastType, message string, templComp ...templ.Compo
 		}
 	</style>
 	<script>
-	const toastType = JSON.parse(document.getElementById('toast-type').textContent);
-	const toastMessage = JSON.parse(document.getElementById('toast-message').textContent);
+	(function(){
+		const toastType = JSON.parse(document.getElementById('toast-type').textContent);
+		const toastMessage = JSON.parse(document.getElementById('toast-message').textContent);
 		toastr.options = {
               	"closeButton": true,
 				"debug": false,
@@ -84,6 +85,7 @@ templ ToastMessage(toastType ToastType, message string, templComp ...templ.Compo
 				"hideMethod": "slideUp"
             };
         toastr[ toastType ](toastMessage)
+	})()
 	</script>
 }
 

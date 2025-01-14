@@ -30,6 +30,7 @@ type Account struct {
 	Role               string           `json:"role"`
 	Joined             pgtype.Timestamp `json:"joined"`
 	IsDeleted          bool             `json:"is_deleted"`
+	IsNew              bool             `json:"is_new"`
 }
 
 type Beneficiary struct {

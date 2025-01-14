@@ -119,7 +119,7 @@ func LocationMain() templ.Component {
 			templ_7745c5c3_Var3 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "<main class=\"grow mt-[1.75rem] relative overflow-y-scroll w-full h-full\"><div id=\"map\" class=\"w-full h-full\"></div><div class=\"absolute flex flex-col justify-center items-center gap-8 bottom-2/4 left-6\"><button title=\"bin\" class=\"bg-[#016934] rounded-md p-2 shadow-[0px_1px_2px_0px_#00000026]\" data-tippy-content=\"Coming Soon\"><img src=\"/public/assets/svg/binAgent.svg\" alt=\"\" class=\"w-5 aspect-square\"></button> <button title=\"collector\" class=\"bg-white rounded-md p-2 shadow-[0px_1px_2px_0px_#00000026]\" data-tippy-content=\"Coming Soon\"><img src=\"/public/assets/svg/collectorAgent.svg\" alt=\"\" class=\"w-5 aspect-square\"></button></div></main>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "<main class=\"grow mt-[1.75rem] relative overflow-y-scroll w-full h-full\"><div id=\"map\" class=\"w-full h-full\"></div><div class=\"absolute flex flex-col justify-center items-center gap-8 bottom-2/4 left-6\"><button title=\"bin\" class=\"bg-[#016934] rounded-md p-2 shadow-[0px_1px_2px_0px_#00000026]\" data-tippy-content=\"coming soon\"><img src=\"/public/assets/svg/binAgent.svg\" alt=\"\" class=\"w-5 aspect-square\"></button> <button title=\"collector\" class=\"bg-white rounded-md p-2 shadow-[0px_1px_2px_0px_#00000026]\" data-tippy-content=\"coming soon\"><img src=\"/public/assets/svg/collectorAgent.svg\" alt=\"\" class=\"w-5 aspect-square\"></button></div></main>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
