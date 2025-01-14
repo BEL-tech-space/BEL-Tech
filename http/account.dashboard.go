@@ -59,7 +59,7 @@ func (a *App) dashboardSwiperOne(w http.ResponseWriter, r *http.Request) {
 func (a *App) dashboardDataViz(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := accPages.DashboardDataViz(
-		produceChartHTML([4]float64{9, 5, 7, 15}, deduceTime(4))).
+		produceChartHTML([4]float64{0, 0, 0, 0}, deduceTime(4))).
 		Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
