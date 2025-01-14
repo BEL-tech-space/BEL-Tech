@@ -424,4 +424,33 @@ func confetti() templ.Component {
 	})
 }
 
+func serviceWorkerRegistration() templ.Component {
+	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
+		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
+		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
+			return templ_7745c5c3_CtxErr
+		}
+		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
+		if !templ_7745c5c3_IsBuffer {
+			defer func() {
+				templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
+				if templ_7745c5c3_Err == nil {
+					templ_7745c5c3_Err = templ_7745c5c3_BufErr
+				}
+			}()
+		}
+		ctx = templ.InitializeContext(ctx)
+		templ_7745c5c3_Var15 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var15 == nil {
+			templ_7745c5c3_Var15 = templ.NopComponent
+		}
+		ctx = templ.ClearChildren(ctx)
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 22, "<!-- This script tag uses JavaScript modules, so the proper `type` attribute value is required --><script type=\"module\">\n\t// This code sample uses features introduced in Workbox v6.\n\timport {Workbox} from 'https://storage.googleapis.com/workbox-cdn/releases/6.4.1/workbox-window.prod.mjs';\n\n\tif ('serviceWorker' in navigator) {\n\t\tconst wb = new Workbox('/sw.js');\n\t\tlet registration;\n\n\t\tconst showSkipWaitingPrompt = async (event) => {\n\t\t// Assuming the user accepted the update, set up a listener\n\t\t// that will reload the page as soon as the previously waiting\n\t\t// service worker has taken control.\n\t\twb.addEventListener('controlling', () => {\n\t\t\t// At this point, reloading will ensure that the current\n\t\t\t// tab is loaded under the control of the new service worker.\n\t\t\t// Depending on your web app, you may want to auto-save or\n\t\t\t// persist transient state before triggering the reload.\n\t\t\twindow.location.reload();\n\t\t});\n\n\t\t// When `event.wasWaitingBeforeRegister` is true, a previously\n\t\t// updated service worker is still waiting.\n\t\t// You may want to customize the UI prompt accordingly.\n\n\t\t// This code assumes your app has a promptForUpdate() method,\n\t\t// which returns true if the user wants to update.\n\t\t// Implementing this is app-specific; some examples are:\n\t\t// https://open-ui.org/components/alert.research or\n\t\t// https://open-ui.org/components/toast.research\n\t\tconst updateAccepted = await promptForUpdate();\n\n\t\tif (updateAccepted) {\n\t\t\twb.messageSkipWaiting();\n\t\t}\n\t\t};\n\n\t\t// Add an event listener to detect when the registered\n\t\t// service worker has installed but is waiting to activate.\n\t\twb.addEventListener('waiting', (event) => {\n\t\tshowSkipWaitingPrompt(event);\n\t\t});\n\n\t\twb.register();\n\t}\n</script>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		return nil
+	})
+}
+
 var _ = templruntime.GeneratedTemplate
