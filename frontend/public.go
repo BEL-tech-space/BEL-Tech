@@ -8,5 +8,5 @@ import "embed"
 //go:embed public
 var AssetsDir embed.FS
 
-//go:embed *.js
-var ServiceWorker embed.FS
+//go:embed pages/account/mail.html
+var EmailHTML embed.FS

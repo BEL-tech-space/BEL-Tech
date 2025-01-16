@@ -62,6 +62,13 @@ type EnvConfig struct {
 	CookieSecret  string `env:"COOKIE_SECRET"`
 	SessionSecret string `env:"SESSION_SECRET"`
 	Build         string `env:"BUILD"`
+
+	Mail struct {
+		EmailAcc            string `env:"EMAIL_ACC"`
+		EmailPswd           string `env:"EMAIL_PSWD"`
+		EmailSmtpServerHost string `env:"EMAIL_SMTP_SERVER_HOST"`
+		EmailSmtpServerPort int    `env:"EMAIL_SMTP_SERVER_PORT"`
+	}
 }
 
 func LoadEnv(cfg *EnvConfig) error {

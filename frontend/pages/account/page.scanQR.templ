@@ -77,7 +77,14 @@ templ ScanQRPage() {
 }
 
 templ scriptForScanPage() {
+	<style>
+		#toast-container {
+			margin-top: 0.25rem; 
+		}
+	</style>
 	<script src="/public/assets/scripts/html5-qrcode.min.js"></script>
+	<script src="/public/assets/scripts/jquery.min.js"></script>
+	<script src="/public/assets/scripts/toastr.min.js"></script>
 	<script>
             const html5QrCode = new Html5Qrcode( "reader" );
             let isScanning = false;
@@ -96,8 +103,8 @@ templ scriptForScanPage() {
                     return;
                 }
 
-                readerContainer.style.width = `${( 1 / 2 ) * width}rem`;
-                readerContainer.style.height = `${( 1 / 3 ) * height}rem`;
+                readerContainer.style.width = `${( 83 / 100 ) * width}px`;
+                readerContainer.style.height = `${( 83 / 100 ) * height}px`;
                 const config = { fps: 10, qrbox: { width: width, height: height } };
 
                 html5QrCode.start( { facingMode: "environment" }, config, qrCodeSuccessCallback, qrCodeErrorCallback )
@@ -116,11 +123,30 @@ templ scriptForScanPage() {
 
             function qrCodeSuccessCallback ( decodedText, decodedResult ) {
                 console.log( `Scan result: ${decodedText}`, decodedResult );
-                stopScanning();
+				console.log("that does not seem like ours")
+				toastr.options = {
+						"closeButton": true,
+						"debug": false,
+						"newestOnTop": false,
+						"progressBar": true,
+						"positionClass": "toast-top-center",
+						"preventDuplicates": true,
+						"onclick": null,
+						"showDuration": "100",
+						"hideDuration": "1000",
+						"timeOut": "3000",
+						"extendedTimeOut": "1000",
+						"showEasing": "swing",
+						"hideEasing": "linear",
+						"showMethod": "slideDown",
+						"hideMethod": "slideUp"
+					};
+				toastr[ "success" ]("that does not seem like ours")
+				stopScanning();
             }
 
 			function qrCodeErrorCallback ( error ) {
-                console.error( "from qrCodeErrorCallback ", error );
+                // console.error( "from qrCodeErrorCallback ", error );
             }
 
             function stopScanning () {

@@ -19,8 +19,7 @@ func (a *App) dashboardPageHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	isNewAccount := false
-	cookie, err := r.Cookie("isNewAccount")
-	if err == nil && cookie.Value == "true" {
+	if cookie, err := r.Cookie("isNewAccount"); err == nil && cookie.Value == "true" {
 		http.SetCookie(w, &http.Cookie{
 			Name:   "isNewAccount",
 			Value:  "",
@@ -29,6 +28,17 @@ func (a *App) dashboardPageHandler(w http.ResponseWriter, r *http.Request) {
 		})
 
 		isNewAccount = true
+	}
+
+	if isNewAccount || a.config.Build != productionEnv {
+		go func() {
+			err := a.sendGreetingEmail(accountEmail)
+			if err != nil {
+				fmt.Println("error sending email:", err)
+			} else {
+				fmt.Println("email sent")
+			}
+		}()
 	}
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")

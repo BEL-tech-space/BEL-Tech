@@ -11,6 +11,7 @@ import templruntime "github.com/a-h/templ/runtime"
 import (
 	"beltech/types"
 	"fmt"
+	"reflect"
 )
 
 func WalletPage(acc Account, data []types.TokenData) templ.Component {
@@ -213,7 +214,7 @@ func WalletBalance(belTokenBalance float64) templ.Component {
 		var templ_7745c5c3_Var6 string
 		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%.4f BEL", belTokenBalance))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wallet.templ`, Line: 70, Col: 70}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wallet.templ`, Line: 71, Col: 70}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 		if templ_7745c5c3_Err != nil {
@@ -277,7 +278,7 @@ func WalletCoinData(data []types.TokenData) templ.Component {
 			templ_7745c5c3_Var8 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "<section><ul hx-get=\"/account/wallet/livedata\" hx-trigger=\"every 11s\" hx-swap=\"innerHTML\" class=\"w-full flex flex-col gap-3 justify-around items-center h-full\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "<section class=\"overflow-y-scroll pb-4 rounded-2xl mb-auto\"><ul hx-get=\"/account/wallet/livedata\" hx-trigger=\"every 35s\" hx-swap=\"innerHTML\" class=\"w-full flex flex-col gap-3 justify-around items-center h-full\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -321,59 +322,49 @@ func WalletLiveCoinData(data []types.TokenData) templ.Component {
 			}
 		} else {
 			for _, v := range data {
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 14, "<li class=\"w-full flex justify-between items-center gap-8 text-[#393737]\"><div class=\"flex gap-1\"><picture><source srcset=\"")
+				if checkIfEmptyValue(v) {
+					continue
+				}
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 14, " <li class=\"w-full flex justify-between items-center gap-8 text-[#393737]\"><div class=\"flex gap-1\"><img src=\"")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 				var templ_7745c5c3_Var10 string
-				templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(useWebp(v.TokenLogo))
+				templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(v.TokenLogo)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wallet.templ`, Line: 118, Col: 43}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wallet.templ`, Line: 123, Col: 27}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, "\" type=\"image/webp\"> <img src=\"")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, "\" alt=\"\" class=\"w-[2.788rem] aspect-square rounded-full\"><div class=\"flex flex-col item-start gap-[0.446rem]\"><p class=\"font-semibold leading-[0.838rem] text-[0.688rem] text-inherit\">")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 				var templ_7745c5c3_Var11 string
-				templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(v.TokenLogo)
+				templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(v.TokenName)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wallet.templ`, Line: 119, Col: 28}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wallet.templ`, Line: 126, Col: 92}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 16, "\" alt=\"\" class=\"w-[2.788rem] aspect-square rounded-full\"></picture><div class=\"flex flex-col item-start gap-[0.446rem]\"><p class=\"font-semibold leading-[0.838rem] text-[0.688rem] text-inherit\">")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 16, "</p><p class=\"font-medium leading-[0.762rem] text-[0.625rem] text-inherit\">")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 				var templ_7745c5c3_Var12 string
-				templ_7745c5c3_Var12, templ_7745c5c3_Err = templ.JoinStringErrs(toTitle(v.TokenName))
+				templ_7745c5c3_Var12, templ_7745c5c3_Err = templ.JoinStringErrs(v.TokenSymbol)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wallet.templ`, Line: 122, Col: 101}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wallet.templ`, Line: 127, Col: 92}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var12))
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 17, "</p><p class=\"font-medium leading-[0.762rem] text-[0.625rem] text-inherit\">")
-				if templ_7745c5c3_Err != nil {
-					return templ_7745c5c3_Err
-				}
-				var templ_7745c5c3_Var13 string
-				templ_7745c5c3_Var13, templ_7745c5c3_Err = templ.JoinStringErrs(v.TokenSymbol)
-				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wallet.templ`, Line: 123, Col: 92}
-				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var13))
-				if templ_7745c5c3_Err != nil {
-					return templ_7745c5c3_Err
-				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 18, "</p></div></div>")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 17, "</p></div></div>")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -388,61 +379,61 @@ func WalletLiveCoinData(data []types.TokenData) templ.Component {
 						return templ_7745c5c3_Err
 					}
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 19, "<div class=\"flex flex-col items-center\"><p class=\"font-bold text-sm text-center text-inherit\">")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 18, "<div class=\"flex flex-col items-center\"><p class=\"font-bold text-sm text-center text-inherit\">")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				var templ_7745c5c3_Var14 string
-				templ_7745c5c3_Var14, templ_7745c5c3_Err = templ.JoinStringErrs(v.TokenPrice)
+				var templ_7745c5c3_Var13 string
+				templ_7745c5c3_Var13, templ_7745c5c3_Err = templ.JoinStringErrs(v.TokenPrice)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wallet.templ`, Line: 132, Col: 73}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wallet.templ`, Line: 136, Col: 73}
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var14))
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var13))
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 20, "</p>")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 19, "</p>")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 				if v.UpOrDown == "icon-Caret-up" {
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 21, "<p class=\"ml-auto font-semibold text-xs text-center text-[#34A853]\">")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 20, "<p class=\"ml-auto font-semibold text-xs text-center text-[#34A853]\">")
+					if templ_7745c5c3_Err != nil {
+						return templ_7745c5c3_Err
+					}
+					var templ_7745c5c3_Var14 string
+					templ_7745c5c3_Var14, templ_7745c5c3_Err = templ.JoinStringErrs(v.PercentUpOrDown)
+					if templ_7745c5c3_Err != nil {
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wallet.templ`, Line: 139, Col: 26}
+					}
+					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var14))
+					if templ_7745c5c3_Err != nil {
+						return templ_7745c5c3_Err
+					}
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 21, "</p>")
+					if templ_7745c5c3_Err != nil {
+						return templ_7745c5c3_Err
+					}
+				} else {
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 22, "<p class=\"ml-auto font-semibold text-xs text-center text-[#EF0E0E]\">")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
 					var templ_7745c5c3_Var15 string
 					templ_7745c5c3_Var15, templ_7745c5c3_Err = templ.JoinStringErrs(v.PercentUpOrDown)
 					if templ_7745c5c3_Err != nil {
-						return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wallet.templ`, Line: 135, Col: 26}
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wallet.templ`, Line: 143, Col: 26}
 					}
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var15))
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 22, "</p>")
-					if templ_7745c5c3_Err != nil {
-						return templ_7745c5c3_Err
-					}
-				} else {
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 23, "<p class=\"ml-auto font-semibold text-xs text-center text-[#EF0E0E]\">")
-					if templ_7745c5c3_Err != nil {
-						return templ_7745c5c3_Err
-					}
-					var templ_7745c5c3_Var16 string
-					templ_7745c5c3_Var16, templ_7745c5c3_Err = templ.JoinStringErrs(v.PercentUpOrDown)
-					if templ_7745c5c3_Err != nil {
-						return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wallet.templ`, Line: 139, Col: 26}
-					}
-					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var16))
-					if templ_7745c5c3_Err != nil {
-						return templ_7745c5c3_Err
-					}
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 24, "</p>")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 23, "</p>")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 25, "</div></li>")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 24, "</div></li>")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -450,6 +441,31 @@ func WalletLiveCoinData(data []types.TokenData) templ.Component {
 		}
 		return nil
 	})
+}
+
+func isAllElementZero[T any](arr []T) bool {
+	if len(arr) == 0 {
+		return true
+	}
+
+	for _, v := range arr {
+		if !reflect.ValueOf(v).IsZero() {
+			return false
+		}
+	}
+
+	return true
+}
+
+func checkIfEmptyValue(v types.TokenData) bool {
+	if v.TokenName == "" || v.TokenSymbol == "" ||
+		v.TokenLogo == "" || v.ChartUrl == "" ||
+		v.UpOrDown == "" ||
+		v.TokenPrice == "" || v.PercentUpOrDown == "" {
+		return true
+	}
+
+	return false
 }
 
 func WalletSwiper() templ.Component {
@@ -468,22 +484,22 @@ func WalletSwiper() templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var17 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var17 == nil {
-			templ_7745c5c3_Var17 = templ.NopComponent
+		templ_7745c5c3_Var16 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var16 == nil {
+			templ_7745c5c3_Var16 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 26, "<section class=\"swiperThree min-h-fit mt-auto\"><div class=\"px-4 swiper mySwiperThree w-full\"><div class=\"swiper-wrapper\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 25, "<section class=\"swiperThree min-h-fit mt-4\"><div class=\"px-4 swiper mySwiperThree w-full\"><div class=\"swiper-wrapper\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		for range 4 {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 27, "<div class=\"swiper-slide\"><div class=\"bg-[#FEF7FF] rounded-lg flex items-center justify-center gap-3\"><img src=\"/public/assets/svg/cryptoNews.svg\" class=\"w-[6.875rem] aspect-[110/101] mx-[0.313rem] mr-[0.313rem] rounded-lg\"><div class=\"flex flex-col gap-2 my-[1.188rem]\"><div class=\"flex items-center gap-[0.313rem]\"><p class=\"font-[600] text-[0.688rem] leading-[0.838rem]\">Solana</p><picture><source srcset=\"/public/assets/images/Recycle_small.webp\" type=\"image/webp\"> <img src=\"/public/assets/images/Recycle_small.png\" alt=\"\" class=\"w-[0.813rem] aspect-square\"></picture></div><p class=\"font-medium text-[0.625rem] leading-[0.875rem] text-justify hyphens-auto break-words\">Solana's network has surpassed the Binance Smart Chain (BNB) to become the second-largest by liquid TVL, second only to Ethereum. This surge in TVL reflects increased deposits, which reached 42.5 million SOL, the highest since 2022</p></div></div></div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 26, "<div class=\"swiper-slide\"><div class=\"bg-[#FEF7FF] rounded-lg flex items-center justify-center gap-3\"><img src=\"/public/assets/svg/cryptoNews.svg\" class=\"w-[6.875rem] aspect-[110/101] mx-[0.313rem] mr-[0.313rem] rounded-lg\"><div class=\"flex flex-col gap-2 my-[1.188rem]\"><div class=\"flex items-center gap-[0.313rem]\"><p class=\"font-[600] text-[0.688rem] leading-[0.838rem]\">Solana</p><picture><source srcset=\"/public/assets/images/Recycle_small.webp\" type=\"image/webp\"> <img src=\"/public/assets/images/Recycle_small.png\" alt=\"\" class=\"w-[0.813rem] aspect-square\"></picture></div><p class=\"font-medium text-[0.625rem] leading-[0.875rem] text-justify hyphens-auto break-words\">Solana's network has surpassed the Binance Smart Chain (BNB) to become the second-largest by liquid TVL, second only to Ethereum. This surge in TVL reflects increased deposits, which reached 42.5 million SOL, the highest since 2022</p></div></div></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 28, "</div></div></section>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 27, "</div></div></section>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

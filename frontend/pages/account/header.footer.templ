@@ -22,10 +22,11 @@ templ HeadTag(pageTitle string) {
 			strings.Contains(strings.ToLower(pageTitle), "location") || 
 			strings.Contains(strings.ToLower(pageTitle), "wallet") || 
 			strings.Contains(strings.ToLower(pageTitle), "spend") {
-			<link rel="manifest" href="/public/manifest.json"/>
+			// <link rel="manifest" href="/public/manifest.json"/>
 			<meta name="theme-color" content="#CCE1D699"/>
 			@splashScreenForiOS()
 		}
+		<meta name="theme-color" content="#CCE1D699"/>
 		if strings.Contains(strings.ToLower(pageTitle), "dashboard") ||
 			strings.Contains(strings.ToLower(pageTitle), "wallet") {
 			<link
@@ -56,7 +57,7 @@ templ HeadTag(pageTitle string) {
 
 templ Footer(active string, mainClosingTag templ.Component) {
 	@mainClosingTag
-	<footer class="bg-white flex w-full justify-around px-4 pt-3 pb-3 gap-[2.375rem]" hx-boost="false">
+	<footer class="bg-white flex w-full justify-around px-4 pt-3 pb-1 gap-[2.375rem]" hx-boost="false">
 		if active == "dashboard" {
 			<a
 				href="/account/dashboard"
