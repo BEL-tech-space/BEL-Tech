@@ -3,6 +3,7 @@ package frontend
 import (
 	"beltech/types"
 	"fmt"
+	"reflect"
 )
 
 templ WalletPage(acc Account, data []types.TokenData) {
@@ -98,8 +99,8 @@ templ WalletOptionsPartial() {
 }
 
 templ WalletCoinData(data []types.TokenData) {
-	<section>
-		<ul hx-get="/account/wallet/livedata" hx-trigger="every 11s" hx-swap="innerHTML" class="w-full flex flex-col gap-3 justify-around items-center h-full">
+	<section class="overflow-y-scroll pb-4 rounded-2xl mb-auto">
+		<ul hx-get="/account/wallet/livedata" hx-trigger="every 35s" hx-swap="innerHTML" class="w-full flex flex-col gap-3 justify-around items-center h-full">
 			@WalletLiveCoinData(data)
 		</ul>
 	</section>
@@ -112,14 +113,17 @@ templ WalletLiveCoinData(data []types.TokenData) {
 		</div>
 	} else {
 		for _, v := range data {
+			if checkIfEmptyValue(v) {
+				{{ continue }}
+			}
 			<li class="w-full flex justify-between items-center gap-8 text-[#393737]">
 				<div class="flex gap-1">
-					<picture>
-						<source srcset={ useWebp(v.TokenLogo) } type="image/webp"/>
-						<img src={ v.TokenLogo } alt="" class="w-[2.788rem] aspect-square rounded-full"/>
-					</picture>
+					// <picture>
+					// <source srcset={ useWebp(v.TokenLogo) } type="image/webp"/>
+					<img src={ v.TokenLogo } alt="" class="w-[2.788rem] aspect-square rounded-full"/>
+					// </picture>
 					<div class="flex flex-col item-start gap-[0.446rem]">
-						<p class="font-semibold leading-[0.838rem] text-[0.688rem] text-inherit">{ toTitle(v.TokenName) }</p>
+						<p class="font-semibold leading-[0.838rem] text-[0.688rem] text-inherit">{ v.TokenName }</p>
 						<p class="font-medium leading-[0.762rem] text-[0.625rem] text-inherit">{ v.TokenSymbol }</p>
 					</div>
 				</div>
@@ -145,8 +149,33 @@ templ WalletLiveCoinData(data []types.TokenData) {
 	}
 }
 
+func isAllElementZero[T any](arr []T) bool {
+	if len(arr) == 0 {
+		return true
+	}
+
+	for _, v := range arr {
+		if !reflect.ValueOf(v).IsZero() {
+			return false
+		}
+	}
+
+	return true
+}
+
+func checkIfEmptyValue(v types.TokenData) bool {
+	if v.TokenName == "" || v.TokenSymbol == "" ||
+		v.TokenLogo == "" || v.ChartUrl == "" ||
+		v.UpOrDown == "" ||
+		v.TokenPrice == "" || v.PercentUpOrDown == "" {
+		return true
+	}
+
+	return false
+}
+
 templ WalletSwiper() {
-	<section class="swiperThree min-h-fit mt-auto">
+	<section class="swiperThree min-h-fit mt-4">
 		<div class="px-4 swiper mySwiperThree w-full">
 			<div class="swiper-wrapper">
 				for range 4 {

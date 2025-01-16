@@ -43,7 +43,7 @@ registerRoute(
     cacheName: partialsCache,
     plugins: [
       new ExpirationPlugin({
-        maxEntries: 5,
+        maxEntries: 30,
         maxAgeSeconds: 60 * 60 * 24 * 30 * 3, // about 3 month
       }),
     ],
@@ -57,7 +57,7 @@ registerRoute(
     cacheName: contentCache,
     plugins: [
       new ExpirationPlugin({
-        maxEntries: 5,
+        maxEntries: 30,
         maxAgeSeconds: 60 * 60 * 24 * 30 * 3, // about 3 month
       }),
     ],
@@ -71,7 +71,7 @@ registerRoute(
     cacheName: contentCache,
     plugins: [
       new ExpirationPlugin({
-        maxEntries: 5,
+        maxEntries: 30,
         maxAgeSeconds: 60 * 60 * 24 * 30 * 3, // about 3 month
       }),
     ],
@@ -90,7 +90,7 @@ registerRoute(
     cacheName: contentCache,
     plugins: [
       new ExpirationPlugin({
-        maxEntries: 5,
+        maxEntries: 30,
         maxAgeSeconds: 60 * 60 * 24 * 30 * 3, // about 3 month
       }),
     ],
@@ -172,7 +172,7 @@ registerRoute(
     cacheName: contentCache,
     plugins: [
       new ExpirationPlugin({
-        maxEntries: 5,
+        maxEntries: 30,
         maxAgeSeconds: 60 * 60 * 24 * 30 * 3, // about 3 month
       }),
     ],

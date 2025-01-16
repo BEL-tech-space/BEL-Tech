@@ -14,7 +14,7 @@ export const cacheFirstStrategy = new CacheFirst({
   cacheName: partialsCache,
   plugins: [
     new ExpirationPlugin({
-      maxEntries: 5,
+      maxEntries: 30,
       maxAgeSeconds: 60 * 60 * 24 * 30 * 3, // about 3 months
     }),
   ],
@@ -25,7 +25,7 @@ export const networkFirstStrategy = new NetworkFirst({
   networkTimeoutSeconds: 5,
   plugins: [
     new ExpirationPlugin({
-      maxEntries: 5,
+      maxEntries: 30,
       maxAgeSeconds: 60 * 60 * 24 * 30 * 3, // about 3 months
     }),
     // {
@@ -47,7 +47,7 @@ export const staleWhileRevalidateStrategy = new StaleWhileRevalidate({
   cacheName: contentCache,
   plugins: [
     new ExpirationPlugin({
-      maxEntries: 5,
+      maxEntries: 30,
       maxAgeSeconds: 60 * 60 * 24 * 30 * 3, // about 3 months
     }),
     // {
