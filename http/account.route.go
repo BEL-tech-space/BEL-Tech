@@ -20,6 +20,10 @@ func (a *App) accountRouter() http.Handler {
 	r.Route("/", func(r chi.Router) {
 		r.Use(a.accountAuthorization)
 
+		// this endpoint is reach from the signUp/login page
+		// the aim is to get a fresh info of the sw from the server
+		r.Get("/welcome", a.dashboardPageHandler)
+
 		r.Get("/dashboard/openingHtmlTag-Partial.html", a.openingHThmlTagPartial)
 		r.Get("/dashboard/commonHeader-Partial.html", a.commonHeader)
 		r.Get("/dashboard/mainOpeningTag-Partial.html", a.dashboardMainTagPartial)
