@@ -77,7 +77,7 @@ func (a *App) callbackHandlerAccount(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	http.Redirect(w, r, "/account/dashboard", http.StatusTemporaryRedirect)
+	http.Redirect(w, r, "/account/welcome", http.StatusTemporaryRedirect)
 }
 
 func (a *App) logoutAccount(w http.ResponseWriter, r *http.Request) {
