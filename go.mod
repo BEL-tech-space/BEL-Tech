@@ -18,6 +18,7 @@ require (
 	github.com/markbates/goth v1.80.0
 	github.com/nfnt/resize v0.0.0-20180221191011-83c6a9932646
 	github.com/skip2/go-qrcode v0.0.0-20200617195104-da1b6568686e
+	golang.org/x/crypto/x509roots/fallback v0.0.0-20250118192723-a8ea4be81f07
 	golang.org/x/exp v0.0.0-20250103183323-7d7fa50e5329
 	gopkg.in/mail.v2 v2.3.1
 )
