@@ -1,5 +1,5 @@
 # Build
-FROM golang:latest AS build
+FROM golang:1.23-alpine3.21 AS build
 
 RUN mkdir /go/src/app
 COPY . /go/src/app
@@ -10,7 +10,7 @@ WORKDIR /go/src/app
 RUN apk --no-cache add ca-certificates
 
 # RUN go mod tidy
-RUN CGO_ENABLED=0 go build -mod vendor -trimpath -ldflags="-s -w"  -o /go/src/app/main main.go
+RUN CGO_ENABLED=0 go build -mod vendor -trimpath -ldflags="-s -w" -o /go/src/app/main main.go
 
 # Run
 # FROM chromedp/headless-shell:latest
@@ -26,4 +26,5 @@ EXPOSE 8090
 # ENTRYPOINT ["dumb-init", "--"]
 
 CMD ["/go/src/app/main"]
+
 
