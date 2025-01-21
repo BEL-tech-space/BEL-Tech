@@ -4,6 +4,7 @@ import (
 	accPages "beltech/frontend/pages/account"
 	"context"
 	"fmt"
+	"log"
 	"net/http"
 	"strconv"
 	"time"
@@ -37,6 +38,7 @@ func (a *App) dashboardPageHandler(w http.ResponseWriter, r *http.Request) {
 				fmt.Println("error sending email:", err)
 			} else {
 				fmt.Println("email sent")
+				log.Println("EMAIL SENT")
 			}
 		}()
 	}
