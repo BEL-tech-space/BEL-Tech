@@ -13,8 +13,8 @@ WORKDIR /go/src/app
 RUN CGO_ENABLED=0 go build -mod vendor -trimpath -ldflags="-s -w" -o /go/src/app/main main.go
 
 # Run
-# FROM chromedp/headless-shell:latest
-FROM scratch
+FROM chromedp/headless-shell:latest
+# FROM scratch
 
 # COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 COPY --from=build /go/src/app/main /go/src/app/
@@ -22,8 +22,8 @@ COPY --from=build /go/src/app/main /go/src/app/
 WORKDIR /go/src/app
 EXPOSE 8090
 
-# RUN apt-get update; apt install dumb-init -y
-# ENTRYPOINT ["dumb-init", "--"]
+RUN apt-get update; apt install dumb-init -y
+ENTRYPOINT ["dumb-init", "--"]
 
 CMD ["/go/src/app/main"]
 
