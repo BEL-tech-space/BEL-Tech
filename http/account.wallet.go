@@ -20,6 +20,7 @@ import (
 )
 
 func (a *App) walletPageHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("walletPageHandler")
 
 	accountEmail := r.Context().Value(contextKeyEmail).(string)
 	user, err := a.getAccountFromCache(context.Background(), accountEmail)
@@ -69,6 +70,7 @@ func (a *App) walletOptionsPartial(w http.ResponseWriter, r *http.Request) {
 }
 
 func (a *App) walletcoinData(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("walletcoinData")
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := accPages.WalletCoinData(coinsToDisplay()).Render(context.TODO(), w); err != nil {
@@ -105,6 +107,10 @@ func coinsToDisplay() []types.TokenData {
 		liveCryptoData.jupiterAg, liveCryptoData.pudgyPenguins}
 
 	validValues := slices.DeleteFunc(remaining, checkIfEmptyValue)
+	validValues = slices.Clip(validValues)
+
+	fmt.Println("validValues", len(validValues), "remaining", len(remaining))
+	fmt.Println()
 
 	rand.Shuffle(len(validValues), func(i, j int) {
 		remaining[i], remaining[j] = remaining[j], remaining[i]
@@ -123,7 +129,6 @@ func checkIfEmptyValue(v types.TokenData) bool {
 		v.UpOrDown == "" || v.TokenPrice == "" ||
 		v.PercentUpOrDown == "" ||
 		reflect.ValueOf(v).IsZero() {
-		fmt.Println("is empty", v)
 		return true
 	}
 
@@ -160,19 +165,6 @@ loop:
 			break loop
 
 		case <-ticker.C:
-			// var wg sync.WaitGroup
-			// wg.Add(1)
-
-			// go func(wg *sync.WaitGroup) {
-			// 	defer wg.Done()
-
-			// 	if err := getCoinData(); err != nil {
-			// 		log.Println(err)
-			// 	}
-			// }(&wg)
-
-			// wg.Wait()
-
 			method2("https://coinmarketcap.com/?page=1")
 
 			// Drain extra ticks if tasks took too long
@@ -234,7 +226,6 @@ func scraping2(body io.Reader) error {
 		rtData.ChartUrl, _ = hold.NextAll().Last().Find("img").Attr("src")
 		rtData.UpOrDown, _ = hold2.Find("span>span").Attr("class")
 
-		// fmt.Printf("%v : %+v\n\n\n", v, rtData)
 		writeResult2(rtData, v)
 	}
 	return nil
