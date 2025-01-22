@@ -184,7 +184,11 @@ func scriptForDashboardPage() templ.Component {
 			templ_7745c5c3_Var4 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "<script src=\"/public/assets/scripts/swiper-bundle.min.js\"></script><script src=\"/public/assets/scripts/htmx.min.js\"></script><script>\n        const swiperOne = new Swiper( '.mySwiperOne', {\n            direction: \"horizontal\",\n            slidesPerView: 2,\n            mousewheel: true,\n            spaceBetween: 8,\n            autoplay: {\n                delay: 3000,\n                disableOnInteraction: true,\n            },\n        } );\n\n        const swiperTwo = new Swiper( '.mySwiperTwo', {\n            mousewheel: true,\n            keyboard: true,\n\t\t\tspaceBetween: 8,\n            autoplay: {\n                delay: 3000,\n                disableOnInteraction: true,\n            },\n        } );\n\n\t\tdocument.querySelectorAll('.graph-select').forEach(button => {\n\t\t\tbutton.addEventListener('click', () => {\n\t\t\t\tdocument.querySelectorAll('.graph-select').forEach(btn => {\n\t\t\t\t\tbtn.classList.remove('bg-[#016934]', 'text-[#FFFFFF]');\n\t\t\t\t\tbtn.classList.add('bg-[#FFFFFF]', 'text-[#000000]');\n\t\t\t\t});\n\t\t\t\tbutton.classList.remove('bg-[#FFFFFF]', 'text-[#000000]');\n\t\t\t\tbutton.classList.add('bg-[#016934]', 'text-[#FFFFFF]');\n\t\t\t});\n\t\t});\n\n\t\t window.addEventListener('load', () => {\n\t\t\tif ('serviceWorker' in navigator) {\n\t\t\t\tnavigator.serviceWorker.register('/public/sw.js', {scope: \"/\"}).then((sw) => {\n\t\t\t\t\tconsole.log('Service worker registered!');\n\t\t\t\t}).catch((error) => {\n\t\t\t\t\tconsole.warn('Error registering service worker:');\n\t\t\t\t\tconsole.warn(error);\n\t\t\t\t});\n\t\t\t}\n\t\t});\n    </script>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "<script src=\"/public/assets/scripts/swiper-bundle.min.js\"></script><script src=\"/public/assets/scripts/htmx.min.js\"></script><script>\n        const swiperOne = new Swiper( '.mySwiperOne', {\n            direction: \"horizontal\",\n            slidesPerView: 2,\n            mousewheel: true,\n            spaceBetween: 8,\n            autoplay: {\n                delay: 3000,\n                disableOnInteraction: true,\n            },\n        } );\n\n        const swiperTwo = new Swiper( '.mySwiperTwo', {\n            mousewheel: true,\n            keyboard: true,\n\t\t\tspaceBetween: 8,\n            autoplay: {\n                delay: 3000,\n                disableOnInteraction: true,\n            },\n        } );\n\n\t\tdocument.querySelectorAll('.graph-select').forEach(button => {\n\t\t\tbutton.addEventListener('click', () => {\n\t\t\t\tdocument.querySelectorAll('.graph-select').forEach(btn => {\n\t\t\t\t\tbtn.classList.remove('bg-[#016934]', 'text-[#FFFFFF]');\n\t\t\t\t\tbtn.classList.add('bg-[#FFFFFF]', 'text-[#000000]');\n\t\t\t\t});\n\t\t\t\tbutton.classList.remove('bg-[#FFFFFF]', 'text-[#000000]');\n\t\t\t\tbutton.classList.add('bg-[#016934]', 'text-[#FFFFFF]');\n\t\t\t});\n\t\t});\n    </script>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = serviceWorkerRegistration().Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -257,7 +261,7 @@ func DashboardDataViz(chart template.HTML, isEmpty bool) templ.Component {
 		var templ_7745c5c3_Var7 string
 		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%s", time.Now().AddDate(0, -4, 0).Format("Jan")))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.dashboard.templ`, Line: 194, Col: 67}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.dashboard.templ`, Line: 184, Col: 67}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 		if templ_7745c5c3_Err != nil {
@@ -270,7 +274,7 @@ func DashboardDataViz(chart template.HTML, isEmpty bool) templ.Component {
 		var templ_7745c5c3_Var8 string
 		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%s", time.Now().AddDate(0, -3, 0).Format("Jan")))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.dashboard.templ`, Line: 202, Col: 67}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.dashboard.templ`, Line: 192, Col: 67}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 		if templ_7745c5c3_Err != nil {
@@ -283,7 +287,7 @@ func DashboardDataViz(chart template.HTML, isEmpty bool) templ.Component {
 		var templ_7745c5c3_Var9 string
 		templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%s", time.Now().AddDate(0, -2, 0).Format("Jan")))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.dashboard.templ`, Line: 210, Col: 67}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.dashboard.templ`, Line: 200, Col: 67}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 		if templ_7745c5c3_Err != nil {
@@ -296,7 +300,7 @@ func DashboardDataViz(chart template.HTML, isEmpty bool) templ.Component {
 		var templ_7745c5c3_Var10 string
 		templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%s", time.Now().AddDate(0, -1, 0).Format("Jan")))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.dashboard.templ`, Line: 218, Col: 67}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.dashboard.templ`, Line: 208, Col: 67}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 		if templ_7745c5c3_Err != nil {
@@ -309,7 +313,7 @@ func DashboardDataViz(chart template.HTML, isEmpty bool) templ.Component {
 		var templ_7745c5c3_Var11 string
 		templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%s.", time.Now().AddDate(0, -0, 0).Format("Jan")))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.dashboard.templ`, Line: 226, Col: 68}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.dashboard.templ`, Line: 216, Col: 68}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
 		if templ_7745c5c3_Err != nil {
@@ -416,7 +420,7 @@ func confetti() templ.Component {
 			templ_7745c5c3_Var14 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 21, "<script src=\"/public/assets/scripts/confetti.browser.min.js\"></script><script type=\"module\">\n\t\tawait new Promise(resolve => setTimeout(resolve, 400));\n\t\tvar duration = 5000;\n\t\tvar animationEnd = Date.now() + duration;\n\t\tvar defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };\n\n\t\tfunction randomInRange(min, max) {\n\t\treturn Math.random() * (max - min) + min;\n\t\t}\n\n\t\tvar interval = setInterval(function() {\n\t\tvar timeLeft = animationEnd - Date.now();\n\n\t\tif (timeLeft <= 0) {\n\t\t\treturn clearInterval(interval);\n\t\t}\n\n\t\tvar particleCount = 50 * (timeLeft / duration);\n\t\t// since particles fall down, start a bit higher than random\n\t\tconfetti({ ...defaults, particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } });\n\t\tconfetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } });\n\t\t}, 250);\n\t</script>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 21, "<script src=\"/public/assets/scripts/confetti.browser.min.js\"></script><script>\n\t\tawait new Promise(resolve => setTimeout(resolve, 400));\n\t\tvar duration = 5000;\n\t\tvar animationEnd = Date.now() + duration;\n\t\tvar defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };\n\n\t\tfunction randomInRange(min, max) {\n\t\treturn Math.random() * (max - min) + min;\n\t\t}\n\n\t\tvar interval = setInterval(function() {\n\t\tvar timeLeft = animationEnd - Date.now();\n\n\t\tif (timeLeft <= 0) {\n\t\t\treturn clearInterval(interval);\n\t\t}\n\n\t\tvar particleCount = 50 * (timeLeft / duration);\n\t\t// since particles fall down, start a bit higher than random\n\t\tconfetti({ ...defaults, particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } });\n\t\tconfetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } });\n\t\t}, 250);\n\t</script>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -445,7 +449,7 @@ func serviceWorkerRegistration() templ.Component {
 			templ_7745c5c3_Var15 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 22, "<!-- This script tag uses JavaScript modules, so the proper `type` attribute value is required --><script type=\"module\">\n\t// This code sample uses features introduced in Workbox v6.\n\timport {Workbox} from 'https://storage.googleapis.com/workbox-cdn/releases/6.4.1/workbox-window.prod.mjs';\n\n\tif ('serviceWorker' in navigator) {\n\t\tconst wb = new Workbox('/sw.js');\n\t\tlet registration;\n\n\t\tconst showSkipWaitingPrompt = async (event) => {\n\t\t// Assuming the user accepted the update, set up a listener\n\t\t// that will reload the page as soon as the previously waiting\n\t\t// service worker has taken control.\n\t\twb.addEventListener('controlling', () => {\n\t\t\t// At this point, reloading will ensure that the current\n\t\t\t// tab is loaded under the control of the new service worker.\n\t\t\t// Depending on your web app, you may want to auto-save or\n\t\t\t// persist transient state before triggering the reload.\n\t\t\twindow.location.reload();\n\t\t});\n\n\t\t// When `event.wasWaitingBeforeRegister` is true, a previously\n\t\t// updated service worker is still waiting.\n\t\t// You may want to customize the UI prompt accordingly.\n\n\t\t// This code assumes your app has a promptForUpdate() method,\n\t\t// which returns true if the user wants to update.\n\t\t// Implementing this is app-specific; some examples are:\n\t\t// https://open-ui.org/components/alert.research or\n\t\t// https://open-ui.org/components/toast.research\n\t\tconst updateAccepted = await promptForUpdate();\n\n\t\tif (updateAccepted) {\n\t\t\twb.messageSkipWaiting();\n\t\t}\n\t\t};\n\n\t\t// Add an event listener to detect when the registered\n\t\t// service worker has installed but is waiting to activate.\n\t\twb.addEventListener('waiting', (event) => {\n\t\tshowSkipWaitingPrompt(event);\n\t\t});\n\n\t\twb.register();\n\t}\n</script>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 22, "<script type=\"module\">\n    import { Workbox } from '/public/assets/scripts/workbox-window.prod.mjs';\n\n    if ('serviceWorker' in navigator) {\n        const wb = new Workbox('/public/sw.js', { scope: \"/\" });\n\n        // Automatically activate the new service worker when it's waiting.\n        const handleWaitingWorker = () => {\n            wb.messageSkipWaiting();\n\t\t\t\n\n            // Reload the page when the new service worker takes control.\n            wb.addEventListener('controlling', () => {\n                window.location.reload();\n            });\n        };\n\n        // Add an event listener to detect when the registered service worker is waiting.\n        wb.addEventListener('waiting', handleWaitingWorker);\n\n\t\tconsole.log('Service worker about to register');\n        wb.register();\n    }\n</script>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

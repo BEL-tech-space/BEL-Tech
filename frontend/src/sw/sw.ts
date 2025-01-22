@@ -21,17 +21,17 @@ import {
   beneficiariesPageStream,
   wastePageStream,
 } from "./sw-strategies";
-// import process from "process";
-
-// console.log("Service Worker running in", process.env.BUILD, "mode");
-// debugger;
-// console.log("Service Worker running in", process.env.NODE_ENV, "mode for Node");
 
 declare const self: ServiceWorkerGlobalScope & { __WB_MANIFEST: any[] };
 
-// (self as any).__WB_DISABLE_DEV_LOGS = true;
+(self as any).__WB_DISABLE_DEV_LOGS = true;
 
-clientsClaim();
+addEventListener("message", (event) => {
+  if (event.data && event.data.type === "SKIP_WAITING") {
+    (self as any).skipWaiting();
+  }
+});
+
 navigationPreload.enable();
 
 // account/auth
