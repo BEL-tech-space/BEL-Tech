@@ -4,7 +4,6 @@ import (
 	accPages "beltech/frontend/pages/account"
 	"context"
 	"fmt"
-	"log"
 	"net/http"
 	"strconv"
 	"time"
@@ -31,17 +30,14 @@ func (a *App) dashboardPageHandler(w http.ResponseWriter, r *http.Request) {
 		isNewAccount = true
 	}
 
-	// if isNewAccount || a.config.Build != productionEnv || a.config.Build != productionEnv {
-	go func() {
-		err := a.sendGreetingEmail(accountEmail)
-		if err != nil {
-			fmt.Println("error sending email:", err)
-		} else {
-			fmt.Println("email sent")
-			log.Println("EMAIL SENT")
-		}
-	}()
-	// }
+	if isNewAccount {
+		go func() {
+			err := a.sendGreetingEmail(accountEmail)
+			if err != nil {
+				fmt.Println("error sending email:", err)
+			}
+		}()
+	}
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	chart, isEmpty := produceChartHTML([4]float64{0, 0, 0, 0}, deduceTime(0))
