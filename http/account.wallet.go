@@ -7,6 +7,8 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"reflect"
+	"slices"
 	"strings"
 	"sync"
 	"time"
@@ -102,13 +104,30 @@ func coinsToDisplay() []types.TokenData {
 		liveCryptoData.bonk1, liveCryptoData.dogwifhat, liveCryptoData.usdCoin,
 		liveCryptoData.jupiterAg, liveCryptoData.pudgyPenguins}
 
-	rand.Shuffle(len(remaining), func(i, j int) {
+	validValues := slices.DeleteFunc(remaining, checkIfEmptyValue)
+
+	rand.Shuffle(len(validValues), func(i, j int) {
 		remaining[i], remaining[j] = remaining[j], remaining[i]
 	})
 
-	arr = append(arr, remaining[:4]...)
+	if len(validValues) <= 4 {
+		return append(arr, validValues...)
+	}
 
-	return arr
+	return append(arr, validValues[:4]...)
+}
+
+func checkIfEmptyValue(v types.TokenData) bool {
+	if v.TokenName == "" || v.TokenSymbol == "" ||
+		v.TokenLogo == "" || v.ChartUrl == "" ||
+		v.UpOrDown == "" || v.TokenPrice == "" ||
+		v.PercentUpOrDown == "" ||
+		reflect.ValueOf(v).IsZero() {
+		fmt.Println("is empty", v)
+		return true
+	}
+
+	return false
 }
 
 var coins = []string{"bitcoin", "ethereum", "solana", "usd-coin", "bonk1",
@@ -189,8 +208,6 @@ func method2(url string) {
 
 	if err != nil {
 		fmt.Printf("chromedp error: %v\n\n", err)
-	} else {
-		fmt.Println("chromedp success")
 	}
 }
 

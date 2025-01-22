@@ -99,7 +99,7 @@ templ WalletOptionsPartial() {
 }
 
 templ WalletCoinData(data []types.TokenData) {
-	<section class="overflow-y-scroll pb-4 rounded-2xl mb-auto">
+	<section class="overflow-y-auto pb-4 rounded-2xl mb-auto relative h-full">
 		<ul hx-get="/account/wallet/livedata" hx-trigger="every 35s" hx-swap="innerHTML" class="w-full flex flex-col gap-3 justify-around items-center h-full">
 			@WalletLiveCoinData(data)
 		</ul>
@@ -108,14 +108,11 @@ templ WalletCoinData(data []types.TokenData) {
 
 templ WalletLiveCoinData(data []types.TokenData) {
 	if isAllElementZero(data) {
-		<div class="w-full h-full flex justify-center items-center">
-			<p class="text-center font-poppins font-light">No live crypto data, maybe offline ☹️</p>
-		</div>
+		// <div class="w-full h-full flex justify-center items-center">
+		<p class="text-center font-poppins font-light text-nowrap absolute inset-0 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">No live crypto data ☹️</p>
+		// </div>
 	} else {
 		for _, v := range data {
-			if checkIfEmptyValue(v) {
-				{{ continue }}
-			}
 			<li class="w-full flex justify-between items-center gap-8 text-[#393737]">
 				<div class="flex gap-1">
 					// <picture>
@@ -161,17 +158,6 @@ func isAllElementZero[T any](arr []T) bool {
 	}
 
 	return true
-}
-
-func checkIfEmptyValue(v types.TokenData) bool {
-	if v.TokenName == "" || v.TokenSymbol == "" ||
-		v.TokenLogo == "" || v.ChartUrl == "" ||
-		v.UpOrDown == "" ||
-		v.TokenPrice == "" || v.PercentUpOrDown == "" {
-		return true
-	}
-
-	return false
 }
 
 templ WalletSwiper() {
