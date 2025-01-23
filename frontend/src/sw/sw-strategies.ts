@@ -69,17 +69,17 @@ export const staleWhileRevalidateStrategy = new StaleWhileRevalidate({
 export const dashboardPageStream = composeStrategies(
   [
     async ({ event }) =>
-      cacheFirstStrategy.handle({
+      staleWhileRevalidateStrategy.handle({
         request: new Request("/account/dashboard/openingHtmlTag-Partial.html"),
         event,
       }),
     async ({ event }) =>
-      cacheFirstStrategy.handle({
+      staleWhileRevalidateStrategy.handle({
         request: new Request("/account/dashboard/commonHeader-Partial.html"),
         event,
       }),
     async ({ event }) =>
-      cacheFirstStrategy.handle({
+      staleWhileRevalidateStrategy.handle({
         request: new Request("/account/dashboard/mainOpeningTag-Partial.html"),
         event,
       }),
@@ -99,12 +99,12 @@ export const dashboardPageStream = composeStrategies(
         event,
       }),
     async ({ event }) =>
-      cacheFirstStrategy.handle({
+      staleWhileRevalidateStrategy.handle({
         request: new Request("/account/dashboard/footer-Partial.html"),
         event,
       }),
     async ({ event }) =>
-      cacheFirstStrategy.handle({
+      staleWhileRevalidateStrategy.handle({
         request: new Request("/account/dashboard/closingHtmlTag-Partial.html"),
         event,
       }),
@@ -115,12 +115,12 @@ export const dashboardPageStream = composeStrategies(
 export const locationPageStream = composeStrategies(
   [
     async ({ event }) =>
-      cacheFirstStrategy.handle({
+      staleWhileRevalidateStrategy.handle({
         request: new Request("/account/location/openingHtmlTag-Partial.html"),
         event,
       }),
     async ({ event }) =>
-      cacheFirstStrategy.handle({
+      staleWhileRevalidateStrategy.handle({
         request: new Request("/account/location/header-Partial.html"),
         event,
       }),
@@ -132,12 +132,12 @@ export const locationPageStream = composeStrategies(
         event,
       }),
     async ({ event }) =>
-      cacheFirstStrategy.handle({
+      staleWhileRevalidateStrategy.handle({
         request: new Request("/account/location/footer-Partial.html"),
         event,
       }),
     async ({ event }) =>
-      cacheFirstStrategy.handle({
+      staleWhileRevalidateStrategy.handle({
         request: new Request("/account/location/closingHtmlTag-Partial.html"),
         event,
       }),
@@ -148,17 +148,17 @@ export const locationPageStream = composeStrategies(
 export const walletPageStream = composeStrategies(
   [
     async ({ event }) =>
-      cacheFirstStrategy.handle({
+      staleWhileRevalidateStrategy.handle({
         request: new Request("/account/wallet/openingHtmlTag-Partial.html"),
         event,
       }),
     async ({ event }) =>
-      cacheFirstStrategy.handle({
+      staleWhileRevalidateStrategy.handle({
         request: new Request("/account/wallet/commonHeader-Partial.html"),
         event,
       }),
     async ({ event }) =>
-      cacheFirstStrategy.handle({
+      staleWhileRevalidateStrategy.handle({
         request: new Request("/account/wallet/mainOpeningTag-Partial.html"),
         event,
       }),
@@ -168,7 +168,7 @@ export const walletPageStream = composeStrategies(
         event,
       }),
     async ({ event }) =>
-      cacheFirstStrategy.handle({
+      staleWhileRevalidateStrategy.handle({
         request: new Request("/account/wallet/options"),
         event,
       }),
@@ -183,12 +183,12 @@ export const walletPageStream = composeStrategies(
         event,
       }),
     async ({ event }) =>
-      cacheFirstStrategy.handle({
+      staleWhileRevalidateStrategy.handle({
         request: new Request("/account/wallet/footer-Partial.html"),
         event,
       }),
     async ({ event }) =>
-      cacheFirstStrategy.handle({
+      staleWhileRevalidateStrategy.handle({
         request: new Request("/account/wallet/closingHtmlTag-Partial.html"),
         event,
       }),
@@ -199,17 +199,17 @@ export const walletPageStream = composeStrategies(
 export const spendPageStream = composeStrategies(
   [
     async ({ event }) =>
-      cacheFirstStrategy.handle({
+      staleWhileRevalidateStrategy.handle({
         request: new Request("/account/spend/openingHtmlTag-Partial.html"),
         event,
       }),
     async ({ event }) =>
-      cacheFirstStrategy.handle({
+      staleWhileRevalidateStrategy.handle({
         request: new Request("/account/spend/header-Partial.html"),
         event,
       }),
     async ({ event }) =>
-      cacheFirstStrategy.handle({
+      staleWhileRevalidateStrategy.handle({
         request: new Request("/account/spend/mainOpeningTag-Partial.html"),
         event,
       }),
@@ -219,17 +219,17 @@ export const spendPageStream = composeStrategies(
         event,
       }),
     async ({ event }) =>
-      cacheFirstStrategy.handle({
+      staleWhileRevalidateStrategy.handle({
         request: new Request("/account/spend/otherhalf"),
         event,
       }),
     async ({ event }) =>
-      cacheFirstStrategy.handle({
+      staleWhileRevalidateStrategy.handle({
         request: new Request("/account/spend/footer-Partial.html"),
         event,
       }),
     async ({ event }) =>
-      cacheFirstStrategy.handle({
+      staleWhileRevalidateStrategy.handle({
         request: new Request("/account/spend/closingHtmlTag-Partial.html"),
         event,
       }),
@@ -240,17 +240,17 @@ export const spendPageStream = composeStrategies(
 export const profilePageStream = composeStrategies(
   [
     async ({ event }) =>
-      cacheFirstStrategy.handle({
+      staleWhileRevalidateStrategy.handle({
         request: new Request("/account/profile/openingHtmlTag-Partial.html"),
         event,
       }),
     async ({ event }) =>
-      cacheFirstStrategy.handle({
+      staleWhileRevalidateStrategy.handle({
         request: new Request("/account/profile/commonHeader-Partial.html"),
         event,
       }),
     async ({ event }) =>
-      cacheFirstStrategy.handle({
+      staleWhileRevalidateStrategy.handle({
         request: new Request("/account/profile/mainOpeningTag-Partial.html"),
         event,
       }),
@@ -265,12 +265,12 @@ export const profilePageStream = composeStrategies(
         event,
       }),
     async ({ event }) =>
-      cacheFirstStrategy.handle({
+      staleWhileRevalidateStrategy.handle({
         request: new Request("/account/profile/footer-Partial.html"),
         event,
       }),
     async ({ event }) =>
-      cacheFirstStrategy.handle({
+      staleWhileRevalidateStrategy.handle({
         request: new Request("/account/profile/closingHtmlTag-Partial.html"),
         event,
       }),
@@ -281,22 +281,22 @@ export const profilePageStream = composeStrategies(
 export const airtimePageStream = composeStrategies(
   [
     async ({ event }) =>
-      cacheFirstStrategy.handle({
+      staleWhileRevalidateStrategy.handle({
         request: new Request("/account/airtime/openingHtmlTag-Partial.html"),
         event,
       }),
     async ({ event }) =>
-      cacheFirstStrategy.handle({
+      staleWhileRevalidateStrategy.handle({
         request: new Request("/account/airtime/header-Partial.html"),
         event,
       }),
     async ({ event }) =>
-      cacheFirstStrategy.handle({
+      staleWhileRevalidateStrategy.handle({
         request: new Request("/account/airtime/mainOpeningTag-Partial.html"),
         event,
       }),
     async ({ event }) =>
-      cacheFirstStrategy.handle({
+      staleWhileRevalidateStrategy.handle({
         request: new Request("/account/airtime/inputNumber"),
         event,
       }),
@@ -306,12 +306,12 @@ export const airtimePageStream = composeStrategies(
         event,
       }),
     async ({ event }) =>
-      cacheFirstStrategy.handle({
+      staleWhileRevalidateStrategy.handle({
         request: new Request("/account/airtime/footer-Partial.html"),
         event,
       }),
     async ({ event }) =>
-      cacheFirstStrategy.handle({
+      staleWhileRevalidateStrategy.handle({
         request: new Request("/account/airtime/closingHtmlTag-Partial.html"),
         event,
       }),
@@ -322,14 +322,14 @@ export const airtimePageStream = composeStrategies(
 export const beneficiariesPageStream = composeStrategies(
   [
     async ({ event }) =>
-      cacheFirstStrategy.handle({
+      staleWhileRevalidateStrategy.handle({
         request: new Request(
           "/account/beneficiaries/openingHtmlTag-Partial.html"
         ),
         event,
       }),
     async ({ event, url }) =>
-      cacheFirstStrategy.handle({
+      staleWhileRevalidateStrategy.handle({
         request: new Request("/account/beneficiaries/header-Partial.html"),
         event,
       }),
@@ -339,12 +339,12 @@ export const beneficiariesPageStream = composeStrategies(
         event,
       }),
     async ({ event }) =>
-      cacheFirstStrategy.handle({
+      staleWhileRevalidateStrategy.handle({
         request: new Request("/account/beneficiaries/footer-Partial.html"),
         event,
       }),
     async ({ event }) =>
-      cacheFirstStrategy.handle({
+      staleWhileRevalidateStrategy.handle({
         request: new Request(
           "/account/beneficiaries/closingHtmlTag-Partial.html"
         ),
@@ -357,17 +357,17 @@ export const beneficiariesPageStream = composeStrategies(
 export const wastePageStream = composeStrategies(
   [
     async ({ event }) =>
-      cacheFirstStrategy.handle({
+      staleWhileRevalidateStrategy.handle({
         request: new Request("/account/waste/openingHtmlTag-Partial.html"),
         event,
       }),
     async ({ event }) =>
-      cacheFirstStrategy.handle({
+      staleWhileRevalidateStrategy.handle({
         request: new Request("/account/waste/commonHeader-Partial.html"),
         event,
       }),
     async ({ event }) =>
-      cacheFirstStrategy.handle({
+      staleWhileRevalidateStrategy.handle({
         request: new Request("/account/waste/mainOpeningTag-Partial.html"),
         event,
       }),
@@ -377,7 +377,7 @@ export const wastePageStream = composeStrategies(
         event,
       }),
     async ({ event }) =>
-      cacheFirstStrategy.handle({
+      staleWhileRevalidateStrategy.handle({
         request: new Request("/account/waste/filter"),
         event,
       }),
@@ -387,12 +387,12 @@ export const wastePageStream = composeStrategies(
         event,
       }),
     async ({ event }) =>
-      cacheFirstStrategy.handle({
+      staleWhileRevalidateStrategy.handle({
         request: new Request("/account/waste/footer-Partial.html"),
         event,
       }),
     async ({ event }) =>
-      cacheFirstStrategy.handle({
+      staleWhileRevalidateStrategy.handle({
         request: new Request("/account/waste/closingHtmlTag-Partial.html"),
         event,
       }),
@@ -403,17 +403,17 @@ export const wastePageStream = composeStrategies(
 export const tipsPageStream = composeStrategies(
   [
     async ({ event }) =>
-      cacheFirstStrategy.handle({
+      staleWhileRevalidateStrategy.handle({
         request: new Request("/account/tips/openingHtmlTag-Partial.html"),
         event,
       }),
     async ({ event }) =>
-      cacheFirstStrategy.handle({
+      staleWhileRevalidateStrategy.handle({
         request: new Request("/account/tips/tipsHeader-Partial.html"),
         event,
       }),
     async ({ event }) =>
-      cacheFirstStrategy.handle({
+      staleWhileRevalidateStrategy.handle({
         request: new Request("/account/tips/mainOpeningTag-Partial.html"),
         event,
       }),
@@ -428,12 +428,12 @@ export const tipsPageStream = composeStrategies(
         event,
       }),
     async ({ event }) =>
-      cacheFirstStrategy.handle({
+      staleWhileRevalidateStrategy.handle({
         request: new Request("/account/tips/footer-Partial.html"),
         event,
       }),
     async ({ event }) =>
-      cacheFirstStrategy.handle({
+      staleWhileRevalidateStrategy.handle({
         request: new Request("/account/tips/closingHtmlTag-Partial.html"),
         event,
       }),
