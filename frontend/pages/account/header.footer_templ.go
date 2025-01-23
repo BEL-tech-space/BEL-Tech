@@ -122,7 +122,9 @@ func Footer(active string, mainClosingTag templ.Component) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		if active == "dashboard" {
+		if active == "dashboard" ||
+			active == "tips" ||
+			active == "waste" {
 			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "<a href=\"/account/dashboard\" class=\"flex flex-col justify-center items-center gap-[0.25rem]\"><img src=\"/public/assets/svg/home bold.svg\" class=\"w-6 aspect-square\"><p class=\"font-[700] text-[0.5rem] leading-[1.25rem] text-[#016934]\">Home</p></a> ")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
@@ -133,7 +135,7 @@ func Footer(active string, mainClosingTag templ.Component) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		if active == "scan" {
+		if active == "scan" || active == "history" {
 			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "<a href=\"/account/scan\" class=\"flex flex-col justify-center items-center gap-[0.25rem]\"><img src=\"/public/assets/svg/scan bold.svg\" class=\"w-6 aspect-square\"><p class=\"font-[700] text-[0.5rem] leading-[1.25rem] text-[#016934]\">Scan</p></a> ")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
@@ -166,7 +168,8 @@ func Footer(active string, mainClosingTag templ.Component) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		if active == "spend" {
+		if active == "spend" || active == "beneficiaries" ||
+			active == "airtime" {
 			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 17, "<a href=\"/account/spend\" class=\"flex flex-col justify-center items-center gap-[0.25rem]\"><img src=\"/public/assets/svg/new_exchange_bold.svg\" class=\"w-6 aspect-square\"><p class=\"font-[700] text-[0.5rem] leading-[1.25rem] text-[#016934]\">Spend</p></a>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err

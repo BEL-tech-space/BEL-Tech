@@ -145,7 +145,7 @@ func scriptForWalletPage() templ.Component {
 			templ_7745c5c3_Var3 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "<script src=\"/public/assets/scripts/htmx.min.js\"></script><script src=\"/public/assets/scripts/hyperscript.min.js\"></script><script src=\"/public/assets/scripts/swiper-bundle.min.js\"></script><script>\n\t\tconst swiperThree = new Swiper( '.mySwiperThree', {\n            mousewheel: true,\n            keyboard: true,\n\t\t\tspaceBetween: 8,\n            autoplay: {\n                delay: 1500,\n                disableOnInteraction: true,\n            },\n        } );\n\t</script>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "<script src=\"/public/assets/scripts/htmx.min.js\"></script><script src=\"/public/assets/scripts/hyperscript.min.js\"></script><script src=\"/public/assets/scripts/swiper-bundle.min.js\"></script><script>\n\t\tconst swiperThree = new Swiper( '.mySwiperThree', {\n            mousewheel: true,\n            keyboard: true,\n\t\t\tspaceBetween: 8,\n            autoplay: {\n                delay: 5000,\n                disableOnInteraction: true,\n            },\n        } );\n\t</script>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -249,7 +249,7 @@ func WalletOptionsPartial() templ.Component {
 			templ_7745c5c3_Var7 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "<section class=\"flex w-full justify-between items-start gap-2\"><a class=\"flex flex-col gap-2 items-center\" data-tippy-content=\"coming soon\"><button class=\"bg-[#CCE1D6] rounded-full p-[0.938rem]\"><img src=\"/public/assets/svg/+.svg\" class=\"w-5 aspect-square\"></button><p class=\"font-poppins font-normal text-xs text-center\">Send</p></a> <a class=\"flex flex-col gap-2 items-center\" data-tippy-content=\"coming soon\"><button class=\"bg-[#CCE1D6] rounded-full p-[0.938rem]\"><img src=\"/public/assets/svg/-.svg\" class=\"w-5 aspect-square\"></button><p class=\"font-poppins font-normal text-xs text-center\">Receive</p></a> <a class=\"flex flex-col gap-2 items-center\" data-tippy-content=\"coming soon\"><button class=\"bg-[#CCE1D6] rounded-full p-[0.938rem]\"><img src=\"/public/assets/svg/cash out.svg\" class=\"w-5 aspect-square\"></button><p class=\"font-poppins font-normal text-xs text-center\">Cash out</p></a> <a class=\"flex flex-col gap-2 items-center\" data-tippy-content=\"coming soon\"><button class=\"bg-[#CCE1D6] rounded-full p-[0.938rem]\"><img src=\"/public/assets/svg/learn.svg\" class=\"w-5 aspect-square\"></button><p class=\"font-poppins font-normal text-xs text-center\">Learn</p></a></section><section class=\"mt-10 mb-4 w-full flex justify-between items-center\"><p class=\"font-semibold text-[0.94rem] leading-[1.14rem]\">Watchlist</p><button><p class=\"font-medium text-[0.63rem] leading-[0.76rem] text-[#016934]\">Past 7d</p></button></section>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "<section class=\"flex w-full justify-between items-start gap-2\"><a class=\"flex flex-col gap-2 items-center\" data-tippy-content=\"coming soon\"><button class=\"bg-[#CCE1D6] rounded-full p-[0.938rem]\"><img src=\"/public/assets/svg/+.svg\" class=\"w-5 aspect-square\"></button><p class=\"font-poppins font-normal text-xs text-center\">Send</p></a> <a class=\"flex flex-col gap-2 items-center\" data-tippy-content=\"coming soon\"><button class=\"bg-[#CCE1D6] rounded-full p-[0.938rem]\"><img src=\"/public/assets/svg/-.svg\" class=\"w-5 aspect-square\"></button><p class=\"font-poppins font-normal text-xs text-center\">Receive</p></a> <a class=\"flex flex-col gap-2 items-center\" data-tippy-content=\"coming soon\"><button class=\"bg-[#CCE1D6] rounded-full p-[0.938rem]\"><img src=\"/public/assets/svg/cash out.svg\" class=\"w-5 aspect-square\"></button><p class=\"font-poppins font-normal text-xs text-center\">Cash out</p></a> <a class=\"flex flex-col gap-2 items-center\" data-tippy-content=\"coming soon\"><button class=\"bg-[#CCE1D6] rounded-full p-[0.938rem]\"><img src=\"/public/assets/svg/learn.svg\" class=\"w-5 aspect-square\"></button><p class=\"font-poppins font-normal text-xs text-center\">Learn</p></a></section><section class=\"mt-10 mb-4 w-full flex justify-between items-center\"><p class=\"font-semibold text-[0.94rem] leading-[1.14rem]\">Watchlist</p><button><p class=\"font-medium text-[0.63rem] leading-[0.76rem] text-[#016934]\">Top MktCap</p></button></section>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -278,7 +278,7 @@ func WalletCoinData(data []types.TokenData) templ.Component {
 			templ_7745c5c3_Var8 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "<section class=\"overflow-y-scroll pb-4 rounded-2xl mb-auto relative h-full\"><ul hx-get=\"/account/wallet/livedata\" hx-trigger=\"every 35s\" hx-swap=\"innerHTML\" class=\"w-full flex flex-col gap-3 justify-around items-center h-full\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "<section class=\"overflow-y-scroll pb-4 rounded-2xl mb-auto relative h-full\"><ul hx-get=\"/account/wallet/livedata\" hx-trigger=\"every 45s\" hx-swap=\"innerHTML\" class=\"w-full flex flex-col gap-3 justify-around items-center h-full\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -316,7 +316,7 @@ func WalletLiveCoinData(data []types.TokenData) templ.Component {
 		}
 		ctx = templ.ClearChildren(ctx)
 		if isAllElementZero(data) {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, "<p class=\"text-center font-poppins font-light text-nowrap absolute inset-0 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2\">No live crypto data ☹️</p>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, "<p class=\"text-center text-[#3A3A3A] font-tt_chocolate font-light text-nowrap absolute inset-0 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2\">No live crypto data ☹️</p>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -480,7 +480,7 @@ func WalletSwiper() templ.Component {
 			return templ_7745c5c3_Err
 		}
 		for range 4 {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 26, "<div class=\"swiper-slide\"><div class=\"bg-[#FEF7FF] rounded-lg flex items-center justify-center gap-3\"><img src=\"/public/assets/svg/cryptoNews.svg\" class=\"w-[6.875rem] aspect-[110/101] mx-[0.313rem] mr-[0.313rem] rounded-lg\"><div class=\"flex flex-col gap-2 my-[1.188rem]\"><div class=\"flex items-center gap-[0.313rem]\"><p class=\"font-[600] text-[0.688rem] leading-[0.838rem]\">Solana</p><picture><source srcset=\"/public/assets/images/Recycle_small.webp\" type=\"image/webp\"> <img src=\"/public/assets/images/Recycle_small.png\" alt=\"\" class=\"w-[0.813rem] aspect-square\"></picture></div><p class=\"font-medium text-[0.625rem] leading-[0.875rem] text-justify hyphens-auto break-words\">Solana's network has surpassed the Binance Smart Chain (BNB) to become the second-largest by liquid TVL, second only to Ethereum. This surge in TVL reflects increased deposits, which reached 42.5 million SOL, the highest since 2022</p></div></div></div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 26, "<div class=\"swiper-slide\"><div class=\"bg-[#FEF7FF] rounded-lg flex items-center justify-center gap-3\"><img src=\"/public/assets/svg/cryptoNews.svg\" class=\"w-[6.875rem] aspect-[110/101] mx-[0.313rem] mr-[0.313rem] rounded-lg\"><div class=\"flex flex-col gap-2 my-[1.188rem]\"><div class=\"flex items-center gap-[0.313rem]\"><p class=\"font-[600] text-[0.688rem] leading-[0.838rem]\">News & Trends</p><picture><source srcset=\"/public/assets/images/Recycle_small.webp\" type=\"image/webp\"> <img src=\"/public/assets/images/Recycle_small.png\" alt=\"\" class=\"w-[0.813rem] aspect-square\"></picture></div><p class=\"font-medium text-[0.625rem] leading-[0.875rem] text-justify hyphens-auto break-words\">Comming soon!!!. This section would contain hot & trending news in the Beltech community, Recycle management and DEPIN (Decentralized Physical Infrastructure Networks) in the Solana ecosystem.</p></div></div></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

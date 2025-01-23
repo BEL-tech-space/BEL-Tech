@@ -20,6 +20,7 @@ import {
   airtimePageStream,
   beneficiariesPageStream,
   wastePageStream,
+  tipsPageStream,
 } from "./sw-strategies";
 
 declare const self: ServiceWorkerGlobalScope & { __WB_MANIFEST: any[] };
@@ -163,20 +164,9 @@ registerRoute(({ url }) => {
 }, wastePageStream);
 
 // account/tips
-registerRoute(
-  ({ url }) => {
-    const tipsPathPattern = /.*\/account\/tips\/(paper|glass|plastics|metal)$/;
-    return tipsPathPattern.test(url.href);
-  },
-  new CacheFirst({
-    cacheName: contentCache,
-    plugins: [
-      new ExpirationPlugin({
-        maxEntries: 30,
-        maxAgeSeconds: 60 * 60 * 24 * 30 * 3, // about 3 month
-      }),
-    ],
-  })
-);
+registerRoute(({ url }) => {
+  const tipsPathPattern = /.*\/account\/tips\/(paper|glass|plastics|metal)$/;
+  return tipsPathPattern.test(url.href);
+}, tipsPageStream);
 
 precacheAndRoute(self.__WB_MANIFEST || []);

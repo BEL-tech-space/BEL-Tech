@@ -395,14 +395,14 @@ func wasteEmptyHistory(wasteType string) templ.Component {
 			templ_7745c5c3_Var13 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 21, "<section class=\"h-full w-full flex justify-center items-center\"><p class=\"font-tt_chocolate font-bold text-sm text-[#3A3A3A]\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 21, "<section class=\"h-full w-full flex justify-center items-center\"><p class=\"text-[#3A3A3A] text-base font-tt_chocolate font-light text-nowrap\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var14 string
-		templ_7745c5c3_Var14, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("No history yet for %s", strings.ToUpper(wasteType)))
+		templ_7745c5c3_Var14, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("No history for %s", strings.ToUpper(wasteType)))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wasteHistory.templ`, Line: 167, Col: 131}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wasteHistory.templ`, Line: 167, Col: 142}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var14))
 		if templ_7745c5c3_Err != nil {

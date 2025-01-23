@@ -373,7 +373,7 @@ export const wastePageStream = composeStrategies(
       }),
     async ({ event, url }) =>
       networkFirstStrategy.handle({
-        request: matchingPathVariableForWaste(url, "quickInfo"),
+        request: matchingPathVariableForWaste(url, "quickInfo", "waste"),
         event,
       }),
     async ({ event }) =>
@@ -383,7 +383,7 @@ export const wastePageStream = composeStrategies(
       }),
     async ({ event, url }) =>
       networkFirstStrategy.handle({
-        request: matchingPathVariableForWaste(url, "history"),
+        request: matchingPathVariableForWaste(url, "history", "waste"),
         event,
       }),
     async ({ event }) =>
@@ -400,8 +400,53 @@ export const wastePageStream = composeStrategies(
   {}
 );
 
-function matchingPathVariableForWaste(url: URL, endpoint: string) {
+export const tipsPageStream = composeStrategies(
+  [
+    async ({ event }) =>
+      cacheFirstStrategy.handle({
+        request: new Request("/account/tips/openingHtmlTag-Partial.html"),
+        event,
+      }),
+    async ({ event }) =>
+      cacheFirstStrategy.handle({
+        request: new Request("/account/tips/tipsHeader-Partial.html"),
+        event,
+      }),
+    async ({ event }) =>
+      cacheFirstStrategy.handle({
+        request: new Request("/account/tips/mainOpeningTag-Partial.html"),
+        event,
+      }),
+    async ({ event, url }) =>
+      networkFirstStrategy.handle({
+        request: matchingPathVariableForWaste(url, "quickInfo", "tips"),
+        event,
+      }),
+    async ({ event, url }) =>
+      networkFirstStrategy.handle({
+        request: matchingPathVariableForWaste(url, "article", "tips"),
+        event,
+      }),
+    async ({ event }) =>
+      cacheFirstStrategy.handle({
+        request: new Request("/account/tips/footer-Partial.html"),
+        event,
+      }),
+    async ({ event }) =>
+      cacheFirstStrategy.handle({
+        request: new Request("/account/tips/closingHtmlTag-Partial.html"),
+        event,
+      }),
+  ],
+  {}
+);
+
+function matchingPathVariableForWaste(
+  url: URL,
+  endpoint: string,
+  page: string
+) {
   const segments = url.pathname.split("/");
   const lastSegment = segments[segments.length - 1];
-  return new Request(`/account/waste/${endpoint}/${lastSegment}`);
+  return new Request(`/account/${page}/${endpoint}/${lastSegment}`);
 }
