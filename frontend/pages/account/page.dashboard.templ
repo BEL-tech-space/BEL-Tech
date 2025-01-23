@@ -37,45 +37,6 @@ templ DashboardMainOpeningTag() {
 	@templ.Raw(`<main class="grow overflow-y-scroll pl-6 pr-[1.56rem] pt-[1.875rem] pb-2">`)
 }
 
-templ scriptForDashboardPage() {
-	<script src="/public/assets/scripts/swiper-bundle.min.js"></script>
-	<script src="/public/assets/scripts/htmx.min.js"></script>
-	<script>
-        const swiperOne = new Swiper( '.mySwiperOne', {
-            direction: "horizontal",
-            slidesPerView: 2,
-            mousewheel: true,
-            spaceBetween: 8,
-            autoplay: {
-                delay: 4000,
-                disableOnInteraction: true,
-            },
-        } );
-
-        const swiperTwo = new Swiper( '.mySwiperTwo', {
-            mousewheel: true,
-            keyboard: true,
-			spaceBetween: 8,
-            autoplay: {
-                delay: 6000,
-                disableOnInteraction: true,
-            },
-        } );
-
-		document.querySelectorAll('.graph-select').forEach(button => {
-			button.addEventListener('click', () => {
-				document.querySelectorAll('.graph-select').forEach(btn => {
-					btn.classList.remove('bg-[#016934]', 'text-[#FFFFFF]');
-					btn.classList.add('bg-[#FFFFFF]', 'text-[#000000]');
-				});
-				button.classList.remove('bg-[#FFFFFF]', 'text-[#000000]');
-				button.classList.add('bg-[#016934]', 'text-[#FFFFFF]');
-			});
-		});
-    </script>
-	@serviceWorkerRegistration()
-}
-
 templ DashboardSwiperOne() {
 	<section class="flex items-center gap-1">
 		<p class="leading-[1.143rem] font-semibold text-[0.938rem]">Let's Recycle</p>
@@ -102,7 +63,7 @@ templ DashboardSwiperOne() {
 						</picture>
 						<div class="absolute bottom-4 left-4 text-white text-left">
 							<p class="font-semibold text-xs leading-[0.838rem]">PAPER</p>
-							<p class="font-bold text-[0.625rem] leading-[0.762rem]">50 BEL</p>
+							<p class="font-bold text-[0.625rem] leading-[0.762rem]">0 BEL</p>
 						</div>
 					</a>
 				</div>
@@ -118,7 +79,7 @@ templ DashboardSwiperOne() {
 						</picture>
 						<div class="absolute bottom-4 left-4 text-white text-left">
 							<p class="font-semibold text-xs leading-[0.838rem]">GLASS</p>
-							<p class="font-bold text-[0.625rem] leading-[0.762rem]">50 BEL</p>
+							<p class="font-bold text-[0.625rem] leading-[0.762rem]">0 BEL</p>
 						</div>
 					</a>
 				</div>
@@ -134,7 +95,7 @@ templ DashboardSwiperOne() {
 						</picture>
 						<div class="absolute bottom-4 left-4 text-white text-left">
 							<p class="font-semibold text-xs leading-[0.838rem]">METAL</p>
-							<p class="font-bold text-[0.625rem] leading-[0.762rem]">50 BEL</p>
+							<p class="font-bold text-[0.625rem] leading-[0.762rem]">0 BEL</p>
 						</div>
 					</a>
 				</div>
@@ -150,7 +111,7 @@ templ DashboardSwiperOne() {
 						</picture>
 						<div class="absolute bottom-4 left-4 text-white text-left">
 							<p class="font-semibold text-xs leading-[0.838rem]">PLASTICS</p>
-							<p class="font-bold text-[0.625rem] leading-[0.762rem]">50 BEL</p>
+							<p class="font-bold text-[0.625rem] leading-[0.762rem]">0 BEL</p>
 						</div>
 					</a>
 				</div>
@@ -331,6 +292,45 @@ templ DashboardSwiperTwo() {
 			</div>
 		</div>
 	</section>
+}
+
+templ scriptForDashboardPage() {
+	<script src="/public/assets/scripts/swiper-bundle.min.js"></script>
+	<script src="/public/assets/scripts/htmx.min.js"></script>
+	<script>
+        const swiperOne = new Swiper( '.mySwiperOne', {
+            direction: "horizontal",
+            slidesPerView: 2,
+            mousewheel: true,
+            spaceBetween: 8,
+            autoplay: {
+                delay: 3750,
+                disableOnInteraction: true,
+            },
+        } );
+
+        const swiperTwo = new Swiper( '.mySwiperTwo', {
+            mousewheel: true,
+            keyboard: true,
+			spaceBetween: 8,
+            autoplay: {
+                delay: 5000,
+                disableOnInteraction: true,
+            },
+        } );
+
+		document.querySelectorAll('.graph-select').forEach(button => {
+			button.addEventListener('click', () => {
+				document.querySelectorAll('.graph-select').forEach(btn => {
+					btn.classList.remove('bg-[#016934]', 'text-[#FFFFFF]');
+					btn.classList.add('bg-[#FFFFFF]', 'text-[#000000]');
+				});
+				button.classList.remove('bg-[#FFFFFF]', 'text-[#000000]');
+				button.classList.add('bg-[#016934]', 'text-[#FFFFFF]');
+			});
+		});
+    </script>
+	@serviceWorkerRegistration()
 }
 
 templ confetti() {

@@ -136,14 +136,15 @@ func produceChartHTML(values [4]float64, t time.Time) (template.HTML, bool) {
 		isEMpty = true
 	}
 	return WeekStatBarChart(
-		BarChartData{
-			XAxis: []string{"Plastic", "Glass", "Metal", "Paper"},
-			YAxis: values[:],
-			Month: t.Month().String(),
-			Year:  fmt.Sprintf("%d", t.Year()),
-			Keys:  []string{},
-		},
-	), isEMpty
+			BarChartData{
+				XAxis: []string{"Plastic", "Glass", "Metal", "Paper"},
+				YAxis: values[:],
+				Month: t.Month().String(),
+				Year:  fmt.Sprintf("%d", t.Year()),
+				Keys:  []string{},
+			},
+		),
+		isEMpty
 }
 
 func WeekStatBarChart(data BarChartData) template.HTML {

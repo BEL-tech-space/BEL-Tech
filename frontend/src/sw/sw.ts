@@ -8,7 +8,6 @@ import {
 import { registerRoute } from "workbox-routing";
 import { precacheAndRoute } from "workbox-precaching";
 import { ExpirationPlugin } from "workbox-expiration";
-import { clientsClaim } from "workbox-core";
 import {
   contentCache,
   partialsCache,
@@ -25,13 +24,13 @@ import {
 
 declare const self: ServiceWorkerGlobalScope & { __WB_MANIFEST: any[] };
 
-(self as any).__WB_DISABLE_DEV_LOGS = true;
-
 addEventListener("message", (event) => {
   if (event.data && event.data.type === "SKIP_WAITING") {
     (self as any).skipWaiting();
   }
 });
+
+(self as any).__WB_DISABLE_DEV_LOGS = true;
 
 navigationPreload.enable();
 
@@ -44,7 +43,7 @@ registerRoute(
     cacheName: partialsCache,
     plugins: [
       new ExpirationPlugin({
-        maxEntries: 30,
+        maxEntries: 25,
         maxAgeSeconds: 60 * 60 * 24 * 30 * 3, // about 3 month
       }),
     ],
@@ -58,7 +57,7 @@ registerRoute(
     cacheName: contentCache,
     plugins: [
       new ExpirationPlugin({
-        maxEntries: 30,
+        maxEntries: 25,
         maxAgeSeconds: 60 * 60 * 24 * 30 * 3, // about 3 month
       }),
     ],
@@ -72,7 +71,7 @@ registerRoute(
     cacheName: contentCache,
     plugins: [
       new ExpirationPlugin({
-        maxEntries: 30,
+        maxEntries: 25,
         maxAgeSeconds: 60 * 60 * 24 * 30 * 3, // about 3 month
       }),
     ],
@@ -91,7 +90,7 @@ registerRoute(
     cacheName: contentCache,
     plugins: [
       new ExpirationPlugin({
-        maxEntries: 30,
+        maxEntries: 25,
         maxAgeSeconds: 60 * 60 * 24 * 30 * 3, // about 3 month
       }),
     ],
@@ -170,3 +169,5 @@ registerRoute(({ url }) => {
 }, tipsPageStream);
 
 precacheAndRoute(self.__WB_MANIFEST || []);
+
+//
