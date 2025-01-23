@@ -30,7 +30,6 @@ func (a *App) accountRouter() http.Handler {
 			r.Get("/beneficiaries", a.beneficiariesPageHandler)
 			r.Post("/airtime", a.airtimePageHandler)
 			r.Get("/profile", a.ProfilePageHandler)
-
 		}
 
 		// this endpoint is reach from the signUp/login page
