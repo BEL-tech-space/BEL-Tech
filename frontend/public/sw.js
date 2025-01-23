@@ -4212,15 +4212,15 @@ This is generally NOT safe. Learn more at https://bit.ly/wb-precache`;
   });
   var dashboardPageStream = strategy(
     [
-      async ({ event }) => cacheFirstStrategy.handle({
+      async ({ event }) => staleWhileRevalidateStrategy.handle({
         request: new Request("/account/dashboard/openingHtmlTag-Partial.html"),
         event
       }),
-      async ({ event }) => cacheFirstStrategy.handle({
+      async ({ event }) => staleWhileRevalidateStrategy.handle({
         request: new Request("/account/dashboard/commonHeader-Partial.html"),
         event
       }),
-      async ({ event }) => cacheFirstStrategy.handle({
+      async ({ event }) => staleWhileRevalidateStrategy.handle({
         request: new Request("/account/dashboard/mainOpeningTag-Partial.html"),
         event
       }),
@@ -4236,11 +4236,11 @@ This is generally NOT safe. Learn more at https://bit.ly/wb-precache`;
         request: new Request("/account/dashboard/swiperTwo"),
         event
       }),
-      async ({ event }) => cacheFirstStrategy.handle({
+      async ({ event }) => staleWhileRevalidateStrategy.handle({
         request: new Request("/account/dashboard/footer-Partial.html"),
         event
       }),
-      async ({ event }) => cacheFirstStrategy.handle({
+      async ({ event }) => staleWhileRevalidateStrategy.handle({
         request: new Request("/account/dashboard/closingHtmlTag-Partial.html"),
         event
       })
@@ -4249,11 +4249,11 @@ This is generally NOT safe. Learn more at https://bit.ly/wb-precache`;
   );
   var locationPageStream = strategy(
     [
-      async ({ event }) => cacheFirstStrategy.handle({
+      async ({ event }) => staleWhileRevalidateStrategy.handle({
         request: new Request("/account/location/openingHtmlTag-Partial.html"),
         event
       }),
-      async ({ event }) => cacheFirstStrategy.handle({
+      async ({ event }) => staleWhileRevalidateStrategy.handle({
         request: new Request("/account/location/header-Partial.html"),
         event
       }),
@@ -4263,11 +4263,11 @@ This is generally NOT safe. Learn more at https://bit.ly/wb-precache`;
         }),
         event
       }),
-      async ({ event }) => cacheFirstStrategy.handle({
+      async ({ event }) => staleWhileRevalidateStrategy.handle({
         request: new Request("/account/location/footer-Partial.html"),
         event
       }),
-      async ({ event }) => cacheFirstStrategy.handle({
+      async ({ event }) => staleWhileRevalidateStrategy.handle({
         request: new Request("/account/location/closingHtmlTag-Partial.html"),
         event
       })
@@ -4276,15 +4276,15 @@ This is generally NOT safe. Learn more at https://bit.ly/wb-precache`;
   );
   var walletPageStream = strategy(
     [
-      async ({ event }) => cacheFirstStrategy.handle({
+      async ({ event }) => staleWhileRevalidateStrategy.handle({
         request: new Request("/account/wallet/openingHtmlTag-Partial.html"),
         event
       }),
-      async ({ event }) => cacheFirstStrategy.handle({
+      async ({ event }) => staleWhileRevalidateStrategy.handle({
         request: new Request("/account/wallet/commonHeader-Partial.html"),
         event
       }),
-      async ({ event }) => cacheFirstStrategy.handle({
+      async ({ event }) => staleWhileRevalidateStrategy.handle({
         request: new Request("/account/wallet/mainOpeningTag-Partial.html"),
         event
       }),
@@ -4292,7 +4292,7 @@ This is generally NOT safe. Learn more at https://bit.ly/wb-precache`;
         request: new Request("/account/wallet/balance"),
         event
       }),
-      async ({ event }) => cacheFirstStrategy.handle({
+      async ({ event }) => staleWhileRevalidateStrategy.handle({
         request: new Request("/account/wallet/options"),
         event
       }),
@@ -4304,11 +4304,11 @@ This is generally NOT safe. Learn more at https://bit.ly/wb-precache`;
         request: new Request("/account/wallet/swiper"),
         event
       }),
-      async ({ event }) => cacheFirstStrategy.handle({
+      async ({ event }) => staleWhileRevalidateStrategy.handle({
         request: new Request("/account/wallet/footer-Partial.html"),
         event
       }),
-      async ({ event }) => cacheFirstStrategy.handle({
+      async ({ event }) => staleWhileRevalidateStrategy.handle({
         request: new Request("/account/wallet/closingHtmlTag-Partial.html"),
         event
       })
@@ -4317,15 +4317,15 @@ This is generally NOT safe. Learn more at https://bit.ly/wb-precache`;
   );
   var spendPageStream = strategy(
     [
-      async ({ event }) => cacheFirstStrategy.handle({
+      async ({ event }) => staleWhileRevalidateStrategy.handle({
         request: new Request("/account/spend/openingHtmlTag-Partial.html"),
         event
       }),
-      async ({ event }) => cacheFirstStrategy.handle({
+      async ({ event }) => staleWhileRevalidateStrategy.handle({
         request: new Request("/account/spend/header-Partial.html"),
         event
       }),
-      async ({ event }) => cacheFirstStrategy.handle({
+      async ({ event }) => staleWhileRevalidateStrategy.handle({
         request: new Request("/account/spend/mainOpeningTag-Partial.html"),
         event
       }),
@@ -4333,15 +4333,15 @@ This is generally NOT safe. Learn more at https://bit.ly/wb-precache`;
         request: new Request("/account/spend/balance"),
         event
       }),
-      async ({ event }) => cacheFirstStrategy.handle({
+      async ({ event }) => staleWhileRevalidateStrategy.handle({
         request: new Request("/account/spend/otherhalf"),
         event
       }),
-      async ({ event }) => cacheFirstStrategy.handle({
+      async ({ event }) => staleWhileRevalidateStrategy.handle({
         request: new Request("/account/spend/footer-Partial.html"),
         event
       }),
-      async ({ event }) => cacheFirstStrategy.handle({
+      async ({ event }) => staleWhileRevalidateStrategy.handle({
         request: new Request("/account/spend/closingHtmlTag-Partial.html"),
         event
       })
@@ -4350,15 +4350,15 @@ This is generally NOT safe. Learn more at https://bit.ly/wb-precache`;
   );
   var profilePageStream = strategy(
     [
-      async ({ event }) => cacheFirstStrategy.handle({
+      async ({ event }) => staleWhileRevalidateStrategy.handle({
         request: new Request("/account/profile/openingHtmlTag-Partial.html"),
         event
       }),
-      async ({ event }) => cacheFirstStrategy.handle({
+      async ({ event }) => staleWhileRevalidateStrategy.handle({
         request: new Request("/account/profile/commonHeader-Partial.html"),
         event
       }),
-      async ({ event }) => cacheFirstStrategy.handle({
+      async ({ event }) => staleWhileRevalidateStrategy.handle({
         request: new Request("/account/profile/mainOpeningTag-Partial.html"),
         event
       }),
@@ -4370,11 +4370,11 @@ This is generally NOT safe. Learn more at https://bit.ly/wb-precache`;
         request: new Request("/account/profile/formPartial"),
         event
       }),
-      async ({ event }) => cacheFirstStrategy.handle({
+      async ({ event }) => staleWhileRevalidateStrategy.handle({
         request: new Request("/account/profile/footer-Partial.html"),
         event
       }),
-      async ({ event }) => cacheFirstStrategy.handle({
+      async ({ event }) => staleWhileRevalidateStrategy.handle({
         request: new Request("/account/profile/closingHtmlTag-Partial.html"),
         event
       })
@@ -4383,19 +4383,19 @@ This is generally NOT safe. Learn more at https://bit.ly/wb-precache`;
   );
   var airtimePageStream = strategy(
     [
-      async ({ event }) => cacheFirstStrategy.handle({
+      async ({ event }) => staleWhileRevalidateStrategy.handle({
         request: new Request("/account/airtime/openingHtmlTag-Partial.html"),
         event
       }),
-      async ({ event }) => cacheFirstStrategy.handle({
+      async ({ event }) => staleWhileRevalidateStrategy.handle({
         request: new Request("/account/airtime/header-Partial.html"),
         event
       }),
-      async ({ event }) => cacheFirstStrategy.handle({
+      async ({ event }) => staleWhileRevalidateStrategy.handle({
         request: new Request("/account/airtime/mainOpeningTag-Partial.html"),
         event
       }),
-      async ({ event }) => cacheFirstStrategy.handle({
+      async ({ event }) => staleWhileRevalidateStrategy.handle({
         request: new Request("/account/airtime/inputNumber"),
         event
       }),
@@ -4403,11 +4403,11 @@ This is generally NOT safe. Learn more at https://bit.ly/wb-precache`;
         request: new Request("/account/airtime/beneficiaries"),
         event
       }),
-      async ({ event }) => cacheFirstStrategy.handle({
+      async ({ event }) => staleWhileRevalidateStrategy.handle({
         request: new Request("/account/airtime/footer-Partial.html"),
         event
       }),
-      async ({ event }) => cacheFirstStrategy.handle({
+      async ({ event }) => staleWhileRevalidateStrategy.handle({
         request: new Request("/account/airtime/closingHtmlTag-Partial.html"),
         event
       })
@@ -4416,13 +4416,13 @@ This is generally NOT safe. Learn more at https://bit.ly/wb-precache`;
   );
   var beneficiariesPageStream = strategy(
     [
-      async ({ event }) => cacheFirstStrategy.handle({
+      async ({ event }) => staleWhileRevalidateStrategy.handle({
         request: new Request(
           "/account/beneficiaries/openingHtmlTag-Partial.html"
         ),
         event
       }),
-      async ({ event, url }) => cacheFirstStrategy.handle({
+      async ({ event, url }) => staleWhileRevalidateStrategy.handle({
         request: new Request("/account/beneficiaries/header-Partial.html"),
         event
       }),
@@ -4430,11 +4430,11 @@ This is generally NOT safe. Learn more at https://bit.ly/wb-precache`;
         request: new Request("/account/beneficiaries/main"),
         event
       }),
-      async ({ event }) => cacheFirstStrategy.handle({
+      async ({ event }) => staleWhileRevalidateStrategy.handle({
         request: new Request("/account/beneficiaries/footer-Partial.html"),
         event
       }),
-      async ({ event }) => cacheFirstStrategy.handle({
+      async ({ event }) => staleWhileRevalidateStrategy.handle({
         request: new Request(
           "/account/beneficiaries/closingHtmlTag-Partial.html"
         ),
@@ -4445,15 +4445,15 @@ This is generally NOT safe. Learn more at https://bit.ly/wb-precache`;
   );
   var wastePageStream = strategy(
     [
-      async ({ event }) => cacheFirstStrategy.handle({
+      async ({ event }) => staleWhileRevalidateStrategy.handle({
         request: new Request("/account/waste/openingHtmlTag-Partial.html"),
         event
       }),
-      async ({ event }) => cacheFirstStrategy.handle({
+      async ({ event }) => staleWhileRevalidateStrategy.handle({
         request: new Request("/account/waste/commonHeader-Partial.html"),
         event
       }),
-      async ({ event }) => cacheFirstStrategy.handle({
+      async ({ event }) => staleWhileRevalidateStrategy.handle({
         request: new Request("/account/waste/mainOpeningTag-Partial.html"),
         event
       }),
@@ -4461,7 +4461,7 @@ This is generally NOT safe. Learn more at https://bit.ly/wb-precache`;
         request: matchingPathVariableForWaste(url, "quickInfo", "waste"),
         event
       }),
-      async ({ event }) => cacheFirstStrategy.handle({
+      async ({ event }) => staleWhileRevalidateStrategy.handle({
         request: new Request("/account/waste/filter"),
         event
       }),
@@ -4469,11 +4469,11 @@ This is generally NOT safe. Learn more at https://bit.ly/wb-precache`;
         request: matchingPathVariableForWaste(url, "history", "waste"),
         event
       }),
-      async ({ event }) => cacheFirstStrategy.handle({
+      async ({ event }) => staleWhileRevalidateStrategy.handle({
         request: new Request("/account/waste/footer-Partial.html"),
         event
       }),
-      async ({ event }) => cacheFirstStrategy.handle({
+      async ({ event }) => staleWhileRevalidateStrategy.handle({
         request: new Request("/account/waste/closingHtmlTag-Partial.html"),
         event
       })
@@ -4482,15 +4482,15 @@ This is generally NOT safe. Learn more at https://bit.ly/wb-precache`;
   );
   var tipsPageStream = strategy(
     [
-      async ({ event }) => cacheFirstStrategy.handle({
+      async ({ event }) => staleWhileRevalidateStrategy.handle({
         request: new Request("/account/tips/openingHtmlTag-Partial.html"),
         event
       }),
-      async ({ event }) => cacheFirstStrategy.handle({
+      async ({ event }) => staleWhileRevalidateStrategy.handle({
         request: new Request("/account/tips/tipsHeader-Partial.html"),
         event
       }),
-      async ({ event }) => cacheFirstStrategy.handle({
+      async ({ event }) => staleWhileRevalidateStrategy.handle({
         request: new Request("/account/tips/mainOpeningTag-Partial.html"),
         event
       }),
@@ -4502,11 +4502,11 @@ This is generally NOT safe. Learn more at https://bit.ly/wb-precache`;
         request: matchingPathVariableForWaste(url, "article", "tips"),
         event
       }),
-      async ({ event }) => cacheFirstStrategy.handle({
+      async ({ event }) => staleWhileRevalidateStrategy.handle({
         request: new Request("/account/tips/footer-Partial.html"),
         event
       }),
-      async ({ event }) => cacheFirstStrategy.handle({
+      async ({ event }) => staleWhileRevalidateStrategy.handle({
         request: new Request("/account/tips/closingHtmlTag-Partial.html"),
         event
       })

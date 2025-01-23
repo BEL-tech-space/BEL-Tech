@@ -151,6 +151,10 @@ func scriptForProfilePage() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
+		templ_7745c5c3_Err = commingSoonTooltip().Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
 		return nil
 	})
 }
@@ -222,7 +226,7 @@ func ProfileChangeDisplayIcon(avatarURL string) templ.Component {
 		var templ_7745c5c3_Var6 string
 		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(avatarURL)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.profile.templ`, Line: 60, Col: 22}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.profile.templ`, Line: 61, Col: 22}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 		if templ_7745c5c3_Err != nil {
@@ -264,20 +268,20 @@ func ProfileUpdataAccountInfoPartial(acc Account) templ.Component {
 		var templ_7745c5c3_Var8 string
 		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(acc.DisplayName)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.profile.templ`, Line: 81, Col: 98}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.profile.templ`, Line: 94, Col: 33}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "\" class=\"outline-none border-solid border-[#569B78] border-[0.0313rem] rounded p-2 w-full\"></div><div class=\"w-full flex flex-col justify-start items-start gap-1\"><label for=\"\" class=\"font-semibold text-xs\">Email:</label> <input disabled type=\"text\" name=\"nickname\" id=\"email\" placeholder=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "\" class=\"outline-none border-solid border-[#569B78] border-[0.0313rem] rounded p-2 w-full\" _=\"on input \n\t\t\t\t\tif my.value.trim()\n\t\t\t\t\t\tremove @diabled from #saveButton then \n\t\t\t\t\t\tremove .opacity-45 from #saveButton then\n\t\t\t\t\t\tadd .color to #saveButton\n\t\t\t\t\telse\n\t\t\t\t\t\tadd @diabled to #saveButton then \n\t\t\t\t\t\tadd .opacity-45 to #saveButton then\n\t\t\t\t\t\tremove .color from #saveButton\n\t\t\t\t\tend\"><style>\n\t\t\t.color {\n\t\t\t\tbackground-color: #016934;\n\t\t\t}\n\t\t\t</style></div><div class=\"w-full flex flex-col justify-start items-start gap-1\"><label for=\"\" class=\"font-semibold text-xs\">Email:</label> <input disabled type=\"text\" name=\"nickname\" id=\"email\" placeholder=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var9 string
 		templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(acc.Email)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.profile.templ`, Line: 85, Col: 81}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.profile.templ`, Line: 115, Col: 81}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 		if templ_7745c5c3_Err != nil {
@@ -290,13 +294,13 @@ func ProfileUpdataAccountInfoPartial(acc Account) templ.Component {
 		var templ_7745c5c3_Var10 string
 		templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(acc.SplWallet)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.profile.templ`, Line: 89, Col: 86}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.profile.templ`, Line: 119, Col: 86}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, "\" class=\"outline-none  border-solid border-[#569B78] border-[0.0313rem] rounded p-2 w-full\"> <button class=\"absolute top-2/4 right-4\" _=\"on click call #createNewPinDialog.showModal() then halt\"><img src=\"/public/assets/svg/connectWallet.svg\" alt=\"\" class=\"w-5 aspect-square\"></button></div><section class=\"mt-10 w-full grid grid-cols-profileButton items-center gap-[0.625rem]\"><button type=\"submit\" class=\"w-full text-center bg-[#016934] text-white text-sm tracking-[0.1px] font-medium py-[0.625rem] px-1 rounded-md\">Save Changes</button> <a href=\"/account/auth/logout/google\" title=\"logout\" class=\"bg-[#FFE8E8] rounded-md flex justify-center items-center\"><img src=\"/public/assets/svg/login.svg\" class=\"w-6 aspect-square m-2\"></a></section></form>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, "\" class=\"outline-none  border-solid border-[#569B78] border-[0.0313rem] rounded p-2 w-full\"> <button class=\"absolute top-2/4 right-4\" data-tippy-content=\"wallet functionality coming soon\"><img src=\"/public/assets/svg/connectWallet.svg\" alt=\"\" class=\"w-5 aspect-square\"></button></div><section class=\"mt-10 w-full grid grid-cols-profileButton items-center gap-[0.625rem]\"><button id=\"saveButton\" disabled type=\"submit\" class=\"w-full text-center opacity-45 bg-green-400 text-white text-sm tracking-[0.1px] font-medium py-[0.625rem] px-1 rounded-md\">Save Changes</button> <a href=\"/account/auth/logout/google\" title=\"logout\" class=\"bg-[#FFE8E8] rounded-md flex justify-center items-center\"><img src=\"/public/assets/svg/login.svg\" class=\"w-6 aspect-square m-2\"></a></section></form>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

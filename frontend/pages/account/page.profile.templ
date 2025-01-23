@@ -39,6 +39,7 @@ templ ProfileMain(acc Account) {
 templ scriptForProfilePage() {
 	<script src="/public/assets/scripts/hyperscript.min.js"></script>
 	<script src="/public/assets/scripts/htmx.min.js"></script>
+	@commingSoonTooltip()
 }
 
 templ ProfileMainOpeningTag() {
@@ -75,10 +76,39 @@ templ ProfileChangeDisplayIcon(avatarURL string) {
 }
 
 templ ProfileUpdataAccountInfoPartial(acc Account) {
-	<form hx-post="/account/profile/changeDisplayName" hx-trigger="submit" hx-target="#header" hx-swap="outerHTML" class="flex flex-col gap-3 justify-center items-center">
+	<form
+		hx-post="/account/profile/changeDisplayName"
+		hx-trigger="submit"
+		hx-target="#header"
+		hx-swap="outerHTML"
+		class="flex flex-col gap-3 justify-center items-center"
+	>
 		<div class="w-full flex flex-col justify-start items-start gap-1">
 			<label for="" class="font-semibold text-xs">Display Name:</label>
-			<input type="text" name="nickname" id="nickname" min="2" max="20" placeholder={ acc.DisplayName } class="outline-none border-solid border-[#569B78] border-[0.0313rem] rounded p-2 w-full"/>
+			<input
+				type="text"
+				name="nickname"
+				id="nickname"
+				min="2"
+				max="20"
+				placeholder={ acc.DisplayName }
+				class="outline-none border-solid border-[#569B78] border-[0.0313rem] rounded p-2 w-full"
+				_="on input 
+					if my.value.trim()
+						remove @diabled from #saveButton then 
+						remove .opacity-45 from #saveButton then
+						add .color to #saveButton
+					else
+						add @diabled to #saveButton then 
+						add .opacity-45 to #saveButton then
+						remove .color from #saveButton
+					end"
+			/>
+			<style>
+			.color {
+				background-color: #016934;
+			}
+			</style>
 		</div>
 		<div class="w-full flex flex-col justify-start items-start gap-1">
 			<label for="" class="font-semibold text-xs">Email:</label>
@@ -87,12 +117,18 @@ templ ProfileUpdataAccountInfoPartial(acc Account) {
 		<div class="w-full flex flex-col justify-start items-start gap-1 relative">
 			<label for="" class="font-semibold text-xs">Wallet:</label>
 			<input disabled type="text" name="nickname" id="wallet" placeholder={ acc.SplWallet } class="outline-none  border-solid border-[#569B78] border-[0.0313rem] rounded p-2 w-full"/>
-			<button class="absolute top-2/4 right-4" _="on click call #createNewPinDialog.showModal() then halt">
+			<button class="absolute top-2/4 right-4" data-tippy-content="wallet functionality coming soon">
+				// _="on click call #createNewPinDialog.showModal() then halt"
 				<img src="/public/assets/svg/connectWallet.svg" alt="" class="w-5 aspect-square"/>
 			</button>
 		</div>
 		<section class="mt-10 w-full grid grid-cols-profileButton items-center gap-[0.625rem]">
-			<button type="submit" class="w-full text-center bg-[#016934] text-white text-sm tracking-[0.1px] font-medium py-[0.625rem] px-1 rounded-md">Save Changes</button>
+			<button
+				id="saveButton"
+				disabled
+				type="submit"
+				class="w-full text-center opacity-45 bg-green-400 text-white text-sm tracking-[0.1px] font-medium py-[0.625rem] px-1 rounded-md"
+			>Save Changes</button>
 			<a
 				href="/account/auth/logout/google"
 				title="logout"
