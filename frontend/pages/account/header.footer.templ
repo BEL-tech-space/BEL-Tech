@@ -58,7 +58,9 @@ templ HeadTag(pageTitle string) {
 templ Footer(active string, mainClosingTag templ.Component) {
 	@mainClosingTag
 	<footer class="bg-white flex w-full justify-around px-4 pt-3 pb-1 gap-[2.375rem]" hx-boost="false">
-		if active == "dashboard" {
+		if active == "dashboard" || 
+		active == "tips" ||
+		 active == "waste" {
 			<a
 				href="/account/dashboard"
 				class="flex flex-col justify-center items-center gap-[0.25rem]"
@@ -81,7 +83,7 @@ templ Footer(active string, mainClosingTag templ.Component) {
 				<p class="font-[700] text-[0.5rem] leading-[1.25rem] text-[#016934]">Home</p>
 			</a>
 		}
-		if active == "scan" {
+		if active == "scan" || active == "history" {
 			<a
 				href="/account/scan"
 				class="flex flex-col justify-center items-center gap-[0.25rem]"
@@ -150,7 +152,8 @@ templ Footer(active string, mainClosingTag templ.Component) {
 				<p class="font-[700] text-[0.5rem] leading-[1.25rem] text-[#016934]">Wallet</p>
 			</a>
 		}
-		if active == "spend" {
+		if active == "spend" || active == "beneficiaries"||
+		 active == "airtime" {
 			<a
 				href="/account/spend"
 				class="flex flex-col justify-center items-center gap-[0.25rem]"

@@ -47,7 +47,7 @@ templ scriptForDashboardPage() {
             mousewheel: true,
             spaceBetween: 8,
             autoplay: {
-                delay: 3000,
+                delay: 4000,
                 disableOnInteraction: true,
             },
         } );
@@ -57,7 +57,7 @@ templ scriptForDashboardPage() {
             keyboard: true,
 			spaceBetween: 8,
             autoplay: {
-                delay: 3000,
+                delay: 6000,
                 disableOnInteraction: true,
             },
         } );
@@ -364,25 +364,26 @@ templ serviceWorkerRegistration() {
 	<script type="module">
     import { Workbox } from '/public/assets/scripts/workbox-window.prod.mjs';
 
-    if ('serviceWorker' in navigator) {
-        const wb = new Workbox('/public/sw.js', { scope: "/" });
+	window.addEventListener('load', () => { 
+		if ('serviceWorker' in navigator) {
+			const wb = new Workbox('/public/sw.js', { scope: "/" });
 
-        // Automatically activate the new service worker when it's waiting.
-        const handleWaitingWorker = () => {
-            wb.messageSkipWaiting();
+			// Automatically activate the new service worker when it's waiting.
+			const handleWaitingWorker = () => {
+				wb.messageSkipWaiting();
 			
+				// Reload the page when the new service worker takes control.
+				wb.addEventListener('controlling', () => {
+					window.location.reload();
+				});
+			};
 
-            // Reload the page when the new service worker takes control.
-            wb.addEventListener('controlling', () => {
-                window.location.reload();
-            });
-        };
+			// Add an event listener to detect when the registered service worker is waiting.
+			wb.addEventListener('waiting', handleWaitingWorker);
 
-        // Add an event listener to detect when the registered service worker is waiting.
-        wb.addEventListener('waiting', handleWaitingWorker);
-
-		console.log('Service worker about to register');
-        wb.register();
-    }
-</script>
+			console.log('Service worker about to register');
+			wb.register();
+		}
+	});
+	</script>
 }

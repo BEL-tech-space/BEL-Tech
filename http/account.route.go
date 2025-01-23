@@ -104,8 +104,16 @@ func (a *App) accountRouter() http.Handler {
 		r.Get("/waste/closingHtmlTag-Partial.html", a.closingHtmlTagPartial)
 		r.Get("/waste/{wasteType}", a.wasteHistoryHandler)
 
+		r.Get("/tips/openingHtmlTag-Partial.html", a.openingHThmlTagPartial)
+		r.Get("/tips/tipsHeader-Partial.html", a.tipsHeaderPartial)
+		r.Get("/tips/mainOpeningTag-Partial.html", a.tipsMainOpeningTag)
+		r.Get("/tips/quickInfo/{wasteType}", a.wasteQuickInfo)
+		r.Get("/tips/article/{wasteType}", a.tipsWasteArticle)
+		r.Get("/tips/footer-Partial.html", a.footerPartial)
+		r.Get("/tips/closingHtmlTag-Partial.html", a.closingHtmlTagPartial)
+		r.Get("/tips/{wasteType}", a.TipsPageHandler)
+
 		r.Get("/history", a.historyPageHandler)
-		r.Get("/tips/{wasteType}", a.wasteTipsHandler)
 	})
 
 	r.Get("/signup.html", a.signupPageHandler)

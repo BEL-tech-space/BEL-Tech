@@ -99,12 +99,12 @@ func (a *App) walletLivecoinData(w http.ResponseWriter, r *http.Request) {
 
 func coinsToDisplay() []types.TokenData {
 
-	arr := make([]types.TokenData, 0, 7)
+	arr := make([]types.TokenData, 0, 8)
 	arr = append(arr, liveCryptoData.bitcoin, liveCryptoData.solana)
 
 	remaining := []types.TokenData{liveCryptoData.raydium, liveCryptoData.ai16z,
 		liveCryptoData.bonk1, liveCryptoData.dogwifhat, liveCryptoData.usdCoin,
-		liveCryptoData.jupiterAg, liveCryptoData.pudgyPenguins}
+		liveCryptoData.jupiterAg, liveCryptoData.pudgyPenguins, liveCryptoData.officialTrump}
 
 	validValues := slices.DeleteFunc(remaining, checkIfEmptyValue)
 	validValues = slices.Clip(validValues)
@@ -136,11 +136,11 @@ func checkIfEmptyValue(v types.TokenData) bool {
 }
 
 var coins = []string{"bitcoin", "ethereum", "solana", "usd-coin", "bonk1",
-	"pudgy-penguins", "raydium", "dogwifhat", "jupiter-ag", "pyth-network", "ai16z"}
+	"pudgy-penguins", "raydium", "dogwifhat", "jupiter-ag", "pyth-network", "ai16z", "official-trump"}
 
 type tokenData struct {
-	bitcoin, ethereum, solana, usdCoin, bonk1, pudgyPenguins, raydium, dogwifhat, jupiterAg, pythNetwork, ai16z types.TokenData
-	rwLock                                                                                                      sync.RWMutex
+	bitcoin, ethereum, solana, usdCoin, bonk1, pudgyPenguins, raydium, dogwifhat, jupiterAg, pythNetwork, ai16z, officialTrump types.TokenData
+	rwLock                                                                                                                     sync.RWMutex
 }
 
 var liveCryptoData tokenData
@@ -150,7 +150,7 @@ func (a *App) ScrapeCryptoData() context.CancelFunc {
 	getCoinData()
 
 	context, cancel := context.WithCancel(context.Background())
-	ticker := time.NewTicker(30 * time.Second)
+	ticker := time.NewTicker(40 * time.Second)
 	go foreverRunning(ticker, context)
 
 	return cancel
@@ -183,9 +183,9 @@ func method2(url string) {
 
 	err := chromedp.Run(ctx,
 		chromedp.Navigate(url),
-		chromedp.Sleep(2*time.Second),
+		chromedp.Sleep(4*time.Second),
 		chromedp.KeyEvent(kb.End),
-		chromedp.Sleep(2*time.Second),
+		chromedp.Sleep(5*time.Second),
 		chromedp.ActionFunc(func(ctx context.Context) error {
 			if err := chromedp.OuterHTML("html", &htmlContent).Do(ctx); err != nil {
 				fmt.Println("failed to get the full HTML content: ", err)
@@ -255,6 +255,8 @@ func writeResult2(data types.TokenData, v string) {
 		liveCryptoData.pythNetwork = data
 	case "ai16z":
 		liveCryptoData.ai16z = data
+	case "official-trump":
+		liveCryptoData.officialTrump = data
 	}
 }
 

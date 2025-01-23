@@ -40,7 +40,7 @@ templ scriptForWalletPage() {
             keyboard: true,
 			spaceBetween: 8,
             autoplay: {
-                delay: 1500,
+                delay: 5000,
                 disableOnInteraction: true,
             },
         } );
@@ -93,14 +93,14 @@ templ WalletOptionsPartial() {
 	<section class="mt-10 mb-4 w-full flex justify-between items-center">
 		<p class="font-semibold text-[0.94rem] leading-[1.14rem]">Watchlist</p>
 		<button>
-			<p class="font-medium text-[0.63rem] leading-[0.76rem] text-[#016934]">Past 7d</p>
+			<p class="font-medium text-[0.63rem] leading-[0.76rem] text-[#016934]">Top MktCap</p>
 		</button>
 	</section>
 }
 
 templ WalletCoinData(data []types.TokenData) {
 	<section class="overflow-y-scroll pb-4 rounded-2xl mb-auto relative h-full">
-		<ul hx-get="/account/wallet/livedata" hx-trigger="every 35s" hx-swap="innerHTML" class="w-full flex flex-col gap-3 justify-around items-center h-full">
+		<ul hx-get="/account/wallet/livedata" hx-trigger="every 45s" hx-swap="innerHTML" class="w-full flex flex-col gap-3 justify-around items-center h-full">
 			@WalletLiveCoinData(data)
 		</ul>
 	</section>
@@ -108,7 +108,7 @@ templ WalletCoinData(data []types.TokenData) {
 
 templ WalletLiveCoinData(data []types.TokenData) {
 	if isAllElementZero(data) {
-		<p class="text-center font-poppins font-light text-nowrap absolute inset-0 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">No live crypto data ☹️</p>
+		<p class="text-center text-[#3A3A3A] font-tt_chocolate font-light text-nowrap absolute inset-0 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">No live crypto data ☹️</p>
 	} else {
 		for _, v := range data {
 			<li class="w-full flex justify-between items-center gap-8 text-[#393737]">
@@ -171,7 +171,7 @@ templ WalletSwiper() {
 							/>
 							<div class="flex flex-col gap-2 my-[1.188rem]">
 								<div class="flex items-center gap-[0.313rem]">
-									<p class="font-[600] text-[0.688rem] leading-[0.838rem]">Solana</p>
+									<p class="font-[600] text-[0.688rem] leading-[0.838rem]">News & Trends</p>
 									<picture>
 										<source srcset="/public/assets/images/Recycle_small.webp" type="image/webp"/>
 										<img
@@ -182,7 +182,7 @@ templ WalletSwiper() {
 									</picture>
 								</div>
 								<p class="font-medium text-[0.625rem] leading-[0.875rem] text-justify hyphens-auto break-words">
-									Solana's network has surpassed the Binance Smart Chain (BNB) to become the second-largest by liquid TVL, second only to Ethereum. This surge in TVL reflects increased deposits, which reached 42.5 million SOL, the highest since 2022
+									Comming soon!!!. This section would contain hot & trending news in the Beltech community, Recycle management and DEPIN (Decentralized Physical Infrastructure Networks) in the Solana ecosystem.
 								</p>
 							</div>
 						</div>
