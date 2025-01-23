@@ -20,6 +20,19 @@ func (a *App) accountRouter() http.Handler {
 	r.Route("/", func(r chi.Router) {
 		r.Use(a.accountAuthorization)
 
+		if a.config.Build != productionEnv {
+			r.Get("/dashboard", a.dashboardPageHandler)
+			r.Get("/location", a.locationPageHandler)
+			r.Get("/wallet", a.walletPageHandler)
+			r.Get("/spend", a.spendPageHandler)
+			r.Get("/waste/{wasteType}", a.wasteHistoryHandler)
+			r.Get("/tips/{wasteType}", a.TipsPageHandler)
+			r.Get("/beneficiaries", a.beneficiariesPageHandler)
+			r.Post("/airtime", a.airtimePageHandler)
+			r.Get("/profile", a.ProfilePageHandler)
+
+		}
+
 		// this endpoint is reach from the signUp/login page
 		// the aim is to get a fresh info of the sw from the server
 		r.Get("/welcome", a.dashboardPageHandler)
@@ -33,7 +46,6 @@ func (a *App) accountRouter() http.Handler {
 		r.Get("/dashboard/footer-Partial.html", a.footerPartial)
 		r.Get("/dashboard/closingHtmlTag-Partial.html", a.closingHtmlTagPartial)
 		r.Get("/dashboard/chart", a.dashboardEchart)
-		r.Get("/dashboard", a.dashboardPageHandler)
 
 		r.Get("/scan", a.scanQRPageHandler)
 
@@ -42,7 +54,6 @@ func (a *App) accountRouter() http.Handler {
 		r.Get("/location/main", a.locationPageHandler)
 		r.Get("/location/footer-Partial.html", a.footerPartial)
 		r.Get("/location/closingHtmlTag-Partial.html", a.closingHtmlTagPartial)
-		r.Get("/location", a.locationPageHandler)
 
 		r.Get("/wallet/openingHtmlTag-Partial.html", a.openingHThmlTagPartial)
 		r.Get("/wallet/commonHeader-Partial.html", a.commonHeader)
@@ -54,7 +65,6 @@ func (a *App) accountRouter() http.Handler {
 		r.Get("/wallet/footer-Partial.html", a.footerPartial)
 		r.Get("/wallet/closingHtmlTag-Partial.html", a.closingHtmlTagPartial)
 		r.Get("/wallet/livedata", a.walletLivecoinData)
-		r.Get("/wallet", a.walletPageHandler)
 
 		r.Get("/spend/openingHtmlTag-Partial.html", a.openingHThmlTagPartial)
 		r.Get("/spend/header-Partial.html", a.spendPageHeaderPartial)
@@ -63,7 +73,7 @@ func (a *App) accountRouter() http.Handler {
 		r.Get("/spend/otherhalf", a.spendOtherHalfPartial)
 		r.Get("/spend/footer-Partial.html", a.footerPartial)
 		r.Get("/spend/closingHtmlTag-Partial.html", a.closingHtmlTagPartial)
-		r.Get("/spend", a.spendPageHandler)
+
 		r.Get("/profile/openingHtmlTag-Partial.html", a.openingHThmlTagPartial)
 		r.Get("/profile/commonHeader-Partial.html", a.commonHeader)
 		r.Get("/profile/mainOpeningTag-Partial.html", a.profileMainTagPartial)
@@ -72,9 +82,7 @@ func (a *App) accountRouter() http.Handler {
 		r.Get("/profile/footer-Partial.html", a.footerPartial)
 		r.Get("/profile/closingHtmlTag-Partial.html", a.closingHtmlTagPartial)
 		r.Post("/profile/changeDisplayName", a.changeProfileDisplayName)
-
 		// r.Post("/profile/uploadAvatar", a.changeDisplayIcon)
-		r.Get("/profile", a.ProfilePageHandler)
 
 		r.Get("/airtime/openingHtmlTag-Partial.html", a.openingHThmlTagPartial)
 		r.Get("/airtime/header-Partial.html", a.airtimePageHeaderPartial)
@@ -83,14 +91,12 @@ func (a *App) accountRouter() http.Handler {
 		r.Get("/airtime/beneficiaries", a.airtimeBeneficiaries)
 		r.Get("/airtime/footer-Partial.html", a.footerPartial)
 		r.Get("/airtime/closingHtmlTag-Partial.html", a.closingHtmlTagPartial)
-		r.Post("/airtime", a.airtimePageHandler)
 
 		r.Get("/beneficiaries/openingHtmlTag-Partial.html", a.openingHThmlTagPartial)
 		r.Get("/beneficiaries/header-Partial.html", a.beneficiariesPageHeaderPartial)
 		r.Get("/beneficiaries/main", a.beneficiariesMain)
 		r.Get("/beneficiaries/footer-Partial.html", a.footerPartial)
 		r.Get("/beneficiaries/closingHtmlTag-Partial.html", a.closingHtmlTagPartial)
-		r.Get("/beneficiaries", a.beneficiariesPageHandler)
 		r.Post("/beneficiaries/addNew", a.addNewBeneficiary)
 		r.Post("/beneficiaries/delete", a.deleteBeneficiary)
 
@@ -102,7 +108,6 @@ func (a *App) accountRouter() http.Handler {
 		r.Get("/waste/history/{wasteType}", a.wasteHistory)
 		r.Get("/waste/footer-Partial.html", a.footerPartial)
 		r.Get("/waste/closingHtmlTag-Partial.html", a.closingHtmlTagPartial)
-		r.Get("/waste/{wasteType}", a.wasteHistoryHandler)
 
 		r.Get("/tips/openingHtmlTag-Partial.html", a.openingHThmlTagPartial)
 		r.Get("/tips/tipsHeader-Partial.html", a.tipsHeaderPartial)
@@ -111,7 +116,6 @@ func (a *App) accountRouter() http.Handler {
 		r.Get("/tips/article/{wasteType}", a.tipsWasteArticle)
 		r.Get("/tips/footer-Partial.html", a.footerPartial)
 		r.Get("/tips/closingHtmlTag-Partial.html", a.closingHtmlTagPartial)
-		r.Get("/tips/{wasteType}", a.TipsPageHandler)
 
 		r.Get("/history", a.historyPageHandler)
 	})

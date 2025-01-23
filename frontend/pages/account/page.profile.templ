@@ -95,11 +95,11 @@ templ ProfileUpdataAccountInfoPartial(acc Account) {
 				class="outline-none border-solid border-[#569B78] border-[0.0313rem] rounded p-2 w-full"
 				_="on input 
 					if my.value.trim()
-						remove @diabled from #saveButton then 
+						remove @disabled from #saveButton then 
 						remove .opacity-45 from #saveButton then
 						add .color to #saveButton
 					else
-						add @diabled to #saveButton then 
+						add @disabled to #saveButton then 
 						add .opacity-45 to #saveButton then
 						remove .color from #saveButton
 					end"
@@ -118,7 +118,6 @@ templ ProfileUpdataAccountInfoPartial(acc Account) {
 			<label for="" class="font-semibold text-xs">Wallet:</label>
 			<input disabled type="text" name="nickname" id="wallet" placeholder={ acc.SplWallet } class="outline-none  border-solid border-[#569B78] border-[0.0313rem] rounded p-2 w-full"/>
 			<button class="absolute top-2/4 right-4" data-tippy-content="wallet functionality coming soon">
-				// _="on click call #createNewPinDialog.showModal() then halt"
 				<img src="/public/assets/svg/connectWallet.svg" alt="" class="w-5 aspect-square"/>
 			</button>
 		</div>

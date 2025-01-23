@@ -89,7 +89,7 @@ export const dashboardPageStream = composeStrategies(
         event,
       }),
     async ({ event }) =>
-      staleWhileRevalidateStrategy.handle({
+      networkFirstStrategy.handle({
         request: new Request("/account/dashboard/echarts?month=0"),
         event,
       }),

@@ -10,6 +10,7 @@ import (
 )
 
 func (a *App) dashboardPageHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("dashboardPageHandler")
 
 	accountEmail := r.Context().Value(contextKeyEmail).(string)
 	user, err := a.getAccountFromCache(context.Background(), accountEmail)
@@ -65,9 +66,11 @@ func (a *App) dashboardSwiperOne(w http.ResponseWriter, r *http.Request) {
 }
 
 func (a *App) dashboardDataViz(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("dashboardDataViz")
+
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := accPages.DashboardDataViz(
-		produceChartHTML([4]float64{0, 0, 0, 0}, deduceTime(4))).
+		produceChartHTML([4]float64{0, 0, 0, 0}, deduceTime(0))).
 		Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
@@ -83,6 +86,7 @@ func (a *App) dashboardSwiperTwo(w http.ResponseWriter, r *http.Request) {
 }
 
 func (a *App) dashboardEchart(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("dashboardEchart")
 
 	month := r.URL.Query().Get("month")
 
@@ -113,5 +117,6 @@ func deduceTime(v int) time.Time {
 	if v > 4 {
 		v = 4
 	}
+	fmt.Println("deduceTime----", time.Now().AddDate(0, -v, 0))
 	return time.Now().AddDate(0, -v, 0)
 }
