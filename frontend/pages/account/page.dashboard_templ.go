@@ -387,7 +387,7 @@ func scriptForDashboardPage() templ.Component {
 			templ_7745c5c3_Var13 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 20, "<script src=\"/public/assets/scripts/swiper-bundle.min.js\"></script><script src=\"/public/assets/scripts/htmx.min.js\"></script><script src=\"/public/assets/scripts/hyperscript.min.js\"></script><script>\n        const swiperOne = new Swiper( '.mySwiperOne', {\n            direction: \"horizontal\",\n            slidesPerView: 2,\n            mousewheel: true,\n            spaceBetween: 8,\n            autoplay: {\n                delay: 3750,\n                disableOnInteraction: true,\n            },\n        } );\n\n        const swiperTwo = new Swiper( '.mySwiperTwo', {\n            mousewheel: true,\n            keyboard: true,\n\t\t\tspaceBetween: 8,\n            autoplay: {\n                delay: 5000,\n                disableOnInteraction: true,\n            },\n        } );\n\n\t\tdocument.querySelectorAll('.graph-select').forEach(button => {\n\t\t\tbutton.addEventListener('click', () => {\n\t\t\t\tdocument.querySelectorAll('.graph-select').forEach(btn => {\n\t\t\t\t\tbtn.classList.remove('bg-[#016934]', 'text-[#FFFFFF]');\n\t\t\t\t\tbtn.classList.add('bg-[#FFFFFF]', 'text-[#000000]');\n\t\t\t\t});\n\t\t\t\tbutton.classList.remove('bg-[#FFFFFF]', 'text-[#000000]');\n\t\t\t\tbutton.classList.add('bg-[#016934]', 'text-[#FFFFFF]');\n\t\t\t});\n\t\t});\n    </script>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 20, "<script src=\"/public/assets/scripts/swiper-bundle.min.js\"></script><script src=\"/public/assets/scripts/htmx.min.js\"></script><script src=\"/public/assets/scripts/hyperscript.min.js\"></script><script src=\"/public/assets/scripts/notification.js\"></script><script>\n        const swiperOne = new Swiper( '.mySwiperOne', {\n            direction: \"horizontal\",\n            slidesPerView: 2,\n            mousewheel: true,\n            spaceBetween: 8,\n            autoplay: {\n                delay: 3750,\n                disableOnInteraction: true,\n            },\n        } );\n\n        const swiperTwo = new Swiper( '.mySwiperTwo', {\n            mousewheel: true,\n            keyboard: true,\n\t\t\tspaceBetween: 8,\n            autoplay: {\n                delay: 5000,\n                disableOnInteraction: true,\n            },\n        } );\n\n\t\tdocument.querySelectorAll('.graph-select').forEach(button => {\n\t\t\tbutton.addEventListener('click', () => {\n\t\t\t\tdocument.querySelectorAll('.graph-select').forEach(btn => {\n\t\t\t\t\tbtn.classList.remove('bg-[#016934]', 'text-[#FFFFFF]');\n\t\t\t\t\tbtn.classList.add('bg-[#FFFFFF]', 'text-[#000000]');\n\t\t\t\t});\n\t\t\t\tbutton.classList.remove('bg-[#FFFFFF]', 'text-[#000000]');\n\t\t\t\tbutton.classList.add('bg-[#016934]', 'text-[#FFFFFF]');\n\t\t\t});\n\t\t});\n    </script>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -449,7 +449,36 @@ func serviceWorkerRegistration() templ.Component {
 			templ_7745c5c3_Var15 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 22, "<script type=\"module\">\n    import { Workbox } from '/public/assets/scripts/workbox-window.prod.mjs';\n\n\twindow.addEventListener('load', () => { \n\t\tif ('serviceWorker' in navigator) {\n\t\t\tconst wb = new Workbox('/public/sw.js', { scope: \"/\" });\n\n\t\t\t// Automatically activate the new service worker when it's waiting.\n\t\t\tconst handleWaitingWorker = () => {\n\t\t\t\twb.messageSkipWaiting();\n\t\t\t\n\t\t\t\t// Reload the page when the new service worker takes control.\n\t\t\t\twb.addEventListener('controlling', () => {\n\t\t\t\t\twindow.location.reload();\n\t\t\t\t});\n\t\t\t};\n\n\t\t\t// Add an event listener to detect when the registered service worker is waiting.\n\t\t\twb.addEventListener('waiting', handleWaitingWorker);\n\n\t\t\tconsole.log('Service worker about to register');\n\t\t\twb.register();\n\t\t}\n\t});\n\t</script>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 22, "<script type=\"module\">\n    import { Workbox } from '/public/assets/scripts/workbox-window.prod.mjs';\n\n\tfunction urlBase64ToUint8Array(base64String) {\n\t\tconst padding = '='.repeat((4 - base64String.length % 4) % 4);\n\t\tconst base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');\n\t\tconst rawData = atob(base64);\n\t\treturn Uint8Array.from([...rawData].map((char) => char.charCodeAt(0)));\n\t}\n\n\n\twindow.addEventListener('load', () => { \n\t\tif ('serviceWorker' in navigator) {\n\t\t\tconst wb = new Workbox('/public/sw.js', { scope: \"/\" });\n\n\t\t\t// Automatically activate the new service worker when it's waiting.\n\t\t\tconst handleWaitingWorker = () => {\n\t\t\t\twb.messageSkipWaiting();\n\t\t\t\n\t\t\t\t// Reload the page when the new service worker takes control.\n\t\t\t\twb.addEventListener('controlling', () => {\n\t\t\t\t\twindow.location.reload();\n\t\t\t\t});\n\t\t\t};\n\n\t\t\t// Add an event listener to detect when the registered service worker is waiting.\n\t\t\twb.addEventListener('waiting', handleWaitingWorker);\n\n\t\t\twb.register().then(async (registration) => {\n\t\t\t\tconsole.log('Service worker registered', registration);\n\t\t\t\t\n\t\t\t\t// const vapidPublicKey = 'BAkdR7kgUR-z04hIZka23Zb1CaNrOjB-ToEpw_jZh2lHwqm8Zxu1yizTpZ8ENoa-2gEL-Y_rNi0NbPUqD_rfDoA';\n\t\t\t\t// const options = {\n\t\t\t\t// \tuserVisibleOnly: true,\n\t\t\t\t// \tapplicationServerKey: urlBase64ToUint8Array(vapidPublicKey),\n\t\t\t\t// };\n\n\t\t\t\t// const subscription = await registration.pushManager.subscribe(options);\n\t\t\t\t// console.log('Push subscription:', subscription);\n\t\t\t\t// const response = await fetch('/account/subscribe', {\n\t\t\t\t// \tmethod: 'POST',\n\t\t\t\t// \theaders: { 'Content-Type': 'application/json' },\n\t\t\t\t// \tbody: JSON.stringify(subscription),\n\t\t\t\t// });\n\t\t\t\t// if (response.ok) {\n\t\t\t\t// \tconsole.log('Subscription successful');\n\t\t\t\t// } else {\n\t\t\t\t// \tconsole.error('Subscription failed', response.status);\n\t\t\t\t// }\n\t\t\t}).catch((error) => {\n\t\t\t\tconsole.error('Service worker registration failed:', error);\n\t\t\t});\n\t\t\t}\n\t\t});\n\t</script>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		return nil
+	})
+}
+
+func NotitficationScript() templ.Component {
+	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
+		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
+		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
+			return templ_7745c5c3_CtxErr
+		}
+		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
+		if !templ_7745c5c3_IsBuffer {
+			defer func() {
+				templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
+				if templ_7745c5c3_Err == nil {
+					templ_7745c5c3_Err = templ_7745c5c3_BufErr
+				}
+			}()
+		}
+		ctx = templ.InitializeContext(ctx)
+		templ_7745c5c3_Var16 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var16 == nil {
+			templ_7745c5c3_Var16 = templ.NopComponent
+		}
+		ctx = templ.ClearChildren(ctx)
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 23, "<script>\n\t\tfetch('/account/notifications', {\n\t\t\tmethod: 'GET',\n\t\t\theaders: {\n\t\t\t\t'Content-Type': 'text/html',\n\t\t\t},\n\t\t}).then(async (response) => {\n\t\t\tif !(response.ok) {\n\t\t\t\treturn;\n\t\t\t}\n\n\t\t\tconst notificationtTime = response.headers.get('X-Notification-time');\n\t\t\tif !(notificationtTime) {\n\t\t\t\treturn;\n\t\t\t}\n\n\t\t\tconst notificationDate = new Date(notificationtTime);\n\t\t\tconst formattedTime = notificationDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });\n\t\t\tconsole.log(`Notification received at: ${formattedTime}`);\n\t\t})\n\t</script>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

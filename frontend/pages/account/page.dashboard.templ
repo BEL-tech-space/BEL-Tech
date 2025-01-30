@@ -298,6 +298,7 @@ templ scriptForDashboardPage() {
 	<script src="/public/assets/scripts/swiper-bundle.min.js"></script>
 	<script src="/public/assets/scripts/htmx.min.js"></script>
 	<script src="/public/assets/scripts/hyperscript.min.js"></script>
+	<script src="/public/assets/scripts/notification.js"></script>
 	<script>
         const swiperOne = new Swiper( '.mySwiperOne', {
             direction: "horizontal",
@@ -365,6 +366,14 @@ templ serviceWorkerRegistration() {
 	<script type="module">
     import { Workbox } from '/public/assets/scripts/workbox-window.prod.mjs';
 
+	function urlBase64ToUint8Array(base64String) {
+		const padding = '='.repeat((4 - base64String.length % 4) % 4);
+		const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+		const rawData = atob(base64);
+		return Uint8Array.from([...rawData].map((char) => char.charCodeAt(0)));
+	}
+
+
 	window.addEventListener('load', () => { 
 		if ('serviceWorker' in navigator) {
 			const wb = new Workbox('/public/sw.js', { scope: "/" });
@@ -382,9 +391,55 @@ templ serviceWorkerRegistration() {
 			// Add an event listener to detect when the registered service worker is waiting.
 			wb.addEventListener('waiting', handleWaitingWorker);
 
-			console.log('Service worker about to register');
-			wb.register();
-		}
-	});
+			wb.register().then(async (registration) => {
+				console.log('Service worker registered', registration);
+				
+				// const vapidPublicKey = 'BAkdR7kgUR-z04hIZka23Zb1CaNrOjB-ToEpw_jZh2lHwqm8Zxu1yizTpZ8ENoa-2gEL-Y_rNi0NbPUqD_rfDoA';
+				// const options = {
+				// 	userVisibleOnly: true,
+				// 	applicationServerKey: urlBase64ToUint8Array(vapidPublicKey),
+				// };
+
+				// const subscription = await registration.pushManager.subscribe(options);
+				// console.log('Push subscription:', subscription);
+				// const response = await fetch('/account/subscribe', {
+				// 	method: 'POST',
+				// 	headers: { 'Content-Type': 'application/json' },
+				// 	body: JSON.stringify(subscription),
+				// });
+				// if (response.ok) {
+				// 	console.log('Subscription successful');
+				// } else {
+				// 	console.error('Subscription failed', response.status);
+				// }
+			}).catch((error) => {
+				console.error('Service worker registration failed:', error);
+			});
+			}
+		});
+	</script>
+}
+
+templ NotitficationScript() {
+	<script>
+		fetch('/account/notifications', {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'text/html',
+			},
+		}).then(async (response) => {
+			if !(response.ok) {
+				return;
+			}
+
+			const notificationtTime = response.headers.get('X-Notification-time');
+			if !(notificationtTime) {
+				return;
+			}
+
+			const notificationDate = new Date(notificationtTime);
+			const formattedTime = notificationDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+			console.log(`Notification received at: ${formattedTime}`);
+		})
 	</script>
 }

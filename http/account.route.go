@@ -117,6 +117,8 @@ func (a *App) accountRouter() http.Handler {
 		r.Get("/tips/closingHtmlTag-Partial.html", a.closingHtmlTagPartial)
 
 		r.Get("/history", a.historyPageHandler)
+		r.Post("/subscribe", a.subscribeHandler)
+		r.Get("/notifications", a.notificationPageHandler)
 	})
 
 	r.Get("/signup.html", a.signupPageHandler)

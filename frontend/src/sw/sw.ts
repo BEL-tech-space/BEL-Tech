@@ -24,11 +24,12 @@ import {
 
 declare const self: ServiceWorkerGlobalScope & { __WB_MANIFEST: any[] };
 
-addEventListener("message", (event) => {
+self.addEventListener("message", (event) => {
   if (event.data && event.data.type === "SKIP_WAITING") {
     (self as any).skipWaiting();
   }
 });
+
 
 (self as any).__WB_DISABLE_DEV_LOGS = true;
 
