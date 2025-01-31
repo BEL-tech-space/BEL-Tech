@@ -33,7 +33,7 @@ func (a *App) airtimePageHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if err := accPages.AirtimePage(user.AvatarUrl, result).Render(context.Background(), w); err != nil {
+	if err := accPages.AirtimePage(account(user), result).Render(context.Background(), w); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
@@ -50,7 +50,7 @@ func (a *App) airtimePageHeaderPartial(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := accPages.AirtimeHeaderPartial(
-		account(user).AvatarUrl).Render(context.TODO(), w); err != nil {
+		account(user)).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}

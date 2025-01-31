@@ -43,7 +43,7 @@ func SpendPage(acc Account) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = SpendHeaderPartial(acc.AvatarUrl).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = SpendHeaderPartial(acc).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -71,7 +71,7 @@ func SpendPage(acc Account) templ.Component {
 	})
 }
 
-func SpendHeaderPartial(avatarURL string) templ.Component {
+func SpendHeaderPartial(acc Account) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -97,19 +97,19 @@ func SpendHeaderPartial(avatarURL string) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var3 string
-		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(avatarURL)
+		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(acc.AvatarUrl)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.spend.templ`, Line: 24, Col: 19}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.spend.templ`, Line: 24, Col: 23}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "\" class=\"rounded-full w-[1.86rem] aspect-square mr-[0.5rem]\"></a><p class=\"font-semibold text-[0.938rem] leading-[1.143rem]\">Spend BEL Token</p><button class=\"bg-[#CCE1D699] p-2 rounded-md flex justify-center items-center\" _=\"on click\n\t\t\t\ttell #notification-bar\n\t\t\t\tif #notification-bar.classList does not contain &#39;translate-y-0&#39;\n\t\t\t\t\t\tremove .translate-y-full then add .translate-y-0\n\t\t\t\t\t\tthen add .{&#39;backdrop:backdrop-blur-3xl&#39;}\n\t\t\t\t\t\tthen call #notification-bar.focus() \n\t\t\t\t\t\tthen remove .hidden from #backdrop then halt\n\t\t\t\tend\"><img src=\"/public/assets/svg/notification.svg\" class=\"w-[1.5rem] aspect-square\"></button>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "\" class=\"rounded-full w-[1.86rem] aspect-square mr-[0.5rem]\"></a><p class=\"font-semibold text-[0.938rem] leading-[1.143rem]\">Spend BEL Token</p><button class=\"bg-[#CCE1D699] p-[0.5rem] ml-auto rounded-md flex justify-center items-center\" _=\"on click\n\t\t\t\t\thalt the event\n\t\t\t\t\ttell #notification-bar\n\t\t\t\t\tif #notification-bar.classList does not contain &#39;translate-y-0&#39;\n\t\t\t\t\t\tthen set :accountId to #notification-bar.dataset.accountid\n\t\t\t\t\t\tthen call getNotificationMarkup(:accountId)\n\t\t\t\t\t\tthen remove .translate-y-full then add .translate-y-0\n\t\t\t\t\t\tthen call #notification-bar.focus() \n\t\t\t\t\t\tthen remove .hidden from #backdrop\n\t\t\t\t\tend\"><img src=\"/public/assets/svg/notification.svg\" class=\"w-6 aspect-square\"></button>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = notificationBar("").Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = notificationBar(acc.Email).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -216,7 +216,7 @@ func scriptForSpendPage() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "<style>\n\t\t.selected {\n\t\t\tbackground-color: #b1ddc8;\n\t\t\tborder-radius: 6px;\n\t\t}\n\t</style><script src=\"/public/assets/scripts/hyperscript.min.js\"></script><script>\n\t\t\tconst airtimeFrom = document.getElementById('airtimeForm');\n\t\t\tconst airttimeFormSubmitBtn =  document.getElementById(\"submitBtn\")\n\n\t\t\tairtimeFrom.addEventListener('input', () => {\n\t\t\t\tif (!airtimeFrom.checkValidity()) {\n\t\t\t\t\tairttimeFormSubmitBtn.disabled = true\n\t\t\t\t\tairttimeFormSubmitBtn.classList.remove('bg-[#016934]')\n\t\t\t\t\tairttimeFormSubmitBtn.classList.add('opacity-45', 'bg-green-400')\n\t\t\t\t\treturn\n\t\t\t\t}\n\t\t\t\tairttimeFormSubmitBtn.disabled = false\n\t\t\t\tairttimeFormSubmitBtn.classList.add('bg-[#016934]')\n\t\t\t\tairttimeFormSubmitBtn.classList.remove('opacity-45', 'bg-green-400')\n\t\t\t});\n\n\t\t\tconst radioInputs = document.querySelectorAll('input[type=\"radio\"][name=\"network\"]');\n\t\t\tradioInputs.forEach((radio) => {\n\t\t\t\tradio.addEventListener('change', () => {\t\n\t\t\t\t\tconst labels = document.querySelectorAll('label');\n\t\t\t\t\tlabels.forEach((label) => {\n\t\t\t\t\t\tlabel.classList.remove('selected');\n\t\t\t\t\t});\n\n\t\t\t\t\tconst checkedRadio = document.querySelector('input[type=\"radio\"][name=\"network\"]:checked');\n\t\t\t\t\tif (checkedRadio) {\n\t\t\t\t\t\tconst label = document.querySelector(`label[for=\"${checkedRadio.id}\"]`);\n\t\t\t\t\t\tlabel.classList.add('selected');\n\t\t\t\t\t\tconsole.log(checkedRadio.value);\n\t\t\t\t\t}\n\t\t\t\t});\n\t\t\t});\n\t\t</script>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "<style>\n\t\t.selected {\n\t\t\tbackground-color: #b1ddc8;\n\t\t\tborder-radius: 6px;\n\t\t}\n\t</style><script src=\"/public/assets/scripts/hyperscript.min.js\"></script><script src=\"/public/assets/scripts/notification.js\"></script><script>\n\t\t\tconst airtimeFrom = document.getElementById('airtimeForm');\n\t\t\tconst airttimeFormSubmitBtn =  document.getElementById(\"submitBtn\")\n\n\t\t\tairtimeFrom.addEventListener('input', () => {\n\t\t\t\tif (!airtimeFrom.checkValidity()) {\n\t\t\t\t\tairttimeFormSubmitBtn.disabled = true\n\t\t\t\t\tairttimeFormSubmitBtn.classList.remove('bg-[#016934]')\n\t\t\t\t\tairttimeFormSubmitBtn.classList.add('opacity-45', 'bg-green-400')\n\t\t\t\t\treturn\n\t\t\t\t}\n\t\t\t\tairttimeFormSubmitBtn.disabled = false\n\t\t\t\tairttimeFormSubmitBtn.classList.add('bg-[#016934]')\n\t\t\t\tairttimeFormSubmitBtn.classList.remove('opacity-45', 'bg-green-400')\n\t\t\t});\n\n\t\t\tconst radioInputs = document.querySelectorAll('input[type=\"radio\"][name=\"network\"]');\n\t\t\tradioInputs.forEach((radio) => {\n\t\t\t\tradio.addEventListener('change', () => {\t\n\t\t\t\t\tconst labels = document.querySelectorAll('label');\n\t\t\t\t\tlabels.forEach((label) => {\n\t\t\t\t\t\tlabel.classList.remove('selected');\n\t\t\t\t\t});\n\n\t\t\t\t\tconst checkedRadio = document.querySelector('input[type=\"radio\"][name=\"network\"]:checked');\n\t\t\t\t\tif (checkedRadio) {\n\t\t\t\t\t\tconst label = document.querySelector(`label[for=\"${checkedRadio.id}\"]`);\n\t\t\t\t\t\tlabel.classList.add('selected');\n\t\t\t\t\t\tconsole.log(checkedRadio.value);\n\t\t\t\t\t}\n\t\t\t\t});\n\t\t\t});\n\t\t</script>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -252,7 +252,7 @@ func SpendBalance(acc Account) templ.Component {
 		var templ_7745c5c3_Var8 string
 		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(acc.AvatarUrl)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.spend.templ`, Line: 108, Col: 27}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.spend.templ`, Line: 111, Col: 27}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 		if templ_7745c5c3_Err != nil {
@@ -280,7 +280,7 @@ func SpendBalance(acc Account) templ.Component {
 		var templ_7745c5c3_Var9 string
 		templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%.4f BEL", acc.CurrBalance))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.spend.templ`, Line: 120, Col: 73}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.spend.templ`, Line: 123, Col: 73}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 		if templ_7745c5c3_Err != nil {

@@ -8,7 +8,7 @@ templ SpendPage(acc Account) {
 		@HeadTag("Spend BEL Token")
 		<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh font-montserrat text-[#2E2E2E] overflow-hidden">
 			<div class="w-full h-full flex flex-col font-montserrat text-[#2E2E2E]">
-				@SpendHeaderPartial(acc.AvatarUrl)
+				@SpendHeaderPartial(acc)
 				@SpendMain(acc)
 				@Footer("spend", templ.NopComponent)
 			</div>
@@ -17,32 +17,34 @@ templ SpendPage(acc Account) {
 	</html>
 }
 
-templ SpendHeaderPartial(avatarURL string) {
+templ SpendHeaderPartial(acc Account) {
 	<header class="pt-[1.5rem] pl-[1.5rem] pr-[1.56rem] flex w-full justify-between items-center">
 		<a href="/account/profile">
 			<img
-				src={ avatarURL }
+				src={ acc.AvatarUrl }
 				class="rounded-full w-[1.86rem] aspect-square mr-[0.5rem]"
 			/>
 		</a>
 		<p class="font-semibold text-[0.938rem] leading-[1.143rem]">Spend BEL Token</p>
 		<button
-			class="bg-[#CCE1D699] p-2 rounded-md flex justify-center items-center"
+			class="bg-[#CCE1D699] p-[0.5rem] ml-auto rounded-md flex justify-center items-center"
 			_="on click
-				tell #notification-bar
-				if #notification-bar.classList does not contain 'translate-y-0'
-						remove .translate-y-full then add .translate-y-0
-						then add .{'backdrop:backdrop-blur-3xl'}
+					halt the event
+					tell #notification-bar
+					if #notification-bar.classList does not contain 'translate-y-0'
+						then set :accountId to #notification-bar.dataset.accountid
+						then call getNotificationMarkup(:accountId)
+						then remove .translate-y-full then add .translate-y-0
 						then call #notification-bar.focus() 
-						then remove .hidden from #backdrop then halt
-				end"
+						then remove .hidden from #backdrop
+					end"
 		>
 			<img
 				src="/public/assets/svg/notification.svg"
-				class="w-[1.5rem] aspect-square"
+				class="w-6 aspect-square"
 			/>
 		</button>
-		@notificationBar("")
+		@notificationBar(acc.Email)
 	</header>
 }
 
@@ -66,6 +68,7 @@ templ scriptForSpendPage() {
 		}
 	</style>
 	<script src="/public/assets/scripts/hyperscript.min.js"></script>
+	<script src="/public/assets/scripts/notification.js"></script>
 	<script>
 			const airtimeFrom = document.getElementById('airtimeForm');
 			const airttimeFormSubmitBtn =  document.getElementById("submitBtn")
