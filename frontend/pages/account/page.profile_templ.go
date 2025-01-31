@@ -147,7 +147,7 @@ func scriptForProfilePage() templ.Component {
 			templ_7745c5c3_Var3 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "<script src=\"/public/assets/scripts/hyperscript.min.js\"></script><script src=\"/public/assets/scripts/htmx.min.js\"></script>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "<script src=\"/public/assets/scripts/hyperscript.min.js\"></script><script src=\"/public/assets/scripts/htmx.min.js\"></script><script src=\"/public/assets/scripts/notification.js\"></script>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -226,7 +226,7 @@ func ProfileChangeDisplayIcon(avatarURL string) templ.Component {
 		var templ_7745c5c3_Var6 string
 		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(avatarURL)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.profile.templ`, Line: 61, Col: 22}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.profile.templ`, Line: 62, Col: 22}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 		if templ_7745c5c3_Err != nil {
@@ -268,7 +268,7 @@ func ProfileUpdataAccountInfoPartial(acc Account) templ.Component {
 		var templ_7745c5c3_Var8 string
 		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(acc.DisplayName)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.profile.templ`, Line: 94, Col: 33}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.profile.templ`, Line: 95, Col: 33}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 		if templ_7745c5c3_Err != nil {
@@ -281,7 +281,7 @@ func ProfileUpdataAccountInfoPartial(acc Account) templ.Component {
 		var templ_7745c5c3_Var9 string
 		templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(acc.Email)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.profile.templ`, Line: 116, Col: 81}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.profile.templ`, Line: 117, Col: 81}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 		if templ_7745c5c3_Err != nil {
@@ -294,7 +294,7 @@ func ProfileUpdataAccountInfoPartial(acc Account) templ.Component {
 		var templ_7745c5c3_Var10 string
 		templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(acc.SplWallet)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.profile.templ`, Line: 120, Col: 86}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.profile.templ`, Line: 121, Col: 86}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 		if templ_7745c5c3_Err != nil {

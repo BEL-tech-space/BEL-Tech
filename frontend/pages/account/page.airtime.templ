@@ -2,13 +2,13 @@ package frontend
 
 import "beltech/types"
 
-templ AirtimePage(avatarURL string, ben []types.Beneficiary) {
+templ AirtimePage(acc Account, ben []types.Beneficiary) {
 	<!DOCTYPE html>
 	<html lang="en">
 		@HeadTag("Airtime")
 		<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
 			<div class="w-full h-full grid grid-rows-agentCollectPage font-montserrat text-[#2E2E2E]">
-				@AirtimeHeaderPartial(avatarURL)
+				@AirtimeHeaderPartial(acc)
 				@AirtimeMain(ben)
 				@Footer("spend", templ.NopComponent)
 			</div>
@@ -30,32 +30,34 @@ templ AirtimeMainOpeningTag() {
 	@templ.Raw(`<main class="overflow-y-auto grow pl-[1.5rem] pr-[1.56rem] pt-12 grid grid-rows-wastePage">`)
 }
 
-templ AirtimeHeaderPartial(avatarURL string) {
+templ AirtimeHeaderPartial(acc Account) {
 	<header class="pt-[1.5rem] pl-[1.5rem] pr-[1.56rem] flex w-full justify-between items-center">
 		<a href="/account/profile">
 			<img
-				src={ avatarURL }
+				src={ acc.AvatarUrl }
 				class="rounded-full w-[1.86rem] aspect-square mr-[0.5rem]"
 			/>
 		</a>
 		<p class="font-semibold text-[0.938rem] leading-[1.143rem]">Spend BEL Token</p>
 		<button
-			class="bg-[#CCE1D699] p-2 rounded-md flex justify-center items-center"
+			class="bg-[#CCE1D699] p-[0.5rem] ml-auto rounded-md flex justify-center items-center"
 			_="on click
+					halt the event
 					tell #notification-bar
 					if #notification-bar.classList does not contain 'translate-y-0'
-						 remove .translate-y-full then add .translate-y-0
-						 then add .{'backdrop:backdrop-blur-3xl'}
-						 then call #notification-bar.focus() 
-						 then remove .hidden from #backdrop then halt
+						then set :accountId to #notification-bar.dataset.accountid
+						then call getNotificationMarkup(:accountId)
+						then remove .translate-y-full then add .translate-y-0
+						then call #notification-bar.focus() 
+						then remove .hidden from #backdrop
 					end"
 		>
 			<img
 				src="/public/assets/svg/notification.svg"
-				class="w-[1.5rem] aspect-square"
+				class="w-6 aspect-square"
 			/>
 		</button>
-		@notificationBar("")
+		@notificationBar(acc.Email)
 	</header>
 }
 
@@ -127,6 +129,7 @@ templ AirtimeBeneficiaries(ben []types.Beneficiary) {
 templ scriptForAirtimePage() {
 	<script src="/public/assets/scripts/htmx.min.js"></script>
 	<script src="/public/assets/scripts/hyperscript.min.js"></script>
+	<script src="/public/assets/scripts/notification.js"></script>
 	<script>
 			const beneficiaryNumberForm = document.getElementById('beneficiaryNumber');
 			const beneficiaryNumberSubmitBtn = document.getElementById('submitButton');

@@ -185,6 +185,7 @@ window.updateEmptyNotifMarkup = () => {
 
 window.deleteNotification = deleteNotification;
 window.getNotificationMarkup = (accountId: string) => {
+  console.log("i was called");
   (async () => {
     const db = await dbPromise();
     const accountData = await db.get("accounts-notifications", accountId);
@@ -216,9 +217,7 @@ window.getNotificationMarkup = (accountId: string) => {
 function produceNotifLiMarkup(notif: Notification) {
   return `
   <li id="${notif.notificationId}" class="flex justify-between w-full items-start gap-[0.98rem] [transition:transform_0.8s_ease-in,opacity_0.6s_ease-in]">
-    <img id="closeBtn-img"
-      src="/public/assets/svg/closeBtn.svg"
-      class="close-btn w-[1.324rem] aspect-square"
+    <img id="closeBtn-img" src="/public/assets/svg/closeBtn.svg" class="close-btn w-[1.324rem] aspect-square"
       _="on click
         halt the event
         tell the closest <li/>
@@ -233,17 +232,11 @@ function produceNotifLiMarkup(notif: Notification) {
     <div>
       <section class="w-full flex justify-between items-center mb-[0.441rem]">
         <p class="badge ${getRandomBgColor()} text-[#FFFFFF] font-bold text-[0.511rem] leading-[0.623rem] text-center px-[0.929rem] py-[0.078rem] rounded-[0.256rem]">${notif.notificationTitle}</p>
-        <p class="text-[#3C3C4399] font-poppins font-extralight text-[0.477rem] leading-[0.715rem]">
-          ${new Date(notif.notificationTime).toLocaleString()}
-        </p>
+        <p class="text-[#3C3C4399] font-poppins font-extralight text-[0.477rem] leading-[0.715rem]">${new Date(notif.notificationTime).toLocaleString()}</p>
       </section>
       <div>
-        <p class="text-[#000000] font-bold text-start text-[0.626rem] leading-[0.763rem] mb-[0.313rem]">
-          ${notif.notificationHeading}
-        </p>
-        <p class="text-[#000000] font-poppins font-extralight text-[0.626rem] text-start leading-[0.938rem] max-w-[50ch] break-words">
-          ${notif.notificationBody}
-        </p>
+        <p class="text-[#000000] font-bold text-start text-[0.626rem] leading-[0.763rem] mb-[0.313rem]">${notif.notificationHeading}</p>
+        <p class="text-[#000000] font-poppins font-extralight text-[0.626rem] text-start leading-[0.938rem] max-w-[50ch] break-words">${notif.notificationBody}</p>
       </div>
     </div>
   </li>

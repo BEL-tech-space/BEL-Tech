@@ -10,7 +10,7 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import "beltech/types"
 
-func AirtimePage(avatarURL string, ben []types.Beneficiary) templ.Component {
+func AirtimePage(acc Account, ben []types.Beneficiary) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -43,7 +43,7 @@ func AirtimePage(avatarURL string, ben []types.Beneficiary) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = AirtimeHeaderPartial(avatarURL).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = AirtimeHeaderPartial(acc).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -149,7 +149,7 @@ func AirtimeMainOpeningTag() templ.Component {
 	})
 }
 
-func AirtimeHeaderPartial(avatarURL string) templ.Component {
+func AirtimeHeaderPartial(acc Account) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -175,19 +175,19 @@ func AirtimeHeaderPartial(avatarURL string) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var5 string
-		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(avatarURL)
+		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(acc.AvatarUrl)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.airtime.templ`, Line: 37, Col: 19}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.airtime.templ`, Line: 37, Col: 23}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "\" class=\"rounded-full w-[1.86rem] aspect-square mr-[0.5rem]\"></a><p class=\"font-semibold text-[0.938rem] leading-[1.143rem]\">Spend BEL Token</p><button class=\"bg-[#CCE1D699] p-2 rounded-md flex justify-center items-center\" _=\"on click\n\t\t\t\t\ttell #notification-bar\n\t\t\t\t\tif #notification-bar.classList does not contain &#39;translate-y-0&#39;\n\t\t\t\t\t\t remove .translate-y-full then add .translate-y-0\n\t\t\t\t\t\t then add .{&#39;backdrop:backdrop-blur-3xl&#39;}\n\t\t\t\t\t\t then call #notification-bar.focus() \n\t\t\t\t\t\t then remove .hidden from #backdrop then halt\n\t\t\t\t\tend\"><img src=\"/public/assets/svg/notification.svg\" class=\"w-[1.5rem] aspect-square\"></button>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "\" class=\"rounded-full w-[1.86rem] aspect-square mr-[0.5rem]\"></a><p class=\"font-semibold text-[0.938rem] leading-[1.143rem]\">Spend BEL Token</p><button class=\"bg-[#CCE1D699] p-[0.5rem] ml-auto rounded-md flex justify-center items-center\" _=\"on click\n\t\t\t\t\thalt the event\n\t\t\t\t\ttell #notification-bar\n\t\t\t\t\tif #notification-bar.classList does not contain &#39;translate-y-0&#39;\n\t\t\t\t\t\tthen set :accountId to #notification-bar.dataset.accountid\n\t\t\t\t\t\tthen call getNotificationMarkup(:accountId)\n\t\t\t\t\t\tthen remove .translate-y-full then add .translate-y-0\n\t\t\t\t\t\tthen call #notification-bar.focus() \n\t\t\t\t\t\tthen remove .hidden from #backdrop\n\t\t\t\t\tend\"><img src=\"/public/assets/svg/notification.svg\" class=\"w-6 aspect-square\"></button>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = notificationBar("").Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = notificationBar(acc.Email).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -297,7 +297,7 @@ func AirtimeBeneficiaries(ben []types.Beneficiary) templ.Component {
 				var templ_7745c5c3_Var8 string
 				templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(v.BName)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.airtime.templ`, Line: 116, Col: 95}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.airtime.templ`, Line: 118, Col: 95}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 				if templ_7745c5c3_Err != nil {
@@ -310,7 +310,7 @@ func AirtimeBeneficiaries(ben []types.Beneficiary) templ.Component {
 				var templ_7745c5c3_Var9 string
 				templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(v.BPhoneNo)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.airtime.templ`, Line: 117, Col: 120}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.airtime.templ`, Line: 119, Col: 120}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 				if templ_7745c5c3_Err != nil {
@@ -355,7 +355,7 @@ func scriptForAirtimePage() templ.Component {
 			templ_7745c5c3_Var10 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 24, "<script src=\"/public/assets/scripts/htmx.min.js\"></script><script src=\"/public/assets/scripts/hyperscript.min.js\"></script><script>\n\t\t\tconst beneficiaryNumberForm = document.getElementById('beneficiaryNumber');\n\t\t\tconst beneficiaryNumberSubmitBtn = document.getElementById('submitButton');\n\n\t\t\tbeneficiaryNumberForm.addEventListener('input', (e) => {\n\t\t\t\tchangeSubmitBtnState();\n\t\t\t});\n\n\t\t\tfunction changeSubmitBtnState() {\n\t\t\t\tif (!beneficiaryNumberForm.checkValidity()) {\n\t\t\t\t\tbeneficiaryNumberSubmitBtn.disabled = true\n\t\t\t\t\tbeneficiaryNumberSubmitBtn.classList.remove('bg-[#016934]')\n\t\t\t\t\tbeneficiaryNumberSubmitBtn.classList.add('opacity-45', 'bg-green-400')\n\t\t\t\t\treturn\n\t\t\t\t}\n\t\t\t\tbeneficiaryNumberSubmitBtn.disabled = false\n\t\t\t\tbeneficiaryNumberSubmitBtn.classList.add('bg-[#016934]')\n\t\t\t\tbeneficiaryNumberSubmitBtn.classList.remove('opacity-45', 'bg-green-400')\n\t\t\t}\n\t\t</script>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 24, "<script src=\"/public/assets/scripts/htmx.min.js\"></script><script src=\"/public/assets/scripts/hyperscript.min.js\"></script><script src=\"/public/assets/scripts/notification.js\"></script><script>\n\t\t\tconst beneficiaryNumberForm = document.getElementById('beneficiaryNumber');\n\t\t\tconst beneficiaryNumberSubmitBtn = document.getElementById('submitButton');\n\n\t\t\tbeneficiaryNumberForm.addEventListener('input', (e) => {\n\t\t\t\tchangeSubmitBtnState();\n\t\t\t});\n\n\t\t\tfunction changeSubmitBtnState() {\n\t\t\t\tif (!beneficiaryNumberForm.checkValidity()) {\n\t\t\t\t\tbeneficiaryNumberSubmitBtn.disabled = true\n\t\t\t\t\tbeneficiaryNumberSubmitBtn.classList.remove('bg-[#016934]')\n\t\t\t\t\tbeneficiaryNumberSubmitBtn.classList.add('opacity-45', 'bg-green-400')\n\t\t\t\t\treturn\n\t\t\t\t}\n\t\t\t\tbeneficiaryNumberSubmitBtn.disabled = false\n\t\t\t\tbeneficiaryNumberSubmitBtn.classList.add('bg-[#016934]')\n\t\t\t\tbeneficiaryNumberSubmitBtn.classList.remove('opacity-45', 'bg-green-400')\n\t\t\t}\n\t\t</script>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
