@@ -3,7 +3,10 @@ format:
 
 scripts:
 	@pnpm sw
-	@pnpm build
+	@pnpm notification
+
+pnpm:
+	@pnpm run dev
 
 templ:
 	@templ generate --watch --proxy="http://localhost:8090" --open-browser=false -v

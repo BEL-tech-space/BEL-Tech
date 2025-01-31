@@ -39,12 +39,23 @@ templ AirtimeHeaderPartial(avatarURL string) {
 			/>
 		</a>
 		<p class="font-semibold text-[0.938rem] leading-[1.143rem]">Spend BEL Token</p>
-		<button class="bg-[#CCE1D699] p-2 rounded-md flex justify-center items-center">
+		<button
+			class="bg-[#CCE1D699] p-2 rounded-md flex justify-center items-center"
+			_="on click
+					tell #notification-bar
+					if #notification-bar.classList does not contain 'translate-y-0'
+						 remove .translate-y-full then add .translate-y-0
+						 then add .{'backdrop:backdrop-blur-3xl'}
+						 then call #notification-bar.focus() 
+						 then remove .hidden from #backdrop then halt
+					end"
+		>
 			<img
 				src="/public/assets/svg/notification.svg"
 				class="w-[1.5rem] aspect-square"
 			/>
 		</button>
+		@notificationBar("")
 	</header>
 }
 

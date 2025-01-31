@@ -13,10 +13,10 @@ const workbox_build_1 = require("workbox-build");
 function injectSW() {
     return __awaiter(this, void 0, void 0, function* () {
         const { count, size, warnings } = yield (0, workbox_build_1.injectManifest)({
-            globDirectory: 'public',
-            globPatterns: ['**/*.{js,css,ttf}'],
-            swSrc: 'public/sw.js',
-            swDest: 'public/sw.js',
+            globDirectory: "public",
+            globPatterns: ["**/*.{js,css,ttf,otf,json,png,jpg,jpeg,svg,webp}"],
+            swSrc: "public/sw.js",
+            swDest: "public/sw.js",
             maximumFileSizeToCacheInBytes: 20000000,
         });
         console.log(`Generated a service worker, which will precache ${count} files, totaling ${size} bytes and \n warning: \n ${warnings}.`);
