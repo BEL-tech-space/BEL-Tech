@@ -28,19 +28,6 @@ export const networkFirstStrategy = new NetworkFirst({
       maxEntries: 30,
       maxAgeSeconds: 60 * 60 * 24 * 30 * 3, // about 3 months
     }),
-    // {
-    //   fetchDidSucceed: async ({ request, response, event, state }) => {
-    //     const clonedResponse = response.clone();
-
-    //     if (clonedResponse.headers.get("X-Session-Expired")) {
-    //       console.warn("Session expired. Redirecting to signup page.");
-
-    //       return Response.redirect("/account/login.html", 302);
-    //     }
-
-    //     return response;
-    //   },
-    // },
   ],
 });
 export const staleWhileRevalidateStrategy = new StaleWhileRevalidate({

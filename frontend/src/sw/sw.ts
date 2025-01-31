@@ -30,7 +30,6 @@ self.addEventListener("message", (event) => {
   }
 });
 
-
 (self as any).__WB_DISABLE_DEV_LOGS = true;
 
 navigationPreload.enable();

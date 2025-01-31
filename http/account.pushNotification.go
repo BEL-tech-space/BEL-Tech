@@ -51,6 +51,7 @@ func sendNotification(sub Subscription, message string) error {
 }
 
 type Notification struct {
+	AccountId           string `json:accountId`
 	NotificationID      string `json:"notificationId"`
 	NotificationHeading string `json:"notificationHeading"`
 	NotificationTitle   string `json:"notificationTitle"`
@@ -60,6 +61,7 @@ type Notification struct {
 
 // notificationPageHandler returns 3 sample notifications
 func (a *App) notificationPageHandler(w http.ResponseWriter, r *http.Request) {
+	accountEmail := r.Context().Value(contextKeyEmail).(string)
 	notifications := []Notification{
 		{
 			NotificationID:      "1",
@@ -67,6 +69,7 @@ func (a *App) notificationPageHandler(w http.ResponseWriter, r *http.Request) {
 			NotificationHeading: "Welcome, Kherney to BelTech",
 			NotificationBody:    "Welcome to BelTech, connect your solana wallet to earn BEL tokens",
 			NotificationTime:    time.Now().Add(-2 * time.Hour).Format(time.RFC3339),
+			AccountId:           accountEmail,
 		},
 		{
 			NotificationID:      "2",
@@ -74,6 +77,7 @@ func (a *App) notificationPageHandler(w http.ResponseWriter, r *http.Request) {
 			NotificationHeading: "Connect your wallet to earn BEL tokens",
 			NotificationBody:    "Welcome to BelTech, connect your solana wallet to earn BEL tokens",
 			NotificationTime:    time.Now().Add(-1 * time.Hour).Format(time.RFC3339),
+			AccountId:           accountEmail,
 		},
 		{
 			NotificationID:      "3",
@@ -81,10 +85,10 @@ func (a *App) notificationPageHandler(w http.ResponseWriter, r *http.Request) {
 			NotificationHeading: "Notice! Your account was logged in on a new device",
 			NotificationBody:    "Hello Kherney, your account was logged in on a new device, confirm if it is you.",
 			NotificationTime:    time.Now().Format(time.RFC3339),
+			AccountId:           accountEmail,
 		},
 	}
 
-	accountEmail := r.Context().Value(contextKeyEmail).(string)
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.Header().Set("X-AccountId", accountEmail)
 
