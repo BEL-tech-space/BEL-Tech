@@ -162,8 +162,8 @@ declare global {
   interface Window {
     _hyperscript: any;
     getNotificationMarkup: (accountId: string) => void;
-    updateEmptyNotifMarkup: () => void;
     deleteNotification: (accountId: string, notificationId: string) => void;
+    notificationFetchCount: number;
   }
 }
 
@@ -174,14 +174,6 @@ function updateNotifMarkup(markup: string) {
     window._hyperscript.processNode(notificationBar);
   }
 }
-
-window.updateEmptyNotifMarkup = () => {
-  const notificationBar = document.getElementById("notification-bar");
-  if (notificationBar) {
-    notificationBar.innerHTML =
-      '<p class="no-new text-black font-poppins text-sm text-center m-auto">No new notification</p>';
-  }
-};
 
 window.deleteNotification = deleteNotification;
 window.getNotificationMarkup = (accountId: string) => {
@@ -200,13 +192,14 @@ window.getNotificationMarkup = (accountId: string) => {
       markup = `<p class="no-new text-black font-poppins text-sm text-center m-auto">No new notifications</p>`;
     } else {
       markup = `
-        <ul class="flex flex-col gap-[2.635rem] justify-center items-center">
-          ${accountData.notifications
-            .map((notif) => {
-              return produceNotifLiMarkup(notif);
-            })
-            .join("")}
-        </ul>
+      <ul class="flex flex-col gap-[2.635rem] justify-center items-center">
+      ${accountData.notifications
+        .map((notif) => {
+          return produceNotifLiMarkup(notif);
+        })
+        .join("")}
+      <p class="hidden no-new text-black font-poppins text-sm text-center m-auto">No new notifications</p>
+      </ul>
       `;
     }
 
@@ -222,11 +215,11 @@ function produceNotifLiMarkup(notif: Notification) {
         halt the event
         tell the closest <li/>
           add .slide-out then settle then remove yourself
-          then set :notifId to your id then log :notifId
-          then set :accountId to #notification-bar.dataset.accountid then log :accountId
+          then set :notifId to your id
+          then set :accountId to #notification-bar.dataset.accountid
           then call deleteNotification(:accountId, :notifId)
           then if <li/> in #notification-bar is empty
-            call updateEmptyNotifMarkup()
+            remove .hidden from .no-new
           end"
     />
     <div>
@@ -242,74 +235,58 @@ function produceNotifLiMarkup(notif: Notification) {
   </li>
   `;
 }
+window.notificationFetchCount = window.notificationFetchCount || 0;
 
-(async () => {
-  try {
-    const res = await fetch("/account/notifications", {
-      headers: {
-        Accept: "application/json",
-      },
-    });
-    if (!res.ok) {
-      console.warn("response not ok", res.status);
-      return;
-    }
-
-    const accountId = res.headers.get("X-AccountId");
-    if (!accountId) {
-      console.warn("Missing X-AccountId header");
-      return;
-    }
-
-    // console.log("accountId", accountId);
-
-    const data: Notification[] = await res.json();
-
-    // console.log("data", data);
-
-    for (const notification of data) {
-      const isNewNotification: boolean =
-        await updateLastNotificationIfMoreRecent(accountId, notification);
-
-      // console.log("isNewNotification", isNewNotification);
-
-      if (!isNewNotification) {
-        console.log("Notification already exists, skipping", notification);
-        continue;
+if (window.notificationFetchCount >= 4) {
+  (async () => {
+    try {
+      console.log(
+        window.notificationFetchCount,
+        "would be fetching notification"
+      );
+      const res = await fetch("/account/notifications", {
+        headers: {
+          Accept: "application/json",
+        },
+      });
+      if (!res.ok) {
+        console.warn("response not ok", res.status);
+        return;
       }
 
-      console.log("Adding new notification", notification);
+      const accountId = res.headers.get("X-AccountId");
+      if (!accountId) {
+        console.warn("Missing X-AccountId header");
+        return;
+      }
 
-      await addNewNotification(accountId, notification);
+      // console.log("accountId", accountId);
+
+      const data: Notification[] = await res.json();
+
+      // console.log("data", data);
+
+      for (const notification of data) {
+        const isNewNotification: boolean =
+          await updateLastNotificationIfMoreRecent(accountId, notification);
+
+        // console.log("isNewNotification", isNewNotification);
+
+        if (!isNewNotification) {
+          console.log("Notification already exists, skipping", notification);
+          continue;
+        }
+
+        console.log("Adding new notification", notification);
+
+        await addNewNotification(accountId, notification);
+        window.notificationFetchCount = 0;
+      }
+    } catch (error) {
+      console.error("Error fetching notifications:", error);
     }
-  } catch (error) {
-    console.error("Error fetching notifications:", error);
-  }
-})();
-
-// document.addEventListener("click", (event: Event) => {
-//   const target = event.target as HTMLElement | null;
-
-// if (target && target.classList.contains("close-btn")) {
-//   const li = target.closest("li");
-
-//   if (!li) {
-//     return;
-//   }
-
-// li.classList.add("slide-out");
-// setTimeout(() => {
-//   li.remove();
-//   deleteNotification("giwaoluwatobi@gmail.com", li.id);
-//   const notificationBar = document.getElementById("notification-bar");
-//   if (notificationBar) {
-//     const notifications = notificationBar.querySelectorAll("li");
-//     if (notifications.length === 0) {
-//       updateNotifMarkup(
-//         `<p class="no-new text-black font-poppins text-sm text-center m-auto">No new notifications</p>`
-//       );
-//     }
-//   }
-// }, 800);
-// }
-// });
+  })();
+} else {
+  window.notificationFetchCount++;
+  console.log(window.notificationFetchCount, "still counting");
+}
