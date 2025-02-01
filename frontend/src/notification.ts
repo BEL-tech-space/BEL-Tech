@@ -163,7 +163,6 @@ declare global {
     _hyperscript: any;
     getNotificationMarkup: (accountId: string) => void;
     deleteNotification: (accountId: string, notificationId: string) => void;
-    notificationFetchCount: number;
   }
 }
 
@@ -235,15 +234,11 @@ function produceNotifLiMarkup(notif: Notification) {
   </li>
   `;
 }
-window.notificationFetchCount = window.notificationFetchCount || 0;
 
-if (window.notificationFetchCount >= 4) {
+const allowedPaths = ["dashboard", "welcome"];
+if (allowedPaths.some((path) => window.location.pathname.includes(path))) {
   (async () => {
     try {
-      console.log(
-        window.notificationFetchCount,
-        "would be fetching notification"
-      );
       const res = await fetch("/account/notifications", {
         headers: {
           Accept: "application/json",
@@ -260,17 +255,11 @@ if (window.notificationFetchCount >= 4) {
         return;
       }
 
-      // console.log("accountId", accountId);
-
       const data: Notification[] = await res.json();
-
-      // console.log("data", data);
 
       for (const notification of data) {
         const isNewNotification: boolean =
           await updateLastNotificationIfMoreRecent(accountId, notification);
-
-        // console.log("isNewNotification", isNewNotification);
 
         if (!isNewNotification) {
           console.log("Notification already exists, skipping", notification);
@@ -280,13 +269,10 @@ if (window.notificationFetchCount >= 4) {
         console.log("Adding new notification", notification);
 
         await addNewNotification(accountId, notification);
-        window.notificationFetchCount = 0;
       }
     } catch (error) {
       console.error("Error fetching notifications:", error);
     }
   })();
-} else {
-  window.notificationFetchCount++;
-  console.log(window.notificationFetchCount, "still counting");
 }
+
