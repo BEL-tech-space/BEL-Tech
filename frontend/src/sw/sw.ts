@@ -39,7 +39,7 @@ registerRoute(
   ({ url }) =>
     url.pathname === "/account/login.html" ||
     url.pathname === "/account/signup.html",
-  new CacheFirst({
+  new StaleWhileRevalidate({
     cacheName: partialsCache,
     plugins: [
       new ExpirationPlugin({
@@ -50,7 +50,7 @@ registerRoute(
   })
 );
 
-// account/dashboard
+// account/dashboard/chart
 registerRoute(
   new RegExp("^.*/account/dashboard/chart\\?month=[1-4]$"),
   new StaleWhileRevalidate({

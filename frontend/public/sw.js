@@ -4519,7 +4519,7 @@ This is generally NOT safe. Learn more at https://bit.ly/wb-precache`;
   enable();
   registerRoute(
     ({ url }) => url.pathname === "/account/login.html" || url.pathname === "/account/signup.html",
-    new CacheFirst({
+    new StaleWhileRevalidate({
       cacheName: partialsCache,
       plugins: [
         new ExpirationPlugin({
