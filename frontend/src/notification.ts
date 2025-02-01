@@ -34,8 +34,6 @@ type lastNotification = {
 const dbPromise = function () {
   const db = openDB<MyIndexDB>("beltech", INDEXDB_CURR_VERSION, {
     upgrade(db) {
-      console.log("Creating object store");
-
       if (!db.objectStoreNames.contains("accounts-notifications")) {
         db.createObjectStore("accounts-notifications", {
           keyPath: "accountId",
@@ -277,7 +275,6 @@ if (allowedPaths.some((path) => window.location.pathname.includes(path))) {
     }
   })();
 } else {
-  console.log("Not on dashboard or welcome page", window.location.pathname);
   (async () => {
     await updateNotificationCount();
   })();
@@ -293,14 +290,12 @@ async function updateNotificationCount() {
   if (!accountID) {
     return;
   }
-  console.log("accountID", accountID);
   const db = await dbPromise();
   const accountData = await db.get("accounts-notifications", accountID);
   if (!accountData) {
     return;
   }
   const count = accountData.notifications.length;
-  console.log("count", count);
   const notificationCount = document.getElementById("notificationCount");
   if (!notificationCount) {
     return;
