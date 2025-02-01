@@ -33,7 +33,7 @@ func TipsOnRecyclingPage(wasteType string, acc Account) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = HeadTag("Waste History").Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = HeadTag("tips").Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -41,7 +41,7 @@ func TipsOnRecyclingPage(wasteType string, acc Account) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = TipsHeaderPartial().Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = TipsHeaderPartial(acc).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -53,7 +53,15 @@ func TipsOnRecyclingPage(wasteType string, acc Account) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</div></body></html>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</div></body>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = scriptForWasteAndTipsPage().Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "</html>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -61,7 +69,7 @@ func TipsOnRecyclingPage(wasteType string, acc Account) templ.Component {
 	})
 }
 
-func TipsHeaderPartial() templ.Component {
+func TipsHeaderPartial(acc Account) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -82,7 +90,15 @@ func TipsHeaderPartial() templ.Component {
 			templ_7745c5c3_Var2 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<header class=\"pt-6 pl-6 pr-[1.56rem] flex w-full justify-between items-center\"><button onclick=\"history.back()\"><img src=\"/public/assets/svg/back_arrow.svg\" alt=\"\" class=\"w-6 aspect-square\"></button><p class=\"font-semibold text-[0.938rem] leading-[1.143rem]\">Recycle</p><button class=\"bg-[#CCE1D699] p-2 rounded-md flex justify-center items-center\"><img src=\"/public/assets/svg/notification.svg\" class=\"w-[1.5rem] aspect-square\"></button></header>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "<header class=\"pt-6 pl-6 pr-[1.56rem] flex w-full justify-between items-center\"><button onclick=\"history.back()\"><img src=\"/public/assets/svg/back_arrow.svg\" alt=\"\" class=\"w-6 aspect-square\"></button><p class=\"font-semibold text-[0.938rem] leading-[1.143rem]\">Recycle</p><button class=\"bg-[#CCE1D699] p-[0.5rem] rounded-md flex justify-center items-center\" _=\"on click\n\t\t\t\t\thalt the event\n\t\t\t\t\ttell #notification-bar\n\t\t\t\t\tif #notification-bar.classList does not contain &#39;translate-y-0&#39;\n\t\t\t\t\t\tthen set :accountId to #notification-bar.dataset.accountid\n\t\t\t\t\t\tthen call getNotificationMarkup(:accountId)\n\t\t\t\t\t\tthen remove .translate-y-full then add .translate-y-0\n\t\t\t\t\t\tthen call #notification-bar.focus() \n\t\t\t\t\t\tthen remove .hidden from #backdrop\n\t\t\t\t\tend\"><div class=\"relative\"><img src=\"/public/assets/svg/notification.svg\" class=\"w-6 aspect-square\"><p id=\"notificationCount\" class=\"bg-[#016934] text-white text-[0.5rem] leading-3 rounded-full absolute -top-1 -right-1 hidden\"></p></div></button>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = notificationBar(acc.Email).Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "</header>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -111,7 +127,7 @@ func TipsOnRecycleMain(wasteType string, acc Account) templ.Component {
 			templ_7745c5c3_Var3 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "<main class=\"grow overflow-y-auto pl-[1.5rem] pr-[1.56rem] pt-[1.875rem] grid grid-rows-wastePage\"><section class=\"flex items-center gap-1\"><p class=\"leading-[1.143rem] font-semibold text-[0.938rem]\">Tips on recycling</p><picture><source type=\"image/webp\" srcset=\"/public/assets/images/Recycle_small.webp\"> <img src=\"/public/assets/images/Recycle_small.png\" class=\"w-5 aspect-square\"></picture></section>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "<main class=\"grow overflow-y-auto pl-[1.5rem] pr-[1.56rem] pt-[1.875rem] grid grid-rows-wastePage\"><section class=\"flex items-center gap-1\"><p class=\"leading-[1.143rem] font-semibold text-[0.938rem]\">Tips on recycling</p><picture><source type=\"image/webp\" srcset=\"/public/assets/images/Recycle_small.webp\"> <img src=\"/public/assets/images/Recycle_small.png\" class=\"w-5 aspect-square\"></picture></section>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -123,7 +139,7 @@ func TipsOnRecycleMain(wasteType string, acc Account) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "</main>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "</main>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -238,7 +254,7 @@ func Paper() templ.Component {
 			templ_7745c5c3_Var6 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "<article id=\"paper\"></article>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "<article id=\"paper\"></article>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -267,7 +283,7 @@ func Glass() templ.Component {
 			templ_7745c5c3_Var7 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "<article id=\"glass\"></article>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "<article id=\"glass\"></article>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -296,7 +312,7 @@ func Metal() templ.Component {
 			templ_7745c5c3_Var8 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "<article id=\"metal\"></article>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "<article id=\"metal\"></article>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -325,7 +341,7 @@ func Plastics() templ.Component {
 			templ_7745c5c3_Var9 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "<article id=\"plastic\"></article>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, "<article id=\"plastic\"></article>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

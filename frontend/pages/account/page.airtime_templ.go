@@ -183,7 +183,7 @@ func AirtimeHeaderPartial(acc Account) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "\" class=\"rounded-full w-[1.86rem] aspect-square mr-[0.5rem]\"></a><p class=\"font-semibold text-[0.938rem] leading-[1.143rem]\">Spend BEL Token</p><button class=\"bg-[#CCE1D699] p-[0.5rem] ml-auto rounded-md flex justify-center items-center\" _=\"on click\n\t\t\t\t\thalt the event\n\t\t\t\t\ttell #notification-bar\n\t\t\t\t\tif #notification-bar.classList does not contain &#39;translate-y-0&#39;\n\t\t\t\t\t\tthen set :accountId to #notification-bar.dataset.accountid\n\t\t\t\t\t\tthen call getNotificationMarkup(:accountId)\n\t\t\t\t\t\tthen remove .translate-y-full then add .translate-y-0\n\t\t\t\t\t\tthen call #notification-bar.focus() \n\t\t\t\t\t\tthen remove .hidden from #backdrop\n\t\t\t\t\tend\"><img src=\"/public/assets/svg/notification.svg\" class=\"w-6 aspect-square\"></button>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "\" class=\"rounded-full w-[1.86rem] aspect-square mr-[0.5rem]\"></a><p class=\"font-semibold text-[0.938rem] leading-[1.143rem]\">Spend BEL Token</p><button class=\"bg-[#CCE1D699] p-[0.5rem] rounded-md flex justify-center items-center\" _=\"on click\n\t\t\t\t\thalt the event\n\t\t\t\t\ttell #notification-bar\n\t\t\t\t\tif #notification-bar.classList does not contain &#39;translate-y-0&#39;\n\t\t\t\t\t\tthen set :accountId to #notification-bar.dataset.accountid\n\t\t\t\t\t\tthen call getNotificationMarkup(:accountId)\n\t\t\t\t\t\tthen remove .translate-y-full then add .translate-y-0\n\t\t\t\t\t\tthen call #notification-bar.focus() \n\t\t\t\t\t\tthen remove .hidden from #backdrop\n\t\t\t\t\tend\"><div class=\"relative\"><img src=\"/public/assets/svg/notification.svg\" class=\"w-6 aspect-square\"><p id=\"notificationCount\" class=\"bg-[#016934] text-white text-[0.5rem] leading-3 rounded-full absolute -top-1 -right-1 hidden\"></p></div></button>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -297,7 +297,7 @@ func AirtimeBeneficiaries(ben []types.Beneficiary) templ.Component {
 				var templ_7745c5c3_Var8 string
 				templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(v.BName)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.airtime.templ`, Line: 118, Col: 95}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.airtime.templ`, Line: 121, Col: 95}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 				if templ_7745c5c3_Err != nil {
@@ -310,7 +310,7 @@ func AirtimeBeneficiaries(ben []types.Beneficiary) templ.Component {
 				var templ_7745c5c3_Var9 string
 				templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(v.BPhoneNo)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.airtime.templ`, Line: 119, Col: 120}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.airtime.templ`, Line: 122, Col: 120}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 				if templ_7745c5c3_Err != nil {

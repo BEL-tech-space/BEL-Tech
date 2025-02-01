@@ -215,6 +215,11 @@ func HtmlAndBodyClosingTagPartial(pageTitle string) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
+		case "waste", "tips":
+			templ_7745c5c3_Err = scriptForWasteAndTipsPage().Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
 		}
 		templ_7745c5c3_Err = templ.Raw(`</html>`).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
@@ -353,7 +358,7 @@ func CommonHeader(user Account) templ.Component {
 		var templ_7745c5c3_Var8 string
 		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(user.AvatarUrl)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 131, Col: 24}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 133, Col: 24}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 		if templ_7745c5c3_Err != nil {
@@ -371,7 +376,7 @@ func CommonHeader(user Account) templ.Component {
 			var templ_7745c5c3_Var9 string
 			templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(user.DisplayName)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 138, Col: 47}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 140, Col: 47}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 			if templ_7745c5c3_Err != nil {
@@ -389,7 +394,7 @@ func CommonHeader(user Account) templ.Component {
 			var templ_7745c5c3_Var10 string
 			templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(user.FirstName)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 143, Col: 45}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 145, Col: 45}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 			if templ_7745c5c3_Err != nil {
@@ -407,7 +412,7 @@ func CommonHeader(user Account) templ.Component {
 			var templ_7745c5c3_Var11 string
 			templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(user.LastName)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 148, Col: 44}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 150, Col: 44}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
 			if templ_7745c5c3_Err != nil {
@@ -423,7 +428,7 @@ func CommonHeader(user Account) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 19, "<button class=\"bg-[#CCE1D699] p-[0.5rem] ml-auto rounded-md flex justify-center items-center\" _=\"on click\n\t\t\t\t\thalt the event\n\t\t\t\t\ttell #notification-bar\n\t\t\t\t\tif #notification-bar.classList does not contain &#39;translate-y-0&#39;\n\t\t\t\t\t\tthen set :accountId to #notification-bar.dataset.accountid\n\t\t\t\t\t\tthen call getNotificationMarkup(:accountId)\n\t\t\t\t\t\tthen remove .translate-y-full then add .translate-y-0\n\t\t\t\t\t\tthen call #notification-bar.focus() \n\t\t\t\t\t\tthen remove .hidden from #backdrop\n\t\t\t\t\tend\"><img src=\"/public/assets/svg/notification.svg\" class=\"w-6 aspect-square\"></button>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 19, "<button class=\"bg-[#CCE1D699] p-[0.5rem] rounded-md flex ml-auto justify-center items-center\" _=\"on click\n\t\t\t\t\thalt the event\n\t\t\t\t\ttell #notification-bar\n\t\t\t\t\tif #notification-bar.classList does not contain &#39;translate-y-0&#39;\n\t\t\t\t\t\tthen set :accountId to #notification-bar.dataset.accountid\n\t\t\t\t\t\tthen call getNotificationMarkup(:accountId)\n\t\t\t\t\t\tthen remove .translate-y-full then add .translate-y-0\n\t\t\t\t\t\tthen call #notification-bar.focus() \n\t\t\t\t\t\tthen remove .hidden from #backdrop\n\t\t\t\t\tend\"><div class=\"relative\"><img src=\"/public/assets/svg/notification.svg\" class=\"w-6 aspect-square\"><p id=\"notificationCount\" class=\"bg-[#016934] text-white text-[0.5rem] leading-3 rounded-full absolute -top-1 -right-1 hidden\"></p></div></button>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -467,7 +472,7 @@ func commonHeaderTwo(text, avatarURL string, btnComp templ.Component) templ.Comp
 		var templ_7745c5c3_Var13 string
 		templ_7745c5c3_Var13, templ_7745c5c3_Err = templ.JoinStringErrs(avatarURL)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 181, Col: 19}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 186, Col: 19}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var13))
 		if templ_7745c5c3_Err != nil {
@@ -480,7 +485,7 @@ func commonHeaderTwo(text, avatarURL string, btnComp templ.Component) templ.Comp
 		var templ_7745c5c3_Var14 string
 		templ_7745c5c3_Var14, templ_7745c5c3_Err = templ.JoinStringErrs(text)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 185, Col: 68}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 190, Col: 68}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var14))
 		if templ_7745c5c3_Err != nil {
@@ -530,7 +535,7 @@ func LetRecycleAndProfile(text string) templ.Component {
 		var templ_7745c5c3_Var16 string
 		templ_7745c5c3_Var16, templ_7745c5c3_Err = templ.JoinStringErrs(text)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 192, Col: 68}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 197, Col: 68}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var16))
 		if templ_7745c5c3_Err != nil {
@@ -601,7 +606,7 @@ func notificationBar(accountEmail string) templ.Component {
 		var templ_7745c5c3_Var19 string
 		templ_7745c5c3_Var19, templ_7745c5c3_Err = templ.JoinStringErrs(accountEmail)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 236, Col: 31}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 241, Col: 31}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var19))
 		if templ_7745c5c3_Err != nil {
@@ -615,86 +620,4 @@ func notificationBar(accountEmail string) templ.Component {
 	})
 }
 
-// <li class="flex justify-between items-start gap-[0.98rem] [transition:transform_0.8s_ease-in,opacity_0.6s_ease-in]">
-//
-//		<img
-//			src="/public/assets/svg/closeBtn.svg"
-//			_="on click
-//				tell the closest <li/>
-//					add .slide-out then settle then remove yourself
-//					then if  #notification-bar.querySelectorAll('li').length === 0
-//						remove .hidden from .no-new then halt
-//					end"
-//			class="close-btn w-[1.324rem] aspect-square"
-//		/>
-//		<div>
-//			<section class="w-full flex justify-between items-center mb-[0.441rem]">
-//				<p
-//					class="badge welcome bg-[#BB1D80] text-[#FFFFFF] font-bold text-[0.511rem]
-//	                leading-[0.623rem] text-center px-[0.929rem] py-[0.078rem] rounded-[0.256rem]"
-//				>Welcome</p>
-//				<p class="text-[#3C3C4399] font-poppins font-normal text-[0.477rem] leading-[0.715rem]">24 Nov 2024 at 3:45am</p>
-//			</section>
-//			<div class="content">
-//				<p class="text-[#000000] font-bold text-start text-[0.626rem] leading-[0.763rem] mb-[0.313rem]">Welcome, Kherney to BelTech</p>
-//				<p class="text-[#000000] font-poppins font-normal text-[0.626rem] text-start leading-[0.938rem]">Welcome to BelTech, connect your Solana wallet to earn BEL tokens</p>
-//			</div>
-//		</div>
-//
-// </li>
-// <li class="flex justify-between items-start gap-[0.98rem] [transition:transform_0.8s_ease-in,opacity_0.6s_ease-in]">
-//
-//		<img
-//			src="/public/assets/svg/closeBtn.svg"
-//			class="close-btn w-[1.324rem] aspect-square"
-//			_="on click
-//				tell the closest <li/>
-//					add .slide-out then settle then remove yourself
-//					then if #notification-bar.querySelectorAll('li').length === 0
-//						remove .hidden from .no-new then halt
-//					end"
-//		/>
-//		<div>
-//			<section class="w-full flex justify-between items-center mb-[0.441rem]">
-//				<p
-//					class="badge welcome bg-[#1BCA71] text-[#FFFFFF] font-bold text-[0.511rem]
-//	                leading-[0.623rem] text-center px-[0.929rem] py-[0.078rem] rounded-[0.256rem]"
-//				>Welcome</p>
-//				<p class="text-[#3C3C4399] font-poppins font-normal text-[0.477rem] leading-[0.715rem]">24 Nov 2024 at 3:45am</p>
-//			</section>
-//			<div class="content">
-//				<p class="text-[#000000] font-bold text-start text-[0.626rem] leading-[0.763rem] mb-[0.313rem]">Welcome, Kherney to BelTech</p>
-//				<p class="text-[#000000] font-poppins font-normal text-[0.626rem] text-start leading-[0.938rem]">Welcome to BelTech, connect your Solana wallet to earn BEL tokens</p>
-//			</div>
-//		</div>
-//
-// </li>
-// <li class="flex justify-between items-start gap-[0.98rem] [transition:transform_0.8s_ease-in,opacity_0.6s_ease-in]">
-//
-//	<img
-//		src="/public/assets/svg/closeBtn.svg"
-//		class="close-btn w-[1.324rem] aspect-square"
-//		_="on click
-//			tell the closest <li/>
-//				add .slide-out then settle then remove yourself
-//				then if #notification-bar.querySelectorAll('li').length === 0
-//					remove .hidden from .no-new then halt
-//				end"
-//	/>
-//	<div>
-//		<section class="w-full flex justify-between items-center mb-[0.441rem]">
-//			<p
-//				class="badge welcome bg-[#EBAB01] text-[#FFFFFF] font-bold text-[0.511rem]
-//	            leading-[0.623rem] text-center px-[0.929rem] ßpy-[0.078rem] rounded-[0.256rem]"
-//			>Welcome</p>
-//			<p class="text-[#3C3C4399] font-poppins font-normal text-[0.477rem] leading-[0.715rem]">24 Nov 2024 at 3:45am</p>
-//		</section>
-//		<div class="content">
-//			<p class="text-[#000000] font-bold text-start text-[0.626rem] leading-[0.763rem] mb-[0.313rem]">Welcome, Kherney to BelTech</p>
-//			<p class="text-[#000000] font-poppins font-normal text-[0.626rem] text-start leading-[0.938rem]">Welcome to BelTech, connect your Solana wallet to earn BEL tokens</p>
-//		</div>
-//	</div>
-//
-// </li>
-// <p class="hidden no-new text-black font-poppins text-sm text-center m-auto">No new notification</p>
 var _ = templruntime.GeneratedTemplate

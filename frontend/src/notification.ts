@@ -163,6 +163,7 @@ declare global {
     _hyperscript: any;
     getNotificationMarkup: (accountId: string) => void;
     deleteNotification: (accountId: string, notificationId: string) => void;
+    updateNotificationCount: () => void;
   }
 }
 
@@ -176,7 +177,6 @@ function updateNotifMarkup(markup: string) {
 
 window.deleteNotification = deleteNotification;
 window.getNotificationMarkup = (accountId: string) => {
-  console.log("i was called");
   (async () => {
     const db = await dbPromise();
     const accountData = await db.get("accounts-notifications", accountId);
@@ -217,6 +217,7 @@ function produceNotifLiMarkup(notif: Notification) {
           then set :notifId to your id
           then set :accountId to #notification-bar.dataset.accountid
           then call deleteNotification(:accountId, :notifId)
+          then call updateNotificationCount()
           then if <li/> in #notification-bar is empty
             remove .hidden from .no-new
           end"
@@ -269,10 +270,60 @@ if (allowedPaths.some((path) => window.location.pathname.includes(path))) {
         console.log("Adding new notification", notification);
 
         await addNewNotification(accountId, notification);
+        await updateNotificationCount();
       }
     } catch (error) {
       console.error("Error fetching notifications:", error);
     }
   })();
+} else {
+  console.log("Not on dashboard or welcome page", window.location.pathname);
+  (async () => {
+    await updateNotificationCount();
+  })();
 }
 
+window.updateNotificationCount = updateNotificationCount;
+async function updateNotificationCount() {
+  const notificationBar = document.getElementById("notification-bar");
+  if (!notificationBar) {
+    return;
+  }
+  const accountID = notificationBar.dataset.accountid;
+  if (!accountID) {
+    return;
+  }
+  console.log("accountID", accountID);
+  const db = await dbPromise();
+  const accountData = await db.get("accounts-notifications", accountID);
+  if (!accountData) {
+    return;
+  }
+  const count = accountData.notifications.length;
+  console.log("count", count);
+  const notificationCount = document.getElementById("notificationCount");
+  if (!notificationCount) {
+    return;
+  }
+  if (count === 0) {
+    notificationCount.classList.add("hidden");
+    notificationCount.classList.remove(
+      "flex",
+      "items-center",
+      "justify-center",
+      "w-4",
+      "h-4"
+    );
+    return;
+  }
+
+  notificationCount.innerText = count.toString();
+  notificationCount.classList.remove("hidden");
+  notificationCount.classList.add(
+    "flex",
+    "items-center",
+    "justify-center",
+    "w-4",
+    "h-4"
+  );
+}

@@ -27,7 +27,7 @@ templ SpendHeaderPartial(acc Account) {
 		</a>
 		<p class="font-semibold text-[0.938rem] leading-[1.143rem]">Spend BEL Token</p>
 		<button
-			class="bg-[#CCE1D699] p-[0.5rem] ml-auto rounded-md flex justify-center items-center"
+			class="bg-[#CCE1D699] p-[0.5rem] rounded-md flex justify-center items-center"
 			_="on click
 					halt the event
 					tell #notification-bar
@@ -39,10 +39,13 @@ templ SpendHeaderPartial(acc Account) {
 						then remove .hidden from #backdrop
 					end"
 		>
-			<img
-				src="/public/assets/svg/notification.svg"
-				class="w-6 aspect-square"
-			/>
+			<div class="relative">
+				<img
+					src="/public/assets/svg/notification.svg"
+					class="w-6 aspect-square"
+				/>
+				<p id="notificationCount" class="bg-[#016934] text-white text-[0.5rem] leading-3 rounded-full absolute -top-1 -right-1 hidden"></p>
+			</div>
 		</button>
 		@notificationBar(acc.Email)
 	</header>

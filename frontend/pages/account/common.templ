@@ -46,6 +46,8 @@ templ HtmlAndBodyClosingTagPartial(pageTitle string) {
 			@enterSPLWalletAddrDialog()
 			@successDialog(true)
 			@changeSPLWalletAddrDialog()
+		case "waste", "tips":
+			@scriptForWasteAndTipsPage()
 	}
 	@templ.Raw(`</html>`)
 }
@@ -153,7 +155,7 @@ templ CommonHeader(user Account) {
 			</p>
 		}
 		<button
-			class="bg-[#CCE1D699] p-[0.5rem] ml-auto rounded-md flex justify-center items-center"
+			class="bg-[#CCE1D699] p-[0.5rem] rounded-md flex ml-auto justify-center items-center"
 			_="on click
 					halt the event
 					tell #notification-bar
@@ -165,10 +167,13 @@ templ CommonHeader(user Account) {
 						then remove .hidden from #backdrop
 					end"
 		>
-			<img
-				src="/public/assets/svg/notification.svg"
-				class="w-6 aspect-square"
-			/>
+			<div class="relative">
+				<img
+					src="/public/assets/svg/notification.svg"
+					class="w-6 aspect-square"
+				/>
+				<p id="notificationCount" class="bg-[#016934] text-white text-[0.5rem] leading-3 rounded-full absolute -top-1 -right-1 hidden"></p>
+			</div>
 		</button>
 		@notificationBar(user.Email)
 	</header>
@@ -238,80 +243,3 @@ templ notificationBar(accountEmail string) {
 		<ul class=" flex flex-col gap-[2.635rem] justify-center items-center"></ul>
 	</section>
 }
-
-// <li class="flex justify-between items-start gap-[0.98rem] [transition:transform_0.8s_ease-in,opacity_0.6s_ease-in]">
-// 	<img
-// 		src="/public/assets/svg/closeBtn.svg"
-// 		_="on click
-// 			tell the closest <li/>
-// 				add .slide-out then settle then remove yourself
-// 				then if  #notification-bar.querySelectorAll('li').length === 0
-// 					remove .hidden from .no-new then halt
-// 				end"
-// 		class="close-btn w-[1.324rem] aspect-square"
-// 	/>
-// 	<div>
-// 		<section class="w-full flex justify-between items-center mb-[0.441rem]">
-// 			<p
-// 				class="badge welcome bg-[#BB1D80] text-[#FFFFFF] font-bold text-[0.511rem]
-//                 leading-[0.623rem] text-center px-[0.929rem] py-[0.078rem] rounded-[0.256rem]"
-// 			>Welcome</p>
-// 			<p class="text-[#3C3C4399] font-poppins font-normal text-[0.477rem] leading-[0.715rem]">24 Nov 2024 at 3:45am</p>
-// 		</section>
-// 		<div class="content">
-// 			<p class="text-[#000000] font-bold text-start text-[0.626rem] leading-[0.763rem] mb-[0.313rem]">Welcome, Kherney to BelTech</p>
-// 			<p class="text-[#000000] font-poppins font-normal text-[0.626rem] text-start leading-[0.938rem]">Welcome to BelTech, connect your Solana wallet to earn BEL tokens</p>
-// 		</div>
-// 	</div>
-// </li>
-// <li class="flex justify-between items-start gap-[0.98rem] [transition:transform_0.8s_ease-in,opacity_0.6s_ease-in]">
-// 	<img
-// 		src="/public/assets/svg/closeBtn.svg"
-// 		class="close-btn w-[1.324rem] aspect-square"
-// 		_="on click
-// 			tell the closest <li/>
-// 				add .slide-out then settle then remove yourself
-// 				then if #notification-bar.querySelectorAll('li').length === 0
-// 					remove .hidden from .no-new then halt
-// 				end"
-// 	/>
-// 	<div>
-// 		<section class="w-full flex justify-between items-center mb-[0.441rem]">
-// 			<p
-// 				class="badge welcome bg-[#1BCA71] text-[#FFFFFF] font-bold text-[0.511rem]
-//                 leading-[0.623rem] text-center px-[0.929rem] py-[0.078rem] rounded-[0.256rem]"
-// 			>Welcome</p>
-// 			<p class="text-[#3C3C4399] font-poppins font-normal text-[0.477rem] leading-[0.715rem]">24 Nov 2024 at 3:45am</p>
-// 		</section>
-// 		<div class="content">
-// 			<p class="text-[#000000] font-bold text-start text-[0.626rem] leading-[0.763rem] mb-[0.313rem]">Welcome, Kherney to BelTech</p>
-// 			<p class="text-[#000000] font-poppins font-normal text-[0.626rem] text-start leading-[0.938rem]">Welcome to BelTech, connect your Solana wallet to earn BEL tokens</p>
-// 		</div>
-// 	</div>
-// </li>
-// <li class="flex justify-between items-start gap-[0.98rem] [transition:transform_0.8s_ease-in,opacity_0.6s_ease-in]">
-// 	<img
-// 		src="/public/assets/svg/closeBtn.svg"
-// 		class="close-btn w-[1.324rem] aspect-square"
-// 		_="on click
-// 			tell the closest <li/>
-// 				add .slide-out then settle then remove yourself
-// 				then if #notification-bar.querySelectorAll('li').length === 0
-// 					remove .hidden from .no-new then halt
-// 				end"
-// 	/>
-// 	<div>
-// 		<section class="w-full flex justify-between items-center mb-[0.441rem]">
-// 			<p
-// 				class="badge welcome bg-[#EBAB01] text-[#FFFFFF] font-bold text-[0.511rem]
-// 	            leading-[0.623rem] text-center px-[0.929rem] ßpy-[0.078rem] rounded-[0.256rem]"
-// 			>Welcome</p>
-// 			<p class="text-[#3C3C4399] font-poppins font-normal text-[0.477rem] leading-[0.715rem]">24 Nov 2024 at 3:45am</p>
-// 		</section>
-// 		<div class="content">
-// 			<p class="text-[#000000] font-bold text-start text-[0.626rem] leading-[0.763rem] mb-[0.313rem]">Welcome, Kherney to BelTech</p>
-// 			<p class="text-[#000000] font-poppins font-normal text-[0.626rem] text-start leading-[0.938rem]">Welcome to BelTech, connect your Solana wallet to earn BEL tokens</p>
-// 		</div>
-// 	</div>
-// </li>
-// <p class="hidden no-new text-black font-poppins text-sm text-center m-auto">No new notification</p>
