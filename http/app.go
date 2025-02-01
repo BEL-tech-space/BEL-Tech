@@ -2,6 +2,8 @@ package http
 
 import (
 	"beltech/service"
+	"crypto/rand"
+	"encoding/hex"
 
 	"github.com/dgraph-io/ristretto/v2"
 	"github.com/google/uuid"
@@ -72,15 +74,14 @@ func NewApp(cfg *EnvConfig, db *pgxpool.Pool, rCache *ristretto.Cache[string, se
 }
 
 func GenerateRandomKey(d, buildMode string) string {
-	// if buildMode != "production" && (len([]byte(d)) == 32 || len([]byte(d)) == 64) {
-	// 	return d
-	// }
+	if buildMode != "production" && (len([]byte(d)) == 32 || len([]byte(d)) == 64) {
+		return d
+	}
 
-	// key := make([]byte, 64)
-	// if _, err := rand.Read(key); err != nil {
-	// 	return d
-	// }
+	key := make([]byte, 64)
+	if _, err := rand.Read(key); err != nil {
+		return d
+	}
 
-	// return hex.EncodeToString(key)
-	return d
+	return hex.EncodeToString(key)
 }

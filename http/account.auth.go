@@ -26,12 +26,16 @@ func (a *App) signInWithProviderAccount(w http.ResponseWriter, r *http.Request) 
 
 	var provider string
 	if provider = chi.URLParam(r, "provider"); provider == "" {
-		http.Error(w, "Provider not specified", http.StatusBadRequest)
+		// http.Error(w, "Provider not specified", http.StatusBadRequest)
+		w.WriteHeader(http.StatusBadRequest)
+		http.Redirect(w, r, "/account/login.html", http.StatusTemporaryRedirect)
 		return
 	}
 
 	if provider != "google" && provider != "facebook" {
-		http.Error(w, "Invalid provider", http.StatusBadRequest)
+		// http.Error(w, "Invalid provider", http.StatusBadRequest)
+		w.WriteHeader(http.StatusBadRequest)
+		http.Redirect(w, r, "/account/login.html", http.StatusTemporaryRedirect)
 		return
 	}
 
@@ -45,15 +49,16 @@ func (a *App) signInWithProviderAccount(w http.ResponseWriter, r *http.Request) 
 	r.URL.RawQuery = q.Encode()
 
 	// try to get the user without re-authenticating
-	// if gothUser, err := gothic.CompleteUserAuth(w, r); err == nil {
-	// 	if err = a.logInUser(w, r, gothUser); err != nil {
-	// 		http.Error(w, err.Error(), http.StatusInternalServerError)
-	// 		return
-	// 	}
+	if gothUser, err := gothic.CompleteUserAuth(w, r); err == nil {
+		if err = a.logInUser(w, r, gothUser); err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			http.Redirect(w, r, "/account/login.html", http.StatusTemporaryRedirect)
+			return
+		}
 
-	// 	http.Redirect(w, r, "/account/dashboard", http.StatusTemporaryRedirect)
-	// 	return
-	// }
+		http.Redirect(w, r, "/account/dashboard", http.StatusTemporaryRedirect)
+		return
+	}
 
 	gothic.BeginAuthHandler(w, r)
 }
@@ -66,14 +71,18 @@ func (a *App) callbackHandlerAccount(w http.ResponseWriter, r *http.Request) {
 
 	if a.config.Build == productionEnv {
 		if user, err = gothic.CompleteUserAuth(w, r); err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
+			// http.Error(w, err.Error(), http.StatusInternalServerError)
+			w.WriteHeader(http.StatusInternalServerError)
+			http.Redirect(w, r, "/account/login.html", http.StatusTemporaryRedirect)
 			return
 		}
 	}
 
 	if err = a.logInUser(w, r, user); err != nil {
 		fmt.Println("err from loginUser", err.Error())
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		// http.Error(w, err.Error(), http.StatusInternalServerError)
+		w.WriteHeader(http.StatusInternalServerError)
+		http.Redirect(w, r, "/account/login.html", http.StatusTemporaryRedirect)
 		return
 	}
 

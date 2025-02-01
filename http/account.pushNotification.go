@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/SherClockHolmes/webpush-go"
+	"golang.org/x/exp/rand"
 )
 
 type Subscription struct {
@@ -51,7 +52,7 @@ func sendNotification(sub Subscription, message string) error {
 }
 
 type Notification struct {
-	AccountId           string `json:accountId`
+	AccountId           string `json:"accountId"`
 	NotificationID      string `json:"notificationId"`
 	NotificationHeading string `json:"notificationHeading"`
 	NotificationTitle   string `json:"notificationTitle"`
@@ -80,7 +81,7 @@ func (a *App) notificationPageHandler(w http.ResponseWriter, r *http.Request) {
 			AccountId:           accountEmail,
 		},
 		{
-			NotificationID:      "3",
+			NotificationID:      fmt.Sprintf("%05d", rand.Intn(100000)),
 			NotificationTitle:   "New Device",
 			NotificationHeading: "Notice! Your account was logged in on a new device",
 			NotificationBody:    "Hello Kherney, your account was logged in on a new device, confirm if it is you.",

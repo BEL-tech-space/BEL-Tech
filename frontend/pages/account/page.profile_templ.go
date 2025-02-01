@@ -274,14 +274,14 @@ func ProfileUpdataAccountInfoPartial(acc Account) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "\" class=\"outline-none border-solid border-[#569B78] border-[0.0313rem] rounded p-2 w-full\" _=\"on input\n\t\t\t\t\ttell #saveButton\n\t\t\t\t\tif my.value.trim()\n\t\t\t\t\t\tremove @disabled then \n\t\t\t\t\t\tremove .opacity-45 then\n\t\t\t\t\t\tadd .{&#39;bg-[#016934]&#39;}\n\t\t\t\t\telse\n\t\t\t\t\t\tadd @disabled then \n\t\t\t\t\t\tadd .opacity-45 then\n\t\t\t\t\t\tremove .{&#39;bg-[#016934]&#39;}\n\t\t\t\t\tend\"><style>\n\t\t\t.color {\n\t\t\t\tbackground-color: #016934;\n\t\t\t}\n\t\t\t</style></div><div class=\"w-full flex flex-col justify-start items-start gap-1\"><label for=\"\" class=\"font-semibold text-xs\">Email:</label> <input disabled type=\"text\" name=\"nickname\" id=\"email\" placeholder=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "\" class=\"outline-none border-solid border-[#569B78] border-[0.0313rem] rounded p-2 w-full\" _=\"on input\n\t\t\t\t\ttell #saveButton\n\t\t\t\t\tif my.value.trim()\n\t\t\t\t\t\tremove @disabled then remove .opacity-45 then remove .{&#39;bg-green-400&#39;}\n\t\t\t\t\t\tthen add .{&#39;bg-[#016934]&#39;}\n\t\t\t\t\telse\n\t\t\t\t\t\tadd @disabled then add .opacity-45 then add .{&#39;bg-green-400&#39;}\n\t\t\t\t\t\tthen remove .{&#39;bg-[#016934]&#39;}\n\t\t\t\t\tend\"></div><div class=\"w-full flex flex-col justify-start items-start gap-1\"><label for=\"\" class=\"font-semibold text-xs\">Email:</label> <input disabled type=\"text\" name=\"nickname\" id=\"email\" placeholder=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var9 string
 		templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(acc.Email)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.profile.templ`, Line: 117, Col: 81}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.profile.templ`, Line: 110, Col: 81}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 		if templ_7745c5c3_Err != nil {

@@ -118,7 +118,7 @@ const deleteNotification = async function (
   }
 };
 
-const updateLastNotificationIfMoreRecent = async function (
+const isNotificationRecent = async function (
   accountId: string,
   newNotification: Notification
 ) {
@@ -257,11 +257,13 @@ if (allowedPaths.some((path) => window.location.pathname.includes(path))) {
       const data: Notification[] = await res.json();
 
       for (const notification of data) {
-        const isNewNotification: boolean =
-          await updateLastNotificationIfMoreRecent(accountId, notification);
+        const isNewNotification: boolean = await isNotificationRecent(
+          accountId,
+          notification
+        );
 
         if (!isNewNotification) {
-          console.log("Notification already exists, skipping", notification);
+          console.log("Notification in the past, skipping", notification);
           continue;
         }
 
