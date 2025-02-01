@@ -69,11 +69,6 @@ templ TipsOnRecycleMain(wasteType string, acc Account) {
 
 templ TipsWasteTypeArticle(wasteType string) {
 	<div class="overflow-y-auto font-montserrat font-medium text-[#2E2E2E] text-[0.813rem] leading-[1.138rem] text-justify rounded-t-md pt-1">
-		<style>
-			p:has(+ p) {
-				margin-bottom: 1.5rem;
-			}
-		</style>
 		switch wasteType {
 			case "paper":
 				@Paper()
@@ -107,31 +102,31 @@ templ Paper() {
 
 templ Glass() {
 	<article id="glass">
-		<p>
+		<p class="mb-6">
 			Glass is one of the most recyclable materials in the world, and recycling it can significantly reduce waste and conserve resources. 
 			Recycling glass helps cut down the need for raw materials like sand, reduces energy consumption, and keeps non-biodegradable waste out of landfills. 
 		</p>
-		<p>
+		<p class="mb-6">
 			Not all glass is recyclable. Items like glass bottles, jars, clear glass and colored glass (green and brown) are typically accepted at recycling centers. However, other types of glass, such as window panes, mirrors, ceramics, or lightbulbs, may not be recyclable because they contain additives or are treated differently during production.
 			Before recycling, ensure that the glass items you have are the correct type. 
 		</p>
-		<p>
+		<p class="mb-6">
 			Before you recycle glass, it’s very important to clean it thoroughly. This means removing any leftover food, liquids, or labels. 
 			Contaminated glass can affect the recycling process, so rinse jars and bottles with water before placing them in the recycling bin.
 			For instance, if you’re recycling a tomato sauce jar, rinse it out to remove leftover sauce. Don’t worry about removing every bit of glue from the label; the recycling facilities handle that.
 		</p>
-		<p>
+		<p class="mb-6">
 			In Nigeria, dedicated recycling facilities or drop-off points are important for proper waste management. A company like Bel Tech makes it easier by providing designated collection points where you can drop off your recyclable materials, including glass.
 			Check if your community has a recycling center nearby or if programs like Bel Tech operate in your area. With Bel Tech’s app, you can even track collection points and earn rewards for recycling.
 		</p>
-		<p>
+		<p class="mb-6">
 			If you’re recycling broken glass, handle it with caution to avoid injury. Wrap sharp edges in newspaper or place them in a sturdy container before transporting them to the recycling center.
 			Important Tip: Never throw broken glass directly into your recycling bin without protecting it, as it can harm waste handlers.
 		</p>
-		<p>
+		<p class="mb-6">
 			One of the unique ways Bel Tech promotes recycling in Nigeria is by offering incentives. By dropping off your recyclable glass at designated Bel Tech collection points, you can earn tokens or rewards that can be redeemed for goods or services. This encourages proper waste management while benefiting the environment and the recycler.
 		</p>
-		<p>
+		<p class="mb-6">
 			Recycling glass is an easy and impactful way to reduce waste and promote sustainability in your community. 
 			You can contribute to a cleaner environment and even earn rewards with platforms like Bel Tech by following these steps; cleaning, sorting, and dropping off glass at the right centers.
 		</p>
@@ -140,10 +135,10 @@ templ Glass() {
 
 templ Metal() {
 	<article id="metal">
-		<p>
+		<p class="mb-6">
 			Metal is one of the most valuable materials in the recycling industry, and recycling it is essential for conserving natural resources, reducing landfill waste, and mitigating the environmental impacts of mining and processing raw metals. However, to make metal recycling effective, it's crucial to know the right steps to follow and how to prepare metal items for recycling. In this blog post, we will look at the proper ways of recycling metals.
 		</p>
-		<p>
+		<p class="mb-6">
 			Not all metals are recyclable, so the first step is to identify the types of metal that can be recycled. Common recyclable metals include:
 			<div class="my-4 flex flex-col gap-1 items-start text-justify">
 				<h6>
@@ -161,7 +156,7 @@ templ Metal() {
 			</div>
 			Check with your local recycling center or platform like Bel Tech for guidelines on recyclable metals in your area.
 		</p>
-		<p>
+		<p class="mb-6">
 			Cleaning metal items before recycling is essential to ensure they are processed correctly. Dirty metal can contaminate entire batches of recyclables, making it harder to process. This is how to clean metals properly:
 			<div class="my-4 flex flex-col gap-1 items-start text-justify">
 				<h6>
@@ -175,10 +170,10 @@ templ Metal() {
 				</h6>
 			</div>
 		</p>
-		<p>
+		<p class="mb-6">
 			Many metal items come with non-metal materials like plastic caps, paper labels, or rubber seals. These need to be removed before recycling. Recycling facilities are designed to process pure metal, so mixing materials can cause problems. You can separately recycle the non-metal parts if possible, or dispose of them properly.
 		</p>
-		<p>
+		<p class="mb-6">
 			To ensure efficient recycling, sort metal items by type. This helps recycling facilities process the metals correctly and produces higher-quality recyclables. Here's how to sort metals:
 			<div class="my-4 flex flex-col gap-1 items-start text-justify">
 				<h6>
@@ -189,10 +184,10 @@ templ Metal() {
 				</h6>
 			</div>
 		</p>
-		<p>
+		<p class="mb-6">
 			To keep metals in perfect condition for recycling, store them in a clean, dry place before dropping them off at a recycling center or collection point. This helps prevent contamination by dirt or moisture, which can make the metal harder to process.
 		</p>
-		<p>
+		<p class="mb-6">
 			Recycling metal effectively requires a few simple but important steps. Identify recyclable metals, clean them thoroughly, remove non-metal parts, sort metal items by type, and store them properly. When you do this, you ensure that the metal is in the best condition for recycling.
 			Bel Tech is helping Nigerians make a difference by creating opportunities for proper waste recycling. With platforms like theirs, recycling becomes easy, rewarding, and impactful. Start recycling today and contribute to a cleaner, healthier Nigeria.
 			Want to learn more about recycling and sustainable waste management? Follow BelTech on all social media platforms for tips, updates, and opportunities to make a difference in our country.
@@ -202,13 +197,13 @@ templ Metal() {
 
 templ Plastics() {
 	<article id="plastic">
-		<p>
+		<p class="mb-6">
 			Not all plastics are recyclable, so the first step is to identify the types of plastic that can be recycled. 
 			Look for the recycling symbol (a triangle of arrows) on the plastic item. Inside the symbol, you’ll see a number that indicates the type of plastic.
 			Common recyclable plastics include; <b>PET (Polyethylene Terephthalate)</b> which is used in water bottles, soda bottles, and food containers and <b>HDPE (High-Density Polyethylene)</b> which can be found in detergent bottles, milk jugs, and shampoo containers.
 			Plastics like PVC (used in pipes) or polystyrene (Styrofoam) are harder to recycle, so check with your local recycling center or platform like Bel Tech for guidelines.
 		</p>
-		<p>
+		<p class="mb-6">
 			One of the most important steps in plastic recycling is to clean the items before sending them for recycling. Dirty plastic can contaminate entire batches of recyclables, making it harder to process.
 			This is how to clean plastics properly:
 			<div class="my-4 flex flex-col gap-1 items-start text-justify">
@@ -224,12 +219,12 @@ templ Plastics() {
 			</div>
 			For instance, before recycling a yoghurt or coke container, rinse it out completely and remove any attached foil or paper labels.
 		</p>
-		<p>
+		<p class="mb-6">
 			Many plastic items come with non-plastic materials like metal caps, paper labels, or rubber seals. These need to be removed before recycling. 
 			Recycling facilities are designed to process pure plastic, so mixing materials can cause problems.
 			You can separately recycle the non-plastic parts if possible, or dispose of them properly.
 		</p>
-		<p>
+		<p class="mb-6">
 			To save space and make transportation easier, flatten or compress plastic items before recycling. This is especially useful for bulky plastic bottles or containers.
 			Here’s how to do it:
 			<div class="my-4 flex flex-col gap-1 items-start text-justify">
@@ -242,7 +237,7 @@ templ Plastics() {
 			</div>
 			Flattening also ensures that more plastic can fit into collection bins or bags, making the process more efficient.
 		</p>
-		<p>
+		<p class="mb-6">
 			To keep plastics in perfect condition for recycling, store them in a clean, dry place before dropping them off at a recycling center or collection point. 
 			This helps prevent contamination by dirt or moisture, which can make the plastic harder to process.
 			For instance, you can use a separate bag or container specifically for recyclable plastics. Also avoid mixing plastics with other waste like food scraps or glass.
