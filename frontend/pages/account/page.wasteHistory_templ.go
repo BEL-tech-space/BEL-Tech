@@ -244,13 +244,13 @@ func WasteQuickInfo(wasteType string, acc Account) templ.Component {
 			templ_7745c5c3_Var6 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "<section class=\"flex justify-start items-center gap-4 mt-6 mb-10\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "<section class=\"flex justify-start items-center gap-4 mt-6 mb-8\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		switch wasteType {
 		case "paper":
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "<picture><source type=\"image/webp\" srcset=\"/public/assets/images/book.webp\"> <img src=\"/public/assets/images/book.jpg\" alt=\"\" class=\"w-[6.875rem] aspect-square rounded-[0.516rem] bg-[#1E1E1E33]\"></picture><div class=\"flex flex-col justify-start items-start gap-1 text-[#3A3A3A]\"><p class=\"font-bold text-[0.806rem] leading-[0.983rem]\">Material: <span class=\"font-semibold\">Paper</span></p><p class=\"font-bold text-[0.733rem] leading-[0.893rem]\">Total Earned: <span class=\"font-medium font-poppins\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "<picture><source type=\"image/webp\" srcset=\"/public/assets/images/book.webp\"> <img src=\"/public/assets/images/book.jpg\" alt=\"\" class=\"w-[6.875rem] aspect-square rounded-[0.516rem] bg-[#1E1E1E33]\"></picture><div class=\"flex flex-col items-start gap-[0.239rem] text-[#3A3A3A]\"><p class=\"font-bold text-[0.806rem] leading-[0.983rem] mb-0\">Material: <span class=\"font-semibold\">Paper</span></p><p class=\"font-bold text-[0.733rem] leading-[0.893rem]\">Total Earned: <span class=\"font-medium font-poppins\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -268,7 +268,7 @@ func WasteQuickInfo(wasteType string, acc Account) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		case "glass":
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "<picture><source type=\"image/webp\" srcset=\"/public/assets/images/glass.webp\"> <img src=\"/public/assets/images/glass.jpg\" alt=\"\" class=\"w-[6.875rem] aspect-square rounded-[0.516rem] bg-[#1E1E1E33]\"></picture><div class=\"flex flex-col justify-start items-start gap-1 text-[#3A3A3A]\"><p class=\"font-bold text-[0.806rem] leading-[0.983rem]\">Material: <span class=\"font-semibold\">Glass</span></p><p class=\"font-bold text-[0.733rem] leading-[0.893rem]\">Total Earned: <span class=\"font-medium font-poppins\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "<picture><source type=\"image/webp\" srcset=\"/public/assets/images/glass.webp\"> <img src=\"/public/assets/images/glass.jpg\" alt=\"\" class=\"w-[6.875rem] aspect-square rounded-[0.516rem] bg-[#1E1E1E33]\"></picture><div class=\"flex flex-col items-start gap-[0.239rem] text-[#3A3A3A]\"><p class=\"font-bold text-[0.806rem] leading-[0.983rem] mb-0\">Material: <span class=\"font-semibold\">Glass</span></p><p class=\"font-bold text-[0.733rem] leading-[0.893rem]\">Total Earned: <span class=\"font-medium font-poppins\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -286,7 +286,7 @@ func WasteQuickInfo(wasteType string, acc Account) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		case "metal":
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, "<picture><source type=\"image/webp\" srcset=\"/public/assets/images/metal2.webp\"> <img src=\"/public/assets/images/metal2.jpg\" alt=\"\" class=\"w-[6.875rem] aspect-square rounded-[0.516rem] bg-[#1E1E1E33]\"></picture><div class=\"flex flex-col justify-start items-start gap-1 text-[#3A3A3A]\"><p class=\"font-bold text-[0.806rem] leading-[0.983rem]\">Material: <span class=\"font-semibold\">Metal</span></p><p class=\"font-bold text-[0.733rem] leading-[0.893rem]\">Total Earned: <span class=\"font-medium font-poppins\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, "<picture><source type=\"image/webp\" srcset=\"/public/assets/images/metal2.webp\"> <img src=\"/public/assets/images/metal2.jpg\" alt=\"\" class=\"w-[6.875rem] aspect-square rounded-[0.516rem] bg-[#1E1E1E33]\"></picture><div class=\"flex flex-col items-start gap-[0.239rem] text-[#3A3A3A]\"><p class=\"font-bold text-[0.806rem] leading-[0.983rem] mb-0\">Material: <span class=\"font-semibold\">Metal</span></p><p class=\"font-bold text-[0.733rem] leading-[0.893rem]\">Total Earned: <span class=\"font-medium font-poppins\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -304,7 +304,7 @@ func WasteQuickInfo(wasteType string, acc Account) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		case "plastics":
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, "<picture><source type=\"image/webp\" srcset=\"/public/assets/images/plastic_2.webp\"> <img src=\"/public/assets/images/plastic_2.jpg\" alt=\"\" class=\"w-[6.875rem] aspect-square rounded-[0.516rem] bg-[#1E1E1E33]\"></picture><div class=\"flex flex-col justify-start items-start gap-1 text-[#3A3A3A]\"><p class=\"font-bold text-[0.806rem] leading-[0.983rem]\">Material: <span class=\"font-semibold\">Plastics</span></p><p class=\"font-bold text-[0.733rem] leading-[0.893rem]\">Total Earned: <span class=\"font-medium font-poppins\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, "<picture><source type=\"image/webp\" srcset=\"/public/assets/images/plastic_2.webp\"> <img src=\"/public/assets/images/plastic_2.jpg\" alt=\"\" class=\"w-[6.875rem] aspect-square rounded-[0.516rem] bg-[#1E1E1E33]\"></picture><div class=\"flex flex-col items-start gap-[0.239rem] text-[#3A3A3A]\"><p class=\"font-bold text-[0.806rem] leading-[0.983rem] mb-0\">Material: <span class=\"font-semibold\">Plastics</span></p><p class=\"font-bold text-[0.733rem] leading-[0.893rem]\">Total Earned: <span class=\"font-medium font-poppins\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
