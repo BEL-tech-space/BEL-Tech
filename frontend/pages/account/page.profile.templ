@@ -97,20 +97,13 @@ templ ProfileUpdataAccountInfoPartial(acc Account) {
 				_="on input
 					tell #saveButton
 					if my.value.trim()
-						remove @disabled then 
-						remove .opacity-45 then
-						add .{'bg-[#016934]'}
+						remove @disabled then remove .opacity-45 then remove .{'bg-green-400'}
+						then add .{'bg-[#016934]'}
 					else
-						add @disabled then 
-						add .opacity-45 then
-						remove .{'bg-[#016934]'}
+						add @disabled then add .opacity-45 then add .{'bg-green-400'}
+						then remove .{'bg-[#016934]'}
 					end"
 			/>
-			<style>
-			.color {
-				background-color: #016934;
-			}
-			</style>
 		</div>
 		<div class="w-full flex flex-col justify-start items-start gap-1">
 			<label for="" class="font-semibold text-xs">Email:</label>
