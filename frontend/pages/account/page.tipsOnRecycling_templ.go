@@ -168,7 +168,7 @@ func TipsWasteTypeArticle(wasteType string) templ.Component {
 			templ_7745c5c3_Var4 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "<div class=\"overflow-y-auto font-montserrat font-medium text-[#2E2E2E] text-[0.813rem] leading-3[1.138rem] text-justify\"><style>\n\t\t\tp:has(+ p) {\n\t\t\t\tmargin-bottom: 1.5rem;\n\t\t\t}\n\t\t</style>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "<div class=\"overflow-y-auto font-montserrat font-medium text-[#2E2E2E] text-[0.813rem] leading-[1.138rem] text-justify rounded-t-md pt-1\"><style>\n\t\t\tp:has(+ p) {\n\t\t\t\tmargin-bottom: 1.5rem;\n\t\t\t}\n\t\t</style>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
