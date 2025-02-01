@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./pages/account/*.templ", "./pages/agent/*.templ"],
+  content: ["./pages/**/*.templ", "./src/**/*.ts"],
   theme: {
     extend: {
       spacing: {},
