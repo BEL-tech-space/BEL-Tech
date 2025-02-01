@@ -86,8 +86,8 @@ registerRoute(
 // account/scan
 registerRoute(
   ({ url }) => url.pathname === "/account/scan",
-  new CacheFirst({
-    cacheName: contentCache,
+  new StaleWhileRevalidate({
+    cacheName: partialsCache,
     plugins: [
       new ExpirationPlugin({
         maxEntries: 25,

@@ -8,7 +8,6 @@ import { strategy as composeStrategies } from "workbox-streams";
 
 export const contentCache = "contents-cache";
 export const partialsCache = "partials-cache";
-export const imagesCache = "images-cache";
 
 export const cacheFirstStrategy = new CacheFirst({
   cacheName: partialsCache,
@@ -66,7 +65,7 @@ export const dashboardPageStream = composeStrategies(
         event,
       }),
     async ({ event }) =>
-      staleWhileRevalidateStrategy.handle({
+      cacheFirstStrategy.handle({
         request: new Request("/account/dashboard/mainOpeningTag-Partial.html"),
         event,
       }),
@@ -119,7 +118,7 @@ export const locationPageStream = composeStrategies(
         event,
       }),
     async ({ event }) =>
-      cacheFirstStrategy.handle({
+      staleWhileRevalidateStrategy.handle({
         request: new Request("/account/location/footer-Partial.html"),
         event,
       }),
@@ -170,7 +169,7 @@ export const walletPageStream = composeStrategies(
         event,
       }),
     async ({ event }) =>
-      cacheFirstStrategy.handle({
+      staleWhileRevalidateStrategy.handle({
         request: new Request("/account/wallet/footer-Partial.html"),
         event,
       }),
@@ -211,7 +210,7 @@ export const spendPageStream = composeStrategies(
         event,
       }),
     async ({ event }) =>
-      cacheFirstStrategy.handle({
+      staleWhileRevalidateStrategy.handle({
         request: new Request("/account/spend/footer-Partial.html"),
         event,
       }),
@@ -252,7 +251,7 @@ export const profilePageStream = composeStrategies(
         event,
       }),
     async ({ event }) =>
-      cacheFirstStrategy.handle({
+      staleWhileRevalidateStrategy.handle({
         request: new Request("/account/profile/footer-Partial.html"),
         event,
       }),
@@ -293,7 +292,7 @@ export const airtimePageStream = composeStrategies(
         event,
       }),
     async ({ event }) =>
-      cacheFirstStrategy.handle({
+      staleWhileRevalidateStrategy.handle({
         request: new Request("/account/airtime/footer-Partial.html"),
         event,
       }),
@@ -374,7 +373,7 @@ export const wastePageStream = composeStrategies(
         event,
       }),
     async ({ event }) =>
-      cacheFirstStrategy.handle({
+      staleWhileRevalidateStrategy.handle({
         request: new Request("/account/waste/footer-Partial.html"),
         event,
       }),
@@ -415,7 +414,7 @@ export const tipsPageStream = composeStrategies(
         event,
       }),
     async ({ event }) =>
-      cacheFirstStrategy.handle({
+      staleWhileRevalidateStrategy.handle({
         request: new Request("/account/tips/footer-Partial.html"),
         event,
       }),

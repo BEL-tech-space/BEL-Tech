@@ -162,8 +162,8 @@ declare global {
   interface Window {
     _hyperscript: any;
     getNotificationMarkup: (accountId: string) => void;
-    updateEmptyNotifMarkup: () => void;
     deleteNotification: (accountId: string, notificationId: string) => void;
+    updateNotificationCount: () => void;
   }
 }
 
@@ -175,17 +175,8 @@ function updateNotifMarkup(markup: string) {
   }
 }
 
-window.updateEmptyNotifMarkup = () => {
-  const notificationBar = document.getElementById("notification-bar");
-  if (notificationBar) {
-    notificationBar.innerHTML =
-      '<p class="no-new text-black font-poppins text-sm text-center m-auto">No new notification</p>';
-  }
-};
-
 window.deleteNotification = deleteNotification;
 window.getNotificationMarkup = (accountId: string) => {
-  console.log("i was called");
   (async () => {
     const db = await dbPromise();
     const accountData = await db.get("accounts-notifications", accountId);
@@ -200,13 +191,14 @@ window.getNotificationMarkup = (accountId: string) => {
       markup = `<p class="no-new text-black font-poppins text-sm text-center m-auto">No new notifications</p>`;
     } else {
       markup = `
-        <ul class="flex flex-col gap-[2.635rem] justify-center items-center">
-          ${accountData.notifications
-            .map((notif) => {
-              return produceNotifLiMarkup(notif);
-            })
-            .join("")}
-        </ul>
+      <ul class="flex flex-col gap-[2.635rem] justify-center items-center">
+      ${accountData.notifications
+        .map((notif) => {
+          return produceNotifLiMarkup(notif);
+        })
+        .join("")}
+      <p class="hidden no-new text-black font-poppins text-sm text-center m-auto">No new notifications</p>
+      </ul>
       `;
     }
 
@@ -222,11 +214,12 @@ function produceNotifLiMarkup(notif: Notification) {
         halt the event
         tell the closest <li/>
           add .slide-out then settle then remove yourself
-          then set :notifId to your id then log :notifId
-          then set :accountId to #notification-bar.dataset.accountid then log :accountId
+          then set :notifId to your id
+          then set :accountId to #notification-bar.dataset.accountid
           then call deleteNotification(:accountId, :notifId)
+          then call updateNotificationCount()
           then if <li/> in #notification-bar is empty
-            call updateEmptyNotifMarkup()
+            remove .hidden from .no-new
           end"
     />
     <div>
@@ -243,73 +236,94 @@ function produceNotifLiMarkup(notif: Notification) {
   `;
 }
 
-(async () => {
-  try {
-    const res = await fetch("/account/notifications", {
-      headers: {
-        Accept: "application/json",
-      },
-    });
-    if (!res.ok) {
-      console.warn("response not ok", res.status);
-      return;
-    }
-
-    const accountId = res.headers.get("X-AccountId");
-    if (!accountId) {
-      console.warn("Missing X-AccountId header");
-      return;
-    }
-
-    // console.log("accountId", accountId);
-
-    const data: Notification[] = await res.json();
-
-    // console.log("data", data);
-
-    for (const notification of data) {
-      const isNewNotification: boolean =
-        await updateLastNotificationIfMoreRecent(accountId, notification);
-
-      // console.log("isNewNotification", isNewNotification);
-
-      if (!isNewNotification) {
-        console.log("Notification already exists, skipping", notification);
-        continue;
+const allowedPaths = ["dashboard", "welcome"];
+if (allowedPaths.some((path) => window.location.pathname.includes(path))) {
+  (async () => {
+    try {
+      const res = await fetch("/account/notifications", {
+        headers: {
+          Accept: "application/json",
+        },
+      });
+      if (!res.ok) {
+        console.warn("response not ok", res.status);
+        return;
       }
 
-      console.log("Adding new notification", notification);
+      const accountId = res.headers.get("X-AccountId");
+      if (!accountId) {
+        console.warn("Missing X-AccountId header");
+        return;
+      }
 
-      await addNewNotification(accountId, notification);
+      const data: Notification[] = await res.json();
+
+      for (const notification of data) {
+        const isNewNotification: boolean =
+          await updateLastNotificationIfMoreRecent(accountId, notification);
+
+        if (!isNewNotification) {
+          console.log("Notification already exists, skipping", notification);
+          continue;
+        }
+
+        console.log("Adding new notification", notification);
+
+        await addNewNotification(accountId, notification);
+        await updateNotificationCount();
+      }
+    } catch (error) {
+      console.error("Error fetching notifications:", error);
     }
-  } catch (error) {
-    console.error("Error fetching notifications:", error);
+  })();
+} else {
+  console.log("Not on dashboard or welcome page", window.location.pathname);
+  (async () => {
+    await updateNotificationCount();
+  })();
+}
+
+window.updateNotificationCount = updateNotificationCount;
+async function updateNotificationCount() {
+  const notificationBar = document.getElementById("notification-bar");
+  if (!notificationBar) {
+    return;
   }
-})();
+  const accountID = notificationBar.dataset.accountid;
+  if (!accountID) {
+    return;
+  }
+  console.log("accountID", accountID);
+  const db = await dbPromise();
+  const accountData = await db.get("accounts-notifications", accountID);
+  if (!accountData) {
+    return;
+  }
+  const count = accountData.notifications.length;
+  console.log("count", count);
+  const notificationCount = document.getElementById("notificationCount");
+  if (!notificationCount) {
+    return;
+  }
+  if (count === 0) {
+    notificationCount.classList.add("hidden");
+    notificationCount.classList.remove(
+      "flex",
+      "items-center",
+      "justify-center",
+      "w-4",
+      "h-4"
+    );
+    return;
+  }
 
-// document.addEventListener("click", (event: Event) => {
-//   const target = event.target as HTMLElement | null;
-
-// if (target && target.classList.contains("close-btn")) {
-//   const li = target.closest("li");
-
-//   if (!li) {
-//     return;
-//   }
-
-// li.classList.add("slide-out");
-// setTimeout(() => {
-//   li.remove();
-//   deleteNotification("giwaoluwatobi@gmail.com", li.id);
-//   const notificationBar = document.getElementById("notification-bar");
-//   if (notificationBar) {
-//     const notifications = notificationBar.querySelectorAll("li");
-//     if (notifications.length === 0) {
-//       updateNotifMarkup(
-//         `<p class="no-new text-black font-poppins text-sm text-center m-auto">No new notifications</p>`
-//       );
-//     }
-//   }
-// }, 800);
-// }
-// });
+  notificationCount.innerText = count.toString();
+  notificationCount.classList.remove("hidden");
+  notificationCount.classList.add(
+    "flex",
+    "items-center",
+    "justify-center",
+    "w-4",
+    "h-4"
+  );
+}

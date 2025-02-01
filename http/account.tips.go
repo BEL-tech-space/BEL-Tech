@@ -37,8 +37,14 @@ func (a *App) TipsPageHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func (a *App) tipsHeaderPartial(w http.ResponseWriter, r *http.Request) {
+	accountEmail := r.Context().Value(contextKeyEmail).(string)
+	user, err := a.getAccountFromCache(context.Background(), accountEmail)
+	if err != nil {
+		a.serverError(w, err)
+		return
+	}
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if err := accPages.TipsHeaderPartial().Render(context.Background(), w); err != nil {
+	if err := accPages.TipsHeaderPartial(account(user)).Render(context.Background(), w); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}

@@ -8,7 +8,7 @@ import (
 templ WastePage(acc Account, wasteType string, history []string) {
 	<!DOCTYPE html>
 	<html lang="en">
-		@HeadTag("Waste")
+		@HeadTag("waste")
 		<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
 			<div class="Page w-full h-full flex flex-col font-montserrat text-[#2E2E2E]">
 				@CommonHeader(acc)
@@ -16,7 +16,13 @@ templ WastePage(acc Account, wasteType string, history []string) {
 				@Footer("dashboard", templ.NopComponent)
 			</div>
 		</body>
+		@scriptForWasteAndTipsPage()
 	</html>
+}
+
+templ scriptForWasteAndTipsPage() {
+	<script src="/public/assets/scripts/hyperscript.min.js"></script>
+	<script src="/public/assets/scripts/notification.js"></script>
 }
 
 templ WasteMain(acc Account, wasteType string, history []string) {
