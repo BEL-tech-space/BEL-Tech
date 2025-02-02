@@ -83,7 +83,7 @@ func (a *App) makeNotificationPageHandler(w http.ResponseWriter, r *http.Request
 func (a *App) createNotificationHandler(w http.ResponseWriter, r *http.Request) {
 
 	accountEmail := r.Context().Value(contextKeyEmail).(string)
-	if accountEmail != "giwaoluwatobi@gmail.com" && accountEmail != "kherney" {
+	if accountEmail != "giwaoluwatobi@gmail.com" && accountEmail != "ayomideelijah1@gmail.com" {
 		http.Redirect(w, r, "/account/welcome", http.StatusTemporaryRedirect)
 		return
 	}
