@@ -155,7 +155,7 @@ templ CommonHeader(user Account) {
 			</p>
 		}
 		<button
-			class="bg-[#CCE1D699] p-[0.5rem] rounded-md flex ml-auto justify-center items-center"
+			class="bg-[#CCE1D699] p-[0.5rem] rounded-md flex ml-auto justify-center items-center jiggle"
 			_="on click
 					halt the event
 					tell #notification-bar
@@ -163,6 +163,7 @@ templ CommonHeader(user Account) {
 						then set :accountId to #notification-bar.dataset.accountid
 						then call getNotificationMarkup(:accountId)
 						then remove .translate-y-full then add .translate-y-0
+
 						then call #notification-bar.focus() 
 						then remove .hidden from #backdrop
 					end"
@@ -177,6 +178,21 @@ templ CommonHeader(user Account) {
 		</button>
 		@notificationBar(user.Email)
 	</header>
+}
+
+templ jiggleBell() {
+	<style>
+		@keyframes jiggle {
+			0%, 100% { transform: rotate(0); }
+			25% { transform: rotate(-10deg); }
+			50% { transform: rotate(10deg); }
+			75% { transform: rotate(-5deg); }
+		}
+
+		.jiggle {
+			animation: jiggle 0.4s ease-in-out 3;
+		}
+	</style>
 }
 
 templ commonHeaderTwo(text, avatarURL string, btnComp templ.Component) {

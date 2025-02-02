@@ -123,9 +123,21 @@ WHERE NOT (
     AND beneficiaries.service_provider = $3
 );
 
-
 -- name: GetBeneficiariesByEmail :many
 SELECT *
 FROM beneficiaries
 WHERE email = $1
 ORDER BY created_at DESC;
+
+-- name: CreateNotification :one
+INSERT INTO notifications (
+    notif_title, notif_heading, notif_body, days_to_Last, notif_time, notif_id
+) VALUES (
+    $1, $2, $3, $4, $5, $6
+) RETURNING id;
+
+-- name: GetAllNotifications :many
+SELECT * FROM notifications ORDER BY notif_time DESC;
+
+-- name: DeleteNotificationsByIDs :exec
+DELETE FROM notifications WHERE id = ANY($1::int[]);

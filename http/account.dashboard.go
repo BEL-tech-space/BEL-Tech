@@ -10,7 +10,7 @@ import (
 )
 
 func (a *App) dashboardPageHandler(w http.ResponseWriter, r *http.Request) {
-
+	
 	accountEmail := r.Context().Value(contextKeyEmail).(string)
 	user, err := a.getAccountFromCache(context.Background(), accountEmail)
 	if err != nil {

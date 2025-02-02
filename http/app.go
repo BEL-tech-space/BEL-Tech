@@ -2,6 +2,8 @@ package http
 
 import (
 	"beltech/service"
+	"context"
+	"slices"
 
 	"github.com/dgraph-io/ristretto/v2"
 	"github.com/google/uuid"
@@ -63,6 +65,13 @@ func NewApp(cfg *EnvConfig, db *pgxpool.Pool, rCache *ristretto.Cache[string, se
 	app.accountSessionStore = sessions.NewCookieStore([]byte(GenerateRandomKey(cfg.SessionSecret, cfg.Build)))
 	app.agentSessionStore = sessions.NewCookieStore([]byte(GenerateRandomKey(cfg.SessionSecret, cfg.Build)))
 	app.service = service.NewService(db)
+
+	notifs, err := app.service.GetAllNotifications(context.TODO())
+	if err != nil {
+		ActiveNotifications = make([]service.Notification, 0, 50)
+	} else {
+		ActiveNotifications = slices.Grow(notifs, 50)
+	}
 
 	if cfg.Build == productionEnv {
 		app.collectors = append(app.collectors, collector{Email: devGothUser.Email})

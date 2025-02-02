@@ -5,12 +5,12 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "tsc",
-    "notification": "esbuild src/notification.ts --bundle --sourcemap --minify --outfile=public/assets/scripts/notification.js",
+    "notification": "esbuild src/notification.ts --bundle --sourcemap --outfile=public/assets/scripts/notification.js",
     "build-sw": "esbuild src/sw/sw.ts --bundle --sourcemap --outfile=public/sw.js",
     "injectManifest": "esbuild src/sw/injectManifest-sw.ts --bundle --platform=node --packages=external --outfile=injectManifest.js && NODE_ENV=production node injectManifest.js && rm injectManifest.js",
     "sw": "pnpm build-sw && pnpm injectManifest",
     "dev:build-sw": "esbuild src/sw/sw.ts --bundle --sourcemap --outfile=public/sw.js --watch",
-    "dev:build-notifications": "esbuild src/notification.ts --bundle --sourcemap --minify --outfile=public/assets/scripts/notification.js --watch",
+    "dev:build-notifications": "esbuild src/notification.ts --bundle --sourcemap --outfile=public/assets/scripts/notification.js --watch",
     "watch:sw": "pnpm dev:build-sw",
     "watch:notifications": "pnpm dev:build-notifications",
     "dev": "npm-run-all --parallel watch:sw watch:notifications"

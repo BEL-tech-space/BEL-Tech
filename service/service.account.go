@@ -6,6 +6,8 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"slices"
+	"time"
 
 	"github.com/jackc/pgx/v5/pgconn"
 	"github.com/jackc/pgx/v5/pgtype"
@@ -87,7 +89,7 @@ func (s *Service) DeleteBeneficiary(ctx context.Context, bPhoneNo, bSP, email st
 		// Handle non-PostgreSQL errors
 		return nil, fmt.Errorf("other error: %v", err)
 	}
-	
+
 	dto := func(param []postgres.DeleteBeneficiaryRow) []types.Beneficiary {
 		r := make([]types.Beneficiary, 0, len(param))
 		for i := 0; i < len(param); i++ {
@@ -126,4 +128,41 @@ func (s *Service) UpdateAccountDisplayName(ctx context.Context, email, newDispla
 	}
 
 	return pgAccountToserviceAccount(pgAcc), nil
+}
+
+func (s *Service) AddNewNotification(ctx context.Context, title, heading, body, time, id string, daysToLast int32) (int32, error) {
+	return s.dbQuery.CreateNotification(ctx, postgres.CreateNotificationParams{
+		NotifTitle:   title,
+		NotifHeading: heading,
+		NotifBody:    body,
+		NotifTime:    time,
+		DaysToLast:   daysToLast,
+		NotifID:      id,
+	})
+}
+
+func (s *Service) GetAllNotifications(ctx context.Context) ([]Notification, error) {
+	notifications, err := s.dbQuery.GetAllNotifications(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	notifToDelete := make([]int32, 0, len(notifications))
+	filteredNotifications := make([]Notification, 0, len(notifications))
+
+	for _, n := range notifications {
+		notifTime, _ := time.Parse(time.RFC3339, n.NotifTime)
+		if time.Now().After(notifTime.AddDate(0, 0, int(n.DaysToLast))) {
+			notifToDelete = append(notifToDelete, n.ID)
+			continue
+		}
+
+		filteredNotifications = append(filteredNotifications, postgresNotificationToServiceNotification(n))
+	}
+
+	if err = s.dbQuery.DeleteNotificationsByIDs(ctx, slices.Clip(notifToDelete)); err != nil {
+		fmt.Println("error deleting notifications", err)
+	}
+
+	return slices.Clip(filteredNotifications), nil
 }

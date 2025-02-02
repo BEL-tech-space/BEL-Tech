@@ -261,33 +261,33 @@ func ProfileUpdataAccountInfoPartial(acc Account) templ.Component {
 			templ_7745c5c3_Var7 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "<form hx-post=\"/account/profile/changeDisplayName\" hx-trigger=\"submit\" hx-target=\"#header\" hx-swap=\"outerHTML\" class=\"flex flex-col gap-3 justify-center items-center\"><div class=\"w-full flex flex-col justify-start items-start gap-1\"><label for=\"\" class=\"font-semibold text-xs\">Display Name:</label> <input type=\"text\" name=\"nickname\" id=\"nickname\" min=\"2\" max=\"20\" placeholder=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "<form hx-post=\"/account/profile/changeDisplayName\" hx-trigger=\"submit\" hx-target=\"#header\" hx-swap=\"outerHTML\" class=\"flex flex-col gap-3 justify-center items-center\" _=\"on submit\n\t\t\ttell #saveButton\n\t\t\t\tadd @disabled then add .opacity-45 then add .{&#39;bg-green-400&#39;}\n\t\t\t\tthen remove .{&#39;bg-[#016934]&#39;}\"><div class=\"w-full flex flex-col justify-start items-start gap-1\"><label for=\"nickname\" class=\"font-semibold text-xs\">Display Name:</label> <input type=\"text\" name=\"nickname\" id=\"nickname\" minlength=\"2\" maxlength=\"20\" placeholder=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var8 string
 		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(acc.DisplayName)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.profile.templ`, Line: 95, Col: 33}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.profile.templ`, Line: 99, Col: 33}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "\" class=\"outline-none border-solid border-[#569B78] border-[0.0313rem] rounded p-2 w-full\" _=\"on input\n\t\t\t\t\ttell #saveButton\n\t\t\t\t\tif my.value.trim()\n\t\t\t\t\t\tremove @disabled then remove .opacity-45 then remove .{&#39;bg-green-400&#39;}\n\t\t\t\t\t\tthen add .{&#39;bg-[#016934]&#39;}\n\t\t\t\t\telse\n\t\t\t\t\t\tadd @disabled then add .opacity-45 then add .{&#39;bg-green-400&#39;}\n\t\t\t\t\t\tthen remove .{&#39;bg-[#016934]&#39;}\n\t\t\t\t\tend\"></div><div class=\"w-full flex flex-col justify-start items-start gap-1\"><label for=\"\" class=\"font-semibold text-xs\">Email:</label> <input disabled type=\"text\" name=\"nickname\" id=\"email\" placeholder=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "\" class=\"outline-none border-solid border-[#569B78] border-[0.0313rem] rounded p-2 w-full\" _=\"on input\n\t\t\t\t\ttell #saveButton\n\t\t\t\t\tif my.value.trim()\n\t\t\t\t\t\tremove @disabled then remove .opacity-45 then remove .{&#39;bg-green-400&#39;}\n\t\t\t\t\t\tthen add .{&#39;bg-[#016934]&#39;}\n\t\t\t\t\telse\n\t\t\t\t\t\tadd @disabled then add .opacity-45 then add .{&#39;bg-green-400&#39;}\n\t\t\t\t\t\tthen remove .{&#39;bg-[#016934]&#39;}\n\t\t\t\t\tend\"></div><div class=\"w-full flex flex-col justify-start items-start gap-1\"><label for=\"email\" class=\"font-semibold text-xs\">Email:</label> <input disabled type=\"text\" name=\"email\" id=\"email\" placeholder=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var9 string
 		templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(acc.Email)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.profile.templ`, Line: 110, Col: 81}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.profile.templ`, Line: 114, Col: 78}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, "\" class=\"outline-none border-solid border-[#569B78] border-[0.0313rem] rounded p-2 w-full\"></div><div class=\"w-full flex flex-col justify-start items-start gap-1 relative\"><label for=\"\" class=\"font-semibold text-xs\">Wallet:</label> <input disabled type=\"text\" name=\"nickname\" id=\"wallet\" placeholder=\"wallet functionality coming soon\" class=\"outline-none  border-solid border-[#569B78] border-[0.0313rem] rounded p-2 w-full\"> <button class=\"absolute top-2/4 right-4\" data-tippy-content=\"coming soon\"><img src=\"/public/assets/svg/connectWallet.svg\" alt=\"\" class=\"w-5 aspect-square\"></button></div><section class=\"mt-10 w-full grid grid-cols-profileButton items-center gap-[0.625rem]\"><button id=\"saveButton\" disabled type=\"submit\" class=\"w-full text-center opacity-45 bg-green-400 text-white text-sm tracking-[0.1px] font-medium py-[0.625rem] px-1 rounded-md\">Save Changes</button> <a href=\"/account/auth/logout/google\" title=\"logout\" class=\"bg-[#FFE8E8] rounded-md flex justify-center items-center\"><img src=\"/public/assets/svg/login.svg\" class=\"w-6 aspect-square m-2\"></a></section></form>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, "\" class=\"outline-none border-solid border-[#569B78] border-[0.0313rem] rounded p-2 w-full\"></div><div class=\"w-full flex flex-col justify-start items-start gap-1 relative\"><label for=\"wallet\" class=\"font-semibold text-xs\">Wallet:</label> <input disabled type=\"text\" name=\"wallet\" id=\"wallet\" placeholder=\"wallet functionality coming soon\" class=\"outline-none  border-solid border-[#569B78] border-[0.0313rem] rounded p-2 w-full\"> <button class=\"absolute top-2/4 right-4\" data-tippy-content=\"coming soon\"><img src=\"/public/assets/svg/connectWallet.svg\" alt=\"\" class=\"w-5 aspect-square\"></button></div><section class=\"mt-10 w-full grid grid-cols-profileButton items-center gap-[0.625rem]\"><button id=\"saveButton\" disabled type=\"submit\" class=\"w-full text-center opacity-45 bg-green-400 text-white text-sm tracking-[0.1px] font-medium py-[0.625rem] px-1 rounded-md\">Save Changes</button> <a href=\"/account/auth/logout/google\" title=\"logout\" class=\"bg-[#FFE8E8] rounded-md flex justify-center items-center\"><img src=\"/public/assets/svg/login.svg\" class=\"w-6 aspect-square m-2\"></a></section></form>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
