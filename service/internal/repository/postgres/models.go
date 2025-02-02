@@ -40,3 +40,13 @@ type Beneficiary struct {
 	CreatedAt       pgtype.Timestamp `json:"created_at"`
 	Email           pgtype.Text      `json:"email"`
 }
+
+type Notification struct {
+	ID           int32  `json:"id"`
+	NotifTitle   string `json:"notif_title"`
+	NotifHeading string `json:"notif_heading"`
+	NotifBody    string `json:"notif_body"`
+	DaysToLast   int32  `json:"days_to_last"`
+	NotifTime    string `json:"notif_time"`
+	NotifID      string `json:"notif_id"`
+}

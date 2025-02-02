@@ -83,15 +83,19 @@ templ ProfileUpdataAccountInfoPartial(acc Account) {
 		hx-target="#header"
 		hx-swap="outerHTML"
 		class="flex flex-col gap-3 justify-center items-center"
+		_="on submit
+			tell #saveButton
+				add @disabled then add .opacity-45 then add .{'bg-green-400'}
+				then remove .{'bg-[#016934]'}"
 	>
 		<div class="w-full flex flex-col justify-start items-start gap-1">
-			<label for="" class="font-semibold text-xs">Display Name:</label>
+			<label for="nickname" class="font-semibold text-xs">Display Name:</label>
 			<input
 				type="text"
 				name="nickname"
 				id="nickname"
-				min="2"
-				max="20"
+				minlength="2"
+				maxlength="20"
 				placeholder={ acc.DisplayName }
 				class="outline-none border-solid border-[#569B78] border-[0.0313rem] rounded p-2 w-full"
 				_="on input
@@ -106,12 +110,12 @@ templ ProfileUpdataAccountInfoPartial(acc Account) {
 			/>
 		</div>
 		<div class="w-full flex flex-col justify-start items-start gap-1">
-			<label for="" class="font-semibold text-xs">Email:</label>
-			<input disabled type="text" name="nickname" id="email" placeholder={ acc.Email } class="outline-none border-solid border-[#569B78] border-[0.0313rem] rounded p-2 w-full"/>
+			<label for="email" class="font-semibold text-xs">Email:</label>
+			<input disabled type="text" name="email" id="email" placeholder={ acc.Email } class="outline-none border-solid border-[#569B78] border-[0.0313rem] rounded p-2 w-full"/>
 		</div>
 		<div class="w-full flex flex-col justify-start items-start gap-1 relative">
-			<label for="" class="font-semibold text-xs">Wallet:</label>
-			<input disabled type="text" name="nickname" id="wallet" placeholder="wallet functionality coming soon" class="outline-none  border-solid border-[#569B78] border-[0.0313rem] rounded p-2 w-full"/>
+			<label for="wallet" class="font-semibold text-xs">Wallet:</label>
+			<input disabled type="text" name="wallet" id="wallet" placeholder="wallet functionality coming soon" class="outline-none  border-solid border-[#569B78] border-[0.0313rem] rounded p-2 w-full"/>
 			<button class="absolute top-2/4 right-4" data-tippy-content="coming soon">
 				<img src="/public/assets/svg/connectWallet.svg" alt="" class="w-5 aspect-square"/>
 			</button>

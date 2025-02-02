@@ -196,6 +196,37 @@ func (q *Queries) AddNewBeneficiary(ctx context.Context, arg AddNewBeneficiaryPa
 	return items, nil
 }
 
+const createNotification = `-- name: CreateNotification :one
+INSERT INTO notifications (
+    notif_title, notif_heading, notif_body, days_to_Last, notif_time, notif_id
+) VALUES (
+    $1, $2, $3, $4, $5, $6
+) RETURNING id
+`
+
+type CreateNotificationParams struct {
+	NotifTitle   string `json:"notif_title"`
+	NotifHeading string `json:"notif_heading"`
+	NotifBody    string `json:"notif_body"`
+	DaysToLast   int32  `json:"days_to_last"`
+	NotifTime    string `json:"notif_time"`
+	NotifID      string `json:"notif_id"`
+}
+
+func (q *Queries) CreateNotification(ctx context.Context, arg CreateNotificationParams) (int32, error) {
+	row := q.db.QueryRow(ctx, createNotification,
+		arg.NotifTitle,
+		arg.NotifHeading,
+		arg.NotifBody,
+		arg.DaysToLast,
+		arg.NotifTime,
+		arg.NotifID,
+	)
+	var id int32
+	err := row.Scan(&id)
+	return id, err
+}
+
 const deleteBeneficiary = `-- name: DeleteBeneficiary :many
 WITH deleted_row AS (
     DELETE FROM beneficiaries
@@ -245,6 +276,15 @@ func (q *Queries) DeleteBeneficiary(ctx context.Context, arg DeleteBeneficiaryPa
 	return items, nil
 }
 
+const deleteNotificationsByIDs = `-- name: DeleteNotificationsByIDs :exec
+DELETE FROM notifications WHERE id = ANY($1::int[])
+`
+
+func (q *Queries) DeleteNotificationsByIDs(ctx context.Context, dollar_1 []int32) error {
+	_, err := q.db.Exec(ctx, deleteNotificationsByIDs, dollar_1)
+	return err
+}
+
 const getAccount = `-- name: GetAccount :one
 SELECT email, account_id, first_name, last_name, display_name, avatar_url, spl_wallet, curr_balance, total_earned, total_glass_waste, total_metal_waste, total_plastics_waste, total_paper_waste, hashed_password, access_token, access_token_expires, id_token, last_update_email, role, joined, is_deleted, is_new 
 FROM accounts 
@@ -280,6 +320,38 @@ func (q *Queries) GetAccount(ctx context.Context, email string) (Account, error)
 		&i.IsNew,
 	)
 	return i, err
+}
+
+const getAllNotifications = `-- name: GetAllNotifications :many
+SELECT id, notif_title, notif_heading, notif_body, days_to_last, notif_time, notif_id FROM notifications ORDER BY notif_time DESC
+`
+
+func (q *Queries) GetAllNotifications(ctx context.Context) ([]Notification, error) {
+	rows, err := q.db.Query(ctx, getAllNotifications)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Notification
+	for rows.Next() {
+		var i Notification
+		if err := rows.Scan(
+			&i.ID,
+			&i.NotifTitle,
+			&i.NotifHeading,
+			&i.NotifBody,
+			&i.DaysToLast,
+			&i.NotifTime,
+			&i.NotifID,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
 }
 
 const getBeneficiariesByEmail = `-- name: GetBeneficiariesByEmail :many

@@ -1,10 +1,372 @@
-"use strict";(()=>{var g=(t,n)=>n.some(e=>t instanceof e),D,B;function L(){return D||(D=[IDBDatabase,IDBObjectStore,IDBIndex,IDBCursor,IDBTransaction])}function P(){return B||(B=[IDBCursor.prototype.advance,IDBCursor.prototype.continue,IDBCursor.prototype.continuePrimaryKey])}var w=new WeakMap,m=new WeakMap,l=new WeakMap;function k(t){let n=new Promise((e,i)=>{let o=()=>{t.removeEventListener("success",c),t.removeEventListener("error",r)},c=()=>{e(f(t.result)),o()},r=()=>{i(t.error),o()};t.addEventListener("success",c),t.addEventListener("error",r)});return l.set(n,t),n}function j(t){if(w.has(t))return;let n=new Promise((e,i)=>{let o=()=>{t.removeEventListener("complete",c),t.removeEventListener("error",r),t.removeEventListener("abort",r)},c=()=>{e(),o()},r=()=>{i(t.error||new DOMException("AbortError","AbortError")),o()};t.addEventListener("complete",c),t.addEventListener("error",r),t.addEventListener("abort",r)});w.set(t,n)}var p={get(t,n,e){if(t instanceof IDBTransaction){if(n==="done")return w.get(t);if(n==="store")return e.objectStoreNames[1]?void 0:e.objectStore(e.objectStoreNames[0])}return f(t[n])},set(t,n,e){return t[n]=e,!0},has(t,n){return t instanceof IDBTransaction&&(n==="done"||n==="store")?!0:n in t}};function M(t){p=t(p)}function T(t){return P().includes(t)?function(...n){return t.apply(y(this),n),f(this.request)}:function(...n){return f(t.apply(y(this),n))}}function S(t){return typeof t=="function"?T(t):(t instanceof IDBTransaction&&j(t),g(t,L())?new Proxy(t,p):t)}function f(t){if(t instanceof IDBRequest)return k(t);if(m.has(t))return m.get(t);let n=S(t);return n!==t&&(m.set(t,n),l.set(n,t)),n}var y=t=>l.get(t);function C(t,n,{blocked:e,upgrade:i,blocking:o,terminated:c}={}){let r=indexedDB.open(t,n),u=f(r);return i&&r.addEventListener("upgradeneeded",a=>{i(f(r.result),a.oldVersion,a.newVersion,f(r.transaction),a)}),e&&r.addEventListener("blocked",a=>e(a.oldVersion,a.newVersion,a)),u.then(a=>{c&&a.addEventListener("close",()=>c()),o&&a.addEventListener("versionchange",s=>o(s.oldVersion,s.newVersion,s))}).catch(()=>{}),u}var A=["get","getKey","getAll","getAllKeys","count"],V=["put","add","delete","clear"],h=new Map;function x(t,n){if(!(t instanceof IDBDatabase&&!(n in t)&&typeof n=="string"))return;if(h.get(n))return h.get(n);let e=n.replace(/FromIndex$/,""),i=n!==e,o=V.includes(e);if(!(e in(i?IDBIndex:IDBObjectStore).prototype)||!(o||A.includes(e)))return;let c=async function(r,...u){let a=this.transaction(r,o?"readwrite":"readonly"),s=a.store;return i&&(s=s.index(u.shift())),(await Promise.all([s[e](...u),o&&a.done]))[0]};return h.set(n,c),c}M(t=>({...t,get:(n,e,i)=>x(n,e)||t.get(n,e,i),has:(n,e)=>!!x(n,e)||t.has(n,e)}));var $=["continue","continuePrimaryKey","advance"],N={},I=new WeakMap,v=new WeakMap,F={get(t,n){if(!$.includes(n))return t[n];let e=N[n];return e||(e=N[n]=function(...i){I.set(this,v.get(this)[n](...i))}),e}};async function*O(...t){let n=this;if(n instanceof IDBCursor||(n=await n.openCursor(...t)),!n)return;n=n;let e=new Proxy(n,F);for(v.set(e,n),l.set(e,y(n));n;)yield e,n=await(I.get(e)||n.continue()),I.delete(e)}function E(t,n){return n===Symbol.asyncIterator&&g(t,[IDBIndex,IDBObjectStore,IDBCursor])||n==="iterate"&&g(t,[IDBIndex,IDBObjectStore])}M(t=>({...t,get(n,e,i){return E(n,e)?O:t.get(n,e,i)},has(n,e){return E(n,e)||t.has(n,e)}}));var _=1;var d=function(){return C("beltech",_,{upgrade(n){n.objectStoreNames.contains("accounts-notifications")||n.createObjectStore("accounts-notifications",{keyPath:"accountId"}),n.objectStoreNames.contains("accounts-recent")||n.createObjectStore("accounts-recent",{keyPath:"accountId"})}})},R=async function(t,n){try{let e=await d(),i=await e.get("accounts-notifications",t);if(!i){await e.put("accounts-notifications",{accountId:t,notifications:[n]});return}if(i.notifications.some(c=>c.notificationId===n.notificationId))return;i.notifications.push(n),await e.put("accounts-notifications",i)}catch(e){throw console.error(`Error adding notification for accountId: ${t}`,e),e}},W=async function(t,n){try{let e=await d(),i=await e.get("accounts-notifications",t);if(!i)return;let o=i.notifications.filter(c=>c.notificationId!==n);if(i.notifications.length===o.length)return;await e.put("accounts-notifications",{accountId:t,notifications:o})}catch(e){throw console.error(`Error deleting notification for accountId: ${t}, notificationId: ${n}`,e),e}},K=async function(t,n){try{let e=await d(),i=await e.get("accounts-recent",t);return i?new Date(n.notificationTime)>new Date(i.time)?(await e.put("accounts-recent",{accountId:t,time:n.notificationTime}),!0):!1:(await e.put("accounts-recent",{accountId:t,time:n.notificationTime}),!0)}catch(e){throw console.error(`Error updating last notification for accountId: ${t}`,e),e}};function X(){let t=["bg-[#BB1D80]","bg-[#1BCA71]","bg-[#EBAB01]"];return t[Math.floor(Math.random()*t.length)]}function H(t){let n=document.getElementById("notification-bar");n&&(n.innerHTML=t,window._hyperscript.processNode(n))}window.deleteNotification=W;window.getNotificationMarkup=t=>{(async()=>{let e=await(await d()).get("accounts-notifications",t),i="";!e||!e.notifications||e.notifications.length===0?i='<p class="no-new text-black font-poppins text-sm text-center m-auto">No new notifications</p>':i=`
+"use strict";
+(() => {
+  // node_modules/.pnpm/idb@8.0.1/node_modules/idb/build/index.js
+  var instanceOfAny = (object, constructors) => constructors.some((c) => object instanceof c);
+  var idbProxyableTypes;
+  var cursorAdvanceMethods;
+  function getIdbProxyableTypes() {
+    return idbProxyableTypes || (idbProxyableTypes = [
+      IDBDatabase,
+      IDBObjectStore,
+      IDBIndex,
+      IDBCursor,
+      IDBTransaction
+    ]);
+  }
+  function getCursorAdvanceMethods() {
+    return cursorAdvanceMethods || (cursorAdvanceMethods = [
+      IDBCursor.prototype.advance,
+      IDBCursor.prototype.continue,
+      IDBCursor.prototype.continuePrimaryKey
+    ]);
+  }
+  var transactionDoneMap = /* @__PURE__ */ new WeakMap();
+  var transformCache = /* @__PURE__ */ new WeakMap();
+  var reverseTransformCache = /* @__PURE__ */ new WeakMap();
+  function promisifyRequest(request) {
+    const promise = new Promise((resolve, reject) => {
+      const unlisten = () => {
+        request.removeEventListener("success", success);
+        request.removeEventListener("error", error);
+      };
+      const success = () => {
+        resolve(wrap(request.result));
+        unlisten();
+      };
+      const error = () => {
+        reject(request.error);
+        unlisten();
+      };
+      request.addEventListener("success", success);
+      request.addEventListener("error", error);
+    });
+    reverseTransformCache.set(promise, request);
+    return promise;
+  }
+  function cacheDonePromiseForTransaction(tx) {
+    if (transactionDoneMap.has(tx))
+      return;
+    const done = new Promise((resolve, reject) => {
+      const unlisten = () => {
+        tx.removeEventListener("complete", complete);
+        tx.removeEventListener("error", error);
+        tx.removeEventListener("abort", error);
+      };
+      const complete = () => {
+        resolve();
+        unlisten();
+      };
+      const error = () => {
+        reject(tx.error || new DOMException("AbortError", "AbortError"));
+        unlisten();
+      };
+      tx.addEventListener("complete", complete);
+      tx.addEventListener("error", error);
+      tx.addEventListener("abort", error);
+    });
+    transactionDoneMap.set(tx, done);
+  }
+  var idbProxyTraps = {
+    get(target, prop, receiver) {
+      if (target instanceof IDBTransaction) {
+        if (prop === "done")
+          return transactionDoneMap.get(target);
+        if (prop === "store") {
+          return receiver.objectStoreNames[1] ? void 0 : receiver.objectStore(receiver.objectStoreNames[0]);
+        }
+      }
+      return wrap(target[prop]);
+    },
+    set(target, prop, value) {
+      target[prop] = value;
+      return true;
+    },
+    has(target, prop) {
+      if (target instanceof IDBTransaction && (prop === "done" || prop === "store")) {
+        return true;
+      }
+      return prop in target;
+    }
+  };
+  function replaceTraps(callback) {
+    idbProxyTraps = callback(idbProxyTraps);
+  }
+  function wrapFunction(func) {
+    if (getCursorAdvanceMethods().includes(func)) {
+      return function(...args) {
+        func.apply(unwrap(this), args);
+        return wrap(this.request);
+      };
+    }
+    return function(...args) {
+      return wrap(func.apply(unwrap(this), args));
+    };
+  }
+  function transformCachableValue(value) {
+    if (typeof value === "function")
+      return wrapFunction(value);
+    if (value instanceof IDBTransaction)
+      cacheDonePromiseForTransaction(value);
+    if (instanceOfAny(value, getIdbProxyableTypes()))
+      return new Proxy(value, idbProxyTraps);
+    return value;
+  }
+  function wrap(value) {
+    if (value instanceof IDBRequest)
+      return promisifyRequest(value);
+    if (transformCache.has(value))
+      return transformCache.get(value);
+    const newValue = transformCachableValue(value);
+    if (newValue !== value) {
+      transformCache.set(value, newValue);
+      reverseTransformCache.set(newValue, value);
+    }
+    return newValue;
+  }
+  var unwrap = (value) => reverseTransformCache.get(value);
+  function openDB(name, version, { blocked, upgrade, blocking, terminated } = {}) {
+    const request = indexedDB.open(name, version);
+    const openPromise = wrap(request);
+    if (upgrade) {
+      request.addEventListener("upgradeneeded", (event) => {
+        upgrade(wrap(request.result), event.oldVersion, event.newVersion, wrap(request.transaction), event);
+      });
+    }
+    if (blocked) {
+      request.addEventListener("blocked", (event) => blocked(
+        // Casting due to https://github.com/microsoft/TypeScript-DOM-lib-generator/pull/1405
+        event.oldVersion,
+        event.newVersion,
+        event
+      ));
+    }
+    openPromise.then((db) => {
+      if (terminated)
+        db.addEventListener("close", () => terminated());
+      if (blocking) {
+        db.addEventListener("versionchange", (event) => blocking(event.oldVersion, event.newVersion, event));
+      }
+    }).catch(() => {
+    });
+    return openPromise;
+  }
+  var readMethods = ["get", "getKey", "getAll", "getAllKeys", "count"];
+  var writeMethods = ["put", "add", "delete", "clear"];
+  var cachedMethods = /* @__PURE__ */ new Map();
+  function getMethod(target, prop) {
+    if (!(target instanceof IDBDatabase && !(prop in target) && typeof prop === "string")) {
+      return;
+    }
+    if (cachedMethods.get(prop))
+      return cachedMethods.get(prop);
+    const targetFuncName = prop.replace(/FromIndex$/, "");
+    const useIndex = prop !== targetFuncName;
+    const isWrite = writeMethods.includes(targetFuncName);
+    if (
+      // Bail if the target doesn't exist on the target. Eg, getAll isn't in Edge.
+      !(targetFuncName in (useIndex ? IDBIndex : IDBObjectStore).prototype) || !(isWrite || readMethods.includes(targetFuncName))
+    ) {
+      return;
+    }
+    const method = async function(storeName, ...args) {
+      const tx = this.transaction(storeName, isWrite ? "readwrite" : "readonly");
+      let target2 = tx.store;
+      if (useIndex)
+        target2 = target2.index(args.shift());
+      return (await Promise.all([
+        target2[targetFuncName](...args),
+        isWrite && tx.done
+      ]))[0];
+    };
+    cachedMethods.set(prop, method);
+    return method;
+  }
+  replaceTraps((oldTraps) => ({
+    ...oldTraps,
+    get: (target, prop, receiver) => getMethod(target, prop) || oldTraps.get(target, prop, receiver),
+    has: (target, prop) => !!getMethod(target, prop) || oldTraps.has(target, prop)
+  }));
+  var advanceMethodProps = ["continue", "continuePrimaryKey", "advance"];
+  var methodMap = {};
+  var advanceResults = /* @__PURE__ */ new WeakMap();
+  var ittrProxiedCursorToOriginalProxy = /* @__PURE__ */ new WeakMap();
+  var cursorIteratorTraps = {
+    get(target, prop) {
+      if (!advanceMethodProps.includes(prop))
+        return target[prop];
+      let cachedFunc = methodMap[prop];
+      if (!cachedFunc) {
+        cachedFunc = methodMap[prop] = function(...args) {
+          advanceResults.set(this, ittrProxiedCursorToOriginalProxy.get(this)[prop](...args));
+        };
+      }
+      return cachedFunc;
+    }
+  };
+  async function* iterate(...args) {
+    let cursor = this;
+    if (!(cursor instanceof IDBCursor)) {
+      cursor = await cursor.openCursor(...args);
+    }
+    if (!cursor)
+      return;
+    cursor = cursor;
+    const proxiedCursor = new Proxy(cursor, cursorIteratorTraps);
+    ittrProxiedCursorToOriginalProxy.set(proxiedCursor, cursor);
+    reverseTransformCache.set(proxiedCursor, unwrap(cursor));
+    while (cursor) {
+      yield proxiedCursor;
+      cursor = await (advanceResults.get(proxiedCursor) || cursor.continue());
+      advanceResults.delete(proxiedCursor);
+    }
+  }
+  function isIteratorProp(target, prop) {
+    return prop === Symbol.asyncIterator && instanceOfAny(target, [IDBIndex, IDBObjectStore, IDBCursor]) || prop === "iterate" && instanceOfAny(target, [IDBIndex, IDBObjectStore]);
+  }
+  replaceTraps((oldTraps) => ({
+    ...oldTraps,
+    get(target, prop, receiver) {
+      if (isIteratorProp(target, prop))
+        return iterate;
+      return oldTraps.get(target, prop, receiver);
+    },
+    has(target, prop) {
+      return isIteratorProp(target, prop) || oldTraps.has(target, prop);
+    }
+  }));
+
+  // src/notification.ts
+  var INDEXDB_CURR_VERSION = 1;
+  var dbPromise = function() {
+    const db = openDB("beltech", INDEXDB_CURR_VERSION, {
+      upgrade(db2) {
+        if (!db2.objectStoreNames.contains("accounts-notifications")) {
+          db2.createObjectStore("accounts-notifications", {
+            keyPath: "accountId"
+          });
+        }
+        if (!db2.objectStoreNames.contains("accounts-recent")) {
+          db2.createObjectStore("accounts-recent", { keyPath: "accountId" });
+        }
+      }
+    });
+    return db;
+  };
+  var addNewNotification = async function(accountId, newNotification) {
+    try {
+      const db = await dbPromise();
+      const accountData = await db.get("accounts-notifications", accountId);
+      if (!accountData) {
+        await db.put("accounts-notifications", {
+          accountId,
+          notifications: [newNotification]
+        });
+        return;
+      }
+      const notificationExists = accountData.notifications.some(
+        (notification) => notification.notificationId === newNotification.notificationId
+      );
+      if (notificationExists) {
+        return;
+      }
+      accountData.notifications.push(newNotification);
+      await db.put("accounts-notifications", accountData);
+    } catch (error) {
+      console.error(
+        `Error adding notification for accountId: ${accountId}`,
+        error
+      );
+      throw error;
+    }
+  };
+  var deleteNotification = async function(accountId, notificationId) {
+    try {
+      const db = await dbPromise();
+      const accountData = await db.get("accounts-notifications", accountId);
+      if (!accountData) {
+        return;
+      }
+      const updatedNotifications = accountData.notifications.filter(
+        (notification) => notification.notificationId !== notificationId
+      );
+      if (accountData.notifications.length === updatedNotifications.length) {
+        return;
+      }
+      await db.put("accounts-notifications", {
+        accountId,
+        notifications: updatedNotifications
+      });
+    } catch (error) {
+      console.error(
+        `Error deleting notification for accountId: ${accountId}, notificationId: ${notificationId}`,
+        error
+      );
+      throw error;
+    }
+  };
+  var isNotificationRecent = async function(accountId, newNotification) {
+    try {
+      const db = await dbPromise();
+      const lastNotification = await db.get("accounts-recent", accountId);
+      if (!lastNotification) {
+        await db.put("accounts-recent", {
+          accountId,
+          time: newNotification.notificationTime
+        });
+        return true;
+      }
+      const newNotificationTime = new Date(newNotification.notificationTime);
+      if (newNotificationTime > new Date(lastNotification.time)) {
+        await db.put("accounts-recent", {
+          accountId,
+          time: newNotification.notificationTime
+        });
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error(
+        `Error updating last notification for accountId: ${accountId}`,
+        error
+      );
+      throw error;
+    }
+  };
+  function getRandomBgColor() {
+    const colors = ["bg-[#BB1D80]", "bg-[#1BCA71]", "bg-[#EBAB01]"];
+    return colors[Math.floor(Math.random() * colors.length)];
+  }
+  function updateNotifMarkup(markup) {
+    const notificationBar = document.getElementById("notification-bar");
+    if (notificationBar) {
+      notificationBar.innerHTML = markup;
+      window._hyperscript.processNode(notificationBar);
+    }
+  }
+  window.deleteNotification = deleteNotification;
+  window.getNotificationMarkup = (accountId) => {
+    (async () => {
+      const db = await dbPromise();
+      const accountData = await db.get("accounts-notifications", accountId);
+      let markup = "";
+      if (!accountData || !accountData.notifications || accountData.notifications.length === 0) {
+        markup = `<p class="no-new text-black font-poppins text-sm text-center m-auto">No new notifications</p>`;
+      } else {
+        markup = `
       <ul class="flex flex-col gap-[2.635rem] justify-center items-center">
-      ${e.notifications.map(o=>U(o)).join("")}
+      ${accountData.notifications.map((notif) => {
+          return produceNotifLiMarkup(notif);
+        }).join("")}
       <p class="hidden no-new text-black font-poppins text-sm text-center m-auto">No new notifications</p>
       </ul>
-      `,H(i)})()};function U(t){return`
-  <li id="${t.notificationId}" class="flex justify-between w-full items-start gap-[0.98rem] [transition:transform_0.8s_ease-in,opacity_0.6s_ease-in]">
+      `;
+      }
+      updateNotifMarkup(markup);
+    })();
+  };
+  function produceNotifLiMarkup(notif) {
+    return `
+  <li id="${notif.notificationId}" class="flex justify-between w-full items-start gap-[0.98rem] [transition:transform_0.8s_ease-in,opacity_0.6s_ease-in]">
     <img id="closeBtn-img" src="/public/assets/svg/closeBtn.svg" class="close-btn w-[1.324rem] aspect-square"
       _="on click
         halt the event
@@ -18,16 +380,112 @@
             remove .hidden from .no-new
           end"
     />
-    <div>
+    <div class="w-full">
       <section class="w-full flex justify-between items-center mb-[0.441rem]">
-        <p class="badge ${X()} text-[#FFFFFF] font-bold text-[0.511rem] leading-[0.623rem] text-center px-[0.929rem] py-[0.078rem] rounded-[0.256rem]">${t.notificationTitle}</p>
-        <p class="text-[#3C3C4399] font-poppins font-extralight text-[0.477rem] leading-[0.715rem]">${new Date(t.notificationTime).toLocaleString()}</p>
+        <p class="badge ${getRandomBgColor()} text-[#FFFFFF] font-bold text-[0.511rem] leading-[0.623rem] text-center px-[0.929rem] py-[0.078rem] rounded-[0.256rem]">${notif.notificationTitle}</p>
+        <p class="text-[#3C3C4399] font-poppins font-extralight text-[0.477rem] leading-[0.715rem]">${new Date(notif.notificationTime).toLocaleString()}</p>
       </section>
       <div>
-        <p class="text-[#000000] font-bold text-start text-[0.626rem] leading-[0.763rem] mb-[0.313rem]">${t.notificationHeading}</p>
-        <p class="text-[#000000] font-poppins font-extralight text-[0.626rem] text-start leading-[0.938rem] max-w-[50ch] break-words">${t.notificationBody}</p>
+        <p class="text-[#000000] font-bold text-start text-[0.626rem] leading-[0.763rem] mb-[0.313rem]">${notif.notificationHeading}</p>
+        <p class="text-[#000000] font-poppins font-extralight text-[0.626rem] text-start leading-[0.938rem] max-w-[50ch] break-words">${notif.notificationBody}</p>
       </div>
     </div>
   </li>
-  `}var q=["dashboard","welcome"];q.some(t=>window.location.pathname.includes(t))?(async()=>{try{let t=await fetch("/account/notifications",{headers:{Accept:"application/json"}});if(!t.ok){console.warn("response not ok",t.status);return}let n=t.headers.get("X-AccountId");if(!n){console.warn("Missing X-AccountId header");return}let e=await t.json();for(let i of e){if(!await K(n,i)){console.log("Notification in the past, skipping",i);continue}console.log("Adding new notification",i),await R(n,i),await b()}}catch(t){console.error("Error fetching notifications:",t)}})():(async()=>await b())();window.updateNotificationCount=b;async function b(){let t=document.getElementById("notification-bar");if(!t)return;let n=t.dataset.accountid;if(!n)return;let i=await(await d()).get("accounts-notifications",n);if(!i)return;let o=i.notifications.length,c=document.getElementById("notificationCount");if(c){if(o===0){c.classList.add("hidden"),c.classList.remove("flex","items-center","justify-center","w-4","h-4");return}c.innerText=o.toString(),c.classList.remove("hidden"),c.classList.add("flex","items-center","justify-center","w-4","h-4")}}})();
+  `;
+  }
+  window.updateNotificationCount = updateNotificationCount;
+  async function updateNotificationCount() {
+    const notificationBar = document.getElementById("notification-bar");
+    if (!notificationBar) {
+      return;
+    }
+    const accountID = notificationBar.dataset.accountid;
+    if (!accountID) {
+      return;
+    }
+    const db = await dbPromise();
+    const accountData = await db.get("accounts-notifications", accountID);
+    if (!accountData) {
+      return;
+    }
+    const count = accountData.notifications.length;
+    const notificationCount = document.getElementById("notificationCount");
+    if (!notificationCount) {
+      return;
+    }
+    if (count === 0) {
+      notificationCount.classList.add("hidden");
+      notificationCount.classList.remove(
+        "flex",
+        "items-center",
+        "justify-center",
+        "w-4",
+        "h-4"
+      );
+      return;
+    }
+    notificationCount.innerText = count.toString();
+    notificationCount.classList.remove("hidden");
+    notificationCount.classList.add(
+      "flex",
+      "items-center",
+      "justify-center",
+      "w-4",
+      "h-4"
+    );
+  }
+  window.handleNotification = handleNotification;
+  async function handleNotification(isNewAccount = false) {
+    console.log("Fetching notifications", "isNewAccount:", isNewAccount);
+    try {
+      const res = await fetch("/account/notifications", {
+        headers: {
+          Accept: "application/json",
+          "X-IsNewAccount": isNewAccount.toString()
+        }
+      });
+      if (!res.ok) {
+        console.warn("response not ok", res.status);
+        return;
+      }
+      const accountId = res.headers.get("X-AccountId");
+      if (!accountId) {
+        console.warn("Missing X-AccountId header");
+        return;
+      }
+      const data = await res.json();
+      if (!data || data.length === 0) {
+        console.log("No notifications");
+        return;
+      }
+      console.log("Notifications fetched", data.length);
+      for (const notification of data) {
+        const isNewNotification = await isNotificationRecent(
+          accountId,
+          notification
+        );
+        if (!isNewNotification) {
+          console.log("Notification in the past, skipping", notification);
+          continue;
+        }
+        console.log("Adding new notification", notification);
+        await addNewNotification(accountId, notification);
+      }
+    } catch (error) {
+      console.error("Error fetching notifications:", error);
+    } finally {
+      await updateNotificationCount();
+    }
+  }
+  var allowedPaths = ["dashboard", "welcome"];
+  if (allowedPaths.some((path) => window.location.pathname.includes(path))) {
+    (async () => {
+      await handleNotification();
+    })();
+  } else {
+    (async () => {
+      await updateNotificationCount();
+    })();
+  }
+})();
 //# sourceMappingURL=notification.js.map

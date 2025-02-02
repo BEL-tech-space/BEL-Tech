@@ -18,8 +18,7 @@ interface MyIndexDB extends DBSchema {
 }
 
 type Notification = {
-  accountId: string;
-  notificationId: string; // Unique per notification (but not globally)
+  notificationId: string;
   notificationHeading: string;
   notificationTitle: string;
   notificationBody: string;
@@ -162,6 +161,7 @@ declare global {
     getNotificationMarkup: (accountId: string) => void;
     deleteNotification: (accountId: string, notificationId: string) => void;
     updateNotificationCount: () => void;
+    handleNotification: (isNewAccount?: boolean) => void;
   }
 }
 
@@ -220,7 +220,7 @@ function produceNotifLiMarkup(notif: Notification) {
             remove .hidden from .no-new
           end"
     />
-    <div>
+    <div class="w-full">
       <section class="w-full flex justify-between items-center mb-[0.441rem]">
         <p class="badge ${getRandomBgColor()} text-[#FFFFFF] font-bold text-[0.511rem] leading-[0.623rem] text-center px-[0.929rem] py-[0.078rem] rounded-[0.256rem]">${notif.notificationTitle}</p>
         <p class="text-[#3C3C4399] font-poppins font-extralight text-[0.477rem] leading-[0.715rem]">${new Date(notif.notificationTime).toLocaleString()}</p>
@@ -232,54 +232,6 @@ function produceNotifLiMarkup(notif: Notification) {
     </div>
   </li>
   `;
-}
-
-const allowedPaths = ["dashboard", "welcome"];
-if (allowedPaths.some((path) => window.location.pathname.includes(path))) {
-  (async () => {
-    try {
-      const res = await fetch("/account/notifications", {
-        headers: {
-          Accept: "application/json",
-        },
-      });
-      if (!res.ok) {
-        console.warn("response not ok", res.status);
-        return;
-      }
-
-      const accountId = res.headers.get("X-AccountId");
-      if (!accountId) {
-        console.warn("Missing X-AccountId header");
-        return;
-      }
-
-      const data: Notification[] = await res.json();
-
-      for (const notification of data) {
-        const isNewNotification: boolean = await isNotificationRecent(
-          accountId,
-          notification
-        );
-
-        if (!isNewNotification) {
-          console.log("Notification in the past, skipping", notification);
-          continue;
-        }
-
-        console.log("Adding new notification", notification);
-
-        await addNewNotification(accountId, notification);
-        await updateNotificationCount();
-      }
-    } catch (error) {
-      console.error("Error fetching notifications:", error);
-    }
-  })();
-} else {
-  (async () => {
-    await updateNotificationCount();
-  })();
 }
 
 window.updateNotificationCount = updateNotificationCount;
@@ -323,4 +275,67 @@ async function updateNotificationCount() {
     "w-4",
     "h-4"
   );
+}
+window.handleNotification = handleNotification;
+async function handleNotification(isNewAccount: boolean = false) {
+  console.log("Fetching notifications", "isNewAccount:", isNewAccount);
+  try {
+    const res = await fetch("/account/notifications", {
+      headers: {
+        Accept: "application/json",
+        "X-IsNewAccount": isNewAccount.toString(),
+      },
+    });
+    if (!res.ok) {
+      console.warn("response not ok", res.status);
+      return;
+    }
+
+    const accountId = res.headers.get("X-AccountId");
+    if (!accountId) {
+      console.warn("Missing X-AccountId header");
+      return;
+    }
+
+    const data: Notification[] = await res.json();
+    if (!data || data.length === 0) {
+      console.log("No notifications");
+      return;
+    }
+
+    console.log("Notifications fetched", data.length);
+
+    for (const notification of data) {
+      const isNewNotification: boolean = await isNotificationRecent(
+        accountId,
+        notification
+      );
+
+      if (!isNewNotification) {
+        console.log("Notification in the past, skipping", notification);
+        continue;
+      }
+
+      console.log("Adding new notification", notification);
+
+      await addNewNotification(accountId, notification);
+    }
+  } catch (error) {
+    console.error("Error fetching notifications:", error);
+  } finally {
+    await updateNotificationCount();
+  }
+}
+
+const allowedPaths = ["dashboard", "welcome"];
+
+// main
+if (allowedPaths.some((path) => window.location.pathname.includes(path))) {
+  (async () => {
+    await handleNotification();
+  })();
+} else {
+  (async () => {
+    await updateNotificationCount();
+  })();
 }

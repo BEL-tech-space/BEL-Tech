@@ -20,6 +20,9 @@ templ DashboardPage(acc Account, chart template.HTML, isEmpty, isNewAccount bool
 		if isNewAccount {
 			@ToastMessage(SuccessToast, "Welcome to Beltech!")
 			@confetti()
+			<script type="module">
+				await handleNotification(true);
+			</script>
 		}
 		@scriptForDashboardPage()
 	</html>
@@ -329,7 +332,7 @@ templ scriptForDashboardPage() {
 
 templ confetti() {
 	<script src="/public/assets/scripts/confetti.browser.min.js"></script>
-	<script>
+	<script type="module">
 		await new Promise(resolve => setTimeout(resolve, 400));
 		var duration = 5000;
 		var animationEnd = Date.now() + duration;
