@@ -293,7 +293,7 @@ func commingSoonTooltip() templ.Component {
 			templ_7745c5c3_Var5 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "<script src=\"/public/assets/scripts/popper.min.js\"></script><script src=\"/public/assets/scripts/tippy-bundle.umd.js\"></script><style>\n\t\t.tippy-box[data-theme~='tomato'] {\n\t\t\tbackground-color: #CCE1D6;\n\t\t\tcolor:black;\n\t\t\tfont-family: 'TT Chocolates';\n\t\t\tborder-radius: 0.625rem;\n\t\t\tbox-shadow: 0rem 0.25rem 0.625rem rgba(0, 0, 0, 0.25);\n\t\t\tpadding: 0.15rem;\n\t\t\ttext-align: start;\n\t\t}\n\t</style><script>\n\t\ttippy('[data-tippy-content]', {\n\t\t\t\ttrigger: 'click',\n\t\t\t\t// allowHTML: true,\n\t\t\t\ttheme: 'tomato',\n\t\t\t\tanimation: 'perspective-extreme',\n\t\t\t\t// interactive: true,\n\t\t\t\tarrow: false,\n\t\t\t\tonShow(instance) {\n\t\t\t\tsetTimeout(() => {\n\t\t\t\t\tinstance.hide();\n\t\t\t\t}, 1500);\n\t\t\t},\n\t\t});\n\t</script>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "<script src=\"/public/assets/scripts/popper.min.js\"></script><script src=\"/public/assets/scripts/tippy-bundle.umd.js\"></script><style>\n\t\t.tippy-box[data-theme~='tomato'] {\n\t\t\tbackground-color: #CCE1D6;\n\t\t\tcolor:black;\n\t\t\tfont-family: 'TT Chocolates';\n\t\t\tborder-radius: 0.625rem;\n\t\t\tbox-shadow: 0rem 0.25rem 0.625rem rgba(0, 0, 0, 0.25);\n\t\t\tpadding: 0.15rem;\n\t\t\ttext-align: start;\n\t\t}\n\t</style><script>\n\t\ttippy('[data-tippy-content]', {\n\t\t\t\ttrigger: 'click',\n\t\t\t\ttheme: 'tomato',\n\t\t\t\tanimation: 'perspective-extreme',\n\t\t\t\tarrow: false,\n\t\t\t\tonShow(instance) {\n\t\t\t\tsetTimeout(() => {\n\t\t\t\t\tinstance.hide();\n\t\t\t\t}, 1500);\n\t\t\t},\n\t\t});\n\t</script>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -358,7 +358,7 @@ func CommonHeader(user Account) templ.Component {
 		var templ_7745c5c3_Var8 string
 		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(user.AvatarUrl)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 133, Col: 24}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 131, Col: 24}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 		if templ_7745c5c3_Err != nil {
@@ -376,7 +376,7 @@ func CommonHeader(user Account) templ.Component {
 			var templ_7745c5c3_Var9 string
 			templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(user.DisplayName)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 140, Col: 47}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 138, Col: 47}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 			if templ_7745c5c3_Err != nil {
@@ -394,7 +394,7 @@ func CommonHeader(user Account) templ.Component {
 			var templ_7745c5c3_Var10 string
 			templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(user.FirstName)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 145, Col: 45}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 143, Col: 45}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 			if templ_7745c5c3_Err != nil {
@@ -412,7 +412,7 @@ func CommonHeader(user Account) templ.Component {
 			var templ_7745c5c3_Var11 string
 			templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(user.LastName)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 150, Col: 44}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 148, Col: 44}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
 			if templ_7745c5c3_Err != nil {
@@ -501,7 +501,7 @@ func commonHeaderTwo(text, avatarURL string, btnComp templ.Component) templ.Comp
 		var templ_7745c5c3_Var14 string
 		templ_7745c5c3_Var14, templ_7745c5c3_Err = templ.JoinStringErrs(avatarURL)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 202, Col: 19}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 200, Col: 19}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var14))
 		if templ_7745c5c3_Err != nil {
@@ -514,7 +514,7 @@ func commonHeaderTwo(text, avatarURL string, btnComp templ.Component) templ.Comp
 		var templ_7745c5c3_Var15 string
 		templ_7745c5c3_Var15, templ_7745c5c3_Err = templ.JoinStringErrs(text)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 206, Col: 68}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 204, Col: 68}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var15))
 		if templ_7745c5c3_Err != nil {
@@ -564,7 +564,7 @@ func LetRecycleAndProfile(text string) templ.Component {
 		var templ_7745c5c3_Var17 string
 		templ_7745c5c3_Var17, templ_7745c5c3_Err = templ.JoinStringErrs(text)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 213, Col: 68}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 211, Col: 68}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var17))
 		if templ_7745c5c3_Err != nil {
@@ -628,14 +628,14 @@ func notificationBar(accountEmail string) templ.Component {
 			templ_7745c5c3_Var19 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 29, "<style>\n\t\t.slide-out {\n\t\t\ttransform: translateX(100%);\n\t\t\topacity: 0;\n\t\t}\n\t</style><div id=\"backdrop\" class=\"hidden fixed inset-0 z-10 bg-black backdrop-blur-sm bg-opacity-50 transition-opacity duration-300 ease-in-out [transition:opacity_6s_ease-in-out]\" _=\"on click \n\t\t\tif #notification-bar.classList contains &#39;translate-y-0&#39;\n\t\t\t\ttell #notification-bar\n\t\t\t\tremove .translate-y-0 then add .translate-y-full\n\t\t\t\tthen add .hidden to me\n\t\t\tend\"></div><section id=\"notification-bar\" class=\"bg-white fixed bottom-0 left-0 pl-[1.223rem] pr-[1.723rem] translate-y-full \n                 pt-[2.543rem] pb-[2.635rem] rounded-tl-[0.848rem] max-h-[50%] h-fit overflow-y-auto w-full z-20\n                 [transition:transform_0.7s_ease-in-out]\" data-accountId=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 29, "<style>\n\t\t.slide-out {\n\t\t\ttransform: translateX(100%);\n\t\t\topacity: 0;\n\t\t}\n\t</style><div id=\"backdrop\" class=\"hidden fixed inset-0 z-10 bg-black backdrop-blur-sm bg-opacity-50 transition-opacity duration-300 ease-in-out [transition:opacity_6s_ease-in-out]\" _=\"on click \n\t\t\tif #notification-bar.classList contains &#39;translate-y-0&#39;\n\t\t\t\ttell #notification-bar\n\t\t\t\tremove .translate-y-0 then add .translate-y-full\n\t\t\t\tthen add .hidden to me\n\t\t\tend\"></div><section id=\"notification-bar\" class=\"bg-white fixed bottom-0 left-0 pl-[1.223rem] pr-[1.723rem] translate-y-full \n                 pt-[2.543rem] pb-[2.635rem] rounded-tl-[0.848rem] max-h-[50%] h-auto overflow-y-auto w-full z-20\n                 [transition:all_0.7s_ease-in-out]\" data-accountId=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var20 string
 		templ_7745c5c3_Var20, templ_7745c5c3_Err = templ.JoinStringErrs(accountEmail)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 257, Col: 31}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 255, Col: 31}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var20))
 		if templ_7745c5c3_Err != nil {
