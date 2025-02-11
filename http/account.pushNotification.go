@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/SherClockHolmes/webpush-go"
@@ -14,30 +15,6 @@ import (
 )
 
 var ActiveNotifications = []service.Notification{}
-
-var newAccountNotifications = []service.Notification{
-	{
-		NotificationID:      uuid.NewString(),
-		NotificationTitle:   "Welcome",
-		NotificationHeading: "Welcome to Beltech",
-		NotificationBody:    "We are excited to have you on board. We are here to help you make the world a better and greener place.",
-		NotificationTime:    time.Now().Add(1 * time.Second).Format(time.RFC3339),
-	},
-	{
-		NotificationID:      uuid.NewString(),
-		NotificationTitle:   "Opening Speech",
-		NotificationHeading: "Hey Anon, we sent you an email",
-		NotificationBody:    "Do well to check your login email, we've shared our opening speech with you.",
-		NotificationTime:    time.Now().Add(2 * time.Second).Format(time.RFC3339),
-	},
-	{
-		NotificationID:      uuid.NewString(),
-		NotificationTitle:   "Display Name",
-		NotificationHeading: "Change your display name",
-		NotificationBody:    "Hey Anon,we cannpt both share the same name. You can change your display name to something more personal. Click on your avatar to get started.",
-		NotificationTime:    time.Now().Add(3 * time.Second).Format(time.RFC3339),
-	},
-}
 
 func (a *App) getNotificationsHandler(w http.ResponseWriter, r *http.Request) {
 	accountEmail := r.Context().Value(contextKeyEmail).(string)
@@ -47,7 +24,38 @@ func (a *App) getNotificationsHandler(w http.ResponseWriter, r *http.Request) {
 
 	value := r.Header.Get("X-IsNewAccount")
 	if v, err := strconv.ParseBool(value); err == nil && v {
-		if err := json.NewEncoder(w).Encode(newAccountNotifications); err != nil {
+		if err := json.NewEncoder(w).Encode(
+			[]service.Notification{
+				{
+					NotificationID:      uuid.NewString(),
+					NotificationTitle:   "Welcome",
+					NotificationHeading: "Welcome to Beltech",
+					NotificationBody:    "We are excited to have you on board. We are here to help you make the world a better and greener place.",
+					NotificationTime:    time.Now().Add(1 * time.Second).Format(time.RFC3339),
+				},
+				{
+					NotificationID:      uuid.NewString(),
+					NotificationTitle:   "Opening Speech",
+					NotificationHeading: "Hey BELTechies, we sent you an email",
+					NotificationBody:    "Do well to check your login email, we've shared our opening speech with you.",
+					NotificationTime:    time.Now().Add(2 * time.Second).Format(time.RFC3339),
+				},
+				{
+					NotificationID:      uuid.NewString(),
+					NotificationTitle:   "Display Name",
+					NotificationHeading: "Change your display name",
+					NotificationBody:    "Hey BELTechies, we cannot both share the same name. You can change your display name to something more personal. Click on your avatar to get started.",
+					NotificationTime:    time.Now().Add(3 * time.Second).Format(time.RFC3339),
+				},
+				{
+					NotificationID:      uuid.NewString(),
+					NotificationTitle:   "New Account",
+					NotificationHeading: "Navigating the BelTech Account App",
+					NotificationBody:    "Dear BelTechies, Welcome to Bel Tech App once again. Confused on how to navigate the app? Visit the Learn section on the wallet page to know how to use the App.",
+					NotificationTime:    time.Now().Add(4 * time.Second).Format(time.RFC3339),
+				},
+			},
+		); err != nil {
 			http.Error(w, "Failed to encode notifications", http.StatusInternalServerError)
 			return
 		}
@@ -80,10 +88,17 @@ func (a *App) makeNotificationPageHandler(w http.ResponseWriter, r *http.Request
 	}
 }
 
+var allowedEmails = map[string]bool{
+	"giwaoluwatobi@gmail.com":  true,
+	"ayomideelijah1@gmail.com": true,
+}
+
 func (a *App) createNotificationHandler(w http.ResponseWriter, r *http.Request) {
 
 	accountEmail := r.Context().Value(contextKeyEmail).(string)
-	if accountEmail != "giwaoluwatobi@gmail.com" && accountEmail != "ayomideelijah1@gmail.com" {
+	accountEmail = strings.ToLower(accountEmail)
+
+	if !allowedEmails[accountEmail] {
 		http.Redirect(w, r, "/account/welcome", http.StatusTemporaryRedirect)
 		return
 	}

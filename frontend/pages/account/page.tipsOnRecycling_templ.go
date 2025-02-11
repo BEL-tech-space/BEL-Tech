@@ -262,7 +262,7 @@ func Paper() templ.Component {
 			templ_7745c5c3_Var6 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "<article id=\"paper\"></article>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "<article id=\"paper\"><p class=\"mb-6 font-medium\">HOW TO RECYCLE PAPER</p><p class=\"mb-6\">- <span class=\"font-semibold\">Collect and sort paper:</span> Gather all types of paper products, including newspapers, cardboard, magazines, junk mail, paperboard, and mixed paper.</p><p class=\"mb-6\">- <span class=\"font-semibold text-black\">Remove contaminants:</span> Take out any plastic, staples, tape, or other non-paper materials that may be attached to the paper.</p><p class=\"mb-3\">- <span class=\"font-semibold text-black\">Shredding and Breaking Down:</span></p><p class=\"mb-2 ml-4\">- Shred or tear paper: Shred or tear the paper into smaller pieces to increase its surface area.</p><p class=\"mb-6 ml-4\">- Break down cardboard: Flatten cardboard boxes and cut them into smaller pieces.</p></article>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
