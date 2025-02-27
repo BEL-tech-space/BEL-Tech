@@ -27,7 +27,7 @@ func main() {
 	// connect to database
 	var databaseUrl string
 	if environmentalVariables.Build == "production" {
-		databaseUrl = environmentalVariables.Database.Prod
+		databaseUrl = environmentalVariables.Database.ProdPrivate
 	} else {
 		databaseUrl = environmentalVariables.Database.Dev
 	}
@@ -38,13 +38,18 @@ func main() {
 	}
 	defer conn.Close()
 
-	rcache, err := buildCache()
+	accountCache, err := buildCache[service.Account]()
 	if err != nil {
 		log.Fatalln("Error creating cache: " + err.Error())
 	}
-	defer rcache.Close()
+	defer accountCache.Close()
+	wasteLogCache, err := buildCache[service.WasteLog]()
+	if err != nil {
+		log.Fatalln("Error creating cache: " + err.Error())
+	}
+	defer wasteLogCache.Close()
 
-	app := backend.NewApp(&environmentalVariables, conn, rcache)
+	app := backend.NewApp(&environmentalVariables, conn, accountCache, wasteLogCache)
 
 	server := http.Server{
 		Addr:    fmt.Sprintf(":%v", environmentalVariables.Port),
@@ -78,8 +83,8 @@ func main() {
 	log.Println("SERVER STOPPED GRACEFULLY")
 }
 
-func buildCache() (*ristretto.Cache[string, service.Account], error) {
-	cache, err := ristretto.NewCache(&ristretto.Config[string, service.Account]{
+func buildCache[T any]() (*ristretto.Cache[string, T], error) {
+	cache, err := ristretto.NewCache(&ristretto.Config[string, T]{
 		NumCounters: 1e6,     // number of keys to track frequency of (1M).
 		MaxCost:     1 << 30, // maximum cost of cache (1GB).
 		BufferItems: 64,      // number of keys per Get buffer.

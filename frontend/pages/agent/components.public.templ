@@ -1,127 +1,7 @@
 package pages
 
-templ Footer(active string) {
-	<footer class="bg-white flex w-full justify-around mt-[1.125rem] gap-[2.375rem] text-[#016934]">
-		if active == "dashboard" {
-			<a
-				href="/agent/dashboard"
-				class="flex flex-col justify-center items-center"
-			>
-				<img
-					src="/public/assets/svg/home bold.svg"
-					class="w-6 aspect-square"
-				/>
-				<p class="font-bold text-[0.5rem] leading-[1.25rem]">Home</p>
-			</a>
-		} else {
-			<a
-				href="/agent/dashboard"
-				class="flex flex-col justify-center items-center"
-			>
-				<img
-					src="/public/assets/svg/home linear.svg"
-					class="w-6 aspect-square"
-				/>
-				<p class="font-bold text-[0.5rem] leading-[1.25rem]">Home</p>
-			</a>
-		}
-		if active == "collect" {
-			<a
-				href="/agent/collect"
-				class="flex flex-col justify-center items-center"
-			>
-				<img
-					src="/public/assets/svg/collect_icon_bold.svg"
-					class="w-6 aspect-square"
-				/>
-				<p class="font-bold text-[0.5rem] leading-[1.25rem]">Collect</p>
-			</a>
-		} else {
-			<a
-				href="/agent/collect"
-				class="flex flex-col justify-center items-center"
-			>
-				<img
-					src="/public/assets/svg/collect_icon_linear.svg"
-					class="w-6 aspect-square"
-				/>
-				<p class="font-bold text-[0.5rem] leading-[1.25rem]">Collect</p>
-			</a>
-		}
-		if active == "history" {
-			<a
-				href="/agent/history"
-				class="flex flex-col justify-center items-center"
-			>
-				<img
-					src="/public/assets/svg/history_icon_bold.svg"
-					class="w-6 aspect-square"
-				/>
-				<p class="font-bold text-[0.5rem] leading-[1.25rem]">History</p>
-			</a>
-		} else {
-			<a
-				href="/agent/history"
-				class="flex flex-col justify-center items-center"
-			>
-				<img
-					src="/public/assets/svg/history_icon_linear.svg"
-					class="w-6 aspect-square"
-				/>
-				<p class="font-bold text-[0.5rem] leading-[1.25rem]">History</p>
-			</a>
-		}
-		if active == "profile" {
-			<a
-				href="/agent/profile"
-				class="flex flex-col justify-center items-center"
-			>
-				<img
-					src="/public/assets/svg/profile-home.svg"
-					class="w-6 aspect-square"
-				/>
-				<p class="font-bold text-[0.5rem] leading-[1.25rem]">Profile</p>
-			</a>
-		} else {
-			<a
-				href="/agent/profile"
-				class="flex flex-col justify-center items-center"
-			>
-				<img
-					src="/public/assets/svg/profile.svg"
-					class="w-6 aspect-square"
-				/>
-				<p class="font-bold text-[0.5rem] leading-[1.25rem]">Profile</p>
-			</a>
-		}
-		if active == "logout" {
-			<a
-				href="/agent/signout"
-				class="flex flex-col justify-center items-center"
-			>
-				<img
-					src="/public/assets/svg/logout_bold.svg"
-					class="w-6 aspect-square"
-				/>
-				<p class="font-bold text-[0.5rem] leading-[1.25rem]">Logout</p>
-			</a>
-		} else {
-			<a
-				href="/agent/signout"
-				class="flex flex-col justify-center items-center"
-			>
-				<img
-					src="/public/assets/svg/logout_linear.svg"
-					class="w-6 aspect-square"
-				/>
-				<p class="font-bold text-[0.5rem] leading-[1.25rem]">Logout</p>
-			</a>
-		}
-	</footer>
-}
-
 templ profileBar(collector Collector) {
-	<header class="flex w-full justify-start items-center">
+	<header class="w-full flex justify-start items-center px-6">
 		<img
 			src={ collector.AvatarUrl }
 			class="rounded-full w-[1.86rem] aspect-square mr-[0.5rem]"
@@ -146,7 +26,7 @@ templ profileBar(collector Collector) {
 				Gm
 			</p>
 		}
-		<button class="bg-[#CCE1D699] p-[0.5rem] rounded-md flex justify-center items-center">
+		<button class="ml-auto  bg-[#CCE1D699] p-[0.5rem] rounded-md flex justify-center items-center">
 			<img
 				src="/public/assets/svg/notification.svg"
 				class="w-6 aspect-square"
@@ -163,15 +43,4 @@ templ letRecycleAndProfile(text string) {
 			class="w-5 aspect-square"
 		/>
 	</article>
-}
-
-templ removeScrollBar() {
-	<style>
-		.overflow-y-auto::-webkit-scrollbar {
-			width: 0 !important;
-			display: none;
-			overflow: -moz-scrollbars-none;
-			scrollbar-width: none;
-		}
-	</style>
 }

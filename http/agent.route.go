@@ -29,7 +29,7 @@ func (a *App) agentRouter() http.Handler {
 		// r.Post("/addAgent", a.addNewCollectorPost)
 	})
 
-	r.Get("/signin", a.logInCollector)
+	r.Get("/login.html", a.logInCollector)
 	r.Get("/signout", a.logOutCollector)
 	r.Get("/logout", a.logoutAgent)
 	r.Get("/unauthorized", a.unauthorized)
@@ -44,7 +44,7 @@ func (a *App) agentAuthorization(next http.Handler) http.Handler {
 		session, err := a.agentSessionStore.Get(r, "beltech-agent")
 		if err != nil {
 			fmt.Println("get err in auth", err.Error())
-			http.Redirect(w, r, "/agent/signin", http.StatusTemporaryRedirect)
+			http.Redirect(w, r, "/agent/login.html", http.StatusTemporaryRedirect)
 			return
 		}
 
@@ -52,31 +52,19 @@ func (a *App) agentAuthorization(next http.Handler) http.Handler {
 		email, exist := session.Values["email"]
 		if !exist {
 			fmt.Println("missing needed info")
-			http.Redirect(w, r, "/agent/signin", http.StatusTemporaryRedirect)
+			http.Redirect(w, r, "/agent/login.html", http.StatusTemporaryRedirect)
 			return
 		}
 
-		var (
-			agentEmail     = email.(string)
-			foundCollector bool
-			collector      collector
-		)
+		agentEmail := email.(string)
 
-		for _, c := range a.collectors {
-			if c.Email == agentEmail {
-				collector = c
-				foundCollector = true
-				break
-			}
-		}
-
-		if !foundCollector {
-			fmt.Println("not found in collectors array")
+		collector, ok := a.collectors[agentEmail]
+		if !ok {
+			fmt.Println("not found in collectors list")
 			http.Redirect(w, r, "/agent/unauthorized", http.StatusUnauthorized)
 			return
 		}
 
-		// Add agentID and agentID to the request context
 		ctx := context.WithValue(r.Context(), contextKeyEmail, agentEmail)
 		ctx = context.WithValue(ctx, contextKeyAgentID, collector.AgentID)
 		ctx = context.WithValue(ctx, contextKeyRole, collector.Role)

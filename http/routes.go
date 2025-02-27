@@ -13,7 +13,6 @@ func (a *App) Routes() *chi.Mux {
 	r := chi.NewRouter()
 
 	// r.Use(middleware.Logger)
-	// r.Use(setContentType)
 	r.Use(middleware.Recoverer)
 	r.Use(middleware.Compress(5))
 

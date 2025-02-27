@@ -26,15 +26,11 @@ func (a *App) signInWithProviderAccount(w http.ResponseWriter, r *http.Request) 
 
 	var provider string
 	if provider = chi.URLParam(r, "provider"); provider == "" {
-		// http.Error(w, "Provider not specified", http.StatusBadRequest)
-		w.WriteHeader(http.StatusBadRequest)
 		http.Redirect(w, r, "/account/login.html", http.StatusTemporaryRedirect)
 		return
 	}
 
 	if provider != "google" && provider != "facebook" {
-		// http.Error(w, "Invalid provider", http.StatusBadRequest)
-		w.WriteHeader(http.StatusBadRequest)
 		http.Redirect(w, r, "/account/login.html", http.StatusTemporaryRedirect)
 		return
 	}
@@ -50,8 +46,7 @@ func (a *App) signInWithProviderAccount(w http.ResponseWriter, r *http.Request) 
 
 	// try to get the user without re-authenticating
 	if gothUser, err := gothic.CompleteUserAuth(w, r); err == nil {
-		if err = a.logInUser(w, r, gothUser); err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
+		if err = a.logInAccount(w, r, gothUser); err != nil {
 			http.Redirect(w, r, "/account/login.html", http.StatusTemporaryRedirect)
 			return
 		}
@@ -71,17 +66,12 @@ func (a *App) callbackHandlerAccount(w http.ResponseWriter, r *http.Request) {
 
 	if a.config.Build == productionEnv {
 		if user, err = gothic.CompleteUserAuth(w, r); err != nil {
-			// http.Error(w, err.Error(), http.StatusInternalServerError)
-			w.WriteHeader(http.StatusInternalServerError)
 			http.Redirect(w, r, "/account/login.html", http.StatusTemporaryRedirect)
 			return
 		}
 	}
 
-	if err = a.logInUser(w, r, user); err != nil {
-		fmt.Println("err from loginUser", err.Error())
-		// http.Error(w, err.Error(), http.StatusInternalServerError)
-		w.WriteHeader(http.StatusInternalServerError)
+	if err = a.logInAccount(w, r, user); err != nil {
 		http.Redirect(w, r, "/account/login.html", http.StatusTemporaryRedirect)
 		return
 	}
@@ -91,13 +81,10 @@ func (a *App) callbackHandlerAccount(w http.ResponseWriter, r *http.Request) {
 
 func (a *App) logoutAccount(w http.ResponseWriter, r *http.Request) {
 
-	if err := gothic.Logout(w, r); err != nil {
-		fmt.Println("error in goth.logout", err.Error())
-	}
+	gothic.Logout(w, r)
 
 	session, err := a.accountSessionStore.Get(r, "beltech-account")
-	if err != nil {
-		fmt.Println("error in get, logoutAccount", err.Error())
+	if err != nil || session == nil {
 		http.Redirect(w, r, "/account/login.html", http.StatusTemporaryRedirect)
 		return
 	}
@@ -105,7 +92,6 @@ func (a *App) logoutAccount(w http.ResponseWriter, r *http.Request) {
 	session.Options.MaxAge = -1
 	session.Values = nil
 	if err := session.Save(r, w); err != nil {
-		fmt.Println("error in saving session, logOut", err.Error())
 		http.Redirect(w, r, "/account/login.html", http.StatusTemporaryRedirect)
 		return
 	}
@@ -113,7 +99,7 @@ func (a *App) logoutAccount(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/account/login.html", http.StatusTemporaryRedirect)
 }
 
-func (a *App) logInUser(w http.ResponseWriter, r *http.Request, u goth.User) error {
+func (a *App) logInAccount(w http.ResponseWriter, r *http.Request, u goth.User) error {
 
 	user, err := a.service.CreateOrUpdateUser(context.Background(), mapGothUserToServiceUser(u))
 	if err != nil {
@@ -149,7 +135,7 @@ func (a *App) createNewUserSession(w http.ResponseWriter, r *http.Request, acc s
 
 	a.accountCache.SetWithTTL(acc.Email, acc, 1, 86_400*14*time.Second)
 
-	if a.config.Build != productionEnv {
+	if a.config.Build != productionEnv { // dev mode
 		session.Options.MaxAge = 86_400
 		a.accountCache.SetWithTTL(acc.Email, acc, 1, 86_400*time.Second)
 	}

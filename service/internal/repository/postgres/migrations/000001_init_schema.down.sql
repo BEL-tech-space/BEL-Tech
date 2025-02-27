@@ -1,5 +1,10 @@
-DROP TABLE IF Exists agents;
-DROP TABLE IF Exists accounts;
-DROP TABLE IF Exists waste_Logs;
-DROP TABLE IF Exists exchange_History;
-DROP TABLE IF Exists collectors;
+DROP TABLE IF EXISTS accounts;
+DROP INDEX IF EXISTS accounts_spl_wallet_unique_idx;
+DROP TABLE IF EXISTS beneficiaries;
+DROP TABLE IF EXISTS notifications;
+DROP TYPE IF EXISTS collectorRole;
+DROP TYPE IF EXISTS identifyAs;
+DROP TABLE IF EXISTS agents;
+DROP TABLE IF EXISTS collectors;
+DROP TABLE IF EXISTS Waste_Logs;
+

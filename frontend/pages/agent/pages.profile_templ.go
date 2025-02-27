@@ -29,7 +29,7 @@ func ProfilePage(collector Collector) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<!doctype html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><link rel=\"stylesheet\" href=\"/public/assets/styles/output.css\"><title>Profile Beltech-Agent</title></head><body class=\"bg-[url(&#39;/public/assets/images/beltech_background.png&#39;)] bg-cover bg-center h-dvh overflow-hidden\"><div class=\"w-full h-full flex flex-col px-6 pt-6 text-[#2E2E2E] font-montserrat \">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<!doctype html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><link rel=\"stylesheet\" href=\"/public/assets/styles/output.css\"><title>Profile Beltech-Agent</title></head><body class=\"bg-[url(&#39;/public/assets/images/beltech_background.png&#39;)] bg-cover bg-center h-dvh overflow-hidden\"><div class=\"w-full h-full flex flex-col pt-6 text-[#2E2E2E] font-montserrat \">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -37,7 +37,7 @@ func ProfilePage(collector Collector) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<main class=\"grow overflow-y-scroll\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<main class=\"grow overflow-y-scroll px-6\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

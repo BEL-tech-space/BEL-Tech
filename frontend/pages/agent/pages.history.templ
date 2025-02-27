@@ -21,8 +21,8 @@ templ HistoryPage() {
 			<title>History Beltech-Agent</title>
 		</head>
 		<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
-			<div class="w-full h-full flex flex-col px-6 text-[#2E2E2E] font-montserrat">
-				<header class="flex pt-4 justify-between items-center">
+			<div class="w-full h-full flex flex-col text-[#2E2E2E] font-montserrat">
+				<header class="flex pt-4 justify-between items-center px-6">
 					<button onclick="history.back()">
 						<img
 							src="/public/assets/svg/back_arrow.svg"
@@ -38,7 +38,7 @@ templ HistoryPage() {
 						/>
 					</button>
 				</header>
-				<main class="grow overflow-y-auto pt-10 flex flex-col gap-4">
+				<main class="grow overflow-y-auto pt-10 flex flex-col gap-4 px-6">
 					for range 12 {
 						<section class="sucess grid grid-cols-2 justify-between rounded-[0.571rem] pt-[1.188rem] pb-[1.049rem] pl-4 pr-[1.432rem] bg-white shadow-[0px_1.83px_3.65px_0px_#0000001A]">
 							<div class="flex flex-col justify-start items-start gap-6">

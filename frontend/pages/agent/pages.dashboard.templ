@@ -3,34 +3,18 @@ package pages
 templ DashboardPage() {
 	<!DOCTYPE html>
 	<html lang="en">
-		<head>
-			<meta charset="UTF-8"/>
-			<meta
-				name="viewport"
-				content="width=device-width, initial-scale=1.0"
-			/>
-			<link
-				rel="stylesheet"
-				href="/public/assets/styles/output.css"
-			/>
-			<style>
-				.overflow-y-auto::-webkit-scrollbar {
-					width: 0 !important;
-					display: none;
-					overflow: -moz-scrollbars-none;
-					scrollbar-width: none;
-				}
-			</style>
-			<title>Dashboard Beltech-Agent</title>
-		</head>
+		@headTag("dashboard")
 		<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
-			<div class="w-full h-full grid grid-rows-agentDashboardPage pt-[1.438rem]">
-				<main class="overflow-y-auto mx-[1.563rem] mt-8 mb-[1.9368rem] text-[#2E2E2E] font-montserrat">
-					<img
-						src="/public/assets/images/beltech_logo.png"
-						alt="Beltech Logo"
-						class="w-[7.75rem] aspect-square mx-auto"
-					/>
+			<div class="w-full h-full grid grid-rows-agentDashboardPage pt-[1.438rem] text-[#2E2E2E] font-montserrat">
+				<main class="overflow-y-auto mx-[1.563rem] mt-8 mb-[1.9368rem]">
+					<picture>
+						<source type="image/webp" src="/public/assets/images/beltech_logo.webp"/>
+						<img
+							src="/public/assets/images/beltech_logo.png"
+							alt="Beltech Logo"
+							class="w-[7.75rem] aspect-square mx-auto"
+						/>
+					</picture>
 					<section class="w-full flex justify-between items-center">
 						<p class="text-[0.938rem] leading-[1.143rem] font-semibold">Overview</p>
 						<div class="bg-[#01693433] pl-[0.5rem] pr-[0.833rem] flex justify-center items-center gap-[0.417rem] rounded-[1.562rem]">
@@ -63,11 +47,14 @@ templ DashboardPage() {
 						<article
 							class="bg-[#FEF7FF] pl-[0.313rem] pr-6 rounded-lg flex w-full justify-start items-center gap-4"
 						>
-							<img
-								src="/public/assets/images/glass.jpg"
-								alt=""
-								class="w-[4.688rem] aspect-[75/70] rounded-lg"
-							/>
+							<picture>
+								<source type="image/webp" src="/public/assets/images/glass.webp"/>
+								<img
+									src="/public/assets/images/glass.jpg"
+									alt=""
+									class="w-[4.688rem] aspect-[75/70] rounded-lg"
+								/>
+							</picture>
 							<div class="flex flex-col justify-center items-center gap-2">
 								<p class="font-medium text-[0.688rem] leading-[0.838rem]">Glass</p>
 								<p class="text-[0.625rem] leading-[0.762rem] font-bold">245kg</p>
@@ -81,11 +68,14 @@ templ DashboardPage() {
 						<article
 							class="bg-[#FEF7FF] pl-[0.313rem] pr-6 rounded-lg flex w-full justify-start items-center gap-4"
 						>
-							<img
-								src="/public/assets/images/book.jpg"
-								alt=""
-								class="w-[4.688rem] aspect-[75/70] rounded-lg"
-							/>
+							<picture>
+								<source type="image/webp" src="/public/assets/images/book.webp"/>
+								<img
+									src="/public/assets/images/book.jpg"
+									alt=""
+									class="w-[4.688rem] aspect-[75/70] rounded-lg"
+								/>
+							</picture>
 							<div class="flex flex-col justify-center items-center gap-2">
 								<p class="font-medium text-[0.688rem] leading-[0.838rem]">Paper</p>
 								<p class="text-[0.625rem] leading-[0.762rem] font-bold">245kg</p>
@@ -99,11 +89,14 @@ templ DashboardPage() {
 						<article
 							class="bg-[#FEF7FF] pl-[0.313rem] pr-6 rounded-lg flex w-full justify-start items-center gap-4"
 						>
-							<img
-								src="/public/assets/images/metal2.jpeg"
-								alt=""
-								class="w-[4.688rem] aspect-[75/70] rounded-lg"
-							/>
+							<picture>
+								<source type="image/webp" src="/public/assets/images/metal2.webp"/>
+								<img
+									src="/public/assets/images/metal2.jpeg"
+									alt=""
+									class="w-[4.688rem] aspect-[75/70] rounded-lg"
+								/>
+							</picture>
 							<div class="flex flex-col justify-center items-center gap-2">
 								<p class="font-medium text-[0.688rem] leading-[0.838rem]">Metal</p>
 								<p class="text-[0.625rem] leading-[0.762rem] font-bold">245kg</p>
@@ -117,11 +110,14 @@ templ DashboardPage() {
 						<article
 							class="bg-[#FEF7FF] pl-[0.313rem] pr-6 rounded-lg flex w-full justify-start items-center gap-4"
 						>
-							<img
-								src="/public/assets/images/plastic_1.jpg"
-								alt=""
-								class="w-[4.688rem] aspect-[75/70] rounded-lg"
-							/>
+							<picture>
+								<source type="image/webp" src="/public/assets/images/plastic_2.webp"/>
+								<img
+									src="/public/assets/images/plastic_2.jpg"
+									alt=""
+									class="w-[4.688rem] aspect-[75/70] rounded-lg"
+								/>
+							</picture>
 							<div class="flex flex-col justify-center items-center gap-2">
 								<p class="font-medium text-[0.688rem] leading-[0.838rem]">Plastics</p>
 								<p class="text-[0.625rem] leading-[0.762rem] font-bold">245kg</p>
@@ -133,24 +129,37 @@ templ DashboardPage() {
 							/>
 						</article>
 					</section>
-					<section class="flex items-center justify-between gap-5">
-						<div
-							class="w-full text-center pt-[1.875rem] pb-[1.686rem] py-[1.063rem] border-[#016934] border-[0.031rem] border-solid rounded-lg text-[#016934]"
-						>
-							<p class="font-medium text-[0.688rem] leading-[0.838rem] text-nowrap">
-								Successful
-								Operations
-							</p>
-							<p class="text-[0.625rem] leading-[0.762rem] font-bold">234 Recycles</p>
-						</div>
-						<div
-							class="w-full text-center pt-[1.875rem] pb-[1.686rem] py-[1.063rem] border-[#EF0E0E] border-[0.031rem] border-solid rounded-lg text-[#9D2323]"
-						>
-							<p class="font-medium text-[0.688rem] leading-[0.838rem] text-nowrap">
-								Failed
-								Operations
-							</p>
-							<p class="text-[0.625rem] leading-[0.762rem] font-bold">23 Recycles</p>
+					<section>
+						<p class="text-[0.938rem] leading-[1.143rem] font-semibold mt-6 mb-[0.875rem]">Statistics</p>
+						<div class="flex items-center justify-between gap-5">
+							<div class="w-full flex flex-col justify-center items-center gap-[0.625rem] bg-[#FEF7FF] py-[0.688rem] px-[2.688rem]">
+								<picture>
+									<source type="image/webp" srcset="/public/assets/images/Recycle_small.png"/>
+									<img
+										src="/assets/images/Recycle_small.png"
+										alt="Recycle Icon"
+										class="w-[1.875rem] aspect-square"
+									/>
+								</picture>
+								<div>
+									<p class="font-medium text-xs leading-[0.914rem]">Operations</p>
+									<p class="font-bold text-[0.625rem] leading-3">234 Recycles</p>
+								</div>
+							</div>
+							<div class="w-full flex flex-col justify-center items-center gap-[0.625rem] bg-[#FEF7FF] py-[0.688rem] px-[2.688rem]">
+								// <picture>
+								// <source type="image/webp" srcset="/public/assets/images/Recycle_small.png"/>
+								<img
+									src="/public/assets/svg/yellow.svg"
+									alt=""
+									class="w-[3.313rem] aspect-[53/35.33]"
+								/>
+								// </picture>
+								<div>
+									<p class="font-medium text-xs leading-[0.914rem]">Cummulative</p>
+									<p class="font-medium text-[0.625rem] leading-3 text-center">Data</p>
+								</div>
+							</div>
 						</div>
 					</section>
 				</main>

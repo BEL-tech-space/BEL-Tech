@@ -53,8 +53,9 @@ type EnvConfig struct {
 		}
 	}
 	Database struct {
-		Prod string `env:"DATABASE_URL_PROD"`
-		Dev  string `env:"DATABASE_URL_DEV"`
+		ProdPrivate string `env:"DATABASE_URL_PROD_PRIVATE"`
+		ProdPublic  string `env:"DATABASE_URL_PROD_PUBLIC"`
+		Dev         string `env:"DATABASE_URL_DEV"`
 	}
 
 	Port string `env:"PORT"`

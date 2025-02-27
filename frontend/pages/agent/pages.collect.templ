@@ -8,38 +8,20 @@ import (
 templ CollectPage(agentID string) {
 	<!DOCTYPE html>
 	<html lang="en">
-		<head>
-			<meta charset="UTF-8"/>
-			<meta
-				name="viewport"
-				content="width=device-width, initial-scale=1.0"
-			/>
-			<link
-				rel="stylesheet"
-				href="/public/assets/styles/output.css"
-			/>
-			<script src="/public/assets/scripts/htmx.min.js"></script>
-			<script src="/public/assets/scripts/hyperscript.min.js"></script>
-			<style>
-			.overflow-y-auto::-webkit-scrollbar {
-				width: 0 !important;
-				display: none;
-				overflow: -moz-scrollbars-none;
-				scrollbar-width: none;
-			}
-	</style>
-			<title>Collect Waste</title>
-		</head>
+		@headTag("collet")
 		<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
-			<div class="w-full h-full grid grid-rows-agentCollectPage pt-8 font-montserrat ">
+			<div class="w-full h-full grid grid-rows-agentCollectPage pt-8 font-montserrat">
 				<header class="flex justify-between items-center mr-[1.688rem] ml-6">
 					<div class="flex justify-center items-center gap-2 w-fit">
 						<p class="font-semibold text-left text-base leading-[1.219rem]">Collect</p>
-						<img
-							src="../assets/images/Recycle_small.png"
-							alt="Recycle Icon"
-							class="w-5 aspect-square"
-						/>
+						<picture>
+							<source type="image/webp" srcset="/public/assets/images/Recycle_small.png"/>
+							<img
+								src="/assets/images/Recycle_small.png"
+								alt="Recycle Icon"
+								class="w-5 aspect-square"
+							/>
+						</picture>
 					</div>
 					<p
 						class="leading-[1.143rem] text-[0.938rem] text-left font-semibold text-[#014623] bg-[#CCE1D699] p-2 rounded-md"
@@ -53,6 +35,9 @@ templ CollectPage(agentID string) {
 				@Footer("collect")
 			</div>
 		</body>
+		<script src="/public/assets/scripts/htmx.min.js"></script>
+		<script src="/public/assets/scripts/hyperscript.min.js"></script>
+		@confirmDialog()
 	</html>
 }
 
@@ -80,10 +65,6 @@ templ WasteForm(agentID string) {
 		enctype="application/x-www-form-urlencoded"
 		class="flex flex-col h-full gap-3 justify-center items-center px-4"
 	>
-		// <div class="relative">
-		// 	<input type="text" id="floating_outlined" class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" "/>
-		// 	<label for="floating_outlined" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">Floating outlined</label>
-		// </div>
 		<div class="w-full flex flex-col justify-start items-start gap-1">
 			<label
 				for="plastics"
@@ -153,9 +134,26 @@ templ WasteForm(agentID string) {
 			/>
 		</div>
 		<section class="mt-3 w-full flex justify-around items-center gap-[0.625rem]">
-			<button type="submit" class="w-full text-center bg-[#016934] text-white text-sm tracking-[0.1px] font-medium py-[0.625rem] px-1 rounded-md">Submit Waste</button>
 			<button
-				onclick="resetForm(event)"
+				type="button"
+				_="on click 
+					if (#plastics.value is '' or #plastics.value is '0' or #plastics.value is '0.00')
+						and (#paper.value is '' or #paper.value is '0' or #paper.value is '0.00')
+						and (#glass.value is '' or #glass.value is '0' or #glass.value is '0.00')
+						and (#metal.value is '' or #metal.value is '0' or #metal.value is '0.00')
+							then alert('At least one value must be non-empty and greater than zero.')
+							halt
+						end
+
+					set #confirmDialog.querySelector('[data-waste=plastics]').innerText to #plastics.value + ' KG'
+					then set #confirmDialog.querySelector('[data-waste=paper]').innerText to #paper.value + ' KG'
+					then set #confirmDialog.querySelector('[data-waste=glass]').innerText to #glass.value + ' KG'
+					then set #confirmDialog.querySelector('[data-waste=metal]').innerText to #metal.value + ' KG'
+					then call #confirmDialog.showModal()"
+				class="w-full text-center bg-[#016934] text-white text-sm tracking-[0.1px] font-medium py-[0.625rem] px-1 rounded-md"
+			>Submit Waste</button>
+			<button
+				_="on click call #wasteForm.reset()"
 				title="reset form"
 				class="bg-[#CCE1D699] p-[0.688rem] rounded-md flex justify-center items-center"
 			>
@@ -167,7 +165,6 @@ templ WasteForm(agentID string) {
 		</section>
 		@formFormatterScript.Once() {
 			<script type="text/javascript">
-
 			document.addEventListener("DOMContentLoaded", function() {
                 initializeFormFormatter();
             });
@@ -189,29 +186,34 @@ templ WasteForm(agentID string) {
 				let value = parseFloat(input.value.replace(/\D/g, '') || 0) / 100;
 				input.value = value.toFixed(2);
 			}
-
-			function resetForm(ev) {
-				ev.preventDefault();
-				document.getElementById("wasteForm").reset();
-			}
 		</script>
 		}
-		// const form = document.getElementById("wasteForm")
-		// console.log(form)
-		// form.addEventListener("submit", handleSubmit);
-		// function handleSubmit(ev) {
-		// 	console.log("got here", areAllFieldsZeroOrEmpty())
-		// 	if (areAllFieldsZeroOrEmpty()) {
-		// 		ev.preventDefault();        // Prevents HTMX submission
-		// 		ev.stopPropagation();  
-		// 		alert("All fields cannot be zero or empty.");
-		// 		return;
-		// 	}
-		// 	// form.submit();
-		// }
-		// function areAllFieldsZeroOrEmpty() {
-		// 	const inputs = document.querySelectorAll("input[type='number']");
-		// 	return Array.from(inputs).every(input => parseFloat(input.value) === 0 || input.value.trim() === "");
-		// }
 	</form>
+}
+
+templ confirmDialog() {
+	<dialog id="confirmDialog" class="backdrop:backdrop-blur-sm rounded-2xl py-4 px-6 font-tt_chocolate text-[#2E2E2E]">
+		<section class="flex flex-col justify-center items-start gap-6">
+			<div class="flex justify-center items-center gap-2">
+				<p class="font-semibold">Glass:</p>
+				<p data-waste="glass">0 KG</p>
+			</div>
+			<div class="flex justify-center items-center gap-2">
+				<p class="font-semibold">Plastics:</p>
+				<p data-waste="plastics">0 KG</p>
+			</div>
+			<div class="flex justify-center items-center gap-2">
+				<p class="font-semibold">Paper:</p>
+				<p data-waste="paper">0 KG</p>
+			</div>
+			<div class="flex justify-center items-center gap-2">
+				<p class="font-semibold">Metal:</p>
+				<p data-waste="metal">0 KG</p>
+			</div>
+		</section>
+		<div class="w-full mt-8 flex justify-between items-center gap-2">
+			<button type="submit" _="on click call #confirmDialog.close() then call #wasteForm.submit()" class="outline-none rounded-md mb-2 font-medium bg-[#016934] text-[0.813rem] leading-5 tracking-[0.00625em] py-[0.625rem] px-8 text-center text-white">Proceed</button>
+			<button type="button" _="on click call #confirmDialog.close()" class="outline-none rounded-md mb-2 font-medium bg-black text-[0.813rem] leading-5 tracking-[0.00625em] py-[0.625rem] px-8 text-center text-white">Close</button>
+		</div>
+	</dialog>
 }

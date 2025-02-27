@@ -154,7 +154,6 @@ func (a *App) accountAuthorization(next http.Handler) http.Handler {
 			return
 		}
 
-		// Add userID and accountEmail to the request context
 		ctx := context.WithValue(r.Context(), contextKeyEmail, email.(string))
 		r = r.WithContext(ctx)
 

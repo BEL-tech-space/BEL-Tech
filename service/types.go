@@ -1,6 +1,10 @@
 package service
 
-import "time"
+import (
+	"time"
+
+	"github.com/google/uuid"
+)
 
 type Account struct {
 	Email              string    `json:"email"`
@@ -35,4 +39,18 @@ type Notification struct {
 	NotificationTime    string `json:"notificationTime"`
 	DaysToLast          int32
 	DatabaseId          int32
+}
+
+type WasteLog struct {
+	WasteID         uuid.UUID   `json:"waste_id"`
+	CreatedAt       time.Time   `json:"created_at"`
+	Claimed         bool        `json:"claimed"`
+	GlassWeighed    float32     `json:"glass_weighed"`
+	MetalWeighed    float32     `json:"metal_weighed"`
+	PlasticsWeighed float32     `json:"plastics_weighed"`
+	PaperWeighed    float32     `json:"paper_weighed"`
+	LocationAddr    interface{} `json:"location_addr"`
+	FunnyName       string      `json:"funny_name"`
+	AgentID         uuid.UUID   `json:"agent_id"`
+	Email           string      `json:"email"`
 }

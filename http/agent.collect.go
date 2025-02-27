@@ -12,6 +12,7 @@ import (
 	"io"
 	"net/http"
 	"strconv"
+	"time"
 
 	agentPages "beltech/frontend/pages/agent"
 
@@ -23,25 +24,18 @@ import (
 )
 
 func (a *App) collectPage(w http.ResponseWriter, r *http.Request) {
+	agentID := r.Context().Value(contextKeyAgentID).(uuid.UUID)
 
-	agentID := "devMode"
-	if a.config.Build == productionEnv {
-		agentID = r.Context().Value(contextKeyAgentID).(string)
-	}
-
-	if err := agentPages.CollectPage(agentID).Render(context.Background(), w); err != nil {
+	if err := agentPages.CollectPage(agentID.String()).Render(context.Background(), w); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 }
 
 func (a *App) wasteForm(w http.ResponseWriter, r *http.Request) {
-	agentID := "devMode"
-	if a.config.Build == productionEnv {
-		agentID = r.Context().Value(contextKeyAgentID).(string)
-	}
+	agentID := r.Context().Value(contextKeyAgentID).(uuid.UUID)
 
-	if err := agentPages.WasteForm(agentID).Render(context.Background(), w); err != nil {
+	if err := agentPages.WasteForm(agentID.String()).Render(context.Background(), w); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
@@ -49,25 +43,21 @@ func (a *App) wasteForm(w http.ResponseWriter, r *http.Request) {
 
 func (a *App) generateQRCode(w http.ResponseWriter, r *http.Request) {
 
-	var (
-		agentUUID uuid.UUID = uuid.Nil
-		err       error
-	)
+	fmt.Println("r got here")
 
-	if a.config.Build == productionEnv {
-		agentID := chi.URLParam(r, "agentID")
-		if agentID == "" {
-			http.Error(w, "agentID not specified", http.StatusBadRequest)
-			return
-		}
-
-		if agentUUID, err = uuid.Parse(agentID); err != nil {
-			http.Error(w, "invalid agentID", http.StatusBadRequest)
-			return
-		}
+	agentID := chi.URLParam(r, "agentID")
+	if agentID == "" {
+		http.Error(w, "agentID not specified", http.StatusBadRequest)
+		return
 	}
 
-	if err := r.ParseForm(); err != nil {
+	agentUUID, err := uuid.Parse(agentID)
+	if err != nil {
+		http.Error(w, "invalid agentID", http.StatusBadRequest)
+		return
+	}
+
+	if err = r.ParseForm(); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
@@ -78,8 +68,8 @@ func (a *App) generateQRCode(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var wasteID uuid.UUID
-	p := service.AddNewWasteFromCollectorParams{
+	wasteLog := service.WasteLog{
+		WasteID:         uuid.New(),
 		GlassWeighed:    glass,
 		MetalWeighed:    metal,
 		PlasticsWeighed: plastics,
@@ -87,18 +77,26 @@ func (a *App) generateQRCode(w http.ResponseWriter, r *http.Request) {
 		FunnyName:       gofakeit.Name(),
 		AgentID:         agentUUID,
 	}
-	if a.config.Build == productionEnv {
-		// if wasteID, err = a.service.AddNewTempWasteFromCollector(r.Context(), p); err != nil {
-		// 	http.Error(w, err.Error(), http.StatusInternalServerError)
-		// 	return
-		// }
-	}
 
-	fmt.Printf("\n%s\n\n", wasteID.String())
+	a.wasteLogCache.SetWithTTL(
+		wasteLog.WasteID.String(),
+		wasteLog,
+		1,
+		24*time.Hour,
+	)
 
-	e := fmt.Sprintf("glass: %.2f, paper :%.2f,plastics:%.2f,metal:%.2f, funnyName: %s, uuid:%s", p.GlassWeighed, p.PaperWeighed, p.PlasticsWeighed, p.MetalWeighed, p.FunnyName, wasteID.String())
-	fmt.Println(e)
-	qrCode := NewSimpleQRCode(e)
+	content := fmt.Sprintf("glass: %.2f, paper :%.2f,plastics:%.2f,metal:%.2f, funnyName: %s, uuid:%s",
+		wasteLog.GlassWeighed,
+		wasteLog.PaperWeighed,
+		wasteLog.PlasticsWeighed,
+		wasteLog.MetalWeighed,
+		wasteLog.FunnyName,
+		wasteLog.WasteID.String(),
+	)
+
+	fmt.Printf("\n%+v\n\n", content)
+
+	qrCode := NewSimpleQRCode(content)
 	codeData, err := qrCode.generateWithWatermark()
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
