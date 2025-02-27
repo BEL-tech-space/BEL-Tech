@@ -13,9 +13,9 @@ templ ProfilePage(collector Collector) {
 			<title>Profile Beltech-Agent</title>
 		</head>
 		<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
-			<div class="w-full h-full flex flex-col px-6 pt-6 text-[#2E2E2E] font-montserrat ">
+			<div class="w-full h-full flex flex-col pt-6 text-[#2E2E2E] font-montserrat ">
 				@profileBar(collector)
-				<main class="grow overflow-y-scroll">
+				<main class="grow overflow-y-scroll px-6">
 					@letRecycleAndProfile("Collector")
 					<form class="mt-10 flex flex-col justify-center items-center gap-6">
 						<div class="relative">

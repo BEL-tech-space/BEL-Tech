@@ -5,8 +5,95 @@
 package postgres
 
 import (
+	"database/sql/driver"
+	"fmt"
+
 	"github.com/jackc/pgx/v5/pgtype"
 )
+
+type Collectorrole string
+
+const (
+	CollectorroleCollector      Collectorrole = "collector"
+	CollectorroleSuperCollector Collectorrole = "super_collector"
+)
+
+func (e *Collectorrole) Scan(src interface{}) error {
+	switch s := src.(type) {
+	case []byte:
+		*e = Collectorrole(s)
+	case string:
+		*e = Collectorrole(s)
+	default:
+		return fmt.Errorf("unsupported scan type for Collectorrole: %T", src)
+	}
+	return nil
+}
+
+type NullCollectorrole struct {
+	Collectorrole Collectorrole `json:"collectorrole"`
+	Valid         bool          `json:"valid"` // Valid is true if Collectorrole is not NULL
+}
+
+// Scan implements the Scanner interface.
+func (ns *NullCollectorrole) Scan(value interface{}) error {
+	if value == nil {
+		ns.Collectorrole, ns.Valid = "", false
+		return nil
+	}
+	ns.Valid = true
+	return ns.Collectorrole.Scan(value)
+}
+
+// Value implements the driver Valuer interface.
+func (ns NullCollectorrole) Value() (driver.Value, error) {
+	if !ns.Valid {
+		return nil, nil
+	}
+	return string(ns.Collectorrole), nil
+}
+
+type Identifyas string
+
+const (
+	IdentifyasCollector Identifyas = "collector"
+	IdentifyasBin       Identifyas = "bin"
+)
+
+func (e *Identifyas) Scan(src interface{}) error {
+	switch s := src.(type) {
+	case []byte:
+		*e = Identifyas(s)
+	case string:
+		*e = Identifyas(s)
+	default:
+		return fmt.Errorf("unsupported scan type for Identifyas: %T", src)
+	}
+	return nil
+}
+
+type NullIdentifyas struct {
+	Identifyas Identifyas `json:"identifyas"`
+	Valid      bool       `json:"valid"` // Valid is true if Identifyas is not NULL
+}
+
+// Scan implements the Scanner interface.
+func (ns *NullIdentifyas) Scan(value interface{}) error {
+	if value == nil {
+		ns.Identifyas, ns.Valid = "", false
+		return nil
+	}
+	ns.Valid = true
+	return ns.Identifyas.Scan(value)
+}
+
+// Value implements the driver Valuer interface.
+func (ns NullIdentifyas) Value() (driver.Value, error) {
+	if !ns.Valid {
+		return nil, nil
+	}
+	return string(ns.Identifyas), nil
+}
 
 type Account struct {
 	Email              string           `json:"email"`
@@ -29,8 +116,19 @@ type Account struct {
 	LastUpdateEmail    pgtype.Timestamp `json:"last_update_email"`
 	Role               string           `json:"role"`
 	Joined             pgtype.Timestamp `json:"joined"`
-	IsDeleted          bool             `json:"is_deleted"`
 	IsNew              bool             `json:"is_new"`
+	IsDeleted          bool             `json:"is_deleted"`
+}
+
+type Agent struct {
+	AgentID               pgtype.UUID      `json:"agent_id"`
+	AgentType             Identifyas       `json:"agent_type"`
+	Email                 string           `json:"email"`
+	City                  string           `json:"city"`
+	LocationState         string           `json:"location_state"`
+	LocationAddr          interface{}      `json:"location_addr"`
+	BinLocationLastUpdate pgtype.Timestamp `json:"bin_location_last_update"`
+	CreatedAt             pgtype.Timestamp `json:"created_at"`
 }
 
 type Beneficiary struct {
@@ -41,6 +139,16 @@ type Beneficiary struct {
 	Email           pgtype.Text      `json:"email"`
 }
 
+type Collector struct {
+	Email         string        `json:"email"`
+	FirstName     string        `json:"first_name"`
+	LastName      string        `json:"last_name"`
+	DisplayName   string        `json:"display_name"`
+	AvatarUrl     string        `json:"avatar_url"`
+	CollectorRole Collectorrole `json:"collector_role"`
+	AgentID       pgtype.UUID   `json:"agent_id"`
+}
+
 type Notification struct {
 	ID           int32  `json:"id"`
 	NotifTitle   string `json:"notif_title"`
@@ -49,4 +157,18 @@ type Notification struct {
 	DaysToLast   int32  `json:"days_to_last"`
 	NotifTime    string `json:"notif_time"`
 	NotifID      string `json:"notif_id"`
+}
+
+type WasteLog struct {
+	WasteID         pgtype.UUID      `json:"waste_id"`
+	CreatedAt       pgtype.Timestamp `json:"created_at"`
+	Claimed         pgtype.Bool      `json:"claimed"`
+	GlassWeighed    float32          `json:"glass_weighed"`
+	MetalWeighed    float32          `json:"metal_weighed"`
+	PlasticsWeighed float32          `json:"plastics_weighed"`
+	PaperWeighed    float32          `json:"paper_weighed"`
+	LocationAddr    interface{}      `json:"location_addr"`
+	FunnyName       string           `json:"funny_name"`
+	AgentID         pgtype.UUID      `json:"agent_id"`
+	Email           pgtype.Text      `json:"email"`
 }

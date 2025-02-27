@@ -1,7 +1,6 @@
 package http
 
 import (
-	"errors"
 	"fmt"
 	"net/http"
 
@@ -9,18 +8,19 @@ import (
 	"github.com/gorilla/sessions"
 	"github.com/markbates/goth"
 	"github.com/markbates/goth/gothic"
+	"github.com/pkg/errors"
 )
 
 func (a *App) signInWithProviderAgent(w http.ResponseWriter, r *http.Request) {
 
 	var provider string
 	if provider = chi.URLParam(r, "provider"); provider == "" {
-		a.clientError(w, http.StatusBadRequest, errors.New("provider not specified"))
+		http.Redirect(w, r, "/agent/login.html", http.StatusTemporaryRedirect)
 		return
 	}
 
 	if provider != "google" && provider != "facebook" {
-		a.clientError(w, http.StatusBadRequest, errors.New("invalid provider"))
+		http.Redirect(w, r, "/agent/login.html", http.StatusTemporaryRedirect)
 		return
 	}
 
@@ -34,11 +34,9 @@ func (a *App) signInWithProviderAgent(w http.ResponseWriter, r *http.Request) {
 	r.URL.RawQuery = q.Encode()
 
 	// try to get the user without re-authenticating
-	gothUser, err := gothic.CompleteUserAuth(w, r)
-	if err == nil {
+	if gothUser, err := gothic.CompleteUserAuth(w, r); err == nil {
 		if err = a.logInAgent(w, r, gothUser); err != nil {
-			a.serverError(w, err)
-			http.Redirect(w, r, "/agent/signin", http.StatusTemporaryRedirect)
+			http.Redirect(w, r, "/agent/login.html", http.StatusTemporaryRedirect)
 			return
 		}
 
@@ -57,16 +55,13 @@ func (a *App) callbackHandlerAgent(w http.ResponseWriter, r *http.Request) {
 
 	if a.config.Build == productionEnv {
 		if user, err = gothic.CompleteUserAuth(w, r); err != nil {
-			a.serverError(w, err)
-			http.Redirect(w, r, "/agent/signin", http.StatusTemporaryRedirect)
+			http.Redirect(w, r, "/agent/login.html", http.StatusTemporaryRedirect)
 			return
 		}
 	}
 
 	if err = a.logInAgent(w, r, user); err != nil {
-		fmt.Println("err from loginUser", err.Error())
-		a.serverError(w, err)
-		http.Redirect(w, r, "/agent/signin", http.StatusTemporaryRedirect)
+		http.Redirect(w, r, "/agent/login.html", http.StatusTemporaryRedirect)
 		return
 	}
 
@@ -74,29 +69,32 @@ func (a *App) callbackHandlerAgent(w http.ResponseWriter, r *http.Request) {
 }
 
 func (a *App) logoutAgent(w http.ResponseWriter, r *http.Request) {
-	if err := gothic.Logout(w, r); err != nil {
-		fmt.Println("error in goth.logout", err.Error())
-	}
+	gothic.Logout(w, r)
 
 	session, err := a.agentSessionStore.Get(r, "beltech-agent")
-	if err != nil {
-		fmt.Println("error in get, logoutAgent", err.Error())
-		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
+	if err != nil || session == nil {
+		http.Redirect(w, r, "/agent/login.html", http.StatusTemporaryRedirect)
 		return
 	}
 
 	session.Options.MaxAge = -1
 	session.Values = nil
 	if err := session.Save(r, w); err != nil {
-		fmt.Println("error in saving session, logOut", err.Error())
-		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
+		http.Redirect(w, r, "/agent/login.html", http.StatusTemporaryRedirect)
 		return
 	}
 
-	http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
+	http.Redirect(w, r, "/agent/login.html", http.StatusTemporaryRedirect)
 }
 
 func (a *App) logInAgent(w http.ResponseWriter, r *http.Request, u goth.User) error {
+
+	if _, ok := a.collectors[u.Email]; !ok {
+		return errors.New("not a collector")
+	}
+
+	//TODO: fetch collector info from db
+
 	return a.createNewUserSessionAgent(w, r, u)
 }
 
@@ -115,7 +113,7 @@ func (a *App) createNewUserSessionAgent(w http.ResponseWriter, r *http.Request, 
 		// SameSite: http.SameSiteStrictMode, // Only allow cookie for requests from the same site
 	}
 
-	// a.cacheStorage.SetDefault(user.Email, &user)
+	// TODO: cache collector info
 
 	return session.Save(r, w)
 }

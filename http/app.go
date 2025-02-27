@@ -19,9 +19,10 @@ type App struct {
 	service             *service.Service
 	accountSessionStore sessions.Store
 	agentSessionStore   sessions.Store
-	collectors          []collector
+	collectors          map[string]collector
 	// beltechWatermarkLogo []byte
-	accountCache *ristretto.Cache[string, service.Account]
+	accountCache  *ristretto.Cache[string, service.Account]
+	wasteLogCache *ristretto.Cache[string, service.WasteLog]
 }
 
 type collector struct {
@@ -29,6 +30,7 @@ type collector struct {
 	Email   string
 	Role    string
 }
+
 type contextKey string
 
 const (
@@ -39,7 +41,11 @@ const (
 
 const productionEnv string = "production"
 
-func NewApp(cfg *EnvConfig, db *pgxpool.Pool, rCache *ristretto.Cache[string, service.Account]) *App {
+func NewApp(
+	cfg *EnvConfig,
+	db *pgxpool.Pool,
+	accountCache *ristretto.Cache[string, service.Account],
+	wasteLogCache *ristretto.Cache[string, service.WasteLog]) *App {
 
 	store := sessions.NewCookieStore([]byte(cfg.CookieSecret))
 	store.MaxAge(86_400 * 15) // 30 days
@@ -61,7 +67,8 @@ func NewApp(cfg *EnvConfig, db *pgxpool.Pool, rCache *ristretto.Cache[string, se
 	app := App{}
 	app.config = cfg
 
-	app.accountCache = rCache
+	app.accountCache = accountCache
+	app.wasteLogCache = wasteLogCache
 	app.accountSessionStore = sessions.NewCookieStore([]byte(GenerateRandomKey(cfg.SessionSecret, cfg.Build)))
 	app.agentSessionStore = sessions.NewCookieStore([]byte(GenerateRandomKey(cfg.SessionSecret, cfg.Build)))
 	app.service = service.NewService(db)
@@ -73,8 +80,13 @@ func NewApp(cfg *EnvConfig, db *pgxpool.Pool, rCache *ristretto.Cache[string, se
 		ActiveNotifications = slices.Grow(notifs, 50)
 	}
 
-	if cfg.Build == productionEnv {
-		app.collectors = append(app.collectors, collector{Email: devGothUser.Email})
+	app.collectors = make(map[string]collector, 100)
+
+	if cfg.Build != productionEnv {
+		app.collectors[devGothUser.Email] = collector{
+			Email:   devGothUser.Email,
+			AgentID: uuid.New(),
+		}
 	}
 
 	return &app

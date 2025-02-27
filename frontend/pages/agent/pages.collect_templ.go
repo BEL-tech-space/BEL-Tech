@@ -34,7 +34,15 @@ func CollectPage(agentID string) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<!doctype html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><link rel=\"stylesheet\" href=\"/public/assets/styles/output.css\"><script src=\"/public/assets/scripts/htmx.min.js\"></script><script src=\"/public/assets/scripts/hyperscript.min.js\"></script><style>\n\t\t\t.overflow-y-auto::-webkit-scrollbar {\n\t\t\t\twidth: 0 !important;\n\t\t\t\tdisplay: none;\n\t\t\t\toverflow: -moz-scrollbars-none;\n\t\t\t\tscrollbar-width: none;\n\t\t\t}\n\t</style><title>Collect Waste</title></head><body class=\"bg-[url(&#39;/public/assets/images/beltech_background.png&#39;)] bg-cover bg-center h-dvh overflow-hidden\"><div class=\"w-full h-full grid grid-rows-agentCollectPage pt-8 font-montserrat \"><header class=\"flex justify-between items-center mr-[1.688rem] ml-6\"><div class=\"flex justify-center items-center gap-2 w-fit\"><p class=\"font-semibold text-left text-base leading-[1.219rem]\">Collect</p><img src=\"../assets/images/Recycle_small.png\" alt=\"Recycle Icon\" class=\"w-5 aspect-square\"></div><p class=\"leading-[1.143rem] text-[0.938rem] text-left font-semibold text-[#014623] bg-[#CCE1D699] p-2 rounded-md\">02:00:00</p></header><main id=\"main\" class=\"overflow-y-auto my-auto mr-[1.688rem] ml-6\" hx-on:htmx:after-swap=\"reattachListeners()\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<!doctype html><html lang=\"en\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = headTag("collet").Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<body class=\"bg-[url(&#39;/public/assets/images/beltech_background.png&#39;)] bg-cover bg-center h-dvh overflow-hidden\"><div class=\"w-full h-full grid grid-rows-agentCollectPage pt-8 font-montserrat\"><header class=\"flex justify-between items-center mr-[1.688rem] ml-6\"><div class=\"flex justify-center items-center gap-2 w-fit\"><p class=\"font-semibold text-left text-base leading-[1.219rem]\">Collect</p><picture><source type=\"image/webp\" srcset=\"/public/assets/images/Recycle_small.png\"> <img src=\"/assets/images/Recycle_small.png\" alt=\"Recycle Icon\" class=\"w-5 aspect-square\"></picture></div><p class=\"leading-[1.143rem] text-[0.938rem] text-left font-semibold text-[#014623] bg-[#CCE1D699] p-2 rounded-md\">02:00:00</p></header><main id=\"main\" class=\"overflow-y-auto my-auto mr-[1.688rem] ml-6\" hx-on:htmx:after-swap=\"reattachListeners()\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -42,7 +50,7 @@ func CollectPage(agentID string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "</main>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</main>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -50,7 +58,15 @@ func CollectPage(agentID string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</div></body></html>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "</div></body><script src=\"/public/assets/scripts/htmx.min.js\"></script><script src=\"/public/assets/scripts/hyperscript.min.js\"></script>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = confirmDialog().Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "</html>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -79,20 +95,20 @@ func RenderQRCode(qrcodeByteImage []byte) templ.Component {
 			templ_7745c5c3_Var2 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<article id=\"wasteQRCode\" class=\"w-full\"><img src=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "<article id=\"wasteQRCode\" class=\"w-full\"><img src=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var3 string
 		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs("data:image/png;base64," + base64.StdEncoding.EncodeToString(qrcodeByteImage))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/agent/pages.collect.templ`, Line: 61, Col: 90}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/agent/pages.collect.templ`, Line: 46, Col: 90}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "\" alt=\"QR Code\" class=\"px-auto block w-full\"> <a hx-get=\"/agent/wasteForm\" hx-select=\"#wasteForm\" hx-target=\"#wasteQRCode\" hx-swap=\"outerHTML\" class=\"block w-full bg-[#016934] rounded-md text-center font-medium text-sm tracking-widest py-[0.625rem] px-[6.438rem] text-white\">Next</a></article>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "\" alt=\"QR Code\" class=\"px-auto block w-full\"> <a hx-get=\"/agent/wasteForm\" hx-select=\"#wasteForm\" hx-target=\"#wasteQRCode\" hx-swap=\"outerHTML\" class=\"block w-full bg-[#016934] rounded-md text-center font-medium text-sm tracking-widest py-[0.625rem] px-[6.438rem] text-white\">Next</a></article>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -123,20 +139,20 @@ func WasteForm(agentID string) templ.Component {
 			templ_7745c5c3_Var4 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "<form id=\"wasteForm\" hx-post=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "<form id=\"wasteForm\" hx-post=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var5 string
 		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("/agent/qrcode/%s", agentID))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/agent/pages.collect.templ`, Line: 77, Col: 52}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/agent/pages.collect.templ`, Line: 62, Col: 52}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "\" hx-select=\"#wasteQRCode\" hx-swap=\"outerHTML\" enctype=\"application/x-www-form-urlencoded\" class=\"flex flex-col h-full gap-3 justify-center items-center px-4\"><div class=\"w-full flex flex-col justify-start items-start gap-1\"><label for=\"plastics\" class=\"font-semibold text-sm\">Plastics in KG</label> <input type=\"number\" inputmode=\"numeric\" id=\"plastics\" name=\"plastics\" placeholder=\"00.00\" step=\"0.01\" min=\"0\" required class=\"border border-green-500 rounded-xl p-2 w-full\"></div><div class=\"w-full flex flex-col justify-start items-start gap-1\"><label for=\"paper\" class=\"font-semibold text-sm\">Paper in KG</label> <input type=\"number\" inputmode=\"numeric\" id=\"paper\" name=\"paper\" placeholder=\"00.00\" step=\"0.01\" min=\"0\" required class=\"border border-green-500 rounded-xl p-2 w-full\"></div><div class=\"w-full flex flex-col justify-start items-start gap-1\"><label for=\"glass\" class=\"font-semibold text-sm\">Glass in KG</label> <input type=\"number\" inputmode=\"numeric\" id=\"glass\" name=\"glass\" placeholder=\"00.00\" step=\"0.01\" min=\"0\" required class=\"border border-green-500 rounded-xl p-2 w-full\"></div><div class=\" w-full flex flex-col justify-start items-start gap-1\"><label for=\"metal\" class=\"font-semibold text-sm\">Metal in KG</label> <input type=\"number\" inputmode=\"numeric\" id=\"metal\" name=\"metal\" placeholder=\"00.00\" step=\"0.01\" min=\"0\" required class=\"border border-green-500 rounded-xl p-2 w-full\"></div><section class=\"mt-3 w-full flex justify-around items-center gap-[0.625rem]\"><button type=\"submit\" class=\"w-full text-center bg-[#016934] text-white text-sm tracking-[0.1px] font-medium py-[0.625rem] px-1 rounded-md\">Submit Waste</button> <button onclick=\"resetForm(event)\" title=\"reset form\" class=\"bg-[#CCE1D699] p-[0.688rem] rounded-md flex justify-center items-center\"><img src=\"/public/assets/svg/octicon_history-16.svg\" class=\"w-[1.125rem]  aspect-square\"></button></section>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "\" hx-select=\"#wasteQRCode\" hx-swap=\"outerHTML\" enctype=\"application/x-www-form-urlencoded\" class=\"flex flex-col h-full gap-3 justify-center items-center px-4\"><div class=\"w-full flex flex-col justify-start items-start gap-1\"><label for=\"plastics\" class=\"font-semibold text-sm\">Plastics in KG</label> <input type=\"number\" inputmode=\"numeric\" id=\"plastics\" name=\"plastics\" placeholder=\"00.00\" step=\"0.01\" min=\"0\" required class=\"border border-green-500 rounded-xl p-2 w-full\"></div><div class=\"w-full flex flex-col justify-start items-start gap-1\"><label for=\"paper\" class=\"font-semibold text-sm\">Paper in KG</label> <input type=\"number\" inputmode=\"numeric\" id=\"paper\" name=\"paper\" placeholder=\"00.00\" step=\"0.01\" min=\"0\" required class=\"border border-green-500 rounded-xl p-2 w-full\"></div><div class=\"w-full flex flex-col justify-start items-start gap-1\"><label for=\"glass\" class=\"font-semibold text-sm\">Glass in KG</label> <input type=\"number\" inputmode=\"numeric\" id=\"glass\" name=\"glass\" placeholder=\"00.00\" step=\"0.01\" min=\"0\" required class=\"border border-green-500 rounded-xl p-2 w-full\"></div><div class=\" w-full flex flex-col justify-start items-start gap-1\"><label for=\"metal\" class=\"font-semibold text-sm\">Metal in KG</label> <input type=\"number\" inputmode=\"numeric\" id=\"metal\" name=\"metal\" placeholder=\"00.00\" step=\"0.01\" min=\"0\" required class=\"border border-green-500 rounded-xl p-2 w-full\"></div><section class=\"mt-3 w-full flex justify-around items-center gap-[0.625rem]\"><button type=\"button\" _=\"on click \n\t\t\t\t\tif (#plastics.value is &#39;&#39; or #plastics.value is &#39;0&#39; or #plastics.value is &#39;0.00&#39;)\n\t\t\t\t\t\tand (#paper.value is &#39;&#39; or #paper.value is &#39;0&#39; or #paper.value is &#39;0.00&#39;)\n\t\t\t\t\t\tand (#glass.value is &#39;&#39; or #glass.value is &#39;0&#39; or #glass.value is &#39;0.00&#39;)\n\t\t\t\t\t\tand (#metal.value is &#39;&#39; or #metal.value is &#39;0&#39; or #metal.value is &#39;0.00&#39;)\n\t\t\t\t\t\t\tthen alert(&#39;At least one value must be non-empty and greater than zero.&#39;)\n\t\t\t\t\t\t\thalt\n\t\t\t\t\t\tend\n\n\t\t\t\t\tset #confirmDialog.querySelector(&#39;[data-waste=plastics]&#39;).innerText to #plastics.value + &#39; KG&#39;\n\t\t\t\t\tthen set #confirmDialog.querySelector(&#39;[data-waste=paper]&#39;).innerText to #paper.value + &#39; KG&#39;\n\t\t\t\t\tthen set #confirmDialog.querySelector(&#39;[data-waste=glass]&#39;).innerText to #glass.value + &#39; KG&#39;\n\t\t\t\t\tthen set #confirmDialog.querySelector(&#39;[data-waste=metal]&#39;).innerText to #metal.value + &#39; KG&#39;\n\t\t\t\t\tthen call #confirmDialog.showModal()\" class=\"w-full text-center bg-[#016934] text-white text-sm tracking-[0.1px] font-medium py-[0.625rem] px-1 rounded-md\">Submit Waste</button> <button _=\"on click call #wasteForm.reset()\" title=\"reset form\" class=\"bg-[#CCE1D699] p-[0.688rem] rounded-md flex justify-center items-center\"><img src=\"/public/assets/svg/octicon_history-16.svg\" class=\"w-[1.125rem]  aspect-square\"></button></section>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -152,7 +168,7 @@ func WasteForm(agentID string) templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "<script type=\"text/javascript\">\n\n\t\t\tdocument.addEventListener(\"DOMContentLoaded\", function() {\n                initializeFormFormatter();\n            });\n\n\t\t\tfunction reattachListeners() {\n\t\t\t\tinitializeFormFormatter();\n\t\t\t}\n\n\t\t\tfunction initializeFormFormatter() {\n\t\t\t\tconst inputElements = document.querySelectorAll(\"input[type='number']\");\n\t\t\t\tinputElements.forEach(input => {\n\t\t\t\t\tinput.addEventListener(\"input\", function(event) {\n\t\t\t\t\t\tformatToTwoDecimalPlaces(event.target);\n\t\t\t\t\t});\n\t\t\t\t});\n\t\t\t}\n\n\t\t\tfunction formatToTwoDecimalPlaces(input) {\n\t\t\t\tlet value = parseFloat(input.value.replace(/\\D/g, '') || 0) / 100;\n\t\t\t\tinput.value = value.toFixed(2);\n\t\t\t}\n\n\t\t\tfunction resetForm(ev) {\n\t\t\t\tev.preventDefault();\n\t\t\t\tdocument.getElementById(\"wasteForm\").reset();\n\t\t\t}\n\t\t</script>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "<script type=\"text/javascript\">\n\t\t\tdocument.addEventListener(\"DOMContentLoaded\", function() {\n                initializeFormFormatter();\n            });\n\n\t\t\tfunction reattachListeners() {\n\t\t\t\tinitializeFormFormatter();\n\t\t\t}\n\n\t\t\tfunction initializeFormFormatter() {\n\t\t\t\tconst inputElements = document.querySelectorAll(\"input[type='number']\");\n\t\t\t\tinputElements.forEach(input => {\n\t\t\t\t\tinput.addEventListener(\"input\", function(event) {\n\t\t\t\t\t\tformatToTwoDecimalPlaces(event.target);\n\t\t\t\t\t});\n\t\t\t\t});\n\t\t\t}\n\n\t\t\tfunction formatToTwoDecimalPlaces(input) {\n\t\t\t\tlet value = parseFloat(input.value.replace(/\\D/g, '') || 0) / 100;\n\t\t\t\tinput.value = value.toFixed(2);\n\t\t\t}\n\t\t</script>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -162,7 +178,36 @@ func WasteForm(agentID string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "</form>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "</form>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		return nil
+	})
+}
+
+func confirmDialog() templ.Component {
+	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
+		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
+		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
+			return templ_7745c5c3_CtxErr
+		}
+		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
+		if !templ_7745c5c3_IsBuffer {
+			defer func() {
+				templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
+				if templ_7745c5c3_Err == nil {
+					templ_7745c5c3_Err = templ_7745c5c3_BufErr
+				}
+			}()
+		}
+		ctx = templ.InitializeContext(ctx)
+		templ_7745c5c3_Var7 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var7 == nil {
+			templ_7745c5c3_Var7 = templ.NopComponent
+		}
+		ctx = templ.ClearChildren(ctx)
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, "<dialog id=\"confirmDialog\" class=\"backdrop:backdrop-blur-sm rounded-2xl py-4 px-6 font-tt_chocolate text-[#2E2E2E]\"><section class=\"flex flex-col justify-center items-start gap-6\"><div class=\"flex justify-center items-center gap-2\"><p class=\"font-semibold\">Glass:</p><p data-waste=\"glass\">0 KG</p></div><div class=\"flex justify-center items-center gap-2\"><p class=\"font-semibold\">Plastics:</p><p data-waste=\"plastics\">0 KG</p></div><div class=\"flex justify-center items-center gap-2\"><p class=\"font-semibold\">Paper:</p><p data-waste=\"paper\">0 KG</p></div><div class=\"flex justify-center items-center gap-2\"><p class=\"font-semibold\">Metal:</p><p data-waste=\"metal\">0 KG</p></div></section><div class=\"w-full mt-8 flex justify-between items-center gap-2\"><button type=\"submit\" _=\"on click call #confirmDialog.close() then call #wasteForm.submit()\" class=\"outline-none rounded-md mb-2 font-medium bg-[#016934] text-[0.813rem] leading-5 tracking-[0.00625em] py-[0.625rem] px-8 text-center text-white\">Proceed</button> <button type=\"button\" _=\"on click call #confirmDialog.close()\" class=\"outline-none rounded-md mb-2 font-medium bg-black text-[0.813rem] leading-5 tracking-[0.00625em] py-[0.625rem] px-8 text-center text-white\">Close</button></div></dialog>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
