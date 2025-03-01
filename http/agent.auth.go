@@ -1,6 +1,7 @@
 package http
 
 import (
+	"beltech/service"
 	"fmt"
 	"net/http"
 
@@ -89,22 +90,21 @@ func (a *App) logoutAgent(w http.ResponseWriter, r *http.Request) {
 
 func (a *App) logInAgent(w http.ResponseWriter, r *http.Request, u goth.User) error {
 
-	if _, ok := a.collectors[u.Email]; !ok {
+	collector, ok := a.collectors[u.Email]
+	if !ok {
 		return errors.New("not a collector")
 	}
 
-	//TODO: fetch collector info from db
-
-	return a.createNewUserSessionAgent(w, r, u)
+	return a.createNewUserSessionAgent(w, r, collector)
 }
 
-func (a *App) createNewUserSessionAgent(w http.ResponseWriter, r *http.Request, collector goth.User) error {
+func (a *App) createNewUserSessionAgent(w http.ResponseWriter, r *http.Request, collector service.Collector) error {
 	session, err := a.agentSessionStore.New(r, "beltech-agent")
 	if err != nil {
 		fmt.Println("ERROR IN NEW", err.Error())
 	}
 
-	session.Values["email"] = collector.Email
+	session.Values["email"] = collector.CollectorEmail
 	session.Options = &sessions.Options{
 		Path:     "/",
 		MaxAge:   7200, // Session expires in 2 hours

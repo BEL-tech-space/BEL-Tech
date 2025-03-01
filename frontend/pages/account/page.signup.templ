@@ -14,7 +14,14 @@ templ SignUpPage() {
 				rel="stylesheet"
 				href="/public/assets/styles/output.css"
 			/>
-			@removeScrollBar()
+			<style>
+				.overflow-y-auto::-webkit-scrollbar {
+					width: 0 !important;
+					display: none;
+					overflow: -moz-scrollbars-none;
+					scrollbar-width: none;
+				}
+			</style>
 		</head>
 		<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
 			<div class="w-full h-full grid grid-rows-agentDashboardPage pt-[1.438rem]">

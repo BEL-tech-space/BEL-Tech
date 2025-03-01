@@ -96,20 +96,23 @@ func (ns NullIdentifyas) Value() (driver.Value, error) {
 }
 
 type Account struct {
-	Email              string           `json:"email"`
+	AccountEmail       string           `json:"account_email"`
 	AccountID          string           `json:"account_id"`
 	FirstName          string           `json:"first_name"`
 	LastName           string           `json:"last_name"`
 	DisplayName        string           `json:"display_name"`
 	AvatarUrl          string           `json:"avatar_url"`
 	SplWallet          string           `json:"spl_wallet"`
-	CurrBalance        float64          `json:"curr_balance"`
-	TotalEarned        float64          `json:"total_earned"`
+	TotalBelPoint      float64          `json:"total_bel_point"`
+	TotalBelToken      float64          `json:"total_bel_token"`
+	BelPointBalance    float64          `json:"bel_point_balance"`
+	BelTokenBalance    float64          `json:"bel_token_balance"`
 	TotalGlassWaste    float32          `json:"total_glass_waste"`
 	TotalMetalWaste    float32          `json:"total_metal_waste"`
 	TotalPlasticsWaste float32          `json:"total_plastics_waste"`
 	TotalPaperWaste    float32          `json:"total_paper_waste"`
 	HashedPassword     string           `json:"hashed_password"`
+	HashedPin          string           `json:"hashed_pin"`
 	AccessToken        string           `json:"access_token"`
 	AccessTokenExpires pgtype.Timestamp `json:"access_token_expires"`
 	IDToken            string           `json:"id_token"`
@@ -123,7 +126,6 @@ type Account struct {
 type Agent struct {
 	AgentID               pgtype.UUID      `json:"agent_id"`
 	AgentType             Identifyas       `json:"agent_type"`
-	Email                 string           `json:"email"`
 	City                  string           `json:"city"`
 	LocationState         string           `json:"location_state"`
 	LocationAddr          interface{}      `json:"location_addr"`
@@ -136,17 +138,17 @@ type Beneficiary struct {
 	BPhoneNo        string           `json:"b_phone_no"`
 	ServiceProvider string           `json:"service_provider"`
 	CreatedAt       pgtype.Timestamp `json:"created_at"`
-	Email           pgtype.Text      `json:"email"`
+	AccountEmail    pgtype.Text      `json:"account_email"`
 }
 
 type Collector struct {
-	Email         string        `json:"email"`
-	FirstName     string        `json:"first_name"`
-	LastName      string        `json:"last_name"`
-	DisplayName   string        `json:"display_name"`
-	AvatarUrl     string        `json:"avatar_url"`
-	CollectorRole Collectorrole `json:"collector_role"`
-	AgentID       pgtype.UUID   `json:"agent_id"`
+	CollectorEmail string        `json:"collector_email"`
+	FirstName      string        `json:"first_name"`
+	LastName       string        `json:"last_name"`
+	DisplayName    string        `json:"display_name"`
+	AvatarUrl      string        `json:"avatar_url"`
+	CollectorRole  Collectorrole `json:"collector_role"`
+	AgentID        pgtype.UUID   `json:"agent_id"`
 }
 
 type Notification struct {
@@ -167,8 +169,9 @@ type WasteLog struct {
 	MetalWeighed    float32          `json:"metal_weighed"`
 	PlasticsWeighed float32          `json:"plastics_weighed"`
 	PaperWeighed    float32          `json:"paper_weighed"`
+	PointsEarned    float64          `json:"points_earned"`
 	LocationAddr    interface{}      `json:"location_addr"`
-	FunnyName       string           `json:"funny_name"`
+	TxnName         string           `json:"txn_name"`
 	AgentID         pgtype.UUID      `json:"agent_id"`
-	Email           pgtype.Text      `json:"email"`
+	AccountEmail    pgtype.Text      `json:"account_email"`
 }

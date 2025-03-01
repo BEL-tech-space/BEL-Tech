@@ -67,7 +67,7 @@ func (a *App) agentAuthorization(next http.Handler) http.Handler {
 
 		ctx := context.WithValue(r.Context(), contextKeyEmail, agentEmail)
 		ctx = context.WithValue(ctx, contextKeyAgentID, collector.AgentID)
-		ctx = context.WithValue(ctx, contextKeyRole, collector.Role)
+		ctx = context.WithValue(ctx, contextKeyRole, collector.CollectorRole)
 
 		r = r.WithContext(ctx)
 

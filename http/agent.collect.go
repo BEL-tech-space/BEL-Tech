@@ -43,8 +43,6 @@ func (a *App) wasteForm(w http.ResponseWriter, r *http.Request) {
 
 func (a *App) generateQRCode(w http.ResponseWriter, r *http.Request) {
 
-	fmt.Println("r got here")
-
 	agentID := chi.URLParam(r, "agentID")
 	if agentID == "" {
 		http.Error(w, "agentID not specified", http.StatusBadRequest)
@@ -68,33 +66,53 @@ func (a *App) generateQRCode(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if sum := glass + paper + metal + plastics; sum <= 0 {
+		http.Error(w, "zero values", http.StatusBadRequest)
+		return
+	}
+
 	wasteLog := service.WasteLog{
 		WasteID:         uuid.New(),
+		CreatedAt:       time.Now(),
 		GlassWeighed:    glass,
 		MetalWeighed:    metal,
 		PlasticsWeighed: plastics,
 		PaperWeighed:    paper,
-		FunnyName:       gofakeit.Name(),
+		TxnName:         gofakeit.Name(),
 		AgentID:         agentUUID,
 	}
 
-	a.wasteLogCache.SetWithTTL(
+	if wasteLog.PointsEarned, err = calculatePointEarned(
+		wasteLog.GlassWeighed,
+		wasteLog.MetalWeighed,
+		wasteLog.PlasticsWeighed,
+		wasteLog.PaperWeighed,
+	); err != nil {
+		fmt.Println("point cannot be calculate", err)
+
+		// return
+	}
+
+	if saved := a.wasteLogCache.SetWithTTL(
 		wasteLog.WasteID.String(),
 		wasteLog,
 		1,
 		24*time.Hour,
-	)
+	); !saved {
+		fmt.Println("waste data failed saving to cache")
 
-	content := fmt.Sprintf("glass: %.2f, paper :%.2f,plastics:%.2f,metal:%.2f, funnyName: %s, uuid:%s",
+		// return
+	}
+
+	content := fmt.Sprintf("glass:%.2f#paper:%.2f#plastics:%.2f#metal:%.2f#txnname:%s#uuid:%s#points:%2f",
 		wasteLog.GlassWeighed,
 		wasteLog.PaperWeighed,
 		wasteLog.PlasticsWeighed,
 		wasteLog.MetalWeighed,
-		wasteLog.FunnyName,
+		wasteLog.TxnName,
 		wasteLog.WasteID.String(),
+		wasteLog.PointsEarned,
 	)
-
-	fmt.Printf("\n%+v\n\n", content)
 
 	qrCode := NewSimpleQRCode(content)
 	codeData, err := qrCode.generateWithWatermark()
@@ -107,6 +125,17 @@ func (a *App) generateQRCode(w http.ResponseWriter, r *http.Request) {
 		a.serverError(w, err)
 		return
 	}
+}
+
+func calculatePointEarned(glass, metal, plastics, paper float32) (float64, error) {
+	glass64 := float64(glass)
+	metal64 := float64(metal)
+	plastics64 := float64(plastics)
+	paper64 := float64(paper)
+
+	points := glass64*1.98 + metal64*2.4 + plastics64*3.4 + paper64*1.2
+
+	return points, nil
 }
 
 func getFormattedData(r *http.Request) (glass, paper, metal, plastics float32, err error) {

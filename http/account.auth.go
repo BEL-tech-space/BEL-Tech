@@ -124,7 +124,7 @@ func (a *App) createNewUserSession(w http.ResponseWriter, r *http.Request, acc s
 		fmt.Println("ERROR IN NEW", err.Error())
 	}
 
-	session.Values["email"] = acc.Email
+	session.Values["email"] = acc.AccountEmail
 	session.Options = &sessions.Options{
 		Path:     "/",
 		MaxAge:   86_400 * 14, // Session expires in 2 weeks
@@ -133,11 +133,11 @@ func (a *App) createNewUserSession(w http.ResponseWriter, r *http.Request, acc s
 		// SameSite: http.SameSiteLaxMode, // Only allow cookie for requests from the same site
 	}
 
-	a.accountCache.SetWithTTL(acc.Email, acc, 1, 86_400*14*time.Second)
+	a.accountCache.SetWithTTL(acc.AccountEmail, acc, 1, 86_400*14*time.Second)
 
 	if a.config.Build != productionEnv { // dev mode
 		session.Options.MaxAge = 86_400
-		a.accountCache.SetWithTTL(acc.Email, acc, 1, 86_400*time.Second)
+		a.accountCache.SetWithTTL(acc.AccountEmail, acc, 1, 86_400*time.Second)
 	}
 
 	return session.Save(r, w)
@@ -146,7 +146,7 @@ func (a *App) createNewUserSession(w http.ResponseWriter, r *http.Request, acc s
 func mapGothUserToServiceUser(gothUser goth.User) service.Account {
 	user := service.Account{}
 	user.AccountID = gothUser.UserID
-	user.Email = gothUser.Email
+	user.AccountEmail = gothUser.Email
 	user.FirstName = gothUser.FirstName
 	user.LastName = gothUser.LastName
 	user.DisplayName = gothUser.NickName

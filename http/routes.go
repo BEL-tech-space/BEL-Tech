@@ -19,7 +19,9 @@ func (a *App) Routes() *chi.Mux {
 	r.Get("/", a.homePageHandler)
 
 	r.Mount("/account", a.accountRouter())
-	r.Mount("/agent", a.agentRouter())
+	if a.config.Build != productionEnv {
+		r.Mount("/agent", a.agentRouter())
+	}
 
 	var staticFiles = fs.FS(frontend.AssetsDir)
 	staticFs, _ := fs.Sub(staticFiles, "public")
