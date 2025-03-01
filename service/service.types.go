@@ -7,7 +7,7 @@ import (
 )
 
 type Account struct {
-	Email              string    `json:"email"`
+	AccountEmail       string    `json:"account_email"`
 	AccountID          string    `json:"account_id"`
 	FirstName          string    `json:"first_name"`
 	LastName           string    `json:"last_name"`
@@ -50,7 +50,42 @@ type WasteLog struct {
 	PlasticsWeighed float32     `json:"plastics_weighed"`
 	PaperWeighed    float32     `json:"paper_weighed"`
 	LocationAddr    interface{} `json:"location_addr"`
-	FunnyName       string      `json:"funny_name"`
+	TxnName         string      `json:"txn_name"`
 	AgentID         uuid.UUID   `json:"agent_id"`
-	Email           string      `json:"email"`
+	AccountEmail    string      `json:"account_email"`
+	PointsEarned    float64     `json:"points_earned"`
 }
+
+type Collector struct {
+	CollectorEmail string        `json:"collector_email"`
+	FirstName      string        `json:"first_name"`
+	LastName       string        `json:"last_name"`
+	DisplayName    string        `json:"display_name"`
+	AvatarUrl      string        `json:"avatar_url"`
+	CollectorRole  Collectorrole `json:"collector_role"`
+	AgentID        uuid.UUID     `json:"agent_id"`
+}
+
+type Agent struct {
+	AgentID               uuid.UUID   `json:"agent_id"`
+	AgentType             Identifyas  `json:"agent_type"`
+	City                  string      `json:"city"`
+	LocationState         string      `json:"location_state"`
+	LocationAddr          interface{} `json:"location_addr"`
+	BinLocationLastUpdate time.Time   `json:"bin_location_last_update"`
+	CreatedAt             time.Time   `json:"created_at"`
+}
+
+type Identifyas string
+
+const (
+	IdentifyasCollector Identifyas = "collector"
+	IdentifyasBin       Identifyas = "bin"
+)
+
+type Collectorrole string
+
+const (
+	CollectorroleCollector      Collectorrole = "collector"
+	CollectorroleSuperCollector Collectorrole = "super_collector"
+)

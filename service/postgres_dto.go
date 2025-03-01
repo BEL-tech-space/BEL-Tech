@@ -13,7 +13,7 @@ import (
 func makeUpsertUserParams(acc Account) postgres.UpsertAccountParams {
 	return postgres.UpsertAccountParams{
 		AccountID:          acc.AccountID,
-		Email:              acc.Email,
+		AccountEmail:       acc.AccountEmail,
 		FirstName:          acc.FirstName,
 		LastName:           acc.LastName,
 		DisplayName:        acc.DisplayName,
@@ -27,14 +27,12 @@ func makeUpsertUserParams(acc Account) postgres.UpsertAccountParams {
 func pgAccountToserviceAccount(pgAcc postgres.Account) Account {
 	return Account{
 		AccountID:          pgAcc.AccountID,
-		Email:              pgAcc.Email,
+		AccountEmail:       pgAcc.AccountEmail,
 		FirstName:          pgAcc.FirstName,
 		LastName:           pgAcc.LastName,
 		DisplayName:        pgAcc.DisplayName,
 		AvatarUrl:          pgAcc.AvatarUrl,
 		SplWallet:          pgAcc.SplWallet,
-		CurrBalance:        pgAcc.CurrBalance,
-		TotalEarned:        pgAcc.TotalEarned,
 		TotalGlassWaste:    pgAcc.TotalGlassWaste,
 		TotalMetalWaste:    pgAcc.TotalMetalWaste,
 		TotalPlasticsWaste: pgAcc.TotalPlasticsWaste,
@@ -54,14 +52,12 @@ func pgAccountToserviceAccount(pgAcc postgres.Account) Account {
 func serviceAccountTopgAccount(acc Account) postgres.Account {
 	return postgres.Account{
 		AccountID:          acc.AccountID,
-		Email:              acc.Email,
+		AccountEmail:       acc.AccountEmail,
 		FirstName:          acc.FirstName,
 		LastName:           acc.LastName,
 		DisplayName:        acc.DisplayName,
 		AvatarUrl:          acc.AvatarUrl,
 		SplWallet:          acc.SplWallet,
-		CurrBalance:        acc.CurrBalance,
-		TotalEarned:        acc.TotalEarned,
 		TotalGlassWaste:    acc.TotalGlassWaste,
 		TotalMetalWaste:    acc.TotalMetalWaste,
 		TotalPlasticsWaste: acc.TotalPlasticsWaste,
@@ -145,56 +141,19 @@ func pgtextToString(t pgtype.Text) string {
 	return v.(string)
 }
 
-type AddNewAgentParams struct {
-	Is            string  `json:"is"` // "bin" or "collector"
-	Email         string  `json:"email"`
-	City          string  `json:"city"`
-	State         string  `json:"state"`
-	StMakepoint   float64 `json:"st_makepoint"`
-	StMakepoint_2 float64 `json:"st_makepoint_2"`
-	Role          string  `json:"role"` // "collector" or "super_collector"
-	FirstName     string  `json:"first_name"`
-	LastName      string  `json:"last_name"`
-	NickName      string  `json:"nick_name"`
-	AvatarUrl     string  `json:"avatar_url"`
+type AddNewAgentAsCollectorParams struct {
+	AgentType      Identifyas    `json:"agent_type"`
+	City           string        `json:"city"`
+	LocationState  string        `json:"location_state"`
+	StMakepoint    interface{}   `json:"st_makepoint"`
+	StMakepoint_2  interface{}   `json:"st_makepoint_2"`
+	CollectorEmail string        `json:"collector_email"`
+	CollectorRole  Collectorrole `json:"collector_role"`
+	FirstName      string        `json:"first_name"`
+	LastName       string        `json:"last_name"`
+	DisplayName    string        `json:"display_name"`
+	AvatarUrl      string        `json:"avatar_url"`
 }
-
-// func MakeAddNewAgentParams(param AddNewAgentParams) (postgres.AddNewAgentAndCollectorParams, error) {
-// 	var r postgres.AddNewAgentAndCollectorParams
-
-// 	switch param.Is {
-// 	case "collector":
-// 		r.Is = postgres.IdentifyasCollector
-// 		if param.Email == "" {
-// 			return postgres.AddNewAgentAndCollectorParams{}, errors.New("collector email cannot be empty")
-// 		}
-// 		r.Email = param.Email
-// 		r.Email_2 = param.Email
-// 		r.FirstName = param.FirstName
-// 		r.LastName = param.LastName
-// 		r.NickName = param.NickName
-// 		r.AvatarUrl = param.AvatarUrl
-
-// 		if param.Role == "super_collector" {
-// 			r.Role = postgres.CollectorroleSuperCollector
-// 		} else {
-// 			r.Role = postgres.CollectorroleCollector
-// 		}
-
-// 	case "bin":
-// 		r.Is = postgres.IdentifyasBin
-
-// 	default:
-// 		return postgres.AddNewAgentAndCollectorParams{}, errors.New("agent should either be a 'bin' or 'collector'")
-// 	}
-
-// 	r.StMakepoint = param.StMakepoint
-// 	r.StMakepoint_2 = param.StMakepoint_2
-// 	r.City = param.City
-// 	r.State = param.State
-
-// 	return r, nil
-// }
 
 type GetWasteFromCollectorByAgentIDAndDateRow struct {
 	WasteID         uuid.UUID   `json:"waste_id"`
@@ -271,4 +230,22 @@ func pgBeneficiaryToServiceBeneficiary(pgBen postgres.Beneficiary) types.Benefic
 		BName:           pgBen.BName,
 		ServiceProvider: pgBen.ServiceProvider,
 	}
+}
+
+func convertWasteLogToPostgresParams(wasteLog WasteLog) (postgres.AddNewWasteFromCollectorParams, error) {
+	agentId, err := googleUUIDToPgtypeUUID(wasteLog.AgentID)
+	if err != nil {
+		return postgres.AddNewWasteFromCollectorParams{}, err
+	}
+
+	return postgres.AddNewWasteFromCollectorParams{
+		GlassWeighed:    wasteLog.GlassWeighed,
+		MetalWeighed:    wasteLog.MetalWeighed,
+		PlasticsWeighed: wasteLog.PlasticsWeighed,
+		PaperWeighed:    wasteLog.PaperWeighed,
+		TxnName:         wasteLog.TxnName,
+		AgentID:         agentId,
+		AccountEmail:    pgtype.Text{String: wasteLog.AccountEmail, Valid: true},
+		PointsEarned:    wasteLog.PointsEarned,
+	}, nil
 }

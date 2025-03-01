@@ -8,7 +8,7 @@ import (
 func account(acc service.Account) accPages.Account {
 	return accPages.Account{
 		AccountID:          acc.AccountID,
-		Email:              acc.Email,
+		AccountEmail:              acc.AccountEmail,
 		FirstName:          acc.FirstName,
 		LastName:           acc.LastName,
 		DisplayName:        acc.DisplayName,

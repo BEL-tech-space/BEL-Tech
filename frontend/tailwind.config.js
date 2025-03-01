@@ -23,5 +23,7 @@ module.exports = {
       backgroundImage: {},
     },
   },
-  plugins: [],
+  plugins: [
+    // require('daisyui'),
+  ],
 };

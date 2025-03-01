@@ -37,7 +37,7 @@ func (s *Service) AddNewBeneficiary(ctx context.Context, bPhoneNo, bName, bSP, e
 			BPhoneNo:        bPhoneNo,
 			BName:           bName,
 			ServiceProvider: bSP,
-			Email:           pgtype.Text{String: email, Valid: true},
+			AccountEmail:           pgtype.Text{String: email, Valid: true},
 		},
 	)
 
@@ -71,7 +71,7 @@ func (s *Service) DeleteBeneficiary(ctx context.Context, bPhoneNo, bSP, email st
 		postgres.DeleteBeneficiaryParams{
 			BPhoneNo:        bPhoneNo,
 			ServiceProvider: bSP,
-			Email:           pgtype.Text{String: email, Valid: true},
+			AccountEmail:           pgtype.Text{String: email, Valid: true},
 		},
 	)
 
@@ -122,7 +122,7 @@ func (s *Service) GetBeneficiaries(ctx context.Context, email string) ([]types.B
 
 func (s *Service) UpdateAccountDisplayName(ctx context.Context, email, newDisplayName string) (Account, error) {
 	pgAcc, err := s.dbQuery.UpdateNickName(ctx,
-		postgres.UpdateNickNameParams{Email: email, DisplayName: newDisplayName})
+		postgres.UpdateNickNameParams{AccountEmail: email, DisplayName: newDisplayName})
 	if err != nil {
 		return Account{}, err
 	}
@@ -165,4 +165,15 @@ func (s *Service) GetAllNotifications(ctx context.Context) ([]Notification, erro
 	}
 
 	return slices.Clip(filteredNotifications), nil
+}
+
+func (s *Service) AddNewWasteFromCollector(ctx context.Context, wasteLog WasteLog) error {
+
+	params, err := convertWasteLogToPostgresParams(wasteLog)
+	if err != nil {
+		return err
+	}
+
+	_, err = s.dbQuery.AddNewWasteFromCollector(ctx, params)
+	return err
 }

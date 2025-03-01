@@ -1,26 +1,29 @@
 CREATE TABLE IF NOT EXISTS accounts (
-    email VARCHAR(255) PRIMARY KEY,
+    account_email VARCHAR(255) PRIMARY KEY,
     account_ID TEXT NOT NULL DEFAULT '',
-    first_Name VARCHAR(30) NOT NULL DEFAULT '',
-    last_Name VARCHAR(30) NOT NULL DEFAULT '',
-    display_Name VARCHAR(30) NOT NULL DEFAULT '',
+    first_name VARCHAR(30) NOT NULL DEFAULT '',
+    last_name VARCHAR(30) NOT NULL DEFAULT '',
+    display_name VARCHAR(30) NOT NULL DEFAULT '',
     avatar_URL TEXT NOT NULL DEFAULT '',
-    spl_Wallet TEXT NOT NULL DEFAULT '',
-    curr_Balance DOUBLE PRECISION NOT NULL DEFAULT 0,
-    total_Earned DOUBLE PRECISION NOT NULL DEFAULT 0,
+    spl_wallet TEXT NOT NULL DEFAULT '',
+    total_bel_point DOUBLE PRECISION NOT NULL DEFAULT 0,
+    total_bel_token DOUBLE PRECISION NOT NULL DEFAULT 0,
+    bel_point_balance DOUBLE PRECISION NOT NULL DEFAULT 0,
+    bel_token_balance DOUBLE PRECISION NOT NULL DEFAULT 0,
     total_glass_waste REAL NOT NULL DEFAULT 0,
     total_metal_waste REAL NOT NULL DEFAULT 0,
     total_plastics_waste REAL NOT NULL DEFAULT 0,
     total_paper_waste REAL NOT NULL DEFAULT 0,
     hashed_password TEXT NOT NULL DEFAULT '',
-    access_Token TEXT NOT NULL DEFAULT '',
-    access_Token_Expires TIMESTAMP,
-    id_Token TEXT NOT NULL DEFAULT '',
-    last_Update_Email TIMESTAMP,
+    hashed_pin TEXT NOT NULL DEFAULT '',
+    access_token TEXT NOT NULL DEFAULT '',
+    access_token_expires TIMESTAMP,
+    id_token TEXT NOT NULL DEFAULT '',
+    last_update_email TIMESTAMP,
     "role" VARCHAR(10) NOT NULL DEFAULT 'user',
     joined TIMESTAMP DEFAULT NOW(),
     is_new BOOLEAN NOT NULL DEFAULT TRUE,
-    is_Deleted BOOLEAN NOT NULL DEFAULT FALSE
+    is_deleted BOOLEAN NOT NULL DEFAULT FALSE
 );
 
 DROP INDEX IF EXISTS accounts_spl_wallet_unique_idx;
@@ -34,7 +37,7 @@ CREATE TABLE IF NOT EXISTS beneficiaries (
     b_phone_no CHAR(11) NOT NULL,
     service_provider VARCHAR(15) NOT NULL,
     created_at TIMESTAMP DEFAULT NOW(),
-    email VARCHAR(255) REFERENCES accounts(email) ON DELETE CASCADE,
+    account_email VARCHAR(255) REFERENCES accounts(account_email) ON DELETE CASCADE,
     UNIQUE (b_phone_no, service_provider)
 );
 
@@ -45,7 +48,7 @@ CREATE TABLE IF NOT EXISTS notifications (
     notif_body TEXT NOT NULL,
     days_to_Last INTEGER NOT NULL,
     notif_time TEXT NOT NULL,
-    notif_id TEXT NOT NULL
+    notif_ID TEXT NOT NULL
 );
 
 
@@ -57,20 +60,19 @@ CREATE TYPE identifyAs AS ENUM ('collector', 'bin');
 
 CREATE TABLE IF NOT EXISTS agents (
     agent_ID UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    agent_Type identifyAs NOT NULL,
-    email TEXT NOT NULL DEFAULT '',
+    agent_type identifyAs NOT NULL,
     city TEXT NOT NULL DEFAULT '',
-    location_State TEXT NOT NULL DEFAULT '',
-    location_Addr geometry(POINT, 4326),
-    bin_location_last_Update TIMESTAMP,
-    created_At TIMESTAMP DEFAULT NOW()
+    location_state TEXT NOT NULL DEFAULT '',
+    location_addr geometry(POINT, 4326),
+    bin_location_last_Update TIMESTAMP NOT NULL DEFAULT NOW(),
+    created_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
 CREATE TABLE IF NOT EXISTS collectors (
-    email TEXT PRIMARY KEY,
-    first_Name VARCHAR(30) NOT NULL DEFAULT '',
-    last_Name VARCHAR(30) NOT NULL DEFAULT '',
-    display_Name VARCHAR(30) NOT NULL DEFAULT '',
+    collector_email TEXT PRIMARY KEY,
+    first_name VARCHAR(30) NOT NULL DEFAULT '',
+    last_name VARCHAR(30) NOT NULL DEFAULT '',
+    display_name VARCHAR(30) NOT NULL DEFAULT '',
     avatar_URL TEXT NOT NULL DEFAULT '',
     collector_Role collectorRole NOT NULL DEFAULT 'collector',
     agent_ID UUID REFERENCES agents (agent_ID) ON DELETE CASCADE
@@ -78,16 +80,17 @@ CREATE TABLE IF NOT EXISTS collectors (
 
 CREATE TABLE IF NOT EXISTS Waste_Logs (
     waste_Id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    created_At TIMESTAMP DEFAULT NOW(),
+    created_at TIMESTAMP DEFAULT NOW(),
     claimed BOOLEAN DEFAULT FALSE,
-    glass_Weighed REAL NOT NULL DEFAULT 0,
-    metal_Weighed REAL NOT NULL DEFAULT 0,
-    plastics_Weighed REAL NOT NULL DEFAULT 0, 
-    paper_Weighed REAL NOT NULL DEFAULT 0,
-    location_Addr geometry(POINT, 4326),
-    funny_Name TEXT NOT NULL DEFAULT '',
+    glass_weighed REAL NOT NULL DEFAULT 0,
+    metal_weighed REAL NOT NULL DEFAULT 0,
+    plastics_weighed REAL NOT NULL DEFAULT 0, 
+    paper_weighed REAL NOT NULL DEFAULT 0,
+     points_earned DOUBLE PRECISION NOT NULL DEFAULT 0,
+    location_addr geometry(POINT, 4326),
+    txn_name TEXT NOT NULL DEFAULT '',
     agent_ID UUID REFERENCES agents(agent_ID),
-    email VARCHAR(255) REFERENCES accounts(email)
+    account_email VARCHAR(255) REFERENCES accounts(account_email)
 );
 
 

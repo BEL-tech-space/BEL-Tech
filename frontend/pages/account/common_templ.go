@@ -432,7 +432,7 @@ func CommonHeader(user Account) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = notificationBar(user.Email).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = notificationBar(user.AccountEmail).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -578,7 +578,7 @@ func LetRecycleAndProfile(text string) templ.Component {
 	})
 }
 
-func removeScrollBar() templ.Component {
+func notificationBar(accountEmail string) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -599,49 +599,20 @@ func removeScrollBar() templ.Component {
 			templ_7745c5c3_Var18 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 28, "<style>\n\t\t.overflow-y-auto::-webkit-scrollbar {\n\t\t\twidth: 0 !important;\n\t\t\tdisplay: none;\n\t\t\toverflow: -moz-scrollbars-none;\n\t\t\tscrollbar-width: none;\n\t\t}\n\t</style>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 28, "<style>\n\t\t.slide-out {\n\t\t\ttransform: translateX(100%);\n\t\t\topacity: 0;\n\t\t}\n\t</style><div id=\"backdrop\" class=\"hidden fixed inset-0 z-10 bg-black backdrop-blur-sm bg-opacity-50 transition-opacity duration-300 ease-in-out [transition:opacity_6s_ease-in-out]\" _=\"on click \n\t\t\tif #notification-bar.classList contains &#39;translate-y-0&#39;\n\t\t\t\ttell #notification-bar\n\t\t\t\tremove .translate-y-0 then add .translate-y-full\n\t\t\t\tthen add .hidden to me\n\t\t\tend\"></div><section id=\"notification-bar\" class=\"bg-white fixed bottom-0 left-0 pl-[1.223rem] pr-[1.723rem] translate-y-full \n                 pt-[2.543rem] pb-[2.635rem] rounded-tl-[0.848rem] max-h-[50%] h-auto overflow-y-auto w-full z-20\n                 [transition:all_0.7s_ease-in-out]\" data-accountId=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		return nil
-	})
-}
-
-func notificationBar(accountEmail string) templ.Component {
-	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
-		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
-		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
-			return templ_7745c5c3_CtxErr
+		var templ_7745c5c3_Var19 string
+		templ_7745c5c3_Var19, templ_7745c5c3_Err = templ.JoinStringErrs(accountEmail)
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 245, Col: 31}
 		}
-		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
-		if !templ_7745c5c3_IsBuffer {
-			defer func() {
-				templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
-				if templ_7745c5c3_Err == nil {
-					templ_7745c5c3_Err = templ_7745c5c3_BufErr
-				}
-			}()
-		}
-		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var19 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var19 == nil {
-			templ_7745c5c3_Var19 = templ.NopComponent
-		}
-		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 29, "<style>\n\t\t.slide-out {\n\t\t\ttransform: translateX(100%);\n\t\t\topacity: 0;\n\t\t}\n\t</style><div id=\"backdrop\" class=\"hidden fixed inset-0 z-10 bg-black backdrop-blur-sm bg-opacity-50 transition-opacity duration-300 ease-in-out [transition:opacity_6s_ease-in-out]\" _=\"on click \n\t\t\tif #notification-bar.classList contains &#39;translate-y-0&#39;\n\t\t\t\ttell #notification-bar\n\t\t\t\tremove .translate-y-0 then add .translate-y-full\n\t\t\t\tthen add .hidden to me\n\t\t\tend\"></div><section id=\"notification-bar\" class=\"bg-white fixed bottom-0 left-0 pl-[1.223rem] pr-[1.723rem] translate-y-full \n                 pt-[2.543rem] pb-[2.635rem] rounded-tl-[0.848rem] max-h-[50%] h-auto overflow-y-auto w-full z-20\n                 [transition:all_0.7s_ease-in-out]\" data-accountId=\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var19))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var20 string
-		templ_7745c5c3_Var20, templ_7745c5c3_Err = templ.JoinStringErrs(accountEmail)
-		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/common.templ`, Line: 255, Col: 31}
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var20))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 30, "\"><ul class=\" flex flex-col gap-[2.635rem] justify-center items-center\"></ul></section>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 29, "\"><ul class=\" flex flex-col gap-[2.635rem] justify-center items-center\"></ul></section>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

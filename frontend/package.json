@@ -21,6 +21,7 @@
   "description": "",
   "devDependencies": {
     "@types/node": "^22.10.5",
+    "daisyui": "^4.12.24",
     "esbuild": "^0.24.0",
     "prettier": "^3.4.2",
     "prettier-plugin-tailwindcss": "^0.6.9",

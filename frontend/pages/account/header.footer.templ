@@ -9,14 +9,6 @@ templ HeadTag(pageTitle string) {
 			name="viewport"
 			content="width=device-width, initial-scale=1.0, viewport-fit=cover"
 		/>
-		<link
-			rel="stylesheet"
-			href="/public/assets/styles/output.css"
-		/>
-		<link
-			rel="stylesheet"
-			href="/public/assets/styles/toastr.min.css"
-		/>
 		if strings.Contains(strings.ToLower(pageTitle), "dashboard") ||
 			strings.Contains(strings.ToLower(pageTitle), "scan") || 
 			strings.Contains(strings.ToLower(pageTitle), "location") || 
@@ -34,6 +26,14 @@ templ HeadTag(pageTitle string) {
 				href="/public/assets/styles/swiper-bundle.min.css"
 			/>
 		}
+		<link
+			rel="stylesheet"
+			href="/public/assets/styles/output.css"
+		/>
+		<link
+			rel="stylesheet"
+			href="/public/assets/styles/toastr.min.css"
+		/>
 		if strings.Contains(strings.ToLower(pageTitle), "location") ||
 			strings.Contains(strings.ToLower(pageTitle), "wallet") ||
 			strings.Contains(strings.ToLower(pageTitle), "spend") {
@@ -50,7 +50,14 @@ templ HeadTag(pageTitle string) {
 				href="/public/assets/styles/perspective-extreme.css"
 			/>
 		}
-		@removeScrollBar()
+		<style>
+			.overflow-y-auto::-webkit-scrollbar {
+				width: 0 !important;
+				display: none;
+				overflow: -moz-scrollbars-none;
+				scrollbar-width: none;
+			}
+		</style>
 		<title>{ pageTitle }</title>
 	</head>
 }

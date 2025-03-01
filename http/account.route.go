@@ -47,6 +47,8 @@ func (a *App) accountRouter() http.Handler {
 		r.Get("/dashboard/chart", a.dashboardEchart)
 
 		r.Get("/scan", a.scanQRPageHandler)
+		r.Post("/confirmWaste", a.confirmWaste)
+		r.Post("/submitWaste", a.submitWaste)
 
 		r.Get("/location/openingHtmlTag-Partial.html", a.openingHThmlTagPartial)
 		r.Get("/location/header-Partial.html", a.locationHeaderTagPartial)

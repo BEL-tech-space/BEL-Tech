@@ -6,7 +6,6 @@ import (
 	"slices"
 
 	"github.com/dgraph-io/ristretto/v2"
-	"github.com/google/uuid"
 	"github.com/gorilla/sessions"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/markbates/goth"
@@ -19,16 +18,10 @@ type App struct {
 	service             *service.Service
 	accountSessionStore sessions.Store
 	agentSessionStore   sessions.Store
-	collectors          map[string]collector
+	collectors          map[string]service.Collector
 	// beltechWatermarkLogo []byte
 	accountCache  *ristretto.Cache[string, service.Account]
 	wasteLogCache *ristretto.Cache[string, service.WasteLog]
-}
-
-type collector struct {
-	AgentID uuid.UUID
-	Email   string
-	Role    string
 }
 
 type contextKey string
@@ -80,12 +73,13 @@ func NewApp(
 		ActiveNotifications = slices.Grow(notifs, 50)
 	}
 
-	app.collectors = make(map[string]collector, 100)
-
-	if cfg.Build != productionEnv {
-		app.collectors[devGothUser.Email] = collector{
-			Email:   devGothUser.Email,
-			AgentID: uuid.New(),
+	if cfg.Build == productionEnv {
+		if err := app.setupProductionModeCollectors(); err != nil {
+			panic(err)
+		}
+	} else {
+		if err := app.setupdDevModeCollectors(); err != nil {
+			panic(err)
 		}
 	}
 
@@ -104,4 +98,45 @@ func GenerateRandomKey(d, buildMode string) string {
 
 	// return hex.EncodeToString(key)
 	return d
+}
+
+func (a *App) setupdDevModeCollectors() error {
+	devCollector := service.AddNewAgentAsCollectorParams{
+		AgentType:      service.IdentifyasCollector,
+		CollectorEmail: devGothUser.Email,
+		CollectorRole:  service.CollectorroleSuperCollector,
+	}
+
+	id, err := a.service.AddNewAgentAsCollector(
+		context.Background(),
+		devCollector,
+	)
+	if err != nil {
+		return err
+	}
+
+	a.collectors = make(map[string]service.Collector, 2)
+
+	a.collectors[devGothUser.Email] = service.Collector{
+		AgentID:        id,
+		CollectorEmail: devGothUser.Email,
+		CollectorRole:  service.CollectorroleSuperCollector,
+	}
+
+	return nil
+}
+func (a *App) setupProductionModeCollectors() error {
+	collectors, err := a.service.GetAllCollectors(context.Background())
+	if err != nil {
+		return err
+	}
+	a.collectors = make(map[string]service.Collector, len(collectors)+100)
+	for _, v := range collectors {
+		a.collectors[v.AgentID.String()] = v
+	}
+
+	// maps.Insert[string, service.Collector](a.collectors, func(yield func(string, service.Collector) bool) {
+
+	// })
+	return nil
 }
