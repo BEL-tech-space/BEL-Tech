@@ -18,10 +18,10 @@ type App struct {
 	service             *service.Service
 	accountSessionStore sessions.Store
 	agentSessionStore   sessions.Store
-	collectors          map[string]service.Collector
+	collectors          map[string]service.AgentCollector
 	// beltechWatermarkLogo []byte
 	accountCache  *ristretto.Cache[string, service.Account]
-	wasteLogCache *ristretto.Cache[string, service.WasteLog]
+	wasteLogCache *ristretto.Cache[string, service.WasteLogFromCollector]
 }
 
 type contextKey string
@@ -38,7 +38,7 @@ func NewApp(
 	cfg *EnvConfig,
 	db *pgxpool.Pool,
 	accountCache *ristretto.Cache[string, service.Account],
-	wasteLogCache *ristretto.Cache[string, service.WasteLog]) *App {
+	wasteLogCache *ristretto.Cache[string, service.WasteLogFromCollector]) *App {
 
 	store := sessions.NewCookieStore([]byte(cfg.CookieSecret))
 	store.MaxAge(86_400 * 15) // 30 days
@@ -102,9 +102,9 @@ func GenerateRandomKey(d, buildMode string) string {
 
 func (a *App) setupdDevModeCollectors() error {
 	devCollector := service.AddNewAgentAsCollectorParams{
-		AgentType:      service.IdentifyasCollector,
 		CollectorEmail: devGothUser.Email,
 		CollectorRole:  service.CollectorroleSuperCollector,
+		DisplayName:    devGothUser.NickName,
 	}
 
 	id, err := a.service.AddNewAgentAsCollector(
@@ -115,12 +115,13 @@ func (a *App) setupdDevModeCollectors() error {
 		return err
 	}
 
-	a.collectors = make(map[string]service.Collector, 2)
+	a.collectors = make(map[string]service.AgentCollector, 2)
 
-	a.collectors[devGothUser.Email] = service.Collector{
+	a.collectors[devGothUser.Email] = service.AgentCollector{
 		AgentID:        id,
 		CollectorEmail: devGothUser.Email,
 		CollectorRole:  service.CollectorroleSuperCollector,
+		DisplayName:    devGothUser.NickName,
 	}
 
 	return nil
@@ -130,7 +131,7 @@ func (a *App) setupProductionModeCollectors() error {
 	if err != nil {
 		return err
 	}
-	a.collectors = make(map[string]service.Collector, len(collectors)+100)
+	a.collectors = make(map[string]service.AgentCollector, len(collectors)+100)
 	for _, v := range collectors {
 		a.collectors[v.AgentID.String()] = v
 	}

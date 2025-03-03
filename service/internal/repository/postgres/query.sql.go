@@ -12,53 +12,46 @@ import (
 )
 
 const addNewAgentAsCollector = `-- name: AddNewAgentAsCollector :one
-WITH new_agent AS (
-    INSERT INTO agents (agent_type, city, location_state, location_addr) 
-    VALUES ($1, $2, $3, ST_SetSRID(ST_MakePoint($4, $5), 4326))
-    RETURNING agent_ID
-),
-insert_collector AS (
-    INSERT INTO collectors (collector_email, collector_role, first_name, last_name, display_name, avatar_URL, agent_ID)
-    VALUES (
-        $6, $7, $8, $9, $10, $11, (SELECT agent_ID FROM new_agent)
-    ) ON CONFLICT (collector_email) DO NOTHING
-    RETURNING agent_ID
-)
-SELECT COALESCE(
-    (SELECT agent_ID FROM insert_collector), 
-    (SELECT agent_ID FROM collectors WHERE collectors.collector_email = $6)
-) AS agent_ID
+INSERT INTO collectors ( 
+    collector_email, first_name, last_name, display_name, avatar_URL,
+    location_city, location_state, location_country, location_addr, collector_role
+) VALUES (
+    $1, $2, $3, $4, $5, $6, $7, $8, ST_SetSRID(ST_MakePoint($9, $10), 4326), $11
+) 
+ON CONFLICT (collector_email) 
+DO UPDATE SET agent_ID = collectors.agent_ID
+RETURNING agent_ID
 `
 
 type AddNewAgentAsCollectorParams struct {
-	AgentType      Identifyas    `json:"agent_type"`
-	City           string        `json:"city"`
-	LocationState  string        `json:"location_state"`
-	StMakepoint    interface{}   `json:"st_makepoint"`
-	StMakepoint_2  interface{}   `json:"st_makepoint_2"`
-	CollectorEmail string        `json:"collector_email"`
-	CollectorRole  Collectorrole `json:"collector_role"`
-	FirstName      string        `json:"first_name"`
-	LastName       string        `json:"last_name"`
-	DisplayName    string        `json:"display_name"`
-	AvatarUrl      string        `json:"avatar_url"`
+	CollectorEmail  pgtype.Text   `json:"collector_email"`
+	FirstName       string        `json:"first_name"`
+	LastName        string        `json:"last_name"`
+	DisplayName     string        `json:"display_name"`
+	AvatarUrl       string        `json:"avatar_url"`
+	LocationCity    string        `json:"location_city"`
+	LocationState   string        `json:"location_state"`
+	LocationCountry string        `json:"location_country"`
+	StMakepoint     interface{}   `json:"st_makepoint"`
+	StMakepoint_2   interface{}   `json:"st_makepoint_2"`
+	CollectorRole   Collectorrole `json:"collector_role"`
 }
 
-func (q *Queries) AddNewAgentAsCollector(ctx context.Context, arg AddNewAgentAsCollectorParams) (interface{}, error) {
+func (q *Queries) AddNewAgentAsCollector(ctx context.Context, arg AddNewAgentAsCollectorParams) (pgtype.UUID, error) {
 	row := q.db.QueryRow(ctx, addNewAgentAsCollector,
-		arg.AgentType,
-		arg.City,
-		arg.LocationState,
-		arg.StMakepoint,
-		arg.StMakepoint_2,
 		arg.CollectorEmail,
-		arg.CollectorRole,
 		arg.FirstName,
 		arg.LastName,
 		arg.DisplayName,
 		arg.AvatarUrl,
+		arg.LocationCity,
+		arg.LocationState,
+		arg.LocationCountry,
+		arg.StMakepoint,
+		arg.StMakepoint_2,
+		arg.CollectorRole,
 	)
-	var agent_id interface{}
+	var agent_id pgtype.UUID
 	err := row.Scan(&agent_id)
 	return agent_id, err
 }
@@ -69,8 +62,7 @@ WITH inserted_row AS (
   VALUES ($1, $2, $3, $4)
   RETURNING b_name, b_phone_no, service_provider, created_at, account_email
 )
-SELECT b_name, b_phone_no, service_provider, created_at, account_email 
-FROM beneficiaries
+SELECT b_name, b_phone_no, service_provider, created_at, account_email FROM beneficiaries
 WHERE account_email = $4
 UNION
 SELECT b_name, b_phone_no, service_provider, created_at, account_email 
@@ -116,79 +108,84 @@ func (q *Queries) AddNewBeneficiary(ctx context.Context, arg AddNewBeneficiaryPa
 	return items, nil
 }
 
-const addNewWasteFromCollector = `-- name: AddNewWasteFromCollector :one
-INSERT INTO Waste_Logs (
-    glass_weighed, metal_weighed, plastics_weighed, paper_weighed, location_Addr, txn_Name, agent_ID, account_email, points_earned
-) VALUES (
-    $1, $2, $3, $4, ST_SetSRID(ST_MakePoint($5, $6), 4326), $7, $8, $9, $10
+const addNewWasteFromCollector = `-- name: AddNewWasteFromCollector :exec
+WITH new_waste AS (
+    INSERT INTO waste_logs_from_collector (
+        claimed, glass_weighed, metal_weighed, plastics_weighed, paper_weighed, 
+        glass_points_earned, metal_points_earned, plastics_points_earned, paper_points_earned,
+        total_points_earned, location_addr, txn_name, agent_ID, account_email
+    ) VALUES (
+        $1, $2, $3, $4, $5, 
+        $6, $7, $8, $9, 
+        $10, ST_SetSRID(ST_MakePoint($11, $12), 4326), $13, $14, $15
+    )
+    RETURNING 
+        waste_Id, account_email, total_points_earned, 
+        glass_weighed, metal_weighed, plastics_weighed, paper_weighed,
+        glass_points_earned, metal_points_earned, plastics_points_earned, paper_points_earned
 )
-RETURNING waste_Id
+UPDATE accounts 
+SET 
+    bel_point_balance = bel_point_balance + new_waste.total_points_earned,
+    total_bel_point = total_bel_point + new_waste.total_points_earned,
+    total_glass_waste = total_glass_waste + new_waste.glass_weighed,
+    total_metal_waste = total_metal_waste + new_waste.metal_weighed,
+    total_plastics_waste = total_plastics_waste + new_waste.plastics_weighed,
+    total_paper_waste = total_paper_waste + new_waste.paper_weighed,
+    total_glass_points_earned = total_glass_points_earned + new_waste.glass_points_earned,
+    total_metal_points_earned = total_metal_points_earned + new_waste.metal_points_earned,
+    total_plastics_points_earned = total_plastics_points_earned + new_waste.plastics_points_earned,
+    total_paper_points_earned = total_paper_points_earned + new_waste.paper_points_earned
+FROM new_waste 
+WHERE accounts.account_email = new_waste.account_email
 `
 
 type AddNewWasteFromCollectorParams struct {
-	GlassWeighed    float32     `json:"glass_weighed"`
-	MetalWeighed    float32     `json:"metal_weighed"`
-	PlasticsWeighed float32     `json:"plastics_weighed"`
-	PaperWeighed    float32     `json:"paper_weighed"`
-	StMakepoint     interface{} `json:"st_makepoint"`
-	StMakepoint_2   interface{} `json:"st_makepoint_2"`
-	TxnName         string      `json:"txn_name"`
-	AgentID         pgtype.UUID `json:"agent_id"`
-	AccountEmail    pgtype.Text `json:"account_email"`
-	PointsEarned    float64     `json:"points_earned"`
+	Claimed              bool        `json:"claimed"`
+	GlassWeighed         float32     `json:"glass_weighed"`
+	MetalWeighed         float32     `json:"metal_weighed"`
+	PlasticsWeighed      float32     `json:"plastics_weighed"`
+	PaperWeighed         float32     `json:"paper_weighed"`
+	GlassPointsEarned    float32     `json:"glass_points_earned"`
+	MetalPointsEarned    float32     `json:"metal_points_earned"`
+	PlasticsPointsEarned float32     `json:"plastics_points_earned"`
+	PaperPointsEarned    float32     `json:"paper_points_earned"`
+	TotalPointsEarned    float64     `json:"total_points_earned"`
+	StMakepoint          interface{} `json:"st_makepoint"`
+	StMakepoint_2        interface{} `json:"st_makepoint_2"`
+	TxnName              string      `json:"txn_name"`
+	AgentID              pgtype.UUID `json:"agent_id"`
+	AccountEmail         string      `json:"account_email"`
 }
 
-func (q *Queries) AddNewWasteFromCollector(ctx context.Context, arg AddNewWasteFromCollectorParams) (pgtype.UUID, error) {
-	row := q.db.QueryRow(ctx, addNewWasteFromCollector,
+func (q *Queries) AddNewWasteFromCollector(ctx context.Context, arg AddNewWasteFromCollectorParams) error {
+	_, err := q.db.Exec(ctx, addNewWasteFromCollector,
+		arg.Claimed,
 		arg.GlassWeighed,
 		arg.MetalWeighed,
 		arg.PlasticsWeighed,
 		arg.PaperWeighed,
+		arg.GlassPointsEarned,
+		arg.MetalPointsEarned,
+		arg.PlasticsPointsEarned,
+		arg.PaperPointsEarned,
+		arg.TotalPointsEarned,
 		arg.StMakepoint,
 		arg.StMakepoint_2,
 		arg.TxnName,
 		arg.AgentID,
 		arg.AccountEmail,
-		arg.PointsEarned,
 	)
-	var waste_id pgtype.UUID
-	err := row.Scan(&waste_id)
-	return waste_id, err
+	return err
 }
 
-const addNewWasteLog = `-- name: AddNewWasteLog :exec
-INSERT INTO waste_Logs (waste_Id, created_At, glass_weighed, metal_weighed, plastics_weighed, paper_weighed, location_addr, agent_ID, account_email, points_earned) 
-VALUES ($1, $2, $3, $4, $5, $6, ST_SetSRID(ST_MakePoint($7, $8), 4326), $9, $10, $11)
+const collector = `-- name: Collector :exec
+DELETE FROM collectors
+WHERE collector_Email = $1 AND collector_Role != 'super_collector'
 `
 
-type AddNewWasteLogParams struct {
-	WasteID         pgtype.UUID      `json:"waste_id"`
-	CreatedAt       pgtype.Timestamp `json:"created_at"`
-	GlassWeighed    float32          `json:"glass_weighed"`
-	MetalWeighed    float32          `json:"metal_weighed"`
-	PlasticsWeighed float32          `json:"plastics_weighed"`
-	PaperWeighed    float32          `json:"paper_weighed"`
-	StMakepoint     interface{}      `json:"st_makepoint"`
-	StMakepoint_2   interface{}      `json:"st_makepoint_2"`
-	AgentID         pgtype.UUID      `json:"agent_id"`
-	AccountEmail    pgtype.Text      `json:"account_email"`
-	PointsEarned    float64          `json:"points_earned"`
-}
-
-func (q *Queries) AddNewWasteLog(ctx context.Context, arg AddNewWasteLogParams) error {
-	_, err := q.db.Exec(ctx, addNewWasteLog,
-		arg.WasteID,
-		arg.CreatedAt,
-		arg.GlassWeighed,
-		arg.MetalWeighed,
-		arg.PlasticsWeighed,
-		arg.PaperWeighed,
-		arg.StMakepoint,
-		arg.StMakepoint_2,
-		arg.AgentID,
-		arg.AccountEmail,
-		arg.PointsEarned,
-	)
+func (q *Queries) Collector(ctx context.Context, collectorEmail pgtype.Text) error {
+	_, err := q.db.Exec(ctx, collector, collectorEmail)
 	return err
 }
 
@@ -281,24 +278,24 @@ func (q *Queries) DeleteNotificationsByIDs(ctx context.Context, dollar_1 []int32
 	return err
 }
 
-const getAccount = `-- name: GetAccount :one
-SELECT account_email, account_id, first_name, last_name, display_name, avatar_url, spl_wallet, total_bel_point, total_bel_token, bel_point_balance, bel_token_balance, total_glass_waste, total_metal_waste, total_plastics_waste, total_paper_waste, hashed_password, hashed_pin, access_token, access_token_expires, id_token, last_update_email, role, joined, is_new, is_deleted 
+const getAccountByEmail = `-- name: GetAccountByEmail :one
+SELECT account_email, account_id, first_name, last_name, spl_wallet, display_name, avatar_url, total_bel_point, total_bel_token, bel_point_balance, bel_token_balance, total_glass_waste, total_metal_waste, total_plastics_waste, total_paper_waste, total_glass_points_earned, total_metal_points_earned, total_plastics_points_earned, total_paper_points_earned, hashed_password, hashed_pin, access_token, access_token_expires, id_token, last_update_email, role, joined, is_new, is_deleted, deleted_at 
 FROM accounts 
 WHERE account_email = $1 
   AND is_Deleted = FALSE
 `
 
-func (q *Queries) GetAccount(ctx context.Context, accountEmail string) (Account, error) {
-	row := q.db.QueryRow(ctx, getAccount, accountEmail)
+func (q *Queries) GetAccountByEmail(ctx context.Context, accountEmail string) (Account, error) {
+	row := q.db.QueryRow(ctx, getAccountByEmail, accountEmail)
 	var i Account
 	err := row.Scan(
 		&i.AccountEmail,
 		&i.AccountID,
 		&i.FirstName,
 		&i.LastName,
+		&i.SplWallet,
 		&i.DisplayName,
 		&i.AvatarUrl,
-		&i.SplWallet,
 		&i.TotalBelPoint,
 		&i.TotalBelToken,
 		&i.BelPointBalance,
@@ -307,6 +304,10 @@ func (q *Queries) GetAccount(ctx context.Context, accountEmail string) (Account,
 		&i.TotalMetalWaste,
 		&i.TotalPlasticsWaste,
 		&i.TotalPaperWaste,
+		&i.TotalGlassPointsEarned,
+		&i.TotalMetalPointsEarned,
+		&i.TotalPlasticsPointsEarned,
+		&i.TotalPaperPointsEarned,
 		&i.HashedPassword,
 		&i.HashedPin,
 		&i.AccessToken,
@@ -317,12 +318,13 @@ func (q *Queries) GetAccount(ctx context.Context, accountEmail string) (Account,
 		&i.Joined,
 		&i.IsNew,
 		&i.IsDeleted,
+		&i.DeletedAt,
 	)
 	return i, err
 }
 
 const getAllCollectors = `-- name: GetAllCollectors :many
-SELECT collector_email, first_name, last_name, display_name, avatar_url, collector_role, agent_id FROM collectors
+SELECT agent_id, collector_email, first_name, last_name, display_name, avatar_url, location_city, location_state, location_country, location_addr, collector_role, created_at, is_deleted, deleted_at FROM collectors
 `
 
 func (q *Queries) GetAllCollectors(ctx context.Context) ([]Collector, error) {
@@ -335,13 +337,20 @@ func (q *Queries) GetAllCollectors(ctx context.Context) ([]Collector, error) {
 	for rows.Next() {
 		var i Collector
 		if err := rows.Scan(
+			&i.AgentID,
 			&i.CollectorEmail,
 			&i.FirstName,
 			&i.LastName,
 			&i.DisplayName,
 			&i.AvatarUrl,
+			&i.LocationCity,
+			&i.LocationState,
+			&i.LocationCountry,
+			&i.LocationAddr,
 			&i.CollectorRole,
-			&i.AgentID,
+			&i.CreatedAt,
+			&i.IsDeleted,
+			&i.DeletedAt,
 		); err != nil {
 			return nil, err
 		}
@@ -418,13 +427,117 @@ func (q *Queries) GetBeneficiariesByEmail(ctx context.Context, accountEmail pgty
 	return items, nil
 }
 
-const removeCollector = `-- name: RemoveCollector :exec
-DELETE FROM collectors
-WHERE collector_Email = $1 AND collector_Role != 'super_collector'
+const getWasteByAccountForMonth = `-- name: GetWasteByAccountForMonth :many
+SELECT waste_id, claimed, glass_weighed, metal_weighed, plastics_weighed, paper_weighed, glass_points_earned, metal_points_earned, plastics_points_earned, paper_points_earned, total_points_earned, location_addr, txn_name, agent_id, account_email, created_at 
+FROM waste_logs_from_collector
+WHERE account_email = $1
+AND created_at >= make_timestamp($2, $3, 1, 0, 0, 0) 
+AND created_at < (make_timestamp($2, $3, 1, 0, 0, 0) + INTERVAL '1 month')
+ORDER BY created_at DESC
 `
 
-func (q *Queries) RemoveCollector(ctx context.Context, collectorEmail string) error {
-	_, err := q.db.Exec(ctx, removeCollector, collectorEmail)
+type GetWasteByAccountForMonthParams struct {
+	AccountEmail string `json:"account_email"`
+	Year         int32  `json:"year"`
+	Month        int32  `json:"month"`
+}
+
+func (q *Queries) GetWasteByAccountForMonth(ctx context.Context, arg GetWasteByAccountForMonthParams) ([]WasteLogsFromCollector, error) {
+	rows, err := q.db.Query(ctx, getWasteByAccountForMonth, arg.AccountEmail, arg.Year, arg.Month)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []WasteLogsFromCollector
+	for rows.Next() {
+		var i WasteLogsFromCollector
+		if err := rows.Scan(
+			&i.WasteID,
+			&i.Claimed,
+			&i.GlassWeighed,
+			&i.MetalWeighed,
+			&i.PlasticsWeighed,
+			&i.PaperWeighed,
+			&i.GlassPointsEarned,
+			&i.MetalPointsEarned,
+			&i.PlasticsPointsEarned,
+			&i.PaperPointsEarned,
+			&i.TotalPointsEarned,
+			&i.LocationAddr,
+			&i.TxnName,
+			&i.AgentID,
+			&i.AccountEmail,
+			&i.CreatedAt,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getWasteByAccountPaginated = `-- name: GetWasteByAccountPaginated :many
+SELECT waste_id, claimed, glass_weighed, metal_weighed, plastics_weighed, paper_weighed, glass_points_earned, metal_points_earned, plastics_points_earned, paper_points_earned, total_points_earned, location_addr, txn_name, agent_id, account_email, created_at 
+FROM waste_logs_from_collector
+WHERE account_email = $1
+ORDER BY created_at DESC
+LIMIT $2 OFFSET $3
+`
+
+type GetWasteByAccountPaginatedParams struct {
+	AccountEmail string `json:"account_email"`
+	Limit        int32  `json:"limit"`
+	Offset       int32  `json:"offset"`
+}
+
+func (q *Queries) GetWasteByAccountPaginated(ctx context.Context, arg GetWasteByAccountPaginatedParams) ([]WasteLogsFromCollector, error) {
+	rows, err := q.db.Query(ctx, getWasteByAccountPaginated, arg.AccountEmail, arg.Limit, arg.Offset)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []WasteLogsFromCollector
+	for rows.Next() {
+		var i WasteLogsFromCollector
+		if err := rows.Scan(
+			&i.WasteID,
+			&i.Claimed,
+			&i.GlassWeighed,
+			&i.MetalWeighed,
+			&i.PlasticsWeighed,
+			&i.PaperWeighed,
+			&i.GlassPointsEarned,
+			&i.MetalPointsEarned,
+			&i.PlasticsPointsEarned,
+			&i.PaperPointsEarned,
+			&i.TotalPointsEarned,
+			&i.LocationAddr,
+			&i.TxnName,
+			&i.AgentID,
+			&i.AccountEmail,
+			&i.CreatedAt,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const softDeleteCollector = `-- name: SoftDeleteCollector :exec
+UPDATE collectors 
+SET is_deleted = TRUE, deleted_at = NOW()
+WHERE agent_ID = $1 AND collector_role = 'collector'
+`
+
+func (q *Queries) SoftDeleteCollector(ctx context.Context, agentID pgtype.UUID) error {
+	_, err := q.db.Exec(ctx, softDeleteCollector, agentID)
 	return err
 }
 
@@ -432,7 +545,7 @@ const updateNickName = `-- name: UpdateNickName :one
 UPDATE accounts
 SET display_name = $1
 WHERE account_email = $2
-RETURNING account_email, account_id, first_name, last_name, display_name, avatar_url, spl_wallet, total_bel_point, total_bel_token, bel_point_balance, bel_token_balance, total_glass_waste, total_metal_waste, total_plastics_waste, total_paper_waste, hashed_password, hashed_pin, access_token, access_token_expires, id_token, last_update_email, role, joined, is_new, is_deleted
+RETURNING account_email, account_id, first_name, last_name, spl_wallet, display_name, avatar_url, total_bel_point, total_bel_token, bel_point_balance, bel_token_balance, total_glass_waste, total_metal_waste, total_plastics_waste, total_paper_waste, total_glass_points_earned, total_metal_points_earned, total_plastics_points_earned, total_paper_points_earned, hashed_password, hashed_pin, access_token, access_token_expires, id_token, last_update_email, role, joined, is_new, is_deleted, deleted_at
 `
 
 type UpdateNickNameParams struct {
@@ -448,9 +561,9 @@ func (q *Queries) UpdateNickName(ctx context.Context, arg UpdateNickNameParams) 
 		&i.AccountID,
 		&i.FirstName,
 		&i.LastName,
+		&i.SplWallet,
 		&i.DisplayName,
 		&i.AvatarUrl,
-		&i.SplWallet,
 		&i.TotalBelPoint,
 		&i.TotalBelToken,
 		&i.BelPointBalance,
@@ -459,6 +572,10 @@ func (q *Queries) UpdateNickName(ctx context.Context, arg UpdateNickNameParams) 
 		&i.TotalMetalWaste,
 		&i.TotalPlasticsWaste,
 		&i.TotalPaperWaste,
+		&i.TotalGlassPointsEarned,
+		&i.TotalMetalPointsEarned,
+		&i.TotalPlasticsPointsEarned,
+		&i.TotalPaperPointsEarned,
 		&i.HashedPassword,
 		&i.HashedPin,
 		&i.AccessToken,
@@ -469,6 +586,7 @@ func (q *Queries) UpdateNickName(ctx context.Context, arg UpdateNickNameParams) 
 		&i.Joined,
 		&i.IsNew,
 		&i.IsDeleted,
+		&i.DeletedAt,
 	)
 	return i, err
 }
@@ -488,7 +606,7 @@ INSERT INTO accounts (
     access_token_expires = COALESCE(EXCLUDED.access_Token_Expires, accounts.access_Token_Expires),
     id_token = CASE WHEN EXCLUDED.id_token = '' THEN accounts.id_token ELSE EXCLUDED.id_token END,
     is_new = FALSE
-RETURNING account_email, account_id, first_name, last_name, display_name, avatar_url, spl_wallet, total_bel_point, total_bel_token, bel_point_balance, bel_token_balance, total_glass_waste, total_metal_waste, total_plastics_waste, total_paper_waste, hashed_password, hashed_pin, access_token, access_token_expires, id_token, last_update_email, role, joined, is_new, is_deleted
+RETURNING account_email, account_id, first_name, last_name, spl_wallet, display_name, avatar_url, total_bel_point, total_bel_token, bel_point_balance, bel_token_balance, total_glass_waste, total_metal_waste, total_plastics_waste, total_paper_waste, total_glass_points_earned, total_metal_points_earned, total_plastics_points_earned, total_paper_points_earned, hashed_password, hashed_pin, access_token, access_token_expires, id_token, last_update_email, role, joined, is_new, is_deleted, deleted_at
 `
 
 type UpsertAccountParams struct {
@@ -521,9 +639,9 @@ func (q *Queries) UpsertAccount(ctx context.Context, arg UpsertAccountParams) (A
 		&i.AccountID,
 		&i.FirstName,
 		&i.LastName,
+		&i.SplWallet,
 		&i.DisplayName,
 		&i.AvatarUrl,
-		&i.SplWallet,
 		&i.TotalBelPoint,
 		&i.TotalBelToken,
 		&i.BelPointBalance,
@@ -532,6 +650,10 @@ func (q *Queries) UpsertAccount(ctx context.Context, arg UpsertAccountParams) (A
 		&i.TotalMetalWaste,
 		&i.TotalPlasticsWaste,
 		&i.TotalPaperWaste,
+		&i.TotalGlassPointsEarned,
+		&i.TotalMetalPointsEarned,
+		&i.TotalPlasticsPointsEarned,
+		&i.TotalPaperPointsEarned,
 		&i.HashedPassword,
 		&i.HashedPin,
 		&i.AccessToken,
@@ -542,6 +664,7 @@ func (q *Queries) UpsertAccount(ctx context.Context, arg UpsertAccountParams) (A
 		&i.Joined,
 		&i.IsNew,
 		&i.IsDeleted,
+		&i.DeletedAt,
 	)
 	return i, err
 }

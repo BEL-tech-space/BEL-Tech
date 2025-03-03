@@ -1,11 +1,12 @@
 package frontend
 
 import (
+	"beltech/service"
 	"fmt"
 	"strings"
 )
 
-templ WastePage(acc Account, wasteType string, history []string) {
+templ WastePage(acc service.Account, wasteType string, history []WasteTypelog) {
 	<!DOCTYPE html>
 	<html lang="en">
 		@HeadTag("waste")
@@ -25,7 +26,7 @@ templ scriptForWasteAndTipsPage() {
 	<script src="/public/assets/scripts/notification.js"></script>
 }
 
-templ WasteMain(acc Account, wasteType string, history []string) {
+templ WasteMain(acc service.Account, wasteType string, history []WasteTypelog) {
 	<main class="grow overflow-y-auto pl-[1.5rem] pr-[1.56rem] pt-[1.875rem] grid grid-rows-wastePage">
 		<section class="flex items-center gap-1">
 			<p class="leading-[1.143rem] font-semibold text-[0.938rem]">Let's Recycle!</p>
@@ -43,9 +44,9 @@ templ WasteMain(acc Account, wasteType string, history []string) {
 	</main>
 }
 
-templ WasteHistoryComp(wasteType string, history []string) {
+templ WasteHistoryComp(wasteType string, history []WasteTypelog) {
 	if len(history) > 0 {
-		@wasteNotEmptyHistory(wasteType)
+		@wasteNotEmptyHistory(wasteType, history)
 	} else {
 		@wasteEmptyHistory(wasteType)
 	}
@@ -65,7 +66,7 @@ templ WasteMainOpeninTag() {
 		</section>`)
 }
 
-templ WasteQuickInfo(wasteType string, acc Account) {
+templ WasteQuickInfo(wasteType string, acc service.Account) {
 	<section class="flex justify-start items-center gap-4 mt-6 mb-8">
 		switch wasteType {
 			case "paper" :
@@ -75,7 +76,8 @@ templ WasteQuickInfo(wasteType string, acc Account) {
 				</picture>
 				<div class="flex flex-col items-start gap-[0.239rem] text-[#3A3A3A]">
 					<p class="font-bold text-[0.806rem] leading-[0.983rem]">Material: <span class="font-semibold">Paper</span></p>
-					<p class="font-bold text-[0.733rem] leading-[0.893rem]">Total Earned: <span class="font-medium font-poppins">{ fmt.Sprintf("%.4f BEL", acc.TotalPaperWaste) }</span></p>
+					<p class="font-bold text-[0.733rem] leading-[0.893rem]">Total waste deposited: <span class="font-medium font-poppins">{ fmt.Sprintf("%s KG", formatFloatWithComma(acc.TotalPaperWaste, 2)) }</span></p>
+					<p class="font-bold text-[0.733rem] leading-[0.893rem]">Total point earned: <span class="font-medium font-poppins">{ fmt.Sprintf("%s BEL", formatFloatWithComma(acc.TotalPaperPointsEarned, 2)) }</span></p>
 				</div>
 			case "glass" :
 				<picture>
@@ -84,7 +86,8 @@ templ WasteQuickInfo(wasteType string, acc Account) {
 				</picture>
 				<div class="flex flex-col items-start gap-[0.239rem] text-[#3A3A3A]">
 					<p class="font-bold text-[0.806rem] leading-[0.983rem]">Material: <span class="font-semibold">Glass</span></p>
-					<p class="font-bold text-[0.733rem] leading-[0.893rem]">Total Earned: <span class="font-medium font-poppins">{ fmt.Sprintf("%.4f BEL", acc.TotalGlassWaste) }</span></p>
+					<p class="font-bold text-[0.733rem] leading-[0.893rem]">Total waste deposited: <span class="font-medium font-poppins">{ fmt.Sprintf("%s KG", formatFloatWithComma(acc.TotalGlassWaste, 2)) }</span></p>
+					<p class="font-bold text-[0.733rem] leading-[0.893rem]">Total point earned: <span class="font-medium font-poppins">{ fmt.Sprintf("%s BEL", formatFloatWithComma(acc.TotalGlassPointsEarned, 2)) }</span></p>
 				</div>
 			case "metal" :
 				<picture>
@@ -93,7 +96,8 @@ templ WasteQuickInfo(wasteType string, acc Account) {
 				</picture>
 				<div class="flex flex-col items-start gap-[0.239rem] text-[#3A3A3A]">
 					<p class="font-bold text-[0.806rem] leading-[0.983rem]">Material: <span class="font-semibold">Metal</span></p>
-					<p class="font-bold text-[0.733rem] leading-[0.893rem]">Total Earned: <span class="font-medium font-poppins">{ fmt.Sprintf("%.4f BEL", acc.TotalMetalWaste) }</span></p>
+					<p class="font-bold text-[0.733rem] leading-[0.893rem]">Total waste deposited: <span class="font-medium font-poppins">{ fmt.Sprintf("%s KG", formatFloatWithComma(acc.TotalMetalWaste, 2)) }</span></p>
+					<p class="font-bold text-[0.733rem] leading-[0.893rem]">Total point earned: <span class="font-medium font-poppins">{ fmt.Sprintf("%s BEL", formatFloatWithComma(acc.TotalMetalPointsEarned, 2)) }</span></p>
 				</div>
 			case "plastics" :
 				<picture>
@@ -102,7 +106,8 @@ templ WasteQuickInfo(wasteType string, acc Account) {
 				</picture>
 				<div class="flex flex-col items-start gap-[0.239rem] text-[#3A3A3A]">
 					<p class="font-bold text-[0.806rem] leading-[0.983rem]">Material: <span class="font-semibold">Plastics</span></p>
-					<p class="font-bold text-[0.733rem] leading-[0.893rem]">Total Earned: <span class="font-medium font-poppins">{ fmt.Sprintf("%.4f BEL", acc.TotalPlasticsWaste) }</span></p>
+					<p class="font-bold text-[0.733rem] leading-[0.893rem]">Total waste deposited: <span class="font-medium font-poppins">{ fmt.Sprintf("%s KG", formatFloatWithComma(acc.TotalPlasticsWaste, 2)) }</span></p>
+					<p class="font-bold text-[0.733rem] leading-[0.893rem]">Total point earned: <span class="font-medium font-poppins">{ fmt.Sprintf("%s BEL", formatFloatWithComma(acc.TotalPlasticsPointsEarned, 2)) }</span></p>
 				</div>
 		}
 	</section>
@@ -139,25 +144,25 @@ templ WasteFilterOptionsPartial() {
 	</section>
 }
 
-templ wasteNotEmptyHistory(wasteType string) {
+templ wasteNotEmptyHistory(wasteType string, history []WasteTypelog) {
 	<section class="overflow-y-auto mt-8 max-h-full">
 		<ul class="flex flex-col justify-start items-start gap-9 py-2">
-			for range 8 {
-				<li class="sucess grid grid-cols-2 justify-between w-full">
+			for _ , waste :=  range history {
+				<li class="sucess grid grid-cols-2 justify-between items-center w-full">
 					<div class="flex flex-col justify-start items-start gap-4">
-						<div class="flex items-start gap-2">
-							<p class="font-medium text-[0.643rem] leading-[0.832rem] text-black">{ fmt.Sprintf("%s: %.2fkg", strings.ToUpper(wasteType), 23.45) }</p>
+						<div class="flex justify-center items-center gap-2">
+							<p class="font-medium text-[0.643rem] leading-[0.832rem] text-black">{ fmt.Sprintf("%s: %skg", strings.ToUpper(wasteType), formatFloatWithComma(waste.WasteWeighed, 2)) }</p>
 							<p class="bg-[#299960] rounded-[9.391rem] text-center font-bold text-white text-[0.235rem] leading-[0.286rem] py-[0.0788rem] px-[0.729rem]">
-								Success
+								Claimed
 							</p>
 						</div>
 						<div class="text-nowrap flex flex-col gap-2 items-start pb-4 font-medium text-[0.558rem] leading-[0.681]">
-							<p>Token Earned: 2 BEL</p>
-							<p>TransactionName: Albert Tyson</p>
+							<p>{ fmt.Sprintf("Point Earned: %.2f BEL points", waste.WastePointsEarned) }</p>
+							<p>{ fmt.Sprintf("Transaction Name: %s", waste.TxnName) } </p>
 						</div>
 					</div>
 					<div class="flex flex-col h-full justify-between items-end">
-						<p class="font-medium text-[#807B7B] text-[0.5rem] leading-[0.609rem]">24-05-24 03:30:45</p>
+						<p class="font-medium text-[#807B7B] text-[0.5rem] leading-[0.609rem]">{ fmt.Sprintf("%s", waste.CreatedAt.Format("Jan 02, 2006 03:04 PM")) }</p>
 						<button onclick="">
 							<img src="/public/assets/svg/bi_qr-code.svg" alt="" class="w-[1.125rem] aspect-square"/>
 						</button>

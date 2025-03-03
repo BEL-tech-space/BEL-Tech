@@ -98,7 +98,7 @@ func (a *App) logInAgent(w http.ResponseWriter, r *http.Request, u goth.User) er
 	return a.createNewUserSessionAgent(w, r, collector)
 }
 
-func (a *App) createNewUserSessionAgent(w http.ResponseWriter, r *http.Request, collector service.Collector) error {
+func (a *App) createNewUserSessionAgent(w http.ResponseWriter, r *http.Request, collector service.AgentCollector) error {
 	session, err := a.agentSessionStore.New(r, "beltech-agent")
 	if err != nil {
 		fmt.Println("ERROR IN NEW", err.Error())

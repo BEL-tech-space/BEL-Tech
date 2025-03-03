@@ -8,7 +8,12 @@ package frontend
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-func HistoryPage() templ.Component {
+import (
+	"beltech/service"
+	"fmt"
+)
+
+func HistoryPage(history []service.WasteLogFromCollector) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -33,7 +38,7 @@ func HistoryPage() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = HeadTag("History").Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = HeadTag("history").Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -45,7 +50,7 @@ func HistoryPage() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = HistoryMain().Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = HistoryMain(history).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -69,7 +74,7 @@ func HistoryPage() templ.Component {
 	})
 }
 
-func HistoryMain() templ.Component {
+func HistoryMain(history []service.WasteLogFromCollector) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -94,7 +99,7 @@ func HistoryMain() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = HistoryListItem(true).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = HistoryListItem(history).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -172,7 +177,7 @@ func HistoryHeaderPartial(beforeHeaderTagPartial, afterHeaderTagPartial templ.Co
 	})
 }
 
-func HistoryListItem(empty bool) templ.Component {
+func HistoryListItem(history []service.WasteLogFromCollector) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -193,14 +198,92 @@ func HistoryListItem(empty bool) templ.Component {
 			templ_7745c5c3_Var5 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		if empty {
+		if len(history) == 0 {
 			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "<section class=\"flex justify-center items-center h-full w-full\"><p class=\"text-[#3A3A3A] text-base font-tt_chocolate font-light text-nowrap\">No waste History</p></section>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		} else {
-			for range 12 {
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "<section class=\"sucess grid grid-cols-2 justify-between rounded-[0.571rem] pt-[1.188rem] pb-[1.049rem] pl-4 pr-[1.432rem] bg-white shadow-[0px_1.83px_3.65px_0px_#0000001A]\"><div class=\"flex flex-col justify-start items-start gap-6\"><div class=\"font-medium text-xs text-black\"><div class=\"flex items-center gap-3\"><p>Glass: 10kg</p><p class=\"bg-[#299960] rounded-[9.391rem] text-center font-bold text-white text-[0.235rem] leading-[0.286rem] py-[0.0788rem] px-[0.729rem]\">Failed</p></div><p>Paper: 0kg</p><p>Plastics: 5kg</p><p>Metal: 0kg</p></div><div class=\"flex flex-col justify-between gap-4 font-medium text-black text-xs text-nowrap\"><p class=\"\">Transaction Name: Helen Paul</p><div class=\"flex flex-col gap-1 justify-start\"><p>Recycle route: Collector</p><a class=\"block text-[#016934] font-bold text-[0.0375rem] leading-[0.457rem]\">View Details</a></div></div></div><div class=\"flex flex-col h-full justify-between items-end\"><p class=\"font-medium text-[#807B7B] text-[0.5rem] leading-[0.609rem]\">24-05-24 03:30:45</p><button onclick=\"document.getElementById(&#39;dialog&#39;).showModal()\"><img src=\"/public/assets/svg/bi_qr-code.svg\" alt=\"\" class=\"w-[1.125rem] aspect-square\"></button></div></section>")
+			for _, v := range history {
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "<section class=\"sucess grid grid-cols-2 justify-between rounded-[0.571rem] pt-[1.188rem] pb-[1.049rem] pl-4 pr-[1.432rem] bg-white shadow-[0px_1.83px_3.65px_0px_#0000001A]\"><div class=\"flex flex-col justify-start items-start gap-6\"><div class=\"font-medium text-xs text-black\"><div class=\"flex items-center gap-3\"><p>")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				var templ_7745c5c3_Var6 string
+				templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("Glass: %skg", formatFloatWithComma(v.GlassWeighed, 2)))
+				if templ_7745c5c3_Err != nil {
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.history.templ`, Line: 65, Col: 79}
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "</p><p class=\"bg-[#299960] rounded-[9.391rem] text-center font-bold text-white text-[0.235rem] leading-[0.286rem] py-[0.0788rem] px-[0.729rem]\">Claimed</p></div><p>")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				var templ_7745c5c3_Var7 string
+				templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("Metal: %skg", formatFloatWithComma(v.MetalWeighed, 2)))
+				if templ_7745c5c3_Err != nil {
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.history.templ`, Line: 70, Col: 78}
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "</p><p>")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				var templ_7745c5c3_Var8 string
+				templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("Plastics: %skg", formatFloatWithComma(v.PlasticsWeighed, 2)))
+				if templ_7745c5c3_Err != nil {
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.history.templ`, Line: 71, Col: 84}
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, "</p><p>")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				var templ_7745c5c3_Var9 string
+				templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("Paper: %skg", formatFloatWithComma(v.PaperWeighed, 2)))
+				if templ_7745c5c3_Err != nil {
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.history.templ`, Line: 72, Col: 78}
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, "</p></div><div class=\"flex flex-col justify-between gap-4 font-medium text-black text-xs text-nowrap\"><p class=\"\">")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				var templ_7745c5c3_Var10 string
+				templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("Transaction Name: %s", v.TxnName))
+				if templ_7745c5c3_Err != nil {
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.history.templ`, Line: 75, Col: 66}
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 14, "l</p><div class=\"flex flex-col gap-1 justify-start\"><p>Recycle route: Collector</p><a class=\"block text-[#016934] font-bold text-[0.0375rem] leading-[0.457rem]\">View Details</a></div></div></div><div class=\"flex flex-col h-full justify-between items-end\"><p class=\"font-medium text-[#807B7B] text-[0.5rem] leading-[0.609rem]\">")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				var templ_7745c5c3_Var11 string
+				templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%s", v.CreatedAt.Format("Jan 02, 2006 03:04 PM")))
+				if templ_7745c5c3_Err != nil {
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.history.templ`, Line: 83, Col: 140}
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, "</p><button onclick=\"document.getElementById(&#39;dialog&#39;).showModal()\"><img src=\"/public/assets/svg/bi_qr-code.svg\" alt=\"\" class=\"w-[1.125rem] aspect-square\"></button></div></section>")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -226,12 +309,12 @@ func HistoryDialog() templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var6 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var6 == nil {
-			templ_7745c5c3_Var6 = templ.NopComponent
+		templ_7745c5c3_Var12 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var12 == nil {
+			templ_7745c5c3_Var12 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "<dialog id=\"dialog\" class=\"backdrop:backdrop-blur-sm pt-8 pb-16 px-8 rounded-3xl border-solid border-[0.0625rem] border-white text-[#2E2E2E] outline-none\"><img src=\"/public/assets/svg/bi_qr-code.svg\" class=\"w-[7.375rem] aspect-square mx-auto\"><p class=\"text-center font-poppins font-normal text-base leading-[1.219rem] mx-auto mb-4 mt-10\">Transaction hash copied to your clipboard!</p><button onclick=\"document.getElementById(&#39;dialog&#39;).close()\" class=\"w-full bg-[#016934] py-3 rounded-md px-[5.438rem] font-montserrat font-medium text-sm text-center tracking-[0.1px] text-white outline-none\">Back </button></dialog>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 16, "<dialog id=\"dialog\" class=\"backdrop:backdrop-blur-sm pt-8 pb-16 px-8 rounded-3xl border-solid border-[0.0625rem] border-white text-[#2E2E2E] outline-none\"><img src=\"/public/assets/svg/bi_qr-code.svg\" class=\"w-[7.375rem] aspect-square mx-auto\"><p class=\"text-center font-poppins font-normal text-base leading-[1.219rem] mx-auto mb-4 mt-10\">Transaction hash copied to your clipboard!</p><button onclick=\"document.getElementById(&#39;dialog&#39;).close()\" class=\"w-full bg-[#016934] py-3 rounded-md px-[5.438rem] font-montserrat font-medium text-sm text-center tracking-[0.1px] text-white outline-none\">Back </button></dialog>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

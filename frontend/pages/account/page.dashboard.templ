@@ -1,19 +1,20 @@
 package frontend
 
 import (
+	"beltech/service"
 	"fmt"
 	"html/template"
 	"time"
 )
 
-templ DashboardPage(acc Account, chart template.HTML, isEmpty, isNewAccount bool) {
+templ DashboardPage(acc service.Account, chart template.HTML, isEmpty, isNewAccount bool) {
 	<!DOCTYPE html>
 	<html lang="en">
 		@HeadTag("dashboard")
 		<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
 			<div class="Page w-full h-full flex flex-col font-montserrat text-[#2E2E2E]">
 				@CommonHeader(acc)
-				@DashboardMain(chart, isEmpty)
+				@DashboardMain(chart, isEmpty, acc)
 				@Footer("dashboard", templ.NopComponent)
 			</div>
 		</body>
@@ -28,9 +29,9 @@ templ DashboardPage(acc Account, chart template.HTML, isEmpty, isNewAccount bool
 	</html>
 }
 
-templ DashboardMain(chart template.HTML, isEmpty bool) {
+templ DashboardMain(chart template.HTML, isEmpty bool, acc service.Account) {
 	<main class="grow overflow-y-scroll pl-6 pr-[1.56rem] pt-[1.875rem] pb-2">
-		@DashboardSwiperOne()
+		@DashboardSwiperOne(acc)
 		@DashboardDataViz(chart, isEmpty)
 		@DashboardSwiperTwo()
 	</main>
@@ -40,7 +41,7 @@ templ DashboardMainOpeningTag() {
 	@templ.Raw(`<main class="grow overflow-y-scroll pl-6 pr-[1.56rem] pt-[1.875rem] pb-2">`)
 }
 
-templ DashboardSwiperOne() {
+templ DashboardSwiperOne(acc service.Account) {
 	<section class="flex items-center gap-1">
 		<p class="leading-[1.143rem] font-semibold text-[0.938rem]">Let's Recycle</p>
 		<picture>
@@ -66,7 +67,7 @@ templ DashboardSwiperOne() {
 						</picture>
 						<div class="absolute bottom-4 left-4 text-white text-left">
 							<p class="font-semibold text-xs leading-[0.838rem]">PAPER</p>
-							<p class="font-bold text-[0.625rem] leading-[0.762rem]">0 BEL</p>
+							<p class="font-bold text-[0.625rem] leading-[0.762rem]">{ fmt.Sprintf("%s KG", formatTotalWasteWeighed(acc.TotalPaperWaste)) }</p>
 						</div>
 					</a>
 				</div>
@@ -82,7 +83,7 @@ templ DashboardSwiperOne() {
 						</picture>
 						<div class="absolute bottom-4 left-4 text-white text-left">
 							<p class="font-semibold text-xs leading-[0.838rem]">GLASS</p>
-							<p class="font-bold text-[0.625rem] leading-[0.762rem]">0 BEL</p>
+							<p class="font-bold text-[0.625rem] leading-[0.762rem]">{ fmt.Sprintf("%s KG", formatTotalWasteWeighed(acc.TotalGlassWaste)) }</p>
 						</div>
 					</a>
 				</div>
@@ -98,7 +99,7 @@ templ DashboardSwiperOne() {
 						</picture>
 						<div class="absolute bottom-4 left-4 text-white text-left">
 							<p class="font-semibold text-xs leading-[0.838rem]">METAL</p>
-							<p class="font-bold text-[0.625rem] leading-[0.762rem]">0 BEL</p>
+							<p class="font-bold text-[0.625rem] leading-[0.762rem]">{ fmt.Sprintf("%s KG", formatTotalWasteWeighed(acc.TotalMetalWaste)) }</p>
 						</div>
 					</a>
 				</div>
@@ -114,7 +115,7 @@ templ DashboardSwiperOne() {
 						</picture>
 						<div class="absolute bottom-4 left-4 text-white text-left">
 							<p class="font-semibold text-xs leading-[0.838rem]">PLASTICS</p>
-							<p class="font-bold text-[0.625rem] leading-[0.762rem]">0 BEL</p>
+							<p class="font-bold text-[0.625rem] leading-[0.762rem]">{ fmt.Sprintf("%s KG", formatTotalWasteWeighed(acc.TotalPlasticsWaste)) }</p>
 						</div>
 					</a>
 				</div>

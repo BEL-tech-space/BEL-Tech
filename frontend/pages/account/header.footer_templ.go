@@ -118,7 +118,7 @@ func Footer(active string, mainClosingTag templ.Component) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "<footer class=\"bg-white flex w-full justify-around px-4 pt-3 pb-1 gap-[2.375rem]\" hx-boost=\"false\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "<footer class=\"bg-white flex w-full justify-around px-4 pt-3 pb-1 gap-[2.375rem]\" hx-boost=\"true\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

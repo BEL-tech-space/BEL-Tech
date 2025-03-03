@@ -1,8 +1,8 @@
 package frontend
 
-import "beltech/types"
+import "beltech/service"
 
-templ BeneficiariesPage(avatarURL string, ben []types.Beneficiary) {
+templ BeneficiariesPage(avatarURL string, ben []service.Beneficiary) {
 	<!DOCTYPE html>
 	<html lang="en">
 		@HeadTag("Airtime Beneficiaries")
@@ -45,7 +45,7 @@ templ scriptForBeneficiariesPage() {
 	@deleteBeneficiaryDialog()
 }
 
-templ BeneficiariesMain(ben []types.Beneficiary) {
+templ BeneficiariesMain(ben []service.Beneficiary) {
 	<main id="beneficiariesList" class="overflow-y-auto grow pl-[1.5rem] pr-[1.56rem] pt-12">
 		if len(ben) == 0 {
 			<div class="h-full flex justify-center items-center">

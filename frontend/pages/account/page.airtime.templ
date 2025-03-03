@@ -1,8 +1,8 @@
 package frontend
 
-import "beltech/types"
+import "beltech/service"
 
-templ AirtimePage(acc Account, ben []types.Beneficiary) {
+templ AirtimePage(acc service.Account, ben []service.Beneficiary) {
 	<!DOCTYPE html>
 	<html lang="en">
 		@HeadTag("Airtime")
@@ -19,7 +19,7 @@ templ AirtimePage(acc Account, ben []types.Beneficiary) {
 	</html>
 }
 
-templ AirtimeMain(ben []types.Beneficiary) {
+templ AirtimeMain(ben []service.Beneficiary) {
 	<main class="overflow-y-auto pl-[1.5rem] pr-[1.56rem] pt-12 grid grid-rows-wastePage">
 		@AirtimeInputNumberPartial()
 		@AirtimeBeneficiaries(ben)
@@ -30,7 +30,7 @@ templ AirtimeMainOpeningTag() {
 	@templ.Raw(`<main class="overflow-y-auto grow pl-[1.5rem] pr-[1.56rem] pt-12 grid grid-rows-wastePage">`)
 }
 
-templ AirtimeHeaderPartial(acc Account) {
+templ AirtimeHeaderPartial(acc service.Account) {
 	<header class="pt-[1.5rem] pl-[1.5rem] pr-[1.56rem] flex w-full justify-between items-center">
 		<a href="/account/profile">
 			<img
@@ -84,7 +84,7 @@ templ AirtimeInputNumberPartial() {
 	</section>
 }
 
-templ AirtimeBeneficiaries(ben []types.Beneficiary) {
+templ AirtimeBeneficiaries(ben []service.Beneficiary) {
 	<section id="beneficiariesList" class="overflow-y-auto max-h-full w-full rounded-md">
 		if len(ben) == 0 {
 			<div class="h-full mt-3 flex justify-center items-center">

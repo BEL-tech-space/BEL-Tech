@@ -53,84 +53,37 @@ func (ns NullCollectorrole) Value() (driver.Value, error) {
 	return string(ns.Collectorrole), nil
 }
 
-type Identifyas string
-
-const (
-	IdentifyasCollector Identifyas = "collector"
-	IdentifyasBin       Identifyas = "bin"
-)
-
-func (e *Identifyas) Scan(src interface{}) error {
-	switch s := src.(type) {
-	case []byte:
-		*e = Identifyas(s)
-	case string:
-		*e = Identifyas(s)
-	default:
-		return fmt.Errorf("unsupported scan type for Identifyas: %T", src)
-	}
-	return nil
-}
-
-type NullIdentifyas struct {
-	Identifyas Identifyas `json:"identifyas"`
-	Valid      bool       `json:"valid"` // Valid is true if Identifyas is not NULL
-}
-
-// Scan implements the Scanner interface.
-func (ns *NullIdentifyas) Scan(value interface{}) error {
-	if value == nil {
-		ns.Identifyas, ns.Valid = "", false
-		return nil
-	}
-	ns.Valid = true
-	return ns.Identifyas.Scan(value)
-}
-
-// Value implements the driver Valuer interface.
-func (ns NullIdentifyas) Value() (driver.Value, error) {
-	if !ns.Valid {
-		return nil, nil
-	}
-	return string(ns.Identifyas), nil
-}
-
 type Account struct {
-	AccountEmail       string           `json:"account_email"`
-	AccountID          string           `json:"account_id"`
-	FirstName          string           `json:"first_name"`
-	LastName           string           `json:"last_name"`
-	DisplayName        string           `json:"display_name"`
-	AvatarUrl          string           `json:"avatar_url"`
-	SplWallet          string           `json:"spl_wallet"`
-	TotalBelPoint      float64          `json:"total_bel_point"`
-	TotalBelToken      float64          `json:"total_bel_token"`
-	BelPointBalance    float64          `json:"bel_point_balance"`
-	BelTokenBalance    float64          `json:"bel_token_balance"`
-	TotalGlassWaste    float32          `json:"total_glass_waste"`
-	TotalMetalWaste    float32          `json:"total_metal_waste"`
-	TotalPlasticsWaste float32          `json:"total_plastics_waste"`
-	TotalPaperWaste    float32          `json:"total_paper_waste"`
-	HashedPassword     string           `json:"hashed_password"`
-	HashedPin          string           `json:"hashed_pin"`
-	AccessToken        string           `json:"access_token"`
-	AccessTokenExpires pgtype.Timestamp `json:"access_token_expires"`
-	IDToken            string           `json:"id_token"`
-	LastUpdateEmail    pgtype.Timestamp `json:"last_update_email"`
-	Role               string           `json:"role"`
-	Joined             pgtype.Timestamp `json:"joined"`
-	IsNew              bool             `json:"is_new"`
-	IsDeleted          bool             `json:"is_deleted"`
-}
-
-type Agent struct {
-	AgentID               pgtype.UUID      `json:"agent_id"`
-	AgentType             Identifyas       `json:"agent_type"`
-	City                  string           `json:"city"`
-	LocationState         string           `json:"location_state"`
-	LocationAddr          interface{}      `json:"location_addr"`
-	BinLocationLastUpdate pgtype.Timestamp `json:"bin_location_last_update"`
-	CreatedAt             pgtype.Timestamp `json:"created_at"`
+	AccountEmail              string           `json:"account_email"`
+	AccountID                 string           `json:"account_id"`
+	FirstName                 string           `json:"first_name"`
+	LastName                  string           `json:"last_name"`
+	SplWallet                 string           `json:"spl_wallet"`
+	DisplayName               string           `json:"display_name"`
+	AvatarUrl                 string           `json:"avatar_url"`
+	TotalBelPoint             float64          `json:"total_bel_point"`
+	TotalBelToken             float64          `json:"total_bel_token"`
+	BelPointBalance           float64          `json:"bel_point_balance"`
+	BelTokenBalance           float64          `json:"bel_token_balance"`
+	TotalGlassWaste           float64          `json:"total_glass_waste"`
+	TotalMetalWaste           float64          `json:"total_metal_waste"`
+	TotalPlasticsWaste        float64          `json:"total_plastics_waste"`
+	TotalPaperWaste           float64          `json:"total_paper_waste"`
+	TotalGlassPointsEarned    float64          `json:"total_glass_points_earned"`
+	TotalMetalPointsEarned    float64          `json:"total_metal_points_earned"`
+	TotalPlasticsPointsEarned float64          `json:"total_plastics_points_earned"`
+	TotalPaperPointsEarned    float64          `json:"total_paper_points_earned"`
+	HashedPassword            string           `json:"hashed_password"`
+	HashedPin                 string           `json:"hashed_pin"`
+	AccessToken               string           `json:"access_token"`
+	AccessTokenExpires        pgtype.Timestamp `json:"access_token_expires"`
+	IDToken                   string           `json:"id_token"`
+	LastUpdateEmail           pgtype.Timestamp `json:"last_update_email"`
+	Role                      string           `json:"role"`
+	Joined                    pgtype.Timestamp `json:"joined"`
+	IsNew                     bool             `json:"is_new"`
+	IsDeleted                 bool             `json:"is_deleted"`
+	DeletedAt                 pgtype.Timestamp `json:"deleted_at"`
 }
 
 type Beneficiary struct {
@@ -142,13 +95,20 @@ type Beneficiary struct {
 }
 
 type Collector struct {
-	CollectorEmail string        `json:"collector_email"`
-	FirstName      string        `json:"first_name"`
-	LastName       string        `json:"last_name"`
-	DisplayName    string        `json:"display_name"`
-	AvatarUrl      string        `json:"avatar_url"`
-	CollectorRole  Collectorrole `json:"collector_role"`
-	AgentID        pgtype.UUID   `json:"agent_id"`
+	AgentID         pgtype.UUID      `json:"agent_id"`
+	CollectorEmail  pgtype.Text      `json:"collector_email"`
+	FirstName       string           `json:"first_name"`
+	LastName        string           `json:"last_name"`
+	DisplayName     string           `json:"display_name"`
+	AvatarUrl       string           `json:"avatar_url"`
+	LocationCity    string           `json:"location_city"`
+	LocationState   string           `json:"location_state"`
+	LocationCountry string           `json:"location_country"`
+	LocationAddr    interface{}      `json:"location_addr"`
+	CollectorRole   Collectorrole    `json:"collector_role"`
+	CreatedAt       pgtype.Timestamp `json:"created_at"`
+	IsDeleted       pgtype.Bool      `json:"is_deleted"`
+	DeletedAt       pgtype.Timestamp `json:"deleted_at"`
 }
 
 type Notification struct {
@@ -161,17 +121,21 @@ type Notification struct {
 	NotifID      string `json:"notif_id"`
 }
 
-type WasteLog struct {
-	WasteID         pgtype.UUID      `json:"waste_id"`
-	CreatedAt       pgtype.Timestamp `json:"created_at"`
-	Claimed         pgtype.Bool      `json:"claimed"`
-	GlassWeighed    float32          `json:"glass_weighed"`
-	MetalWeighed    float32          `json:"metal_weighed"`
-	PlasticsWeighed float32          `json:"plastics_weighed"`
-	PaperWeighed    float32          `json:"paper_weighed"`
-	PointsEarned    float64          `json:"points_earned"`
-	LocationAddr    interface{}      `json:"location_addr"`
-	TxnName         string           `json:"txn_name"`
-	AgentID         pgtype.UUID      `json:"agent_id"`
-	AccountEmail    pgtype.Text      `json:"account_email"`
+type WasteLogsFromCollector struct {
+	WasteID              pgtype.UUID      `json:"waste_id"`
+	Claimed              bool             `json:"claimed"`
+	GlassWeighed         float32          `json:"glass_weighed"`
+	MetalWeighed         float32          `json:"metal_weighed"`
+	PlasticsWeighed      float32          `json:"plastics_weighed"`
+	PaperWeighed         float32          `json:"paper_weighed"`
+	GlassPointsEarned    float32          `json:"glass_points_earned"`
+	MetalPointsEarned    float32          `json:"metal_points_earned"`
+	PlasticsPointsEarned float32          `json:"plastics_points_earned"`
+	PaperPointsEarned    float32          `json:"paper_points_earned"`
+	TotalPointsEarned    float64          `json:"total_points_earned"`
+	LocationAddr         interface{}      `json:"location_addr"`
+	TxnName              string           `json:"txn_name"`
+	AgentID              pgtype.UUID      `json:"agent_id"`
+	AccountEmail         string           `json:"account_email"`
+	CreatedAt            pgtype.Timestamp `json:"created_at"`
 }

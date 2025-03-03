@@ -43,7 +43,7 @@ func main() {
 		log.Fatalln("Error creating cache: " + err.Error())
 	}
 	defer accountCache.Close()
-	wasteLogCache, err := buildCache[service.WasteLog]()
+	wasteLogCache, err := buildCache[service.WasteLogFromCollector]()
 	if err != nil {
 		log.Fatalln("Error creating cache: " + err.Error())
 	}

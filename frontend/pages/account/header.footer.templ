@@ -64,7 +64,7 @@ templ HeadTag(pageTitle string) {
 
 templ Footer(active string, mainClosingTag templ.Component) {
 	@mainClosingTag
-	<footer class="bg-white flex w-full justify-around px-4 pt-3 pb-1 gap-[2.375rem]" hx-boost="false">
+	<footer class="bg-white flex w-full justify-around px-4 pt-3 pb-1 gap-[2.375rem]" hx-boost="true">
 		if active == "dashboard" || 
 		active == "tips" ||
 		 active == "waste" {

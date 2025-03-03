@@ -1,13 +1,18 @@
 package frontend
 
-templ HistoryPage() {
+import (
+	"beltech/service"
+	"fmt"
+)
+
+templ HistoryPage(history []service.WasteLogFromCollector) {
 	<!DOCTYPE html>
 	<html lang="en">
-		@HeadTag("History")
+		@HeadTag("history")
 		<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
 			<div class="w-full h-full flex flex-col px-6 text-[#2E2E2E] font-montserrat">
 				@HistoryHeaderPartial(templ.NopComponent, templ.NopComponent)
-				@HistoryMain()
+				@HistoryMain(history)
 				@Footer("scan", templ.NopComponent)
 			</div>
 		</body>
@@ -15,9 +20,9 @@ templ HistoryPage() {
 	</html>
 }
 
-templ HistoryMain() {
+templ HistoryMain(history []service.WasteLogFromCollector) {
 	<main class="grow overflow-y-auto pt-10 flex flex-col gap-4">
-		@HistoryListItem(true)
+		@HistoryListItem(history)
 	</main>
 }
 
@@ -46,28 +51,28 @@ templ HistoryHeaderPartial(beforeHeaderTagPartial, afterHeaderTagPartial templ.C
 	@afterHeaderTagPartial
 }
 
-templ HistoryListItem(empty bool) {
-	if empty {
+templ HistoryListItem(history []service.WasteLogFromCollector) {
+	if len(history) == 0 {
 		<section class="flex justify-center items-center h-full w-full">
 			<p class="text-[#3A3A3A] text-base font-tt_chocolate font-light text-nowrap">No waste History</p>
 		</section>
 	} else {
-		for range 12 {
+		for _, v := range history {
 			<section class="sucess grid grid-cols-2 justify-between rounded-[0.571rem] pt-[1.188rem] pb-[1.049rem] pl-4 pr-[1.432rem] bg-white shadow-[0px_1.83px_3.65px_0px_#0000001A]">
 				<div class="flex flex-col justify-start items-start gap-6">
 					<div class="font-medium text-xs text-black">
 						<div class="flex items-center gap-3">
-							<p>Glass: 10kg</p>
+							<p>{ fmt.Sprintf("Glass: %skg", formatFloatWithComma(v.GlassWeighed, 2)) }</p>
 							<p class="bg-[#299960] rounded-[9.391rem] text-center font-bold text-white text-[0.235rem] leading-[0.286rem] py-[0.0788rem] px-[0.729rem]">
-								Failed
+								Claimed
 							</p>
 						</div>
-						<p>Paper: 0kg</p>
-						<p>Plastics: 5kg</p>
-						<p>Metal: 0kg</p>
+						<p>{ fmt.Sprintf("Metal: %skg", formatFloatWithComma(v.MetalWeighed, 2)) }</p>
+						<p>{ fmt.Sprintf("Plastics: %skg", formatFloatWithComma(v.PlasticsWeighed, 2)) }</p>
+						<p>{ fmt.Sprintf("Paper: %skg", formatFloatWithComma(v.PaperWeighed, 2)) }</p>
 					</div>
 					<div class="flex flex-col justify-between gap-4 font-medium text-black text-xs text-nowrap">
-						<p class="">Transaction Name: Helen Paul</p>
+						<p class="">{ fmt.Sprintf("Transaction Name: %s", v.TxnName) }l</p>
 						<div class="flex flex-col gap-1 justify-start">
 							<p>Recycle route: Collector</p>
 							<a class="block text-[#016934] font-bold text-[0.0375rem] leading-[0.457rem]">View Details</a>
@@ -75,7 +80,7 @@ templ HistoryListItem(empty bool) {
 					</div>
 				</div>
 				<div class="flex flex-col h-full justify-between items-end">
-					<p class="font-medium text-[#807B7B] text-[0.5rem] leading-[0.609rem]">24-05-24 03:30:45</p>
+					<p class="font-medium text-[#807B7B] text-[0.5rem] leading-[0.609rem]">{ fmt.Sprintf("%s", v.CreatedAt.Format("Jan 02, 2006 03:04 PM")) }</p>
 					<button onclick="document.getElementById('dialog').showModal()">
 						<img src="/public/assets/svg/bi_qr-code.svg" alt="" class="w-[1.125rem] aspect-square"/>
 					</button>

@@ -24,7 +24,7 @@ func (a *App) beneficiariesPageHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if err := accPages.BeneficiariesPage(account(user).AvatarUrl, result).Render(context.TODO(), w); err != nil {
+	if err := accPages.BeneficiariesPage(user.AvatarUrl, result).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}
@@ -41,7 +41,7 @@ func (a *App) beneficiariesPageHeaderPartial(w http.ResponseWriter, r *http.Requ
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := accPages.BeneficiariesHeaderPartial(
-		account(user).AvatarUrl).Render(context.TODO(), w); err != nil {
+		user.AvatarUrl).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}

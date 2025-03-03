@@ -78,10 +78,10 @@ registerRoute(
   })
 );
 
-registerRoute(
-  ({ url }) => url.pathname === "/account/dashboard",
-  dashboardPageStream
-);
+// registerRoute(
+//   ({ url }) => url.pathname === "/account/dashboard",
+//   dashboardPageStream
+// );
 
 // account/scan
 registerRoute(
@@ -98,19 +98,19 @@ registerRoute(
 );
 
 // account/location
-registerRoute(
-  ({ url }) => url.pathname === "/account/location",
-  locationPageStream
-);
+// registerRoute(
+//   ({ url }) => url.pathname === "/account/location",
+//   locationPageStream
+// );
 
 // account/wallet
-registerRoute(
-  ({ url }) => url.pathname === "/account/wallet",
-  walletPageStream
-);
+// registerRoute(
+//   ({ url }) => url.pathname === "/account/wallet",
+//   walletPageStream
+// );
 
 // account/wallet
-registerRoute(({ url }) => url.pathname === "/account/spend", spendPageStream);
+// registerRoute(({ url }) => url.pathname === "/account/spend", spendPageStream);
 
 // account/profile/changeDisplayName
 registerRoute(
@@ -144,29 +144,29 @@ registerRoute(
 );
 
 // account/airtime
-registerRoute(
-  ({ url }) => url.pathname === "/account/airtime",
-  airtimePageStream,
-  "POST"
-);
+// registerRoute(
+//   ({ url }) => url.pathname === "/account/airtime",
+//   airtimePageStream,
+//   "POST"
+// );
 
 // account/beneficiaries
-registerRoute(
-  ({ url }) => url.pathname === "/account/beneficiaries",
-  beneficiariesPageStream
-);
+// registerRoute(
+//   ({ url }) => url.pathname === "/account/beneficiaries",
+//   beneficiariesPageStream
+// );
 
 // account/waste
-registerRoute(({ url }) => {
-  const wastePathPattern = /.*\/account\/waste\/(paper|glass|plastics|metal)$/;
-  return wastePathPattern.test(url.href);
-}, wastePageStream);
+// registerRoute(({ url }) => {
+//   const wastePathPattern = /.*\/account\/waste\/(paper|glass|plastics|metal)$/;
+//   return wastePathPattern.test(url.href);
+// }, wastePageStream);
 
 // account/tips
-registerRoute(({ url }) => {
-  const tipsPathPattern = /.*\/account\/tips\/(paper|glass|plastics|metal)$/;
-  return tipsPathPattern.test(url.href);
-}, tipsPageStream);
+// registerRoute(({ url }) => {
+//   const tipsPathPattern = /.*\/account\/tips\/(paper|glass|plastics|metal)$/;
+//   return tipsPathPattern.test(url.href);
+// }, tipsPageStream);
 
 precacheAndRoute(self.__WB_MANIFEST || []);
 

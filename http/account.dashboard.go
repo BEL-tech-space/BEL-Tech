@@ -2,6 +2,7 @@ package http
 
 import (
 	accPages "beltech/frontend/pages/account"
+	"beltech/service"
 	"context"
 	"fmt"
 	"net/http"
@@ -10,7 +11,7 @@ import (
 )
 
 func (a *App) dashboardPageHandler(w http.ResponseWriter, r *http.Request) {
-	
+
 	accountEmail := r.Context().Value(contextKeyEmail).(string)
 	user, err := a.getAccountFromCache(context.Background(), accountEmail)
 	if err != nil {
@@ -39,9 +40,19 @@ func (a *App) dashboardPageHandler(w http.ResponseWriter, r *http.Request) {
 		}()
 	}
 
+	res, err := a.service.GetWasteByAccountForMonth(
+		r.Context(),
+		accountEmail,
+		deduceTime(0),
+	)
+	if err != nil {
+		a.serverError(w, err)
+		return
+	}
+
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	chart, isEmpty := produceChartHTML([4]float64{0, 0, 0, 0}, deduceTime(0))
-	if err := accPages.DashboardPage(account(user), chart, isEmpty, isNewAccount).
+	chart, isEmpty := produceChartHTML(sumWasteLogForGraph(res), deduceTime(0))
+	if err := accPages.DashboardPage(user, chart, isEmpty, isNewAccount).
 		Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
@@ -57,8 +68,14 @@ func (a *App) dashboardMainTagPartial(w http.ResponseWriter, r *http.Request) {
 }
 
 func (a *App) dashboardSwiperOne(w http.ResponseWriter, r *http.Request) {
+	accountEmail := r.Context().Value(contextKeyEmail).(string)
+	user, err := a.getAccountFromCache(context.Background(), accountEmail)
+	if err != nil {
+		a.serverError(w, err)
+		return
+	}
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if err := accPages.DashboardSwiperOne().Render(context.TODO(), w); err != nil {
+	if err := accPages.DashboardSwiperOne(user).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}
@@ -66,13 +83,36 @@ func (a *App) dashboardSwiperOne(w http.ResponseWriter, r *http.Request) {
 
 func (a *App) dashboardDataViz(w http.ResponseWriter, r *http.Request) {
 
+	accountEmail := r.Context().Value(contextKeyEmail).(string)
+	res, err := a.service.GetWasteByAccountForMonth(
+		r.Context(),
+		accountEmail,
+		deduceTime(0),
+	)
+	if err != nil {
+		a.serverError(w, err)
+		return
+	}
+
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := accPages.DashboardDataViz(
-		produceChartHTML([4]float64{0, 0, 0, 0}, deduceTime(0))).
+		produceChartHTML(sumWasteLogForGraph(res), deduceTime(0))).
 		Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}
+}
+
+func sumWasteLogForGraph(w []service.WasteLogFromCollector) [4]float64 {
+	var glass, metal, plastics, paper float64
+	for _, v := range w {
+		glass += float64(v.GlassWeighed)
+		metal += float64(v.MetalWeighed)
+		plastics += float64(v.PlasticsWeighed)
+		paper += float64(v.PaperWeighed)
+	}
+
+	return [4]float64{glass, metal, plastics, paper}
 }
 
 func (a *App) dashboardSwiperTwo(w http.ResponseWriter, r *http.Request) {
@@ -92,20 +132,22 @@ func (a *App) dashboardEchart(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	arr := [4]float64{0, 0, 0, 0}
-	switch num {
-	case 1:
-		arr = [4]float64{0, 0, 0, 0}
-	case 2:
-		arr = [4]float64{0, 0, 0, 0}
-	case 3:
-		arr = [4]float64{0, 0, 0, 0}
+	accountEmail := r.Context().Value(contextKeyEmail).(string)
+	res, err := a.service.GetWasteByAccountForMonth(
+		r.Context(),
+		accountEmail,
+		deduceTime(num),
+	)
+	if err != nil {
+		a.serverError(w, err)
+		return
 	}
 
 	if err := accPages.DashboardEchart(
-		produceChartHTML(arr,
-			deduceTime(num),
-		)).Render(context.TODO(), w); err != nil {
+		produceChartHTML(sumWasteLogForGraph(res), deduceTime(num))).
+		Render(context.TODO(), w); err != nil {
+		a.serverError(w, err)
+		return
 	}
 }
 

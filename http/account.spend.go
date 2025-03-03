@@ -16,7 +16,7 @@ func (a *App) spendPageHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if err := accPages.SpendPage(account(user)).Render(context.TODO(), w); err != nil {
+	if err := accPages.SpendPage(user).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}
@@ -32,7 +32,7 @@ func (a *App) spendPageHeaderPartial(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if err := accPages.SpendHeaderPartial(account(user)).Render(context.TODO(), w); err != nil {
+	if err := accPages.SpendHeaderPartial(user).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}
@@ -57,7 +57,7 @@ func (a *App) spendBalance(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if err := accPages.SpendBalance(account(user)).Render(context.TODO(), w); err != nil {
+	if err := accPages.SpendBalance(user).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}

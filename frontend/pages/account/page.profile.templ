@@ -1,6 +1,8 @@
 package frontend
 
-templ Profile(acc Account) {
+import "beltech/service"
+
+templ Profile(acc service.Account) {
 	<!DOCTYPE html>
 	<html lang="en">
 		@HeadTag("Profile")
@@ -19,7 +21,7 @@ templ Profile(acc Account) {
 	</html>
 }
 
-templ ProfileMain(acc Account) {
+templ ProfileMain(acc service.Account) {
 	<main class="grow overflow-y-auto w-full pl-[1.5rem] pr-[1.56rem] pt-[1.875rem]">
 		<section class="flex items-center gap-1">
 			<p class="leading-[1.143rem] font-semibold text-[0.938rem]">My Profile</p>
@@ -76,7 +78,7 @@ templ ProfileChangeDisplayIcon(avatarURL string) {
 	</section>
 }
 
-templ ProfileUpdataAccountInfoPartial(acc Account) {
+templ ProfileUpdataAccountInfoPartial(acc service.Account) {
 	<form
 		hx-post="/account/profile/changeDisplayName"
 		hx-trigger="submit"

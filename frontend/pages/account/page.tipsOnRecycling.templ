@@ -1,6 +1,8 @@
 package frontend
 
-templ TipsOnRecyclingPage(wasteType string, acc Account) {
+import "beltech/service"
+
+templ TipsOnRecyclingPage(wasteType string, acc service.Account) {
 	<!DOCTYPE html>
 	<html lang="en">
 		@HeadTag("tips")
@@ -15,7 +17,7 @@ templ TipsOnRecyclingPage(wasteType string, acc Account) {
 	</html>
 }
 
-templ TipsHeaderPartial(acc Account) {
+templ TipsHeaderPartial(acc service.Account) {
 	<header class="pt-6 pl-6 pr-[1.56rem] flex w-full justify-between items-center">
 		<button onclick="history.back()">
 			<img
@@ -50,7 +52,7 @@ templ TipsHeaderPartial(acc Account) {
 	</header>
 }
 
-templ TipsOnRecycleMain(wasteType string, acc Account) {
+templ TipsOnRecycleMain(wasteType string, acc service.Account) {
 	<main class="grow overflow-y-auto pl-[1.5rem] pr-[1.56rem] pt-[1.875rem] grid grid-rows-wastePage">
 		<section class="flex items-center gap-1">
 			<p class="leading-[1.143rem] font-semibold text-[0.938rem]">Tips on recycling</p>

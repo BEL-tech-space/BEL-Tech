@@ -2,7 +2,6 @@ package http
 
 import (
 	accPages "beltech/frontend/pages/account"
-	"beltech/types"
 	"context"
 	"fmt"
 	"io"
@@ -29,7 +28,7 @@ func (a *App) walletPageHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := accPages.WalletPage(account(user), coinsToDisplay()).Render(context.TODO(), w); err != nil {
+	if err := accPages.WalletPage(user, coinsToDisplay()).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}
@@ -53,8 +52,10 @@ func (a *App) walletBalance(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	fmt.Printf("\n\n+%v\n\n", user)
+
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if err := accPages.WalletBalance(account(user).CurrBalance).Render(context.TODO(), w); err != nil {
+	if err := accPages.WalletBalance(user.BelPointBalance).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}
@@ -97,12 +98,12 @@ func (a *App) walletLivecoinData(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func coinsToDisplay() []types.TokenData {
+func coinsToDisplay() []accPages.TokenData {
 
-	arr := make([]types.TokenData, 0, 8)
+	arr := make([]accPages.TokenData, 0, 8)
 	arr = append(arr, liveCryptoData.bitcoin, liveCryptoData.solana)
 
-	remaining := []types.TokenData{liveCryptoData.raydium, liveCryptoData.ai16z,
+	remaining := []accPages.TokenData{liveCryptoData.raydium, liveCryptoData.ai16z,
 		liveCryptoData.bonk1, liveCryptoData.dogwifhat, liveCryptoData.usdCoin,
 		liveCryptoData.jupiterAg, liveCryptoData.pudgyPenguins, liveCryptoData.officialTrump}
 
@@ -123,7 +124,7 @@ func coinsToDisplay() []types.TokenData {
 	return append(arr, validValues[:4]...)
 }
 
-func checkIfEmptyValue(v types.TokenData) bool {
+func checkIfEmptyValue(v accPages.TokenData) bool {
 	if v.TokenName == "" || v.TokenSymbol == "" ||
 		v.TokenLogo == "" || v.ChartUrl == "" ||
 		v.UpOrDown == "" || v.TokenPrice == "" ||
@@ -139,7 +140,7 @@ var coins = []string{"bitcoin", "ethereum", "solana", "usd-coin", "bonk1",
 	"pudgy-penguins", "raydium", "dogwifhat", "jupiter-ag", "pyth-network", "ai16z", "official-trump"}
 
 type tokenData struct {
-	bitcoin, ethereum, solana, usdCoin, bonk1, pudgyPenguins, raydium, dogwifhat, jupiterAg, pythNetwork, ai16z, officialTrump types.TokenData
+	bitcoin, ethereum, solana, usdCoin, bonk1, pudgyPenguins, raydium, dogwifhat, jupiterAg, pythNetwork, ai16z, officialTrump accPages.TokenData
 	rwLock                                                                                                                     sync.RWMutex
 }
 
@@ -209,7 +210,7 @@ func scraping2(body io.Reader) error {
 		return fmt.Errorf("failed to parse the HTML document: err %v", err)
 	}
 
-	var rtData types.TokenData
+	var rtData accPages.TokenData
 
 	for _, v := range coins {
 
@@ -231,7 +232,7 @@ func scraping2(body io.Reader) error {
 	return nil
 }
 
-func writeResult2(data types.TokenData, v string) {
+func writeResult2(data accPages.TokenData, v string) {
 	switch v {
 	case "bitcoin":
 		liveCryptoData.bitcoin = data
@@ -284,7 +285,7 @@ func getCoinData() error {
 
 func scraping(doc *goquery.Document) {
 	var (
-		rtData types.TokenData
+		rtData accPages.TokenData
 		exist  bool
 	)
 
@@ -319,7 +320,7 @@ func scraping(doc *goquery.Document) {
 	}
 }
 
-func (td *tokenData) writeResult(data types.TokenData) {
+func (td *tokenData) writeResult(data accPages.TokenData) {
 	td.rwLock.Lock()
 	defer td.rwLock.Unlock()
 

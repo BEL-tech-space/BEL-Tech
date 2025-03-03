@@ -51,7 +51,7 @@ func (a *App) commonHeader(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := accPages.CommonHeader(
-		account(user)).Render(context.TODO(), w); err != nil {
+		user).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}

@@ -30,7 +30,7 @@ func (a *App) TipsPageHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if err := accPages.TipsOnRecyclingPage(wasteType, account(user)).Render(context.Background(), w); err != nil {
+	if err := accPages.TipsOnRecyclingPage(wasteType, user).Render(context.Background(), w); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
@@ -44,7 +44,7 @@ func (a *App) tipsHeaderPartial(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if err := accPages.TipsHeaderPartial(account(user)).Render(context.Background(), w); err != nil {
+	if err := accPages.TipsHeaderPartial(user).Render(context.Background(), w); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}

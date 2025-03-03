@@ -2,7 +2,6 @@ package service
 
 import (
 	"beltech/service/internal/repository/postgres"
-	"beltech/types"
 	"context"
 	"errors"
 	"fmt"
@@ -22,8 +21,8 @@ func (s *Service) CreateOrUpdateUser(ctx context.Context, user Account) (Account
 	return Account{}, err
 }
 
-func (s *Service) GetUserByEmail(ctx context.Context, email string) (Account, error) {
-	user, err := s.dbQuery.GetAccount(ctx, email)
+func (s *Service) GetAccountByEmail(ctx context.Context, email string) (Account, error) {
+	user, err := s.dbQuery.GetAccountByEmail(ctx, email)
 	if err != nil {
 		fmt.Println("error in get account", err)
 		return Account{}, err
@@ -31,13 +30,13 @@ func (s *Service) GetUserByEmail(ctx context.Context, email string) (Account, er
 	return pgAccountToserviceAccount(user), nil
 }
 
-func (s *Service) AddNewBeneficiary(ctx context.Context, bPhoneNo, bName, bSP, email string) ([]types.Beneficiary, error) {
+func (s *Service) AddNewBeneficiary(ctx context.Context, bPhoneNo, bName, bSP, email string) ([]Beneficiary, error) {
 	bens, err := s.dbQuery.AddNewBeneficiary(ctx,
 		postgres.AddNewBeneficiaryParams{
 			BPhoneNo:        bPhoneNo,
 			BName:           bName,
 			ServiceProvider: bSP,
-			AccountEmail:           pgtype.Text{String: email, Valid: true},
+			AccountEmail:    pgtype.Text{String: email, Valid: true},
 		},
 	)
 
@@ -57,7 +56,7 @@ func (s *Service) AddNewBeneficiary(ctx context.Context, bPhoneNo, bName, bSP, e
 		return nil, err
 	}
 
-	beneficiaries := make([]types.Beneficiary, 0, len(bens))
+	beneficiaries := make([]Beneficiary, 0, len(bens))
 	for _, ben := range bens {
 		beneficiaries = append(beneficiaries, pgBeneficiaryToServiceBeneficiary(ben))
 	}
@@ -65,13 +64,13 @@ func (s *Service) AddNewBeneficiary(ctx context.Context, bPhoneNo, bName, bSP, e
 	return beneficiaries, nil
 }
 
-func (s *Service) DeleteBeneficiary(ctx context.Context, bPhoneNo, bSP, email string) ([]types.Beneficiary, error) {
+func (s *Service) DeleteBeneficiary(ctx context.Context, bPhoneNo, bSP, email string) ([]Beneficiary, error) {
 	res, err := s.dbQuery.DeleteBeneficiary(
 		ctx,
 		postgres.DeleteBeneficiaryParams{
 			BPhoneNo:        bPhoneNo,
 			ServiceProvider: bSP,
-			AccountEmail:           pgtype.Text{String: email, Valid: true},
+			AccountEmail:    pgtype.Text{String: email, Valid: true},
 		},
 	)
 
@@ -90,10 +89,10 @@ func (s *Service) DeleteBeneficiary(ctx context.Context, bPhoneNo, bSP, email st
 		return nil, fmt.Errorf("other error: %v", err)
 	}
 
-	dto := func(param []postgres.DeleteBeneficiaryRow) []types.Beneficiary {
-		r := make([]types.Beneficiary, 0, len(param))
+	dto := func(param []postgres.DeleteBeneficiaryRow) []Beneficiary {
+		r := make([]Beneficiary, 0, len(param))
 		for i := 0; i < len(param); i++ {
-			r = append(r, types.Beneficiary{
+			r = append(r, Beneficiary{
 				BPhoneNo:        param[i].BPhoneNo,
 				BName:           param[i].BName,
 				ServiceProvider: param[i].ServiceProvider,
@@ -105,13 +104,13 @@ func (s *Service) DeleteBeneficiary(ctx context.Context, bPhoneNo, bSP, email st
 	return dto(res), nil
 }
 
-func (s *Service) GetBeneficiaries(ctx context.Context, email string) ([]types.Beneficiary, error) {
+func (s *Service) GetBeneficiaries(ctx context.Context, email string) ([]Beneficiary, error) {
 	bens, err := s.dbQuery.GetBeneficiariesByEmail(ctx, pgtype.Text{String: email, Valid: true})
 	if err != nil {
 		return nil, err
 	}
 
-	beneficiaries := make([]types.Beneficiary, 0, len(bens))
+	beneficiaries := make([]Beneficiary, 0, len(bens))
 	for _, ben := range bens {
 		// arr := []string{}
 		beneficiaries = append(beneficiaries, pgBeneficiaryToServiceBeneficiary(ben))
@@ -167,13 +166,120 @@ func (s *Service) GetAllNotifications(ctx context.Context) ([]Notification, erro
 	return slices.Clip(filteredNotifications), nil
 }
 
-func (s *Service) AddNewWasteFromCollector(ctx context.Context, wasteLog WasteLog) error {
+func (s *Service) AddNewWasteFromCollector(ctx context.Context, wasteLog WasteLogFromCollector) error {
 
-	params, err := convertWasteLogToPostgresParams(wasteLog)
+	agentId, err := googleUUIDToPgtypeUUID(wasteLog.AgentID)
+	if err != nil {
+		return fmt.Errorf("err formating agentID for %v; error: %w", wasteLog.AgentID.String(), err)
+	}
+	arg := postgres.AddNewWasteFromCollectorParams{
+		Claimed:              wasteLog.Claimed,
+		GlassWeighed:         wasteLog.GlassWeighed,
+		MetalWeighed:         wasteLog.MetalWeighed,
+		PlasticsWeighed:      wasteLog.PlasticsWeighed,
+		PaperWeighed:         wasteLog.PaperWeighed,
+		GlassPointsEarned:    wasteLog.GlassPointsEarned,
+		MetalPointsEarned:    wasteLog.MetalPointsEarned,
+		PlasticsPointsEarned: wasteLog.PlasticsPointsEarned,
+		PaperPointsEarned:    wasteLog.PaperPointsEarned,
+		TotalPointsEarned:    wasteLog.TotalPointsEarned,
+		TxnName:              wasteLog.TxnName,
+		AgentID:              agentId,
+		AccountEmail:         wasteLog.AccountEmail,
+	}
+
+	tx, err := s.pgxPool.Begin(ctx)
 	if err != nil {
 		return err
 	}
+	defer tx.Rollback(ctx)
 
-	_, err = s.dbQuery.AddNewWasteFromCollector(ctx, params)
-	return err
+	qtx := s.dbQuery.WithTx(tx)
+
+	if err := qtx.AddNewWasteFromCollector(ctx, arg); err != nil {
+		return err
+	}
+
+	if err := tx.Commit(ctx); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (s *Service) GetWasteLogByAccountPaginated(
+	ctx context.Context,
+	accountEmail string,
+	limit, offset int32,
+) ([]WasteLogFromCollector, error) {
+
+	res, err := s.dbQuery.GetWasteByAccountPaginated(
+		ctx,
+		postgres.GetWasteByAccountPaginatedParams{
+			AccountEmail: accountEmail,
+			Limit:        limit,
+			Offset:       offset,
+		},
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	r := make([]WasteLogFromCollector, len(res))
+	for i, v := range res {
+		wasteID, _ := pgtypeUUIDToGoogleUUID(v.WasteID)
+		agentID, _ := pgtypeUUIDToGoogleUUID(v.AgentID)
+		r[i] = WasteLogFromCollector{
+			WasteID:              wasteID,
+			Claimed:              v.Claimed,
+			GlassWeighed:         v.GlassWeighed,
+			MetalWeighed:         v.MetalWeighed,
+			PlasticsWeighed:      v.PlasticsWeighed,
+			PaperWeighed:         v.PaperWeighed,
+			GlassPointsEarned:    v.GlassPointsEarned,
+			MetalPointsEarned:    v.MetalPointsEarned,
+			PlasticsPointsEarned: v.PlasticsPointsEarned,
+			PaperPointsEarned:    v.PaperPointsEarned,
+			TotalPointsEarned:    v.TotalPointsEarned,
+			LocationAddr:         v.LocationAddr,
+			TxnName:              v.TxnName,
+			AgentID:              agentID,
+			AccountEmail:         v.AccountEmail,
+			CreatedAt:            v.CreatedAt.Time,
+		}
+	}
+
+	return r, nil
+}
+
+func (s *Service) GetWasteByAccountForMonth(
+	ctx context.Context,
+	accountEmail string,
+	timespan time.Time,
+) ([]WasteLogFromCollector, error) {
+	res, err := s.dbQuery.GetWasteByAccountForMonth(
+		ctx,
+		postgres.GetWasteByAccountForMonthParams{
+			AccountEmail: accountEmail,
+			Year:         int32(timespan.Year()),
+			Month:        int32(timespan.Month()),
+		},
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	r := make([]WasteLogFromCollector, len(res))
+	for i, v := range res {
+
+		r[i] = WasteLogFromCollector{
+			GlassWeighed:    v.GlassWeighed,
+			MetalWeighed:    v.MetalWeighed,
+			PlasticsWeighed: v.PlasticsWeighed,
+			PaperWeighed:    v.PaperWeighed,
+			CreatedAt:       v.CreatedAt.Time,
+		}
+	}
+
+	return r, nil
 }

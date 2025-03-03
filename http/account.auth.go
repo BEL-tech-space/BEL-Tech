@@ -79,26 +79,6 @@ func (a *App) callbackHandlerAccount(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/account/welcome", http.StatusTemporaryRedirect)
 }
 
-func (a *App) logoutAccount(w http.ResponseWriter, r *http.Request) {
-
-	gothic.Logout(w, r)
-
-	session, err := a.accountSessionStore.Get(r, "beltech-account")
-	if err != nil || session == nil {
-		http.Redirect(w, r, "/account/login.html", http.StatusTemporaryRedirect)
-		return
-	}
-
-	session.Options.MaxAge = -1
-	session.Values = nil
-	if err := session.Save(r, w); err != nil {
-		http.Redirect(w, r, "/account/login.html", http.StatusTemporaryRedirect)
-		return
-	}
-
-	http.Redirect(w, r, "/account/login.html", http.StatusTemporaryRedirect)
-}
-
 func (a *App) logInAccount(w http.ResponseWriter, r *http.Request, u goth.User) error {
 
 	user, err := a.service.CreateOrUpdateUser(context.Background(), mapGothUserToServiceUser(u))
@@ -106,6 +86,10 @@ func (a *App) logInAccount(w http.ResponseWriter, r *http.Request, u goth.User) 
 		fmt.Println("err came from create or update user:", err)
 		return err
 	}
+
+	fmt.Printf("\n\non login--- %+v\n\n", user)
+
+	fmt.Println(user.IsNew, "is new")
 
 	if user.IsNew {
 		http.SetCookie(w, &http.Cookie{
@@ -121,7 +105,7 @@ func (a *App) logInAccount(w http.ResponseWriter, r *http.Request, u goth.User) 
 func (a *App) createNewUserSession(w http.ResponseWriter, r *http.Request, acc service.Account) error {
 	session, err := a.accountSessionStore.New(r, "beltech-account")
 	if err != nil {
-		fmt.Println("ERROR IN NEW", err.Error())
+		fmt.Printf("error creating new session: error: %s\n", err.Error())
 	}
 
 	session.Values["email"] = acc.AccountEmail
@@ -140,7 +124,11 @@ func (a *App) createNewUserSession(w http.ResponseWriter, r *http.Request, acc s
 		a.accountCache.SetWithTTL(acc.AccountEmail, acc, 1, 86_400*time.Second)
 	}
 
-	return session.Save(r, w)
+	if err := session.Save(r, w); err != nil {
+		return fmt.Errorf("error saving new session: error: %w", err)
+	}
+
+	return nil
 }
 
 func mapGothUserToServiceUser(gothUser goth.User) service.Account {
@@ -155,4 +143,23 @@ func mapGothUserToServiceUser(gothUser goth.User) service.Account {
 	user.AccessTokenExpires = gothUser.ExpiresAt
 	user.IDToken = gothUser.IDToken
 	return user
+}
+func (a *App) logoutAccount(w http.ResponseWriter, r *http.Request) {
+
+	gothic.Logout(w, r)
+
+	session, err := a.accountSessionStore.Get(r, "beltech-account")
+	if err != nil || session == nil {
+		http.Redirect(w, r, "/account/login.html", http.StatusTemporaryRedirect)
+		return
+	}
+
+	session.Options.MaxAge = -1
+	session.Values = nil
+	if err := session.Save(r, w); err != nil {
+		http.Redirect(w, r, "/account/login.html", http.StatusTemporaryRedirect)
+		return
+	}
+
+	http.Redirect(w, r, "/account/login.html", http.StatusTemporaryRedirect)
 }
