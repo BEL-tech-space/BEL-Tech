@@ -24,43 +24,7 @@ func (a *App) beneficiariesPageHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if err := accPages.BeneficiariesPage(account(user).AvatarUrl, result).Render(context.TODO(), w); err != nil {
-		a.serverError(w, err)
-		return
-	}
-}
-
-func (a *App) beneficiariesPageHeaderPartial(w http.ResponseWriter, r *http.Request) {
-
-	accountEmail := r.Context().Value(contextKeyEmail).(string)
-	user, err := a.getAccountFromCache(context.Background(), accountEmail)
-	if err != nil {
-		a.serverError(w, err)
-		return
-	}
-
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if err := accPages.BeneficiariesHeaderPartial(
-		account(user).AvatarUrl).Render(context.TODO(), w); err != nil {
-		a.serverError(w, err)
-		return
-	}
-}
-
-func (a *App) beneficiariesMain(w http.ResponseWriter, r *http.Request) {
-
-	accountEmail := r.Context().Value(contextKeyEmail).(string)
-
-	result, err := a.service.GetBeneficiaries(context.Background(), accountEmail)
-	if err != nil {
-		a.serverError(w, err)
-		return
-	}
-
-	fmt.Printf("result: %v --- %d\n\n", result, len(result))
-
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if err := accPages.BeneficiariesMain(result).Render(context.TODO(), w); err != nil {
+	if err := accPages.BeneficiariesPage(user.AvatarUrl, result).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}

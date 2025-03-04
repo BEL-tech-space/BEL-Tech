@@ -26,7 +26,6 @@ func (a *App) sendGreetingEmail(email string) error {
 		return err
 	}
 
-	// fmt.Println(email, a.config.Mail.EmailSmtpServerHost, a.config.Mail.EmailSmtpServerPort, from, a.config.Mail.EmailPswd)
 	data, err := readPNGAsBytes("public/assets/images/logo.png")
 	if err != nil {
 		return err

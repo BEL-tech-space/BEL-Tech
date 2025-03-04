@@ -3,23 +3,7 @@ package pages
 templ HistoryPage() {
 	<!DOCTYPE html>
 	<html lang="en">
-		<head>
-			<meta charset="UTF-8"/>
-			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-			<link
-				rel="stylesheet"
-				href="/public/assets/styles/output.css"
-			/>
-			<style>
-				.overflow-y-auto::-webkit-scrollbar {
-					width: 0 !important;
-					display: none;
-					overflow: -moz-scrollbars-none;
-					scrollbar-width: none;
-				}
-			</style>
-			<title>History Beltech-Agent</title>
-		</head>
+		@headTag("history")
 		<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
 			<div class="w-full h-full flex flex-col text-[#2E2E2E] font-montserrat">
 				<header class="flex pt-4 justify-between items-center px-6">
@@ -96,7 +80,7 @@ templ HistoryPage() {
 						</section>
 					}
 				</main>
-				@Footer("history")
+				@footer("history")
 			</div>
 		</body>
 		<dialog id="dialog" class="backdrop:backdrop-blur-sm pt-8 pb-16 px-8 rounded-3xl border-solid border-[0.0625rem] border-white text-[#2E2E2E] outline-none">

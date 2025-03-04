@@ -1,14 +1,44 @@
 package frontend
 
-templ Profile(acc Account) {
+import "beltech/service"
+
+templ Profile(acc service.Account) {
 	<!DOCTYPE html>
 	<html lang="en">
-		@HeadTag("Profile")
+		@headTag("Profile")
 		<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
 			<div class="Page w-full h-full flex flex-col font-montserrat text-[#2E2E2E]">
-				@CommonHeader(acc)
-				@ProfileMain(acc)
-				@Footer("dashboard", templ.NopComponent)
+				@commonHeader(acc)
+				<main class="grow overflow-y-auto w-full pl-[1.5rem] pr-[1.56rem] pt-[1.875rem]">
+					<section class="flex items-center gap-1">
+						<p class="leading-[1.143rem] font-semibold text-[0.938rem]">My Profile</p>
+						<picture>
+							<source type="image/webp" srcset="/public/assets/images/Recycle_small.webp"/>
+							<img
+								src="/public/assets/images/Recycle_small.png"
+								class="w-5 aspect-square"
+							/>
+						</picture>
+					</section>
+					<section class="my-[3.25rem] flex relative w-[7.75rem] aspect-square mx-auto items-end justify-end">
+						<img src={ acc.AvatarUrl } alt="Profile Avatar" class="absolute rounded-full w-full aspect-square"/>
+						<form method="POST" action="/account/profile/uploadAvatar" enctype="multipart/form-data" class="z-40">
+							<label for="avatarInput" class="cursor-pointer">
+								<img src="/public/assets/svg/editPFP.svg" alt="Edit Profile Picture" class="w-[1.962rem] aspect-square"/>
+							</label>
+							<input
+								type="file"
+								id="avatarInput"
+								name="avatar"
+								accept="image/*"
+								required
+								class="hidden"
+							/>
+						</form>
+					</section>
+					@profileUpdataAccountInfoPartial(acc)
+				</main>
+				@footer("dashboard")
 			</div>
 		</body>
 		@scriptForProfilePage()
@@ -19,23 +49,6 @@ templ Profile(acc Account) {
 	</html>
 }
 
-templ ProfileMain(acc Account) {
-	<main class="grow overflow-y-auto w-full pl-[1.5rem] pr-[1.56rem] pt-[1.875rem]">
-		<section class="flex items-center gap-1">
-			<p class="leading-[1.143rem] font-semibold text-[0.938rem]">My Profile</p>
-			<picture>
-				<source type="image/webp" srcset="/public/assets/images/Recycle_small.webp"/>
-				<img
-					src="/public/assets/images/Recycle_small.png"
-					class="w-5 aspect-square"
-				/>
-			</picture>
-		</section>
-		@ProfileChangeDisplayIcon(acc.AvatarUrl)
-		@ProfileUpdataAccountInfoPartial(acc)
-	</main>
-}
-
 templ scriptForProfilePage() {
 	<script src="/public/assets/scripts/hyperscript.min.js"></script>
 	<script src="/public/assets/scripts/htmx.min.js"></script>
@@ -43,45 +56,10 @@ templ scriptForProfilePage() {
 	@commingSoonTooltip()
 }
 
-templ ProfileMainOpeningTag() {
-	@templ.Raw(`<main class="grow overflow-y-auto w-full pl-[1.5rem] pr-[1.56rem] pt-[1.875rem]">
-		<section class="flex items-center gap-1">
-			<p class="leading-[1.143rem] font-semibold text-[0.938rem]">My Profile</p>
-			<picture>
-				<source type="image/webp" srcset="/public/assets/images/Recycle_small.webp"/>
-				<img
-					src="/public/assets/images/Recycle_small.png"
-					class="w-5 aspect-square"
-				/>
-			</picture>
-		</section>`)
-}
-
-templ ProfileChangeDisplayIcon(avatarURL string) {
-	<section class="my-[3.25rem] flex relative w-[7.75rem] aspect-square mx-auto items-end justify-end">
-		<img src={ avatarURL } alt="Profile Avatar" class="absolute rounded-full w-full aspect-square"/>
-		<form method="POST" action="/account/profile/uploadAvatar" enctype="multipart/form-data" class="z-40">
-			<label for="avatarInput" class="cursor-pointer">
-				<img src="/public/assets/svg/editPFP.svg" alt="Edit Profile Picture" class="w-[1.962rem] aspect-square"/>
-			</label>
-			<input
-				type="file"
-				id="avatarInput"
-				name="avatar"
-				accept="image/*"
-				required
-				class="hidden"
-			/>
-		</form>
-	</section>
-}
-
-templ ProfileUpdataAccountInfoPartial(acc Account) {
+templ profileUpdataAccountInfoPartial(acc service.Account) {
 	<form
-		hx-post="/account/profile/changeDisplayName"
-		hx-trigger="submit"
-		hx-target="#header"
-		hx-swap="outerHTML"
+		method="post"
+		action="/account/profile/changeDisplayName"
 		class="flex flex-col gap-3 justify-center items-center"
 		_="on submit
 			tell #saveButton

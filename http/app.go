@@ -18,10 +18,9 @@ type App struct {
 	service             *service.Service
 	accountSessionStore sessions.Store
 	agentSessionStore   sessions.Store
-	collectors          map[string]service.Collector
-	// beltechWatermarkLogo []byte
-	accountCache  *ristretto.Cache[string, service.Account]
-	wasteLogCache *ristretto.Cache[string, service.WasteLog]
+	collectors          map[string]service.Collector // key is collector's email
+	accountCache        *ristretto.Cache[string, service.Account]
+	wasteLogCache       *ristretto.Cache[string, service.WasteLog]
 }
 
 type contextKey string
@@ -102,12 +101,12 @@ func GenerateRandomKey(d, buildMode string) string {
 
 func (a *App) setupdDevModeCollectors() error {
 	devCollector := service.AddNewAgentAsCollectorParams{
-		AgentType:      service.IdentifyasCollector,
 		CollectorEmail: devGothUser.Email,
-		CollectorRole:  service.CollectorroleSuperCollector,
+		DisplayName:    devGothUser.NickName,
+		AvatarUrl:      devGothUser.AvatarURL,
 	}
 
-	id, err := a.service.AddNewAgentAsCollector(
+	collector, err := a.service.AddNewAgentAsCollector(
 		context.Background(),
 		devCollector,
 	)
@@ -118,9 +117,11 @@ func (a *App) setupdDevModeCollectors() error {
 	a.collectors = make(map[string]service.Collector, 2)
 
 	a.collectors[devGothUser.Email] = service.Collector{
-		AgentID:        id,
+		AgentID:        collector.AgentID,
 		CollectorEmail: devGothUser.Email,
 		CollectorRole:  service.CollectorroleSuperCollector,
+		DisplayName:    devGothUser.NickName,
+		AvatarUrl:      devCollector.AvatarUrl,
 	}
 
 	return nil
@@ -132,7 +133,7 @@ func (a *App) setupProductionModeCollectors() error {
 	}
 	a.collectors = make(map[string]service.Collector, len(collectors)+100)
 	for _, v := range collectors {
-		a.collectors[v.AgentID.String()] = v
+		a.collectors[v.CollectorEmail] = v
 	}
 
 	// maps.Insert[string, service.Collector](a.collectors, func(yield func(string, service.Collector) bool) {

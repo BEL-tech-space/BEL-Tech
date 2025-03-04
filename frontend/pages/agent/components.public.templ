@@ -1,15 +1,17 @@
 package pages
 
-templ profileBar(collector Collector) {
+import "beltech/service"
+
+templ profileBar(collector service.Collector) {
 	<header class="w-full flex justify-start items-center px-6">
 		<img
 			src={ collector.AvatarUrl }
 			class="rounded-full w-[1.86rem] aspect-square mr-[0.5rem]"
 		/>
-		if collector.NickName != "" {
+		if collector.DisplayName != "" {
 			<p class="leading-[0.91rem] font-[500] text-[0.75rem]">
 				Gm,
-				<span class="font-[600]">{ collector.NickName }</span>
+				<span class="font-[600]">{ collector.DisplayName }</span>
 			</p>
 		} else if collector.FirstName != "" {
 			<p class="leading-[0.91rem] font-[500] text-[0.75rem]">

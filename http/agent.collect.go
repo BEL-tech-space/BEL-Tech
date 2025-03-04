@@ -73,7 +73,6 @@ func (a *App) generateQRCode(w http.ResponseWriter, r *http.Request) {
 
 	wasteLog := service.WasteLog{
 		WasteID:         uuid.New(),
-		CreatedAt:       time.Now(),
 		GlassWeighed:    glass,
 		MetalWeighed:    metal,
 		PlasticsWeighed: plastics,
@@ -82,16 +81,12 @@ func (a *App) generateQRCode(w http.ResponseWriter, r *http.Request) {
 		AgentID:         agentUUID,
 	}
 
-	if wasteLog.PointsEarned, err = calculatePointEarned(
-		wasteLog.GlassWeighed,
-		wasteLog.MetalWeighed,
-		wasteLog.PlasticsWeighed,
-		wasteLog.PaperWeighed,
-	); err != nil {
-		fmt.Println("point cannot be calculate", err)
-
+	if err = includePointsEarned(&wasteLog); err != nil {
+		fmt.Println(" error calculating points earned ", err)
 		// return
 	}
+
+	fmt.Printf("\n\n%+v\n\n", wasteLog)
 
 	if saved := a.wasteLogCache.SetWithTTL(
 		wasteLog.WasteID.String(),
@@ -104,14 +99,14 @@ func (a *App) generateQRCode(w http.ResponseWriter, r *http.Request) {
 		// return
 	}
 
-	content := fmt.Sprintf("glass:%.2f#paper:%.2f#plastics:%.2f#metal:%.2f#txnname:%s#uuid:%s#points:%2f",
+	content := fmt.Sprintf("glass:%.2f#metal:%.2f#plastics:%.2f#paper:%.2f#txnname:%s#uuid:%s#points:%.2f",
 		wasteLog.GlassWeighed,
-		wasteLog.PaperWeighed,
-		wasteLog.PlasticsWeighed,
 		wasteLog.MetalWeighed,
+		wasteLog.PlasticsWeighed,
+		wasteLog.PaperWeighed,
 		wasteLog.TxnName,
 		wasteLog.WasteID.String(),
-		wasteLog.PointsEarned,
+		wasteLog.TotalPointsEarned,
 	)
 
 	qrCode := NewSimpleQRCode(content)
@@ -127,15 +122,15 @@ func (a *App) generateQRCode(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func calculatePointEarned(glass, metal, plastics, paper float32) (float64, error) {
-	glass64 := float64(glass)
-	metal64 := float64(metal)
-	plastics64 := float64(plastics)
-	paper64 := float64(paper)
+func includePointsEarned(wasteLog *service.WasteLog) error {
+	wasteLog.GlassPointsEarned = wasteLog.GlassWeighed * 1.2
+	wasteLog.MetalPointsEarned = wasteLog.MetalWeighed * 0.2
+	wasteLog.PaperPointsEarned = wasteLog.PaperWeighed * 0.9
+	wasteLog.PlasticsPointsEarned = wasteLog.PlasticsWeighed * 1.5
+	wasteLog.TotalPointsEarned = float64(wasteLog.GlassPointsEarned) + float64(wasteLog.MetalPointsEarned) +
+		float64(wasteLog.PaperPointsEarned) + float64(wasteLog.PlasticsPointsEarned)
 
-	points := glass64*1.98 + metal64*2.4 + plastics64*3.4 + paper64*1.2
-
-	return points, nil
+	return nil
 }
 
 func getFormattedData(r *http.Request) (glass, paper, metal, plastics float32, err error) {

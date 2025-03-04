@@ -23,15 +23,15 @@ func (a *App) agentRouter() http.Handler {
 		r.Get("/collect", a.collectPage)
 		r.Get("/history", a.historyPage)
 		r.Get("/profile", a.profilePage)
+		r.Get("/signout.html", a.logOutCollector)
 
 		r.Post("/qrcode/{agentID}", a.generateQRCode)
 		r.Get("/wasteForm", a.wasteForm)
 		// r.Post("/addAgent", a.addNewCollectorPost)
 	})
-
-	r.Get("/login.html", a.logInCollector)
-	r.Get("/signout", a.logOutCollector)
+	
 	r.Get("/logout", a.logoutAgent)
+	r.Get("/login.html", a.logInCollector)
 	r.Get("/unauthorized", a.unauthorized)
 
 	return r

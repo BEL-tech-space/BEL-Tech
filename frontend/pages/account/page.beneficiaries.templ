@@ -1,41 +1,37 @@
 package frontend
 
-import "beltech/types"
+import "beltech/service"
 
-templ BeneficiariesPage(avatarURL string, ben []types.Beneficiary) {
+templ BeneficiariesPage(avatarURL string, ben []service.Beneficiary) {
 	<!DOCTYPE html>
 	<html lang="en">
-		@HeadTag("Airtime Beneficiaries")
+		@headTag("Airtime Beneficiaries")
 		<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
 			<div class="w-full h-full grid grid-rows-agentCollectPage font-montserrat text-[#2E2E2E]">
-				@BeneficiariesHeaderPartial(avatarURL)
+				<header class="pt-[1.5rem] pl-[1.5rem] pr-[1.56rem] flex w-full justify-between items-center">
+					<a href="/account/profile">
+						<img
+							src={ avatarURL }
+							class="rounded-full w-[1.86rem] aspect-square mr-[0.5rem]"
+						/>
+					</a>
+					<p class="font-semibold text-[0.938rem] leading-[1.143rem]">Beneficiaries</p>
+					<button
+						class="bg-[#CCE1D699] p-2 rounded-md flex justify-center items-center"
+						_="on click call #addNewBeneficiairyDialog.showModal()"
+					>
+						<img
+							src="/public/assets/svg/+.svg"
+							class="w-[1.5rem] aspect-square"
+						/>
+					</button>
+				</header>
 				@BeneficiariesMain(ben)
-				@Footer("spend", templ.NopComponent)
+				@footer("spend")
 			</div>
 		</body>
 		@scriptForBeneficiariesPage()
 	</html>
-}
-
-templ BeneficiariesHeaderPartial(avatarURL string) {
-	<header class="pt-[1.5rem] pl-[1.5rem] pr-[1.56rem] flex w-full justify-between items-center">
-		<a href="/account/profile">
-			<img
-				src={ avatarURL }
-				class="rounded-full w-[1.86rem] aspect-square mr-[0.5rem]"
-			/>
-		</a>
-		<p class="font-semibold text-[0.938rem] leading-[1.143rem]">Beneficiaries</p>
-		<button
-			class="bg-[#CCE1D699] p-2 rounded-md flex justify-center items-center"
-			_="on click call #addNewBeneficiairyDialog.showModal()"
-		>
-			<img
-				src="/public/assets/svg/+.svg"
-				class="w-[1.5rem] aspect-square"
-			/>
-		</button>
-	</header>
 }
 
 templ scriptForBeneficiariesPage() {
@@ -45,7 +41,7 @@ templ scriptForBeneficiariesPage() {
 	@deleteBeneficiaryDialog()
 }
 
-templ BeneficiariesMain(ben []types.Beneficiary) {
+templ BeneficiariesMain(ben []service.Beneficiary) {
 	<main id="beneficiariesList" class="overflow-y-auto grow pl-[1.5rem] pr-[1.56rem] pt-12">
 		if len(ben) == 0 {
 			<div class="h-full flex justify-center items-center">

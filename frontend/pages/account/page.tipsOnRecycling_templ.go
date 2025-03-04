@@ -8,7 +8,9 @@ package frontend
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-func TipsOnRecyclingPage(wasteType string, acc Account) templ.Component {
+import "beltech/service"
+
+func TipsOnRecyclingPage(wasteType string, acc service.Account) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -33,7 +35,7 @@ func TipsOnRecyclingPage(wasteType string, acc Account) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = HeadTag("tips").Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = headTag("tips").Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -41,19 +43,31 @@ func TipsOnRecyclingPage(wasteType string, acc Account) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = TipsHeaderPartial(acc).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = tipsHeaderPartial(acc).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = TipsOnRecycleMain(wasteType, acc).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "<main class=\"grow overflow-y-auto pl-[1.5rem] pr-[1.56rem] pt-[1.875rem] grid grid-rows-wastePage\"><section class=\"flex items-center gap-1\"><p class=\"leading-[1.143rem] font-semibold text-[0.938rem]\">Tips on recycling</p><picture><source type=\"image/webp\" srcset=\"/public/assets/images/Recycle_small.webp\"> <img src=\"/public/assets/images/Recycle_small.png\" class=\"w-5 aspect-square\"></picture></section>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = Footer("dashboard", templ.NopComponent).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = wasteQuickInfo(wasteType, acc).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</div></body>")
+		templ_7745c5c3_Err = tipsWasteTypeArticle(wasteType).Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "</main>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = footer("dashboard").Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "</div></body>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -61,7 +75,7 @@ func TipsOnRecyclingPage(wasteType string, acc Account) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "</html>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "</html>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -69,7 +83,7 @@ func TipsOnRecyclingPage(wasteType string, acc Account) templ.Component {
 	})
 }
 
-func TipsHeaderPartial(acc Account) templ.Component {
+func tipsHeaderPartial(acc service.Account) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -90,7 +104,7 @@ func TipsHeaderPartial(acc Account) templ.Component {
 			templ_7745c5c3_Var2 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "<header class=\"pt-6 pl-6 pr-[1.56rem] flex w-full justify-between items-center\"><button onclick=\"history.back()\"><img src=\"/public/assets/svg/back_arrow.svg\" alt=\"\" class=\"w-6 aspect-square\"></button><p class=\"font-semibold text-[0.938rem] leading-[1.143rem]\">Recycle</p><button class=\"bg-[#CCE1D699] p-[0.5rem] rounded-md flex justify-center items-center\" _=\"on click\n\t\t\t\t\thalt the event\n\t\t\t\t\ttell #notification-bar\n\t\t\t\t\tif #notification-bar.classList does not contain &#39;translate-y-0&#39;\n\t\t\t\t\t\tthen set :accountId to #notification-bar.dataset.accountid\n\t\t\t\t\t\tthen call getNotificationMarkup(:accountId)\n\t\t\t\t\t\tthen remove .translate-y-full then add .translate-y-0\n\t\t\t\t\t\tthen call #notification-bar.focus() \n\t\t\t\t\t\tthen remove .hidden from #backdrop\n\t\t\t\t\tend\"><div class=\"relative\"><img src=\"/public/assets/svg/notification.svg\" class=\"w-6 aspect-square\"><p id=\"notificationCount\" class=\"bg-[#016934] text-white text-[0.5rem] leading-3 rounded-full absolute -top-1 -right-1 hidden\"></p></div></button>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "<header class=\"pt-6 pl-6 pr-[1.56rem] flex w-full justify-between items-center\"><button onclick=\"history.back()\"><img src=\"/public/assets/svg/back_arrow.svg\" alt=\"\" class=\"w-6 aspect-square\"></button><p class=\"font-semibold text-[0.938rem] leading-[1.143rem]\">Recycle</p><button class=\"bg-[#CCE1D699] p-[0.5rem] rounded-md flex justify-center items-center\" _=\"on click\n\t\t\t\t\thalt the event\n\t\t\t\t\ttell #notification-bar\n\t\t\t\t\tif #notification-bar.classList does not contain &#39;translate-y-0&#39;\n\t\t\t\t\t\tthen set :accountId to #notification-bar.dataset.accountid\n\t\t\t\t\t\tthen call getNotificationMarkup(:accountId)\n\t\t\t\t\t\tthen remove .translate-y-full then add .translate-y-0\n\t\t\t\t\t\tthen call #notification-bar.focus() \n\t\t\t\t\t\tthen remove .hidden from #backdrop\n\t\t\t\t\tend\"><div class=\"relative\"><img src=\"/public/assets/svg/notification.svg\" class=\"w-6 aspect-square\"><p id=\"notificationCount\" class=\"bg-[#016934] text-white text-[0.5rem] leading-3 rounded-full absolute -top-1 -right-1 hidden\"></p></div></button>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -98,7 +112,7 @@ func TipsHeaderPartial(acc Account) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "</header>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "</header>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -106,7 +120,7 @@ func TipsHeaderPartial(acc Account) templ.Component {
 	})
 }
 
-func TipsOnRecycleMain(wasteType string, acc Account) templ.Component {
+func tipsWasteTypeArticle(wasteType string) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -125,47 +139,6 @@ func TipsOnRecycleMain(wasteType string, acc Account) templ.Component {
 		templ_7745c5c3_Var3 := templ.GetChildren(ctx)
 		if templ_7745c5c3_Var3 == nil {
 			templ_7745c5c3_Var3 = templ.NopComponent
-		}
-		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "<main class=\"grow overflow-y-auto pl-[1.5rem] pr-[1.56rem] pt-[1.875rem] grid grid-rows-wastePage\"><section class=\"flex items-center gap-1\"><p class=\"leading-[1.143rem] font-semibold text-[0.938rem]\">Tips on recycling</p><picture><source type=\"image/webp\" srcset=\"/public/assets/images/Recycle_small.webp\"> <img src=\"/public/assets/images/Recycle_small.png\" class=\"w-5 aspect-square\"></picture></section>")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = WasteQuickInfo(wasteType, acc).Render(ctx, templ_7745c5c3_Buffer)
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = TipsWasteTypeArticle(wasteType).Render(ctx, templ_7745c5c3_Buffer)
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "</main>")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		return nil
-	})
-}
-
-func TipsWasteTypeArticle(wasteType string) templ.Component {
-	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
-		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
-		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
-			return templ_7745c5c3_CtxErr
-		}
-		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
-		if !templ_7745c5c3_IsBuffer {
-			defer func() {
-				templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
-				if templ_7745c5c3_Err == nil {
-					templ_7745c5c3_Err = templ_7745c5c3_BufErr
-				}
-			}()
-		}
-		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var4 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var4 == nil {
-			templ_7745c5c3_Var4 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
 		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "<div class=\"overflow-y-auto font-montserrat font-medium text-[#2E2E2E] text-[0.813rem] leading-[1.138rem] text-justify rounded-t-md pt-1\">")
@@ -202,45 +175,6 @@ func TipsWasteTypeArticle(wasteType string) templ.Component {
 	})
 }
 
-func TipsMainOpeningTag() templ.Component {
-	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
-		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
-		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
-			return templ_7745c5c3_CtxErr
-		}
-		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
-		if !templ_7745c5c3_IsBuffer {
-			defer func() {
-				templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
-				if templ_7745c5c3_Err == nil {
-					templ_7745c5c3_Err = templ_7745c5c3_BufErr
-				}
-			}()
-		}
-		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var5 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var5 == nil {
-			templ_7745c5c3_Var5 = templ.NopComponent
-		}
-		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templ.Raw(`<main class="grow overflow-y-auto pl-[1.5rem] pr-[1.56rem] pt-[1.875rem] grid grid-rows-wastePage">
-		<section class="flex items-center gap-1">
-			<p class="leading-[1.143rem] font-semibold text-[0.938rem]">Tips on recycling</p>
-			<picture>
-				<source type="image/webp" srcset="/public/assets/images/Recycle_small.webp"/>
-				<img
-					src="/public/assets/images/Recycle_small.png"
-					class="w-5 aspect-square"
-				/>
-			</picture>
-		</section>`).Render(ctx, templ_7745c5c3_Buffer)
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		return nil
-	})
-}
-
 func Paper() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -257,9 +191,9 @@ func Paper() templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var6 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var6 == nil {
-			templ_7745c5c3_Var6 = templ.NopComponent
+		templ_7745c5c3_Var4 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var4 == nil {
+			templ_7745c5c3_Var4 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
 		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "<article id=\"paper\"><p class=\"mb-6 font-medium\">HOW TO RECYCLE PAPER</p><p class=\"mb-6\">- <span class=\"font-semibold\">Collect and sort paper:</span> Gather all types of paper products, including newspapers, cardboard, magazines, junk mail, paperboard, and mixed paper.</p><p class=\"mb-6\">- <span class=\"font-semibold text-black\">Remove contaminants:</span> Take out any plastic, staples, tape, or other non-paper materials that may be attached to the paper.</p><p class=\"mb-3\">- <span class=\"font-semibold text-black\">Shredding and Breaking Down:</span></p><p class=\"mb-2 ml-4\">- Shred or tear paper: Shred or tear the paper into smaller pieces to increase its surface area.</p><p class=\"mb-6 ml-4\">- Break down cardboard: Flatten cardboard boxes and cut them into smaller pieces.</p></article>")
@@ -286,9 +220,9 @@ func Glass() templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var7 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var7 == nil {
-			templ_7745c5c3_Var7 = templ.NopComponent
+		templ_7745c5c3_Var5 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var5 == nil {
+			templ_7745c5c3_Var5 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
 		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, "<article id=\"glass\"><p class=\"mb-6\">Glass is one of the most recyclable materials in the world, and recycling it can significantly reduce waste and conserve resources.  Recycling glass helps cut down the need for raw materials like sand, reduces energy consumption, and keeps non-biodegradable waste out of landfills. </p><p class=\"mb-6\">Not all glass is recyclable. Items like glass bottles, jars, clear glass and colored glass (green and brown) are typically accepted at recycling centers. However, other types of glass, such as window panes, mirrors, ceramics, or lightbulbs, may not be recyclable because they contain additives or are treated differently during production. Before recycling, ensure that the glass items you have are the correct type. </p><p class=\"mb-6\">Before you recycle glass, it’s very important to clean it thoroughly. This means removing any leftover food, liquids, or labels.  Contaminated glass can affect the recycling process, so rinse jars and bottles with water before placing them in the recycling bin. For instance, if you’re recycling a tomato sauce jar, rinse it out to remove leftover sauce. Don’t worry about removing every bit of glue from the label; the recycling facilities handle that.</p><p class=\"mb-6\">In Nigeria, dedicated recycling facilities or drop-off points are important for proper waste management. A company like Bel Tech makes it easier by providing designated collection points where you can drop off your recyclable materials, including glass. Check if your community has a recycling center nearby or if programs like Bel Tech operate in your area. With Bel Tech’s app, you can even track collection points and earn rewards for recycling.</p><p class=\"mb-6\">If you’re recycling broken glass, handle it with caution to avoid injury. Wrap sharp edges in newspaper or place them in a sturdy container before transporting them to the recycling center. Important Tip: Never throw broken glass directly into your recycling bin without protecting it, as it can harm waste handlers.</p><p class=\"mb-6\">One of the unique ways Bel Tech promotes recycling in Nigeria is by offering incentives. By dropping off your recyclable glass at designated Bel Tech collection points, you can earn tokens or rewards that can be redeemed for goods or services. This encourages proper waste management while benefiting the environment and the recycler.</p><p class=\"mb-6\">Recycling glass is an easy and impactful way to reduce waste and promote sustainability in your community.  You can contribute to a cleaner environment and even earn rewards with platforms like Bel Tech by following these steps; cleaning, sorting, and dropping off glass at the right centers.</p></article>")
@@ -315,9 +249,9 @@ func Metal() templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var8 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var8 == nil {
-			templ_7745c5c3_Var8 = templ.NopComponent
+		templ_7745c5c3_Var6 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var6 == nil {
+			templ_7745c5c3_Var6 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
 		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, "<article id=\"metal\"><p class=\"mb-6\">Metal is one of the most valuable materials in the recycling industry, and recycling it is essential for conserving natural resources, reducing landfill waste, and mitigating the environmental impacts of mining and processing raw metals. However, to make metal recycling effective, it's crucial to know the right steps to follow and how to prepare metal items for recycling. In this blog post, we will look at the proper ways of recycling metals.</p><p class=\"mb-6\">Not all metals are recyclable, so the first step is to identify the types of metal that can be recycled. Common recyclable metals include:<div class=\"my-4 flex flex-col gap-1 items-start text-justify\"><h6>- Aluminum (used in soda cans, foil, and food containers)</h6><h6>- Copper (used in electrical wiring, pipes, and fixtures)</h6><h6>- Steel (used in food cans, cars, and construction materials)</h6><h6>- Tin (used in food cans and packaging materials)</h6></div>Check with your local recycling center or platform like Bel Tech for guidelines on recyclable metals in your area.</p><p class=\"mb-6\">Cleaning metal items before recycling is essential to ensure they are processed correctly. Dirty metal can contaminate entire batches of recyclables, making it harder to process. This is how to clean metals properly:<div class=\"my-4 flex flex-col gap-1 items-start text-justify\"><h6>- Rinse out food containers, cans, and other metal items to remove any residue.</h6><h6>- Use plain water and avoid leaving food scraps or liquids inside.</h6><h6>- For sticky residues, use a little soap to clean thoroughly.</h6></div></p><p class=\"mb-6\">Many metal items come with non-metal materials like plastic caps, paper labels, or rubber seals. These need to be removed before recycling. Recycling facilities are designed to process pure metal, so mixing materials can cause problems. You can separately recycle the non-metal parts if possible, or dispose of them properly.</p><p class=\"mb-6\">To ensure efficient recycling, sort metal items by type. This helps recycling facilities process the metals correctly and produces higher-quality recyclables. Here's how to sort metals:<div class=\"my-4 flex flex-col gap-1 items-start text-justify\"><h6>- Separate ferrous metals (like steel and iron) from non-ferrous metals (like aluminum, copper, and tin).</h6><h6>- Sort metal items into categories like aluminum cans, steel food cans, and copper wiring.</h6></div></p><p class=\"mb-6\">To keep metals in perfect condition for recycling, store them in a clean, dry place before dropping them off at a recycling center or collection point. This helps prevent contamination by dirt or moisture, which can make the metal harder to process.</p><p class=\"mb-6\">Recycling metal effectively requires a few simple but important steps. Identify recyclable metals, clean them thoroughly, remove non-metal parts, sort metal items by type, and store them properly. When you do this, you ensure that the metal is in the best condition for recycling. Bel Tech is helping Nigerians make a difference by creating opportunities for proper waste recycling. With platforms like theirs, recycling becomes easy, rewarding, and impactful. Start recycling today and contribute to a cleaner, healthier Nigeria. Want to learn more about recycling and sustainable waste management? Follow BelTech on all social media platforms for tips, updates, and opportunities to make a difference in our country.</p></article>")
@@ -344,9 +278,9 @@ func Plastics() templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var9 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var9 == nil {
-			templ_7745c5c3_Var9 = templ.NopComponent
+		templ_7745c5c3_Var7 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var7 == nil {
+			templ_7745c5c3_Var7 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
 		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 14, "<article id=\"plastic\"><p class=\"mb-6\">Not all plastics are recyclable, so the first step is to identify the types of plastic that can be recycled.  Look for the recycling symbol (a triangle of arrows) on the plastic item. Inside the symbol, you’ll see a number that indicates the type of plastic. Common recyclable plastics include; <b>PET (Polyethylene Terephthalate)</b> which is used in water bottles, soda bottles, and food containers and <b>HDPE (High-Density Polyethylene)</b> which can be found in detergent bottles, milk jugs, and shampoo containers. Plastics like PVC (used in pipes) or polystyrene (Styrofoam) are harder to recycle, so check with your local recycling center or platform like Bel Tech for guidelines.</p><p class=\"mb-6\">One of the most important steps in plastic recycling is to clean the items before sending them for recycling. Dirty plastic can contaminate entire batches of recyclables, making it harder to process. This is how to clean plastics properly:<div class=\"my-4 flex flex-col gap-1 items-start text-justify\"><h6>- Rinse out food containers, bottles, and jars to remove any residue.</h6><h6>- Use plain water and avoid leaving food scraps or liquids inside.</h6><h6>- For sticky residues, use a little soap to clean thoroughly.</h6></div>For instance, before recycling a yoghurt or coke container, rinse it out completely and remove any attached foil or paper labels.</p><p class=\"mb-6\">Many plastic items come with non-plastic materials like metal caps, paper labels, or rubber seals. These need to be removed before recycling.  Recycling facilities are designed to process pure plastic, so mixing materials can cause problems. You can separately recycle the non-plastic parts if possible, or dispose of them properly.</p><p class=\"mb-6\">To save space and make transportation easier, flatten or compress plastic items before recycling. This is especially useful for bulky plastic bottles or containers. Here’s how to do it:<div class=\"my-4 flex flex-col gap-1 items-start text-justify\"><h6>- Crush plastic bottles after removing the caps.</h6><h6>- Stack flat items like trays or containers into a sack to save space.</h6></div>Flattening also ensures that more plastic can fit into collection bins or bags, making the process more efficient.</p><p class=\"mb-6\">To keep plastics in perfect condition for recycling, store them in a clean, dry place before dropping them off at a recycling center or collection point.  This helps prevent contamination by dirt or moisture, which can make the plastic harder to process. For instance, you can use a separate bag or container specifically for recyclable plastics. Also avoid mixing plastics with other waste like food scraps or glass. In Nigeria, platforms like Bel Tech provide designated collection points for plastics. You can drop off your cleaned and sorted plastics at these points to ensure they are properly recycled.</p></article>")

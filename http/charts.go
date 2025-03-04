@@ -36,54 +36,68 @@ const baseTpl = `
 			
 			goecharts_{{ .ChartID | safeJS }}.setOption(%s);
 		})();
+
+	function formatNumber(value) {
+		if (value >= 1000000) {
+			return (value / 1000000).toFixed(1) + 'M'; // 1M for 1,000,000
+		} else if (value >= 100000) {
+			return (value / 1000).toFixed(0) + 'K'; // 100K for 100,000
+		} else if (value >= 1000) {
+			return (value / 1000).toFixed(1) + 'K'; // 1.5K for 1,500
+		} else {
+			return value; // Keep the number as is
+		}
+	}
 	
 </script>`
 
 const barChartOptions = `{
-	tooltip: {
+		tooltip: {
 		backgroundColor: 'rgba(50,50,50,0.01)',
 		borderColor: '#000000',
 		textStyle: {
 			color: '#000000'
 		},
 		valueFormatter: function(value) {
-			return value + 'Kg';
-			}
-		},
-		xAxis: {
-			axisLabel: {
-				fontSize: 12,
-				color: '#232323',
-				lineHeight: 17.7,
-				fontFamily: 'TT Chocolates',
-				align: 'middle',
-				fontWeight: '500',
-			}
-		},
-		yAxis: {
-			type: 'value',
-			axisLabel: {
-				fontSize: 12,
-				color: '#232323',
-				lineHeight: 17.7,
-				fontFamily: 'TT Chocolates',
-				align: 'middle',
-				fontWeight: '500',
-				formatter: '{value} Kg',				
-				margin: 14, 
-			}
-		},
-		series: [{
-			barCategoryGap: '85%',
-			itemStyle: {
-        		borderRadius: [10, 10, 0, 0]
-      		},
-		}],
-		grid: {
-			bottom: '12%',
-			top: '12%'
+			return formatNumber(value) + ' Kg';
 		}
-	}`
+	},
+	xAxis: {
+		axisLabel: {
+			fontSize: 12,
+			color: '#232323',
+			lineHeight: 17.7,
+			fontFamily: 'TT Chocolates',
+			align: 'middle',
+			fontWeight: '500',
+		}
+	},
+	yAxis: {
+		type: 'value',
+		axisLabel: {
+			fontSize: 12,
+			color: '#232323',
+			lineHeight: 17.7,
+			fontFamily: 'TT Chocolates',
+			align: 'middle',
+			fontWeight: '500',
+			margin: 14, 
+			formatter: function(value) {
+				return formatNumber(value) + ' Kg';
+			}
+		}
+	},
+	series: [{
+		barCategoryGap: '85%',
+		itemStyle: {
+			borderRadius: [10, 10, 0, 0]
+		},
+	}],
+	grid: {
+		bottom: '12%',
+		top: '12%'
+	}
+}`
 
 type BarChartData struct {
 	XAxis []string
@@ -137,7 +151,7 @@ func produceChartHTML(values [4]float64, t time.Time) (template.HTML, bool) {
 	}
 	return WeekStatBarChart(
 			BarChartData{
-				XAxis: []string{"Plastic", "Glass", "Metal", "Paper"},
+				XAxis: []string{"Glass", "Metal", "Plastic", "Paper"},
 				YAxis: values[:],
 				Month: t.Month().String(),
 				Year:  fmt.Sprintf("%d", t.Year()),
@@ -181,6 +195,7 @@ func WeekStatBarChart(data BarChartData) template.HTML {
 	)
 	bar.SetXAxis(data.XAxis).
 		AddSeries("Waste", barItems(data.YAxis, data.XAxis)).SetSeriesOptions()
+
 	return renderToHtml(bar)
 }
 

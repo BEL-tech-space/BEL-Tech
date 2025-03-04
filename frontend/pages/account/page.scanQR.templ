@@ -1,9 +1,11 @@
 package frontend
 
+import "fmt"
+
 templ ScanQRPage(accountEmail string) {
 	<!DOCTYPE html>
 	<html lang="en">
-		@HeadTag("scan")
+		@headTag("scan")
 		<body
 			class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh font-montserrat text-[#2E2E2E] overflow-hidden"
 		>
@@ -85,10 +87,10 @@ templ ScanQRPage(accountEmail string) {
 						</section>
 					</div>
 				</main>
-				@Footer("scan", templ.NopComponent)
+				@footer("scan")
 			</div>
 			@scriptForScanPage()
-			@confirmWaste("")
+			@confirmWaste(accountEmail)
 		</body>
 	</html>
 }
@@ -128,32 +130,57 @@ templ scriptForScanPage() {
                 readerContainer.style.width = `${( 83 / 100 ) * width}px`;
                 readerContainer.style.height = `${( 83 / 100 ) * height}px`;
                 const config = { fps: 10, qrbox: { width: width, height: height } };
+				
+				isScanning = true;
+				xyz.classList.toggle('hidden');
+				scanButton.classList.add("bg-[#FF0000]");
+				scanButtonText.innerText = 'Cancel Scanning';
 
                 html5QrCode.start( { facingMode: "environment" }, config, qrCodeSuccessCallback, qrCodeErrorCallback )
                     .then( () => {
-                        isScanning = true;
-                        xyz.style.display = 'none';
-                        scanButton.style.backgroundColor = '#FF0000';
-                        scanButtonText.innerText = 'Cancel Scanning';
-                    } )
+                       if (!isScanning) {
+							isScanning = true;
+							xyz.classList.toggle('hidden');
+							scanButton.classList.add("bg-[#FF0000]");
+							scanButtonText.innerText = 'Cancel Scanning';
+					   }
+                    })
                     .catch( ( err ) => {
                         isScanning = false;
                         console.error( err );
                     } );
-
             }
 
-            function qrCodeSuccessCallback ( decodedText, decodedResult ) {
-                console.log( `Scan result: ${decodedText}`, decodedResult );
-				 
-				 
-				decodedText.split("#").forEach(pair => {
-					const [key, value] = pair.split(":").map(str => str.trim());
-					if (key && value !== undefined) {
+            function qrCodeSuccessCallback ( decodedText, decodedResult ) {				 
+				const pairs = decodedText.split("#");
+					for (const pair of pairs) {
+						const [key, value] = pair.split(":").map(str => str.trim());
+
+						if (!key || value === undefined) {
+							stopScanning();
+							toastr.options = {
+								"closeButton": true,
+								"debug": false,
+								"newestOnTop": false,
+								"progressBar": true,
+								"positionClass": "toast-top-center",
+								"preventDuplicates": true,
+								"onclick": null,
+								"showDuration": "100",
+								"hideDuration": "1000",
+								"timeOut": "3000",
+								"extendedTimeOut": "1000",
+								"showEasing": "swing",
+								"hideEasing": "linear",
+								"showMethod": "slideDown",
+								"hideMethod": "slideUp"
+							};
+							toastr["success"]("That does not seem like ours");
+							return;
+						}
+
 						data[key.toLowerCase()] = value;
 					}
-				});
-				 console.log("Extracted Data:", data);
 
 				// Update waste values in confirmWaste-bar
 				document.querySelector('[data-waste="glass"]').textContent = `${data["glass"]} KG`;
@@ -168,27 +195,7 @@ templ scriptForScanPage() {
 				const confirmWasteBar = document.getElementById("confirmWaste-bar");
 				confirmWasteBar.classList.remove("translate-y-full");
 				confirmWasteBar.classList.add("translate-y-0");
-
-				// console.log("that does not seem like ours")
-				// toastr.options = {
-				// 		"closeButton": true,
-				// 		"debug": false,
-				// 		"newestOnTop": false,
-				// 		"progressBar": true,
-				// 		"positionClass": "toast-top-center",
-				// 		"preventDuplicates": true,
-				// 		"onclick": null,
-				// 		"showDuration": "100",
-				// 		"hideDuration": "1000",
-				// 		"timeOut": "3000",
-				// 		"extendedTimeOut": "1000",
-				// 		"showEasing": "swing",
-				// 		"hideEasing": "linear",
-				// 		"showMethod": "slideDown",
-				// 		"hideMethod": "slideUp"
-				// 	};
-				// toastr[ "success" ]("that does not seem like ours")
-				stopScanning();
+				stopScanning()
             }
 
 			function qrCodeErrorCallback ( error ) {
@@ -199,6 +206,7 @@ templ scriptForScanPage() {
                 html5QrCode.stop().then( ( ignore ) => {
                     restoreScreen();
                     isScanning = false;
+					data = {}
                 } )
                     .catch( ( err ) => {
                         restoreScreen();
@@ -211,8 +219,10 @@ templ scriptForScanPage() {
                 const scanButtonText = document.getElementsByClassName( "scanButtonText" )[ 0 ];
                 const scanButton = document.getElementsByClassName( 'scanButton' )[ 0 ];
 
-                xyz.style.display = 'block';
-                scanButton.style.backgroundColor = '';
+
+                document.getElementById( "reader" ).remove();
+                xyz.classList.toggle('hidden')
+				scanButton.classList.remove("bg-[#FF0000]");
                 scanButtonText.innerText = 'Scan';
             }
 
@@ -246,7 +256,7 @@ templ confirmWaste(accountEmail string) {
                  [transition:all_0.7s_ease-in-out]"
 		data-accountId={ accountEmail }
 	>
-		<section class="flex flex-col justify-center items-start gap-6">
+		<section class="flex flex-col justify-center items-start gap-2 font-tt_chocolate">
 			<p>Confirm your waste details match before proceeding</p>
 			<div class="flex justify-center items-center gap-2">
 				<p class="font-semibold">Glass:</p>
@@ -269,7 +279,7 @@ templ confirmWaste(accountEmail string) {
 				<p data-txn="name"></p>
 			</div>
 			<div class="flex justify-center items-center gap-2">
-				<p class="font-semibold">Txn Name:</p>
+				<p class="font-semibold">Bel Point Earned:</p>
 				<p data-points="points"></p>
 			</div>
 		</section>
@@ -305,9 +315,34 @@ templ SubmitWaste() {
 		type="button"
 		hx-post="/account/submitWaste"
 		hx-trigger="click"
+		hx-swap="innerHTML"
+		hx-target="#confirmWaste-bar"
 		hx-vals="js:{...getWasteData()}"
 		class="outline-none rounded-md mb-2 font-medium bg-[#016934] text-[0.813rem] leading-5 tracking-[0.00625em] py-[0.625rem] px-8 text-center text-white"
 	>
-		Send Waste Data To Server
+		Claim your BEL points
 	</button>
+}
+
+templ ClaimSuccessful(belPointsEarned float64) {
+	<section class="px-8 pt-6 flex flex-col justify-center items-center">
+		<img src="/public/assets/images/confetti.png" alt="" class="w-[11.313rem] aspect-square"/>
+		<p class="font-poppins font-normal text-xs leading-[1.125rem] text-center my-4">
+			we have added 
+			<a href="/account/wallet" class="text-[#016934] underline decoration-[#016934]">+{ fmt.Sprintf("%s points", formatFloatWithComma(belPointsEarned, 2)) }</a>
+			to your BEL point balance, let do more... champ.
+		</p>
+		<button
+			type="button"
+			_="on click 
+				if #confirmWaste-bar.classList contains 'translate-y-0'
+					tell #confirmWaste-bar
+					remove .translate-y-0 then add .translate-y-full
+					then add .hidden to #confirmWaste-backdrop
+				end"
+			class="bg-[#016934] text-white font-montserrat font-medium text-[0.813rem] leading-5 text-center tracking-[0.00625em] py-[0.625rem] px-[5.969rem] rounded-md"
+		>
+			Thank You
+		</button>
+	</section>
 }

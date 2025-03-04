@@ -22,13 +22,69 @@ WITH inserted_row AS (
   VALUES ($1, $2, $3, $4)
   RETURNING *
 )
-SELECT * 
-FROM beneficiaries
+SELECT * FROM beneficiaries
 WHERE account_email = $4
 UNION
 SELECT * 
 FROM inserted_row
 ORDER BY created_at DESC;
+
+
+-- name: AddNewAgentAsCollector :one
+WITH new_agent AS (
+    INSERT INTO agent (collector_email, agent_type)
+    VALUES ($1, 'collector')
+    RETURNING agent_ID
+)
+INSERT INTO collectors (
+    collector_email, first_name, last_name, display_name, avatar_URL,
+    location_city, location_state, location_country, location_addr, 
+    agent_ID, collector_role
+)
+VALUES (
+    $1, $2, $3, $4, $5, 
+    $6, $7, $8, $9, 
+    (SELECT agent_ID FROM new_agent), 'collector'
+)
+RETURNING *;
+
+-- name: AddNewWasteFromCollector :exec
+WITH new_waste AS (
+    INSERT INTO waste_logs (
+        claimed, glass_weighed, metal_weighed, plastics_weighed, paper_weighed, 
+        glass_points_earned, metal_points_earned, plastics_points_earned, paper_points_earned,
+        total_points_earned, location_addr, txn_name, status_report, collected_route, agent_ID, account_email
+    ) VALUES (
+        $1, $2, $3, $4, $5, 
+        $6, $7, $8, $9, 
+        $10, ST_SetSRID(ST_MakePoint($11, $12), 4326), $13, $14, 'collector', $15, $16
+    )
+    RETURNING 
+        waste_Id, account_email, total_points_earned, 
+        glass_weighed, metal_weighed, plastics_weighed, paper_weighed,
+        glass_points_earned, metal_points_earned, plastics_points_earned, paper_points_earned
+)
+UPDATE accounts 
+SET 
+    bel_point_balance = bel_point_balance + new_waste.total_points_earned,
+    total_bel_point = total_bel_point + new_waste.total_points_earned,
+    total_glass_waste = total_glass_waste + new_waste.glass_weighed,
+    total_metal_waste = total_metal_waste + new_waste.metal_weighed,
+    total_plastics_waste = total_plastics_waste + new_waste.plastics_weighed,
+    total_paper_waste = total_paper_waste + new_waste.paper_weighed,
+    total_glass_points_earned = total_glass_points_earned + new_waste.glass_points_earned,
+    total_metal_points_earned = total_metal_points_earned + new_waste.metal_points_earned,
+    total_plastics_points_earned = total_plastics_points_earned + new_waste.plastics_points_earned,
+    total_paper_points_earned = total_paper_points_earned + new_waste.paper_points_earned
+FROM new_waste 
+WHERE accounts.account_email = new_waste.account_email;
+
+
+-- name: SoftDeleteCollector :exec
+UPDATE agent
+SET is_deleted = TRUE, deleted_at = NOW()
+WHERE agent_ID = $1 AND agent_type = 'collector' AND is_deleted = FALSE;
+
 
 -- name: DeleteBeneficiary :many
 WITH deleted_row AS (
@@ -47,41 +103,11 @@ WHERE NOT (
 );
 
 
--- name: AddNewAgentAsCollector :one
-WITH new_agent AS (
-    INSERT INTO agents (agent_type, city, location_state, location_addr) 
-    VALUES ($1, $2, $3, ST_SetSRID(ST_MakePoint($4, $5), 4326))
-    RETURNING agent_ID
-),
-insert_collector AS (
-    INSERT INTO collectors (collector_email, collector_role, first_name, last_name, display_name, avatar_URL, agent_ID)
-    VALUES (
-        $6, $7, $8, $9, $10, $11, (SELECT agent_ID FROM new_agent)
-    ) ON CONFLICT (collector_email) DO NOTHING
-    RETURNING agent_ID
-)
-SELECT COALESCE(
-    (SELECT agent_ID FROM insert_collector), 
-    (SELECT agent_ID FROM collectors WHERE collectors.collector_email = $6)
-) AS agent_ID;
-
-
--- name: AddNewWasteLog :exec
-INSERT INTO waste_Logs (waste_Id, created_At, glass_weighed, metal_weighed, plastics_weighed, paper_weighed, location_addr, agent_ID, account_email, points_earned) 
-VALUES ($1, $2, $3, $4, $5, $6, ST_SetSRID(ST_MakePoint($7, $8), 4326), $9, $10, $11);
-
-
--- name: RemoveCollector :exec
-DELETE FROM collectors
-WHERE collector_Email = $1 AND collector_Role != 'super_collector';
-
-
--- name: GetAccount :one
+-- name: GetAccountByEmail :one
 SELECT * 
 FROM accounts 
 WHERE account_email = $1 
   AND is_Deleted = FALSE;
-
 
 -- name: UpdateNickName :one
 UPDATE accounts
@@ -90,17 +116,13 @@ WHERE account_email = $2
 RETURNING *;
 
 
--- name: AddNewWasteFromCollector :one
-INSERT INTO Waste_Logs (
-    glass_weighed, metal_weighed, plastics_weighed, paper_weighed, location_Addr, txn_Name, agent_ID, account_email, points_earned
-) VALUES (
-    $1, $2, $3, $4, ST_SetSRID(ST_MakePoint($5, $6), 4326), $7, $8, $9, $10
-)
-RETURNING waste_Id;
-
-
 -- name: GetAllCollectors :many
 SELECT * FROM collectors;
+
+
+-- name: GetCollector :one
+SELECT * FROM collectors
+WHERE collector_Email = $1;
 
 
 -- name: GetBeneficiariesByEmail :many
@@ -109,6 +131,7 @@ FROM beneficiaries
 WHERE account_email = $1
 ORDER BY created_at DESC;
 
+
 -- name: CreateNotification :one
 INSERT INTO notifications (
     notif_title, notif_heading, notif_body, days_to_Last, notif_time, notif_id
@@ -116,8 +139,27 @@ INSERT INTO notifications (
     $1, $2, $3, $4, $5, $6
 ) RETURNING id;
 
+
+-- name: GetWasteByAccountPaginated :many
+SELECT * 
+FROM waste_logs
+WHERE account_email = $1
+ORDER BY created_at DESC
+LIMIT $2 OFFSET $3;
+
+
+-- name: GetWasteByAccountForMonth :many
+SELECT * 
+FROM waste_logs
+WHERE account_email = $1
+AND created_at >= make_timestamp($2, $3, 1, 0, 0, 0) 
+AND created_at < (make_timestamp($2, $3, 1, 0, 0, 0) + INTERVAL '1 month')
+ORDER BY created_at DESC;
+
+
 -- name: GetAllNotifications :many
 SELECT * FROM notifications ORDER BY notif_time DESC;
+
 
 -- name: DeleteNotificationsByIDs :exec
 DELETE FROM notifications WHERE id = ANY($1::int[]);

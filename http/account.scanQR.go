@@ -23,13 +23,13 @@ func (a *App) confirmWaste(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	wasteUUIDstr := r.PostFormValue("uuid")
-	glass, paper, metal, plastics, err := getFormattedData(r)
-	if err != nil {
-		http.Error(w, "Failed to process form", http.StatusBadRequest)
-		return
-	}
+	// glass, paper, metal, plastics, err := getFormattedData(r)
+	// if err != nil {
+	// 	http.Error(w, "Failed to process form", http.StatusBadRequest)
+	// 	return
+	// }
 
+	wasteUUIDstr := r.PostFormValue("uuid")
 	waste, ok := a.wasteLogCache.Get(wasteUUIDstr)
 	if !ok {
 		fmt.Println("waste log does not exist")
@@ -42,13 +42,6 @@ func (a *App) confirmWaste(w http.ResponseWriter, r *http.Request) {
 
 		// return
 	}
-
-	fmt.Printf("\n found:%v value:%+v\n\n", ok, waste)
-	fmt.Println(waste.WasteID.String() == wasteUUIDstr)
-	fmt.Println(waste.GlassWeighed == glass)
-	fmt.Println(waste.PlasticsWeighed == plastics)
-	fmt.Println(waste.PaperWeighed == paper)
-	fmt.Println(waste.MetalWeighed == metal)
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := accPages.SubmitWaste().Render(context.TODO(), w); err != nil {
@@ -96,6 +89,12 @@ func (a *App) submitWaste(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Println("ok")
+	if err := a.addUserToCache(context.Background(), accountEmail); err != nil {
+		a.serverError(w, err)
+	}
 
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	if err := accPages.ClaimSuccessful(waste.TotalPointsEarned).Render(r.Context(), w); err != nil {
+		a.serverError(w, err)
+	}
 }

@@ -3,86 +3,53 @@ package service
 import (
 	"beltech/service/internal/repository/postgres"
 	"context"
+	"errors"
 	"fmt"
 
-	"github.com/google/uuid"
-	"github.com/jackc/pgx/v5/pgtype"
+	"github.com/jackc/pgx/v5/pgconn"
 )
 
-// import (
-// 	"beltech/service/internal/repository/postgres"
-// 	"context"
-// 	"fmt"
-// 	"time"
+func (s *Service) AddNewAgentAsCollector(ctx context.Context, param AddNewAgentAsCollectorParams) (Collector, error) {
+	p := postgres.AddNewAgentAsCollectorParams{
+		CollectorEmail:  param.CollectorEmail,
+		FirstName:       param.FirstName,
+		LastName:        param.LastName,
+		DisplayName:     param.DisplayName,
+		AvatarUrl:       param.AvatarUrl,
+		LocationCity:    param.LocationCity,
+		LocationState:   param.LocationState,
+		LocationCountry: param.LocationCountry,
+		LocationAddr:    param.LocationAddr,
+	}
 
-// 	"github.com/google/uuid"
-// 	"github.com/jackc/pgx/v5/pgtype"
-// )
-
-// func (s *Service) AddNewTempWasteFromCollector(ctx context.Context, param AddNewWasteFromCollectorParams) (uuid.UUID, error) {
-
-// 	pgUUID, err := s.dbQuery.AddNewWasteFromCollector(ctx, makeAddNewWasteFromCollectorParams(param))
-// 	if err != nil {
-// 		return uuid.Nil, err
-// 	}
-// 	return pgtypeUUIDToGoogleUUID(pgUUID)
-// }
-
-// func (s *Service) GetWasteFromCollectorByAgentIDAndDate(ctx context.Context, agentID uuid.UUID, date time.Time) ([]GetWasteFromCollectorByAgentIDAndDateRow, error) {
-// 	pgUUID, err := googleUUIDToPgtypeUUID(agentID)
-// 	if err != nil {
-// 		return nil, fmt.Errorf("error parsing agentID: %w", err)
-// 	}
-
-// 	res, err := s.dbQuery.GetWasteFromCollectorByAgentIDAndDate(ctx, postgres.GetWasteFromCollectorByAgentIDAndDateParams{
-// 		AgentID: pgUUID,
-// 		Column2: pgtype.Date{Time: date, Valid: true},
-// 	})
-// 	if err != nil {
-// 		return nil, err
-// 	}
-
-// 	return makeGetWasteFromCollectorByAgentIDAndDateRow(res)
-// }
-
-func (s *Service) AddNewAgentAsCollector(ctx context.Context, param AddNewAgentAsCollectorParams) (uuid.UUID, error) {
 	tx, err := s.pgxPool.Begin(ctx)
 	if err != nil {
-		return uuid.Nil, err
+		return Collector{}, fmt.Errorf("error begin-ing txn from pgxPool: error: %w", err)
 	}
 	defer tx.Rollback(ctx)
 
 	qtx := s.dbQuery.WithTx(tx)
-
-	p := postgres.AddNewAgentAsCollectorParams{
-		AgentType:      postgres.Identifyas(string(param.AgentType)),
-		City:           param.City,
-		LocationState:  param.LocationState,
-		StMakepoint:    param.StMakepoint,
-		StMakepoint_2:  param.StMakepoint_2,
-		CollectorEmail: param.CollectorEmail,
-		CollectorRole:  postgres.Collectorrole(string(param.CollectorRole)),
-		FirstName:      param.FirstName,
-		LastName:       param.LastName,
-		DisplayName:    param.DisplayName,
-		AvatarUrl:      param.AvatarUrl,
-	}
-
-	pgUUID, err := qtx.AddNewAgentAsCollector(ctx, p)
+	collector, err := qtx.AddNewAgentAsCollector(ctx, p)
 	if err != nil {
-		return uuid.Nil, err
+		var pgErr *pgconn.PgError
+		if ok := errors.As(err, &pgErr); ok {
+			if pgErr.Code == "23505" {
+				if collector, err = s.dbQuery.GetCollector(
+					context.Background(), param.CollectorEmail); err != nil {
+					return Collector{}, err
+				}
+				return makeServiceCollector(collector)
+			}
+		}
+
+		return Collector{}, fmt.Errorf("service.AddNewAgentAsCollector: error: %w", err)
 	}
 
 	if err := tx.Commit(ctx); err != nil {
-		return uuid.Nil, err
+		return Collector{}, fmt.Errorf("error commiting txn: error: %w", err)
 	}
 
-	pgTypeUUID, ok := pgUUID.(pgtype.UUID)
-	if !ok {
-		return uuid.Nil, fmt.Errorf("unexpected type for UUID: %T", pgUUID)
-	}
-
-	return pgtypeUUIDToGoogleUUID(pgTypeUUID)
+	return makeServiceCollector(collector)
 }
 
 func (s *Service) GetAllCollectors(ctx context.Context) ([]Collector, error) {
@@ -97,18 +64,21 @@ func (s *Service) GetAllCollectors(ctx context.Context) ([]Collector, error) {
 	for i, v := range q {
 		agentId, err := pgtypeUUIDToGoogleUUID(q[i].AgentID)
 		if err != nil {
-			return nil, fmt.Errorf("err formating agentID for %v; error: %w", v.AgentID.String(), err)
+			return nil, fmt.Errorf("GetAllCollectors: err formating agentID for %v; error: %w", v.AgentID.String(), err)
 		}
 		res[i] = Collector{
-			CollectorEmail: v.CollectorEmail,
-			FirstName:      v.FirstName,
-			LastName:       v.LastName,
-			DisplayName:    v.DisplayName,
-			AvatarUrl:      v.AvatarUrl,
-			CollectorRole:  Collectorrole(string(q[i].CollectorRole)),
-			AgentID:        agentId,
+			CollectorEmail:  v.CollectorEmail,
+			FirstName:       v.FirstName,
+			LastName:        v.LastName,
+			DisplayName:     v.DisplayName,
+			AvatarUrl:       v.AvatarUrl,
+			LocationCity:    v.LocationCity,
+			LocationState:   v.LocationState,
+			LocationCountry: v.LocationCountry,
+			LocationAddr:    v.LocationAddr,
+			AgentID:         agentId,
+			CollectorRole:   Collectorrole(v.CollectorRole),
 		}
 	}
-
 	return res, nil
 }

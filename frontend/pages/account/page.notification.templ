@@ -1,19 +1,20 @@
 package frontend
 
 import (
+	"beltech/service"
 	"fmt"
 	"time"
 )
 
-templ MakeNotification(acc Account) {
+templ MakeNotification(acc service.Account) {
 	<!DOCTYPE html>
 	<html lang="en">
-		@HeadTag("dashboard")
+		@headTag("dashboard")
 		<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
 			<div class="Page w-full h-full flex flex-col font-montserrat text-[#2E2E2E]">
-				@CommonHeader(acc)
-				@NotificationMain(acc)
-				@Footer("dashboard", templ.NopComponent)
+				@commonHeader(acc)
+				@notificationMain(acc)
+				@footer("dashboard")
 			</div>
 		</body>
 		@scriptForNotificationPage()
@@ -26,7 +27,7 @@ templ scriptForNotificationPage() {
 	<script src="/public/assets/scripts/notification.js"></script>
 }
 
-templ NotificationMain(acc Account) {
+templ notificationMain(acc service.Account) {
 	<main class="grow overflow-y-auto pl-[1.5rem] pr-[1.56rem] pt-[1.875rem] grid grid-rows-notificationPage">
 		<form
 			action="/account/createNotification"

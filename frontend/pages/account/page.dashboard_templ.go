@@ -9,12 +9,13 @@ import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
 import (
+	"beltech/service"
 	"fmt"
 	"html/template"
 	"time"
 )
 
-func DashboardPage(acc Account, chart template.HTML, isEmpty, isNewAccount bool) templ.Component {
+func DashboardPage(acc service.Account, chart template.HTML, isEmpty, isNewAccount bool) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -39,7 +40,7 @@ func DashboardPage(acc Account, chart template.HTML, isEmpty, isNewAccount bool)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = HeadTag("dashboard").Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = headTag("dashboard").Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -47,19 +48,35 @@ func DashboardPage(acc Account, chart template.HTML, isEmpty, isNewAccount bool)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = CommonHeader(acc).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = commonHeader(acc).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = DashboardMain(chart, isEmpty).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "<main class=\"grow overflow-y-scroll pl-6 pr-[1.56rem] pt-[1.875rem] pb-2\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = Footer("dashboard", templ.NopComponent).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = dashboardSwiperOne(acc).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</div></body>")
+		templ_7745c5c3_Err = DashboardDataViz(chart, isEmpty).Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = dashboardSwiperTwo().Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "</main>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = footer("dashboard").Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "</div></body>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -68,7 +85,7 @@ func DashboardPage(acc Account, chart template.HTML, isEmpty, isNewAccount bool)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, " ")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, " ")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -76,7 +93,7 @@ func DashboardPage(acc Account, chart template.HTML, isEmpty, isNewAccount bool)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, " <script type=\"module\">\n\t\t\t\tawait handleNotification(true);\n\t\t\t</script>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, " <script type=\"module\">\n\t\t\t\tawait handleNotification(true);\n\t\t\t</script>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -85,7 +102,7 @@ func DashboardPage(acc Account, chart template.HTML, isEmpty, isNewAccount bool)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "</html>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "</html>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -93,7 +110,7 @@ func DashboardPage(acc Account, chart template.HTML, isEmpty, isNewAccount bool)
 	})
 }
 
-func DashboardMain(chart template.HTML, isEmpty bool) templ.Component {
+func dashboardSwiperOne(acc service.Account) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -114,81 +131,59 @@ func DashboardMain(chart template.HTML, isEmpty bool) templ.Component {
 			templ_7745c5c3_Var2 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "<main class=\"grow overflow-y-scroll pl-6 pr-[1.56rem] pt-[1.875rem] pb-2\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "<section class=\"flex items-center gap-1\"><p class=\"leading-[1.143rem] font-semibold text-[0.938rem]\">Let's Recycle</p><picture><source type=\"image/webp\" srcset=\"/public/assets/images/Recycle_small.webp\"> <img src=\"/public/assets/images/Recycle_small.png\" class=\"w-5 aspect-square\"></picture></section><section class=\"swiperOne mt-[0.86rem] mr-0\"><div class=\"swiper mySwiperOne w-full\"><div class=\"swiper-wrapper\"><div class=\"swiper-slide\"><a href=\"/account/waste/paper\" class=\"relative block\"><picture><source type=\"image/webp\" srcset=\"/public/assets/images/book.webp\"> <img fetchpriorty=\"high\" src=\"/public/assets/images/book.jpg\" class=\"w-[10rem] aspect-square rounded-xl \"></picture><div class=\"absolute bottom-4 left-4 text-white text-left\"><p class=\"font-semibold text-xs leading-[0.838rem]\">PAPER</p><p class=\"font-bold text-[0.625rem] leading-[0.762rem]\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = DashboardSwiperOne().Render(ctx, templ_7745c5c3_Buffer)
+		var templ_7745c5c3_Var3 string
+		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%s KG", formatTotalWasteWeighed(acc.TotalPaperWaste)))
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.dashboard.templ`, Line: 62, Col: 131}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = DashboardDataViz(chart, isEmpty).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "</p></div></a></div><div class=\"swiper-slide\"><a href=\"/account/waste/glass\" class=\"relative block\"><picture><source type=\"image/webp\" srcset=\"/public/assets/images/glass.webp\"> <img fetchpriorty=\"high\" src=\"/public/assets/images/glass.jpg\" class=\"w-[10rem] aspect-square rounded-xl\"></picture><div class=\"absolute bottom-4 left-4 text-white text-left\"><p class=\"font-semibold text-xs leading-[0.838rem]\">GLASS</p><p class=\"font-bold text-[0.625rem] leading-[0.762rem]\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = DashboardSwiperTwo().Render(ctx, templ_7745c5c3_Buffer)
+		var templ_7745c5c3_Var4 string
+		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%s KG", formatTotalWasteWeighed(acc.TotalGlassWaste)))
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.dashboard.templ`, Line: 78, Col: 131}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "</main>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "</p></div></a></div><div class=\"swiper-slide\"><a href=\"/account/waste/metal\" class=\"relative block\"><picture><source type=\"image/webp\" srcset=\"/public/assets/images/metal2.webp\"> <img fetchpriorty=\"high\" src=\"/public/assets/images/metal2.jpg\" class=\"w-[10rem] aspect-square rounded-xl\"></picture><div class=\"absolute bottom-4 left-4 text-white text-left\"><p class=\"font-semibold text-xs leading-[0.838rem]\">METAL</p><p class=\"font-bold text-[0.625rem] leading-[0.762rem]\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		return nil
-	})
-}
-
-func DashboardMainOpeningTag() templ.Component {
-	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
-		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
-		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
-			return templ_7745c5c3_CtxErr
+		var templ_7745c5c3_Var5 string
+		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%s KG", formatTotalWasteWeighed(acc.TotalMetalWaste)))
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.dashboard.templ`, Line: 94, Col: 131}
 		}
-		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
-		if !templ_7745c5c3_IsBuffer {
-			defer func() {
-				templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
-				if templ_7745c5c3_Err == nil {
-					templ_7745c5c3_Err = templ_7745c5c3_BufErr
-				}
-			}()
-		}
-		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var3 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var3 == nil {
-			templ_7745c5c3_Var3 = templ.NopComponent
-		}
-		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templ.Raw(`<main class="grow overflow-y-scroll pl-6 pr-[1.56rem] pt-[1.875rem] pb-2">`).Render(ctx, templ_7745c5c3_Buffer)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		return nil
-	})
-}
-
-func DashboardSwiperOne() templ.Component {
-	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
-		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
-		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
-			return templ_7745c5c3_CtxErr
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, "</p></div></a></div><div class=\"swiper-slide\"><a href=\"/account/waste/plastics\" class=\"relative block\"><picture><source type=\"image/webp\" srcset=\"/public/assets/images/plastic_2.webp\"> <img fetchpriorty=\"high\" src=\"/public/assets/images/plastic_2.jpg\" class=\"w-[10rem] aspect-square rounded-xl \"></picture><div class=\"absolute bottom-4 left-4 text-white text-left\"><p class=\"font-semibold text-xs leading-[0.838rem]\">PLASTICS</p><p class=\"font-bold text-[0.625rem] leading-[0.762rem]\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
-		if !templ_7745c5c3_IsBuffer {
-			defer func() {
-				templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
-				if templ_7745c5c3_Err == nil {
-					templ_7745c5c3_Err = templ_7745c5c3_BufErr
-				}
-			}()
+		var templ_7745c5c3_Var6 string
+		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%s KG", formatTotalWasteWeighed(acc.TotalPlasticsWaste)))
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.dashboard.templ`, Line: 110, Col: 134}
 		}
-		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var4 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var4 == nil {
-			templ_7745c5c3_Var4 = templ.NopComponent
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
 		}
-		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "<section class=\"flex items-center gap-1\"><p class=\"leading-[1.143rem] font-semibold text-[0.938rem]\">Let's Recycle</p><picture><source type=\"image/webp\" srcset=\"/public/assets/images/Recycle_small.webp\"> <img src=\"/public/assets/images/Recycle_small.png\" class=\"w-5 aspect-square\"></picture></section><section class=\"swiperOne mt-[0.86rem] mr-0\"><div class=\"swiper mySwiperOne w-full\"><div class=\"swiper-wrapper\"><div class=\"swiper-slide\"><a href=\"/account/waste/paper\" class=\"relative block\"><picture><source type=\"image/webp\" srcset=\"/public/assets/images/book.webp\"> <img fetchpriorty=\"high\" src=\"/public/assets/images/book.jpg\" class=\"w-[10rem] aspect-square rounded-xl \"></picture><div class=\"absolute bottom-4 left-4 text-white text-left\"><p class=\"font-semibold text-xs leading-[0.838rem]\">PAPER</p><p class=\"font-bold text-[0.625rem] leading-[0.762rem]\">0 BEL</p></div></a></div><div class=\"swiper-slide\"><a href=\"/account/waste/glass\" class=\"relative block\"><picture><source type=\"image/webp\" srcset=\"/public/assets/images/glass.webp\"> <img fetchpriorty=\"high\" src=\"/public/assets/images/glass.jpg\" class=\"w-[10rem] aspect-square rounded-xl\"></picture><div class=\"absolute bottom-4 left-4 text-white text-left\"><p class=\"font-semibold text-xs leading-[0.838rem]\">GLASS</p><p class=\"font-bold text-[0.625rem] leading-[0.762rem]\">0 BEL</p></div></a></div><div class=\"swiper-slide\"><a href=\"/account/waste/metal\" class=\"relative block\"><picture><source type=\"image/webp\" srcset=\"/public/assets/images/metal2.webp\"> <img fetchpriorty=\"high\" src=\"/public/assets/images/metal2.jpg\" class=\"w-[10rem] aspect-square rounded-xl\"></picture><div class=\"absolute bottom-4 left-4 text-white text-left\"><p class=\"font-semibold text-xs leading-[0.838rem]\">METAL</p><p class=\"font-bold text-[0.625rem] leading-[0.762rem]\">0 BEL</p></div></a></div><div class=\"swiper-slide\"><a href=\"/account/waste/plastics\" class=\"relative block\"><picture><source type=\"image/webp\" srcset=\"/public/assets/images/plastic_2.webp\"> <img fetchpriorty=\"high\" src=\"/public/assets/images/plastic_2.jpg\" class=\"w-[10rem] aspect-square rounded-xl \"></picture><div class=\"absolute bottom-4 left-4 text-white text-left\"><p class=\"font-semibold text-xs leading-[0.838rem]\">PLASTICS</p><p class=\"font-bold text-[0.625rem] leading-[0.762rem]\">0 BEL</p></div></a></div></div></div></section><section class=\"mt-8 w-full flex items-start justify-between\"><p class=\"font-semibold text-[0.94rem] leading-[1.14rem]\">Recycled</p></section>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, "</p></div></a></div></div></div></section><section class=\"mt-8 w-full flex items-start justify-between\"><p class=\"font-semibold text-[0.94rem] leading-[1.14rem]\">Recycled</p></section>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -212,12 +207,12 @@ func DashboardDataViz(chart template.HTML, isEmpty bool) templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var5 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var5 == nil {
-			templ_7745c5c3_Var5 = templ.NopComponent
+		templ_7745c5c3_Var7 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var7 == nil {
+			templ_7745c5c3_Var7 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "<section class=\"mt-5\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 14, "<section class=\"mt-5\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -225,72 +220,72 @@ func DashboardDataViz(chart template.HTML, isEmpty bool) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "<div class=\"flex justify-between items-center gap-8  px-2\"><button hx-get=\"/account/dashboard/chart?month=4\" hx-trigger=\"click\" hx-swap=\"outerHTML\" hx-target=\"#echart\" class=\"graph-select font-poppins font-semibold  text-[0.5rem] leading-3 py-[0.563rem] \n\t\t\tpl-[0.688rem] pr-[0.75rem] bg-[#FFFFFF] text-[#000000] [box-shadow:0rem_0.0575rem_0.115rem_0.0575rem_#00000014] rounded-[0.344rem]\">")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		var templ_7745c5c3_Var6 string
-		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%s", time.Now().AddDate(0, -4, 0).Format("Jan")))
-		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.dashboard.templ`, Line: 140, Col: 67}
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, "</button> <button hx-get=\"/account/dashboard/chart?month=3\" hx-trigger=\"click\" hx-swap=\"outerHTML\" hx-target=\"#echart\" class=\"graph-select font-poppins font-semibold  text-[0.5rem] leading-3 py-[0.563rem] \n\t\t\tpl-[0.688rem] pr-[0.75rem] bg-[#FFFFFF] text-[#000000] [box-shadow:0rem_0.0575rem_0.115rem_0.0575rem_#00000014] rounded-[0.344rem]\">")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		var templ_7745c5c3_Var7 string
-		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%s", time.Now().AddDate(0, -3, 0).Format("Jan")))
-		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.dashboard.templ`, Line: 148, Col: 67}
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, "</button> <button hx-get=\"/account/dashboard/chart?month=2\" hx-trigger=\"click\" hx-swap=\"outerHTML\" hx-target=\"#echart\" class=\"graph-select font-poppins font-semibold  text-[0.5rem] leading-3 py-[0.563rem] \n\t\t\tpl-[0.688rem] pr-[0.75rem] bg-[#FFFFFF] text-[#000000] [box-shadow:0rem_0.0575rem_0.115rem_0.0575rem_#00000014] rounded-[0.344rem]\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, "<div class=\"flex justify-between items-center gap-8  px-2\"><button hx-get=\"/account/dashboard/chart?month=4\" hx-trigger=\"click\" hx-swap=\"outerHTML\" hx-target=\"#echart\" class=\"graph-select font-poppins font-semibold  text-[0.5rem] leading-3 py-[0.563rem] \n\t\t\tpl-[0.688rem] pr-[0.75rem] bg-[#FFFFFF] text-[#000000] [box-shadow:0rem_0.0575rem_0.115rem_0.0575rem_#00000014] rounded-[0.344rem]\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var8 string
-		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%s", time.Now().AddDate(0, -2, 0).Format("Jan")))
+		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%s", time.Now().AddDate(0, -4, 0).Format("Jan")))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.dashboard.templ`, Line: 156, Col: 67}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.dashboard.templ`, Line: 133, Col: 67}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 14, "</button> <button hx-get=\"/account/dashboard/chart?month=1\" hx-trigger=\"click\" hx-swap=\"outerHTML\" hx-target=\"#echart\" class=\"graph-select font-poppins font-semibold  text-[0.5rem] leading-3 py-[0.563rem] \n\t\t\tpl-[0.688rem] pr-[0.75rem] bg-[#FFFFFF] text-[#000000] [box-shadow:0rem_0.0575rem_0.115rem_0.0575rem_#00000014] rounded-[0.344rem]\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 16, "</button> <button hx-get=\"/account/dashboard/chart?month=3\" hx-trigger=\"click\" hx-swap=\"outerHTML\" hx-target=\"#echart\" class=\"graph-select font-poppins font-semibold  text-[0.5rem] leading-3 py-[0.563rem] \n\t\t\tpl-[0.688rem] pr-[0.75rem] bg-[#FFFFFF] text-[#000000] [box-shadow:0rem_0.0575rem_0.115rem_0.0575rem_#00000014] rounded-[0.344rem]\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var9 string
-		templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%s", time.Now().AddDate(0, -1, 0).Format("Jan")))
+		templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%s", time.Now().AddDate(0, -3, 0).Format("Jan")))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.dashboard.templ`, Line: 164, Col: 67}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.dashboard.templ`, Line: 141, Col: 67}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, "</button> <button hx-get=\"/account/dashboard/chart?month=0\" hx-trigger=\"click\" hx-swap=\"outerHTML\" hx-target=\"#echart\" class=\"graph-select font-poppins font-semibold text-[0.5rem] leading-3 py-[0.563rem] \n\t\t\tpl-[0.688rem] pr-[0.75rem] bg-[#016934] text-[#FFFFFF] [box-shadow:0rem_0.0575rem_0.115rem_0.0575rem_#00000014] rounded-[0.344rem]\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 17, "</button> <button hx-get=\"/account/dashboard/chart?month=2\" hx-trigger=\"click\" hx-swap=\"outerHTML\" hx-target=\"#echart\" class=\"graph-select font-poppins font-semibold  text-[0.5rem] leading-3 py-[0.563rem] \n\t\t\tpl-[0.688rem] pr-[0.75rem] bg-[#FFFFFF] text-[#000000] [box-shadow:0rem_0.0575rem_0.115rem_0.0575rem_#00000014] rounded-[0.344rem]\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var10 string
-		templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%s.", time.Now().AddDate(0, -0, 0).Format("Jan")))
+		templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%s", time.Now().AddDate(0, -2, 0).Format("Jan")))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.dashboard.templ`, Line: 172, Col: 68}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.dashboard.templ`, Line: 149, Col: 67}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 16, "</button></div></section>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 18, "</button> <button hx-get=\"/account/dashboard/chart?month=1\" hx-trigger=\"click\" hx-swap=\"outerHTML\" hx-target=\"#echart\" class=\"graph-select font-poppins font-semibold  text-[0.5rem] leading-3 py-[0.563rem] \n\t\t\tpl-[0.688rem] pr-[0.75rem] bg-[#FFFFFF] text-[#000000] [box-shadow:0rem_0.0575rem_0.115rem_0.0575rem_#00000014] rounded-[0.344rem]\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var11 string
+		templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%s", time.Now().AddDate(0, -1, 0).Format("Jan")))
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.dashboard.templ`, Line: 157, Col: 67}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 19, "</button> <button hx-get=\"/account/dashboard/chart?month=0\" hx-trigger=\"click\" hx-swap=\"outerHTML\" hx-target=\"#echart\" class=\"graph-select font-poppins font-semibold text-[0.5rem] leading-3 py-[0.563rem] \n\t\t\tpl-[0.688rem] pr-[0.75rem] bg-[#016934] text-[#FFFFFF] [box-shadow:0rem_0.0575rem_0.115rem_0.0575rem_#00000014] rounded-[0.344rem]\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var12 string
+		templ_7745c5c3_Var12, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%s.", time.Now().AddDate(0, -0, 0).Format("Jan")))
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.dashboard.templ`, Line: 165, Col: 68}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var12))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 20, "</button></div></section>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -314,12 +309,12 @@ func DashboardEchart(chart template.HTML, isEmpty bool) templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var11 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var11 == nil {
-			templ_7745c5c3_Var11 = templ.NopComponent
+		templ_7745c5c3_Var13 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var13 == nil {
+			templ_7745c5c3_Var13 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 17, "<div id=\"echart\" class=\"bg-transparent relative\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 21, "<div id=\"echart\" class=\"bg-transparent relative\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -328,12 +323,12 @@ func DashboardEchart(chart template.HTML, isEmpty bool) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		if isEmpty {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 18, "<div class=\"absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-xs font-tt_chocolate font-light text-nowrap\">No colletion waste data for this month</div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 22, "<div class=\"absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-xs font-tt_chocolate font-light text-nowrap\">No colletion waste data for this month</div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 19, "</div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 23, "</div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -341,7 +336,7 @@ func DashboardEchart(chart template.HTML, isEmpty bool) templ.Component {
 	})
 }
 
-func DashboardSwiperTwo() templ.Component {
+func dashboardSwiperTwo() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -357,12 +352,12 @@ func DashboardSwiperTwo() templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var12 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var12 == nil {
-			templ_7745c5c3_Var12 = templ.NopComponent
+		templ_7745c5c3_Var14 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var14 == nil {
+			templ_7745c5c3_Var14 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 20, "<p class=\"font-semibold text-[0.938rem] leading-[1.143rem] mt-6\">Tips on Recycling</p><section class=\"swiperTwo mt-4\"><div class=\"px-4 swiper mySwiperTwo w-full\"><div class=\"swiper-wrapper\"><a href=\"/account/tips/plastics\" class=\"swiper-slide block\"><div class=\"bg-[#FEF7FF] rounded-lg flex items-center justify-center p-[0.313rem]\"><img src=\"/public/assets/svg/manWithPlastics.svg\" class=\"w-[6.875rem] aspect-[110/101] mx-[0.313rem] mr-[0.313rem] rounded-lg\"><div class=\"flex flex-col gap-2\"><div class=\"flex items-center gap-[0.313rem]\"><p class=\"font-semibold text-[0.688rem] leading-[0.838rem]\">PLASTICS:</p><picture><source type=\"image/webp\" srcset=\"/public/assets/images/Recycle_small.webp\"> <img src=\"/public/assets/images/Recycle_small.png\" alt=\"\" class=\"w-[0.813rem] aspect-square\"></picture></div><p class=\"font-[500] text-[0.625rem] leading-[0.875rem] text-left\">Twist on the bottle caps before tossing them in the bin to make it easier for recyclers.</p></div></div></a> <a href=\"/account/tips/glass\" class=\"swiper-slide block\"><div class=\"bg-[#FEF7FF] rounded-lg flex items-center justify-center p-[0.313rem]\"><img src=\"/public/assets/svg/glassSwipper.svg\" class=\"w-[6.875rem] aspect-[110/101] mx-[0.313rem] mr-[0.313rem] rounded-lg\"><div class=\"flex flex-col gap-2\"><div class=\"flex items-center gap-[0.313rem]\"><p class=\"font-semibold text-[0.688rem] leading-[0.838rem]\">GLASS:</p><picture><source type=\"image/webp\" srcset=\"/public/assets/images/Recycle_small.webp\"> <img src=\"/public/assets/images/Recycle_small.png\" alt=\"\" class=\"w-[0.813rem] aspect-square\"></picture></div><p class=\"font-[500] text-[0.625rem] leading-[0.875rem] text-left\">Remove food or drink residues from the glass as it can contaminate recycling process.</p></div></div></a> <a href=\"/account/tips/metal\" class=\"swiper-slide block\"><div class=\"bg-[#FEF7FF] rounded-lg flex items-center justify-center p-[0.313rem]\"><img src=\"/public/assets/svg/metalSwipper.svg\" class=\"w-[6.875rem] aspect-[110/101] mx-[0.313rem] mr-[0.313rem] rounded-lg\"><div class=\"flex flex-col gap-2\"><div class=\"flex items-center gap-[0.313rem]\"><p class=\"font-semibold text-[0.688rem] leading-[0.838rem]\">METAL:</p><picture><source type=\"image/webp\" srcset=\"/public/assets/images/Recycle_small.webp\"> <img src=\"/public/assets/images/Recycle_small.png\" alt=\"\" class=\"w-[0.813rem] aspect-square\"></picture></div><p class=\"font-[500] text-[0.625rem] leading-[0.875rem] text-left\">Be careful not to crush metals like cans, as it makes sorting easier before recycling.</p></div></div></a> <a href=\"/account/tips/paper\" class=\"swiper-slide block\"><div class=\"bg-[#FEF7FF] rounded-lg flex items-center justify-center p-[0.313rem]\"><img src=\"/public/assets/svg/paperSwipper.svg\" class=\"w-[6.875rem] aspect-[110/101] mx-[0.313rem] mr-[0.313rem] rounded-lg\"><div class=\"flex flex-col gap-2\"><div class=\"flex items-center gap-[0.313rem]\"><p class=\"font-semibold text-[0.688rem] leading-[0.838rem]\">PAPER:</p><img src=\"/public/assets/images/Recycle_small.png\" alt=\"\" class=\"w-[0.813rem] aspect-square\"></div><p class=\"font-[500] text-[0.625rem] leading-[0.875rem] text-left\">Wet paper can become too damaged to recycle, as paper weakens fibers. So keep paper dry!\t\t\t\t\t\t\t\t\t\t\t</p></div></div></a></div></div></section>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 24, "<p class=\"font-semibold text-[0.938rem] leading-[1.143rem] mt-6\">Tips on Recycling</p><section class=\"swiperTwo mt-4\"><div class=\"px-4 swiper mySwiperTwo w-full\"><div class=\"swiper-wrapper\"><a href=\"/account/tips/plastics\" class=\"swiper-slide block\"><div class=\"bg-[#FEF7FF] rounded-lg flex items-center justify-center p-[0.313rem]\"><img src=\"/public/assets/svg/manWithPlastics.svg\" class=\"w-[6.875rem] aspect-[110/101] mx-[0.313rem] mr-[0.313rem] rounded-lg\"><div class=\"flex flex-col gap-2\"><div class=\"flex items-center gap-[0.313rem]\"><p class=\"font-semibold text-[0.688rem] leading-[0.838rem]\">PLASTICS:</p><picture><source type=\"image/webp\" srcset=\"/public/assets/images/Recycle_small.webp\"> <img src=\"/public/assets/images/Recycle_small.png\" alt=\"\" class=\"w-[0.813rem] aspect-square\"></picture></div><p class=\"font-[500] text-[0.625rem] leading-[0.875rem] text-left\">Twist on the bottle caps before tossing them in the bin to make it easier for recyclers.</p></div></div></a> <a href=\"/account/tips/glass\" class=\"swiper-slide block\"><div class=\"bg-[#FEF7FF] rounded-lg flex items-center justify-center p-[0.313rem]\"><img src=\"/public/assets/svg/glassSwipper.svg\" class=\"w-[6.875rem] aspect-[110/101] mx-[0.313rem] mr-[0.313rem] rounded-lg\"><div class=\"flex flex-col gap-2\"><div class=\"flex items-center gap-[0.313rem]\"><p class=\"font-semibold text-[0.688rem] leading-[0.838rem]\">GLASS:</p><picture><source type=\"image/webp\" srcset=\"/public/assets/images/Recycle_small.webp\"> <img src=\"/public/assets/images/Recycle_small.png\" alt=\"\" class=\"w-[0.813rem] aspect-square\"></picture></div><p class=\"font-[500] text-[0.625rem] leading-[0.875rem] text-left\">Remove food or drink residues from the glass as it can contaminate recycling process.</p></div></div></a> <a href=\"/account/tips/metal\" class=\"swiper-slide block\"><div class=\"bg-[#FEF7FF] rounded-lg flex items-center justify-center p-[0.313rem]\"><img src=\"/public/assets/svg/metalSwipper.svg\" class=\"w-[6.875rem] aspect-[110/101] mx-[0.313rem] mr-[0.313rem] rounded-lg\"><div class=\"flex flex-col gap-2\"><div class=\"flex items-center gap-[0.313rem]\"><p class=\"font-semibold text-[0.688rem] leading-[0.838rem]\">METAL:</p><picture><source type=\"image/webp\" srcset=\"/public/assets/images/Recycle_small.webp\"> <img src=\"/public/assets/images/Recycle_small.png\" alt=\"\" class=\"w-[0.813rem] aspect-square\"></picture></div><p class=\"font-[500] text-[0.625rem] leading-[0.875rem] text-left\">Be careful not to crush metals like cans, as it makes sorting easier before recycling.</p></div></div></a> <a href=\"/account/tips/paper\" class=\"swiper-slide block\"><div class=\"bg-[#FEF7FF] rounded-lg flex items-center justify-center p-[0.313rem]\"><img src=\"/public/assets/svg/paperSwipper.svg\" class=\"w-[6.875rem] aspect-[110/101] mx-[0.313rem] mr-[0.313rem] rounded-lg\"><div class=\"flex flex-col gap-2\"><div class=\"flex items-center gap-[0.313rem]\"><p class=\"font-semibold text-[0.688rem] leading-[0.838rem]\">PAPER:</p><img src=\"/public/assets/images/Recycle_small.png\" alt=\"\" class=\"w-[0.813rem] aspect-square\"></div><p class=\"font-[500] text-[0.625rem] leading-[0.875rem] text-left\">Wet paper can become too damaged to recycle, as paper weakens fibers. So keep paper dry!\t\t\t\t\t\t\t\t\t\t\t</p></div></div></a></div></div></section>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -386,12 +381,12 @@ func scriptForDashboardPage() templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var13 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var13 == nil {
-			templ_7745c5c3_Var13 = templ.NopComponent
+		templ_7745c5c3_Var15 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var15 == nil {
+			templ_7745c5c3_Var15 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 21, "<script src=\"/public/assets/scripts/swiper-bundle.min.js\"></script><script src=\"/public/assets/scripts/htmx.min.js\"></script><script src=\"/public/assets/scripts/hyperscript.min.js\"></script><script src=\"/public/assets/scripts/notification.js\"></script><script>\n        const swiperOne = new Swiper( '.mySwiperOne', {\n            direction: \"horizontal\",\n            slidesPerView: 2,\n            mousewheel: true,\n            spaceBetween: 8,\n            autoplay: {\n                delay: 3750,\n                disableOnInteraction: true,\n            },\n        } );\n\n        const swiperTwo = new Swiper( '.mySwiperTwo', {\n            mousewheel: true,\n            keyboard: true,\n\t\t\tspaceBetween: 8,\n            autoplay: {\n                delay: 5000,\n                disableOnInteraction: true,\n            },\n        } );\n\n\t\tdocument.querySelectorAll('.graph-select').forEach(button => {\n\t\t\tbutton.addEventListener('click', () => {\n\t\t\t\tdocument.querySelectorAll('.graph-select').forEach(btn => {\n\t\t\t\t\tbtn.classList.remove('bg-[#016934]', 'text-[#FFFFFF]');\n\t\t\t\t\tbtn.classList.add('bg-[#FFFFFF]', 'text-[#000000]');\n\t\t\t\t});\n\t\t\t\tbutton.classList.remove('bg-[#FFFFFF]', 'text-[#000000]');\n\t\t\t\tbutton.classList.add('bg-[#016934]', 'text-[#FFFFFF]');\n\t\t\t});\n\t\t});\n    </script>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 25, "<script src=\"/public/assets/scripts/swiper-bundle.min.js\"></script><script src=\"/public/assets/scripts/htmx.min.js\"></script><script src=\"/public/assets/scripts/hyperscript.min.js\"></script><script src=\"/public/assets/scripts/notification.js\"></script><script>\n        const swiperOne = new Swiper( '.mySwiperOne', {\n            direction: \"horizontal\",\n            slidesPerView: 2,\n            mousewheel: true,\n            spaceBetween: 8,\n            autoplay: {\n                delay: 3750,\n                disableOnInteraction: true,\n            },\n        } );\n\n        const swiperTwo = new Swiper( '.mySwiperTwo', {\n            mousewheel: true,\n            keyboard: true,\n\t\t\tspaceBetween: 8,\n            autoplay: {\n                delay: 5000,\n                disableOnInteraction: true,\n            },\n        } );\n\n\t\tdocument.querySelectorAll('.graph-select').forEach(button => {\n\t\t\tbutton.addEventListener('click', () => {\n\t\t\t\tdocument.querySelectorAll('.graph-select').forEach(btn => {\n\t\t\t\t\tbtn.classList.remove('bg-[#016934]', 'text-[#FFFFFF]');\n\t\t\t\t\tbtn.classList.add('bg-[#FFFFFF]', 'text-[#000000]');\n\t\t\t\t});\n\t\t\t\tbutton.classList.remove('bg-[#FFFFFF]', 'text-[#000000]');\n\t\t\t\tbutton.classList.add('bg-[#016934]', 'text-[#FFFFFF]');\n\t\t\t});\n\t\t});\n    </script>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -419,12 +414,12 @@ func confetti() templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var14 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var14 == nil {
-			templ_7745c5c3_Var14 = templ.NopComponent
+		templ_7745c5c3_Var16 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var16 == nil {
+			templ_7745c5c3_Var16 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 22, "<script src=\"/public/assets/scripts/confetti.browser.min.js\"></script><script type=\"module\">\n\t\tawait new Promise(resolve => setTimeout(resolve, 400));\n\t\tvar duration = 5000;\n\t\tvar animationEnd = Date.now() + duration;\n\t\tvar defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };\n\n\t\tfunction randomInRange(min, max) {\n\t\treturn Math.random() * (max - min) + min;\n\t\t}\n\n\t\tvar interval = setInterval(function() {\n\t\tvar timeLeft = animationEnd - Date.now();\n\n\t\tif (timeLeft <= 0) {\n\t\t\treturn clearInterval(interval);\n\t\t}\n\n\t\tvar particleCount = 50 * (timeLeft / duration);\n\t\t// since particles fall down, start a bit higher than random\n\t\tconfetti({ ...defaults, particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } });\n\t\tconfetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } });\n\t\t}, 250);\n\t</script>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 26, "<script src=\"/public/assets/scripts/confetti.browser.min.js\"></script><script type=\"module\">\n\t\tawait new Promise(resolve => setTimeout(resolve, 400));\n\t\tvar duration = 5000;\n\t\tvar animationEnd = Date.now() + duration;\n\t\tvar defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };\n\n\t\tfunction randomInRange(min, max) {\n\t\treturn Math.random() * (max - min) + min;\n\t\t}\n\n\t\tvar interval = setInterval(function() {\n\t\tvar timeLeft = animationEnd - Date.now();\n\n\t\tif (timeLeft <= 0) {\n\t\t\treturn clearInterval(interval);\n\t\t}\n\n\t\tvar particleCount = 50 * (timeLeft / duration);\n\t\t// since particles fall down, start a bit higher than random\n\t\tconfetti({ ...defaults, particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } });\n\t\tconfetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } });\n\t\t}, 250);\n\t</script>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -448,12 +443,12 @@ func serviceWorkerRegistration() templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var15 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var15 == nil {
-			templ_7745c5c3_Var15 = templ.NopComponent
+		templ_7745c5c3_Var17 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var17 == nil {
+			templ_7745c5c3_Var17 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 23, "<script type=\"module\">\n    import { Workbox } from '/public/assets/scripts/workbox-window.prod.mjs';\n\n\tfunction urlBase64ToUint8Array(base64String) {\n\t\tconst padding = '='.repeat((4 - base64String.length % 4) % 4);\n\t\tconst base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');\n\t\tconst rawData = atob(base64);\n\t\treturn Uint8Array.from([...rawData].map((char) => char.charCodeAt(0)));\n\t}\n\n\n\twindow.addEventListener('load', () => { \n\t\tif ('serviceWorker' in navigator) {\n\t\t\tconst wb = new Workbox('/public/sw.js', { scope: \"/\" });\n\n\t\t\t// Automatically activate the new service worker when it's waiting.\n\t\t\tconst handleWaitingWorker = () => {\n\t\t\t\twb.messageSkipWaiting();\n\t\t\t\n\t\t\t\t// Reload the page when the new service worker takes control.\n\t\t\t\twb.addEventListener('controlling', () => {\n\t\t\t\t\twindow.location.reload();\n\t\t\t\t});\n\t\t\t};\n\n\t\t\t// Add an event listener to detect when the registered service worker is waiting.\n\t\t\twb.addEventListener('waiting', handleWaitingWorker);\n\n\t\t\twb.register().then(async (registration) => {\n\t\t\t\tconsole.log('Service worker registered', registration);\n\t\t\t\t\n\t\t\t\t// const vapidPublicKey = 'BAkdR7kgUR-z04hIZka23Zb1CaNrOjB-ToEpw_jZh2lHwqm8Zxu1yizTpZ8ENoa-2gEL-Y_rNi0NbPUqD_rfDoA';\n\t\t\t\t// const options = {\n\t\t\t\t// \tuserVisibleOnly: true,\n\t\t\t\t// \tapplicationServerKey: urlBase64ToUint8Array(vapidPublicKey),\n\t\t\t\t// };\n\n\t\t\t\t// const subscription = await registration.pushManager.subscribe(options);\n\t\t\t\t// console.log('Push subscription:', subscription);\n\t\t\t\t// const response = await fetch('/account/subscribe', {\n\t\t\t\t// \tmethod: 'POST',\n\t\t\t\t// \theaders: { 'Content-Type': 'application/json' },\n\t\t\t\t// \tbody: JSON.stringify(subscription),\n\t\t\t\t// });\n\t\t\t\t// if (response.ok) {\n\t\t\t\t// \tconsole.log('Subscription successful');\n\t\t\t\t// } else {\n\t\t\t\t// \tconsole.error('Subscription failed', response.status);\n\t\t\t\t// }\n\t\t\t}).catch((error) => {\n\t\t\t\tconsole.error('Service worker registration failed:', error);\n\t\t\t});\n\t\t\t}\n\t\t});\n\t</script>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 27, "<script type=\"module\">\n    import { Workbox } from '/public/assets/scripts/workbox-window.prod.mjs';\n\n\tfunction urlBase64ToUint8Array(base64String) {\n\t\tconst padding = '='.repeat((4 - base64String.length % 4) % 4);\n\t\tconst base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');\n\t\tconst rawData = atob(base64);\n\t\treturn Uint8Array.from([...rawData].map((char) => char.charCodeAt(0)));\n\t}\n\n\n\twindow.addEventListener('load', () => { \n\t\tif ('serviceWorker' in navigator) {\n\t\t\tconst wb = new Workbox('/public/sw.js', { scope: \"/\" });\n\n\t\t\t// Automatically activate the new service worker when it's waiting.\n\t\t\tconst handleWaitingWorker = () => {\n\t\t\t\twb.messageSkipWaiting();\n\t\t\t\n\t\t\t\t// Reload the page when the new service worker takes control.\n\t\t\t\twb.addEventListener('controlling', () => {\n\t\t\t\t\twindow.location.reload();\n\t\t\t\t});\n\t\t\t};\n\n\t\t\t// Add an event listener to detect when the registered service worker is waiting.\n\t\t\twb.addEventListener('waiting', handleWaitingWorker);\n\n\t\t\twb.register().then(async (registration) => {\n\t\t\t\tconsole.log('Service worker registered', registration);\n\t\t\t\t\n\t\t\t\t// const vapidPublicKey = 'BAkdR7kgUR-z04hIZka23Zb1CaNrOjB-ToEpw_jZh2lHwqm8Zxu1yizTpZ8ENoa-2gEL-Y_rNi0NbPUqD_rfDoA';\n\t\t\t\t// const options = {\n\t\t\t\t// \tuserVisibleOnly: true,\n\t\t\t\t// \tapplicationServerKey: urlBase64ToUint8Array(vapidPublicKey),\n\t\t\t\t// };\n\n\t\t\t\t// const subscription = await registration.pushManager.subscribe(options);\n\t\t\t\t// console.log('Push subscription:', subscription);\n\t\t\t\t// const response = await fetch('/account/subscribe', {\n\t\t\t\t// \tmethod: 'POST',\n\t\t\t\t// \theaders: { 'Content-Type': 'application/json' },\n\t\t\t\t// \tbody: JSON.stringify(subscription),\n\t\t\t\t// });\n\t\t\t\t// if (response.ok) {\n\t\t\t\t// \tconsole.log('Subscription successful');\n\t\t\t\t// } else {\n\t\t\t\t// \tconsole.error('Subscription failed', response.status);\n\t\t\t\t// }\n\t\t\t}).catch((error) => {\n\t\t\t\tconsole.error('Service worker registration failed:', error);\n\t\t\t});\n\t\t\t}\n\t\t});\n\t</script>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -461,7 +456,7 @@ func serviceWorkerRegistration() templ.Component {
 	})
 }
 
-func NotitficationScript() templ.Component {
+func notitficationScript() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -477,12 +472,12 @@ func NotitficationScript() templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var16 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var16 == nil {
-			templ_7745c5c3_Var16 = templ.NopComponent
+		templ_7745c5c3_Var18 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var18 == nil {
+			templ_7745c5c3_Var18 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 24, "<script>\n\t\tfetch('/account/notifications', {\n\t\t\tmethod: 'GET',\n\t\t\theaders: {\n\t\t\t\t'Content-Type': 'text/html',\n\t\t\t},\n\t\t}).then(async (response) => {\n\t\t\tif !(response.ok) {\n\t\t\t\treturn;\n\t\t\t}\n\n\t\t\tconst notificationtTime = response.headers.get('X-Notification-time');\n\t\t\tif !(notificationtTime) {\n\t\t\t\treturn;\n\t\t\t}\n\n\t\t\tconst notificationDate = new Date(notificationtTime);\n\t\t\tconst formattedTime = notificationDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });\n\t\t\tconsole.log(`Notification received at: ${formattedTime}`);\n\t\t})\n\t</script>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 28, "<script>\n\t\tfetch('/account/notifications', {\n\t\t\tmethod: 'GET',\n\t\t\theaders: {\n\t\t\t\t'Content-Type': 'text/html',\n\t\t\t},\n\t\t}).then(async (response) => {\n\t\t\tif !(response.ok) {\n\t\t\t\treturn;\n\t\t\t}\n\n\t\t\tconst notificationtTime = response.headers.get('X-Notification-time');\n\t\t\tif !(notificationtTime) {\n\t\t\t\treturn;\n\t\t\t}\n\n\t\t\tconst notificationDate = new Date(notificationtTime);\n\t\t\tconst formattedTime = notificationDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });\n\t\t\tconsole.log(`Notification received at: ${formattedTime}`);\n\t\t})\n\t</script>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

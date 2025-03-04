@@ -1,23 +1,29 @@
 package frontend
 
-import "fmt"
+import (
+	"beltech/service"
+	"fmt"
+)
 
-templ SpendPage(acc Account) {
+templ SpendPage(acc service.Account) {
 	<!DOCTYPE html>
 	<html lang="en">
-		@HeadTag("Spend BEL Token")
+		@headTag("Spend BEL Token")
 		<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh font-montserrat text-[#2E2E2E] overflow-hidden">
 			<div class="w-full h-full flex flex-col font-montserrat text-[#2E2E2E]">
-				@SpendHeaderPartial(acc)
-				@SpendMain(acc)
-				@Footer("spend", templ.NopComponent)
+				@spendHeaderPartial(acc)
+				<main class="grow overflow-y-auto pl-[1.5rem] pr-[1.56rem]">
+					@spendBalance(acc)
+					@spendOtherHalfPartial()
+				</main>
+				@footer("spend")
 			</div>
 		</body>
 		@scriptForSpendPage()
 	</html>
 }
 
-templ SpendHeaderPartial(acc Account) {
+templ spendHeaderPartial(acc service.Account) {
 	<header class="pt-[1.5rem] pl-[1.5rem] pr-[1.56rem] flex w-full justify-between items-center">
 		<a href="/account/profile">
 			<img
@@ -49,17 +55,6 @@ templ SpendHeaderPartial(acc Account) {
 		</button>
 		@notificationBar(acc.AccountEmail)
 	</header>
-}
-
-templ SpendMain(acc Account) {
-	<main class="grow overflow-y-auto pl-[1.5rem] pr-[1.56rem]">
-		@SpendBalance(acc)
-		@SpendOtherHalfPartial()
-	</main>
-}
-
-templ SpendMainOpeningTag() {
-	@templ.Raw(`<main class="grow overflow-y-auto pl-[1.5rem] pr-[1.56rem]">`)
 }
 
 templ scriptForSpendPage() {
@@ -107,7 +102,7 @@ templ scriptForSpendPage() {
 		</script>
 }
 
-templ SpendBalance(acc Account) {
+templ spendBalance(acc service.Account) {
 	<p class="text-xs leading-[0.913rem] font-semibold text-left mt-[2.188rem] mb-6 text-[#000000]">Change </p>
 	<section class="w-full flex justify-end items-center gap-1 mb-2">
 		<a href="/account/profile">
@@ -120,10 +115,10 @@ templ SpendBalance(acc Account) {
 		}
 	</section>
 	<section class="p-2 rounded-[0.625rem] border-solid border-[#0169344D] border-[0.063rem] w-full flex justify-between items-center">
-		<p class="text-[0.938rem] leading-[1.406rem] font-medium text-left text-[#000000] font-poppins">Spending: 0.00 BEL</p>
+		<p class="text-[0.938rem] leading-[1.406rem] font-medium text-left text-[#000000] font-tt_chocolate">Spending: 0.00 BEL Points</p>
 		<div class="flex flex-col items-center justify-center gap-2">
 			<div class="flex gap-2 justify-center items-center">
-				<p id="balance" data-value={ fmt.Sprintf("%.4f BEL", acc.CurrBalance) } class=" align-middle font-medium text-xs text-black font-poppins">*****</p>
+				<p id="balance" data-value={ fmt.Sprintf("%s BEL", formatFloatWithComma(acc.BelPointBalance, 2)) } class=" align-middle font-medium text-xs text-black font-poppins">*****</p>
 				<button
 					aria-label="Toggle Balance Visibility"
 					_="on click
@@ -144,7 +139,7 @@ templ SpendBalance(acc Account) {
 	</section>
 }
 
-templ SpendOtherHalfPartial() {
+templ spendOtherHalfPartial() {
 	<img src="/public/assets/svg/exchange.svg" class="w-10 aspect-square mx-auto -my-2"/>
 	<form id="airtimeForm" action="/account/airtime" method="post">
 		<section class="w-full px-2 py-6 rounded-[0.625rem] border-solid border-[#0169344D] border-[0.063rem] flex justify-between items-center gap-2">
