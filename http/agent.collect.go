@@ -71,7 +71,7 @@ func (a *App) generateQRCode(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	wasteLog := service.WasteLogFromCollector{
+	wasteLog := service.WasteLog{
 		WasteID:         uuid.New(),
 		GlassWeighed:    glass,
 		MetalWeighed:    metal,
@@ -122,7 +122,7 @@ func (a *App) generateQRCode(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func includePointsEarned(wasteLog *service.WasteLogFromCollector) error {
+func includePointsEarned(wasteLog *service.WasteLog) error {
 	wasteLog.GlassPointsEarned = wasteLog.GlassWeighed * 1.2
 	wasteLog.MetalPointsEarned = wasteLog.MetalWeighed * 0.2
 	wasteLog.PaperPointsEarned = wasteLog.PaperWeighed * 0.9

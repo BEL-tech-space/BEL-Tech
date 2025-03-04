@@ -9,25 +9,21 @@ import (
 templ WalletPage(acc service.Account, data []TokenData) {
 	<!DOCTYPE html>
 	<html lang="en">
-		@HeadTag("wallet")
+		@headTag("wallet")
 		<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
 			<div class="w-full h-full flex flex-col font-montserrat text-[#2E2E2E]">
-				@CommonHeader(acc)
-				@WalletMain(acc, data)
-				@Footer("wallet", templ.NopComponent)
+				@commonHeader(acc)
+				<main class="grow overflow-y-auto pl-6 pr-[1.56rem] flex flex-col pb-2">
+					@walletBalance(acc.BelPointBalance)
+					@walletOptionsPartial()
+					@WalletCoinData(data)
+					@walletSwiper()
+				</main>
+				@footer("wallet")
 			</div>
 			@scriptForWalletPage()
 		</body>
 	</html>
-}
-
-templ WalletMain(acc service.Account, data []TokenData) {
-	<main class="grow overflow-y-auto pl-6 pr-[1.56rem] flex flex-col pb-2">
-		@WalletBalance(acc.BelPointBalance)
-		@WalletOptionsPartial()
-		@WalletCoinData(data)
-		@WalletSwiper()
-	</main>
 }
 
 templ scriptForWalletPage() {
@@ -49,11 +45,7 @@ templ scriptForWalletPage() {
 	@commingSoonTooltip()
 }
 
-templ WalletMainOpeningTag() {
-	@templ.Raw(`<main class="grow overflow-y-auto pl-6 pr-[1.56rem] flex flex-col pb-2">`)
-}
-
-templ WalletBalance(belPointBalance float64) {
+templ walletBalance(belPointBalance float64) {
 	<section class="pt-[1.88rem] flex gap-2 items-center">
 		<p class="font-semibold text-xs leading-[0.914rem]">My Balance </p>
 		<button
@@ -72,7 +64,7 @@ templ WalletBalance(belPointBalance float64) {
 	<p id="balance" data-value={ fmt.Sprintf("%s BEL", formatFloatWithComma(belPointBalance, 4)) } class="mt-2 mb-8 font-bold text-xl leading-[1.524rem] text-[#016934]">*****</p>
 }
 
-templ WalletOptionsPartial() {
+templ walletOptionsPartial() {
 	<section class="flex w-full justify-between items-start gap-2">
 		<a class="flex flex-col gap-2 items-center" data-tippy-content="coming soon">
 			<button class="bg-[#CCE1D6] rounded-full p-[0.938rem]"><img src="/public/assets/svg/+.svg" class="w-5 aspect-square"/></button>
@@ -159,7 +151,7 @@ func isAllElementZero[T any](arr []T) bool {
 	return true
 }
 
-templ WalletSwiper() {
+templ walletSwiper() {
 	<section class="swiperThree min-h-fit mt-4">
 		<div class="px-4 swiper mySwiperThree w-full">
 			<div class="swiper-wrapper">

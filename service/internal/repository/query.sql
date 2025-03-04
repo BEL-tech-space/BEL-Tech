@@ -31,27 +31,33 @@ ORDER BY created_at DESC;
 
 
 -- name: AddNewAgentAsCollector :one
-INSERT INTO collectors ( 
+WITH new_agent AS (
+    INSERT INTO agent (collector_email, agent_type)
+    VALUES ($1, 'collector')
+    RETURNING agent_ID
+)
+INSERT INTO collectors (
     collector_email, first_name, last_name, display_name, avatar_URL,
-    location_city, location_state, location_country, location_addr, collector_role
-) VALUES (
-    $1, $2, $3, $4, $5, $6, $7, $8, ST_SetSRID(ST_MakePoint($9, $10), 4326), $11
-) 
-ON CONFLICT (collector_email) 
-DO UPDATE SET agent_ID = collectors.agent_ID
-RETURNING agent_ID;
-
+    location_city, location_state, location_country, location_addr, 
+    agent_ID, collector_role
+)
+VALUES (
+    $1, $2, $3, $4, $5, 
+    $6, $7, $8, $9, 
+    (SELECT agent_ID FROM new_agent), 'collector'
+)
+RETURNING *;
 
 -- name: AddNewWasteFromCollector :exec
 WITH new_waste AS (
-    INSERT INTO waste_logs_from_collector (
+    INSERT INTO waste_logs (
         claimed, glass_weighed, metal_weighed, plastics_weighed, paper_weighed, 
         glass_points_earned, metal_points_earned, plastics_points_earned, paper_points_earned,
-        total_points_earned, location_addr, txn_name, agent_ID, account_email
+        total_points_earned, location_addr, txn_name, status_report, collected_route, agent_ID, account_email
     ) VALUES (
         $1, $2, $3, $4, $5, 
         $6, $7, $8, $9, 
-        $10, ST_SetSRID(ST_MakePoint($11, $12), 4326), $13, $14, $15
+        $10, ST_SetSRID(ST_MakePoint($11, $12), 4326), $13, $14, 'collector', $15, $16
     )
     RETURNING 
         waste_Id, account_email, total_points_earned, 
@@ -74,15 +80,10 @@ FROM new_waste
 WHERE accounts.account_email = new_waste.account_email;
 
 
--- name: Collector :exec
-DELETE FROM collectors
-WHERE collector_Email = $1 AND collector_Role != 'super_collector';
-
-
 -- name: SoftDeleteCollector :exec
-UPDATE collectors 
+UPDATE agent
 SET is_deleted = TRUE, deleted_at = NOW()
-WHERE agent_ID = $1 AND collector_role = 'collector';
+WHERE agent_ID = $1 AND agent_type = 'collector' AND is_deleted = FALSE;
 
 
 -- name: DeleteBeneficiary :many
@@ -114,14 +115,22 @@ SET display_name = $1
 WHERE account_email = $2
 RETURNING *;
 
+
 -- name: GetAllCollectors :many
 SELECT * FROM collectors;
+
+
+-- name: GetCollector :one
+SELECT * FROM collectors
+WHERE collector_Email = $1;
+
 
 -- name: GetBeneficiariesByEmail :many
 SELECT *
 FROM beneficiaries
 WHERE account_email = $1
 ORDER BY created_at DESC;
+
 
 -- name: CreateNotification :one
 INSERT INTO notifications (
@@ -130,9 +139,10 @@ INSERT INTO notifications (
     $1, $2, $3, $4, $5, $6
 ) RETURNING id;
 
+
 -- name: GetWasteByAccountPaginated :many
 SELECT * 
-FROM waste_logs_from_collector
+FROM waste_logs
 WHERE account_email = $1
 ORDER BY created_at DESC
 LIMIT $2 OFFSET $3;
@@ -140,7 +150,7 @@ LIMIT $2 OFFSET $3;
 
 -- name: GetWasteByAccountForMonth :many
 SELECT * 
-FROM waste_logs_from_collector
+FROM waste_logs
 WHERE account_email = $1
 AND created_at >= make_timestamp($2, $3, 1, 0, 0, 0) 
 AND created_at < (make_timestamp($2, $3, 1, 0, 0, 0) + INTERVAL '1 month')
@@ -149,6 +159,7 @@ ORDER BY created_at DESC;
 
 -- name: GetAllNotifications :many
 SELECT * FROM notifications ORDER BY notif_time DESC;
+
 
 -- name: DeleteNotificationsByIDs :exec
 DELETE FROM notifications WHERE id = ANY($1::int[]);

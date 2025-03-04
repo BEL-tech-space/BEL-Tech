@@ -3,7 +3,6 @@ package service
 import (
 	"beltech/service/internal/repository/postgres"
 	"fmt"
-	"time"
 
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgtype"
@@ -100,28 +99,15 @@ func pgtextToString(t pgtype.Text) string {
 }
 
 type AddNewAgentAsCollectorParams struct {
-	CollectorEmail  string        `json:"collector_email"`
-	FirstName       string        `json:"first_name"`
-	LastName        string        `json:"last_name"`
-	DisplayName     string        `json:"display_name"`
-	AvatarUrl       string        `json:"avatar_url"`
-	LocationCity    string        `json:"location_city"`
-	LocationState   string        `json:"location_state"`
-	LocationCountry string        `json:"location_country"`
-	StMakepoint     interface{}   `json:"st_makepoint"`
-	StMakepoint_2   interface{}   `json:"st_makepoint_2"`
-	CollectorRole   Collectorrole `json:"collector_role"`
-}
-
-type GetWasteFromCollectorByAgentIDAndDateRow struct {
-	WasteID         uuid.UUID   `json:"waste_id"`
-	Date            time.Time   `json:"date"`
-	GlassWeighed    float32     `json:"glass_weighed"`
-	MetalWeighed    float32     `json:"metal_weighed"`
-	PlasticsWeighed float32     `json:"plastics_weighed"`
-	PaperWeighed    float32     `json:"paper_weighed"`
-	Location        interface{} `json:"location"`
-	TempWasteCount  int64       `json:"temp_waste_count"`
+	CollectorEmail  string      `json:"collector_email"`
+	FirstName       string      `json:"first_name"`
+	LastName        string      `json:"last_name"`
+	DisplayName     string      `json:"display_name"`
+	AvatarUrl       string      `json:"avatar_url"`
+	LocationCity    string      `json:"location_city"`
+	LocationState   string      `json:"location_state"`
+	LocationCountry string      `json:"location_country"`
+	LocationAddr    interface{} `json:"location_addr"`
 }
 
 func pgtypeUUIDToGoogleUUID(pgUUID pgtype.UUID) (uuid.UUID, error) {
@@ -162,16 +148,22 @@ func pgBeneficiaryToServiceBeneficiary(pgBen postgres.Beneficiary) Beneficiary {
 	}
 }
 
-type AddNewWasteFromCollectorParams struct {
-	Claimed         bool        `json:"claimed"`
-	GlassWeighed    float32     `json:"glass_weighed"`
-	MetalWeighed    float32     `json:"metal_weighed"`
-	PlasticsWeighed float32     `json:"plastics_weighed"`
-	PaperWeighed    float32     `json:"paper_weighed"`
-	PointsEarned    float64     `json:"points_earned"`
-	StMakepoint     interface{} `json:"st_makepoint"`
-	StMakepoint_2   interface{} `json:"st_makepoint_2"`
-	TxnName         string      `json:"txn_name"`
-	AgentID         uuid.UUID   `json:"agent_id"`
-	AccountEmail    string      `json:"account_email"`
+func makeServiceCollector(param postgres.Collector) (Collector, error) {
+	agentId, err := pgtypeUUIDToGoogleUUID(param.AgentID)
+	if err != nil {
+		return Collector{}, fmt.Errorf("error creatings service collector: error: %w", err)
+	}
+	return Collector{
+		CollectorEmail:  param.CollectorEmail,
+		FirstName:       param.FirstName,
+		LastName:        param.LastName,
+		DisplayName:     param.DisplayName,
+		AvatarUrl:       param.AvatarUrl,
+		LocationCity:    param.LocationCity,
+		LocationState:   param.LocationState,
+		LocationCountry: param.LocationCountry,
+		LocationAddr:    param.LocationAddr,
+		AgentID:         agentId,
+		CollectorRole:   Collectorrole(param.CollectorRole),
+	}, nil
 }

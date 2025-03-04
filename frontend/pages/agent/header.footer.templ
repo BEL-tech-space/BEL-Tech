@@ -32,7 +32,7 @@ templ headTag(pageTitle string) {
 	</head>
 }
 
-templ Footer(active string) {
+templ footer(active string) {
 	<footer class="bg-white flex w-full justify-around mt-[1.125rem] gap-[2.375rem] text-[#016934]">
 		if active == "dashboard" {
 			<a
@@ -128,7 +128,7 @@ templ Footer(active string) {
 		}
 		if active == "logout" {
 			<a
-				href="/agent/signout"
+				href="/agent/signout.html"
 				class="flex flex-col justify-center items-center"
 			>
 				<img
@@ -139,7 +139,7 @@ templ Footer(active string) {
 			</a>
 		} else {
 			<a
-				href="/agent/signout"
+				href="/agent/signout.html"
 				class="flex flex-col justify-center items-center"
 			>
 				<img

@@ -5,7 +5,7 @@ import "fmt"
 templ ScanQRPage(accountEmail string) {
 	<!DOCTYPE html>
 	<html lang="en">
-		@HeadTag("scan")
+		@headTag("scan")
 		<body
 			class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh font-montserrat text-[#2E2E2E] overflow-hidden"
 		>
@@ -87,10 +87,10 @@ templ ScanQRPage(accountEmail string) {
 						</section>
 					</div>
 				</main>
-				@Footer("scan", templ.NopComponent)
+				@footer("scan")
 			</div>
 			@scriptForScanPage()
-			@confirmWaste("")
+			@confirmWaste(accountEmail)
 		</body>
 	</html>
 }
@@ -329,7 +329,7 @@ templ ClaimSuccessful(belPointsEarned float64) {
 		<img src="/public/assets/images/confetti.png" alt="" class="w-[11.313rem] aspect-square"/>
 		<p class="font-poppins font-normal text-xs leading-[1.125rem] text-center my-4">
 			we have added 
-			<a href="/account/wallet" class="text-[#016934] underline decoration-[#016934]">+{ fmt.Sprintf("%.2f points", belPointsEarned) }</a>
+			<a href="/account/wallet" class="text-[#016934] underline decoration-[#016934]">+{ fmt.Sprintf("%s points", formatFloatWithComma(belPointsEarned, 2)) }</a>
 			to your BEL point balance, let do more... champ.
 		</p>
 		<button

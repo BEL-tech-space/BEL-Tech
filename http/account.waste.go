@@ -65,7 +65,7 @@ func (a *App) wasteHistoryHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func sortWasteType(wasteLog []service.WasteLogFromCollector) accPages.WasteSorted {
+func sortWasteType(wasteLog []service.WasteLog) accPages.WasteSorted {
 	glass := make([]accPages.WasteTypelog, 0, len(wasteLog))
 	metal := make([]accPages.WasteTypelog, 0, len(wasteLog))
 	plastics := make([]accPages.WasteTypelog, 0, len(wasteLog))
@@ -129,72 +129,5 @@ func sortWasteType(wasteLog []service.WasteLogFromCollector) accPages.WasteSorte
 		Metal:    slices.Clip(metal),
 		Plastics: slices.Clip(plastics),
 		Paper:    slices.Clip(paper),
-	}
-}
-
-func (a *App) wasteMainTagPartial(w http.ResponseWriter, r *http.Request) {
-
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if err := accPages.WasteMainOpeninTag().Render(context.TODO(), w); err != nil {
-		a.serverError(w, err)
-		return
-	}
-}
-
-func (a *App) wasteQuickInfo(w http.ResponseWriter, r *http.Request) {
-
-	var wasteType string
-	if wasteType = chi.URLParam(r, "wasteType"); wasteType == "" {
-		http.Error(w, "WasteType not specified", http.StatusBadRequest)
-		return
-	}
-
-	if wasteType != "glass" && wasteType != "metal" && wasteType != "paper" && wasteType != "plastics" {
-		http.Error(w, "Invalid wasteType", http.StatusBadRequest)
-		return
-	}
-
-	accountEmail := r.Context().Value(contextKeyEmail).(string)
-
-	user, err := a.getAccountFromCache(context.Background(), accountEmail)
-	if err != nil {
-		fmt.Println("error occured here")
-		a.serverError(w, err)
-		return
-	}
-
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if err := accPages.WasteQuickInfo(wasteType, user).Render(context.TODO(), w); err != nil {
-		a.serverError(w, err)
-		return
-	}
-}
-
-func (a *App) wasteFilterOptions(w http.ResponseWriter, r *http.Request) {
-
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if err := accPages.WasteFilterOptionsPartial().Render(context.TODO(), w); err != nil {
-		a.serverError(w, err)
-		return
-	}
-}
-
-func (a *App) wasteHistory(w http.ResponseWriter, r *http.Request) {
-
-	var wasteType string
-	if wasteType = chi.URLParam(r, "wasteType"); wasteType == "" {
-		http.Error(w, "WasteType not specified", http.StatusBadRequest)
-		return
-	}
-
-	if wasteType != "glass" && wasteType != "metal" && wasteType != "paper" && wasteType != "plastics" {
-		http.Error(w, "Invalid wasteType", http.StatusBadRequest)
-		return
-	}
-
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if err := accPages.WasteHistoryComp(wasteType, nil).Render(context.TODO(), w); err != nil {
-		a.serverError(w, err)
-		return
 	}
 }

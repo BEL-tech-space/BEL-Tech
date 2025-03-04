@@ -3,7 +3,6 @@ package http
 import (
 	accPages "beltech/frontend/pages/account"
 	"context"
-	"fmt"
 	"net/http"
 )
 
@@ -11,14 +10,7 @@ func (a *App) signupPageHandler(w http.ResponseWriter, r *http.Request) {
 
 	if r.Header.Get("HX-Request") == "true" {
 		w.Header().Set("HX-Redirect", "/account/signup.html")
-		w.WriteHeader(http.StatusUnauthorized)
-		return
-	}
-
-	if w.Header().Get("X-Session-Expired") == "true" {
-		w.Header().Set("HX-Redirect", "/account/signup.html")
-		fmt.Println("session expired")
-		w.WriteHeader(http.StatusUnauthorized)
+		w.WriteHeader(http.StatusOK)
 		return
 	}
 
@@ -33,14 +25,7 @@ func (a *App) signinPageHandler(w http.ResponseWriter, r *http.Request) {
 
 	if r.Header.Get("HX-Request") == "true" {
 		w.Header().Set("HX-Redirect", "/account/signup.html")
-		w.WriteHeader(http.StatusUnauthorized)
-		return
-	}
-
-	if w.Header().Get("X-Session-Expired") == "true" {
-		w.Header().Set("HX-Redirect", "/account/signup.html")
-		fmt.Println("session expired")
-		w.WriteHeader(http.StatusUnauthorized)
+		w.WriteHeader(http.StatusOK)
 		return
 	}
 

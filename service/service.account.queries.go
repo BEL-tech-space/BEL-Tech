@@ -166,7 +166,7 @@ func (s *Service) GetAllNotifications(ctx context.Context) ([]Notification, erro
 	return slices.Clip(filteredNotifications), nil
 }
 
-func (s *Service) AddNewWasteFromCollector(ctx context.Context, wasteLog WasteLogFromCollector) error {
+func (s *Service) AddNewWasteFromCollector(ctx context.Context, wasteLog WasteLog) error {
 
 	agentId, err := googleUUIDToPgtypeUUID(wasteLog.AgentID)
 	if err != nil {
@@ -183,9 +183,12 @@ func (s *Service) AddNewWasteFromCollector(ctx context.Context, wasteLog WasteLo
 		PlasticsPointsEarned: wasteLog.PlasticsPointsEarned,
 		PaperPointsEarned:    wasteLog.PaperPointsEarned,
 		TotalPointsEarned:    wasteLog.TotalPointsEarned,
-		TxnName:              wasteLog.TxnName,
-		AgentID:              agentId,
-		AccountEmail:         wasteLog.AccountEmail,
+		// StMakepoint: wasteLog.st,
+		// TODO: combine ST_ Location
+		TxnName:      wasteLog.TxnName,
+		StatusReport: wasteLog.StatusReport,
+		AgentID:      agentId,
+		AccountEmail: wasteLog.AccountEmail,
 	}
 
 	tx, err := s.pgxPool.Begin(ctx)
@@ -211,7 +214,7 @@ func (s *Service) GetWasteLogByAccountPaginated(
 	ctx context.Context,
 	accountEmail string,
 	limit, offset int32,
-) ([]WasteLogFromCollector, error) {
+) ([]WasteLog, error) {
 
 	res, err := s.dbQuery.GetWasteByAccountPaginated(
 		ctx,
@@ -225,11 +228,11 @@ func (s *Service) GetWasteLogByAccountPaginated(
 		return nil, err
 	}
 
-	r := make([]WasteLogFromCollector, len(res))
+	r := make([]WasteLog, len(res))
 	for i, v := range res {
 		wasteID, _ := pgtypeUUIDToGoogleUUID(v.WasteID)
 		agentID, _ := pgtypeUUIDToGoogleUUID(v.AgentID)
-		r[i] = WasteLogFromCollector{
+		r[i] = WasteLog{
 			WasteID:              wasteID,
 			Claimed:              v.Claimed,
 			GlassWeighed:         v.GlassWeighed,
@@ -243,6 +246,8 @@ func (s *Service) GetWasteLogByAccountPaginated(
 			TotalPointsEarned:    v.TotalPointsEarned,
 			LocationAddr:         v.LocationAddr,
 			TxnName:              v.TxnName,
+			StatusReport:         v.StatusReport,
+			CollectedRoute:       Agenttype(v.CollectedRoute),
 			AgentID:              agentID,
 			AccountEmail:         v.AccountEmail,
 			CreatedAt:            v.CreatedAt.Time,
@@ -256,7 +261,7 @@ func (s *Service) GetWasteByAccountForMonth(
 	ctx context.Context,
 	accountEmail string,
 	timespan time.Time,
-) ([]WasteLogFromCollector, error) {
+) ([]WasteLog, error) {
 	res, err := s.dbQuery.GetWasteByAccountForMonth(
 		ctx,
 		postgres.GetWasteByAccountForMonthParams{
@@ -269,10 +274,10 @@ func (s *Service) GetWasteByAccountForMonth(
 		return nil, err
 	}
 
-	r := make([]WasteLogFromCollector, len(res))
+	r := make([]WasteLog, len(res))
 	for i, v := range res {
 
-		r[i] = WasteLogFromCollector{
+		r[i] = WasteLog{
 			GlassWeighed:    v.GlassWeighed,
 			MetalWeighed:    v.MetalWeighed,
 			PlasticsWeighed: v.PlasticsWeighed,

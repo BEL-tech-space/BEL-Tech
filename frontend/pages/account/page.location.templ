@@ -3,58 +3,46 @@ package frontend
 templ LocationPage() {
 	<!DOCTYPE html>
 	<html lang="en">
-		@HeadTag("location")
+		@headTag("location")
 		<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
 			<div class="flex flex-col h-full gap-2 font-montserrat text-[#2E2E2E]">
-				@LocationHeaderPartial()
-				@LocationMain()
-				@Footer("location", templ.NopComponent)
+				<header class="mt-6 mx-6">
+					<div class="flex flex-col justify-between items-start gap-6 px-3">
+						<p class="font-semibold text-left text-[0.938rem] leading-[1.143rem]">
+							Find the closest smart bin to
+							you!
+							😄
+						</p>
+						<div class="bg-[#CCE1D699] rounded-xl w-full flex justify-between items-center gap-[0.234] px-2">
+							<input
+								type="text"
+								placeholder="Search location"
+								class="bg-transparent outline-none w-full"
+							/>
+							<div class="m-[0.646rem]">
+								<img
+									src="/public/assets/svg/search.svg"
+									class="w-[1.056rem] aspect-square"
+								/>
+							</div>
+						</div>
+					</div>
+				</header>
+				<main class="grow mt-[1.75rem] relative overflow-y-scroll w-full h-full">
+					<div
+						id="map"
+						class="w-full h-full"
+					></div>
+					<div class="absolute flex flex-col justify-center items-center gap-8 bottom-2/4 left-6">
+						<button title="bin" class="bg-[#016934] rounded-md p-2 shadow-[0px_1px_2px_0px_#00000026]" data-tippy-content="coming soon"><img src="/public/assets/svg/binAgent.svg" alt="" class="w-5 aspect-square"/></button>
+						<button title="collector" class="bg-white rounded-md p-2 shadow-[0px_1px_2px_0px_#00000026]" data-tippy-content="coming soon"><img src="/public/assets/svg/collectorAgent.svg" alt="" class="w-5 aspect-square"/></button>
+					</div>
+				</main>
+				@footer("location")
 			</div>
 		</body>
 		@scriptForLocationPage()
 	</html>
-}
-
-templ LocationHeaderPartial() {
-	<header class="mt-6 mx-6">
-		<div class="flex flex-col justify-between items-start gap-6 px-3">
-			<p class="font-semibold text-left text-[0.938rem] leading-[1.143rem]">
-				Find the closest smart bin to
-				you!
-				😄
-			</p>
-			<div class="bg-[#CCE1D699] rounded-xl w-full flex justify-between items-center gap-[0.234] px-2">
-				<input
-					type="text"
-					placeholder="Search location"
-					class="bg-transparent outline-none w-full"
-				/>
-				<div class="m-[0.646rem]">
-					<img
-						src="/public/assets/svg/search.svg"
-						class="w-[1.056rem] aspect-square"
-					/>
-				</div>
-			</div>
-		</div>
-	</header>
-}
-
-templ LocationMain() {
-	<main class="grow mt-[1.75rem] relative overflow-y-scroll w-full h-full">
-		<div
-			id="map"
-			class="w-full h-full"
-		></div>
-		<div class="absolute flex flex-col justify-center items-center gap-8 bottom-2/4 left-6">
-			<button title="bin" class="bg-[#016934] rounded-md p-2 shadow-[0px_1px_2px_0px_#00000026]" data-tippy-content="coming soon"><img src="/public/assets/svg/binAgent.svg" alt="" class="w-5 aspect-square"/></button>
-			<button title="collector" class="bg-white rounded-md p-2 shadow-[0px_1px_2px_0px_#00000026]" data-tippy-content="coming soon"><img src="/public/assets/svg/collectorAgent.svg" alt="" class="w-5 aspect-square"/></button>
-		</div>
-	</main>
-}
-
-templ LocationMainOpeningTag() {
-	@templ.Raw(`<main class="grow mt-[1.75rem] relative overflow-y-scroll w-full h-full">`)
 }
 
 templ scriptForLocationPage() {

@@ -18,10 +18,9 @@ type App struct {
 	service             *service.Service
 	accountSessionStore sessions.Store
 	agentSessionStore   sessions.Store
-	collectors          map[string]service.AgentCollector
-	// beltechWatermarkLogo []byte
-	accountCache  *ristretto.Cache[string, service.Account]
-	wasteLogCache *ristretto.Cache[string, service.WasteLogFromCollector]
+	collectors          map[string]service.Collector // key is collector's email
+	accountCache        *ristretto.Cache[string, service.Account]
+	wasteLogCache       *ristretto.Cache[string, service.WasteLog]
 }
 
 type contextKey string
@@ -38,7 +37,7 @@ func NewApp(
 	cfg *EnvConfig,
 	db *pgxpool.Pool,
 	accountCache *ristretto.Cache[string, service.Account],
-	wasteLogCache *ristretto.Cache[string, service.WasteLogFromCollector]) *App {
+	wasteLogCache *ristretto.Cache[string, service.WasteLog]) *App {
 
 	store := sessions.NewCookieStore([]byte(cfg.CookieSecret))
 	store.MaxAge(86_400 * 15) // 30 days
@@ -103,11 +102,10 @@ func GenerateRandomKey(d, buildMode string) string {
 func (a *App) setupdDevModeCollectors() error {
 	devCollector := service.AddNewAgentAsCollectorParams{
 		CollectorEmail: devGothUser.Email,
-		CollectorRole:  service.CollectorroleSuperCollector,
 		DisplayName:    devGothUser.NickName,
 	}
 
-	id, err := a.service.AddNewAgentAsCollector(
+	collector, err := a.service.AddNewAgentAsCollector(
 		context.Background(),
 		devCollector,
 	)
@@ -115,10 +113,10 @@ func (a *App) setupdDevModeCollectors() error {
 		return err
 	}
 
-	a.collectors = make(map[string]service.AgentCollector, 2)
+	a.collectors = make(map[string]service.Collector, 2)
 
-	a.collectors[devGothUser.Email] = service.AgentCollector{
-		AgentID:        id,
+	a.collectors[devGothUser.Email] = service.Collector{
+		AgentID:        collector.AgentID,
 		CollectorEmail: devGothUser.Email,
 		CollectorRole:  service.CollectorroleSuperCollector,
 		DisplayName:    devGothUser.NickName,
@@ -131,9 +129,9 @@ func (a *App) setupProductionModeCollectors() error {
 	if err != nil {
 		return err
 	}
-	a.collectors = make(map[string]service.AgentCollector, len(collectors)+100)
+	a.collectors = make(map[string]service.Collector, len(collectors)+100)
 	for _, v := range collectors {
-		a.collectors[v.AgentID.String()] = v
+		a.collectors[v.CollectorEmail] = v
 	}
 
 	// maps.Insert[string, service.Collector](a.collectors, func(yield func(string, service.Collector) bool) {

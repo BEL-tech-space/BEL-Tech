@@ -9,12 +9,26 @@ import (
 templ WastePage(acc service.Account, wasteType string, history []WasteTypelog) {
 	<!DOCTYPE html>
 	<html lang="en">
-		@HeadTag("waste")
+		@headTag("waste")
 		<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
 			<div class="Page w-full h-full flex flex-col font-montserrat text-[#2E2E2E]">
-				@CommonHeader(acc)
-				@WasteMain(acc, wasteType, history)
-				@Footer("dashboard", templ.NopComponent)
+				@commonHeader(acc)
+				<main class="grow overflow-y-auto pl-[1.5rem] pr-[1.56rem] pt-[1.875rem] grid grid-rows-wastePage">
+					<section class="flex items-center gap-1">
+						<p class="leading-[1.143rem] font-semibold text-[0.938rem]">Let's Recycle!</p>
+						<picture>
+							<source type="image/webp" srcset="/public/assets/images/Recycle_small.webp"/>
+							<img
+								src="/public/assets/images/Recycle_small.png"
+								class="w-5 aspect-square"
+							/>
+						</picture>
+					</section>
+					@wasteQuickInfo(wasteType, acc)
+					@wasteFilterOptionsPartial()
+					@wasteHistoryComp(wasteType, history)
+				</main>
+				@footer("dashboard")
 			</div>
 		</body>
 		@scriptForWasteAndTipsPage()
@@ -26,25 +40,7 @@ templ scriptForWasteAndTipsPage() {
 	<script src="/public/assets/scripts/notification.js"></script>
 }
 
-templ WasteMain(acc service.Account, wasteType string, history []WasteTypelog) {
-	<main class="grow overflow-y-auto pl-[1.5rem] pr-[1.56rem] pt-[1.875rem] grid grid-rows-wastePage">
-		<section class="flex items-center gap-1">
-			<p class="leading-[1.143rem] font-semibold text-[0.938rem]">Let's Recycle!</p>
-			<picture>
-				<source type="image/webp" srcset="/public/assets/images/Recycle_small.webp"/>
-				<img
-					src="/public/assets/images/Recycle_small.png"
-					class="w-5 aspect-square"
-				/>
-			</picture>
-		</section>
-		@WasteQuickInfo(wasteType, acc)
-		@WasteFilterOptionsPartial()
-		@WasteHistoryComp(wasteType, history)
-	</main>
-}
-
-templ WasteHistoryComp(wasteType string, history []WasteTypelog) {
+templ wasteHistoryComp(wasteType string, history []WasteTypelog) {
 	if len(history) > 0 {
 		@wasteNotEmptyHistory(wasteType, history)
 	} else {
@@ -52,21 +48,7 @@ templ WasteHistoryComp(wasteType string, history []WasteTypelog) {
 	}
 }
 
-templ WasteMainOpeninTag() {
-	@templ.Raw(`<main class="grow overflow-y-auto pl-[1.5rem] pr-[1.56rem] pt-[1.875rem] grid grid-rows-wastePage">
-		<section class="flex items-center gap-1">
-			<p class="leading-[1.143rem] font-semibold text-[0.938rem]">Let's Recycle!</p>
-			<picture>
-				<source type="image/webp" srcset="/public/assets/images/Recycle_small.webp"/>
-				<img
-					src="/public/assets/images/Recycle_small.png"
-					class="w-5 aspect-square"
-				/>
-			</picture>
-		</section>`)
-}
-
-templ WasteQuickInfo(wasteType string, acc service.Account) {
+templ wasteQuickInfo(wasteType string, acc service.Account) {
 	<section class="flex justify-start items-center gap-4 mt-6 mb-8">
 		switch wasteType {
 			case "paper" :
@@ -113,7 +95,7 @@ templ WasteQuickInfo(wasteType string, acc service.Account) {
 	</section>
 }
 
-templ WasteFilterOptionsPartial() {
+templ wasteFilterOptionsPartial() {
 	<section class="w-full flex justify-between items-center">
 		<p class="text-[0.938rem] leading-[1.143rem] font-semibold">Overview</p>
 		<div class="bg-[#01693433] pl-[0.5rem] pr-[0.833rem] flex justify-center items-center gap-[0.417rem] rounded-[1.562rem]">

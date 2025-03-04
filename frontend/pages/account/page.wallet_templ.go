@@ -39,7 +39,7 @@ func WalletPage(acc service.Account, data []TokenData) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = HeadTag("wallet").Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = headTag("wallet").Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -47,64 +47,19 @@ func WalletPage(acc service.Account, data []TokenData) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = CommonHeader(acc).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = commonHeader(acc).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = WalletMain(acc, data).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "<main class=\"grow overflow-y-auto pl-6 pr-[1.56rem] flex flex-col pb-2\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = Footer("wallet", templ.NopComponent).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = walletBalance(acc.BelPointBalance).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</div>")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = scriptForWalletPage().Render(ctx, templ_7745c5c3_Buffer)
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "</body></html>")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		return nil
-	})
-}
-
-func WalletMain(acc service.Account, data []TokenData) templ.Component {
-	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
-		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
-		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
-			return templ_7745c5c3_CtxErr
-		}
-		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
-		if !templ_7745c5c3_IsBuffer {
-			defer func() {
-				templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
-				if templ_7745c5c3_Err == nil {
-					templ_7745c5c3_Err = templ_7745c5c3_BufErr
-				}
-			}()
-		}
-		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var2 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var2 == nil {
-			templ_7745c5c3_Var2 = templ.NopComponent
-		}
-		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "<main class=\"grow overflow-y-auto pl-6 pr-[1.56rem] flex flex-col pb-2\">")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = WalletBalance(acc.BelPointBalance).Render(ctx, templ_7745c5c3_Buffer)
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = WalletOptionsPartial().Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = walletOptionsPartial().Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -112,11 +67,27 @@ func WalletMain(acc service.Account, data []TokenData) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = WalletSwiper().Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = walletSwiper().Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "</main>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "</main>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = footer("wallet").Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "</div>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = scriptForWalletPage().Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "</body></html>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -140,9 +111,9 @@ func scriptForWalletPage() templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var3 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var3 == nil {
-			templ_7745c5c3_Var3 = templ.NopComponent
+		templ_7745c5c3_Var2 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var2 == nil {
+			templ_7745c5c3_Var2 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
 		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "<script src=\"/public/assets/scripts/htmx.min.js\"></script><script src=\"/public/assets/scripts/hyperscript.min.js\"></script><script src=\"/public/assets/scripts/swiper-bundle.min.js\"></script><script src=\"/public/assets/scripts/notification.js\"></script><script>\n\t\tconst swiperThree = new Swiper( '.mySwiperThree', {\n            mousewheel: true,\n            keyboard: true,\n\t\t\tspaceBetween: 8,\n            autoplay: {\n                delay: 5000,\n                disableOnInteraction: true,\n            },\n        } );\n\t</script>")
@@ -157,7 +128,7 @@ func scriptForWalletPage() templ.Component {
 	})
 }
 
-func WalletMainOpeningTag() templ.Component {
+func walletBalance(belPointBalance float64) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -173,12 +144,25 @@ func WalletMainOpeningTag() templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var4 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var4 == nil {
-			templ_7745c5c3_Var4 = templ.NopComponent
+		templ_7745c5c3_Var3 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var3 == nil {
+			templ_7745c5c3_Var3 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templ.Raw(`<main class="grow overflow-y-auto pl-6 pr-[1.56rem] flex flex-col pb-2">`).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "<section class=\"pt-[1.88rem] flex gap-2 items-center\"><p class=\"font-semibold text-xs leading-[0.914rem]\">My Balance </p><button aria-label=\"Toggle Balance Visibility\" _=\"on click\n\t\t\tif #balance.innerText == &#39;*****&#39;\n\t\t\t\tthen set #balance.innerText to #balance.getAttribute(&#39;data-value&#39;)\n\t\t\t\tthen set #eyeIcon.src to &#39;/public/assets/svg/eye-off.svg&#39;\n\t\t\telse\n\t\t\t\tset #balance.innerText to &#39;*****&#39;\n\t\t\t\tthen set #eyeIcon.src to &#39;/public/assets/svg/eye.svg&#39;\"><img id=\"eyeIcon\" src=\"/public/assets/svg/eye.svg\" class=\"w-[0.938rem] aspect-square\"></button></section><p id=\"balance\" data-value=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var4 string
+		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%s BEL", formatFloatWithComma(belPointBalance, 4)))
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wallet.templ`, Line: 64, Col: 93}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "\" class=\"mt-2 mb-8 font-bold text-xl leading-[1.524rem] text-[#016934]\">*****</p>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -186,7 +170,7 @@ func WalletMainOpeningTag() templ.Component {
 	})
 }
 
-func WalletBalance(belPointBalance float64) templ.Component {
+func walletOptionsPartial() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -205,48 +189,6 @@ func WalletBalance(belPointBalance float64) templ.Component {
 		templ_7745c5c3_Var5 := templ.GetChildren(ctx)
 		if templ_7745c5c3_Var5 == nil {
 			templ_7745c5c3_Var5 = templ.NopComponent
-		}
-		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "<section class=\"pt-[1.88rem] flex gap-2 items-center\"><p class=\"font-semibold text-xs leading-[0.914rem]\">My Balance </p><button aria-label=\"Toggle Balance Visibility\" _=\"on click\n\t\t\tif #balance.innerText == &#39;*****&#39;\n\t\t\t\tthen set #balance.innerText to #balance.getAttribute(&#39;data-value&#39;)\n\t\t\t\tthen set #eyeIcon.src to &#39;/public/assets/svg/eye-off.svg&#39;\n\t\t\telse\n\t\t\t\tset #balance.innerText to &#39;*****&#39;\n\t\t\t\tthen set #eyeIcon.src to &#39;/public/assets/svg/eye.svg&#39;\"><img id=\"eyeIcon\" src=\"/public/assets/svg/eye.svg\" class=\"w-[0.938rem] aspect-square\"></button></section><p id=\"balance\" data-value=\"")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		var templ_7745c5c3_Var6 string
-		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%s BEL", formatFloatWithComma(belPointBalance, 4)))
-		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wallet.templ`, Line: 72, Col: 93}
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "\" class=\"mt-2 mb-8 font-bold text-xl leading-[1.524rem] text-[#016934]\">*****</p>")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		return nil
-	})
-}
-
-func WalletOptionsPartial() templ.Component {
-	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
-		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
-		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
-			return templ_7745c5c3_CtxErr
-		}
-		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
-		if !templ_7745c5c3_IsBuffer {
-			defer func() {
-				templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
-				if templ_7745c5c3_Err == nil {
-					templ_7745c5c3_Err = templ_7745c5c3_BufErr
-				}
-			}()
-		}
-		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var7 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var7 == nil {
-			templ_7745c5c3_Var7 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
 		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "<section class=\"flex w-full justify-between items-start gap-2\"><a class=\"flex flex-col gap-2 items-center\" data-tippy-content=\"coming soon\"><button class=\"bg-[#CCE1D6] rounded-full p-[0.938rem]\"><img src=\"/public/assets/svg/+.svg\" class=\"w-5 aspect-square\"></button><p class=\"font-poppins font-normal text-xs text-center\">Send</p></a> <a class=\"flex flex-col gap-2 items-center\" data-tippy-content=\"coming soon\"><button class=\"bg-[#CCE1D6] rounded-full p-[0.938rem]\"><img src=\"/public/assets/svg/-.svg\" class=\"w-5 aspect-square\"></button><p class=\"font-poppins font-normal text-xs text-center\">Receive</p></a> <a class=\"flex flex-col gap-2 items-center\" data-tippy-content=\"coming soon\"><button class=\"bg-[#CCE1D6] rounded-full p-[0.938rem]\"><img src=\"/public/assets/svg/cash out.svg\" class=\"w-5 aspect-square\"></button><p class=\"font-poppins font-normal text-xs text-center\">Cash out</p></a> <a class=\"flex flex-col gap-2 items-center\" data-tippy-content=\"coming soon\"><button class=\"bg-[#CCE1D6] rounded-full p-[0.938rem]\"><img src=\"/public/assets/svg/learn.svg\" class=\"w-5 aspect-square\"></button><p class=\"font-poppins font-normal text-xs text-center\">Learn</p></a></section><section class=\"mt-10 mb-4 w-full flex justify-between items-end\"><p class=\"font-semibold text-[0.94rem] leading-[1.14rem]\">Watchlist</p><button><p class=\"font-medium text-[0.63rem] leading-[0.76rem] text-[#016934]\">Top MktCap (Past 7d)</p></button></section>")
@@ -273,9 +215,9 @@ func WalletCoinData(data []TokenData) templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var8 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var8 == nil {
-			templ_7745c5c3_Var8 = templ.NopComponent
+		templ_7745c5c3_Var6 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var6 == nil {
+			templ_7745c5c3_Var6 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
 		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "<section class=\"overflow-y-scroll pb-4 rounded-2xl mb-auto relative h-full\"><ul hx-get=\"/account/wallet/livedata\" hx-trigger=\"every 45s\" hx-swap=\"innerHTML\" class=\"w-full flex flex-col gap-3 justify-around items-center h-full\">")
@@ -310,9 +252,9 @@ func WalletLiveCoinData(data []TokenData) templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var9 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var9 == nil {
-			templ_7745c5c3_Var9 = templ.NopComponent
+		templ_7745c5c3_Var7 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var7 == nil {
+			templ_7745c5c3_Var7 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
 		if isAllElementZero(data) {
@@ -326,12 +268,12 @@ func WalletLiveCoinData(data []TokenData) templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				var templ_7745c5c3_Var10 string
-				templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(v.TokenLogo)
+				var templ_7745c5c3_Var8 string
+				templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(v.TokenLogo)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wallet.templ`, Line: 119, Col: 27}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wallet.templ`, Line: 111, Col: 27}
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -339,12 +281,12 @@ func WalletLiveCoinData(data []TokenData) templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				var templ_7745c5c3_Var11 string
-				templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(v.TokenName)
+				var templ_7745c5c3_Var9 string
+				templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(v.TokenName)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wallet.templ`, Line: 122, Col: 92}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wallet.templ`, Line: 114, Col: 92}
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -352,12 +294,12 @@ func WalletLiveCoinData(data []TokenData) templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				var templ_7745c5c3_Var12 string
-				templ_7745c5c3_Var12, templ_7745c5c3_Err = templ.JoinStringErrs(v.TokenSymbol)
+				var templ_7745c5c3_Var10 string
+				templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(v.TokenSymbol)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wallet.templ`, Line: 123, Col: 92}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wallet.templ`, Line: 115, Col: 92}
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var12))
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -380,12 +322,12 @@ func WalletLiveCoinData(data []TokenData) templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				var templ_7745c5c3_Var13 string
-				templ_7745c5c3_Var13, templ_7745c5c3_Err = templ.JoinStringErrs(v.TokenPrice)
+				var templ_7745c5c3_Var11 string
+				templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(v.TokenPrice)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wallet.templ`, Line: 132, Col: 73}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wallet.templ`, Line: 124, Col: 73}
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var13))
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -398,12 +340,12 @@ func WalletLiveCoinData(data []TokenData) templ.Component {
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					var templ_7745c5c3_Var14 string
-					templ_7745c5c3_Var14, templ_7745c5c3_Err = templ.JoinStringErrs(v.PercentUpOrDown)
+					var templ_7745c5c3_Var12 string
+					templ_7745c5c3_Var12, templ_7745c5c3_Err = templ.JoinStringErrs(v.PercentUpOrDown)
 					if templ_7745c5c3_Err != nil {
-						return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wallet.templ`, Line: 135, Col: 26}
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wallet.templ`, Line: 127, Col: 26}
 					}
-					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var14))
+					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var12))
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -416,12 +358,12 @@ func WalletLiveCoinData(data []TokenData) templ.Component {
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					var templ_7745c5c3_Var15 string
-					templ_7745c5c3_Var15, templ_7745c5c3_Err = templ.JoinStringErrs(v.PercentUpOrDown)
+					var templ_7745c5c3_Var13 string
+					templ_7745c5c3_Var13, templ_7745c5c3_Err = templ.JoinStringErrs(v.PercentUpOrDown)
 					if templ_7745c5c3_Err != nil {
-						return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wallet.templ`, Line: 139, Col: 26}
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.wallet.templ`, Line: 131, Col: 26}
 					}
-					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var15))
+					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var13))
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -454,7 +396,7 @@ func isAllElementZero[T any](arr []T) bool {
 	return true
 }
 
-func WalletSwiper() templ.Component {
+func walletSwiper() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -470,9 +412,9 @@ func WalletSwiper() templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var16 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var16 == nil {
-			templ_7745c5c3_Var16 = templ.NopComponent
+		templ_7745c5c3_Var14 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var14 == nil {
+			templ_7745c5c3_Var14 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
 		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 25, "<section class=\"swiperThree min-h-fit mt-4\"><div class=\"px-4 swiper mySwiperThree w-full\"><div class=\"swiper-wrapper\">")

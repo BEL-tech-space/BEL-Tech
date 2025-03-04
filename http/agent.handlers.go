@@ -21,14 +21,14 @@ func (a *App) historyPage(w http.ResponseWriter, r *http.Request) {
 }
 
 func (a *App) profilePage(w http.ResponseWriter, r *http.Request) {
-	if err := agentPages.ProfilePage(
-		agentPages.Collector{
-			Email:     "giwaoluatobi@gmail.com",
-			AvatarUrl: "https://lh3.googleusercontent.com/a-/ALV-UjWhunlRgNtwAAdFNTue7WN3k01azp8GY0qJHQqsdfXBB26X40qIIw=s96-c",
-			NickName:  "Tobias",
-			Role:      "Collector",
-		},
-	).Render(context.Background(), w); err != nil {
+	collectorEmail := r.Context().Value(contextKeyEmail).(string)
+
+	collector, ok := a.collectors[collectorEmail]
+	if !ok {
+		http.Redirect(w, r, "/agent/logout", http.StatusUnauthorized)
+		return
+	}
+	if err := agentPages.ProfilePage(collector).Render(context.Background(), w); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}

@@ -11,6 +11,48 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
+type Agenttype string
+
+const (
+	AgenttypeCollector Agenttype = "collector"
+	AgenttypeBin       Agenttype = "bin"
+)
+
+func (e *Agenttype) Scan(src interface{}) error {
+	switch s := src.(type) {
+	case []byte:
+		*e = Agenttype(s)
+	case string:
+		*e = Agenttype(s)
+	default:
+		return fmt.Errorf("unsupported scan type for Agenttype: %T", src)
+	}
+	return nil
+}
+
+type NullAgenttype struct {
+	Agenttype Agenttype `json:"agenttype"`
+	Valid     bool      `json:"valid"` // Valid is true if Agenttype is not NULL
+}
+
+// Scan implements the Scanner interface.
+func (ns *NullAgenttype) Scan(value interface{}) error {
+	if value == nil {
+		ns.Agenttype, ns.Valid = "", false
+		return nil
+	}
+	ns.Valid = true
+	return ns.Agenttype.Scan(value)
+}
+
+// Value implements the driver Valuer interface.
+func (ns NullAgenttype) Value() (driver.Value, error) {
+	if !ns.Valid {
+		return nil, nil
+	}
+	return string(ns.Agenttype), nil
+}
+
 type Collectorrole string
 
 const (
@@ -86,6 +128,15 @@ type Account struct {
 	DeletedAt                 pgtype.Timestamp `json:"deleted_at"`
 }
 
+type Agent struct {
+	AgentID        pgtype.UUID      `json:"agent_id"`
+	CollectorEmail string           `json:"collector_email"`
+	AgentType      Agenttype        `json:"agent_type"`
+	CreatedAt      pgtype.Timestamp `json:"created_at"`
+	IsDeleted      bool             `json:"is_deleted"`
+	DeletedAt      pgtype.Timestamp `json:"deleted_at"`
+}
+
 type Beneficiary struct {
 	BName           string           `json:"b_name"`
 	BPhoneNo        string           `json:"b_phone_no"`
@@ -95,20 +146,17 @@ type Beneficiary struct {
 }
 
 type Collector struct {
-	AgentID         pgtype.UUID      `json:"agent_id"`
-	CollectorEmail  pgtype.Text      `json:"collector_email"`
-	FirstName       string           `json:"first_name"`
-	LastName        string           `json:"last_name"`
-	DisplayName     string           `json:"display_name"`
-	AvatarUrl       string           `json:"avatar_url"`
-	LocationCity    string           `json:"location_city"`
-	LocationState   string           `json:"location_state"`
-	LocationCountry string           `json:"location_country"`
-	LocationAddr    interface{}      `json:"location_addr"`
-	CollectorRole   Collectorrole    `json:"collector_role"`
-	CreatedAt       pgtype.Timestamp `json:"created_at"`
-	IsDeleted       pgtype.Bool      `json:"is_deleted"`
-	DeletedAt       pgtype.Timestamp `json:"deleted_at"`
+	CollectorEmail  string        `json:"collector_email"`
+	FirstName       string        `json:"first_name"`
+	LastName        string        `json:"last_name"`
+	DisplayName     string        `json:"display_name"`
+	AvatarUrl       string        `json:"avatar_url"`
+	LocationCity    string        `json:"location_city"`
+	LocationState   string        `json:"location_state"`
+	LocationCountry string        `json:"location_country"`
+	LocationAddr    interface{}   `json:"location_addr"`
+	AgentID         pgtype.UUID   `json:"agent_id"`
+	CollectorRole   Collectorrole `json:"collector_role"`
 }
 
 type Notification struct {
@@ -121,7 +169,7 @@ type Notification struct {
 	NotifID      string `json:"notif_id"`
 }
 
-type WasteLogsFromCollector struct {
+type WasteLog struct {
 	WasteID              pgtype.UUID      `json:"waste_id"`
 	Claimed              bool             `json:"claimed"`
 	GlassWeighed         float32          `json:"glass_weighed"`
@@ -135,6 +183,8 @@ type WasteLogsFromCollector struct {
 	TotalPointsEarned    float64          `json:"total_points_earned"`
 	LocationAddr         interface{}      `json:"location_addr"`
 	TxnName              string           `json:"txn_name"`
+	StatusReport         string           `json:"status_report"`
+	CollectedRoute       Agenttype        `json:"collected_route"`
 	AgentID              pgtype.UUID      `json:"agent_id"`
 	AccountEmail         string           `json:"account_email"`
 	CreatedAt            pgtype.Timestamp `json:"created_at"`

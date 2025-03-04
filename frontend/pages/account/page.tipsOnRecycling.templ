@@ -5,19 +5,32 @@ import "beltech/service"
 templ TipsOnRecyclingPage(wasteType string, acc service.Account) {
 	<!DOCTYPE html>
 	<html lang="en">
-		@HeadTag("tips")
+		@headTag("tips")
 		<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh w-full overflow-hidden">
 			<div class="Page w-full h-full flex flex-col font-montserrat text-[#2E2E2E]">
-				@TipsHeaderPartial(acc)
-				@TipsOnRecycleMain(wasteType, acc)
-				@Footer("dashboard", templ.NopComponent)
+				@tipsHeaderPartial(acc)
+				<main class="grow overflow-y-auto pl-[1.5rem] pr-[1.56rem] pt-[1.875rem] grid grid-rows-wastePage">
+					<section class="flex items-center gap-1">
+						<p class="leading-[1.143rem] font-semibold text-[0.938rem]">Tips on recycling</p>
+						<picture>
+							<source type="image/webp" srcset="/public/assets/images/Recycle_small.webp"/>
+							<img
+								src="/public/assets/images/Recycle_small.png"
+								class="w-5 aspect-square"
+							/>
+						</picture>
+					</section>
+					@wasteQuickInfo(wasteType, acc)
+					@tipsWasteTypeArticle(wasteType)
+				</main>
+				@footer("dashboard")
 			</div>
 		</body>
 		@scriptForWasteAndTipsPage()
 	</html>
 }
 
-templ TipsHeaderPartial(acc service.Account) {
+templ tipsHeaderPartial(acc service.Account) {
 	<header class="pt-6 pl-6 pr-[1.56rem] flex w-full justify-between items-center">
 		<button onclick="history.back()">
 			<img
@@ -52,24 +65,7 @@ templ TipsHeaderPartial(acc service.Account) {
 	</header>
 }
 
-templ TipsOnRecycleMain(wasteType string, acc service.Account) {
-	<main class="grow overflow-y-auto pl-[1.5rem] pr-[1.56rem] pt-[1.875rem] grid grid-rows-wastePage">
-		<section class="flex items-center gap-1">
-			<p class="leading-[1.143rem] font-semibold text-[0.938rem]">Tips on recycling</p>
-			<picture>
-				<source type="image/webp" srcset="/public/assets/images/Recycle_small.webp"/>
-				<img
-					src="/public/assets/images/Recycle_small.png"
-					class="w-5 aspect-square"
-				/>
-			</picture>
-		</section>
-		@WasteQuickInfo(wasteType, acc)
-		@TipsWasteTypeArticle(wasteType)
-	</main>
-}
-
-templ TipsWasteTypeArticle(wasteType string) {
+templ tipsWasteTypeArticle(wasteType string) {
 	<div class="overflow-y-auto font-montserrat font-medium text-[#2E2E2E] text-[0.813rem] leading-[1.138rem] text-justify rounded-t-md pt-1">
 		switch wasteType {
 			case "paper":
@@ -82,20 +78,6 @@ templ TipsWasteTypeArticle(wasteType string) {
 				@Plastics()
 		}
 	</div>
-}
-
-templ TipsMainOpeningTag() {
-	@templ.Raw(`<main class="grow overflow-y-auto pl-[1.5rem] pr-[1.56rem] pt-[1.875rem] grid grid-rows-wastePage">
-		<section class="flex items-center gap-1">
-			<p class="leading-[1.143rem] font-semibold text-[0.938rem]">Tips on recycling</p>
-			<picture>
-				<source type="image/webp" srcset="/public/assets/images/Recycle_small.webp"/>
-				<img
-					src="/public/assets/images/Recycle_small.png"
-					class="w-5 aspect-square"
-				/>
-			</picture>
-		</section>`)
 }
 
 templ Paper() {

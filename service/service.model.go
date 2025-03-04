@@ -57,7 +57,7 @@ type Notification struct {
 	DatabaseId          int32
 }
 
-type WasteLogFromCollector struct {
+type WasteLog struct {
 	WasteID              uuid.UUID   `json:"waste_id"`
 	Claimed              bool        `json:"claimed"`
 	GlassWeighed         float32     `json:"glass_weighed"`
@@ -71,13 +71,23 @@ type WasteLogFromCollector struct {
 	TotalPointsEarned    float64     `json:"total_points_earned"`
 	LocationAddr         interface{} `json:"location_addr"`
 	TxnName              string      `json:"txn_name"`
+	StatusReport         string      `json:"status_report"`
+	CollectedRoute       Agenttype   `json:"collected_route"`
 	AgentID              uuid.UUID   `json:"agent_id"`
 	AccountEmail         string      `json:"account_email"`
 	CreatedAt            time.Time   `json:"created_at"`
 }
 
-type AgentCollector struct {
-	AgentID         uuid.UUID     `json:"agent_id"`
+type Agent struct {
+	AgentID        uuid.UUID `json:"agent_id"`
+	CollectorEmail string    `json:"collector_email"`
+	AgentType      Agenttype `json:"agent_type"`
+	CreatedAt      time.Time `json:"created_at"`
+	IsDeleted      bool      `json:"is_deleted"`
+	DeletedAt      time.Time `json:"deleted_at"`
+}
+
+type Collector struct {
 	CollectorEmail  string        `json:"collector_email"`
 	FirstName       string        `json:"first_name"`
 	LastName        string        `json:"last_name"`
@@ -87,10 +97,8 @@ type AgentCollector struct {
 	LocationState   string        `json:"location_state"`
 	LocationCountry string        `json:"location_country"`
 	LocationAddr    interface{}   `json:"location_addr"`
+	AgentID         uuid.UUID     `json:"agent_id"`
 	CollectorRole   Collectorrole `json:"collector_role"`
-	CreatedAt       time.Time     `json:"created_at"`
-	IsDeleted       bool          `json:"is_deleted"`
-	DeletedAt       time.Time     `json:"deleted_at"`
 }
 
 type Collectorrole string
@@ -98,4 +106,11 @@ type Collectorrole string
 const (
 	CollectorroleCollector      Collectorrole = "collector"
 	CollectorroleSuperCollector Collectorrole = "super_collector"
+)
+
+type Agenttype string
+
+const (
+	AgenttypeCollector Agenttype = "collector"
+	AgenttypeBin       Agenttype = "bin"
 )

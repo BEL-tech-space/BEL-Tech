@@ -32,7 +32,7 @@ templ CollectPage(agentID string) {
 				<main id="main" class="overflow-y-auto my-auto mr-[1.688rem] ml-6" hx-on:htmx:after-swap="reattachListeners()">
 					@WasteForm(agentID)
 				</main>
-				@Footer("collect")
+				@footer("collect")
 			</div>
 		</body>
 		<script src="/public/assets/scripts/htmx.min.js"></script>

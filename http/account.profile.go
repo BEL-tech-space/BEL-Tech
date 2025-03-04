@@ -25,47 +25,6 @@ func (a *App) ProfilePageHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (a *App) profileMainTagPartial(w http.ResponseWriter, r *http.Request) {
-
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if err := accPages.ProfileMainOpeningTag().Render(context.TODO(), w); err != nil {
-		a.serverError(w, err)
-		return
-	}
-}
-
-func (a *App) profileDisplayIcon(w http.ResponseWriter, r *http.Request) {
-
-	accountEmail := r.Context().Value(contextKeyEmail).(string)
-	user, err := a.getAccountFromCache(context.Background(), accountEmail)
-	if err != nil {
-		a.serverError(w, err)
-		return
-	}
-
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if err := accPages.ProfileChangeDisplayIcon(user.AvatarUrl).Render(context.TODO(), w); err != nil {
-		a.serverError(w, err)
-		return
-	}
-}
-
-func (a *App) profileFormPartial(w http.ResponseWriter, r *http.Request) {
-
-	accountEmail := r.Context().Value(contextKeyEmail).(string)
-	user, err := a.getAccountFromCache(context.Background(), accountEmail)
-	if err != nil {
-		a.serverError(w, err)
-		return
-	}
-
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if err := accPages.ProfileUpdataAccountInfoPartial(user).Render(context.TODO(), w); err != nil {
-		a.serverError(w, err)
-		return
-	}
-}
-
 func (a *App) changeProfileDisplayName(w http.ResponseWriter, r *http.Request) {
 
 	if err := r.ParseForm(); err != nil {
@@ -90,7 +49,7 @@ func (a *App) changeProfileDisplayName(w http.ResponseWriter, r *http.Request) {
 	a.updateAccountCache(user)
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if err := accPages.CommonHeader(user).Render(context.TODO(), w); err != nil {
+	if err := accPages.Profile(user).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return
 	}

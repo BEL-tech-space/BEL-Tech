@@ -2,58 +2,6 @@ package frontend
 
 import "beltech/service"
 
-templ BeforeHeaderTagPartial(pageTitle string) {
-	@templ.Raw(`<!DOCTYPE html><html lang="en">`)
-	@HeadTag(pageTitle)
-	@templ.Raw(`<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden"><div class="Page w-full h-full flex flex-col font-montserrat text-[#2E2E2E]">`)
-}
-
-templ HtmlAndBodyOpeningTagPartial(pageTitle string, others ...templ.Component) {
-	@templ.Raw(`<!DOCTYPE html><html lang="en">`)
-	@HeadTag(pageTitle)
-	@templ.Raw(`
-			<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
-					<div class="Page w-full h-full flex flex-col font-montserrat text-[#2E2E2E]">`)
-	if others != nil {
-		for _, comp := range others {
-			@comp
-		}
-	}
-}
-
-// HtmlAndBodyClosingTagPartial renders the script, closing tags for body and html elements
-templ HtmlAndBodyClosingTagPartial(pageTitle string) {
-	@templ.Raw(`</div></body>`)
-	switch pageTitle {
-		case "dashboard":
-			@scriptForDashboardPage()
-		case "scan":
-			@scriptForScanPage()
-		case "location":
-			@scriptForLocationPage()
-		case "wallet":
-			@scriptForWalletPage()
-		case "spend":
-			@scriptForSpendPage()
-		case "airtime":
-			@airtimeRechargeSuccessDialog()
-			@addNewBeneficiairyAirtimePageDialog()
-			@scriptForAirtimePage()
-		case "beneficiaries":
-			@scriptForBeneficiariesPage()
-			@addNewBeneficiairyDialog()
-		case "profile":
-			@scriptForProfilePage()
-			@createNewPinDialog()
-			@enterSPLWalletAddrDialog()
-			@successDialog(true)
-			@changeSPLWalletAddrDialog()
-		case "waste", "tips":
-			@scriptForWasteAndTipsPage()
-	}
-	@templ.Raw(`</html>`)
-}
-
 templ ToastMessage(toastType ToastType, message string, templComp ...templ.Component) {
 	for _, comp := range templComp {
 		@comp
@@ -122,11 +70,7 @@ templ commingSoonTooltip() {
 	</script>
 }
 
-templ MainClosingTag() {
-	@templ.Raw(`</main>`)
-}
-
-templ CommonHeader(user service.Account) {
+templ commonHeader(user service.Account) {
 	<header id="header" class="pt-[1.5rem] pl-[1.5rem] pr-[1.56rem] flex w-full justify-start items-center">
 		<a href="/account/profile">
 			<img

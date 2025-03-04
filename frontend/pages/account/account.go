@@ -63,7 +63,7 @@ func chartUrlRed(url string) string {
 func formatTotalWasteWeighed(f float64) string {
 	switch {
 	case f < 10_000:
-		return fmt.Sprintf("%.1f", f)
+		return formatFloatWithComma(f, 1)
 	case f < 100_000:
 		return fmt.Sprintf("%.1fk", math.Round(f/1_000*10)/10)
 	case f < 1_000_000:

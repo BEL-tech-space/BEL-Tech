@@ -58,7 +58,7 @@ func headTag(pageTitle string) templ.Component {
 	})
 }
 
-func Footer(active string) templ.Component {
+func footer(active string) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -128,12 +128,12 @@ func Footer(active string) templ.Component {
 			}
 		}
 		if active == "logout" {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, "<a href=\"/agent/signout\" class=\"flex flex-col justify-center items-center\"><img src=\"/public/assets/svg/logout_bold.svg\" class=\"w-6 aspect-square\"><p class=\"font-bold text-[0.5rem] leading-[1.25rem]\">Logout</p></a>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, "<a href=\"/agent/signout.html\" class=\"flex flex-col justify-center items-center\"><img src=\"/public/assets/svg/logout_bold.svg\" class=\"w-6 aspect-square\"><p class=\"font-bold text-[0.5rem] leading-[1.25rem]\">Logout</p></a>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		} else {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 14, "<a href=\"/agent/signout\" class=\"flex flex-col justify-center items-center\"><img src=\"/public/assets/svg/logout_linear.svg\" class=\"w-6 aspect-square\"><p class=\"font-bold text-[0.5rem] leading-[1.25rem]\">Logout</p></a>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 14, "<a href=\"/agent/signout.html\" class=\"flex flex-col justify-center items-center\"><img src=\"/public/assets/svg/logout_linear.svg\" class=\"w-6 aspect-square\"><p class=\"font-bold text-[0.5rem] leading-[1.25rem]\">Logout</p></a>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

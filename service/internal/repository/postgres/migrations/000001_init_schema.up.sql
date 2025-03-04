@@ -24,7 +24,6 @@ CREATE TABLE IF NOT EXISTS accounts (
     access_token_expires TIMESTAMP,
     id_token TEXT NOT NULL DEFAULT '',
     last_update_email TIMESTAMP,
-    "role" VARCHAR(10) NOT NULL DEFAULT 'user',
     joined TIMESTAMP DEFAULT NOW(),
     is_new BOOLEAN NOT NULL DEFAULT TRUE,
     is_deleted BOOLEAN NOT NULL DEFAULT FALSE,
@@ -59,10 +58,20 @@ CREATE TABLE IF NOT EXISTS notifications (
 
 DROP TYPE IF EXISTS collectorRole;
 CREATE TYPE collectorRole AS ENUM ('collector', 'super_collector');
+DROP TYPE IF EXISTS agentType;
+CREATE TYPE agentType AS ENUM ('collector', 'bin');
+
+CREATE TABLE IF NOT EXISTS agent (
+    agent_ID UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    collector_Email TEXT UNIQUE NOT NULL,
+    agent_type agentType NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    is_deleted BOOLEAN NOT NULL DEFAULT FALSE,
+    deleted_at TIMESTAMP
+);
 
 CREATE TABLE IF NOT EXISTS collectors (
-    agent_ID UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    collector_email TEXT UNIQUE,
+    collector_email TEXT PRIMARY KEY,
     first_name VARCHAR(30) NOT NULL DEFAULT '',
     last_name VARCHAR(30) NOT NULL DEFAULT '',
     display_name VARCHAR(30) NOT NULL DEFAULT '',
@@ -71,13 +80,11 @@ CREATE TABLE IF NOT EXISTS collectors (
     location_state TEXT NOT NULL DEFAULT '',
     location_country TEXT NOT NULL DEFAULT '',
     location_addr geometry(POINT, 4326),
-    collector_role collectorRole NOT NULL DEFAULT 'collector',
-    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-    is_deleted BOOLEAN DEFAULT FALSE,
-    deleted_at TIMESTAMP DEFAULT NULL
+    agent_ID UUID NOT NULL REFERENCES agent(agent_ID) ON DELETE RESTRICT,
+    collector_role collectorRole NOT NULL DEFAULT 'collector'
 );
 
-CREATE TABLE IF NOT EXISTS waste_logs_from_collector (
+CREATE TABLE IF NOT EXISTS waste_logs (
     waste_Id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     claimed BOOLEAN NOT NULL DEFAULT FALSE,
     glass_weighed REAL NOT NULL DEFAULT 0,
@@ -91,7 +98,9 @@ CREATE TABLE IF NOT EXISTS waste_logs_from_collector (
     total_points_earned DOUBLE PRECISION NOT NULL DEFAULT 0,
     location_addr geometry(POINT, 4326),
     txn_name TEXT NOT NULL DEFAULT '',
-    agent_ID UUID NOT NULL REFERENCES collectors(agent_ID) ON DELETE RESTRICT,
+    status_report TEXT NOT NULL DEFAULT '',
+    collected_route agentType NOT NULL,
+    agent_ID UUID NOT NULL REFERENCES agent(agent_ID) ON DELETE RESTRICT,
     account_email TEXT NOT NULL REFERENCES accounts(account_email) ON DELETE RESTRICT,
     created_at TIMESTAMP NOT NULL DEFAULT NOW()
 );

@@ -1,15 +1,17 @@
 package pages
 
-templ ProfilePage(collector Collector) {
+import "beltech/service"
+
+templ ProfilePage(collector service.Collector) {
 	<!DOCTYPE html>
 	<html lang="en">
 		<head>
 			<meta charset="UTF-8"/>
 			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-			<link
+			<links
 				rel="stylesheet"
 				href="/public/assets/styles/output.css"
-			/>
+			></links>
 			<title>Profile Beltech-Agent</title>
 		</head>
 		<body class="bg-[url('/public/assets/images/beltech_background.png')] bg-cover bg-center h-dvh overflow-hidden">
@@ -28,15 +30,15 @@ templ ProfilePage(collector Collector) {
 						</div>
 						<div class="relative">
 							<label for="nickName" name="collector" class="font-bold text-sm tracking-[0.025rem] text-[#49454F]">Display Name</label>
-							<input id="nickName" type="text" value={ collector.NickName } class="w-[21.375rem] aspect-[342/36] rounded border-[0.0313rem] outline-none border-[#569B78] border-solid text-xs font-medium pl-3 pt-1"/>
+							<input id="nickName" type="text" value={ collector.DisplayName } class="w-[21.375rem] aspect-[342/36] rounded border-[0.0313rem] outline-none border-[#569B78] border-solid text-xs font-medium pl-3 pt-1"/>
 						</div>
 						<div class="relative">
 							<label for="email" name="collector" class="font-bold text-sm tracking-[0.025rem] text-[#49454F]">Email Address</label>
-							<input disabled id="email" type="text" value={ collector.Email } class="w-[21.375rem] aspect-[342/36] rounded border-[0.0313rem] outline-none border-[#569B78] border-solid text-xs font-medium pl-3 pt-1"/>
+							<input disabled id="email" type="text" value={ collector.CollectorEmail } class="w-[21.375rem] aspect-[342/36] rounded border-[0.0313rem] outline-none border-[#569B78] border-solid text-xs font-medium pl-3 pt-1"/>
 						</div>
 						<div class="relative">
 							<label for="role" name="collector" class="font-bold text-sm tracking-[0.025rem] text-[#49454F]">Role</label>
-							<input disabled id="role" type="text" value={ collector.Role } class="w-[21.375rem] aspect-[342/36] rounded border-[0.0313rem] outline-none border-[#569B78] border-solid text-xs font-medium pl-3 pt-1"/>
+							<input disabled id="role" type="text" value={ string(collector.CollectorRole) } class="w-[21.375rem] aspect-[342/36] rounded border-[0.0313rem] outline-none border-[#569B78] border-solid text-xs font-medium pl-3 pt-1"/>
 						</div>
 						<div class="my-7 w-full">
 							<button class="w-full bg-[#016934] py-3 rounded-md px-[5.438rem] font-montserrat font-medium text-sm text-center tracking-[0.1px] text-white text-nowrap">
@@ -45,7 +47,7 @@ templ ProfilePage(collector Collector) {
 						</div>
 					</form>
 				</main>
-				@Footer("profile")
+				@footer("profile")
 			</div>
 		</body>
 	</html>

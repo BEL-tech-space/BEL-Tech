@@ -35,15 +35,24 @@ func BeneficiariesPage(avatarURL string, ben []service.Beneficiary) templ.Compon
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = HeadTag("Airtime Beneficiaries").Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = headTag("Airtime Beneficiaries").Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<body class=\"bg-[url(&#39;/public/assets/images/beltech_background.png&#39;)] bg-cover bg-center h-dvh overflow-hidden\"><div class=\"w-full h-full grid grid-rows-agentCollectPage font-montserrat text-[#2E2E2E]\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<body class=\"bg-[url(&#39;/public/assets/images/beltech_background.png&#39;)] bg-cover bg-center h-dvh overflow-hidden\"><div class=\"w-full h-full grid grid-rows-agentCollectPage font-montserrat text-[#2E2E2E]\"><header class=\"pt-[1.5rem] pl-[1.5rem] pr-[1.56rem] flex w-full justify-between items-center\"><a href=\"/account/profile\"><img src=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = BeneficiariesHeaderPartial(avatarURL).Render(ctx, templ_7745c5c3_Buffer)
+		var templ_7745c5c3_Var2 string
+		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(avatarURL)
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.beneficiaries.templ`, Line: 14, Col: 22}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "\" class=\"rounded-full w-[1.86rem] aspect-square mr-[0.5rem]\"></a><p class=\"font-semibold text-[0.938rem] leading-[1.143rem]\">Beneficiaries</p><button class=\"bg-[#CCE1D699] p-2 rounded-md flex justify-center items-center\" _=\"on click call #addNewBeneficiairyDialog.showModal()\"><img src=\"/public/assets/svg/+.svg\" class=\"w-[1.5rem] aspect-square\"></button></header>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -51,11 +60,11 @@ func BeneficiariesPage(avatarURL string, ben []service.Beneficiary) templ.Compon
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = Footer("spend", templ.NopComponent).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = footer("spend").Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</div></body>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "</div></body>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -63,49 +72,7 @@ func BeneficiariesPage(avatarURL string, ben []service.Beneficiary) templ.Compon
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "</html>")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		return nil
-	})
-}
-
-func BeneficiariesHeaderPartial(avatarURL string) templ.Component {
-	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
-		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
-		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
-			return templ_7745c5c3_CtxErr
-		}
-		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
-		if !templ_7745c5c3_IsBuffer {
-			defer func() {
-				templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
-				if templ_7745c5c3_Err == nil {
-					templ_7745c5c3_Err = templ_7745c5c3_BufErr
-				}
-			}()
-		}
-		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var2 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var2 == nil {
-			templ_7745c5c3_Var2 = templ.NopComponent
-		}
-		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "<header class=\"pt-[1.5rem] pl-[1.5rem] pr-[1.56rem] flex w-full justify-between items-center\"><a href=\"/account/profile\"><img src=\"")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		var templ_7745c5c3_Var3 string
-		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(avatarURL)
-		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.beneficiaries.templ`, Line: 24, Col: 19}
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "\" class=\"rounded-full w-[1.86rem] aspect-square mr-[0.5rem]\"></a><p class=\"font-semibold text-[0.938rem] leading-[1.143rem]\">Beneficiaries</p><button class=\"bg-[#CCE1D699] p-2 rounded-md flex justify-center items-center\" _=\"on click call #addNewBeneficiairyDialog.showModal()\"><img src=\"/public/assets/svg/+.svg\" class=\"w-[1.5rem] aspect-square\"></button></header>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "</html>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -129,12 +96,12 @@ func scriptForBeneficiariesPage() templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var4 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var4 == nil {
-			templ_7745c5c3_Var4 = templ.NopComponent
+		templ_7745c5c3_Var3 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var3 == nil {
+			templ_7745c5c3_Var3 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "<script src=\"/public/assets/scripts/hyperscript.min.js\"></script><script src=\"/public/assets/scripts/htmx.min.js\"></script>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "<script src=\"/public/assets/scripts/hyperscript.min.js\"></script><script src=\"/public/assets/scripts/htmx.min.js\"></script>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -166,128 +133,128 @@ func BeneficiariesMain(ben []service.Beneficiary) templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var5 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var5 == nil {
-			templ_7745c5c3_Var5 = templ.NopComponent
+		templ_7745c5c3_Var4 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var4 == nil {
+			templ_7745c5c3_Var4 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "<main id=\"beneficiariesList\" class=\"overflow-y-auto grow pl-[1.5rem] pr-[1.56rem] pt-12\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "<main id=\"beneficiariesList\" class=\"overflow-y-auto grow pl-[1.5rem] pr-[1.56rem] pt-12\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		if len(ben) == 0 {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "<div class=\"h-full flex justify-center items-center\"><p class=\"text-center font-tt_chocolate\">No beneficiary, click the + to add new beneficiary.</p></div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "<div class=\"h-full flex justify-center items-center\"><p class=\"text-center font-tt_chocolate\">No beneficiary, click the + to add new beneficiary.</p></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		} else {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "<ul class=\"w-full flex flex-col justify-center items-center gap-6\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "<ul class=\"w-full flex flex-col justify-center items-center gap-6\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			for _, v := range ben {
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "<li class=\"w-full bg-[#FEF7FF] shadow-[0px_1px_2px_1px_#00000014] pl-2 pr-7 py-3 flex justify-between items-center rounded-lg\"><div class=\"flex gap-6 items-center justify-start\">")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "<li class=\"w-full bg-[#FEF7FF] shadow-[0px_1px_2px_1px_#00000014] pl-2 pr-7 py-3 flex justify-between items-center rounded-lg\"><div class=\"flex gap-6 items-center justify-start\">")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 				switch v.ServiceProvider {
 				case "mtn":
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, "<picture><source type=\"image/webp\" srcset=\"/public/assets/images/mtn.webp\"> <img id=\"serviceProvider\" src=\"/public/assets/images/mtn.png\" alt=\"\" class=\"w-[3.5rem] aspect-square rounded-full\"></picture>")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "<picture><source type=\"image/webp\" srcset=\"/public/assets/images/mtn.webp\"> <img id=\"serviceProvider\" src=\"/public/assets/images/mtn.png\" alt=\"\" class=\"w-[3.5rem] aspect-square rounded-full\"></picture>")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
 				case "airtel":
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, "<picture><source type=\"image/webp\" srcset=\"/public/assets/images/airtel.webp\"> <img id=\"serviceProvider\" src=\"/public/assets/images/airtel.png\" alt=\"\" class=\"w-[3.5rem] aspect-square rounded-full\"></picture>")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, "<picture><source type=\"image/webp\" srcset=\"/public/assets/images/airtel.webp\"> <img id=\"serviceProvider\" src=\"/public/assets/images/airtel.png\" alt=\"\" class=\"w-[3.5rem] aspect-square rounded-full\"></picture>")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
 				case "glo":
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 14, "<picture><source type=\"image/webp\" srcset=\"/public/assets/images/glo.webp\"> <img id=\"serviceProvider\" src=\"/public/assets/images/glo.png\" alt=\"\" class=\"w-[3.5rem] aspect-square rounded-full\"></picture>")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, "<picture><source type=\"image/webp\" srcset=\"/public/assets/images/glo.webp\"> <img id=\"serviceProvider\" src=\"/public/assets/images/glo.png\" alt=\"\" class=\"w-[3.5rem] aspect-square rounded-full\"></picture>")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
 				case "9mobile":
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, "<img id=\"serviceProvider\" src=\"/public/assets/svg/9mobile.svg\" alt=\"\" class=\"w-[3.5rem] aspect-square rounded-full\">")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 14, "<img id=\"serviceProvider\" src=\"/public/assets/svg/9mobile.svg\" alt=\"\" class=\"w-[3.5rem] aspect-square rounded-full\">")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 16, "<div class=\"flex flex-col gap-2 justify-start items-start\"><p class=\"font-poppins font-medium text-xs leading-[1.125rem] text-[#2E2E2E]\">")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, "<div class=\"flex flex-col gap-2 justify-start items-start\"><p class=\"font-poppins font-medium text-xs leading-[1.125rem] text-[#2E2E2E]\">")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				var templ_7745c5c3_Var5 string
+				templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(v.BName)
+				if templ_7745c5c3_Err != nil {
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.beneficiaries.templ`, Line: 75, Col: 95}
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 16, "</p><p class=\"font-montserrat font-bold text-[0.625rem] leading-[0.762rem] text-[#016934]\">")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 				var templ_7745c5c3_Var6 string
-				templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(v.BName)
+				templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(v.BPhoneNo)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.beneficiaries.templ`, Line: 79, Col: 95}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.beneficiaries.templ`, Line: 76, Col: 107}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 17, "</p><p class=\"font-montserrat font-bold text-[0.625rem] leading-[0.762rem] text-[#016934]\">")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 17, "</p></div></div><img data-name=\"")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 				var templ_7745c5c3_Var7 string
-				templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(v.BPhoneNo)
+				templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(v.BName)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.beneficiaries.templ`, Line: 80, Col: 107}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.beneficiaries.templ`, Line: 80, Col: 26}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 18, "</p></div></div><img data-name=\"")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 18, "\" data-phone=\"")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 				var templ_7745c5c3_Var8 string
-				templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(v.BName)
+				templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(v.BPhoneNo)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.beneficiaries.templ`, Line: 84, Col: 26}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.beneficiaries.templ`, Line: 81, Col: 30}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 19, "\" data-phone=\"")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 19, "\" data-network=\"")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 				var templ_7745c5c3_Var9 string
-				templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(v.BPhoneNo)
+				templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(v.ServiceProvider)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.beneficiaries.templ`, Line: 85, Col: 30}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.beneficiaries.templ`, Line: 82, Col: 39}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 20, "\" data-network=\"")
-				if templ_7745c5c3_Err != nil {
-					return templ_7745c5c3_Err
-				}
-				var templ_7745c5c3_Var10 string
-				templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(v.ServiceProvider)
-				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.beneficiaries.templ`, Line: 86, Col: 39}
-				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
-				if templ_7745c5c3_Err != nil {
-					return templ_7745c5c3_Err
-				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 21, "\" src=\"/public/assets/svg/delete.svg\" _=\"on click \n\t\t\t\t\t\t\t\tset #deleteBeneficiaryName.innerText to me.dataset.name then\n\t\t\t\t\t\t\t\tset #deleteBeneficiaryPhone.innerText to me.dataset.phone then\n\t\t\t\t\t\t\t\tset #sp.dataset.network to me.dataset.network then\n\t\t\t\t\t\t\t\tset #sp.src to me.closest(&#39;li&#39;).querySelector(&#39;img&#39;).src then\n\t\t\t\t\t\t\t\tcall #deleteBeneficiaryDialog.showModal()\" alt=\"\" class=\"w-5 aspect-square\"></li>")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 20, "\" src=\"/public/assets/svg/delete.svg\" _=\"on click \n\t\t\t\t\t\t\t\tset #deleteBeneficiaryName.innerText to me.dataset.name then\n\t\t\t\t\t\t\t\tset #deleteBeneficiaryPhone.innerText to me.dataset.phone then\n\t\t\t\t\t\t\t\tset #sp.dataset.network to me.dataset.network then\n\t\t\t\t\t\t\t\tset #sp.src to me.closest(&#39;li&#39;).querySelector(&#39;img&#39;).src then\n\t\t\t\t\t\t\t\tcall #deleteBeneficiaryDialog.showModal()\" alt=\"\" class=\"w-5 aspect-square\"></li>")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 22, "</ul>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 21, "</ul>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 23, "</main>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 22, "</main>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -311,12 +278,12 @@ func addNewBeneficiairyDialog() templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var11 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var11 == nil {
-			templ_7745c5c3_Var11 = templ.NopComponent
+		templ_7745c5c3_Var10 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var10 == nil {
+			templ_7745c5c3_Var10 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 24, "<dialog id=\"addNewBeneficiairyDialog\" class=\"backdrop:backdrop-blur-sm rounded-2xl py-8 pl-7 pr-9 font-montserrat text-[#2E2E2E]\"><p class=\"font-bold text-sm leading-[1.067rem] text-center mb-2 mt-6\">Add new number to your Beneficiary</p><form id=\"newBeneficiary\" hx-post=\"/account/beneficiaries/addNew\" hx-target=\"#beneficiariesList\" hx-swap=\"outerHTML\" hx-vals=\"{&#34;from&#34;: &#34;beneficiariesPage&#34;}\" hx-trigger=\"submit\" _=\"on htmx:beforeRequest call #addNewBeneficiairyDialog.close() then call restoreState()\" class=\"mt-8 w-full flex flex-col items-center justify-start gap-[1.141rem]\"><div class=\"w-full\"><label for=\"name\" class=\"font-semibold text-xs\">Name</label> <input required type=\"text\" autocomplete=\"off\" name=\"name\" id=\"name\" minlength=\"2\" maxlength=\"20\" placeholder=\"min. 2 - max. 20\" class=\"min-h-[2.071rem] pl-2 w-full border-solid border-[#569B78] border-[0.0256rem] rounded outline-none placeholder:text-xs\"></div><div class=\"w-full\"><label for=\"number\" class=\"font-semibold text-xs\">Phone Number</label> <input required type=\"tel\" name=\"number\" id=\"number\" inputmode=\"numeric\" autocomplete=\"off\" maxlength=\"11\" minlength=\"11\" title=\"number must be 11 in length\" pattern=\"^0[1-9][0-1]\\d{8}\" placeholder=\"length of 11 numbers e.g 090xxxxxxxx\" class=\"min-h-[2.071rem] pl-2 w-full border-solid border-[#569B78] border-[0.0256rem] rounded outline-none placeholder:text-xs\"></div><section class=\"grid grid-cols-4 justify-between items-center gap-[2.125rem] mb-8\"><label for=\"mtn\" class=\"label shadow-[0px_0.053rem_0.105rem_0.053rem_#00000014] py-[0.869rem] px-[1.25rem] flex flex-col justify-center items-center\"><img src=\"/public/assets/svg/mtn.svg\" alt=\"\" class=\"w-9 rounded-full\"><p class=\"font-poppins font-bold text-[0.524rem] leading-[0.787rem] mt-[0.482rem]\">MTN</p></label> <input required type=\"radio\" id=\"mtn\" name=\"sp\" autocomplete=\"off\" value=\"mtn\" class=\"hidden\"> <label for=\"airtel\" class=\"label shadow-[0px_0.053rem_0.105rem_0.053rem_#00000014] py-[0.869rem] px-[1.25rem] flex flex-col justify-center items-center\"><img src=\"/public/assets/svg/airtel.svg\" alt=\"\" class=\"w-9 rounded-full\"><p class=\"font-poppins font-bold text-[0.524rem] leading-[0.787rem] mt-[0.482rem]\">AIRTEL</p></label> <input type=\"radio\" id=\"airtel\" name=\"sp\" autocomplete=\"off\" value=\"airtel\" class=\"hidden\"> <label for=\"glo\" class=\"label shadow-[0px_0.053rem_0.105rem_0.053rem_#00000014] py-[0.869rem] px-[1.25rem] flex flex-col justify-center items-center\"><img src=\"/public/assets/svg/glo.svg\" alt=\"\" class=\"w-9 rounded-full\"><p class=\"font-poppins font-bold text-[0.524rem] leading-[0.787rem] mt-[0.482rem]\">GLO</p></label> <input type=\"radio\" id=\"glo\" name=\"sp\" autocomplete=\"off\" value=\"glo\" class=\"hidden\"> <label for=\"9mobile\" class=\"label shadow-[0px_0.053rem_0.105rem_0.053rem_#00000014] py-[0.869rem] px-[1.25rem] flex flex-col justify-center items-center\"><img src=\"/public/assets/svg/9mobile.svg\" alt=\"\" class=\"w-9 rounded-full\"><p class=\"font-poppins font-bold text-[0.524rem] leading-[0.787rem] mt-[0.482rem]\">9MOBILE</p></label> <input type=\"radio\" id=\"9mobile\" name=\"sp\" autocomplete=\"off\" value=\"9mobile\" class=\"hidden\"></section><section class=\"w-full flex justify-between items-center gap-3\"><button disabled id=\"submitBtn\" type=\"submit\" class=\"w-full opacity-45 bg-green-400 text-sm font-medium text-white py-[0.625rem] text-center tracking-[0.00625rem] rounded-md\">Save Beneficiary</button> <button type=\"reset\" _=\"on click call #addNewBeneficiairyDialog.close() then call restoreState()\" class=\"outline-none rounded-md mb-2 font-medium bg-black text-[0.813rem] leading-5 tracking-[0.00625em] py-[0.625rem] px-8 text-center text-white\">Close</button></section></form><style>\n\t\t\t.selected {\n\t\t\t\tbackground-color: #b1ddc8;\n\t\t\t\tborder-radius: 6px;\n\t\t\t}\n\t\t</style><script>\n\t\t\tconst newBeneficiaryForm = document.getElementById('newBeneficiary');\n\t\t\tconst newBeneficiaryFormSubmitBtn =  document.getElementById(\"submitBtn\")\n\n\t\t\tnewBeneficiaryForm.addEventListener('input', () => {\n\t\t\t\tif (!newBeneficiaryForm.checkValidity()) {\n\t\t\t\t\tnewBeneficiaryFormSubmitBtn.disabled = true\n\t\t\t\t\tnewBeneficiaryFormSubmitBtn.classList.remove('bg-[#016934]')\n\t\t\t\t\tnewBeneficiaryFormSubmitBtn.classList.add('opacity-45', 'bg-green-400')\n\t\t\t\t\treturn\n\t\t\t\t}\n\t\t\t\tnewBeneficiaryFormSubmitBtn.disabled = false\n\t\t\t\tnewBeneficiaryFormSubmitBtn.classList.add('bg-[#016934]')\n\t\t\t\tnewBeneficiaryFormSubmitBtn.classList.remove('opacity-45', 'bg-green-400')\n\t\t\t});\n\n\t\t\tconst radioInputs = document.querySelectorAll('input[type=\"radio\"][name=\"sp\"]');\n\t\t\tradioInputs.forEach((radio) => {\n\t\t\t\tradio.addEventListener('change', () => {\t\n\t\t\t\t\tconst labels = document.querySelectorAll('label');\n\t\t\t\t\tlabels.forEach((label) => {\n\t\t\t\t\t\tlabel.classList.remove('selected');\n\t\t\t\t\t});\n\n\t\t\t\t\tconst checkedRadio = document.querySelector('input[type=\"radio\"][name=\"sp\"]:checked');\n\t\t\t\t\tif (checkedRadio) {\n\t\t\t\t\t\tconst label = document.querySelector(`label[for=\"${checkedRadio.id}\"]`);\n\t\t\t\t\t\tlabel.classList.add('selected');\n\t\t\t\t\t}\n\t\t\t\t});\n\t\t\t});\n\n\t\t\tfunction restoreState() {\n\t\t\t\t// Uncheck the radio buttons\n\t\t\t\tradioInputs.forEach((radio) => {\n\t\t\t\t\tradio.checked = false;\n\t\t\t\t});\n\n    \n\t\t\t\tconst labels = document.querySelectorAll('label');\n\t\t\t\tlabels.forEach((label) => {\n\t\t\t\t\tlabel.classList.remove('selected');\n\t\t\t\t});\n\n\t\t\t\t // Reset the form\n\t\t\t\tnewBeneficiaryForm.reset();\n\n\t\t\t\t// Add the disabled attribute to the submit button\n\t\t\t\tnewBeneficiaryFormSubmitBtn.disabled = true;\n\t\t\t\tnewBeneficiaryFormSubmitBtn.classList.remove('bg-[#016934]');\n\t\t\t\tnewBeneficiaryFormSubmitBtn.classList.add('opacity-45', 'bg-green-400');\n\t\t\t};\n\t\t</script></dialog>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 23, "<dialog id=\"addNewBeneficiairyDialog\" class=\"backdrop:backdrop-blur-sm rounded-2xl py-8 pl-7 pr-9 font-montserrat text-[#2E2E2E]\"><p class=\"font-bold text-sm leading-[1.067rem] text-center mb-2 mt-6\">Add new number to your Beneficiary</p><form id=\"newBeneficiary\" hx-post=\"/account/beneficiaries/addNew\" hx-target=\"#beneficiariesList\" hx-swap=\"outerHTML\" hx-vals=\"{&#34;from&#34;: &#34;beneficiariesPage&#34;}\" hx-trigger=\"submit\" _=\"on htmx:beforeRequest call #addNewBeneficiairyDialog.close() then call restoreState()\" class=\"mt-8 w-full flex flex-col items-center justify-start gap-[1.141rem]\"><div class=\"w-full\"><label for=\"name\" class=\"font-semibold text-xs\">Name</label> <input required type=\"text\" autocomplete=\"off\" name=\"name\" id=\"name\" minlength=\"2\" maxlength=\"20\" placeholder=\"min. 2 - max. 20\" class=\"min-h-[2.071rem] pl-2 w-full border-solid border-[#569B78] border-[0.0256rem] rounded outline-none placeholder:text-xs\"></div><div class=\"w-full\"><label for=\"number\" class=\"font-semibold text-xs\">Phone Number</label> <input required type=\"tel\" name=\"number\" id=\"number\" inputmode=\"numeric\" autocomplete=\"off\" maxlength=\"11\" minlength=\"11\" title=\"number must be 11 in length\" pattern=\"^0[1-9][0-1]\\d{8}\" placeholder=\"length of 11 numbers e.g 090xxxxxxxx\" class=\"min-h-[2.071rem] pl-2 w-full border-solid border-[#569B78] border-[0.0256rem] rounded outline-none placeholder:text-xs\"></div><section class=\"grid grid-cols-4 justify-between items-center gap-[2.125rem] mb-8\"><label for=\"mtn\" class=\"label shadow-[0px_0.053rem_0.105rem_0.053rem_#00000014] py-[0.869rem] px-[1.25rem] flex flex-col justify-center items-center\"><img src=\"/public/assets/svg/mtn.svg\" alt=\"\" class=\"w-9 rounded-full\"><p class=\"font-poppins font-bold text-[0.524rem] leading-[0.787rem] mt-[0.482rem]\">MTN</p></label> <input required type=\"radio\" id=\"mtn\" name=\"sp\" autocomplete=\"off\" value=\"mtn\" class=\"hidden\"> <label for=\"airtel\" class=\"label shadow-[0px_0.053rem_0.105rem_0.053rem_#00000014] py-[0.869rem] px-[1.25rem] flex flex-col justify-center items-center\"><img src=\"/public/assets/svg/airtel.svg\" alt=\"\" class=\"w-9 rounded-full\"><p class=\"font-poppins font-bold text-[0.524rem] leading-[0.787rem] mt-[0.482rem]\">AIRTEL</p></label> <input type=\"radio\" id=\"airtel\" name=\"sp\" autocomplete=\"off\" value=\"airtel\" class=\"hidden\"> <label for=\"glo\" class=\"label shadow-[0px_0.053rem_0.105rem_0.053rem_#00000014] py-[0.869rem] px-[1.25rem] flex flex-col justify-center items-center\"><img src=\"/public/assets/svg/glo.svg\" alt=\"\" class=\"w-9 rounded-full\"><p class=\"font-poppins font-bold text-[0.524rem] leading-[0.787rem] mt-[0.482rem]\">GLO</p></label> <input type=\"radio\" id=\"glo\" name=\"sp\" autocomplete=\"off\" value=\"glo\" class=\"hidden\"> <label for=\"9mobile\" class=\"label shadow-[0px_0.053rem_0.105rem_0.053rem_#00000014] py-[0.869rem] px-[1.25rem] flex flex-col justify-center items-center\"><img src=\"/public/assets/svg/9mobile.svg\" alt=\"\" class=\"w-9 rounded-full\"><p class=\"font-poppins font-bold text-[0.524rem] leading-[0.787rem] mt-[0.482rem]\">9MOBILE</p></label> <input type=\"radio\" id=\"9mobile\" name=\"sp\" autocomplete=\"off\" value=\"9mobile\" class=\"hidden\"></section><section class=\"w-full flex justify-between items-center gap-3\"><button disabled id=\"submitBtn\" type=\"submit\" class=\"w-full opacity-45 bg-green-400 text-sm font-medium text-white py-[0.625rem] text-center tracking-[0.00625rem] rounded-md\">Save Beneficiary</button> <button type=\"reset\" _=\"on click call #addNewBeneficiairyDialog.close() then call restoreState()\" class=\"outline-none rounded-md mb-2 font-medium bg-black text-[0.813rem] leading-5 tracking-[0.00625em] py-[0.625rem] px-8 text-center text-white\">Close</button></section></form><style>\n\t\t\t.selected {\n\t\t\t\tbackground-color: #b1ddc8;\n\t\t\t\tborder-radius: 6px;\n\t\t\t}\n\t\t</style><script>\n\t\t\tconst newBeneficiaryForm = document.getElementById('newBeneficiary');\n\t\t\tconst newBeneficiaryFormSubmitBtn =  document.getElementById(\"submitBtn\")\n\n\t\t\tnewBeneficiaryForm.addEventListener('input', () => {\n\t\t\t\tif (!newBeneficiaryForm.checkValidity()) {\n\t\t\t\t\tnewBeneficiaryFormSubmitBtn.disabled = true\n\t\t\t\t\tnewBeneficiaryFormSubmitBtn.classList.remove('bg-[#016934]')\n\t\t\t\t\tnewBeneficiaryFormSubmitBtn.classList.add('opacity-45', 'bg-green-400')\n\t\t\t\t\treturn\n\t\t\t\t}\n\t\t\t\tnewBeneficiaryFormSubmitBtn.disabled = false\n\t\t\t\tnewBeneficiaryFormSubmitBtn.classList.add('bg-[#016934]')\n\t\t\t\tnewBeneficiaryFormSubmitBtn.classList.remove('opacity-45', 'bg-green-400')\n\t\t\t});\n\n\t\t\tconst radioInputs = document.querySelectorAll('input[type=\"radio\"][name=\"sp\"]');\n\t\t\tradioInputs.forEach((radio) => {\n\t\t\t\tradio.addEventListener('change', () => {\t\n\t\t\t\t\tconst labels = document.querySelectorAll('label');\n\t\t\t\t\tlabels.forEach((label) => {\n\t\t\t\t\t\tlabel.classList.remove('selected');\n\t\t\t\t\t});\n\n\t\t\t\t\tconst checkedRadio = document.querySelector('input[type=\"radio\"][name=\"sp\"]:checked');\n\t\t\t\t\tif (checkedRadio) {\n\t\t\t\t\t\tconst label = document.querySelector(`label[for=\"${checkedRadio.id}\"]`);\n\t\t\t\t\t\tlabel.classList.add('selected');\n\t\t\t\t\t}\n\t\t\t\t});\n\t\t\t});\n\n\t\t\tfunction restoreState() {\n\t\t\t\t// Uncheck the radio buttons\n\t\t\t\tradioInputs.forEach((radio) => {\n\t\t\t\t\tradio.checked = false;\n\t\t\t\t});\n\n    \n\t\t\t\tconst labels = document.querySelectorAll('label');\n\t\t\t\tlabels.forEach((label) => {\n\t\t\t\t\tlabel.classList.remove('selected');\n\t\t\t\t});\n\n\t\t\t\t // Reset the form\n\t\t\t\tnewBeneficiaryForm.reset();\n\n\t\t\t\t// Add the disabled attribute to the submit button\n\t\t\t\tnewBeneficiaryFormSubmitBtn.disabled = true;\n\t\t\t\tnewBeneficiaryFormSubmitBtn.classList.remove('bg-[#016934]');\n\t\t\t\tnewBeneficiaryFormSubmitBtn.classList.add('opacity-45', 'bg-green-400');\n\t\t\t};\n\t\t</script></dialog>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -340,12 +307,12 @@ func deleteBeneficiaryDialog() templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var12 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var12 == nil {
-			templ_7745c5c3_Var12 = templ.NopComponent
+		templ_7745c5c3_Var11 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var11 == nil {
+			templ_7745c5c3_Var11 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 25, "<dialog id=\"deleteBeneficiaryDialog\" class=\"backdrop:backdrop-blur-sm rounded-2xl py-8 pl-7 pr-9 font-montserrat text-[#2E2E2E]\"><p class=\"font-bold text-sm leading-[1.067rem] text-center mb-2 mt-6\">Delete Beneficiary</p><form id=\"deleteBeneficiary\" hx-post=\"/account/beneficiaries/delete\" hx-target=\"#beneficiariesList\" hx-swap=\"outerHTML\" hx-vals=\"js:{...formValues()}\" hx-trigger=\"submit\" _=\"on htmx:beforeRequest call #deleteBeneficiaryDialog.close()\" class=\"mt-8 w-full flex flex-col items-center justify-start gap-[1.141rem]\"><p class=\"font-semibold text-xs text-center\">Are you sure you want to delete this beneficiary?</p><section class=\"w-full flex gap-3 justify-center items-center\"><img id=\"sp\" src=\"\" data-network=\"\" alt=\"\" class=\"w-8 aspect-square\"><div><p id=\"deleteBeneficiaryName\" class=\"font-poppins font-medium text-xs leading-[1.125rem] text-[#2E2E2E]\"></p><p id=\"deleteBeneficiaryPhone\" class=\"font-montserrat font-bold text-[0.625rem] leading-[0.762rem] text-[#016934]\"></p></div></section><section class=\"w-full flex justify-between items-center gap-3\"><button type=\"submit\" class=\"w-full bg-red-400 text-sm font-medium text-white py-[0.625rem] text-center tracking-[0.00625rem] rounded-md outline-none\">Delete Beneficiary</button> <button type=\"reset\" _=\"on click call #deleteBeneficiaryDialog.close()\" class=\"outline-none rounded-md font-medium bg-black text-sm leading-5 tracking-[0.00625em] py-[0.625rem] px-8 text-center text-white\">Close</button></section></form><script>\n\t\t\tfunction formValues() {\n\t\t\t\tconst name = document.getElementById('deleteBeneficiaryName').innerText;\n\t\t\t\tconst phone = document.getElementById('deleteBeneficiaryPhone').innerText;\n\t\t\t\tconst network = document.getElementById('sp').dataset.network;\n\t\t\t\treturn { name, phone, network };\n\t\t\t};\n\t\t</script></dialog>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 24, "<dialog id=\"deleteBeneficiaryDialog\" class=\"backdrop:backdrop-blur-sm rounded-2xl py-8 pl-7 pr-9 font-montserrat text-[#2E2E2E]\"><p class=\"font-bold text-sm leading-[1.067rem] text-center mb-2 mt-6\">Delete Beneficiary</p><form id=\"deleteBeneficiary\" hx-post=\"/account/beneficiaries/delete\" hx-target=\"#beneficiariesList\" hx-swap=\"outerHTML\" hx-vals=\"js:{...formValues()}\" hx-trigger=\"submit\" _=\"on htmx:beforeRequest call #deleteBeneficiaryDialog.close()\" class=\"mt-8 w-full flex flex-col items-center justify-start gap-[1.141rem]\"><p class=\"font-semibold text-xs text-center\">Are you sure you want to delete this beneficiary?</p><section class=\"w-full flex gap-3 justify-center items-center\"><img id=\"sp\" src=\"\" data-network=\"\" alt=\"\" class=\"w-8 aspect-square\"><div><p id=\"deleteBeneficiaryName\" class=\"font-poppins font-medium text-xs leading-[1.125rem] text-[#2E2E2E]\"></p><p id=\"deleteBeneficiaryPhone\" class=\"font-montserrat font-bold text-[0.625rem] leading-[0.762rem] text-[#016934]\"></p></div></section><section class=\"w-full flex justify-between items-center gap-3\"><button type=\"submit\" class=\"w-full bg-red-400 text-sm font-medium text-white py-[0.625rem] text-center tracking-[0.00625rem] rounded-md outline-none\">Delete Beneficiary</button> <button type=\"reset\" _=\"on click call #deleteBeneficiaryDialog.close()\" class=\"outline-none rounded-md font-medium bg-black text-sm leading-5 tracking-[0.00625em] py-[0.625rem] px-8 text-center text-white\">Close</button></section></form><script>\n\t\t\tfunction formValues() {\n\t\t\t\tconst name = document.getElementById('deleteBeneficiaryName').innerText;\n\t\t\t\tconst phone = document.getElementById('deleteBeneficiaryPhone').innerText;\n\t\t\t\tconst network = document.getElementById('sp').dataset.network;\n\t\t\t\treturn { name, phone, network };\n\t\t\t};\n\t\t</script></dialog>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

@@ -34,61 +34,6 @@ func (a *App) walletPageHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (a *App) walletMainTagPartial(w http.ResponseWriter, r *http.Request) {
-
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if err := accPages.WalletMainOpeningTag().Render(context.TODO(), w); err != nil {
-		a.serverError(w, err)
-		return
-	}
-}
-
-func (a *App) walletBalance(w http.ResponseWriter, r *http.Request) {
-
-	accountEmail := r.Context().Value(contextKeyEmail).(string)
-	user, err := a.getAccountFromCache(context.Background(), accountEmail)
-	if err != nil {
-		a.serverError(w, err)
-		return
-	}
-
-	fmt.Printf("\n\n+%v\n\n", user)
-
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if err := accPages.WalletBalance(user.BelPointBalance).Render(context.TODO(), w); err != nil {
-		a.serverError(w, err)
-		return
-	}
-}
-
-func (a *App) walletOptionsPartial(w http.ResponseWriter, r *http.Request) {
-
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if err := accPages.WalletOptionsPartial().Render(context.TODO(), w); err != nil {
-		a.serverError(w, err)
-		return
-	}
-}
-
-func (a *App) walletcoinData(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("walletcoinData")
-
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if err := accPages.WalletCoinData(coinsToDisplay()).Render(context.TODO(), w); err != nil {
-		a.serverError(w, err)
-		return
-	}
-}
-
-func (a *App) walletswiper(w http.ResponseWriter, r *http.Request) {
-
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if err := accPages.WalletSwiper().Render(context.TODO(), w); err != nil {
-		a.serverError(w, err)
-		return
-	}
-}
-
 func (a *App) walletLivecoinData(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
