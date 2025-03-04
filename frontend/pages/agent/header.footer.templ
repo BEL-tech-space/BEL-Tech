@@ -28,12 +28,13 @@ templ headTag(pageTitle string) {
 				background-color: white !important;
 			}
 		</style>
+		<script src="/public/assets/scripts/htmx.min.js"></script>
 		<title>{ pageTitle }</title>
 	</head>
 }
 
 templ footer(active string) {
-	<footer class="bg-white flex w-full justify-around mt-[1.125rem] gap-[2.375rem] text-[#016934]">
+	<footer class="bg-white flex w-full justify-around mt-[1.125rem] gap-[2.375rem] text-[#016934]" hx-boost="true">
 		if active == "dashboard" {
 			<a
 				href="/agent/dashboard"

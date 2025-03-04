@@ -41,11 +41,11 @@ func headTag(pageTitle string) templ.Component {
 			strings.Contains(strings.ToLower(pageTitle), "wallet") ||
 			strings.Contains(strings.ToLower(pageTitle), "spend") {
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<meta name=\"theme-color\" content=\"#CCE1D699\">")
+		templ_7745c5c3_Err = splashScreenForiOS().Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = splashScreenForiOS().Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<meta name=\"theme-color\" content=\"#CCE1D699\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -110,7 +110,7 @@ func footer(active string) templ.Component {
 			templ_7745c5c3_Var3 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "<footer class=\"bg-white flex w-full justify-around px-4 pt-3 pb-1 gap-[2.375rem]\" hx-boost=\"false\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "<footer class=\"bg-white flex w-full justify-around px-4 pt-3 pb-1 gap-[2.375rem]\" hx-boost=\"\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

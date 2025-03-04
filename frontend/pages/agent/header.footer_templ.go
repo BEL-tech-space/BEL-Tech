@@ -37,14 +37,14 @@ func headTag(pageTitle string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<link rel=\"stylesheet\" href=\"/public/assets/styles/output.css\"><link rel=\"stylesheet\" href=\"/public/assets/styles/toastr.min.css\"><style>\n\t\t\t.overflow-y-auto::-webkit-scrollbar {\n\t\t\t\twidth: 0 !important;\n\t\t\t\tdisplay: none;\n\t\t\t\toverflow: -moz-scrollbars-none;\n\t\t\t\tscrollbar-width: none;\n\t\t\t}\n\t\t\tbody {\n\t\t\t\tbackground-color: white !important;\n\t\t\t}\n\t\t</style><title>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<link rel=\"stylesheet\" href=\"/public/assets/styles/output.css\"><link rel=\"stylesheet\" href=\"/public/assets/styles/toastr.min.css\"><style>\n\t\t\t.overflow-y-auto::-webkit-scrollbar {\n\t\t\t\twidth: 0 !important;\n\t\t\t\tdisplay: none;\n\t\t\t\toverflow: -moz-scrollbars-none;\n\t\t\t\tscrollbar-width: none;\n\t\t\t}\n\t\t\tbody {\n\t\t\t\tbackground-color: white !important;\n\t\t\t}\n\t\t</style><script src=\"/public/assets/scripts/htmx.min.js\"></script><title>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var2 string
 		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(pageTitle)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/agent/header.footer.templ`, Line: 31, Col: 20}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/agent/header.footer.templ`, Line: 32, Col: 20}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 		if templ_7745c5c3_Err != nil {
@@ -79,7 +79,7 @@ func footer(active string) templ.Component {
 			templ_7745c5c3_Var3 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<footer class=\"bg-white flex w-full justify-around mt-[1.125rem] gap-[2.375rem] text-[#016934]\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<footer class=\"bg-white flex w-full justify-around mt-[1.125rem] gap-[2.375rem] text-[#016934]\" hx-boost=\"true\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

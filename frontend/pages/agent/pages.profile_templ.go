@@ -31,7 +31,15 @@ func ProfilePage(collector service.Collector) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<!doctype html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><links rel=\"stylesheet\" href=\"/public/assets/styles/output.css\"></links><title>Profile Beltech-Agent</title></head><body class=\"bg-[url(&#39;/public/assets/images/beltech_background.png&#39;)] bg-cover bg-center h-dvh overflow-hidden\"><div class=\"w-full h-full flex flex-col pt-6 text-[#2E2E2E] font-montserrat \">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<!doctype html><html lang=\"en\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = headTag("profile").Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<body class=\"bg-[url(&#39;/public/assets/images/beltech_background.png&#39;)] bg-cover bg-center h-dvh overflow-hidden\"><div class=\"w-full h-full flex flex-col pt-6 text-[#2E2E2E] font-montserrat \">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -39,7 +47,7 @@ func ProfilePage(collector service.Collector) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<main class=\"grow overflow-y-scroll px-6\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "<main class=\"grow overflow-y-scroll px-6\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -47,72 +55,72 @@ func ProfilePage(collector service.Collector) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "<form class=\"mt-10 flex flex-col justify-center items-center gap-6\"><div class=\"relative\"><label for=\"firstname\" name=\"collector\" class=\"font-bold text-sm tracking-[0.025rem] text-[#49454F]\">First Name</label> <input id=\"firstname\" type=\"text\" value=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<form class=\"mt-10 flex flex-col justify-center items-center gap-6\"><div class=\"relative\"><label for=\"firstname\" name=\"collector\" class=\"font-bold text-sm tracking-[0.025rem] text-[#49454F]\">First Name</label> <input id=\"firstname\" type=\"text\" value=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var2 string
 		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(collector.FirstName)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/agent/pages.profile.templ`, Line: 25, Col: 68}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/agent/pages.profile.templ`, Line: 17, Col: 68}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "\" class=\"w-[21.375rem] aspect-[342/36] rounded border-[0.0313rem] outline-none border-[#569B78] border-solid text-xs font-medium pl-3 pt-1\"></div><div class=\"relative\"><label for=\"lastname\" name=\"collector\" class=\"font-bold text-sm tracking-[0.025rem] text-[#49454F]\">Last Name</label> <input id=\"lastname\" type=\"text\" value=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "\" class=\"w-[21.375rem] aspect-[342/36] rounded border-[0.0313rem] outline-none border-[#569B78] border-solid text-xs font-medium pl-3 pt-1\"></div><div class=\"relative\"><label for=\"lastname\" name=\"collector\" class=\"font-bold text-sm tracking-[0.025rem] text-[#49454F]\">Last Name</label> <input id=\"lastname\" type=\"text\" value=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var3 string
 		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(collector.LastName)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/agent/pages.profile.templ`, Line: 29, Col: 66}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/agent/pages.profile.templ`, Line: 21, Col: 66}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "\" class=\"w-[21.375rem] aspect-[342/36] rounded border-[0.0313rem] outline-none border-[#569B78] border-solid text-xs font-medium pl-3 pt-1\"></div><div class=\"relative\"><label for=\"nickName\" name=\"collector\" class=\"font-bold text-sm tracking-[0.025rem] text-[#49454F]\">Display Name</label> <input id=\"nickName\" type=\"text\" value=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "\" class=\"w-[21.375rem] aspect-[342/36] rounded border-[0.0313rem] outline-none border-[#569B78] border-solid text-xs font-medium pl-3 pt-1\"></div><div class=\"relative\"><label for=\"nickName\" name=\"collector\" class=\"font-bold text-sm tracking-[0.025rem] text-[#49454F]\">Display Name</label> <input id=\"nickName\" type=\"text\" value=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var4 string
 		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(collector.DisplayName)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/agent/pages.profile.templ`, Line: 33, Col: 69}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/agent/pages.profile.templ`, Line: 25, Col: 69}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "\" class=\"w-[21.375rem] aspect-[342/36] rounded border-[0.0313rem] outline-none border-[#569B78] border-solid text-xs font-medium pl-3 pt-1\"></div><div class=\"relative\"><label for=\"email\" name=\"collector\" class=\"font-bold text-sm tracking-[0.025rem] text-[#49454F]\">Email Address</label> <input disabled id=\"email\" type=\"text\" value=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "\" class=\"w-[21.375rem] aspect-[342/36] rounded border-[0.0313rem] outline-none border-[#569B78] border-solid text-xs font-medium pl-3 pt-1\"></div><div class=\"relative\"><label for=\"email\" name=\"collector\" class=\"font-bold text-sm tracking-[0.025rem] text-[#49454F]\">Email Address</label> <input disabled id=\"email\" type=\"text\" value=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var5 string
 		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(collector.CollectorEmail)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/agent/pages.profile.templ`, Line: 37, Col: 78}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/agent/pages.profile.templ`, Line: 29, Col: 78}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "\" class=\"w-[21.375rem] aspect-[342/36] rounded border-[0.0313rem] outline-none border-[#569B78] border-solid text-xs font-medium pl-3 pt-1\"></div><div class=\"relative\"><label for=\"role\" name=\"collector\" class=\"font-bold text-sm tracking-[0.025rem] text-[#49454F]\">Role</label> <input disabled id=\"role\" type=\"text\" value=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "\" class=\"w-[21.375rem] aspect-[342/36] rounded border-[0.0313rem] outline-none border-[#569B78] border-solid text-xs font-medium pl-3 pt-1\"></div><div class=\"relative\"><label for=\"role\" name=\"collector\" class=\"font-bold text-sm tracking-[0.025rem] text-[#49454F]\">Role</label> <input disabled id=\"role\" type=\"text\" value=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var6 string
 		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(string(collector.CollectorRole))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/agent/pages.profile.templ`, Line: 41, Col: 84}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/agent/pages.profile.templ`, Line: 33, Col: 84}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "\" class=\"w-[21.375rem] aspect-[342/36] rounded border-[0.0313rem] outline-none border-[#569B78] border-solid text-xs font-medium pl-3 pt-1\"></div><div class=\"my-7 w-full\"><button class=\"w-full bg-[#016934] py-3 rounded-md px-[5.438rem] font-montserrat font-medium text-sm text-center tracking-[0.1px] text-white text-nowrap\">Save Changes</button></div></form></main>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "\" class=\"w-[21.375rem] aspect-[342/36] rounded border-[0.0313rem] outline-none border-[#569B78] border-solid text-xs font-medium pl-3 pt-1\"></div><div class=\"my-7 w-full\"><button class=\"w-full bg-[#016934] py-3 rounded-md px-[5.438rem] font-montserrat font-medium text-sm text-center tracking-[0.1px] text-white text-nowrap\">Save Changes</button></div></form></main>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -120,7 +128,7 @@ func ProfilePage(collector service.Collector) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "</div></body></html>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "</div></body></html>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

@@ -32,7 +32,6 @@ type Account struct {
 	AccessTokenExpires        time.Time `json:"access_token_expires"`
 	IDToken                   string    `json:"id_token"`
 	LastUpdateEmail           time.Time `json:"last_update_email"`
-	Role                      string    `json:"role"`
 	Joined                    time.Time `json:"joined"`
 	IsNew                     bool      `json:"is_new"`
 	IsDeleted                 bool      `json:"is_deleted"`

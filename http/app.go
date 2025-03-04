@@ -103,6 +103,7 @@ func (a *App) setupdDevModeCollectors() error {
 	devCollector := service.AddNewAgentAsCollectorParams{
 		CollectorEmail: devGothUser.Email,
 		DisplayName:    devGothUser.NickName,
+		AvatarUrl:      devGothUser.AvatarURL,
 	}
 
 	collector, err := a.service.AddNewAgentAsCollector(
@@ -120,6 +121,7 @@ func (a *App) setupdDevModeCollectors() error {
 		CollectorEmail: devGothUser.Email,
 		CollectorRole:  service.CollectorroleSuperCollector,
 		DisplayName:    devGothUser.NickName,
+		AvatarUrl:      devCollector.AvatarUrl,
 	}
 
 	return nil

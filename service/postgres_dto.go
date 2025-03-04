@@ -49,7 +49,6 @@ func pgAccountToserviceAccount(pgAcc postgres.Account) Account {
 		AccessTokenExpires:        pgAcc.AccessTokenExpires.Time,
 		IDToken:                   pgAcc.IDToken,
 		LastUpdateEmail:           pgAcc.LastUpdateEmail.Time,
-		Role:                      pgAcc.Role,
 		Joined:                    pgAcc.Joined.Time,
 		IsNew:                     pgAcc.IsNew,
 		IsDeleted:                 pgAcc.IsDeleted,
@@ -75,7 +74,6 @@ func serviceAccountTopgAccount(acc Account) postgres.Account {
 		AccessTokenExpires: pgtype.Timestamp{Time: acc.AccessTokenExpires, Valid: true, InfinityModifier: pgtype.Finite},
 		IDToken:            acc.IDToken,
 		LastUpdateEmail:    pgtype.Timestamp{Time: acc.LastUpdateEmail, Valid: true, InfinityModifier: pgtype.Finite},
-		Role:               acc.Role,
 		Joined:             pgtype.Timestamp{Time: acc.Joined, Valid: true},
 		IsDeleted:          acc.IsDeleted,
 	}

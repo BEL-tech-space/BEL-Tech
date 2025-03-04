@@ -286,7 +286,7 @@ func (q *Queries) DeleteNotificationsByIDs(ctx context.Context, dollar_1 []int32
 }
 
 const getAccountByEmail = `-- name: GetAccountByEmail :one
-SELECT account_email, account_id, first_name, last_name, spl_wallet, display_name, avatar_url, total_bel_point, total_bel_token, bel_point_balance, bel_token_balance, total_glass_waste, total_metal_waste, total_plastics_waste, total_paper_waste, total_glass_points_earned, total_metal_points_earned, total_plastics_points_earned, total_paper_points_earned, hashed_password, hashed_pin, access_token, access_token_expires, id_token, last_update_email, role, joined, is_new, is_deleted, deleted_at 
+SELECT account_email, account_id, first_name, last_name, spl_wallet, display_name, avatar_url, total_bel_point, total_bel_token, bel_point_balance, bel_token_balance, total_glass_waste, total_metal_waste, total_plastics_waste, total_paper_waste, total_glass_points_earned, total_metal_points_earned, total_plastics_points_earned, total_paper_points_earned, hashed_password, hashed_pin, access_token, access_token_expires, id_token, last_update_email, joined, is_new, is_deleted, deleted_at 
 FROM accounts 
 WHERE account_email = $1 
   AND is_Deleted = FALSE
@@ -321,7 +321,6 @@ func (q *Queries) GetAccountByEmail(ctx context.Context, accountEmail string) (A
 		&i.AccessTokenExpires,
 		&i.IDToken,
 		&i.LastUpdateEmail,
-		&i.Role,
 		&i.Joined,
 		&i.IsNew,
 		&i.IsDeleted,
@@ -577,7 +576,7 @@ const updateNickName = `-- name: UpdateNickName :one
 UPDATE accounts
 SET display_name = $1
 WHERE account_email = $2
-RETURNING account_email, account_id, first_name, last_name, spl_wallet, display_name, avatar_url, total_bel_point, total_bel_token, bel_point_balance, bel_token_balance, total_glass_waste, total_metal_waste, total_plastics_waste, total_paper_waste, total_glass_points_earned, total_metal_points_earned, total_plastics_points_earned, total_paper_points_earned, hashed_password, hashed_pin, access_token, access_token_expires, id_token, last_update_email, role, joined, is_new, is_deleted, deleted_at
+RETURNING account_email, account_id, first_name, last_name, spl_wallet, display_name, avatar_url, total_bel_point, total_bel_token, bel_point_balance, bel_token_balance, total_glass_waste, total_metal_waste, total_plastics_waste, total_paper_waste, total_glass_points_earned, total_metal_points_earned, total_plastics_points_earned, total_paper_points_earned, hashed_password, hashed_pin, access_token, access_token_expires, id_token, last_update_email, joined, is_new, is_deleted, deleted_at
 `
 
 type UpdateNickNameParams struct {
@@ -614,7 +613,6 @@ func (q *Queries) UpdateNickName(ctx context.Context, arg UpdateNickNameParams) 
 		&i.AccessTokenExpires,
 		&i.IDToken,
 		&i.LastUpdateEmail,
-		&i.Role,
 		&i.Joined,
 		&i.IsNew,
 		&i.IsDeleted,
@@ -638,7 +636,7 @@ INSERT INTO accounts (
     access_token_expires = COALESCE(EXCLUDED.access_Token_Expires, accounts.access_Token_Expires),
     id_token = CASE WHEN EXCLUDED.id_token = '' THEN accounts.id_token ELSE EXCLUDED.id_token END,
     is_new = FALSE
-RETURNING account_email, account_id, first_name, last_name, spl_wallet, display_name, avatar_url, total_bel_point, total_bel_token, bel_point_balance, bel_token_balance, total_glass_waste, total_metal_waste, total_plastics_waste, total_paper_waste, total_glass_points_earned, total_metal_points_earned, total_plastics_points_earned, total_paper_points_earned, hashed_password, hashed_pin, access_token, access_token_expires, id_token, last_update_email, role, joined, is_new, is_deleted, deleted_at
+RETURNING account_email, account_id, first_name, last_name, spl_wallet, display_name, avatar_url, total_bel_point, total_bel_token, bel_point_balance, bel_token_balance, total_glass_waste, total_metal_waste, total_plastics_waste, total_paper_waste, total_glass_points_earned, total_metal_points_earned, total_plastics_points_earned, total_paper_points_earned, hashed_password, hashed_pin, access_token, access_token_expires, id_token, last_update_email, joined, is_new, is_deleted, deleted_at
 `
 
 type UpsertAccountParams struct {
@@ -692,7 +690,6 @@ func (q *Queries) UpsertAccount(ctx context.Context, arg UpsertAccountParams) (A
 		&i.AccessTokenExpires,
 		&i.IDToken,
 		&i.LastUpdateEmail,
-		&i.Role,
 		&i.Joined,
 		&i.IsNew,
 		&i.IsDeleted,
