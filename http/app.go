@@ -54,7 +54,7 @@ func NewApp(
 	gothic.Store = store
 	goth.UseProviders(
 		google.New(cfg.LoginProvider.Google.ClientKey, cfg.LoginProvider.Google.Secret, callbackURL),
-		google.New(cfg.LoginProvider.Google.ClientKey, cfg.LoginProvider.Google.Secret, "https://beltech.site/account/agent/google/callback"),
+		// google.New(cfg.LoginProvider.Google.ClientKey, cfg.LoginProvider.Google.Secret, "https://beltech.site/account/agent/google/callback"),
 	)
 
 	app := App{}

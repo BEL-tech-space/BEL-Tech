@@ -45,15 +45,15 @@ func (a *App) signInWithProviderAccount(w http.ResponseWriter, r *http.Request) 
 	r.URL.RawQuery = q.Encode()
 
 	// try to get the user without re-authenticating
-	if gothUser, err := gothic.CompleteUserAuth(w, r); err == nil {
-		if err = a.logInAccount(w, r, gothUser); err != nil {
-			http.Redirect(w, r, "/account/login.html", http.StatusTemporaryRedirect)
-			return
-		}
+	// if gothUser, err := gothic.CompleteUserAuth(w, r); err == nil {
+	// 	if err = a.logInAccount(w, r, gothUser); err != nil {
+	// 		http.Redirect(w, r, "/account/login.html", http.StatusTemporaryRedirect)
+	// 		return
+	// 	}
 
-		http.Redirect(w, r, "/account/dashboard", http.StatusTemporaryRedirect)
-		return
-	}
+	// 	http.Redirect(w, r, "/account/dashboard", http.StatusTemporaryRedirect)
+	// 	return
+	// }
 
 	gothic.BeginAuthHandler(w, r)
 }
