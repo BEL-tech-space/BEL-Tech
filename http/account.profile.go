@@ -10,8 +10,8 @@ import (
 )
 
 func (a *App) ProfilePageHandler(w http.ResponseWriter, r *http.Request) {
+	
 	accountEmail := r.Context().Value(contextKeyEmail).(string)
-
 	user, err := a.getAccountFromCache(context.Background(), accountEmail)
 	if err != nil {
 		a.serverError(w, err)

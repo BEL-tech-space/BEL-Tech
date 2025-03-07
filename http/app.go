@@ -18,9 +18,9 @@ type App struct {
 	service             *service.Service
 	accountSessionStore sessions.Store
 	agentSessionStore   sessions.Store
-	collectors          map[string]service.Collector // key is collector's email
-	accountCache        *ristretto.Cache[string, service.Account]
-	wasteLogCache       *ristretto.Cache[string, service.WasteLog]
+	collectors          map[string]service.Collector               // key is collector's email
+	accountCache        *ristretto.Cache[string, service.Account]  // key is account's email
+	wasteLogCache       *ristretto.Cache[string, service.WasteLog] // key is temp uuid
 }
 
 type contextKey string
@@ -100,13 +100,13 @@ func GenerateRandomKey(d, buildMode string) string {
 }
 
 func (a *App) setupdDevModeCollectors() error {
-	devCollector := service.AddNewAgentAsCollectorParams{
+	devCollector := service.AddNewAgentAsSuperCollectorParams{
 		CollectorEmail: devGothUser.Email,
 		DisplayName:    devGothUser.NickName,
 		AvatarUrl:      devGothUser.AvatarURL,
 	}
 
-	collector, err := a.service.AddNewAgentAsCollector(
+	me, err := a.service.AddNewAgentAsSuperCollector(
 		context.Background(),
 		devCollector,
 	)
@@ -115,29 +115,44 @@ func (a *App) setupdDevModeCollectors() error {
 	}
 
 	a.collectors = make(map[string]service.Collector, 2)
-
-	a.collectors[devGothUser.Email] = service.Collector{
-		AgentID:        collector.AgentID,
-		CollectorEmail: devGothUser.Email,
-		CollectorRole:  service.CollectorroleSuperCollector,
-		DisplayName:    devGothUser.NickName,
-		AvatarUrl:      devCollector.AvatarUrl,
-	}
+	a.collectors[me.CollectorEmail] = me
 
 	return nil
 }
 func (a *App) setupProductionModeCollectors() error {
+	me, err := a.service.AddNewAgentAsSuperCollector(
+		context.Background(),
+		service.AddNewAgentAsSuperCollectorParams{
+			CollectorEmail: devGothUser.Email,
+			DisplayName:    devGothUser.NickName,
+			AvatarUrl:      devGothUser.AvatarURL,
+		},
+	)
+	if err != nil {
+		return err
+	}
+
 	collectors, err := a.service.GetAllCollectors(context.Background())
 	if err != nil {
 		return err
 	}
+
 	a.collectors = make(map[string]service.Collector, len(collectors)+100)
 	for _, v := range collectors {
 		a.collectors[v.CollectorEmail] = v
 	}
 
-	// maps.Insert[string, service.Collector](a.collectors, func(yield func(string, service.Collector) bool) {
+	if _, ok := a.collectors[me.CollectorEmail]; !ok {
+		a.collectors[me.CollectorEmail] = me
+	}
 
+	// maps.Insert(a.collectors, func(yield func(string, service.Collector) bool) {
+	// 	for k, v := range a.collectors {
+	// 		if !yield(k, v) {
+	// 			return
+	// 		}
+	// 	}
 	// })
+
 	return nil
 }

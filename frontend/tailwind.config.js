@@ -1,3 +1,6 @@
+const { default: input } = require("daisyui/components/input");
+const { base } = require("daisyui/imports");
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./pages/**/*.templ", "./src/**/*.ts"],
@@ -23,7 +26,5 @@ module.exports = {
       backgroundImage: {},
     },
   },
-  plugins: [
-    // require('daisyui'),
-  ],
+  // plugins: [require("daisyui")],
 };

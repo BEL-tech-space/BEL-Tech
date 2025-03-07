@@ -9,45 +9,23 @@ templ headTag(pageTitle string) {
 			name="viewport"
 			content="width=device-width, initial-scale=1.0, viewport-fit=cover"
 		/>
-		if strings.Contains(strings.ToLower(pageTitle), "dashboard") ||
-			strings.Contains(strings.ToLower(pageTitle), "scan") || 
-			strings.Contains(strings.ToLower(pageTitle), "location") || 
-			strings.Contains(strings.ToLower(pageTitle), "wallet") || 
-			strings.Contains(strings.ToLower(pageTitle), "spend") {
-			// <link rel="manifest" href="/public/manifest.json"/>
-		}
 		@splashScreenForiOS()
 		<meta name="theme-color" content="#CCE1D699"/>
 		if strings.Contains(strings.ToLower(pageTitle), "dashboard") ||
 			strings.Contains(strings.ToLower(pageTitle), "wallet") {
-			<link
-				rel="stylesheet"
-				href="/public/assets/styles/swiper-bundle.min.css"
-			/>
+			<link rel="stylesheet" href="/public/assets/styles/swiper-bundle.min.css" type="text/css"/>
 		}
-		<link
-			rel="stylesheet"
-			href="/public/assets/styles/output.css"
-		/>
-		<link
-			rel="stylesheet"
-			href="/public/assets/styles/toastr.min.css"
-		/>
+		<link rel="stylesheet" href="/public/assets/styles/output.css" type="text/css"/>
+		<link rel="stylesheet" href="/public/assets/styles/toastr.min.css" type="text/css"/>
+		if strings.Contains(strings.ToLower(pageTitle), "scan") {
+			<link href="/public/assets/styles/daisy-loading.css" rel="stylesheet" type="text/css"/>
+		}
 		if strings.Contains(strings.ToLower(pageTitle), "location") ||
 			strings.Contains(strings.ToLower(pageTitle), "wallet") ||
 			strings.Contains(strings.ToLower(pageTitle), "spend") {
-			<link
-				rel="stylesheet"
-				href="/public/assets/styles/backdrop.css"
-			/>
-			<link
-				rel="stylesheet"
-				href="/public/assets/styles/shift-away.css"
-			/>
-			<link
-				rel="stylesheet"
-				href="/public/assets/styles/perspective-extreme.css"
-			/>
+			<link rel="stylesheet" href="/public/assets/styles/backdrop.css" type="text/css"/>
+			<link rel="stylesheet" href="/public/assets/styles/shift-away.css" type="text/css"/>
+			<link rel="stylesheet" href="/public/assets/styles/perspective-extreme.css" type="text/css"/>
 		}
 		<style>
 			.overflow-y-auto::-webkit-scrollbar {

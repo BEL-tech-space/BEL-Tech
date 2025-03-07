@@ -5,6 +5,7 @@ import (
 	"beltech/service"
 	"context"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"strconv"
 	"strings"
@@ -56,14 +57,15 @@ func (a *App) getNotificationsHandler(w http.ResponseWriter, r *http.Request) {
 				},
 			},
 		); err != nil {
-			http.Error(w, "Failed to encode notifications", http.StatusInternalServerError)
+			a.serverError(w, fmt.Errorf("failed to encode notifications: %w", err))
 			return
 		}
 		return
 	}
 
 	if err := json.NewEncoder(w).Encode(ActiveNotifications); err != nil {
-		http.Error(w, "Failed to encode notifications", http.StatusInternalServerError)
+		a.serverError(w, fmt.Errorf("failed to encode notifications: error: %w", err))
+		return
 	}
 }
 

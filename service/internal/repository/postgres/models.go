@@ -145,17 +145,21 @@ type Beneficiary struct {
 }
 
 type Collector struct {
-	CollectorEmail  string        `json:"collector_email"`
-	FirstName       string        `json:"first_name"`
-	LastName        string        `json:"last_name"`
-	DisplayName     string        `json:"display_name"`
-	AvatarUrl       string        `json:"avatar_url"`
-	LocationCity    string        `json:"location_city"`
-	LocationState   string        `json:"location_state"`
-	LocationCountry string        `json:"location_country"`
-	LocationAddr    interface{}   `json:"location_addr"`
-	AgentID         pgtype.UUID   `json:"agent_id"`
-	CollectorRole   Collectorrole `json:"collector_role"`
+	CollectorEmail     string        `json:"collector_email"`
+	FirstName          string        `json:"first_name"`
+	LastName           string        `json:"last_name"`
+	DisplayName        string        `json:"display_name"`
+	AvatarUrl          string        `json:"avatar_url"`
+	LocationCity       string        `json:"location_city"`
+	LocationState      string        `json:"location_state"`
+	LocationCountry    string        `json:"location_country"`
+	TotalGlassWaste    float64       `json:"total_glass_waste"`
+	TotalMetalWaste    float64       `json:"total_metal_waste"`
+	TotalPlasticsWaste float64       `json:"total_plastics_waste"`
+	TotalPaperWaste    float64       `json:"total_paper_waste"`
+	LocationAddr       interface{}   `json:"location_addr"`
+	AgentID            pgtype.UUID   `json:"agent_id"`
+	CollectorRole      Collectorrole `json:"collector_role"`
 }
 
 type Notification struct {
@@ -186,5 +190,24 @@ type WasteLog struct {
 	CollectedRoute       Agenttype        `json:"collected_route"`
 	AgentID              pgtype.UUID      `json:"agent_id"`
 	AccountEmail         string           `json:"account_email"`
+	CreatedAt            pgtype.Timestamp `json:"created_at"`
+}
+
+type WasteLogsTemp struct {
+	WasteID              pgtype.UUID      `json:"waste_id"`
+	GlassWeighed         float32          `json:"glass_weighed"`
+	MetalWeighed         float32          `json:"metal_weighed"`
+	PlasticsWeighed      float32          `json:"plastics_weighed"`
+	PaperWeighed         float32          `json:"paper_weighed"`
+	GlassPointsEarned    float32          `json:"glass_points_earned"`
+	MetalPointsEarned    float32          `json:"metal_points_earned"`
+	PlasticsPointsEarned float32          `json:"plastics_points_earned"`
+	PaperPointsEarned    float32          `json:"paper_points_earned"`
+	TotalPointsEarned    float64          `json:"total_points_earned"`
+	LocationAddr         interface{}      `json:"location_addr"`
+	TxnName              string           `json:"txn_name"`
+	StatusReport         string           `json:"status_report"`
+	CollectedRoute       Agenttype        `json:"collected_route"`
+	AgentID              pgtype.UUID      `json:"agent_id"`
 	CreatedAt            pgtype.Timestamp `json:"created_at"`
 }

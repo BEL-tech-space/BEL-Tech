@@ -19,7 +19,6 @@ import (
 )
 
 func (a *App) walletPageHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("walletPageHandler")
 
 	accountEmail := r.Context().Value(contextKeyEmail).(string)
 	user, err := a.getAccountFromCache(context.Background(), accountEmail)
@@ -28,6 +27,7 @@ func (a *App) walletPageHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := accPages.WalletPage(user, coinsToDisplay()).Render(context.TODO(), w); err != nil {
 		a.serverError(w, err)
 		return

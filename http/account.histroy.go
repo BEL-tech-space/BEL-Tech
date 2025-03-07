@@ -18,14 +18,12 @@ func (a *App) historyPageHandler(w http.ResponseWriter, r *http.Request) {
 	)
 	if err != nil {
 		a.serverError(w, fmt.Errorf("error getting wastelog: %w", err))
+		return
 	}
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := accPages.HistoryPage(wasteLog).Render(context.Background(), w); err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		a.serverError(w, err)
 		return
 	}
 }
-
-
-

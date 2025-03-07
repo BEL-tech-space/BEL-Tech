@@ -8,7 +8,12 @@ package pages
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-func DashboardPage() templ.Component {
+import (
+	"beltech/service"
+	"fmt"
+)
+
+func DashboardPage(info *service.WasteByCollectorForMonthResponse) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -37,7 +42,216 @@ func DashboardPage() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<body class=\"bg-[url(&#39;/public/assets/images/beltech_background.png&#39;)] bg-cover bg-center h-dvh overflow-hidden\"><div class=\"w-full h-full grid grid-rows-agentDashboardPage pt-[1.438rem] text-[#2E2E2E] font-montserrat\"><main class=\"overflow-y-auto mx-[1.563rem] mt-8 mb-[1.9368rem]\"><picture><source type=\"image/webp\" src=\"/public/assets/images/beltech_logo.webp\"> <img src=\"/public/assets/images/beltech_logo.png\" alt=\"Beltech Logo\" class=\"w-[7.75rem] aspect-square mx-auto\"></picture><section class=\"w-full flex justify-between items-center\"><p class=\"text-[0.938rem] leading-[1.143rem] font-semibold\">Overview</p><div class=\"bg-[#01693433] pl-[0.5rem] pr-[0.833rem] flex justify-center items-center gap-[0.417rem] rounded-[1.562rem]\"><select name=\"filter\" id=\"filter\" class=\"appearance-none min-w-fit outline-none\"><option value=\"\" class=\"\">this week</option><hr><optgroup label=\"range\"><option value=\"lastweek\" class=\"\">last week</option> <option value=\"2Weeks\" class=\"\">2wk ago</option> <option value=\"3Weeks\" class=\"\">3wk ago</option> <option value=\"4Weeks\" class=\"\">4wk ago</option> <option value=\"thisMonth\" class=\"\">this month</option></optgroup><hr><optgroup label=\"result\"><option value=\"single\" class=\"\">single</option> <option value=\"combined\" class=\"\">combined</option></optgroup></select> <label for=\"filter\"><img src=\"/public/assets/svg/filter_small.svg\" alt=\"Notifications\" class=\"w-4 aspect-square\"></label></div></section><section class=\"flex flex-col gap-4 justify-between items-center mb-6 mt-[0.946rem]\"><article class=\"bg-[#FEF7FF] pl-[0.313rem] pr-6 rounded-lg flex w-full justify-start items-center gap-4\"><picture><source type=\"image/webp\" src=\"/public/assets/images/glass.webp\"> <img src=\"/public/assets/images/glass.jpg\" alt=\"\" class=\"w-[4.688rem] aspect-[75/70] rounded-lg\"></picture><div class=\"flex flex-col justify-center items-center gap-2\"><p class=\"font-medium text-[0.688rem] leading-[0.838rem]\">Glass</p><p class=\"text-[0.625rem] leading-[0.762rem] font-bold\">245kg</p></div><img src=\"/public/assets/svg/arrow_right.svg\" alt=\"\" class=\"w-[0.938rem] aspect-square ml-auto\"></article><article class=\"bg-[#FEF7FF] pl-[0.313rem] pr-6 rounded-lg flex w-full justify-start items-center gap-4\"><picture><source type=\"image/webp\" src=\"/public/assets/images/book.webp\"> <img src=\"/public/assets/images/book.jpg\" alt=\"\" class=\"w-[4.688rem] aspect-[75/70] rounded-lg\"></picture><div class=\"flex flex-col justify-center items-center gap-2\"><p class=\"font-medium text-[0.688rem] leading-[0.838rem]\">Paper</p><p class=\"text-[0.625rem] leading-[0.762rem] font-bold\">245kg</p></div><img src=\"/public/assets/svg/arrow_right.svg\" alt=\"\" class=\"w-[0.938rem] aspect-square ml-auto\"></article><article class=\"bg-[#FEF7FF] pl-[0.313rem] pr-6 rounded-lg flex w-full justify-start items-center gap-4\"><picture><source type=\"image/webp\" src=\"/public/assets/images/metal2.webp\"> <img src=\"/public/assets/images/metal2.jpeg\" alt=\"\" class=\"w-[4.688rem] aspect-[75/70] rounded-lg\"></picture><div class=\"flex flex-col justify-center items-center gap-2\"><p class=\"font-medium text-[0.688rem] leading-[0.838rem]\">Metal</p><p class=\"text-[0.625rem] leading-[0.762rem] font-bold\">245kg</p></div><img src=\"/public/assets/svg/arrow_right.svg\" alt=\"\" class=\"w-[0.938rem] aspect-square ml-auto\"></article><article class=\"bg-[#FEF7FF] pl-[0.313rem] pr-6 rounded-lg flex w-full justify-start items-center gap-4\"><picture><source type=\"image/webp\" src=\"/public/assets/images/plastic_2.webp\"> <img src=\"/public/assets/images/plastic_2.jpg\" alt=\"\" class=\"w-[4.688rem] aspect-[75/70] rounded-lg\"></picture><div class=\"flex flex-col justify-center items-center gap-2\"><p class=\"font-medium text-[0.688rem] leading-[0.838rem]\">Plastics</p><p class=\"text-[0.625rem] leading-[0.762rem] font-bold\">245kg</p></div><img src=\"/public/assets/svg/arrow_right.svg\" alt=\"\" class=\"w-[0.938rem] aspect-square ml-auto\"></article></section><section><p class=\"text-[0.938rem] leading-[1.143rem] font-semibold mt-6 mb-[0.875rem]\">Statistics</p><div class=\"flex items-center justify-between gap-5\"><div class=\"w-full flex flex-col justify-center items-center gap-[0.625rem] bg-[#FEF7FF] py-[0.688rem] px-[2.688rem]\"><picture><source type=\"image/webp\" srcset=\"/public/assets/images/Recycle_small.png\"> <img src=\"/assets/images/Recycle_small.png\" alt=\"Recycle Icon\" class=\"w-[1.875rem] aspect-square\"></picture><div><p class=\"font-medium text-xs leading-[0.914rem]\">Operations</p><p class=\"font-bold text-[0.625rem] leading-3\">234 Recycles</p></div></div><div class=\"w-full flex flex-col justify-center items-center gap-[0.625rem] bg-[#FEF7FF] py-[0.688rem] px-[2.688rem]\"><img src=\"/public/assets/svg/yellow.svg\" alt=\"\" class=\"w-[3.313rem] aspect-[53/35.33]\"><div><p class=\"font-medium text-xs leading-[0.914rem]\">Cummulative</p><p class=\"font-medium text-[0.625rem] leading-3 text-center\">Data</p></div></div></div></section></main>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<body class=\"bg-[url(&#39;/public/assets/images/beltech_background.png&#39;)] bg-cover bg-center h-dvh overflow-hidden\"><div class=\"w-full h-full grid grid-rows-agentDashboardPage pt-[1.438rem] text-[#2E2E2E] font-montserrat\"><main class=\"overflow-y-auto mx-[1.563rem] mt-8 mb-[1.9368rem]\"><picture><source type=\"image/webp\" src=\"/public/assets/images/beltech_logo.webp\"> <img src=\"/public/assets/images/beltech_logo.png\" alt=\"Beltech Logo\" class=\"w-[7.75rem] aspect-square mx-auto\"></picture><section class=\"w-full flex justify-between items-center\"><p class=\"text-[0.938rem] leading-[1.143rem] font-semibold\">Overview</p><div class=\"bg-[#01693433] pl-[0.5rem] pr-[0.833rem] flex justify-center items-center gap-[0.417rem] rounded-[1.562rem]\"><select name=\"filter\" id=\"filter\" class=\"appearance-none min-w-fit outline-none\"><option value=\"\" class=\"\">this month</option><hr><optgroup label=\"range\"><option value=\"lastweek\" class=\"\">this week</option> <option value=\"lastweek\" class=\"\">last week</option> <option value=\"3Weeks\" class=\"\">3wk ago</option> <option value=\"4Weeks\" class=\"\">2mo ago</option> <option value=\"4Weeks\" class=\"\">3mo ago</option></optgroup><hr><optgroup label=\"result\"><option value=\"single\" class=\"\">single</option> <option value=\"combined\" class=\"\">combined</option></optgroup></select> <label for=\"filter\"><img src=\"/public/assets/svg/filter_small.svg\" alt=\"Notifications\" class=\"w-4 aspect-square\"></label></div></section><section class=\"flex flex-col gap-4 justify-between items-center mb-6 mt-[0.946rem]\"><a href=\"/agent/waste/glass\" class=\"bg-[#FEF7FF] pl-[0.313rem] pr-6 rounded-lg flex w-full justify-between items-center\"><div class=\"flex items-center gap-4\"><picture><source type=\"image/webp\" src=\"/public/assets/images/glass.webp\"> <img src=\"/public/assets/images/glass.jpg\" alt=\"\" class=\"w-[4.688rem] aspect-[75/70] rounded-lg\"></picture><div class=\"flex flex-col justify-center items-center gap-2\"><p class=\"font-medium text-[0.688rem] leading-[0.838rem]\">Glass</p><p class=\"text-[0.625rem] leading-[0.762rem] font-bold\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var2 string
+		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%skg", formatTotalWasteWeighed(info.TotalGlass)))
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/agent/pages.dashboard.templ`, Line: 67, Col: 129}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</p></div></div>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		if len(info.GlassTrend) > 1 {
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<span id=\"glass\" glass-color=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var3 string
+			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(templ.JSONString(colorForSparkline(info.GlassTrend)))
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/agent/pages.dashboard.templ`, Line: 71, Col: 91}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "\" class=\"sparkline-glass\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var4 string
+			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%s", formatSparklineValues(info.GlassTrend)))
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/agent/pages.dashboard.templ`, Line: 71, Col: 177}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "</span> ")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "<img src=\"/public/assets/svg/arrow_right.svg\" alt=\"\" class=\"w-[0.938rem] aspect-square\"></a> <a href=\"/agent/waste/paper\" class=\"bg-[#FEF7FF] pl-[0.313rem] pr-6 rounded-lg flex w-full justify-between items-center\"><div class=\"flex items-center gap-4\"><picture><source type=\"image/webp\" src=\"/public/assets/images/book.webp\"> <img src=\"/public/assets/images/book.jpg\" alt=\"\" class=\"w-[4.688rem] aspect-[75/70] rounded-lg\"></picture><div class=\"flex flex-col justify-center items-center gap-2 mr-auto\"><p class=\"font-medium text-[0.688rem] leading-[0.838rem]\">Paper</p><p class=\"text-[0.625rem] leading-[0.762rem] font-bold\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var5 string
+		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%skg", formatTotalWasteWeighed(info.TotalPaper)))
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/agent/pages.dashboard.templ`, Line: 94, Col: 129}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "</p></div></div>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		if len(info.PaperTrend) > 1 {
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "<span id=\"paper\" paper-color=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var6 string
+			templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(templ.JSONString(colorForSparkline(info.PaperTrend)))
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/agent/pages.dashboard.templ`, Line: 98, Col: 91}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "\" class=\"sparkline-paper\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var7 string
+			templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%s", formatSparklineValues(info.PaperTrend)))
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/agent/pages.dashboard.templ`, Line: 98, Col: 177}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "</span> ")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, "<img src=\"/public/assets/svg/arrow_right.svg\" alt=\"\" class=\"w-[0.938rem] aspect-square\"></a> <a href=\"/agent/waste/metal\" class=\"bg-[#FEF7FF] pl-[0.313rem] pr-6 rounded-lg flex w-full justify-between items-center\"><div class=\"flex items-center gap-4\"><picture><source type=\"image/webp\" src=\"/public/assets/images/metal2.webp\"> <img src=\"/public/assets/images/metal2.jpeg\" alt=\"\" class=\"w-[4.688rem] aspect-[75/70] rounded-lg\"></picture><div class=\"flex flex-col justify-center items-center gap-2\"><p class=\"font-medium text-[0.688rem] leading-[0.838rem]\">Metal</p><p class=\"text-[0.625rem] leading-[0.762rem] font-bold\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var8 string
+		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%skg", formatTotalWasteWeighed(info.TotalMetal)))
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/agent/pages.dashboard.templ`, Line: 121, Col: 129}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, "</p></div></div>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		if len(info.MetalTrend) > 1 {
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 14, "<span id=\"metal\" metal-color=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var9 string
+			templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(templ.JSONString(colorForSparkline(info.MetalTrend)))
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/agent/pages.dashboard.templ`, Line: 125, Col: 91}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, "\" class=\"sparkline-metal\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var10 string
+			templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%s", formatSparklineValues(info.MetalTrend)))
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/agent/pages.dashboard.templ`, Line: 125, Col: 177}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 16, "</span> ")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 17, "<img src=\"/public/assets/svg/arrow_right.svg\" alt=\"\" class=\"w-[0.938rem] aspect-square\"></a> <a href=\"/agent/waste/plastics\" class=\"bg-[#FEF7FF] pl-[0.313rem] pr-6 rounded-lg flex w-full justify-between items-center\"><div class=\"flex items-center gap-4\"><picture><source type=\"image/webp\" src=\"/public/assets/images/plastic_2.webp\"> <img src=\"/public/assets/images/plastic_2.jpg\" alt=\"\" class=\"w-[4.688rem] aspect-[75/70] rounded-lg\"></picture><div class=\"flex flex-col justify-center items-center gap-2\"><p class=\"font-medium text-[0.688rem] leading-[0.838rem]\">Plastics</p><p class=\"text-[0.625rem] leading-[0.762rem] font-bold\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var11 string
+		templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%skg", formatTotalWasteWeighed(info.TotalPlastics)))
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/agent/pages.dashboard.templ`, Line: 148, Col: 132}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 18, "</p></div></div>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		if len(info.PlasticTrend) > 1 {
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 19, "<span id=\"plastic\" plastic-color=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var12 string
+			templ_7745c5c3_Var12, templ_7745c5c3_Err = templ.JoinStringErrs(templ.JSONString(colorForSparkline(info.PlasticTrend)))
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/agent/pages.dashboard.templ`, Line: 152, Col: 97}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var12))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 20, "\" class=\"sparkline-plastic\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var13 string
+			templ_7745c5c3_Var13, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%s", formatSparklineValues(info.PlasticTrend)))
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/agent/pages.dashboard.templ`, Line: 152, Col: 187}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var13))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 21, "</span> ")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 22, "<img src=\"/public/assets/svg/arrow_right.svg\" alt=\"\" class=\"w-[0.938rem] aspect-square\"></a></section><section><p class=\"text-[0.938rem] leading-[1.143rem] font-semibold mt-6 mb-[0.875rem]\">Statistics</p><div class=\"flex items-center justify-between gap-5\"><div class=\"w-full flex flex-col justify-center items-center gap-[0.625rem] bg-[#FEF7FF] py-[0.688rem] px-[2.688rem]\"><picture><source type=\"image/webp\" srcset=\"/public/assets/images/Recycle_small.png\"> <img src=\"/assets/images/Recycle_small.png\" alt=\"Recycle Icon\" class=\"w-[1.875rem] aspect-square\"></picture><div><p class=\"font-medium text-xs leading-[0.914rem]\">Operations</p><p class=\"font-bold text-[0.625rem] leading-3\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var14 string
+		templ_7745c5c3_Var14, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%d Recycles", info.TotalWasteLogs))
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/agent/pages.dashboard.templ`, Line: 175, Col: 105}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var14))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 23, "</p></div></div><div class=\"w-full flex flex-col justify-center items-center gap-[0.625rem] bg-[#FEF7FF] py-[0.688rem] px-[2.688rem]\"><img src=\"/public/assets/svg/yellow.svg\" alt=\"\" class=\"w-[3.313rem] aspect-[53/35.33]\"><div><p class=\"font-medium text-xs leading-[0.914rem]\">Cummulative</p><p class=\"font-medium text-[0.625rem] leading-3 text-center\">Data</p></div></div></div></section></main>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -45,7 +259,68 @@ func DashboardPage() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</div></body></html>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 24, "</div><script src=\"/public/assets/scripts/jquery.min.js\"></script><script src=\"/public/assets/scripts/jquery.sparkline.min.js\"></script>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		if len(info.GlassTrend) > 1 {
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 25, "<script>\n\t\t\t\t\t$('.sparkline-glass').sparkline('html', {\n\t\t\t\t\t\twidth: '100px',\n\t\t\t\t\t\theight: '40px',\n\t\t\t\t\t\tlineColor: JSON.parse(document.getElementById('glass').getAttribute('glass-color')), \n\t\t\t\t\t\tdefaultPixelsPerValue: 2, \n\t\t\t\t\t\tfillColor: false, \n\t\t\t\t\t\tlineWidth: 1.5, \n\t\t\t\t\t\tspotRadius: 0, \n\t\t\t\t\t\tminSpotColor: false, \n\t\t\t\t\t\tmaxSpotColor: false, \n\t\t\t\t\t\thighlightSpotColor: false, \n\t\t\t\t\t\thighlightLineColor: false,\n\t\t\t\t\t\tchartRangeClip: true  \n\t\t\t\t\t} );\n\t\t\t\t\t$('.sparkline-glass').css('pointer-events', 'none');\n\t\t\t\t</script>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		}
+		if len(info.MetalTrend) > 1 {
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 26, "<script>\n\t\t\t\t\t$('.sparkline-metal').sparkline('html', {\n\t\t\t\t\t\twidth: '100px',\n\t\t\t\t\t\theight: '40px',\n\t\t\t\t\t\tlineColor:  JSON.parse(document.getElementById('metal').getAttribute('metal-color')),  \n\t\t\t\t\t\tdefaultPixelsPerValue: 2, \n\t\t\t\t\t\tfillColor: false, \n\t\t\t\t\t\tlineWidth: 1.5, \n\t\t\t\t\t\tspotRadius: 0, \n\t\t\t\t\t\tminSpotColor: false, \n\t\t\t\t\t\tmaxSpotColor: false, \n\t\t\t\t\t\thighlightSpotColor: false, \n\t\t\t\t\t\thighlightLineColor: false,\n\t\t\t\t\t\tchartRangeClip: true  \n\t\t\t\t\t} );\n\t\t\t\t\t$('.sparkline-metal').css('pointer-events', 'none');\n\t\t\t\t</script>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		}
+		if len(info.PlasticTrend) > 1 {
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 27, "<script>\n\t\t\t\t\t$('.sparkline-plastic').sparkline('html', {\n\t\t\t\t\t\twidth: '100px',\n\t\t\t\t\t\theight: '40px',\n\t\t\t\t\t\tlineColor: JSON.parse( document.getElementById('plastic').getAttribute('plastic-color')),  \n\t\t\t\t\t\tdefaultPixelsPerValue: 2, \n\t\t\t\t\t\tfillColor: false, \n\t\t\t\t\t\tlineWidth: 1.5, \n\t\t\t\t\t\tspotRadius: 0, \n\t\t\t\t\t\tminSpotColor: false, \n\t\t\t\t\t\tmaxSpotColor: false, \n\t\t\t\t\t\thighlightSpotColor: false, \n\t\t\t\t\t\thighlightLineColor: false,\n\t\t\t\t\t\tchartRangeClip: true  \n\t\t\t\t\t} );\n\t\t\t\t\t$('.sparkline-plastic').css('pointer-events', 'none');\n\t\t\t\t</script>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		}
+		if len(info.PaperTrend) > 1 {
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 28, "<script>\n\t\t\t\t\t$('.sparkline-paper').sparkline('html', {\n\t\t\t\t\t\twidth: '100px',\n\t\t\t\t\t\theight: '40px',\n\t\t\t\t\t\tlineColor:  JSON.parse(document.getElementById('paper').getAttribute('paper-color')), \n\t\t\t\t\t\tdefaultPixelsPerValue: 2, \n\t\t\t\t\t\tfillColor: false, \n\t\t\t\t\t\tlineWidth: 1.5, \n\t\t\t\t\t\tspotRadius: 0, \n\t\t\t\t\t\tminSpotColor: false, \n\t\t\t\t\t\tmaxSpotColor: false, \n\t\t\t\t\t\thighlightSpotColor: false, \n\t\t\t\t\t\thighlightLineColor: false,\n\t\t\t\t\t\tchartRangeClip: true  \n\t\t\t\t\t} );\n\t\t\t\t\t$('.sparkline-paper').css('pointer-events', 'none');\n\t\t\t</script>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		}
+		templ_7745c5c3_Err = serviceWorkerRegistration().Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 29, "</body></html>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		return nil
+	})
+}
+
+func serviceWorkerRegistration() templ.Component {
+	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
+		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
+		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
+			return templ_7745c5c3_CtxErr
+		}
+		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
+		if !templ_7745c5c3_IsBuffer {
+			defer func() {
+				templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
+				if templ_7745c5c3_Err == nil {
+					templ_7745c5c3_Err = templ_7745c5c3_BufErr
+				}
+			}()
+		}
+		ctx = templ.InitializeContext(ctx)
+		templ_7745c5c3_Var15 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var15 == nil {
+			templ_7745c5c3_Var15 = templ.NopComponent
+		}
+		ctx = templ.ClearChildren(ctx)
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 30, "<script type=\"module\">\n    import { Workbox } from '/public/assets/scripts/workbox-window.prod.mjs';\n\n\tfunction urlBase64ToUint8Array(base64String) {\n\t\tconst padding = '='.repeat((4 - base64String.length % 4) % 4);\n\t\tconst base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');\n\t\tconst rawData = atob(base64);\n\t\treturn Uint8Array.from([...rawData].map((char) => char.charCodeAt(0)));\n\t}\n\n\n\twindow.addEventListener('load', () => { \n\t\tif ('serviceWorker' in navigator) {\n\t\t\tconst wb = new Workbox('/public/sw.js', { scope: \"/\" });\n\n\t\t\t// Automatically activate the new service worker when it's waiting.\n\t\t\tconst handleWaitingWorker = () => {\n\t\t\t\twb.messageSkipWaiting();\n\t\t\t\n\t\t\t\t// Reload the page when the new service worker takes control.\n\t\t\t\twb.addEventListener('controlling', () => {\n\t\t\t\t\twindow.location.reload();\n\t\t\t\t});\n\t\t\t};\n\n\t\t\t// Add an event listener to detect when the registered service worker is waiting.\n\t\t\twb.addEventListener('waiting', handleWaitingWorker);\n\n\t\t\twb.register().then(async (registration) => {\n\t\t\t\tconsole.log('Service worker registered', registration);\n\t\t\t\t\n\t\t\t\t// const vapidPublicKey = 'BAkdR7kgUR-z04hIZka23Zb1CaNrOjB-ToEpw_jZh2lHwqm8Zxu1yizTpZ8ENoa-2gEL-Y_rNi0NbPUqD_rfDoA';\n\t\t\t\t// const options = {\n\t\t\t\t// \tuserVisibleOnly: true,\n\t\t\t\t// \tapplicationServerKey: urlBase64ToUint8Array(vapidPublicKey),\n\t\t\t\t// };\n\n\t\t\t\t// const subscription = await registration.pushManager.subscribe(options);\n\t\t\t\t// console.log('Push subscription:', subscription);\n\t\t\t\t// const response = await fetch('/account/subscribe', {\n\t\t\t\t// \tmethod: 'POST',\n\t\t\t\t// \theaders: { 'Content-Type': 'application/json' },\n\t\t\t\t// \tbody: JSON.stringify(subscription),\n\t\t\t\t// });\n\t\t\t\t// if (response.ok) {\n\t\t\t\t// \tconsole.log('Subscription successful');\n\t\t\t\t// } else {\n\t\t\t\t// \tconsole.error('Subscription failed', response.status);\n\t\t\t\t// }\n\t\t\t}).catch((error) => {\n\t\t\t\tconsole.error('Service worker registration failed:', error);\n\t\t\t});\n\t\t\t}\n\t\t});\n\t</script>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

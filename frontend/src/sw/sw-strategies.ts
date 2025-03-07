@@ -8,7 +8,6 @@ import { strategy as composeStrategies } from "workbox-streams";
 
 export const contentCache = "contents-cache";
 export const partialsCache = "partials-cache";
-
 export const cacheFirstStrategy = new CacheFirst({
   cacheName: partialsCache,
   plugins: [

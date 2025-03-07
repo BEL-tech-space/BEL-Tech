@@ -43,7 +43,6 @@ func (a *App) addNewBeneficiary(w http.ResponseWriter, r *http.Request) {
 	}
 
 	accountEmail := r.Context().Value(contextKeyEmail).(string)
-
 	name := r.Form.Get("name")
 	if len(name) > 20 {
 		name = name[:19]

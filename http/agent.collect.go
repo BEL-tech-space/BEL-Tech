@@ -23,20 +23,14 @@ import (
 	"github.com/skip2/go-qrcode"
 )
 
+const qrCodeContentFormat = "glass:%.2f#metal:%.2f#plastics:%.2f#paper:%.2f#txnname:%s#uuid:%s#points:%.2f"
+
 func (a *App) collectPage(w http.ResponseWriter, r *http.Request) {
 	agentID := r.Context().Value(contextKeyAgentID).(uuid.UUID)
 
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := agentPages.CollectPage(agentID.String()).Render(context.Background(), w); err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-}
-
-func (a *App) wasteForm(w http.ResponseWriter, r *http.Request) {
-	agentID := r.Context().Value(contextKeyAgentID).(uuid.UUID)
-
-	if err := agentPages.WasteForm(agentID.String()).Render(context.Background(), w); err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		a.serverError(w, err)
 		return
 	}
 }
@@ -45,29 +39,37 @@ func (a *App) generateQRCode(w http.ResponseWriter, r *http.Request) {
 
 	agentID := chi.URLParam(r, "agentID")
 	if agentID == "" {
-		http.Error(w, "agentID not specified", http.StatusBadRequest)
+		a.clientError(w, http.StatusBadRequest, errors.New("agentID not specified"))
 		return
 	}
 
 	agentUUID, err := uuid.Parse(agentID)
 	if err != nil {
-		http.Error(w, "invalid agentID", http.StatusBadRequest)
+		a.clientError(w, http.StatusBadRequest, errors.New("invalid agentID"))
 		return
 	}
 
+	agentId := r.Context().Value(contextKeyAgentID).(uuid.UUID)
+	if agentUUID.String() != agentId.String() {
+		a.clientError(w, http.StatusBadRequest, errors.New("collector is not who was expected"))
+		return
+	}
+
+	collectorEmail := r.Context().Value(contextKeyEmail).(string)
+
 	if err = r.ParseForm(); err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		a.clientError(w, http.StatusBadRequest, err)
 		return
 	}
 
 	glass, paper, metal, plastics, err := getFormattedData(r)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		a.clientError(w, http.StatusBadRequest, err)
 		return
 	}
 
 	if sum := glass + paper + metal + plastics; sum <= 0 {
-		http.Error(w, "zero values", http.StatusBadRequest)
+		a.clientError(w, http.StatusBadRequest, errors.New("zero values"))
 		return
 	}
 
@@ -79,14 +81,13 @@ func (a *App) generateQRCode(w http.ResponseWriter, r *http.Request) {
 		PaperWeighed:    paper,
 		TxnName:         gofakeit.Name(),
 		AgentID:         agentUUID,
+		CollectorEmail:  collectorEmail,
 	}
 
 	if err = includePointsEarned(&wasteLog); err != nil {
-		fmt.Println(" error calculating points earned ", err)
-		// return
+		a.serverError(w, fmt.Errorf("error calculating points earned: error: %w ", err))
+		return
 	}
-
-	fmt.Printf("\n\n%+v\n\n", wasteLog)
 
 	if saved := a.wasteLogCache.SetWithTTL(
 		wasteLog.WasteID.String(),
@@ -94,12 +95,11 @@ func (a *App) generateQRCode(w http.ResponseWriter, r *http.Request) {
 		1,
 		24*time.Hour,
 	); !saved {
-		fmt.Println("waste data failed saving to cache")
-
-		// return
+		a.serverError(w, errors.New("waste data failed saving to cache"))
+		return
 	}
 
-	content := fmt.Sprintf("glass:%.2f#metal:%.2f#plastics:%.2f#paper:%.2f#txnname:%s#uuid:%s#points:%.2f",
+	content := fmt.Sprintf(qrCodeContentFormat,
 		wasteLog.GlassWeighed,
 		wasteLog.MetalWeighed,
 		wasteLog.PlasticsWeighed,
@@ -112,10 +112,11 @@ func (a *App) generateQRCode(w http.ResponseWriter, r *http.Request) {
 	qrCode := NewSimpleQRCode(content)
 	codeData, err := qrCode.generateWithWatermark()
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		a.serverError(w, err)
 		return
 	}
 
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := agentPages.RenderQRCode(codeData).Render(context.Background(), w); err != nil {
 		a.serverError(w, err)
 		return

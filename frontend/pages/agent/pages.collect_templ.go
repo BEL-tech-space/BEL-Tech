@@ -108,7 +108,7 @@ func RenderQRCode(qrcodeByteImage []byte) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "\" alt=\"QR Code\" class=\"px-auto block w-full\"> <a hx-get=\"/agent/wasteForm\" hx-select=\"#wasteForm\" hx-target=\"#wasteQRCode\" hx-swap=\"outerHTML\" class=\"block w-full bg-[#016934] rounded-md text-center font-medium text-sm tracking-widest py-[0.625rem] px-[6.438rem] text-white\">Next</a></article>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "\" alt=\"QR Code\" class=\"px-auto block w-full\"> <a href=\"/agent/collect\" class=\"block w-full bg-[#016934] rounded-md text-center font-medium text-sm tracking-widest py-[0.625rem] px-[6.438rem] text-white\">Next</a></article>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -146,7 +146,7 @@ func WasteForm(agentID string) templ.Component {
 		var templ_7745c5c3_Var5 string
 		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("/agent/qrcode/%s", agentID))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/agent/pages.collect.templ`, Line: 62, Col: 52}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/agent/pages.collect.templ`, Line: 59, Col: 52}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 		if templ_7745c5c3_Err != nil {

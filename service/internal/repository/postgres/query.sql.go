@@ -27,7 +27,7 @@ VALUES (
     $6, $7, $8, $9, 
     (SELECT agent_ID FROM new_agent), 'collector'
 )
-RETURNING collector_email, first_name, last_name, display_name, avatar_url, location_city, location_state, location_country, location_addr, agent_id, collector_role
+RETURNING collector_email, first_name, last_name, display_name, avatar_url, location_city, location_state, location_country, total_glass_waste, total_metal_waste, total_plastics_waste, total_paper_waste, location_addr, agent_id, collector_role
 `
 
 type AddNewAgentAsCollectorParams struct {
@@ -64,6 +64,74 @@ func (q *Queries) AddNewAgentAsCollector(ctx context.Context, arg AddNewAgentAsC
 		&i.LocationCity,
 		&i.LocationState,
 		&i.LocationCountry,
+		&i.TotalGlassWaste,
+		&i.TotalMetalWaste,
+		&i.TotalPlasticsWaste,
+		&i.TotalPaperWaste,
+		&i.LocationAddr,
+		&i.AgentID,
+		&i.CollectorRole,
+	)
+	return i, err
+}
+
+const addNewAgentAsSuperCollector = `-- name: AddNewAgentAsSuperCollector :one
+WITH new_agent AS (
+    INSERT INTO agent (collector_email, agent_type)
+    VALUES ($1, 'collector')
+    RETURNING agent_ID
+)
+INSERT INTO collectors (
+    collector_email, first_name, last_name, display_name, avatar_URL,
+    location_city, location_state, location_country, location_addr, 
+    agent_ID, collector_role
+)
+VALUES (
+    $1, $2, $3, $4, $5, 
+    $6, $7, $8, $9, 
+    (SELECT agent_ID FROM new_agent), 'super_collector'
+)
+RETURNING collector_email, first_name, last_name, display_name, avatar_url, location_city, location_state, location_country, total_glass_waste, total_metal_waste, total_plastics_waste, total_paper_waste, location_addr, agent_id, collector_role
+`
+
+type AddNewAgentAsSuperCollectorParams struct {
+	CollectorEmail  string      `json:"collector_email"`
+	FirstName       string      `json:"first_name"`
+	LastName        string      `json:"last_name"`
+	DisplayName     string      `json:"display_name"`
+	AvatarUrl       string      `json:"avatar_url"`
+	LocationCity    string      `json:"location_city"`
+	LocationState   string      `json:"location_state"`
+	LocationCountry string      `json:"location_country"`
+	LocationAddr    interface{} `json:"location_addr"`
+}
+
+func (q *Queries) AddNewAgentAsSuperCollector(ctx context.Context, arg AddNewAgentAsSuperCollectorParams) (Collector, error) {
+	row := q.db.QueryRow(ctx, addNewAgentAsSuperCollector,
+		arg.CollectorEmail,
+		arg.FirstName,
+		arg.LastName,
+		arg.DisplayName,
+		arg.AvatarUrl,
+		arg.LocationCity,
+		arg.LocationState,
+		arg.LocationCountry,
+		arg.LocationAddr,
+	)
+	var i Collector
+	err := row.Scan(
+		&i.CollectorEmail,
+		&i.FirstName,
+		&i.LastName,
+		&i.DisplayName,
+		&i.AvatarUrl,
+		&i.LocationCity,
+		&i.LocationState,
+		&i.LocationCountry,
+		&i.TotalGlassWaste,
+		&i.TotalMetalWaste,
+		&i.TotalPlasticsWaste,
+		&i.TotalPaperWaste,
 		&i.LocationAddr,
 		&i.AgentID,
 		&i.CollectorRole,
@@ -330,7 +398,7 @@ func (q *Queries) GetAccountByEmail(ctx context.Context, accountEmail string) (A
 }
 
 const getAllCollectors = `-- name: GetAllCollectors :many
-SELECT collector_email, first_name, last_name, display_name, avatar_url, location_city, location_state, location_country, location_addr, agent_id, collector_role FROM collectors
+SELECT collector_email, first_name, last_name, display_name, avatar_url, location_city, location_state, location_country, total_glass_waste, total_metal_waste, total_plastics_waste, total_paper_waste, location_addr, agent_id, collector_role FROM collectors
 `
 
 func (q *Queries) GetAllCollectors(ctx context.Context) ([]Collector, error) {
@@ -351,6 +419,10 @@ func (q *Queries) GetAllCollectors(ctx context.Context) ([]Collector, error) {
 			&i.LocationCity,
 			&i.LocationState,
 			&i.LocationCountry,
+			&i.TotalGlassWaste,
+			&i.TotalMetalWaste,
+			&i.TotalPlasticsWaste,
+			&i.TotalPaperWaste,
 			&i.LocationAddr,
 			&i.AgentID,
 			&i.CollectorRole,
@@ -431,7 +503,7 @@ func (q *Queries) GetBeneficiariesByEmail(ctx context.Context, accountEmail pgty
 }
 
 const getCollector = `-- name: GetCollector :one
-SELECT collector_email, first_name, last_name, display_name, avatar_url, location_city, location_state, location_country, location_addr, agent_id, collector_role FROM collectors
+SELECT collector_email, first_name, last_name, display_name, avatar_url, location_city, location_state, location_country, total_glass_waste, total_metal_waste, total_plastics_waste, total_paper_waste, location_addr, agent_id, collector_role FROM collectors
 WHERE collector_Email = $1
 `
 
@@ -447,6 +519,10 @@ func (q *Queries) GetCollector(ctx context.Context, collectorEmail string) (Coll
 		&i.LocationCity,
 		&i.LocationState,
 		&i.LocationCountry,
+		&i.TotalGlassWaste,
+		&i.TotalMetalWaste,
+		&i.TotalPlasticsWaste,
+		&i.TotalPaperWaste,
 		&i.LocationAddr,
 		&i.AgentID,
 		&i.CollectorRole,
@@ -508,7 +584,84 @@ func (q *Queries) GetWasteByAccountForMonth(ctx context.Context, arg GetWasteByA
 	return items, nil
 }
 
-const getWasteByAccountPaginated = `-- name: GetWasteByAccountPaginated :many
+const getWasteByCollectorForMonth = `-- name: GetWasteByCollectorForMonth :one
+WITH monthly_waste AS (
+    SELECT 
+        created_at, 
+        glass_weighed, 
+        metal_weighed, 
+        plastics_weighed, 
+        paper_weighed
+    FROM waste_logs
+    WHERE agent_ID = $1
+    AND collected_route = 'collector'
+    AND created_at >= make_timestamp($2, $3, 1, 0, 0, 0)
+    AND created_at < (make_timestamp($2, $3, 1, 0, 0, 0) + INTERVAL '1 month')
+    ORDER BY created_at ASC -- Ensure ordering is correct for the CTE itself
+)
+SELECT 
+    COALESCE(SUM(glass_weighed)::DOUBLE PRECISION, 0) AS total_glass,
+    COALESCE(SUM(metal_weighed)::DOUBLE PRECISION, 0) AS total_metal,
+    COALESCE(SUM(plastics_weighed)::DOUBLE PRECISION, 0) AS total_plastics,
+    COALESCE(SUM(paper_weighed)::DOUBLE PRECISION, 0) AS total_paper,
+
+    COUNT(*) AS total_waste_logs,
+    
+    (
+        SELECT JSON_AGG(glass_weighed ORDER BY created_at ASC)
+        FROM monthly_waste
+    ) AS glass_trend,
+    (
+        SELECT JSON_AGG(metal_weighed ORDER BY created_at ASC)
+        FROM monthly_waste
+    ) AS metal_trend,
+    (
+        SELECT JSON_AGG(plastics_weighed ORDER BY created_at ASC)
+        FROM monthly_waste
+    ) AS plastic_trend,
+    (
+        SELECT JSON_AGG(paper_weighed ORDER BY created_at ASC)
+        FROM monthly_waste
+    ) AS paper_trend
+FROM monthly_waste
+`
+
+type GetWasteByCollectorForMonthParams struct {
+	AgentID pgtype.UUID `json:"agent_id"`
+	Year    int32       `json:"year"`
+	Month   int32       `json:"month"`
+}
+
+type GetWasteByCollectorForMonthRow struct {
+	TotalGlass     interface{} `json:"total_glass"`
+	TotalMetal     interface{} `json:"total_metal"`
+	TotalPlastics  interface{} `json:"total_plastics"`
+	TotalPaper     interface{} `json:"total_paper"`
+	TotalWasteLogs int64       `json:"total_waste_logs"`
+	GlassTrend     []byte      `json:"glass_trend"`
+	MetalTrend     []byte      `json:"metal_trend"`
+	PlasticTrend   []byte      `json:"plastic_trend"`
+	PaperTrend     []byte      `json:"paper_trend"`
+}
+
+func (q *Queries) GetWasteByCollectorForMonth(ctx context.Context, arg GetWasteByCollectorForMonthParams) (GetWasteByCollectorForMonthRow, error) {
+	row := q.db.QueryRow(ctx, getWasteByCollectorForMonth, arg.AgentID, arg.Year, arg.Month)
+	var i GetWasteByCollectorForMonthRow
+	err := row.Scan(
+		&i.TotalGlass,
+		&i.TotalMetal,
+		&i.TotalPlastics,
+		&i.TotalPaper,
+		&i.TotalWasteLogs,
+		&i.GlassTrend,
+		&i.MetalTrend,
+		&i.PlasticTrend,
+		&i.PaperTrend,
+	)
+	return i, err
+}
+
+const getWasteLogByAccountPaginated = `-- name: GetWasteLogByAccountPaginated :many
 SELECT waste_id, claimed, glass_weighed, metal_weighed, plastics_weighed, paper_weighed, glass_points_earned, metal_points_earned, plastics_points_earned, paper_points_earned, total_points_earned, location_addr, txn_name, status_report, collected_route, agent_id, account_email, created_at 
 FROM waste_logs
 WHERE account_email = $1
@@ -516,14 +669,68 @@ ORDER BY created_at DESC
 LIMIT $2 OFFSET $3
 `
 
-type GetWasteByAccountPaginatedParams struct {
+type GetWasteLogByAccountPaginatedParams struct {
 	AccountEmail string `json:"account_email"`
 	Limit        int32  `json:"limit"`
 	Offset       int32  `json:"offset"`
 }
 
-func (q *Queries) GetWasteByAccountPaginated(ctx context.Context, arg GetWasteByAccountPaginatedParams) ([]WasteLog, error) {
-	rows, err := q.db.Query(ctx, getWasteByAccountPaginated, arg.AccountEmail, arg.Limit, arg.Offset)
+func (q *Queries) GetWasteLogByAccountPaginated(ctx context.Context, arg GetWasteLogByAccountPaginatedParams) ([]WasteLog, error) {
+	rows, err := q.db.Query(ctx, getWasteLogByAccountPaginated, arg.AccountEmail, arg.Limit, arg.Offset)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []WasteLog
+	for rows.Next() {
+		var i WasteLog
+		if err := rows.Scan(
+			&i.WasteID,
+			&i.Claimed,
+			&i.GlassWeighed,
+			&i.MetalWeighed,
+			&i.PlasticsWeighed,
+			&i.PaperWeighed,
+			&i.GlassPointsEarned,
+			&i.MetalPointsEarned,
+			&i.PlasticsPointsEarned,
+			&i.PaperPointsEarned,
+			&i.TotalPointsEarned,
+			&i.LocationAddr,
+			&i.TxnName,
+			&i.StatusReport,
+			&i.CollectedRoute,
+			&i.AgentID,
+			&i.AccountEmail,
+			&i.CreatedAt,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getWasteLogByCollectorPaginated = `-- name: GetWasteLogByCollectorPaginated :many
+SELECT waste_id, claimed, glass_weighed, metal_weighed, plastics_weighed, paper_weighed, glass_points_earned, metal_points_earned, plastics_points_earned, paper_points_earned, total_points_earned, location_addr, txn_name, status_report, collected_route, agent_id, account_email, created_at 
+FROM waste_logs
+WHERE agent_ID = $1 
+AND collected_route = 'collector'
+ORDER BY created_at DESC
+LIMIT $2 OFFSET $3
+`
+
+type GetWasteLogByCollectorPaginatedParams struct {
+	AgentID pgtype.UUID `json:"agent_id"`
+	Limit   int32       `json:"limit"`
+	Offset  int32       `json:"offset"`
+}
+
+func (q *Queries) GetWasteLogByCollectorPaginated(ctx context.Context, arg GetWasteLogByCollectorPaginatedParams) ([]WasteLog, error) {
+	rows, err := q.db.Query(ctx, getWasteLogByCollectorPaginated, arg.AgentID, arg.Limit, arg.Offset)
 	if err != nil {
 		return nil, err
 	}
@@ -569,6 +776,35 @@ WHERE agent_ID = $1 AND agent_type = 'collector' AND is_deleted = FALSE
 
 func (q *Queries) SoftDeleteCollector(ctx context.Context, agentID pgtype.UUID) error {
 	_, err := q.db.Exec(ctx, softDeleteCollector, agentID)
+	return err
+}
+
+const updateCollectorStats = `-- name: UpdateCollectorStats :exec
+UPDATE collectors
+SET 
+    total_glass_waste = total_glass_waste + $1,
+    total_metal_waste = total_metal_waste + $2,
+    total_plastics_waste = total_plastics_waste + $3,
+    total_paper_waste = total_paper_waste + $4
+WHERE agent_ID = $5
+`
+
+type UpdateCollectorStatsParams struct {
+	TotalGlassWaste    float64     `json:"total_glass_waste"`
+	TotalMetalWaste    float64     `json:"total_metal_waste"`
+	TotalPlasticsWaste float64     `json:"total_plastics_waste"`
+	TotalPaperWaste    float64     `json:"total_paper_waste"`
+	AgentID            pgtype.UUID `json:"agent_id"`
+}
+
+func (q *Queries) UpdateCollectorStats(ctx context.Context, arg UpdateCollectorStatsParams) error {
+	_, err := q.db.Exec(ctx, updateCollectorStats,
+		arg.TotalGlassWaste,
+		arg.TotalMetalWaste,
+		arg.TotalPlasticsWaste,
+		arg.TotalPaperWaste,
+		arg.AgentID,
+	)
 	return err
 }
 
