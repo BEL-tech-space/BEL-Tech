@@ -48,12 +48,13 @@ func NewApp(
 	var callbackURL string = "http://localhost:8090/account/auth/google/callback"
 	if cfg.Build == productionEnv {
 		callbackURL = "https://beltech.site/account/auth/google/callback"
+
 	}
 
 	gothic.Store = store
 	goth.UseProviders(
 		google.New(cfg.LoginProvider.Google.ClientKey, cfg.LoginProvider.Google.Secret, callbackURL),
-		// facebook.New(cfg.LoginProvider.Facebook.ClientKey, cfg.LoginProvider.Facebook.Secret, "http://localhost:8090/auth/facebook/callback"),
+		google.New(cfg.LoginProvider.Google.ClientKey, cfg.LoginProvider.Google.Secret, "https://beltech.site/account/agent/google/callback"),
 	)
 
 	app := App{}
