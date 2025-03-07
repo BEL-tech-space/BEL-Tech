@@ -48,9 +48,8 @@ const baseTpl = `
 			return value; // Keep the number as is
 		}
 	}
-	
-</script>`
 
+</script>`
 const barChartOptions = `{
 		tooltip: {
 		backgroundColor: 'rgba(50,50,50,0.01)',

@@ -3,6 +3,7 @@ package http
 import (
 	accPages "beltech/frontend/pages/account"
 	"context"
+	"errors"
 	"fmt"
 	"net/http"
 	"time"
@@ -19,28 +20,32 @@ func (a *App) scanQRPageHandler(w http.ResponseWriter, r *http.Request) {
 
 func (a *App) confirmWaste(w http.ResponseWriter, r *http.Request) {
 	if err := r.ParseForm(); err != nil {
-		http.Error(w, "Failed to parse form", http.StatusBadRequest)
+		a.clientError(w, http.StatusBadRequest, fmt.Errorf("failed to parse form: error: %w", err))
 		return
 	}
-
-	// glass, paper, metal, plastics, err := getFormattedData(r)
-	// if err != nil {
-	// 	http.Error(w, "Failed to process form", http.StatusBadRequest)
-	// 	return
-	// }
 
 	wasteUUIDstr := r.PostFormValue("uuid")
 	waste, ok := a.wasteLogCache.Get(wasteUUIDstr)
 	if !ok {
-		fmt.Println("waste log does not exist")
-
-		// return
+		w.Header().Set("Content-Type", "text/html; charset=utf-8")
+		if err := accPages.ErorOnSubmitWaste("waste log does not exist").Render(context.TODO(), w); err != nil {
+			a.serverError(w, err)
+			return
+		}
+		return
 	}
 
 	if waste.Claimed {
-		fmt.Println("it has been claimed")
+		w.Header().Set("Content-Type", "text/html; charset=utf-8")
+		if err := accPages.ErorOnSubmitWaste("waste already claimed").Render(context.TODO(), w); err != nil {
+			a.serverError(w, err)
+			return
+		}
+		return
+	}
 
-		// return
+	if a.config.Build != productionEnv {
+		time.Sleep(4 * time.Second)
 	}
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
@@ -51,23 +56,30 @@ func (a *App) confirmWaste(w http.ResponseWriter, r *http.Request) {
 }
 
 func (a *App) submitWaste(w http.ResponseWriter, r *http.Request) {
+
 	if err := r.ParseForm(); err != nil {
-		http.Error(w, "Failed to parse form", http.StatusBadRequest)
+		a.clientError(w, http.StatusBadRequest, errors.New("failed to parse form"))
 		return
 	}
 
 	wasteUUIDstr := r.PostFormValue("uuid")
 	waste, ok := a.wasteLogCache.Get(wasteUUIDstr)
 	if !ok {
-		fmt.Println("waste log does not exist")
-
-		// return
+		w.Header().Set("Content-Type", "text/html; charset=utf-8")
+		if err := accPages.ErorOnSubmitWaste("waste log does not exist").Render(context.TODO(), w); err != nil {
+			a.serverError(w, err)
+			return
+		}
+		return
 	}
 
 	if waste.Claimed {
-		fmt.Println("it has been claimed")
-
-		// return
+		w.Header().Set("Content-Type", "text/html; charset=utf-8")
+		if err := accPages.ErorOnSubmitWaste("waste already claimed").Render(context.TODO(), w); err != nil {
+			a.serverError(w, err)
+			return
+		}
+		return
 	}
 
 	accountEmail := r.Context().Value(contextKeyEmail).(string)
@@ -84,13 +96,22 @@ func (a *App) submitWaste(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err := a.service.AddNewWasteFromCollector(
-		r.Context(), waste); err != nil {
+		context.Background(), waste); err != nil {
 		a.serverError(w, err)
 		return
 	}
 
 	if err := a.addUserToCache(context.Background(), accountEmail); err != nil {
-		a.serverError(w, err)
+		// a.serverError(w, err)
+	}
+
+	if err := a.updateCollectorInfo(waste.CollectorEmail); err != nil {
+		// a.serverError(w, err)
+		// return
+	}
+
+	if a.config.Build != productionEnv {
+		time.Sleep(4 * time.Second)
 	}
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")

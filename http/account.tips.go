@@ -2,6 +2,7 @@ package http
 
 import (
 	"context"
+	"errors"
 	"net/http"
 
 	accPages "beltech/frontend/pages/account"
@@ -13,12 +14,12 @@ func (a *App) TipsPageHandler(w http.ResponseWriter, r *http.Request) {
 
 	var wasteType string
 	if wasteType = chi.URLParam(r, "wasteType"); wasteType == "" {
-		http.Error(w, "WasteType not specified", http.StatusBadRequest)
+		a.clientError(w, http.StatusBadRequest, errors.New("wasteType not specified"))
 		return
 	}
 
 	if wasteType != "glass" && wasteType != "metal" && wasteType != "paper" && wasteType != "plastics" {
-		http.Error(w, "Invalid wasteType", http.StatusBadRequest)
+		a.clientError(w, http.StatusBadRequest, errors.New("invalid wasteType"))
 		return
 	}
 
@@ -31,8 +32,7 @@ func (a *App) TipsPageHandler(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := accPages.TipsOnRecyclingPage(wasteType, user).Render(context.Background(), w); err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		a.serverError(w, err)
 		return
 	}
 }
-

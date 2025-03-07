@@ -3,10 +3,11 @@ import { injectManifest } from "workbox-build";
 async function injectSW() {
   const { count, size, warnings } = await injectManifest({
     globDirectory: "public",
-    globPatterns: ["**/*.{js,css,ttf,otf,json,png,jpg,jpeg,svg,webp}"],
+    globPatterns: ["**/*.{js,css,ttf,otf,json}"],
+
     swSrc: "public/sw.js",
     swDest: "public/sw.js",
-    maximumFileSizeToCacheInBytes: 20000000,
+    maximumFileSizeToCacheInBytes: 9000000,
   });
 
   console.log(

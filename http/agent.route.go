@@ -2,7 +2,6 @@ package http
 
 import (
 	"context"
-	"fmt"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
@@ -26,10 +25,12 @@ func (a *App) agentRouter() http.Handler {
 		r.Get("/signout.html", a.logOutCollector)
 
 		r.Post("/qrcode/{agentID}", a.generateQRCode)
-		r.Get("/wasteForm", a.wasteForm)
-		// r.Post("/addAgent", a.addNewCollectorPost)
+		r.Get("/addNewCollector", a.addNewCollector)
+		r.Post("/addNewCollector", a.addNewCollectorPost)
+		r.Get("/waste/{wasteType}", a.agentWasteHistoryHandler)
+
 	})
-	
+
 	r.Get("/logout", a.logoutAgent)
 	r.Get("/login.html", a.logInCollector)
 	r.Get("/unauthorized", a.unauthorized)
@@ -43,7 +44,6 @@ func (a *App) agentAuthorization(next http.Handler) http.Handler {
 		// Get the session
 		session, err := a.agentSessionStore.Get(r, "beltech-agent")
 		if err != nil {
-			fmt.Println("get err in auth", err.Error())
 			http.Redirect(w, r, "/agent/login.html", http.StatusTemporaryRedirect)
 			return
 		}
@@ -51,7 +51,6 @@ func (a *App) agentAuthorization(next http.Handler) http.Handler {
 		// Check if the session lacks user information
 		email, exist := session.Values["email"]
 		if !exist {
-			fmt.Println("missing needed info")
 			http.Redirect(w, r, "/agent/login.html", http.StatusTemporaryRedirect)
 			return
 		}
@@ -60,7 +59,6 @@ func (a *App) agentAuthorization(next http.Handler) http.Handler {
 
 		collector, ok := a.collectors[agentEmail]
 		if !ok {
-			fmt.Println("not found in collectors list")
 			http.Redirect(w, r, "/agent/unauthorized", http.StatusUnauthorized)
 			return
 		}

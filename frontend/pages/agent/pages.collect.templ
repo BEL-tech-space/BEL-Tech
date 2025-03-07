@@ -45,10 +45,7 @@ templ RenderQRCode(qrcodeByteImage []byte) {
 	<article id="wasteQRCode" class="w-full">
 		<img src={ "data:image/png;base64," + base64.StdEncoding.EncodeToString(qrcodeByteImage) } alt="QR Code" class="px-auto block w-full"/>
 		<a
-			hx-get="/agent/wasteForm"
-			hx-select="#wasteForm"
-			hx-target="#wasteQRCode"
-			hx-swap="outerHTML"
+			href="/agent/collect"
 			class="block w-full bg-[#016934] rounded-md text-center font-medium text-sm tracking-widest py-[0.625rem] px-[6.438rem] text-white"
 		>Next</a>
 	</article>

@@ -1,6 +1,5 @@
 // sw.js
-import * as navigationPreload from "workbox-navigation-preload";
-import { StaleWhileRevalidate } from "workbox-strategies";
+import { StaleWhileRevalidate, CacheFirst } from "workbox-strategies";
 import { registerRoute } from "workbox-routing";
 import { precacheAndRoute } from "workbox-precaching";
 import { ExpirationPlugin } from "workbox-expiration";
@@ -16,7 +15,18 @@ self.addEventListener("message", (event) => {
 
 (self as any).__WB_DISABLE_DEV_LOGS = true;
 
-navigationPreload.enable();
+registerRoute(
+  ({ url }) => /\.(png|jpe?g|gif|webp|svg)$/i.test(url.pathname),
+  new CacheFirst({
+    cacheName: "image-cache",
+    plugins: [
+      new ExpirationPlugin({
+        maxEntries: 400, // Adjust based on your needs
+        maxAgeSeconds: 60 * 60 * 24 * 30, // Cache for 30 days
+      }),
+    ],
+  })
+);
 
 // account/auth
 registerRoute(

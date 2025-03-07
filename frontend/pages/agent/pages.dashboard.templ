@@ -1,6 +1,11 @@
 package pages
 
-templ DashboardPage() {
+import (
+	"beltech/service"
+	"fmt"
+)
+
+templ DashboardPage(info *service.WasteByCollectorForMonthResponse) {
 	<!DOCTYPE html>
 	<html lang="en">
 		@headTag("dashboard")
@@ -19,14 +24,14 @@ templ DashboardPage() {
 						<p class="text-[0.938rem] leading-[1.143rem] font-semibold">Overview</p>
 						<div class="bg-[#01693433] pl-[0.5rem] pr-[0.833rem] flex justify-center items-center gap-[0.417rem] rounded-[1.562rem]">
 							<select name="filter" id="filter" class="appearance-none min-w-fit outline-none">
-								<option value="" class="">this week</option>
+								<option value="" class="">this month</option>
 								<hr/>
 								<optgroup label="range">
+									<option value="lastweek" class="">this week</option>
 									<option value="lastweek" class="">last week</option>
-									<option value="2Weeks" class="">2wk ago</option>
 									<option value="3Weeks" class="">3wk ago</option>
-									<option value="4Weeks" class="">4wk ago</option>
-									<option value="thisMonth" class="">this month</option>
+									<option value="4Weeks" class="">2mo ago</option>
+									<option value="4Weeks" class="">3mo ago</option>
 								</optgroup>
 								<hr/>
 								<optgroup label="result">
@@ -44,90 +49,114 @@ templ DashboardPage() {
 						</div>
 					</section>
 					<section class="flex flex-col gap-4 justify-between items-center mb-6 mt-[0.946rem]">
-						<article
-							class="bg-[#FEF7FF] pl-[0.313rem] pr-6 rounded-lg flex w-full justify-start items-center gap-4"
+						<a
+							href="/agent/waste/glass"
+							class="bg-[#FEF7FF] pl-[0.313rem] pr-6 rounded-lg flex w-full justify-between items-center"
 						>
-							<picture>
-								<source type="image/webp" src="/public/assets/images/glass.webp"/>
-								<img
-									src="/public/assets/images/glass.jpg"
-									alt=""
-									class="w-[4.688rem] aspect-[75/70] rounded-lg"
-								/>
-							</picture>
-							<div class="flex flex-col justify-center items-center gap-2">
-								<p class="font-medium text-[0.688rem] leading-[0.838rem]">Glass</p>
-								<p class="text-[0.625rem] leading-[0.762rem] font-bold">245kg</p>
+							<div class="flex items-center gap-4">
+								<picture>
+									<source type="image/webp" src="/public/assets/images/glass.webp"/>
+									<img
+										src="/public/assets/images/glass.jpg"
+										alt=""
+										class="w-[4.688rem] aspect-[75/70] rounded-lg"
+									/>
+								</picture>
+								<div class="flex flex-col justify-center items-center gap-2">
+									<p class="font-medium text-[0.688rem] leading-[0.838rem]">Glass</p>
+									<p class="text-[0.625rem] leading-[0.762rem] font-bold">{ fmt.Sprintf("%skg", formatTotalWasteWeighed(info.TotalGlass) ) }</p>
+								</div>
 							</div>
+							if len(info.GlassTrend) > 1 {
+								<span id="glass" glass-color={ templ.JSONString(colorForSparkline(info.GlassTrend)) } class="sparkline-glass">{ fmt.Sprintf("%s", formatSparklineValues(info.GlassTrend)) }</span>
+							}
 							<img
 								src="/public/assets/svg/arrow_right.svg"
 								alt=""
-								class="w-[0.938rem] aspect-square ml-auto"
+								class="w-[0.938rem] aspect-square"
 							/>
-						</article>
-						<article
-							class="bg-[#FEF7FF] pl-[0.313rem] pr-6 rounded-lg flex w-full justify-start items-center gap-4"
+						</a>
+						<a
+							href="/agent/waste/paper"
+							class="bg-[#FEF7FF] pl-[0.313rem] pr-6 rounded-lg flex w-full justify-between items-center"
 						>
-							<picture>
-								<source type="image/webp" src="/public/assets/images/book.webp"/>
-								<img
-									src="/public/assets/images/book.jpg"
-									alt=""
-									class="w-[4.688rem] aspect-[75/70] rounded-lg"
-								/>
-							</picture>
-							<div class="flex flex-col justify-center items-center gap-2">
-								<p class="font-medium text-[0.688rem] leading-[0.838rem]">Paper</p>
-								<p class="text-[0.625rem] leading-[0.762rem] font-bold">245kg</p>
+							<div class="flex items-center gap-4">
+								<picture>
+									<source type="image/webp" src="/public/assets/images/book.webp"/>
+									<img
+										src="/public/assets/images/book.jpg"
+										alt=""
+										class="w-[4.688rem] aspect-[75/70] rounded-lg"
+									/>
+								</picture>
+								<div class="flex flex-col justify-center items-center gap-2 mr-auto">
+									<p class="font-medium text-[0.688rem] leading-[0.838rem]">Paper</p>
+									<p class="text-[0.625rem] leading-[0.762rem] font-bold">{ fmt.Sprintf("%skg", formatTotalWasteWeighed(info.TotalPaper) ) }</p>
+								</div>
 							</div>
+							if len(info.PaperTrend) > 1 {
+								<span id="paper" paper-color={ templ.JSONString(colorForSparkline(info.PaperTrend)) } class="sparkline-paper">{ fmt.Sprintf("%s", formatSparklineValues(info.PaperTrend)) }</span>
+							}
 							<img
 								src="/public/assets/svg/arrow_right.svg"
 								alt=""
-								class="w-[0.938rem] aspect-square ml-auto"
+								class="w-[0.938rem] aspect-square"
 							/>
-						</article>
-						<article
-							class="bg-[#FEF7FF] pl-[0.313rem] pr-6 rounded-lg flex w-full justify-start items-center gap-4"
+						</a>
+						<a
+							href="/agent/waste/metal"
+							class="bg-[#FEF7FF] pl-[0.313rem] pr-6 rounded-lg flex w-full justify-between items-center"
 						>
-							<picture>
-								<source type="image/webp" src="/public/assets/images/metal2.webp"/>
-								<img
-									src="/public/assets/images/metal2.jpeg"
-									alt=""
-									class="w-[4.688rem] aspect-[75/70] rounded-lg"
-								/>
-							</picture>
-							<div class="flex flex-col justify-center items-center gap-2">
-								<p class="font-medium text-[0.688rem] leading-[0.838rem]">Metal</p>
-								<p class="text-[0.625rem] leading-[0.762rem] font-bold">245kg</p>
+							<div class="flex items-center gap-4">
+								<picture>
+									<source type="image/webp" src="/public/assets/images/metal2.webp"/>
+									<img
+										src="/public/assets/images/metal2.jpeg"
+										alt=""
+										class="w-[4.688rem] aspect-[75/70] rounded-lg"
+									/>
+								</picture>
+								<div class="flex flex-col justify-center items-center gap-2">
+									<p class="font-medium text-[0.688rem] leading-[0.838rem]">Metal</p>
+									<p class="text-[0.625rem] leading-[0.762rem] font-bold">{ fmt.Sprintf("%skg", formatTotalWasteWeighed(info.TotalMetal) ) }</p>
+								</div>
 							</div>
+							if len(info.MetalTrend) > 1 {
+								<span id="metal" metal-color={ templ.JSONString(colorForSparkline(info.MetalTrend)) } class="sparkline-metal">{ fmt.Sprintf("%s", formatSparklineValues(info.MetalTrend)) }</span>
+							}
 							<img
 								src="/public/assets/svg/arrow_right.svg"
 								alt=""
-								class="w-[0.938rem] aspect-square ml-auto"
+								class="w-[0.938rem] aspect-square"
 							/>
-						</article>
-						<article
-							class="bg-[#FEF7FF] pl-[0.313rem] pr-6 rounded-lg flex w-full justify-start items-center gap-4"
+						</a>
+						<a
+							href="/agent/waste/plastics"
+							class="bg-[#FEF7FF] pl-[0.313rem] pr-6 rounded-lg flex w-full justify-between items-center"
 						>
-							<picture>
-								<source type="image/webp" src="/public/assets/images/plastic_2.webp"/>
-								<img
-									src="/public/assets/images/plastic_2.jpg"
-									alt=""
-									class="w-[4.688rem] aspect-[75/70] rounded-lg"
-								/>
-							</picture>
-							<div class="flex flex-col justify-center items-center gap-2">
-								<p class="font-medium text-[0.688rem] leading-[0.838rem]">Plastics</p>
-								<p class="text-[0.625rem] leading-[0.762rem] font-bold">245kg</p>
+							<div class="flex items-center gap-4">
+								<picture>
+									<source type="image/webp" src="/public/assets/images/plastic_2.webp"/>
+									<img
+										src="/public/assets/images/plastic_2.jpg"
+										alt=""
+										class="w-[4.688rem] aspect-[75/70] rounded-lg"
+									/>
+								</picture>
+								<div class="flex flex-col justify-center items-center gap-2">
+									<p class="font-medium text-[0.688rem] leading-[0.838rem]">Plastics</p>
+									<p class="text-[0.625rem] leading-[0.762rem] font-bold">{ fmt.Sprintf("%skg", formatTotalWasteWeighed(info.TotalPlastics) ) }</p>
+								</div>
 							</div>
+							if len(info.PlasticTrend) > 1 {
+								<span id="plastic" plastic-color={ templ.JSONString(colorForSparkline(info.PlasticTrend)) } class="sparkline-plastic">{ fmt.Sprintf("%s", formatSparklineValues(info.PlasticTrend)) }</span>
+							}
 							<img
 								src="/public/assets/svg/arrow_right.svg"
 								alt=""
-								class="w-[0.938rem] aspect-square ml-auto"
+								class="w-[0.938rem] aspect-square"
 							/>
-						</article>
+						</a>
 					</section>
 					<section>
 						<p class="text-[0.938rem] leading-[1.143rem] font-semibold mt-6 mb-[0.875rem]">Statistics</p>
@@ -143,7 +172,7 @@ templ DashboardPage() {
 								</picture>
 								<div>
 									<p class="font-medium text-xs leading-[0.914rem]">Operations</p>
-									<p class="font-bold text-[0.625rem] leading-3">234 Recycles</p>
+									<p class="font-bold text-[0.625rem] leading-3">{ fmt.Sprintf("%d Recycles", info.TotalWasteLogs) }</p>
 								</div>
 							</div>
 							<div class="w-full flex flex-col justify-center items-center gap-[0.625rem] bg-[#FEF7FF] py-[0.688rem] px-[2.688rem]">
@@ -165,6 +194,143 @@ templ DashboardPage() {
 				</main>
 				@footer("dashboard")
 			</div>
+			<script src="/public/assets/scripts/jquery.min.js"></script>
+			<script src="/public/assets/scripts/jquery.sparkline.min.js"></script>
+			if len(info.GlassTrend) > 1 {
+				<script>
+					$('.sparkline-glass').sparkline('html', {
+						width: '100px',
+						height: '40px',
+						lineColor: JSON.parse(document.getElementById('glass').getAttribute('glass-color')), 
+						defaultPixelsPerValue: 2, 
+						fillColor: false, 
+						lineWidth: 1.5, 
+						spotRadius: 0, 
+						minSpotColor: false, 
+						maxSpotColor: false, 
+						highlightSpotColor: false, 
+						highlightLineColor: false,
+						chartRangeClip: true  
+					} );
+					$('.sparkline-glass').css('pointer-events', 'none');
+				</script>
+			}
+			if len(info.MetalTrend) > 1 {
+				<script>
+					$('.sparkline-metal').sparkline('html', {
+						width: '100px',
+						height: '40px',
+						lineColor:  JSON.parse(document.getElementById('metal').getAttribute('metal-color')),  
+						defaultPixelsPerValue: 2, 
+						fillColor: false, 
+						lineWidth: 1.5, 
+						spotRadius: 0, 
+						minSpotColor: false, 
+						maxSpotColor: false, 
+						highlightSpotColor: false, 
+						highlightLineColor: false,
+						chartRangeClip: true  
+					} );
+					$('.sparkline-metal').css('pointer-events', 'none');
+				</script>
+			}
+			if len(info.PlasticTrend) > 1 {
+				<script>
+					$('.sparkline-plastic').sparkline('html', {
+						width: '100px',
+						height: '40px',
+						lineColor: JSON.parse( document.getElementById('plastic').getAttribute('plastic-color')),  
+						defaultPixelsPerValue: 2, 
+						fillColor: false, 
+						lineWidth: 1.5, 
+						spotRadius: 0, 
+						minSpotColor: false, 
+						maxSpotColor: false, 
+						highlightSpotColor: false, 
+						highlightLineColor: false,
+						chartRangeClip: true  
+					} );
+					$('.sparkline-plastic').css('pointer-events', 'none');
+				</script>
+			}
+			if len(info.PaperTrend) > 1 {
+				<script>
+					$('.sparkline-paper').sparkline('html', {
+						width: '100px',
+						height: '40px',
+						lineColor:  JSON.parse(document.getElementById('paper').getAttribute('paper-color')), 
+						defaultPixelsPerValue: 2, 
+						fillColor: false, 
+						lineWidth: 1.5, 
+						spotRadius: 0, 
+						minSpotColor: false, 
+						maxSpotColor: false, 
+						highlightSpotColor: false, 
+						highlightLineColor: false,
+						chartRangeClip: true  
+					} );
+					$('.sparkline-paper').css('pointer-events', 'none');
+			</script>
+			}
+			@serviceWorkerRegistration()
 		</body>
 	</html>
+}
+
+templ serviceWorkerRegistration() {
+	<script type="module">
+    import { Workbox } from '/public/assets/scripts/workbox-window.prod.mjs';
+
+	function urlBase64ToUint8Array(base64String) {
+		const padding = '='.repeat((4 - base64String.length % 4) % 4);
+		const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+		const rawData = atob(base64);
+		return Uint8Array.from([...rawData].map((char) => char.charCodeAt(0)));
+	}
+
+
+	window.addEventListener('load', () => { 
+		if ('serviceWorker' in navigator) {
+			const wb = new Workbox('/public/sw.js', { scope: "/" });
+
+			// Automatically activate the new service worker when it's waiting.
+			const handleWaitingWorker = () => {
+				wb.messageSkipWaiting();
+			
+				// Reload the page when the new service worker takes control.
+				wb.addEventListener('controlling', () => {
+					window.location.reload();
+				});
+			};
+
+			// Add an event listener to detect when the registered service worker is waiting.
+			wb.addEventListener('waiting', handleWaitingWorker);
+
+			wb.register().then(async (registration) => {
+				console.log('Service worker registered', registration);
+				
+				// const vapidPublicKey = 'BAkdR7kgUR-z04hIZka23Zb1CaNrOjB-ToEpw_jZh2lHwqm8Zxu1yizTpZ8ENoa-2gEL-Y_rNi0NbPUqD_rfDoA';
+				// const options = {
+				// 	userVisibleOnly: true,
+				// 	applicationServerKey: urlBase64ToUint8Array(vapidPublicKey),
+				// };
+
+				// const subscription = await registration.pushManager.subscribe(options);
+				// console.log('Push subscription:', subscription);
+				// const response = await fetch('/account/subscribe', {
+				// 	method: 'POST',
+				// 	headers: { 'Content-Type': 'application/json' },
+				// 	body: JSON.stringify(subscription),
+				// });
+				// if (response.ok) {
+				// 	console.log('Subscription successful');
+				// } else {
+				// 	console.error('Subscription failed', response.status);
+				// }
+			}).catch((error) => {
+				console.error('Service worker registration failed:', error);
+			});
+			}
+		});
+	</script>
 }

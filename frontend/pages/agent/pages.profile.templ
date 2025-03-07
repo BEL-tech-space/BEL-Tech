@@ -32,11 +32,29 @@ templ ProfilePage(collector service.Collector) {
 							<label for="role" name="collector" class="font-bold text-sm tracking-[0.025rem] text-[#49454F]">Role</label>
 							<input disabled id="role" type="text" value={ string(collector.CollectorRole) } class="w-[21.375rem] aspect-[342/36] rounded border-[0.0313rem] outline-none border-[#569B78] border-solid text-xs font-medium pl-3 pt-1"/>
 						</div>
-						<div class="my-7 w-full">
-							<button class="w-full bg-[#016934] py-3 rounded-md px-[5.438rem] font-montserrat font-medium text-sm text-center tracking-[0.1px] text-white text-nowrap">
-								Save Changes
-							</button>
-						</div>
+						if string(collector.CollectorRole) == "super_collector" {
+							<section class="w-full flex justify-around items-center gap-[0.625rem]">
+								<button class="w-full bg-[#016934] py-3 rounded-md px-[5.438rem] font-montserrat font-medium text-sm text-center tracking-[0.1px] text-white text-nowrap">
+									Save Changes
+								</button>
+								<a
+									href="/agent/addNewCollector"
+									title="add new collector"
+									class="bg-[#CCE1D699] py-4 px-4 rounded-md inline justify-center items-center"
+								>
+									<img
+										src="/public/assets/svg/+.svg"
+										class="w-[1.125rem] aspect-square"
+									/>
+								</a>
+							</section>
+						} else {
+							<div class="my-7 w-full">
+								<button class="w-full bg-[#016934] py-3 rounded-md px-[5.438rem] font-montserrat font-medium text-sm text-center tracking-[0.1px] text-white text-nowrap">
+									Save Changes
+								</button>
+							</div>
+						}
 					</form>
 				</main>
 				@footer("profile")

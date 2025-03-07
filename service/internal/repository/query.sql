@@ -48,6 +48,24 @@ VALUES (
 )
 RETURNING *;
 
+-- name: AddNewAgentAsSuperCollector :one
+WITH new_agent AS (
+    INSERT INTO agent (collector_email, agent_type)
+    VALUES ($1, 'collector')
+    RETURNING agent_ID
+)
+INSERT INTO collectors (
+    collector_email, first_name, last_name, display_name, avatar_URL,
+    location_city, location_state, location_country, location_addr, 
+    agent_ID, collector_role
+)
+VALUES (
+    $1, $2, $3, $4, $5, 
+    $6, $7, $8, $9, 
+    (SELECT agent_ID FROM new_agent), 'super_collector'
+)
+RETURNING *;
+
 -- name: AddNewWasteFromCollector :exec
 WITH new_waste AS (
     INSERT INTO waste_logs (
@@ -79,6 +97,15 @@ SET
 FROM new_waste 
 WHERE accounts.account_email = new_waste.account_email;
 
+-- name: UpdateCollectorStats :exec
+UPDATE collectors
+SET 
+    total_glass_waste = total_glass_waste + $1,
+    total_metal_waste = total_metal_waste + $2,
+    total_plastics_waste = total_plastics_waste + $3,
+    total_paper_waste = total_paper_waste + $4
+WHERE agent_ID = $5;
+
 
 -- name: SoftDeleteCollector :exec
 UPDATE agent
@@ -108,6 +135,7 @@ SELECT *
 FROM accounts 
 WHERE account_email = $1 
   AND is_Deleted = FALSE;
+
 
 -- name: UpdateNickName :one
 UPDATE accounts
@@ -140,10 +168,19 @@ INSERT INTO notifications (
 ) RETURNING id;
 
 
--- name: GetWasteByAccountPaginated :many
+-- name: GetWasteLogByAccountPaginated :many
 SELECT * 
 FROM waste_logs
 WHERE account_email = $1
+ORDER BY created_at DESC
+LIMIT $2 OFFSET $3;
+
+
+-- name: GetWasteLogByCollectorPaginated :many
+SELECT * 
+FROM waste_logs
+WHERE agent_ID = $1 
+AND collected_route = 'collector'
 ORDER BY created_at DESC
 LIMIT $2 OFFSET $3;
 
@@ -155,6 +192,48 @@ WHERE account_email = $1
 AND created_at >= make_timestamp($2, $3, 1, 0, 0, 0) 
 AND created_at < (make_timestamp($2, $3, 1, 0, 0, 0) + INTERVAL '1 month')
 ORDER BY created_at DESC;
+
+
+-- name: GetWasteByCollectorForMonth :one
+WITH monthly_waste AS (
+    SELECT 
+        created_at, 
+        glass_weighed, 
+        metal_weighed, 
+        plastics_weighed, 
+        paper_weighed
+    FROM waste_logs
+    WHERE agent_ID = $1
+    AND collected_route = 'collector'
+    AND created_at >= make_timestamp($2, $3, 1, 0, 0, 0)
+    AND created_at < (make_timestamp($2, $3, 1, 0, 0, 0) + INTERVAL '1 month')
+    ORDER BY created_at ASC -- Ensure ordering is correct for the CTE itself
+)
+SELECT 
+    COALESCE(SUM(glass_weighed)::DOUBLE PRECISION, 0) AS total_glass,
+    COALESCE(SUM(metal_weighed)::DOUBLE PRECISION, 0) AS total_metal,
+    COALESCE(SUM(plastics_weighed)::DOUBLE PRECISION, 0) AS total_plastics,
+    COALESCE(SUM(paper_weighed)::DOUBLE PRECISION, 0) AS total_paper,
+
+    COUNT(*) AS total_waste_logs,
+    
+    (
+        SELECT JSON_AGG(glass_weighed ORDER BY created_at ASC)
+        FROM monthly_waste
+    ) AS glass_trend,
+    (
+        SELECT JSON_AGG(metal_weighed ORDER BY created_at ASC)
+        FROM monthly_waste
+    ) AS metal_trend,
+    (
+        SELECT JSON_AGG(plastics_weighed ORDER BY created_at ASC)
+        FROM monthly_waste
+    ) AS plastic_trend,
+    (
+        SELECT JSON_AGG(paper_weighed ORDER BY created_at ASC)
+        FROM monthly_waste
+    ) AS paper_trend
+FROM monthly_waste;
 
 
 -- name: GetAllNotifications :many

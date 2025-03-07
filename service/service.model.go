@@ -75,6 +75,7 @@ type WasteLog struct {
 	AgentID              uuid.UUID   `json:"agent_id"`
 	AccountEmail         string      `json:"account_email"`
 	CreatedAt            time.Time   `json:"created_at"`
+	CollectorEmail       string
 }
 
 type Agent struct {
@@ -87,17 +88,21 @@ type Agent struct {
 }
 
 type Collector struct {
-	CollectorEmail  string        `json:"collector_email"`
-	FirstName       string        `json:"first_name"`
-	LastName        string        `json:"last_name"`
-	DisplayName     string        `json:"display_name"`
-	AvatarUrl       string        `json:"avatar_url"`
-	LocationCity    string        `json:"location_city"`
-	LocationState   string        `json:"location_state"`
-	LocationCountry string        `json:"location_country"`
-	LocationAddr    interface{}   `json:"location_addr"`
-	AgentID         uuid.UUID     `json:"agent_id"`
-	CollectorRole   Collectorrole `json:"collector_role"`
+	CollectorEmail     string        `json:"collector_email"`
+	FirstName          string        `json:"first_name"`
+	LastName           string        `json:"last_name"`
+	DisplayName        string        `json:"display_name"`
+	AvatarUrl          string        `json:"avatar_url"`
+	LocationCity       string        `json:"location_city"`
+	LocationState      string        `json:"location_state"`
+	LocationCountry    string        `json:"location_country"`
+	TotalGlassWaste    float64       `json:"total_glass_waste"`
+	TotalMetalWaste    float64       `json:"total_metal_waste"`
+	TotalPlasticsWaste float64       `json:"total_plastics_waste"`
+	TotalPaperWaste    float64       `json:"total_paper_waste"`
+	LocationAddr       interface{}   `json:"location_addr"`
+	AgentID            uuid.UUID     `json:"agent_id"`
+	CollectorRole      Collectorrole `json:"collector_role"`
 }
 
 type Collectorrole string

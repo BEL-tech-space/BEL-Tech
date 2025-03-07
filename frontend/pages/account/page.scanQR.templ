@@ -207,23 +207,19 @@ templ scriptForScanPage() {
                     restoreScreen();
                     isScanning = false;
 					data = {}
-                } )
-                    .catch( ( err ) => {
-                        restoreScreen();
-                        console.error( "error clearing reader", err );
+                } ).catch( ( err ) => {
+                    console.error( "error clearing reader", err );
                     } );
             }
 
             function restoreScreen () {
-                const xyz = document.getElementById( "xyz" );
-                const scanButtonText = document.getElementsByClassName( "scanButtonText" )[ 0 ];
-                const scanButton = document.getElementsByClassName( 'scanButton' )[ 0 ];
-
-
-                document.getElementById( "reader" ).remove();
-                xyz.classList.toggle('hidden')
-				scanButton.classList.remove("bg-[#FF0000]");
-                scanButtonText.innerText = 'Scan';
+                const reader = document.getElementById( "reader" );
+				if (reader) {
+					reader.remove();
+				}
+                document.getElementById( "xyz" ).classList.toggle('hidden')
+				document.getElementsByClassName( 'scanButton' )[ 0 ].classList.remove("bg-[#FF0000]");
+                document.getElementsByClassName( "scanButtonText" )[ 0 ].innerText = 'Scan';
             }
 
 			function getWasteData() {
@@ -294,7 +290,7 @@ templ confirmWaste(accountEmail string) {
 				class="outline-none rounded-md mb-2 font-medium bg-black text-[0.813rem] leading-5 tracking-[0.00625em] py-[0.625rem] px-8 text-center text-white"
 			>
 				Confirm from the server
-				<span id="spinner" class="loading loading-spinner loading-md htmx-indicator"></span>
+				<span id="spinner" class="loading loading-dots loading-md htmx-indicator"></span>
 			</button>
 			<button
 				type="button"
@@ -310,6 +306,16 @@ templ confirmWaste(accountEmail string) {
 	</div>
 }
 
+templ ErorOnSubmitWaste(errMessage string) {
+	<button
+		type="button"
+		disabled
+		class="outline-none rounded-md mb-2 font-medium bg-gray-600 text-[0.813rem] leading-5 tracking-[0.00625em] py-[0.625rem] px-8 text-center text-white"
+	>
+		{ errMessage }
+	</button>
+}
+
 templ SubmitWaste() {
 	<button
 		type="button"
@@ -318,9 +324,11 @@ templ SubmitWaste() {
 		hx-swap="innerHTML"
 		hx-target="#confirmWaste-bar"
 		hx-vals="js:{...getWasteData()}"
+		hx-indicator="#spinner"
 		class="outline-none rounded-md mb-2 font-medium bg-[#016934] text-[0.813rem] leading-5 tracking-[0.00625em] py-[0.625rem] px-8 text-center text-white"
 	>
 		Claim your BEL points
+		<span id="spinner" class="loading loading-dots loading-md htmx-indicator"></span>
 	</button>
 }
 

@@ -13,19 +13,16 @@ templ headTag(pageTitle string) {
 			rel="stylesheet"
 			href="/public/assets/styles/output.css"
 		/>
-		<link
-			rel="stylesheet"
-			href="/public/assets/styles/toastr.min.css"
-		/>
+		// <link
+		// 	rel="stylesheet"
+		// 	href="/public/assets/styles/toastr.min.css"
+		// />
 		<style>
 			.overflow-y-auto::-webkit-scrollbar {
 				width: 0 !important;
 				display: none;
 				overflow: -moz-scrollbars-none;
 				scrollbar-width: none;
-			}
-			body {
-				background-color: white !important;
 			}
 		</style>
 		<script src="/public/assets/scripts/htmx.min.js"></script>
@@ -34,7 +31,7 @@ templ headTag(pageTitle string) {
 }
 
 templ footer(active string) {
-	<footer class="bg-white flex w-full justify-around mt-[1.125rem] gap-[2.375rem] text-[#016934]" hx-boost="true">
+	<footer class="bg-white flex w-full justify-around mt-[1.125rem] gap-[2.375rem] text-[#016934]" hx-boost="false">
 		if active == "dashboard" {
 			<a
 				href="/agent/dashboard"

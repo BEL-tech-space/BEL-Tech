@@ -79,6 +79,10 @@ CREATE TABLE IF NOT EXISTS collectors (
     location_city TEXT NOT NULL DEFAULT '',
     location_state TEXT NOT NULL DEFAULT '',
     location_country TEXT NOT NULL DEFAULT '',
+    total_glass_waste DOUBLE PRECISION NOT NULL DEFAULT 0,
+    total_metal_waste DOUBLE PRECISION NOT NULL DEFAULT 0,
+    total_plastics_waste DOUBLE PRECISION NOT NULL DEFAULT 0,
+    total_paper_waste DOUBLE PRECISION NOT NULL DEFAULT 0,
     location_addr geometry(POINT, 4326),
     agent_ID UUID NOT NULL REFERENCES agent(agent_ID) ON DELETE RESTRICT,
     collector_role collectorRole NOT NULL DEFAULT 'collector'
@@ -104,4 +108,23 @@ CREATE TABLE IF NOT EXISTS waste_logs (
     account_email TEXT NOT NULL REFERENCES accounts(account_email) ON DELETE RESTRICT,
     created_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
+
+-- CREATE TABLE IF NOT EXISTS waste_logs_temp (
+--     waste_Id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+--     glass_weighed REAL NOT NULL DEFAULT 0,
+--     metal_weighed REAL NOT NULL DEFAULT 0,
+--     plastics_weighed REAL NOT NULL DEFAULT 0, 
+--     paper_weighed REAL NOT NULL DEFAULT 0,
+--     glass_points_earned REAL NOT NULL DEFAULT 0,
+--     metal_points_earned REAL NOT NULL DEFAULT 0,
+--     plastics_points_earned REAL NOT NULL DEFAULT 0,
+--     paper_points_earned REAL NOT NULL DEFAULT 0,
+--     total_points_earned DOUBLE PRECISION NOT NULL DEFAULT 0,
+--     location_addr geometry(POINT, 4326),
+--     txn_name TEXT NOT NULL DEFAULT '',
+--     status_report TEXT NOT NULL DEFAULT '',
+--     collected_route agentType NOT NULL,
+--     agent_ID UUID NOT NULL REFERENCES agent(agent_ID) ON DELETE RESTRICT,
+--     created_at TIMESTAMP NOT NULL DEFAULT NOW()
+-- );
 

@@ -87,8 +87,6 @@ func (a *App) logInAccount(w http.ResponseWriter, r *http.Request, u goth.User) 
 		return err
 	}
 
-	fmt.Printf("\n\non login--- %+v\n\n", user)
-
 	fmt.Println(user.IsNew, "is new")
 
 	if user.IsNew {

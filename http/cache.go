@@ -42,3 +42,12 @@ func (a *App) getAccountFromCache(ctx context.Context, accountEmail string) (ser
 func (a *App) updateAccountCache(acc service.Account) bool {
 	return a.accountCache.SetWithTTL(acc.AccountEmail, acc, 1, accountCacheDuration)
 }
+
+func (a *App) updateCollectorInfo(collectorEmail string) error {
+	col, err := a.service.GetCollector(context.Background(), collectorEmail)
+	if err != nil {
+		return err
+	}
+	a.collectors[collectorEmail] = col
+	return nil
+}

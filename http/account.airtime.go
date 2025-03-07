@@ -3,7 +3,6 @@ package http
 import (
 	accPages "beltech/frontend/pages/account"
 	"context"
-	"fmt"
 	"net/http"
 )
 
@@ -14,12 +13,7 @@ func (a *App) airtimePageHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	for v, c := range r.PostForm {
-		fmt.Println(v, c)
-	}
-
 	accountEmail := r.Context().Value(contextKeyEmail).(string)
-
 	user, err := a.getAccountFromCache(context.Background(), accountEmail)
 	if err != nil {
 		a.serverError(w, err)
@@ -34,7 +28,7 @@ func (a *App) airtimePageHandler(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := accPages.AirtimePage(user, result).Render(context.Background(), w); err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		a.serverError(w, err)
 		return
 	}
 }

@@ -58,7 +58,7 @@ templ historyListItem(history []service.WasteLog) {
 						<p>{ fmt.Sprintf("Paper: %skg", formatFloatWithComma(v.PaperWeighed, 2)) }</p>
 					</div>
 					<div class="flex flex-col justify-between gap-4 font-medium text-black text-xs text-nowrap">
-						<p class="">{ fmt.Sprintf("Transaction Name: %s", v.TxnName) }l</p>
+						<p class="font-medium text-black text-xs text-nowrap">{ fmt.Sprintf("Transaction Name: %s", v.TxnName) }l</p>
 						<div class="flex flex-col gap-1 justify-start">
 							<p>{ fmt.Sprintf("Recycle route: %s", string(v.CollectedRoute)) }</p>
 							<a class="block text-[#016934] font-bold text-[0.0375rem] leading-[0.457rem]">View Details</a>

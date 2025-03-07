@@ -198,8 +198,20 @@ func (s *Service) AddNewWasteFromCollector(ctx context.Context, wasteLog WasteLo
 	defer tx.Rollback(ctx)
 
 	qtx := s.dbQuery.WithTx(tx)
-
 	if err := qtx.AddNewWasteFromCollector(ctx, arg); err != nil {
+		return err
+	}
+
+	if err := qtx.UpdateCollectorStats(
+		ctx,
+		postgres.UpdateCollectorStatsParams{
+			TotalGlassWaste:    float64(wasteLog.GlassWeighed),
+			TotalMetalWaste:    float64(wasteLog.MetalWeighed),
+			TotalPlasticsWaste: float64(wasteLog.PlasticsWeighed),
+			TotalPaperWaste:    float64(wasteLog.PaperWeighed),
+			AgentID:            agentId,
+		},
+	); err != nil {
 		return err
 	}
 
@@ -216,9 +228,9 @@ func (s *Service) GetWasteLogByAccountPaginated(
 	limit, offset int32,
 ) ([]WasteLog, error) {
 
-	res, err := s.dbQuery.GetWasteByAccountPaginated(
+	res, err := s.dbQuery.GetWasteLogByAccountPaginated(
 		ctx,
-		postgres.GetWasteByAccountPaginatedParams{
+		postgres.GetWasteLogByAccountPaginatedParams{
 			AccountEmail: accountEmail,
 			Limit:        limit,
 			Offset:       offset,

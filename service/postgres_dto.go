@@ -3,6 +3,7 @@ package service
 import (
 	"beltech/service/internal/repository/postgres"
 	"fmt"
+	"strconv"
 
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgtype"
@@ -152,16 +153,67 @@ func makeServiceCollector(param postgres.Collector) (Collector, error) {
 		return Collector{}, fmt.Errorf("error creatings service collector: error: %w", err)
 	}
 	return Collector{
-		CollectorEmail:  param.CollectorEmail,
-		FirstName:       param.FirstName,
-		LastName:        param.LastName,
-		DisplayName:     param.DisplayName,
-		AvatarUrl:       param.AvatarUrl,
-		LocationCity:    param.LocationCity,
-		LocationState:   param.LocationState,
-		LocationCountry: param.LocationCountry,
-		LocationAddr:    param.LocationAddr,
-		AgentID:         agentId,
-		CollectorRole:   Collectorrole(param.CollectorRole),
+		CollectorEmail:     param.CollectorEmail,
+		FirstName:          param.FirstName,
+		LastName:           param.LastName,
+		DisplayName:        param.DisplayName,
+		AvatarUrl:          param.AvatarUrl,
+		LocationCity:       param.LocationCity,
+		LocationState:      param.LocationState,
+		LocationCountry:    param.LocationCountry,
+		LocationAddr:       param.LocationAddr,
+		TotalGlassWaste:    param.TotalGlassWaste,
+		TotalMetalWaste:    param.TotalMetalWaste,
+		TotalPlasticsWaste: param.TotalPlasticsWaste,
+		TotalPaperWaste:    param.TotalPaperWaste,
+		AgentID:            agentId,
+		CollectorRole:      Collectorrole(param.CollectorRole),
 	}, nil
+}
+
+type WasteByCollectorForMonthResponse struct {
+	TotalGlass     float64   `json:"total_glass"`
+	TotalMetal     float64   `json:"total_metal"`
+	TotalPlastics  float64   `json:"total_plastics"`
+	TotalPaper     float64   `json:"total_paper"`
+	TotalWasteLogs int64     `json:"total_waste_logs"`
+	GlassTrend     []float64 `json:"glass_trend"`
+	MetalTrend     []float64 `json:"metal_trend"`
+	PlasticTrend   []float64 `json:"plastic_trend"`
+	PaperTrend     []float64 `json:"paper_trend"`
+}
+
+// toFloat64 converts an interface{} to float64 safely
+func toFloat64(value interface{}) float64 {
+	if value == nil {
+		return 0
+	}
+	switch v := value.(type) {
+	case float64:
+		return v
+	case int:
+		return float64(v)
+	case int64:
+		return float64(v)
+	case string:
+		f, err := strconv.ParseFloat(v, 64)
+		if err != nil {
+			return 0
+		}
+		return f
+	default:
+		return 0
+	}
+}
+
+type AddNewAgentAsSuperCollectorParams struct {
+	CollectorEmail  string      `json:"collector_email"`
+	FirstName       string      `json:"first_name"`
+	LastName        string      `json:"last_name"`
+	DisplayName     string      `json:"display_name"`
+	AvatarUrl       string      `json:"avatar_url"`
+	LocationCity    string      `json:"location_city"`
+	LocationState   string      `json:"location_state"`
+	LocationCountry string      `json:"location_country"`
+	LocationAddr    interface{} `json:"location_addr"`
 }

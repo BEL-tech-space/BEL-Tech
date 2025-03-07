@@ -96,7 +96,7 @@ func scriptForScanPage() templ.Component {
 			templ_7745c5c3_Var2 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "<style>\n\t\t#toast-container {\n\t\t\tmargin-top: 0.25rem; \n\t\t}\n\t</style><script src=\"/public/assets/scripts/html5-qrcode.min.js\"></script><script src=\"/public/assets/scripts/jquery.min.js\"></script><script src=\"/public/assets/scripts/toastr.min.js\"></script><script src=\"/public/assets/scripts/hyperscript.min.js\"></script><script src=\"/public/assets/scripts/htmx.min.js\"></script><script src=\"/public/assets/scripts/notification.js\"></script><script>\n            const html5QrCode = new Html5Qrcode( \"reader\" );\n            let isScanning = false;\n\n\t\t\tconst data = {};\n\n            function scan () {\n                const readerContainer = document.getElementById( \"reader\" );\n                const xyz = document.getElementById( 'xyz' );\n                const scanButton = document.getElementsByClassName( 'scanButton' )[ 0 ];\n                const scanButtonText = document.getElementsByClassName( 'scanButtonText' )[ 0 ];\n                const width = xyz.offsetWidth;\n                const height = xyz.offsetHeight;\n\n                if ( isScanning )\n                {\n                    stopScanning();\n                    return;\n                }\n\n                readerContainer.style.width = `${( 83 / 100 ) * width}px`;\n                readerContainer.style.height = `${( 83 / 100 ) * height}px`;\n                const config = { fps: 10, qrbox: { width: width, height: height } };\n\t\t\t\t\n\t\t\t\tisScanning = true;\n\t\t\t\txyz.classList.toggle('hidden');\n\t\t\t\tscanButton.classList.add(\"bg-[#FF0000]\");\n\t\t\t\tscanButtonText.innerText = 'Cancel Scanning';\n\n                html5QrCode.start( { facingMode: \"environment\" }, config, qrCodeSuccessCallback, qrCodeErrorCallback )\n                    .then( () => {\n                       if (!isScanning) {\n\t\t\t\t\t\t\tisScanning = true;\n\t\t\t\t\t\t\txyz.classList.toggle('hidden');\n\t\t\t\t\t\t\tscanButton.classList.add(\"bg-[#FF0000]\");\n\t\t\t\t\t\t\tscanButtonText.innerText = 'Cancel Scanning';\n\t\t\t\t\t   }\n                    })\n                    .catch( ( err ) => {\n                        isScanning = false;\n                        console.error( err );\n                    } );\n            }\n\n            function qrCodeSuccessCallback ( decodedText, decodedResult ) {\t\t\t\t \n\t\t\t\tconst pairs = decodedText.split(\"#\");\n\t\t\t\t\tfor (const pair of pairs) {\n\t\t\t\t\t\tconst [key, value] = pair.split(\":\").map(str => str.trim());\n\n\t\t\t\t\t\tif (!key || value === undefined) {\n\t\t\t\t\t\t\tstopScanning();\n\t\t\t\t\t\t\ttoastr.options = {\n\t\t\t\t\t\t\t\t\"closeButton\": true,\n\t\t\t\t\t\t\t\t\"debug\": false,\n\t\t\t\t\t\t\t\t\"newestOnTop\": false,\n\t\t\t\t\t\t\t\t\"progressBar\": true,\n\t\t\t\t\t\t\t\t\"positionClass\": \"toast-top-center\",\n\t\t\t\t\t\t\t\t\"preventDuplicates\": true,\n\t\t\t\t\t\t\t\t\"onclick\": null,\n\t\t\t\t\t\t\t\t\"showDuration\": \"100\",\n\t\t\t\t\t\t\t\t\"hideDuration\": \"1000\",\n\t\t\t\t\t\t\t\t\"timeOut\": \"3000\",\n\t\t\t\t\t\t\t\t\"extendedTimeOut\": \"1000\",\n\t\t\t\t\t\t\t\t\"showEasing\": \"swing\",\n\t\t\t\t\t\t\t\t\"hideEasing\": \"linear\",\n\t\t\t\t\t\t\t\t\"showMethod\": \"slideDown\",\n\t\t\t\t\t\t\t\t\"hideMethod\": \"slideUp\"\n\t\t\t\t\t\t\t};\n\t\t\t\t\t\t\ttoastr[\"success\"](\"That does not seem like ours\");\n\t\t\t\t\t\t\treturn;\n\t\t\t\t\t\t}\n\n\t\t\t\t\t\tdata[key.toLowerCase()] = value;\n\t\t\t\t\t}\n\n\t\t\t\t// Update waste values in confirmWaste-bar\n\t\t\t\tdocument.querySelector('[data-waste=\"glass\"]').textContent = `${data[\"glass\"]} KG`;\n\t\t\t\tdocument.querySelector('[data-waste=\"plastics\"]').textContent = `${data[\"plastics\"]} KG`;\n\t\t\t\tdocument.querySelector('[data-waste=\"paper\"]').textContent = `${data[\"paper\"]} KG`;\n\t\t\t\tdocument.querySelector('[data-waste=\"metal\"]').textContent = `${data[\"metal\"]} KG`;\n\t\t\t\tdocument.querySelector('[data-txn=\"name\"]').textContent = `${data[\"txnname\"]}`;\n\t\t\t\tdocument.querySelector('[data-points=\"points\"]').textContent = `${data[\"points\"]}`;\n\n\t\t\t\t// Show the modal\n\t\t\t\tdocument.getElementById(\"confirmWaste-backdrop\").classList.remove(\"hidden\");\n\t\t\t\tconst confirmWasteBar = document.getElementById(\"confirmWaste-bar\");\n\t\t\t\tconfirmWasteBar.classList.remove(\"translate-y-full\");\n\t\t\t\tconfirmWasteBar.classList.add(\"translate-y-0\");\n\t\t\t\tstopScanning()\n            }\n\n\t\t\tfunction qrCodeErrorCallback ( error ) {\n                // console.error( \"from qrCodeErrorCallback \", error );\n            }\n\n            function stopScanning () {\n                html5QrCode.stop().then( ( ignore ) => {\n                    restoreScreen();\n                    isScanning = false;\n\t\t\t\t\tdata = {}\n                } )\n                    .catch( ( err ) => {\n                        restoreScreen();\n                        console.error( \"error clearing reader\", err );\n                    } );\n            }\n\n            function restoreScreen () {\n                const xyz = document.getElementById( \"xyz\" );\n                const scanButtonText = document.getElementsByClassName( \"scanButtonText\" )[ 0 ];\n                const scanButton = document.getElementsByClassName( 'scanButton' )[ 0 ];\n\n\n                document.getElementById( \"reader\" ).remove();\n                xyz.classList.toggle('hidden')\n\t\t\t\tscanButton.classList.remove(\"bg-[#FF0000]\");\n                scanButtonText.innerText = 'Scan';\n            }\n\n\t\t\tfunction getWasteData() {\n\t\t\t\treturn data\n\t\t\t}\n        </script>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "<style>\n\t\t#toast-container {\n\t\t\tmargin-top: 0.25rem; \n\t\t}\n\t</style><script src=\"/public/assets/scripts/html5-qrcode.min.js\"></script><script src=\"/public/assets/scripts/jquery.min.js\"></script><script src=\"/public/assets/scripts/toastr.min.js\"></script><script src=\"/public/assets/scripts/hyperscript.min.js\"></script><script src=\"/public/assets/scripts/htmx.min.js\"></script><script src=\"/public/assets/scripts/notification.js\"></script><script>\n            const html5QrCode = new Html5Qrcode( \"reader\" );\n            let isScanning = false;\n\n\t\t\tconst data = {};\n\n            function scan () {\n                const readerContainer = document.getElementById( \"reader\" );\n                const xyz = document.getElementById( 'xyz' );\n                const scanButton = document.getElementsByClassName( 'scanButton' )[ 0 ];\n                const scanButtonText = document.getElementsByClassName( 'scanButtonText' )[ 0 ];\n                const width = xyz.offsetWidth;\n                const height = xyz.offsetHeight;\n\n                if ( isScanning )\n                {\n                    stopScanning();\n                    return;\n                }\n\n                readerContainer.style.width = `${( 83 / 100 ) * width}px`;\n                readerContainer.style.height = `${( 83 / 100 ) * height}px`;\n                const config = { fps: 10, qrbox: { width: width, height: height } };\n\t\t\t\t\n\t\t\t\tisScanning = true;\n\t\t\t\txyz.classList.toggle('hidden');\n\t\t\t\tscanButton.classList.add(\"bg-[#FF0000]\");\n\t\t\t\tscanButtonText.innerText = 'Cancel Scanning';\n\n                html5QrCode.start( { facingMode: \"environment\" }, config, qrCodeSuccessCallback, qrCodeErrorCallback )\n                    .then( () => {\n                       if (!isScanning) {\n\t\t\t\t\t\t\tisScanning = true;\n\t\t\t\t\t\t\txyz.classList.toggle('hidden');\n\t\t\t\t\t\t\tscanButton.classList.add(\"bg-[#FF0000]\");\n\t\t\t\t\t\t\tscanButtonText.innerText = 'Cancel Scanning';\n\t\t\t\t\t   }\n                    })\n                    .catch( ( err ) => {\n                        isScanning = false;\n                        console.error( err );\n                    } );\n            }\n\n            function qrCodeSuccessCallback ( decodedText, decodedResult ) {\t\t\t\t \n\t\t\t\tconst pairs = decodedText.split(\"#\");\n\t\t\t\t\tfor (const pair of pairs) {\n\t\t\t\t\t\tconst [key, value] = pair.split(\":\").map(str => str.trim());\n\n\t\t\t\t\t\tif (!key || value === undefined) {\n\t\t\t\t\t\t\tstopScanning();\n\t\t\t\t\t\t\ttoastr.options = {\n\t\t\t\t\t\t\t\t\"closeButton\": true,\n\t\t\t\t\t\t\t\t\"debug\": false,\n\t\t\t\t\t\t\t\t\"newestOnTop\": false,\n\t\t\t\t\t\t\t\t\"progressBar\": true,\n\t\t\t\t\t\t\t\t\"positionClass\": \"toast-top-center\",\n\t\t\t\t\t\t\t\t\"preventDuplicates\": true,\n\t\t\t\t\t\t\t\t\"onclick\": null,\n\t\t\t\t\t\t\t\t\"showDuration\": \"100\",\n\t\t\t\t\t\t\t\t\"hideDuration\": \"1000\",\n\t\t\t\t\t\t\t\t\"timeOut\": \"3000\",\n\t\t\t\t\t\t\t\t\"extendedTimeOut\": \"1000\",\n\t\t\t\t\t\t\t\t\"showEasing\": \"swing\",\n\t\t\t\t\t\t\t\t\"hideEasing\": \"linear\",\n\t\t\t\t\t\t\t\t\"showMethod\": \"slideDown\",\n\t\t\t\t\t\t\t\t\"hideMethod\": \"slideUp\"\n\t\t\t\t\t\t\t};\n\t\t\t\t\t\t\ttoastr[\"success\"](\"That does not seem like ours\");\n\t\t\t\t\t\t\treturn;\n\t\t\t\t\t\t}\n\n\t\t\t\t\t\tdata[key.toLowerCase()] = value;\n\t\t\t\t\t}\n\n\t\t\t\t// Update waste values in confirmWaste-bar\n\t\t\t\tdocument.querySelector('[data-waste=\"glass\"]').textContent = `${data[\"glass\"]} KG`;\n\t\t\t\tdocument.querySelector('[data-waste=\"plastics\"]').textContent = `${data[\"plastics\"]} KG`;\n\t\t\t\tdocument.querySelector('[data-waste=\"paper\"]').textContent = `${data[\"paper\"]} KG`;\n\t\t\t\tdocument.querySelector('[data-waste=\"metal\"]').textContent = `${data[\"metal\"]} KG`;\n\t\t\t\tdocument.querySelector('[data-txn=\"name\"]').textContent = `${data[\"txnname\"]}`;\n\t\t\t\tdocument.querySelector('[data-points=\"points\"]').textContent = `${data[\"points\"]}`;\n\n\t\t\t\t// Show the modal\n\t\t\t\tdocument.getElementById(\"confirmWaste-backdrop\").classList.remove(\"hidden\");\n\t\t\t\tconst confirmWasteBar = document.getElementById(\"confirmWaste-bar\");\n\t\t\t\tconfirmWasteBar.classList.remove(\"translate-y-full\");\n\t\t\t\tconfirmWasteBar.classList.add(\"translate-y-0\");\n\t\t\t\tstopScanning()\n            }\n\n\t\t\tfunction qrCodeErrorCallback ( error ) {\n                // console.error( \"from qrCodeErrorCallback \", error );\n            }\n\n            function stopScanning () {\n                html5QrCode.stop().then( ( ignore ) => {\n                    restoreScreen();\n                    isScanning = false;\n\t\t\t\t\tdata = {}\n                } ).catch( ( err ) => {\n                    console.error( \"error clearing reader\", err );\n                    } );\n            }\n\n            function restoreScreen () {\n                const reader = document.getElementById( \"reader\" );\n\t\t\t\tif (reader) {\n\t\t\t\t\treader.remove();\n\t\t\t\t}\n                document.getElementById( \"xyz\" ).classList.toggle('hidden')\n\t\t\t\tdocument.getElementsByClassName( 'scanButton' )[ 0 ].classList.remove(\"bg-[#FF0000]\");\n                document.getElementsByClassName( \"scanButtonText\" )[ 0 ].innerText = 'Scan';\n            }\n\n\t\t\tfunction getWasteData() {\n\t\t\t\treturn data\n\t\t\t}\n        </script>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -132,13 +132,55 @@ func confirmWaste(accountEmail string) templ.Component {
 		var templ_7745c5c3_Var4 string
 		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(accountEmail)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.scanQR.templ`, Line: 257, Col: 31}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.scanQR.templ`, Line: 253, Col: 31}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "\"><section class=\"flex flex-col justify-center items-start gap-2 font-tt_chocolate\"><p>Confirm your waste details match before proceeding</p><div class=\"flex justify-center items-center gap-2\"><p class=\"font-semibold\">Glass:</p><p data-waste=\"glass\">0 KG</p></div><div class=\"flex justify-center items-center gap-2\"><p class=\"font-semibold\">Plastics:</p><p data-waste=\"plastics\">0 KG</p></div><div class=\"flex justify-center items-center gap-2\"><p class=\"font-semibold\">Paper:</p><p data-waste=\"paper\">0 KG</p></div><div class=\"flex justify-center items-center gap-2\"><p class=\"font-semibold\">Metal:</p><p data-waste=\"metal\">0 KG</p></div><div class=\"flex justify-center items-center gap-2\"><p class=\"font-semibold\">Txn Name:</p><p data-txn=\"name\"></p></div><div class=\"flex justify-center items-center gap-2\"><p class=\"font-semibold\">Bel Point Earned:</p><p data-points=\"points\"></p></div></section><section class=\"w-full mt-8 flex justify-between items-center gap-2\"><button type=\"button\" hx-post=\"/account/confirmWaste\" hx-swap=\"outerHTML\" hx-trigger=\"click\" hx-vals=\"js:{...getWasteData()}\" hx-indicator=\"#spinner\" class=\"outline-none rounded-md mb-2 font-medium bg-black text-[0.813rem] leading-5 tracking-[0.00625em] py-[0.625rem] px-8 text-center text-white\">Confirm from the server <span id=\"spinner\" class=\"loading loading-spinner loading-md htmx-indicator\"></span></button> <button type=\"button\" _=\"on click \n\t\t\t\t\tif #confirmWaste-bar.classList contains &#39;translate-y-0&#39;\n\t\t\t\t\t\ttell #confirmWaste-bar\n\t\t\t\t\t\tremove .translate-y-0 then add .translate-y-full\n\t\t\t\t\t\tthen add .hidden to #confirmWaste-backdrop\n\t\t\t\t\tend\" class=\"outline-none rounded-md mb-2 font-medium bg-red-400 text-[0.813rem] leading-5 tracking-[0.00625em] py-[0.625rem] px-8 text-center text-black\">Cancel</button></section></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "\"><section class=\"flex flex-col justify-center items-start gap-2 font-tt_chocolate\"><p>Confirm your waste details match before proceeding</p><div class=\"flex justify-center items-center gap-2\"><p class=\"font-semibold\">Glass:</p><p data-waste=\"glass\">0 KG</p></div><div class=\"flex justify-center items-center gap-2\"><p class=\"font-semibold\">Plastics:</p><p data-waste=\"plastics\">0 KG</p></div><div class=\"flex justify-center items-center gap-2\"><p class=\"font-semibold\">Paper:</p><p data-waste=\"paper\">0 KG</p></div><div class=\"flex justify-center items-center gap-2\"><p class=\"font-semibold\">Metal:</p><p data-waste=\"metal\">0 KG</p></div><div class=\"flex justify-center items-center gap-2\"><p class=\"font-semibold\">Txn Name:</p><p data-txn=\"name\"></p></div><div class=\"flex justify-center items-center gap-2\"><p class=\"font-semibold\">Bel Point Earned:</p><p data-points=\"points\"></p></div></section><section class=\"w-full mt-8 flex justify-between items-center gap-2\"><button type=\"button\" hx-post=\"/account/confirmWaste\" hx-swap=\"outerHTML\" hx-trigger=\"click\" hx-vals=\"js:{...getWasteData()}\" hx-indicator=\"#spinner\" class=\"outline-none rounded-md mb-2 font-medium bg-black text-[0.813rem] leading-5 tracking-[0.00625em] py-[0.625rem] px-8 text-center text-white\">Confirm from the server <span id=\"spinner\" class=\"loading loading-dots loading-md htmx-indicator\"></span></button> <button type=\"button\" _=\"on click \n\t\t\t\t\tif #confirmWaste-bar.classList contains &#39;translate-y-0&#39;\n\t\t\t\t\t\ttell #confirmWaste-bar\n\t\t\t\t\t\tremove .translate-y-0 then add .translate-y-full\n\t\t\t\t\t\tthen add .hidden to #confirmWaste-backdrop\n\t\t\t\t\tend\" class=\"outline-none rounded-md mb-2 font-medium bg-red-400 text-[0.813rem] leading-5 tracking-[0.00625em] py-[0.625rem] px-8 text-center text-black\">Cancel</button></section></div>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		return nil
+	})
+}
+
+func ErorOnSubmitWaste(errMessage string) templ.Component {
+	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
+		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
+		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
+			return templ_7745c5c3_CtxErr
+		}
+		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
+		if !templ_7745c5c3_IsBuffer {
+			defer func() {
+				templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
+				if templ_7745c5c3_Err == nil {
+					templ_7745c5c3_Err = templ_7745c5c3_BufErr
+				}
+			}()
+		}
+		ctx = templ.InitializeContext(ctx)
+		templ_7745c5c3_Var5 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var5 == nil {
+			templ_7745c5c3_Var5 = templ.NopComponent
+		}
+		ctx = templ.ClearChildren(ctx)
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "<button type=\"button\" disabled class=\"outline-none rounded-md mb-2 font-medium bg-gray-600 text-[0.813rem] leading-5 tracking-[0.00625em] py-[0.625rem] px-8 text-center text-white\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var6 string
+		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(errMessage)
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.scanQR.templ`, Line: 315, Col: 14}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "</button>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -162,12 +204,12 @@ func SubmitWaste() templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var5 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var5 == nil {
-			templ_7745c5c3_Var5 = templ.NopComponent
+		templ_7745c5c3_Var7 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var7 == nil {
+			templ_7745c5c3_Var7 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "<button type=\"button\" hx-post=\"/account/submitWaste\" hx-trigger=\"click\" hx-swap=\"innerHTML\" hx-target=\"#confirmWaste-bar\" hx-vals=\"js:{...getWasteData()}\" class=\"outline-none rounded-md mb-2 font-medium bg-[#016934] text-[0.813rem] leading-5 tracking-[0.00625em] py-[0.625rem] px-8 text-center text-white\">Claim your BEL points</button>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "<button type=\"button\" hx-post=\"/account/submitWaste\" hx-trigger=\"click\" hx-swap=\"innerHTML\" hx-target=\"#confirmWaste-bar\" hx-vals=\"js:{...getWasteData()}\" hx-indicator=\"#spinner\" class=\"outline-none rounded-md mb-2 font-medium bg-[#016934] text-[0.813rem] leading-5 tracking-[0.00625em] py-[0.625rem] px-8 text-center text-white\">Claim your BEL points <span id=\"spinner\" class=\"loading loading-dots loading-md htmx-indicator\"></span></button>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -191,25 +233,25 @@ func ClaimSuccessful(belPointsEarned float64) templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var6 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var6 == nil {
-			templ_7745c5c3_Var6 = templ.NopComponent
+		templ_7745c5c3_Var8 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var8 == nil {
+			templ_7745c5c3_Var8 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "<section class=\"px-8 pt-6 flex flex-col justify-center items-center\"><img src=\"/public/assets/images/confetti.png\" alt=\"\" class=\"w-[11.313rem] aspect-square\"><p class=\"font-poppins font-normal text-xs leading-[1.125rem] text-center my-4\">we have added  <a href=\"/account/wallet\" class=\"text-[#016934] underline decoration-[#016934]\">+")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, "<section class=\"px-8 pt-6 flex flex-col justify-center items-center\"><img src=\"/public/assets/images/confetti.png\" alt=\"\" class=\"w-[11.313rem] aspect-square\"><p class=\"font-poppins font-normal text-xs leading-[1.125rem] text-center my-4\">we have added  <a href=\"/account/wallet\" class=\"text-[#016934] underline decoration-[#016934]\">+")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var7 string
-		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%s points", formatFloatWithComma(belPointsEarned, 2)))
+		var templ_7745c5c3_Var9 string
+		templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%s points", formatFloatWithComma(belPointsEarned, 2)))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.scanQR.templ`, Line: 332, Col: 152}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/account/page.scanQR.templ`, Line: 340, Col: 152}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "</a> to your BEL point balance, let do more... champ.</p><button type=\"button\" _=\"on click \n\t\t\t\tif #confirmWaste-bar.classList contains &#39;translate-y-0&#39;\n\t\t\t\t\ttell #confirmWaste-bar\n\t\t\t\t\tremove .translate-y-0 then add .translate-y-full\n\t\t\t\t\tthen add .hidden to #confirmWaste-backdrop\n\t\t\t\tend\" class=\"bg-[#016934] text-white font-montserrat font-medium text-[0.813rem] leading-5 text-center tracking-[0.00625em] py-[0.625rem] px-[5.969rem] rounded-md\">Thank You</button></section>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, "</a> to your BEL point balance, let do more... champ.</p><button type=\"button\" _=\"on click \n\t\t\t\tif #confirmWaste-bar.classList contains &#39;translate-y-0&#39;\n\t\t\t\t\ttell #confirmWaste-bar\n\t\t\t\t\tremove .translate-y-0 then add .translate-y-full\n\t\t\t\t\tthen add .hidden to #confirmWaste-backdrop\n\t\t\t\tend\" class=\"bg-[#016934] text-white font-montserrat font-medium text-[0.813rem] leading-5 text-center tracking-[0.00625em] py-[0.625rem] px-[5.969rem] rounded-md\">Thank You</button></section>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

@@ -2,6 +2,7 @@ package http
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"net/http"
 	"slices"
@@ -16,24 +17,17 @@ func (a *App) wasteHistoryHandler(w http.ResponseWriter, r *http.Request) {
 
 	var wasteType string
 	if wasteType = chi.URLParam(r, "wasteType"); wasteType == "" {
-		http.Error(w, "WasteType not specified", http.StatusBadRequest)
+		a.clientError(w, http.StatusBadRequest, errors.New("WasteType not specified"))
 		return
 	}
 
 	if wasteType != "glass" && wasteType != "metal" &&
 		wasteType != "paper" && wasteType != "plastics" {
-		http.Error(w, "Invalid wasteType", http.StatusBadRequest)
+		a.clientError(w, http.StatusBadRequest, errors.New("invalid wasteType"))
 		return
 	}
 
 	accountEmail := r.Context().Value(contextKeyEmail).(string)
-	user, err := a.getAccountFromCache(context.Background(), accountEmail)
-	if err != nil {
-		fmt.Println("error occured here")
-		a.serverError(w, err)
-		return
-	}
-
 	wasteLog, err := a.service.GetWasteLogByAccountPaginated(
 		r.Context(),
 		accountEmail,
@@ -42,6 +36,7 @@ func (a *App) wasteHistoryHandler(w http.ResponseWriter, r *http.Request) {
 	)
 	if err != nil {
 		a.serverError(w, fmt.Errorf("error getting wastelog: %w", err))
+		return
 	}
 
 	sortedWaste := sortWasteType(wasteLog)
@@ -56,6 +51,12 @@ func (a *App) wasteHistoryHandler(w http.ResponseWriter, r *http.Request) {
 		needed = sortedWaste.Plastics
 	case "paper":
 		needed = sortedWaste.Paper
+	}
+
+	user, err := a.getAccountFromCache(context.Background(), accountEmail)
+	if err != nil {
+		a.serverError(w, err)
+		return
 	}
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
