@@ -12,7 +12,7 @@ func (a *App) agentRouter() http.Handler {
 
 	r.Route("/auth", func(r chi.Router) {
 		r.Get("/{provider}", a.signInWithProviderAgent)
-		r.Get("/{provider}/callback", a.callbackHandlerAgent)
+		r.Get("/{provider}/callback", a.callbackHandler)
 		// r.Get("/logout/{provider}", a.logout)
 	})
 

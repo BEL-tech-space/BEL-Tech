@@ -12,7 +12,7 @@ func (a *App) agentDashboard(w http.ResponseWriter, r *http.Request) {
 
 	agentId := r.Context().Value(contextKeyAgentID).(uuid.UUID)
 	res, err := a.service.GetWasteByCollectorForMonth(
-		r.Context(),
+		context.Background(),
 		agentId,
 		deduceTime(0),
 	)

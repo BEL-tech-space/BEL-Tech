@@ -7,7 +7,6 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/go-chi/chi/v5"
 	"github.com/gorilla/sessions"
 	"github.com/markbates/goth"
 	"github.com/markbates/goth/gothic"
@@ -23,71 +22,17 @@ var (
 )
 
 func (a *App) signInWithProviderAccount(w http.ResponseWriter, r *http.Request) {
-
-	var provider string
-	if provider = chi.URLParam(r, "provider"); provider == "" {
-		http.Redirect(w, r, "/account/login.html", http.StatusTemporaryRedirect)
-		return
-	}
-
-	if provider != "google" && provider != "facebook" {
-		http.Redirect(w, r, "/account/login.html", http.StatusTemporaryRedirect)
-		return
-	}
-
-	if a.config.Build != productionEnv {
-		http.Redirect(w, r, fmt.Sprintf("/account/auth/%s/callback", provider), http.StatusTemporaryRedirect)
-		return
-	}
-
-	q := r.URL.Query()
-	q.Add("provider", provider)
-	r.URL.RawQuery = q.Encode()
-
-	// try to get the user without re-authenticating
-	// if gothUser, err := gothic.CompleteUserAuth(w, r); err == nil {
-	// 	if err = a.logInAccount(w, r, gothUser); err != nil {
-	// 		http.Redirect(w, r, "/account/login.html", http.StatusTemporaryRedirect)
-	// 		return
-	// 	}
-
-	// 	http.Redirect(w, r, "/account/dashboard", http.StatusTemporaryRedirect)
-	// 	return
-	// }
-
-	gothic.BeginAuthHandler(w, r)
-}
-
-func (a *App) callbackHandlerAccount(w http.ResponseWriter, r *http.Request) {
-	var (
-		user = devGothUser
-		err  error
-	)
-
-	if a.config.Build == productionEnv {
-		if user, err = gothic.CompleteUserAuth(w, r); err != nil {
-			http.Redirect(w, r, "/account/login.html", http.StatusTemporaryRedirect)
-			return
-		}
-	}
-
-	if err = a.logInAccount(w, r, user); err != nil {
-		http.Redirect(w, r, "/account/login.html", http.StatusTemporaryRedirect)
-		return
-	}
-
-	http.Redirect(w, r, "/account/welcome", http.StatusTemporaryRedirect)
+	a.signInWithProvider(w, r, "account")
 }
 
 func (a *App) logInAccount(w http.ResponseWriter, r *http.Request, u goth.User) error {
-
 	user, err := a.service.CreateOrUpdateUser(context.Background(), mapGothUserToServiceUser(u))
 	if err != nil {
 		fmt.Println("err came from create or update user:", err)
 		return err
 	}
 
-	fmt.Println(user.IsNew, "is new")
+	fmt.Printf("account %s is new: %v\n", user.AccountEmail, user.IsNew)
 
 	if user.IsNew {
 		http.SetCookie(w, &http.Cookie{

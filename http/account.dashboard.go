@@ -32,16 +32,15 @@ func (a *App) dashboardPageHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if isNewAccount {
-		go func() {
-			err := a.sendGreetingEmail(accountEmail)
-			if err != nil {
-				fmt.Println("error sending email:", err)
+		go func(accountEmail string) {
+			if err := a.sendGreetingEmail(accountEmail); err != nil {
+				fmt.Printf("error sending email to %s: error: %s\n", accountEmail, err.Error())
 			}
-		}()
+		}(accountEmail)
 	}
 
 	res, err := a.service.GetWasteByAccountForMonth(
-		r.Context(),
+		context.Background(),
 		accountEmail,
 		deduceTime(0),
 	)
@@ -60,13 +59,13 @@ func (a *App) dashboardPageHandler(w http.ResponseWriter, r *http.Request) {
 
 func (a *App) dashboardEchart(w http.ResponseWriter, r *http.Request) {
 	month := r.URL.Query().Get("month")
-	
+
 	num, err := strconv.Atoi(month)
 	if err != nil {
 		a.clientError(w, http.StatusBadRequest, fmt.Errorf("invalid query parameter for month: %s", err.Error()))
 		return
 	}
-	
+
 	accountEmail := r.Context().Value(contextKeyEmail).(string)
 	res, err := a.service.GetWasteByAccountForMonth(
 		r.Context(),
@@ -77,7 +76,7 @@ func (a *App) dashboardEchart(w http.ResponseWriter, r *http.Request) {
 		a.serverError(w, err)
 		return
 	}
-	
+
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := accPages.DashboardEchart(
 		produceChartHTML(sumWasteLogForGraph(res), deduceTime(num))).Render(context.TODO(), w); err != nil {
