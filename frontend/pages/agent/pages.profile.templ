@@ -28,7 +28,7 @@ templ ProfilePage(collector service.Collector) {
 								name="nickName"
 								maxlength="20"
 								value={ collector.DisplayName }
-								class="w-[21.375rem] aspect-[342/36] rounded border-[0.0313rem] outline-none border-[#569B78] border-solid text-xs font-medium pl-3 pt-1"
+								class="w-[21.375rem] aspect-[342/36] rounded border-[0.0313rem] outline-none border-[#569B78] border-solid font-medium pl-3 pt-1"
 								_="on input
 									tell #saveButton
 									if my.value.trim()
