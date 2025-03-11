@@ -215,3 +215,16 @@ func (s *Service) GetWasteByCollectorForMonth(ctx context.Context, agentID uuid.
 
 	return response, nil
 }
+
+func (s *Service) UpdateCollectorDisplayName(ctx context.Context, collectorEmail, newDisplayName string) (Collector, error) {
+
+	collector, err := s.dbQuery.UpdateCollectorDisplayName(ctx, postgres.UpdateCollectorDisplayNameParams{
+		CollectorEmail: collectorEmail,
+		DisplayName:    newDisplayName,
+	})
+	if err != nil {
+		return Collector{}, err
+	}
+
+	return makeServiceCollector(collector)
+}

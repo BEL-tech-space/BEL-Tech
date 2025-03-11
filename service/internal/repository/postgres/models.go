@@ -192,22 +192,3 @@ type WasteLog struct {
 	AccountEmail         string           `json:"account_email"`
 	CreatedAt            pgtype.Timestamp `json:"created_at"`
 }
-
-type WasteLogsTemp struct {
-	WasteID              pgtype.UUID      `json:"waste_id"`
-	GlassWeighed         float32          `json:"glass_weighed"`
-	MetalWeighed         float32          `json:"metal_weighed"`
-	PlasticsWeighed      float32          `json:"plastics_weighed"`
-	PaperWeighed         float32          `json:"paper_weighed"`
-	GlassPointsEarned    float32          `json:"glass_points_earned"`
-	MetalPointsEarned    float32          `json:"metal_points_earned"`
-	PlasticsPointsEarned float32          `json:"plastics_points_earned"`
-	PaperPointsEarned    float32          `json:"paper_points_earned"`
-	TotalPointsEarned    float64          `json:"total_points_earned"`
-	LocationAddr         interface{}      `json:"location_addr"`
-	TxnName              string           `json:"txn_name"`
-	StatusReport         string           `json:"status_report"`
-	CollectedRoute       Agenttype        `json:"collected_route"`
-	AgentID              pgtype.UUID      `json:"agent_id"`
-	CreatedAt            pgtype.Timestamp `json:"created_at"`
-}

@@ -55,53 +55,53 @@ func ProfilePage(collector service.Collector) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<form class=\"mt-10 flex flex-col justify-center items-center gap-6\"><div class=\"relative\"><label for=\"firstname\" name=\"collector\" class=\"font-bold text-sm tracking-[0.025rem] text-[#49454F]\">First Name</label> <input id=\"firstname\" type=\"text\" value=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<form method=\"post\" action=\"/agent/profile/updateDisplayName\" class=\"mt-10 flex flex-col justify-center items-center gap-6\"><div class=\"relative\"><label for=\"firstname\" name=\"collector\" class=\"font-bold text-sm tracking-[0.025rem] text-[#49454F]\">First Name</label> <input disabled id=\"firstname\" type=\"text\" value=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var2 string
 		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(collector.FirstName)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/agent/pages.profile.templ`, Line: 17, Col: 68}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/agent/pages.profile.templ`, Line: 17, Col: 77}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "\" class=\"w-[21.375rem] aspect-[342/36] rounded border-[0.0313rem] outline-none border-[#569B78] border-solid text-xs font-medium pl-3 pt-1\"></div><div class=\"relative\"><label for=\"lastname\" name=\"collector\" class=\"font-bold text-sm tracking-[0.025rem] text-[#49454F]\">Last Name</label> <input id=\"lastname\" type=\"text\" value=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "\" class=\"w-[21.375rem] aspect-[342/36] rounded border-[0.0313rem] outline-none border-[#569B78] border-solid text-xs font-medium pl-3 pt-1\"></div><div class=\"relative\"><label for=\"lastname\" name=\"collector\" class=\"font-bold text-sm tracking-[0.025rem] text-[#49454F]\">Last Name</label> <input disabled id=\"lastname\" type=\"text\" value=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var3 string
 		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(collector.LastName)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/agent/pages.profile.templ`, Line: 21, Col: 66}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/agent/pages.profile.templ`, Line: 21, Col: 75}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "\" class=\"w-[21.375rem] aspect-[342/36] rounded border-[0.0313rem] outline-none border-[#569B78] border-solid text-xs font-medium pl-3 pt-1\"></div><div class=\"relative\"><label for=\"nickName\" name=\"collector\" class=\"font-bold text-sm tracking-[0.025rem] text-[#49454F]\">Display Name</label> <input id=\"nickName\" type=\"text\" value=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "\" class=\"w-[21.375rem] aspect-[342/36] rounded border-[0.0313rem] outline-none border-[#569B78] border-solid text-xs font-medium pl-3 pt-1\"></div><div class=\"relative\"><label for=\"nickName\" name=\"collector\" class=\"font-bold text-sm tracking-[0.025rem] text-[#49454F]\">Display Name</label> <input id=\"nickName\" type=\"text\" name=\"nickName\" maxlength=\"20\" value=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var4 string
 		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(collector.DisplayName)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/agent/pages.profile.templ`, Line: 25, Col: 69}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/agent/pages.profile.templ`, Line: 30, Col: 37}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "\" class=\"w-[21.375rem] aspect-[342/36] rounded border-[0.0313rem] outline-none border-[#569B78] border-solid text-xs font-medium pl-3 pt-1\"></div><div class=\"relative\"><label for=\"email\" name=\"collector\" class=\"font-bold text-sm tracking-[0.025rem] text-[#49454F]\">Email Address</label> <input disabled id=\"email\" type=\"text\" value=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "\" class=\"w-[21.375rem] aspect-[342/36] rounded border-[0.0313rem] outline-none border-[#569B78] border-solid text-xs font-medium pl-3 pt-1\" _=\"on input\n\t\t\t\t\t\t\t\t\ttell #saveButton\n\t\t\t\t\t\t\t\t\tif my.value.trim()\n\t\t\t\t\t\t\t\t\t\tremove @disabled then remove .opacity-45 then remove .{&#39;bg-green-400&#39;}\n\t\t\t\t\t\t\t\t\t\tthen add .{&#39;bg-[#016934]&#39;}\n\t\t\t\t\t\t\t\t\telse\n\t\t\t\t\t\t\t\t\t\tadd @disabled then add .opacity-45 then add .{&#39;bg-green-400&#39;}\n\t\t\t\t\t\t\t\t\t\tthen remove .{&#39;bg-[#016934]&#39;}\n\t\t\t\t\t\t\t\t\tend\"></div><div class=\"relative\"><label for=\"email\" name=\"collector\" class=\"font-bold text-sm tracking-[0.025rem] text-[#49454F]\">Email Address</label> <input disabled id=\"email\" type=\"text\" value=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var5 string
 		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(collector.CollectorEmail)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/agent/pages.profile.templ`, Line: 29, Col: 78}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/agent/pages.profile.templ`, Line: 45, Col: 78}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 		if templ_7745c5c3_Err != nil {
@@ -114,7 +114,7 @@ func ProfilePage(collector service.Collector) templ.Component {
 		var templ_7745c5c3_Var6 string
 		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(string(collector.CollectorRole))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/agent/pages.profile.templ`, Line: 33, Col: 84}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/agent/pages.profile.templ`, Line: 49, Col: 84}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 		if templ_7745c5c3_Err != nil {
@@ -125,12 +125,12 @@ func ProfilePage(collector service.Collector) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		if string(collector.CollectorRole) == "super_collector" {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "<section class=\"w-full flex justify-around items-center gap-[0.625rem]\"><button class=\"w-full bg-[#016934] py-3 rounded-md px-[5.438rem] font-montserrat font-medium text-sm text-center tracking-[0.1px] text-white text-nowrap\">Save Changes</button> <a href=\"/agent/addNewCollector\" title=\"add new collector\" class=\"bg-[#CCE1D699] py-4 px-4 rounded-md inline justify-center items-center\"><img src=\"/public/assets/svg/+.svg\" class=\"w-[1.125rem] aspect-square\"></a></section>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "<section class=\"w-full flex justify-around items-center gap-[0.625rem]\"><button id=\"saveButton\" disabled type=\"submit\" class=\"w-full opacity-45 bg-green-400 py-3 rounded-md px-[5.438rem] font-montserrat font-medium text-sm text-center tracking-[0.1px] text-white text-nowrap\">Update display name</button> <a href=\"/agent/addNewCollector\" title=\"add new collector\" class=\"bg-[#CCE1D699] py-4 px-4 rounded-md inline justify-center items-center\"><img src=\"/public/assets/svg/+.svg\" class=\"w-[1.125rem] aspect-square\"></a></section>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		} else {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "<div class=\"my-7 w-full\"><button class=\"w-full bg-[#016934] py-3 rounded-md px-[5.438rem] font-montserrat font-medium text-sm text-center tracking-[0.1px] text-white text-nowrap\">Save Changes</button></div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "<div class=\"my-7 w-full\"><button id=\"saveButton\" disabled type=\"submit\" class=\"w-full opacity-45 bg-green-400 py-3 rounded-md px-[5.438rem] font-montserrat font-medium text-sm text-center tracking-[0.1px] text-white text-nowrap\">Update display name</button></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

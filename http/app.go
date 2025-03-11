@@ -55,7 +55,7 @@ func NewApp(
 	goth.UseProviders(
 		google.New(cfg.LoginProvider.Google.ClientKey, cfg.LoginProvider.Google.Secret, callbackURL),
 	)
-	
+
 	// google.New(cfg.LoginProvider.Google.ClientKey, cfg.LoginProvider.Google.Secret, "https://beltech.site/account/agent/google/callback"),
 	app := App{}
 	app.config = cfg
@@ -115,8 +115,19 @@ func (a *App) setupdDevModeCollectors() error {
 		return err
 	}
 
-	a.collectors = make(map[string]service.Collector, 2)
-	a.collectors[me.CollectorEmail] = me
+	collectors, err := a.service.GetAllCollectors(context.Background())
+	if err != nil {
+		return err
+	}
+
+	a.collectors = make(map[string]service.Collector, len(collectors)+1)
+	for _, v := range collectors {
+		a.collectors[v.CollectorEmail] = v
+	}
+
+	if _, ok := a.collectors[me.CollectorEmail]; !ok {
+		a.collectors[me.CollectorEmail] = me
+	}
 
 	return nil
 }

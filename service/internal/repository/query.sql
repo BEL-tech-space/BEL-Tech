@@ -113,6 +113,13 @@ SET is_deleted = TRUE, deleted_at = NOW()
 WHERE agent_ID = $1 AND agent_type = 'collector' AND is_deleted = FALSE;
 
 
+-- name: UpdateCollectorDisplayName :one
+UPDATE collectors
+SET display_name = $1
+WHERE collector_email = $2
+RETURNING *;
+
+
 -- name: DeleteBeneficiary :many
 WITH deleted_row AS (
     DELETE FROM beneficiaries

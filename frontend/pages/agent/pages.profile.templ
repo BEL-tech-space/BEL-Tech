@@ -11,18 +11,34 @@ templ ProfilePage(collector service.Collector) {
 				@profileBar(collector)
 				<main class="grow overflow-y-scroll px-6">
 					@letRecycleAndProfile("Collector")
-					<form class="mt-10 flex flex-col justify-center items-center gap-6">
+					<form method="post" action="/agent/profile/updateDisplayName" class="mt-10 flex flex-col justify-center items-center gap-6">
 						<div class="relative">
 							<label for="firstname" name="collector" class="font-bold text-sm tracking-[0.025rem] text-[#49454F]">First Name</label>
-							<input id="firstname" type="text" value={ collector.FirstName } class="w-[21.375rem] aspect-[342/36] rounded border-[0.0313rem] outline-none border-[#569B78] border-solid text-xs font-medium pl-3 pt-1"/>
+							<input disabled id="firstname" type="text" value={ collector.FirstName } class="w-[21.375rem] aspect-[342/36] rounded border-[0.0313rem] outline-none border-[#569B78] border-solid text-xs font-medium pl-3 pt-1"/>
 						</div>
 						<div class="relative">
 							<label for="lastname" name="collector" class="font-bold text-sm tracking-[0.025rem] text-[#49454F]">Last Name</label>
-							<input id="lastname" type="text" value={ collector.LastName } class="w-[21.375rem] aspect-[342/36] rounded border-[0.0313rem] outline-none border-[#569B78] border-solid text-xs font-medium pl-3 pt-1"/>
+							<input disabled id="lastname" type="text" value={ collector.LastName } class="w-[21.375rem] aspect-[342/36] rounded border-[0.0313rem] outline-none border-[#569B78] border-solid text-xs font-medium pl-3 pt-1"/>
 						</div>
 						<div class="relative">
 							<label for="nickName" name="collector" class="font-bold text-sm tracking-[0.025rem] text-[#49454F]">Display Name</label>
-							<input id="nickName" type="text" value={ collector.DisplayName } class="w-[21.375rem] aspect-[342/36] rounded border-[0.0313rem] outline-none border-[#569B78] border-solid text-xs font-medium pl-3 pt-1"/>
+							<input
+								id="nickName"
+								type="text"
+								name="nickName"
+								maxlength="20"
+								value={ collector.DisplayName }
+								class="w-[21.375rem] aspect-[342/36] rounded border-[0.0313rem] outline-none border-[#569B78] border-solid text-xs font-medium pl-3 pt-1"
+								_="on input
+									tell #saveButton
+									if my.value.trim()
+										remove @disabled then remove .opacity-45 then remove .{'bg-green-400'}
+										then add .{'bg-[#016934]'}
+									else
+										add @disabled then add .opacity-45 then add .{'bg-green-400'}
+										then remove .{'bg-[#016934]'}
+									end"
+							/>
 						</div>
 						<div class="relative">
 							<label for="email" name="collector" class="font-bold text-sm tracking-[0.025rem] text-[#49454F]">Email Address</label>
@@ -34,8 +50,8 @@ templ ProfilePage(collector service.Collector) {
 						</div>
 						if string(collector.CollectorRole) == "super_collector" {
 							<section class="w-full flex justify-around items-center gap-[0.625rem]">
-								<button class="w-full bg-[#016934] py-3 rounded-md px-[5.438rem] font-montserrat font-medium text-sm text-center tracking-[0.1px] text-white text-nowrap">
-									Save Changes
+								<button id="saveButton" disabled type="submit" class="w-full opacity-45 bg-green-400 py-3 rounded-md px-[5.438rem] font-montserrat font-medium text-sm text-center tracking-[0.1px] text-white text-nowrap">
+									Update display name
 								</button>
 								<a
 									href="/agent/addNewCollector"
@@ -50,8 +66,8 @@ templ ProfilePage(collector service.Collector) {
 							</section>
 						} else {
 							<div class="my-7 w-full">
-								<button class="w-full bg-[#016934] py-3 rounded-md px-[5.438rem] font-montserrat font-medium text-sm text-center tracking-[0.1px] text-white text-nowrap">
-									Save Changes
+								<button id="saveButton" disabled type="submit" class="w-full opacity-45 bg-green-400 py-3 rounded-md px-[5.438rem] font-montserrat font-medium text-sm text-center tracking-[0.1px] text-white text-nowrap">
+									Update display name
 								</button>
 							</div>
 						}
