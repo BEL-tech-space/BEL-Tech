@@ -81,7 +81,7 @@ func ProfilePage(collector service.Collector) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "\" class=\"w-[21.375rem] aspect-[342/36] rounded border-[0.0313rem] outline-none border-[#569B78] border-solid text-xs font-medium pl-3 pt-1\"></div><div class=\"relative\"><label for=\"nickName\" name=\"collector\" class=\"font-bold text-sm tracking-[0.025rem] text-[#49454F]\">Display Name</label> <input id=\"nickName\" type=\"text\" name=\"nickName\" maxlength=\"20\" value=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "\" class=\"w-[21.375rem] aspect-[342/36] rounded border-[0.0313rem] outline-none border-[#569B78] border-solid font-medium pl-3 pt-1\"></div><div class=\"relative\"><label for=\"nickName\" name=\"collector\" class=\"font-bold text-sm tracking-[0.025rem] text-[#49454F]\">Display Name</label> <input id=\"nickName\" type=\"text\" name=\"nickName\" maxlength=\"20\" value=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
