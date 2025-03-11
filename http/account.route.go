@@ -13,7 +13,7 @@ func (a *App) accountRouter() http.Handler {
 
 	r.Route("/auth", func(r chi.Router) {
 		r.Get("/{provider}", a.signInWithProviderAccount)
-		r.Get("/{provider}/callback", a.callbackHandlerAccount)
+		r.Get("/{provider}/callback", a.callbackHandler)
 		r.Get("/logout/{provider}", a.logoutAccount)
 	})
 

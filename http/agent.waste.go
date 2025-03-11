@@ -28,7 +28,7 @@ func (a *App) agentWasteHistoryHandler(w http.ResponseWriter, r *http.Request) {
 
 	agentId := r.Context().Value(contextKeyAgentID).(uuid.UUID)
 	wasteLog, err := a.service.GetWasteLogByCollectorPaginated(
-		r.Context(),
+		context.Background(),
 		agentId,
 		30,
 		0,

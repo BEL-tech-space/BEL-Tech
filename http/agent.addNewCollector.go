@@ -55,7 +55,7 @@ func (a *App) addNewCollectorPost(w http.ResponseWriter, r *http.Request) {
 
 	if role == "super_collector" {
 		collector, err = a.service.AddNewAgentAsSuperCollector(
-			r.Context(),
+			context.Background(),
 			service.AddNewAgentAsSuperCollectorParams{
 				CollectorEmail: email,
 				FirstName:      firstName,
@@ -66,7 +66,7 @@ func (a *App) addNewCollectorPost(w http.ResponseWriter, r *http.Request) {
 
 	} else {
 		collector, err = a.service.AddNewAgentAsCollector(
-			r.Context(),
+			context.Background(),
 			service.AddNewAgentAsCollectorParams{
 				CollectorEmail: email,
 				FirstName:      firstName,
