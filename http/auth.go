@@ -41,6 +41,9 @@ func (a *App) signInWithProvider(w http.ResponseWriter, r *http.Request, userTyp
 			http.Redirect(w, r, "/account/login.html", http.StatusTemporaryRedirect)
 			return
 		}
+
+		http.Redirect(w, r, "/account/welcome", http.StatusTemporaryRedirect)
+		return
 	}
 
 	gothic.BeginAuthHandler(w, r)

@@ -28,22 +28,6 @@ func (a *App) agentDashboard(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (a *App) profilePage(w http.ResponseWriter, r *http.Request) {
-
-	collectorEmail := r.Context().Value(contextKeyEmail).(string)
-	collector, ok := a.collectors[collectorEmail]
-	if !ok {
-		http.Redirect(w, r, "/agent/login.html", http.StatusSeeOther)
-		return
-	}
-
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	if err := agentPages.ProfilePage(collector).Render(context.Background(), w); err != nil {
-		a.serverError(w, err)
-		return
-	}
-}
-
 func (a *App) logInCollector(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")

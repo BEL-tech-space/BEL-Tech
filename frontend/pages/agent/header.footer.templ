@@ -25,6 +25,9 @@ templ headTag(pageTitle string) {
 				scrollbar-width: none;
 			}
 		</style>
+		if pageTitle == "profile" {
+			<script src="/public/assets/scripts/hyperscript.min.js"></script>
+		}
 		<script src="/public/assets/scripts/htmx.min.js"></script>
 		<title>{ pageTitle }</title>
 	</head>

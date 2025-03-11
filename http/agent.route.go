@@ -22,6 +22,7 @@ func (a *App) agentRouter() http.Handler {
 		r.Get("/collect", a.collectPage)
 		r.Get("/history", a.historyPage)
 		r.Get("/profile", a.profilePage)
+		r.Post("/profile/updateDisplayName", a.upUpdateCollectorDisplayName)
 		r.Get("/signout.html", a.logOutCollector)
 
 		r.Post("/qrcode/{agentID}", a.generateQRCode)

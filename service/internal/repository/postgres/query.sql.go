@@ -779,6 +779,41 @@ func (q *Queries) SoftDeleteCollector(ctx context.Context, agentID pgtype.UUID) 
 	return err
 }
 
+const updateCollectorDisplayName = `-- name: UpdateCollectorDisplayName :one
+UPDATE collectors
+SET display_name = $1
+WHERE collector_email = $2
+RETURNING collector_email, first_name, last_name, display_name, avatar_url, location_city, location_state, location_country, total_glass_waste, total_metal_waste, total_plastics_waste, total_paper_waste, location_addr, agent_id, collector_role
+`
+
+type UpdateCollectorDisplayNameParams struct {
+	DisplayName    string `json:"display_name"`
+	CollectorEmail string `json:"collector_email"`
+}
+
+func (q *Queries) UpdateCollectorDisplayName(ctx context.Context, arg UpdateCollectorDisplayNameParams) (Collector, error) {
+	row := q.db.QueryRow(ctx, updateCollectorDisplayName, arg.DisplayName, arg.CollectorEmail)
+	var i Collector
+	err := row.Scan(
+		&i.CollectorEmail,
+		&i.FirstName,
+		&i.LastName,
+		&i.DisplayName,
+		&i.AvatarUrl,
+		&i.LocationCity,
+		&i.LocationState,
+		&i.LocationCountry,
+		&i.TotalGlassWaste,
+		&i.TotalMetalWaste,
+		&i.TotalPlasticsWaste,
+		&i.TotalPaperWaste,
+		&i.LocationAddr,
+		&i.AgentID,
+		&i.CollectorRole,
+	)
+	return i, err
+}
+
 const updateCollectorStats = `-- name: UpdateCollectorStats :exec
 UPDATE collectors
 SET 

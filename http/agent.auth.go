@@ -38,6 +38,7 @@ func (a *App) logInAgent(w http.ResponseWriter, r *http.Request, u goth.User) er
 
 	collector, ok := a.collectors[u.Email]
 	if !ok {
+		fmt.Printf("agent %s not found in %+v \n", u.Email, a.collectors)
 		return errors.New("not a collector")
 	}
 
@@ -53,9 +54,9 @@ func (a *App) createNewUserSessionAgent(w http.ResponseWriter, r *http.Request, 
 	session.Values["email"] = collector.CollectorEmail
 	session.Options = &sessions.Options{
 		Path:     "/",
-		MaxAge:   7200, // Session expires in 2 hours
-		HttpOnly: true, // Prevent JavaScript access
-		Secure:   true, // Only send over HTTPS
+		MaxAge:   86_400 * 2, // Session expires in 2 weeks
+		HttpOnly: true,       // Prevent JavaScript access
+		Secure:   true,       // Only send over HTTPS
 		// SameSite: http.SameSiteStrictMode, // Only allow cookie for requests from the same site
 	}
 
