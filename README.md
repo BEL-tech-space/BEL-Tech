@@ -1,3 +1,3 @@
 # BEL Tech
 
-<center><b><i>Building a greener future, one waste at a time.</i></b></center>
+<center><b><i>Turning waste to wealth.</i></b></center>
